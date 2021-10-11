@@ -14,6 +14,21 @@ namespace DalObject
         internal static Station[] stations = new Station[5];
         internal static Customer[] customers = new Customer[100];
         internal static Parcel[] parcels = new Parcel[1000];
+
+        internal class Config
+        {
+            internal static int idxDrones = 0;
+            internal static int idxStations=0;
+            internal static int idxCustomers=0;
+            internal static int idxParcels=0;
+
+            static int IdParcel =0;
+        }
+
+        static void Initialize()
+        {
+               
+        }
     }
 
 }
