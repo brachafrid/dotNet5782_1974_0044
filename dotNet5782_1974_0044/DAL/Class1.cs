@@ -4,7 +4,7 @@ namespace DAL
 {
     namespace DO
     {
-        public class Class1
+       public struct MyStruct
         {
 
         }
