@@ -9,7 +9,7 @@ namespace DalObject
 {
     class DataSorce
     {
-
+ 
     }
 
 }
