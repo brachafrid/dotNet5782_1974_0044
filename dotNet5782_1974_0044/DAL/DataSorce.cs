@@ -10,6 +10,7 @@ namespace DalObject
 {
     class DataSorce
     {
+        static Random rnd = new Random();
         const int DRONE_LENGTH = 10;
         const int STATIONS_LENGTH = 5;
         const int CUSTOMERS_LENGTH = 100;
@@ -31,7 +32,30 @@ namespace DalObject
 
         static internal void Initialize()
         {
-               
+            for (int i = 0; i < 2; i++)
+            {
+                stations[i].Id = (i + 1) * 10;
+                stations[i].Name = $"station_{'a'+i}";
+                stations[i].Latitude = rnd.Next(180) + rnd.NextDouble();
+                stations[i].Longitude = rnd.Next(90) + rnd.NextDouble();
+            }
+
+            for (int i = 0; i < 5; i++)
+            {
+                drones[i].Id = (i + 1) * 10;
+                drones[i].Model = $"Model_Drone_ {'a' + i}_{i*rnd.Next()}";
+                drones[i].MaxWeight = (WeightCategories)rnd.Next(3);
+                drones[i].Status = (DroneStatuses)rnd.Next(3);
+                drones[i].Battery = rnd.Next(100) + rnd.NextDouble(); ;   
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                customers[i].Id = (i + 1) *10;
+                customers[i].Name = $"Customer_ {i+1}_{customers[i].Id}";
+                customers[i].Phone = (WeightCategories)rnd.Next(3);
+    
+            }
         }
     }
 
