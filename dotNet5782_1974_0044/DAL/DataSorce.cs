@@ -22,10 +22,10 @@ namespace DalObject
 
         internal class Config
         {
-            internal static int idxDrones = 0;
-            internal static int idxStations=0;
-            internal static int idxCustomers=0;
-            internal static int idxParcels=0;
+            internal static int idxDrones = 5;
+            internal static int idxStations=2;
+            internal static int idxCustomers=10;
+            internal static int idxParcels=10;
 
             static int IdParcel =0;
         }
@@ -53,8 +53,24 @@ namespace DalObject
             {
                 customers[i].Id = (i + 1) *10;
                 customers[i].Name = $"Customer_ {i+1}_{customers[i].Id}";
-                customers[i].Phone = (WeightCategories)rnd.Next(3);
-    
+                customers[i].Phone = $"0{rnd.Next(1000000000)}";
+                customers[i].Latitude = rnd.Next(180) + rnd.NextDouble();
+                customers[i].Longitude = rnd.Next(90) + rnd.NextDouble();
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                parcels[i].Id = (i + 1) * 10;
+                parcels[i].SenderId = rnd.Next();
+                parcels[i].TargetId = rnd.Next(Config.idxStations*10);
+                parcels[i].Weigth = (WeightCategories)rnd.Next(3);
+                parcels[i].Priority = (Prioripies)rnd.Next(3);
+                parcels[i].Requested = (Prioripies)rnd.Next(3);
+                parcels[i].DorneId = (Prioripies)rnd.Next(3);
+                parcels[i].Sceduled = (Prioripies)rnd.Next(3);
+                parcels[i].PickedUp = (Prioripies)rnd.Next(3);
+                parcels[i].Delivered = (Prioripies)rnd.Next(3);
+                
             }
         }
     }
