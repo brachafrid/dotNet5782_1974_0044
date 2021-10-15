@@ -20,7 +20,11 @@ namespace IDAL
             public DateTime Sceduled { get; set; }
             public DateTime PickedUp { get; set; }
             public DateTime Delivered { get; set; }
-          
+            public override string ToString()
+            {
+                return $"Parcel ID:{Id} Sender:{SenderId} Target:{TargetId}";
+            }
+
         }
     }
 

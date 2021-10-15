@@ -16,6 +16,11 @@ namespace IDAL
             public double Longitude { get; set; }
             public double Lattitude { get; set; }
 
+            public override string ToString()
+            {
+                return $"Cusomer ID:{Id} name:{Name}";
+            }
+
         }
     }
 }
