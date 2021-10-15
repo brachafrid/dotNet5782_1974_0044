@@ -10,10 +10,14 @@ namespace DalObject
 {
     class DataSorce
     {
-        internal static Drone[] drones = new Drone[10];
-        internal static Station[] stations = new Station[5];
-        internal static Customer[] customers = new Customer[100];
-        internal static Parcel[] parcels = new Parcel[1000];
+        const int DRONE_LENGTH = 10;
+        const int STATIONS_LENGTH = 5;
+        const int CUSTOMERS_LENGTH = 100;
+        const int PARCELS_LENGTH = 1000;
+        internal static Drone[] drones = new Drone[DRONE_LENGTH];
+        internal static Station[] stations = new Station[STATIONS_LENGTH];
+        internal static Customer[] customers = new Customer[CUSTOMERS_LENGTH];
+        internal static Parcel[] parcels = new Parcel[PARCELS_LENGTH];
 
         internal class Config
         {
@@ -25,7 +29,7 @@ namespace DalObject
             static int IdParcel =0;
         }
 
-        static void Initialize()
+        static internal void Initialize()
         {
                
         }
