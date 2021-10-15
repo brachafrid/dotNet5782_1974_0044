@@ -10,6 +10,7 @@ namespace DalObject
 {
     public class DataSorce
     {
+        static Random rnd = new Random();
         public const int DRONE_LENGTH = 10;
         public const int STATIONS_LENGTH = 5;
         public const int CUSTOMERS_LENGTH = 100;
