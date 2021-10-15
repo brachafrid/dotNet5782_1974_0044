@@ -65,11 +65,11 @@ namespace DalObject
                 parcels[i].TargetId = rnd.Next(Config.idxStations*10);
                 parcels[i].Weigth = (WeightCategories)rnd.Next(3);
                 parcels[i].Priority = (Prioripies)rnd.Next(3);
-                parcels[i].Requested = (Prioripies)rnd.Next(3);
-                parcels[i].DorneId = (Prioripies)rnd.Next(3);
-                parcels[i].Sceduled = (Prioripies)rnd.Next(3);
-                parcels[i].PickedUp = (Prioripies)rnd.Next(3);
-                parcels[i].Delivered = (Prioripies)rnd.Next(3);
+                parcels[i].Requested = new DateTime();
+                parcels[i].DorneId = rnd.Next(Config.idxDrones * 10);
+                parcels[i].Sceduled = ;
+                parcels[i].PickedUp = ;
+                parcels[i].Delivered =;
                 
             }
         }
