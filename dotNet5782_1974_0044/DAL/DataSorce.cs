@@ -60,6 +60,7 @@ namespace DalObject
 
             for (int i = 0; i < 10; i++)
             {
+            
                 parcels[i].Id = (i + 1) * 10;
                 parcels[i].SenderId = rnd.Next();
                 parcels[i].TargetId = rnd.Next(Config.idxStations*10);
@@ -67,9 +68,9 @@ namespace DalObject
                 parcels[i].Priority = (Prioripies)rnd.Next(3);
                 parcels[i].Requested = new DateTime();
                 parcels[i].DorneId = rnd.Next(Config.idxDrones * 10);
-                parcels[i].Sceduled = ;
-                parcels[i].PickedUp = ;
-                parcels[i].Delivered =;
+                parcels[i].Sceduled = new DateTime();
+                parcels[i].PickedUp = new DateTime();
+                parcels[i].Delivered = new DateTime();
                 
             }
         }
