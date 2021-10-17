@@ -66,9 +66,9 @@ namespace DalObject
                 parcels[i].TargetId = rnd.Next(Config.idxStations*10);
                 parcels[i].Weigth = (WeightCategories)rnd.Next(3);
                 parcels[i].Priority = (Prioripies)rnd.Next(3);
-                parcels[i].Requested = new DateTime(2021,152,25);
+                parcels[i].Requested = new DateTime(2021,12,25);
                 parcels[i].DorneId = rnd.Next(Config.idxDrones * 10);
-                parcels[i].Sceduled = new DateTime();
+                parcels[i].Sceduled = new DateTime(2020);
                 parcels[i].PickedUp = new DateTime();
                 parcels[i].Delivered = new DateTime();
                 
