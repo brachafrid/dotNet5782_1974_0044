@@ -15,6 +15,10 @@ namespace DalObject
         public const int STATIONS_LENGTH = 5;
         public const int CUSTOMERS_LENGTH = 100;
         public const int PARCELS_LENGTH = 1000;
+        public const int DRONE_INIT = 5;
+        public const int STATIONS_INIT = 2;
+        public const int CUSTOMERS_INIT = 10;
+        public const int PARCELS_INIT = 10;
         internal static Drone[] drones = new Drone[DRONE_LENGTH];
         internal static Station[] stations = new Station[STATIONS_LENGTH];
         internal static Customer[] customers = new Customer[CUSTOMERS_LENGTH];
@@ -32,7 +36,7 @@ namespace DalObject
 
         static internal void Initialize()
         {
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i < STATIONS_INIT; i++)
             {
                 stations[i].Id = (i + 1) * 10;
                 stations[i].Name = $"station_{'a'+i}";
@@ -41,7 +45,7 @@ namespace DalObject
                 ++Config.idxStations;
             }
 
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < DRONE_INIT; i++)
             {
                 drones[i].Id = (i + 1) * 10;
                 drones[i].Model = $"Model_Drone_ {'a' + i}_{i*rnd.Next()}";
@@ -51,7 +55,7 @@ namespace DalObject
                 ++Config.idxDrones;
             }
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < CUSTOMERS_INIT; i++)
             {
                 customers[i].Id = (i + 1) *10;
                 customers[i].Name = $"Customer_ {i+1}_{customers[i].Id}";
@@ -61,7 +65,7 @@ namespace DalObject
                 ++Config.idxCustomers;
             }
 
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < PARCELS_INIT; i++)
             {
             
                 parcels[i].Id = (i + 1) * 10;
