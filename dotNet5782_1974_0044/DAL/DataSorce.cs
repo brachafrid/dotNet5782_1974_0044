@@ -69,7 +69,7 @@ namespace DalObject
                 parcels[i].Requested = new DateTime(2021,12,25);
                 parcels[i].DorneId = rnd.Next(Config.idxDrones * 10);
                 parcels[i].Sceduled = new DateTime(2020,12,03);
-                parcels[i].PickedUp = new DateTime();
+                parcels[i].PickedUp = new DateTime(2020,11,25);
                 parcels[i].Delivered = new DateTime();
                 
             }
