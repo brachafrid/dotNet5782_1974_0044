@@ -22,10 +22,10 @@ namespace DalObject
 
         internal class Config
         {
-            internal static int idxDrones = 5;
-            internal static int idxStations=2;
-            internal static int idxCustomers=10;
-            internal static int idxParcels=10;
+            internal static int idxDrones = 0;
+            internal static int idxStations=0;
+            internal static int idxCustomers=0;
+            internal static int idxParcels=0;
 
             static int IdParcel = 0;
         }
@@ -38,6 +38,7 @@ namespace DalObject
                 stations[i].Name = $"station_{'a'+i}";
                 stations[i].Latitude = rnd.Next(180) + rnd.NextDouble();
                 stations[i].Longitude = rnd.Next(90) + rnd.NextDouble();
+                ++Config.idxStations;
             }
 
             for (int i = 0; i < 5; i++)
@@ -46,7 +47,8 @@ namespace DalObject
                 drones[i].Model = $"Model_Drone_ {'a' + i}_{i*rnd.Next()}";
                 drones[i].MaxWeight = (WeightCategories)rnd.Next(3);
                 drones[i].Status = (DroneStatuses)rnd.Next(3);
-                drones[i].Battery = rnd.Next(100) + rnd.NextDouble(); ;   
+                drones[i].Battery = rnd.Next(100) + rnd.NextDouble();
+                ++Config.idxDrones;
             }
 
             for (int i = 0; i < 10; i++)
@@ -56,6 +58,7 @@ namespace DalObject
                 customers[i].Phone = $"0{rnd.Next(1000000000)}";
                 customers[i].Latitude = rnd.Next(180) + rnd.NextDouble();
                 customers[i].Longitude = rnd.Next(90) + rnd.NextDouble();
+                ++Config.idxCustomers;
             }
 
             for (int i = 0; i < 10; i++)
@@ -71,7 +74,7 @@ namespace DalObject
                 parcels[i].Sceduled = new DateTime(2020,12,03);
                 parcels[i].PickedUp = new DateTime(2020,11,25);
                 parcels[i].Delivered = new DateTime(2019,04,02);
-                
+                ++Config.idxParcels;
             }
         }
     }c
