@@ -15,16 +15,18 @@ namespace DalObject
         }
         public void addStation(int id, string name, double longitude, double latitude)
         {
-            if (DataSorce.Config.idxStations <= DataSorce.STATIONS_LENGTH - 1)
+            if (DataSorce.Config.idxStations >= DataSorce.STATIONS_LENGTH - 1)
                 throw new IndexOutOfRangeException("The array is full");
             if (latitude > 180 || latitude < 0)
                 throw new ArgumentOutOfRangeException("invalid latitude");
             if (longitude < 0 || longitude > 90)
                 throw new ArgumentOutOfRangeException("invalid longitude");
-            DataSorce.stations[DataSorce.STATIONS_LENGTH].Id = id;
-            DataSorce.stations[DataSorce.STATIONS_LENGTH].Name = name;
-            DataSorce.stations[DataSorce.STATIONS_LENGTH].Latitude = latitude;
-            DataSorce.stations[DataSorce.STATIONS_LENGTH].Longitude = longitude;
+
+            checkUniqueID(id, DataSorce.stations);
+            DataSorce.stations[DataSorce.Config.idxStations].Id = id;
+            DataSorce.stations[DataSorce.Config.idxStations].Name = name;
+            DataSorce.stations[DataSorce.Config.idxStations].Latitude = latitude;
+            DataSorce.stations[DataSorce.Config.idxStations].Longitude = longitude;
         }
         public void addCustomer(int id, string phone, string name, double longitude, double lattitude)
         {
@@ -38,7 +40,7 @@ namespace DalObject
         {
 
         }
-        private bool checkUniqId(int id, object[] arr)
+        private bool checkUniqueID(int id, object[] arr)
         {
             foreach (var item in arr)
             {
@@ -51,16 +53,6 @@ namespace DalObject
             }
             return true;
         }
-
-
-
     }
-    public class KeyAlreadyExistsException: ArgumentException
-    {
-        public KeyAlreadyExistsException()
-            :base("An element with the same key already exists in the collection")
-        {
-
-        }
-    }
+  
 }

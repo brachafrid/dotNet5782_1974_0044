@@ -22,17 +22,56 @@ namespace DalObject
 
         internal class Config
         {
-            internal static int idxDrones = 0;
-            internal static int idxStations = 0;
-            internal static int idxCustomers = 0;
-            internal static int idxParcels = 0;
+            internal static int idxDrones = 5;
+            internal static int idxStations=2;
+            internal static int idxCustomers=10;
+            internal static int idxParcels=10;
 
             static int IdParcel = 0;
         }
 
         static internal void Initialize()
         {
+            for (int i = 0; i < 2; i++)
+            {
+                stations[i].Id = (i + 1) * 10;
+                stations[i].Name = $"station_{'a'+i}";
+                stations[i].Latitude = rnd.Next(180) + rnd.NextDouble();
+                stations[i].Longitude = rnd.Next(90) + rnd.NextDouble();
+            }
 
+            for (int i = 0; i < 5; i++)
+            {
+                drones[i].Id = (i + 1) * 10;
+                drones[i].Model = $"Model_Drone_ {'a' + i}_{i*rnd.Next()}";
+                drones[i].MaxWeight = (WeightCategories)rnd.Next(3);
+                drones[i].Status = (DroneStatuses)rnd.Next(3);
+                drones[i].Battery = rnd.Next(100) + rnd.NextDouble(); ;   
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                customers[i].Id = (i + 1) *10;
+                customers[i].Name = $"Customer_ {i+1}_{customers[i].Id}";
+                customers[i].Phone = $"0{rnd.Next(1000000000)}";
+                customers[i].Latitude = rnd.Next(180) + rnd.NextDouble();
+                customers[i].Longitude = rnd.Next(90) + rnd.NextDouble();
+            }
+
+            for (int i = 0; i < 10; i++)
+            {
+                parcels[i].Id = (i + 1) * 10;
+                parcels[i].SenderId = rnd.Next();
+                parcels[i].TargetId = rnd.Next(Config.idxStations*10);
+                parcels[i].Weigth = (WeightCategories)rnd.Next(3);
+                parcels[i].Priority = (Prioripies)rnd.Next(3);
+                parcels[i].Requested = new DateTime();
+                parcels[i].DorneId = rnd.Next(Config.idxDrones * 10);
+                parcels[i].Sceduled = ;
+                parcels[i].PickedUp = ;
+                parcels[i].Delivered =;
+                
+            }
         }
     }
 
