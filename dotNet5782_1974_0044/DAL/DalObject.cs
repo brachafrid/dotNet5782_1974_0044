@@ -17,11 +17,7 @@ namespace DalObject
         {
             if (DataSorce.Config.idxStations >= DataSorce.STATIONS_LENGTH - 1)
                 throw new IndexOutOfRangeException("The array is full");
-            if (latitude > 180 || latitude < 0)
-                throw new ArgumentOutOfRangeException("invalid latitude");
-            if (longitude < 0 || longitude > 90)
-                throw new ArgumentOutOfRangeException("invalid longitude");
-
+            checkLongitudeAndLatitude(longitude,latitude);
             checkUniqueID(id, DataSorce.stations);
             DataSorce.stations[DataSorce.Config.idxStations].Id = id;
             DataSorce.stations[DataSorce.Config.idxStations].Name = name;
@@ -40,7 +36,14 @@ namespace DalObject
         {
 
         }
-        private bool checkUniqueID(int id, object[] arr)
+      private void checkLongitudeAndLatitude(double longitude, double latitude)
+        {
+            if (latitude > 180 || latitude < 0)
+                throw new ArgumentOutOfRangeException("invalid latitude");
+            if (longitude < 0 || longitude > 90)
+                throw new ArgumentOutOfRangeException("invalid longitude");
+        }
+        private void checkUniqueID(int id, object[] arr)
         {
             foreach (var item in arr)
             {
@@ -51,7 +54,6 @@ namespace DalObject
                     throw new KeyAlreadyExistsException();
                 }
             }
-            return true;
         }
     }
   
