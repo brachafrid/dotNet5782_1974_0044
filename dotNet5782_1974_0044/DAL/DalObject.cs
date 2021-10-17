@@ -26,14 +26,27 @@ namespace DalObject
         }
         public void addCustomer(int id, string phone, string name, double longitude, double lattitude)
         {
-
+            checkUniqueID(id, DataSorce.customers);
+            checkLongitudeAndLatitude(longitude, lattitude);
+            DataSorce.customers[DataSorce.Config.idxCustomers].Id = id;
+            DataSorce.customers[DataSorce.Config.idxCustomers].Name = name;
+            DataSorce.customers[DataSorce.Config.idxCustomers].Latitude = lattitude;
+            DataSorce.customers[DataSorce.Config.idxCustomers].Longitude = longitude;
         }
         public void addDrone(int id, string model, WeightCategories MaxWeight, DroneStatuses Status, double Battery)
         {
-
+            checkUniqueID(id, DataSorce.drones);
+            if (Battery < 0)
+                throw new ArgumentOutOfRangeException("negative battery");
+            DataSorce.drones[DataSorce.Config.idxDrones].Id = id;
+            DataSorce.drones[DataSorce.Config.idxDrones].Model = model;
+            DataSorce.drones[DataSorce.Config.idxDrones].MaxWeight = MaxWeight;
+            DataSorce.drones[DataSorce.Config.idxDrones].Status = Status;
+            DataSorce.drones[DataSorce.Config.idxDrones].Battery = Battery;
         }
-        public void packageReception(int Id, int SenderId, int TargetId, WeightCategories Weigth, Prioripies Priority)
+        public void packageReception(int id, int SenderId, int TargetId, WeightCategories Weigth, Prioripies Priority)
         {
+            checkUniqueID(id, DataSorce.parcels, "id");
 
         }
       private void checkLongitudeAndLatitude(double longitude, double latitude)
@@ -47,7 +60,7 @@ namespace DalObject
         {
             foreach (var item in arr)
             {
-                var property = item.GetType().GetProperty("Id");
+                var property = item.GetType().GetProperty("id");
                 var id1= property.GetValue(item);
                 if ((int)id1 == id)
                 {
