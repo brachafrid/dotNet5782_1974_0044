@@ -81,7 +81,7 @@ namespace DalObject
                 ++Config.idxParcels;
             }
         }
-    }c
+    }
 
 }
 
