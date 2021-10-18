@@ -47,7 +47,7 @@ namespace DalObject
                 newDrone.Id = Config.idxDrones;
                 newDrone.Model = $"Model_Drone_ {'a' + Config.idxDrones++}_{Config.idxDrones++ * rnd.Next()}";
                 newDrone.MaxWeight = (WeightCategories)rnd.Next(RANGE_ENUM);
-                newDrone.Status = (DroneStatuses)rnd.Next(RANGE_ENUM);
+                newDrone.Status = 0;
                 newDrone.Battery = rnd.Next(FULL_BATTERY) + rnd.NextDouble();
                 drones.Add(newDrone);
 
@@ -83,7 +83,13 @@ namespace DalObject
                 newParcel.Weigth = (WeightCategories)rnd.Next(RANGE_ENUM);
                 newParcel.Priority = (Prioripies)rnd.Next(RANGE_ENUM);
                 newParcel.Requested = new DateTime();
-                newParcel.DorneId = rnd.Next(Config.idxDrones);
+                if (Config.idxParcels < Config.idxDrones)
+                {
+                    newParcel.DorneId = (drones[Config.idxParcels]).Id;
+                    (drones[Config.idxParcels]).Status =3;
+                }
+                newParcel.DorneId = 0;
+                newParcel.DorneId = Config.idxParcels<Config.idxDrones?Config.idxDrones :0;
                 newParcel.Sceduled = new DateTime();
                 newParcel.PickedUp = new DateTime();
                 newParcel.Delivered = new DateTime();
