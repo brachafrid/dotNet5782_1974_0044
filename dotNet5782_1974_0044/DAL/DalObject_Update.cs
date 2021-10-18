@@ -7,15 +7,8 @@ using IDAL.DO;
 
 namespace DalObject
 {
-     public partial class DalObject
+    partial class DalObject
     {
-        public DalObject()
-        {
-            DataSorce.Initialize();
-        }
        
     }
-  
 }
-
-   
