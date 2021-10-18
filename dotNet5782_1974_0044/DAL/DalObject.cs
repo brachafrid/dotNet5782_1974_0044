@@ -16,8 +16,11 @@ namespace DalObject
         public void addStation(int id, string name, double longitude, double latitude)
         {
             if (DataSorce.Config.idxStations >= DataSorce.STATIONS_LENGTH - 1)
-                throw new IndexOutOfRangeException("The array is full");
-            checkLongitudeAndLatitude(longitude,latitude);
+                throw new ArgumentException("The array is full");
+            if (latitude > 180 || latitude < 0) 
+                throw new ArgumentException("invalid latitude");
+            
+
             checkUniqueID(id, DataSorce.stations);
             DataSorce.stations[DataSorce.Config.idxStations].Id = id;
             DataSorce.stations[DataSorce.Config.idxStations].Name = name;
@@ -26,51 +29,28 @@ namespace DalObject
         }
         public void addCustomer(int id, string phone, string name, double longitude, double lattitude)
         {
-            checkUniqueID(id, DataSorce.customers);
-            checkLongitudeAndLatitude(longitude, lattitude);
-            DataSorce.customers[DataSorce.Config.idxCustomers].Id = id;
-            DataSorce.customers[DataSorce.Config.idxCustomers].Name = name;
-            DataSorce.customers[DataSorce.Config.idxCustomers].Latitude = lattitude;
-            DataSorce.customers[DataSorce.Config.idxCustomers].Longitude = longitude;
+
         }
         public void addDrone(int id, string model, WeightCategories MaxWeight, DroneStatuses Status, double Battery)
         {
-            checkUniqueID(id, DataSorce.drones);
-            if (Battery < 0)
-                throw new ArgumentOutOfRangeException("negative battery");
-            DataSorce.drones[DataSorce.Config.idxDrones].Id = id;
-            DataSorce.drones[DataSorce.Config.idxDrones].Model = model;
-            DataSorce.drones[DataSorce.Config.idxDrones].MaxWeight = MaxWeight;
-            DataSorce.drones[DataSorce.Config.idxDrones].Status = Status;
-            DataSorce.drones[DataSorce.Config.idxDrones].Battery = Battery;
+
         }
-        public void parcelsReception(int id, int SenderId, int TargetId, WeightCategories Weigth, Prioripies Priority)
+        public void packageReception(int Id, int SenderId, int TargetId, WeightCategories Weigth, Prioripies Priority)
         {
-            checkUniqueID(id, DataSorce.parcels);
-            DataSorce.parcels[DataSorce.Config.idxParcels].SenderId = SenderId;
-            DataSorce.parcels[DataSorce.Config.idxParcels].Id = id;
-            DataSorce.parcels[DataSorce.Config.idxParcels].TargetId = TargetId;
-            DataSorce.parcels[DataSorce.Config.idxParcels].Weigth = Weigth;
-            DataSorce.parcels[DataSorce.Config.idxParcels].Priority = Priority;
+
         }
-      private void checkLongitudeAndLatitude(double longitude, double latitude)
-        {
-            if (latitude > 180 || latitude < 0)
-                throw new ArgumentOutOfRangeException("invalid latitude");
-            if (longitude < 0 || longitude > 90)
-                throw new ArgumentOutOfRangeException("invalid longitude");
-        }
-        private void checkUniqueID(int id, object[] arr)
+        private bool checkUniqueID(int id, object[] arr)
         {
             foreach (var item in arr)
             {
-                var property = item.GetType().GetProperty("id");
-                var id1= property.GetValue(item);
+                var property = item.GetType().GetProperty("Id");
+                var id1 = property.GetValue(item);
                 if ((int)id1 == id)
                 {
-                    throw new KeyAlreadyExistsException();
+                    throw new ArgumentException();
                 }
             }
+            return true;
         }
     }
   
