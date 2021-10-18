@@ -11,74 +11,83 @@ namespace DalObject
     public class DataSorce
     {
         static Random rnd = new Random();
-        public const int DRONE_LENGTH = 10;
-        public const int STATIONS_LENGTH = 5;
-        public const int CUSTOMERS_LENGTH = 100;
-        public const int PARCELS_LENGTH = 1000;
+
         public const int DRONE_INIT = 5;
         public const int STATIONS_INIT = 2;
         public const int CUSTOMERS_INIT = 10;
         public const int PARCELS_INIT = 10;
-        internal static Drone[] drones = new Drone[DRONE_LENGTH];
-        internal static Station[] stations = new Station[STATIONS_LENGTH];
-        internal static Customer[] customers = new Customer[CUSTOMERS_LENGTH];
-        internal static Parcel[] parcels = new Parcel[PARCELS_LENGTH];
+        public const int RANGE_ENUM = 3;
+        public const int PHONE_MIN = 100000000;
+        public const int PHONE_MAX = 1000000000;
+        public const int LATITUDE_MAX = 180;
+        public const int LONGITUDE_MAX = 90;
+        public const int FULL_BATTERY = 100;
 
+        internal static List<Drone> drones = new List<Drone>();
+        internal static List<Station> stations = new List<Station>();
+        internal static List<Customer> customers = new List<Customer>();
+        internal static List<Parcel> parcels = new List<Parcel>();
+
+        
         internal class Config
         {
             internal static int idxDrones = 0;
-            internal static int idxStations=0;
-            internal static int idxCustomers=0;
-            internal static int idxParcels=0;
+            internal static int idxStations = 0;
+            internal static int idxCustomers = 0;
+            internal static int idxParcels = 0;
 
             static int IdParcel = 0;
         }
 
         static internal void Initialize()
         {
-            for (int i = 0; i < STATIONS_INIT; i++)
+            for (; Config.idxDrones < DRONE_INIT; Config.idxDrones++)
             {
-                stations[i].Id = (i + 1) * 10;
-                stations[i].Name = $"station_{'a'+i}";
-                stations[i].Latitude = rnd.Next(180) + rnd.NextDouble();
-                stations[i].Longitude = rnd.Next(90) + rnd.NextDouble();
-                ++Config.idxStations;
+                Drone newDrone = new Drone();
+                newDrone.Id = Config.idxDrones;
+                newDrone.Model = $"Model_Drone_ {'a' + Config.idxDrones++}_{Config.idxDrones++ * rnd.Next()}";
+                newDrone.MaxWeight = (WeightCategories)rnd.Next(RANGE_ENUM);
+                newDrone.Status = (DroneStatuses)rnd.Next(RANGE_ENUM);
+                newDrone.Battery = rnd.Next(FULL_BATTERY) + rnd.NextDouble();
+                drones.Add(newDrone);
+
             }
 
-            for (int i = 0; i < DRONE_INIT; i++)
+            for (; Config.idxStations < STATIONS_INIT; Config.idxStations++)
             {
-                drones[i].Id = (i + 1) * 10;
-                drones[i].Model = $"Model_Drone_ {'a' + i}_{i*rnd.Next()}";
-                drones[i].MaxWeight = (WeightCategories)rnd.Next(3);
-                drones[i].Status = (DroneStatuses)rnd.Next(3);
-                drones[i].Battery = rnd.Next(100) + rnd.NextDouble();
-                ++Config.idxDrones;
+                Station newStation = new Station();
+                newStation.Id = Config.idxStations;
+                newStation.Name = $"station_{'a' + Config.idxStations++}";
+                newStation.Latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
+                newStation.Longitude = rnd.Next(LONGITUDE_MAX) + rnd.NextDouble();
+                stations.Add(newStation);
             }
 
-            for (int i = 0; i < CUSTOMERS_INIT; i++)
+            for (; Config.idxCustomers < CUSTOMERS_INIT; Config.idxCustomers++)
             {
-                customers[i].Id = (i + 1) *10;
-                customers[i].Name = $"Customer_ {i+1}_{customers[i].Id}";
-                customers[i].Phone = $"0{rnd.Next(1000000000)}";
-                customers[i].Latitude = rnd.Next(180) + rnd.NextDouble();
-                customers[i].Longitude = rnd.Next(90) + rnd.NextDouble();
-                ++Config.idxCustomers;
+                Customer newCustomer = new Customer();
+                newCustomer.Id = Config.idxCustomers;
+                newCustomer.Name = $"Customer_ { Config.idxCustomers + 1}_{customers[Config.idxCustomers].Id}";
+                newCustomer.Phone = $"0{rnd.Next(PHONE_MIN, PHONE_MAX)}";
+                newCustomer.Latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
+                newCustomer.Longitude = rnd.Next(LONGITUDE_MAX) + rnd.NextDouble();
+                customers.Add(newCustomer);
             }
 
-            for (int i = 0; i < PARCELS_INIT; i++)
+            for (; Config.idxParcels < PARCELS_INIT; Config.idxParcels++)
             {
-            
-                parcels[i].Id = (i + 1) * 10;
-                parcels[i].SenderId = rnd.Next();
-                parcels[i].TargetId = rnd.Next(Config.idxStations*10);
-                parcels[i].Weigth = (WeightCategories)rnd.Next(3);
-                parcels[i].Priority = (Prioripies)rnd.Next(3);
-                parcels[i].Requested = new DateTime(2021,12,25);
-                parcels[i].DorneId = rnd.Next(Config.idxDrones * 10);
-                parcels[i].Sceduled = new DateTime(2020,12,03);
-                parcels[i].PickedUp = new DateTime(2020,11,25);
-                parcels[i].Delivered = new DateTime(2019,04,02);
-                ++Config.idxParcels;
+                Parcel newParcel = new Parcel();
+                newParcel.Id = Config.idxParcels;
+                newParcel.SenderId = rnd.Next();
+                newParcel.TargetId = rnd.Next(Config.idxStations);
+                newParcel.Weigth = (WeightCategories)rnd.Next(RANGE_ENUM);
+                newParcel.Priority = (Prioripies)rnd.Next(RANGE_ENUM);
+                newParcel.Requested = new DateTime();
+                newParcel.DorneId = rnd.Next(Config.idxDrones);
+                newParcel.Sceduled = new DateTime();
+                newParcel.PickedUp = new DateTime();
+                newParcel.Delivered = new DateTime();
+                parcels.Add(newParcel);
             }
         }
     }
