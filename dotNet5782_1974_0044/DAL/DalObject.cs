@@ -21,7 +21,7 @@ namespace DalObject
                 throw new ArgumentException("invalid latitude");
             
 
-            checkUniqueID(id, DataSorce.stations);
+            //checkUniqueID(id, DataSorce.stations);
             DataSorce.stations[DataSorce.Config.idxStations].Id = id;
             DataSorce.stations[DataSorce.Config.idxStations].Name = name;
             DataSorce.stations[DataSorce.Config.idxStations].Latitude = latitude;
