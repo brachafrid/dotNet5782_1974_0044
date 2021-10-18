@@ -68,10 +68,14 @@ namespace DalObject
             //DataSorce.drones[DataSorce.Config.idxDrones].Status = Status;
             //DataSorce.drones[DataSorce.Config.idxDrones].Battery = Battery;
         }
-        public void packageReception(int id, int SenderId, int TargetId, WeightCategories Weigth, Prioripies Priority)
+        public void parcelsReception(int id, int SenderId, int TargetId, WeightCategories Weigth, Prioripies Priority)
         {
-            checkUniqueID(id, DataSorce.parcels, "id");
-
+            checkUniqueID(id, DataSorce.parcels);
+            DataSorce.parcels[DataSorce.Config.idxParcels].SenderId = SenderId;
+            DataSorce.parcels[DataSorce.Config.idxParcels].Id = id;
+            DataSorce.parcels[DataSorce.Config.idxParcels].TargetId = TargetId;
+            DataSorce.parcels[DataSorce.Config.idxParcels].Weigth = Weigth;
+            DataSorce.parcels[DataSorce.Config.idxParcels].Priority = Priority;
         }
       private void checkLongitudeAndLatitude(double longitude, double latitude)
         {
