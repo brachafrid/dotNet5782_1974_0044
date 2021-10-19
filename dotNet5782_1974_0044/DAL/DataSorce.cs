@@ -74,6 +74,7 @@ namespace DalObject
                 customers.Add(newCustomer);
             }
 
+
             for (; Config.idxParcels < PARCELS_INIT; Config.idxParcels++)
             {
                 Parcel newParcel = new Parcel();
