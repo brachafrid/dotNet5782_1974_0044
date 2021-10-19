@@ -55,7 +55,7 @@ namespace DalObject
 
             for (; Config.idxStations < STATIONS_INIT; Config.idxStations++)
             {
-                Station newStation = new Station();
+                 Station newStation = new Station();
                 newStation.Id = Config.idxStations;
                 newStation.Name = $"station_{'a' + Config.idxStations++}";
                 newStation.Latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
