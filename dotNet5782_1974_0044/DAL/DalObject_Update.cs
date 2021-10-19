@@ -26,6 +26,7 @@ namespace DalObject
             //    if (parcel.Weigth <= item.MaxWeight && item.Status == DroneStatuses.AVAILABLE)
             //    {
             //        parcel.DorneId = item.Id;
+            //
             //        item.Status = DroneStatuses.DELIVERY;
             //        parcel.Sceduled = DateTime.Now;
             //    }
