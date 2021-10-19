@@ -47,7 +47,7 @@ namespace DalObject
                 newDrone.Id = Config.idxDrones;
                 newDrone.Model = $"Model_Drone_ {'a' + Config.idxDrones++}_{Config.idxDrones++ * rnd.Next()}";
                 newDrone.MaxWeight = (WeightCategories)rnd.Next(RANGE_ENUM);
-                newDrone.Status = 0;
+                newDrone.Status = DroneStatuses.AVAILABLE;
                 newDrone.Battery = rnd.Next(FULL_BATTERY) + rnd.NextDouble();
                 drones.Add(newDrone);
 
@@ -78,19 +78,34 @@ namespace DalObject
             {
                 Parcel newParcel = new Parcel();
                 newParcel.Id = Config.idxParcels;
-                newParcel.SenderId = rnd.Next();
-                newParcel.TargetId = rnd.Next(Config.idxStations);
+                newParcel.SenderId =customers[rnd.Next(Config.idxCustomers)].Id;
+                do
+                {
+                        newParcel.TargetId = customers[rnd.Next(Config.idxCustomers)].Id;
+                } while (newParcel.TargetId == newParcel.SenderId);
                 newParcel.Weigth = (WeightCategories)rnd.Next(RANGE_ENUM);
                 newParcel.Priority = (Prioripies)rnd.Next(RANGE_ENUM);
-                newParcel.Requested = new DateTime();
-                if (Config.idxParcels < Config.idxDrones)
-                {
-                    newParcel.DorneId = (drones[Config.idxParcels]).Id;
-                    (drones[Config.idxParcels]).Status =3;
-                }
                 newParcel.DorneId = 0;
-                newParcel.DorneId = Config.idxParcels<Config.idxDrones?Config.idxDrones :0;
-                newParcel.Sceduled = new DateTime();
+                for (int i = 0; i < Config.idxDrones; i++)
+                {
+                    if (newParcel.Weigth <= drones[i].MaxWeight && drones[i].Status == DroneStatuses.AVAILABLE)
+                    {
+                        newParcel.DorneId = drones[i].Id;
+                        Drone newDrone = drones[i];
+                        newDrone.Status = DroneStatuses.DELIVERY;
+                        drones[i] = newDrone;
+                    }
+                }
+                //foreach (Drone item in drones)
+                //{
+                //    if(newParcel.Weigth<=item.MaxWeight && item.Status==DroneStatuses.AVAILABLE )
+                //    {
+                //        newParcel.DorneId = item.Id;
+                //        item.Status = DroneStatuses.DELIVERY;
+                //    }
+                //}
+                newParcel.Requested = DateTime.Now;
+                newParcel.Sceduled = DateTime.Now; ;
                 newParcel.PickedUp = new DateTime();
                 newParcel.Delivered = new DateTime();
                 parcels.Add(newParcel);
