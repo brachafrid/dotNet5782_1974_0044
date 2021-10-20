@@ -25,7 +25,7 @@ namespace DalObject
         {
             Parcel tmpParcel = DataSorce.parcels.First(item => item.Id == parcelId);
             DataSorce.parcels.Remove(tmpParcel);
-            tmpParcel.PickedUp = DateTime.Now;
+            tmpParcel.PickedUp = DateTime.Now; 
             DataSorce.parcels.Add(tmpParcel);
         }
         public void SupplyParcel(int parcelId)
