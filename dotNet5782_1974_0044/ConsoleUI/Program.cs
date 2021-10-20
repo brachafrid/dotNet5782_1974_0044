@@ -21,7 +21,7 @@ namespace ConsoleUI
             //foreach (var item in Enum.GetValues(typeof(en))) 
             //{
             //    Console.WriteLine(item + " press " + idx++);
-            //} 
+            //}  
             
         }
 
