@@ -21,14 +21,14 @@ namespace DalObject
         public const int PHONE_MAX = 1000000000;
         public const int LATITUDE_MAX = 180;
         public const int LONGITUDE_MAX = 90;
-        public const int FULL_BATTERY = 100; 
+        public const int FULL_BATTERY = 100;
 
         internal static IList<Drone> drones = new List<Drone>();
         internal static List<Station> stations = new List<Station>();
         internal static List<Customer> customers = new List<Customer>();
         internal static List<Parcel> parcels = new List<Parcel>();
 
-        
+
         internal class Config
         {
             internal static int idxDrones = 0;
@@ -55,7 +55,7 @@ namespace DalObject
 
             for (; Config.idxStations < STATIONS_INIT; Config.idxStations++)
             {
-                 Station newStation = new Station();
+                Station newStation = new Station();
                 newStation.Id = Config.idxStations;
                 newStation.Name = $"station_{'a' + Config.idxStations++}";
                 newStation.Latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
@@ -79,19 +79,14 @@ namespace DalObject
             {
                 Parcel newParcel = new Parcel();
                 newParcel.Id = Config.idxParcels;
-                newParcel.SenderId =customers[rnd.Next(Config.idxCustomers)].Id;
+                newParcel.SenderId = customers[rnd.Next(Config.idxCustomers)].Id;
                 do
                 {
-                        newParcel.TargetId = customers[rnd.Next(Config.idxCustomers)].Id;
+                    newParcel.TargetId = customers[rnd.Next(Config.idxCustomers)].Id;
                 } while (newParcel.TargetId == newParcel.SenderId);
                 newParcel.Weigth = (WeightCategories)rnd.Next(RANGE_ENUM);
                 newParcel.Priority = (Prioripies)rnd.Next(RANGE_ENUM);
-                newParcel.Requested = new DateTime();
-                if (Config.idxParcels < Config.idxDrones)
-                {
-                    newParcel.DorneId = (drones[Config.idxParcels]).Id;
-                    (drones[Config.idxParcels]).Status =3;
-                }
+                newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);
                 newParcel.Requested = DateTime.Now;
                 newParcel.Sceduled = DateTime.Now; ;
                 newParcel.PickedUp = new DateTime();
@@ -99,6 +94,15 @@ namespace DalObject
                 parcels.Add(newParcel);
             }
         }
+        public int AssignParcelDrone(WeightCategories weight)
+        {
+            Drone tmpDrone = DataSorce.drones.First(item => (weight <= item.MaxWeight && item.Status == DroneStatuses.AVAILABLE));
+            DataSorce.drones.Remove(tmpDrone);
+            tmpDrone.Status = DroneStatuses.DELIVERY;
+            DataSorce.drones.Add(tmpDrone);
+            return tmpDrone.Id;
+        }
     }
+
 }
 
