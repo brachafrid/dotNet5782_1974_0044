@@ -27,6 +27,7 @@ namespace DalObject
             DataSorce.parcels.Remove(tmpParcel);
             tmpParcel.PickedUp = DateTime.Now; 
             DataSorce.parcels.Add(tmpParcel);
+
         }
         public void SupplyParcel(int parcelId)
         {
