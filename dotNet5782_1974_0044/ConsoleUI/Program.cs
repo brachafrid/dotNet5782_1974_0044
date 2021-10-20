@@ -18,7 +18,7 @@ namespace ConsoleUI
         static public void DisplayMenu(Type en)
         {
             int idx = 0;
-            //foreach (var item in Enum.GetValues(typeof(en)))
+            //foreach (var item in Enum.GetValues(typeof(en))) 
             //{
             //    Console.WriteLine(item + " press " + idx++);
             //} 
