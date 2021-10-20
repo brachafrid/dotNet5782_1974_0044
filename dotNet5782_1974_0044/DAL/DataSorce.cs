@@ -23,7 +23,7 @@ namespace DalObject
         public const int LONGITUDE_MAX = 90;
         public const int FULL_BATTERY = 100; 
 
-        internal static List<Drone> drones = new List<Drone>();
+        internal static IList<Drone> drones = new List<Drone>();
         internal static List<Station> stations = new List<Station>();
         internal static List<Customer> customers = new List<Customer>();
         internal static List<Parcel> parcels = new List<Parcel>();
@@ -97,14 +97,14 @@ namespace DalObject
                         drones[i] = newDrone;
                     }
                 }
-                //foreach (Drone item in drones)
-                //{
-                //    if(newParcel.Weigth<=item.MaxWeight && item.Status==DroneStatuses.AVAILABLE )
-                //    {
-                //        newParcel.DorneId = item.Id;
-                //        item.Status = DroneStatuses.DELIVERY;
-                //    }
-                //}
+                foreach (Drone item in drones)
+                {
+                    if (newParcel.Weigth <= item.MaxWeight && item.Status == DroneStatuses.AVAILABLE)
+                    {
+                        newParcel.DorneId = item.Id;
+                        item.Status = DroneStatuses.DELIVERY;
+                    }
+                }
                 newParcel.Requested = DateTime.Now;
                 newParcel.Sceduled = DateTime.Now; ;
                 newParcel.PickedUp = new DateTime();

@@ -9,38 +9,35 @@ namespace DalObject
 {
     partial class DalObject
     {
-       public void AssignParcelDrone(Parcel parcel)
+       public void AssignParcelDrone(int parcelId)
         {
-            for (int i = 0; i < DataSorce.Config.idxDrones; i++)
-            {
-                if (parcel.Weigth <= DataSorce.drones[i].MaxWeight && DataSorce.drones[i].Status == DroneStatuses.AVAILABLE)
-                {
-                    parcel.DorneId = DataSorce.drones[i].Id;
-                    Drone newDrone = DataSorce.drones[i];
-                    newDrone.Status = DroneStatuses.DELIVERY;
-                    DataSorce.drones[i] = newDrone;
-                }
-            }
-            //foreach (Drone item in DataSorce.drones)
-            //{
-            //    if (parcel.Weigth <= item.MaxWeight && item.Status == DroneStatuses.AVAILABLE)
-            //    {
-            //        parcel.DorneId = item.Id;
-            //
-            //        item.Status = DroneStatuses.DELIVERY;
-            //        parcel.Sceduled = DateTime.Now;
-            //    }
-            //}
+            Parcel tmpParcel=DataSorce.parcels.First(item => item.Id == parcelId);
+            DataSorce.parcels.Remove(tmpParcel);
+            Drone tmpDrone = DataSorce.drones.First(item => (tmpParcel.Weigth <= item.MaxWeight && item.Status == DroneStatuses.AVAILABLE));
+            DataSorce.drones.Remove(tmpDrone);
+            tmpParcel.DorneId = tmpDrone.Id;
+            tmpDrone.Status = DroneStatuses.DELIVERY;
+            tmpParcel.Sceduled = DateTime.Now;
+            DataSorce.drones.Add(tmpDrone);
+            DataSorce.parcels.Add(tmpParcel);
         }
-        public void CollectParcel(Parcel parcel)
+        public void CollectParcel(int parcelId)
         {
-            parcel.PickedUp = DateTime.Now;
+            Parcel tmpParcel = DataSorce.parcels.First(item => item.Id == parcelId);
+            DataSorce.parcels.Remove(tmpParcel);
+            tmpParcel.PickedUp = DateTime.Now;
+            DataSorce.parcels.Add(tmpParcel);
         }
-        public void SupplyParcel(Parcel parcel)
+        public void SupplyParcel(int parcelId)
         {
-            parcel.Delivered = DateTime.Now;
-            Drone newDrone = DataSorce.drones.First(item => item.Id == parcel.DorneId);
-            newDrone.Status = DroneStatuses.AVAILABLE;
+            Parcel tmpParcel = DataSorce.parcels.First(item => item.Id == parcelId);
+            DataSorce.parcels.Remove(tmpParcel);
+            tmpParcel.Delivered = DateTime.Now;
+            DataSorce.parcels.Add(tmpParcel);
+            Drone tmpDrone = DataSorce.drones.First(item => item.Id == tmpParcel.DorneId);
+            DataSorce.drones.Remove(tmpDrone);
+            tmpDrone.Status = DroneStatuses.AVAILABLE;
+            DataSorce.drones.Add(tmpDrone);
 
 
         }
