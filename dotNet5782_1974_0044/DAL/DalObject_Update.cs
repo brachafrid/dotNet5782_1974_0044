@@ -39,6 +39,13 @@ namespace DalObject
             DataSorce.drones.Remove(tmpDrone);
             tmpDrone.Status = DroneStatuses.AVAILABLE;
             DataSorce.drones.Add(tmpDrone);
+        }
+        public void SendingDroneCharging(int droneId)
+        {
+            Drone tmpDrone = DataSorce.drones.First(item => item.Id ==droneId);
+            DataSorce.drones.Remove(tmpDrone);
+            tmpDrone.
+            DataSorce.drones.Add(tmpDrone);
 
 
         }
