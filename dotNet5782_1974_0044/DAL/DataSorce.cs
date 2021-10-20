@@ -86,24 +86,11 @@ namespace DalObject
                 } while (newParcel.TargetId == newParcel.SenderId);
                 newParcel.Weigth = (WeightCategories)rnd.Next(RANGE_ENUM);
                 newParcel.Priority = (Prioripies)rnd.Next(RANGE_ENUM);
-                newParcel.DorneId = 0;
-                for (int i = 0; i < Config.idxDrones; i++)
+                newParcel.Requested = new DateTime();
+                if (Config.idxParcels < Config.idxDrones)
                 {
-                    if (newParcel.Weigth <= drones[i].MaxWeight && drones[i].Status == DroneStatuses.AVAILABLE)
-                    {
-                        newParcel.DorneId = drones[i].Id;
-                        Drone newDrone = drones[i];
-                        newDrone.Status = DroneStatuses.DELIVERY;
-                        drones[i] = newDrone;
-                    }
-                }
-                foreach (Drone item in drones)
-                {
-                    if (newParcel.Weigth <= item.MaxWeight && item.Status == DroneStatuses.AVAILABLE)
-                    {
-                        newParcel.DorneId = item.Id;
-                        item.Status = DroneStatuses.DELIVERY;
-                    }
+                    newParcel.DorneId = (drones[Config.idxParcels]).Id;
+                    (drones[Config.idxParcels]).Status =3;
                 }
                 newParcel.Requested = DateTime.Now;
                 newParcel.Sceduled = DateTime.Now; ;
