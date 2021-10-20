@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 namespace ConsoleUI
 {
-
     class Program
     {
         enum Menu { Add, Update, Display, DisplayList, Exit }
@@ -10,10 +9,10 @@ namespace ConsoleUI
         enum Update { }
         enum DisplayList { Stations, Drones, Customer, Parcels, AvailableChargingStations, }
         enum Display { }
-      
+
         static void Main(string[] args)
         {
-          
+
         }
         static public void DisplayMenu(Type en)
         {
@@ -22,7 +21,7 @@ namespace ConsoleUI
             //{
             //    Console.WriteLine(item + " press " + idx++);
             //}  
-            
+
         }
 
 

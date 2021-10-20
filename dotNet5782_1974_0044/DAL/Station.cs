@@ -8,6 +8,7 @@ namespace IDAL
         {
             private double longitude;
             private double latitude;
+            private int chargeSlots;
             public int Id { get; set; }
             public string Name { get; set; }
             public double Longitude
@@ -35,6 +36,19 @@ namespace IDAL
                 }
             }
           
+
+            public int ChargeSlots
+            {
+                get { return chargeSlots; }
+                set 
+                {
+
+                    value >0? ChargeSlots =value:throw new ArgumentException("sum of Charge Slots must be positive")
+                }
+            }
+
+
+
             public override string ToString()
             {
                 return $"Station ID:{Id} Name:{Name} ";
