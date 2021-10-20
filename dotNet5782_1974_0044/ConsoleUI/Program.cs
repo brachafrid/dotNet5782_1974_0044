@@ -6,22 +6,22 @@ namespace ConsoleUI
     {
         enum Menu { Add, Update, Display, DisplayList, Exit }
         enum Add { Drone, Station, Parcel, Customer }
-        enum Update { }
+        enum Update {AssingParcelToDrone,CollectParcelByDrone,SupplyParcelToDestination,SendingDroneForCharging,RealsingDroneFromCharghing }
         enum DisplayList { Stations, Drones, Customer, Parcels, AvailableChargingStations, }
-        enum Display { }
-
+        enum Display { Station,Drone,Customer,Parcel}
+      
         static void Main(string[] args)
         {
-
+            DisplayMenu(();
         }
-        static public void DisplayMenu(Type en)
+        static public void DisplayMenu(Enum en)
         {
-            int idx = 0;
-            //foreach (var item in Enum.GetValues(typeof(en))) 
-            //{
-            //    Console.WriteLine(item + " press " + idx++);
-            //}  
-
+                int idx = 0;
+                foreach (var item in Enum.GetValues(en.GetType())) 
+                {
+                    Console.WriteLine(item + " press " + idx++);
+                }  
+            
         }
 
 

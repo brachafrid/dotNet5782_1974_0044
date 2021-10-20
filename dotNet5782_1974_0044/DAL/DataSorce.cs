@@ -87,12 +87,7 @@ namespace DalObject
                 } while (newParcel.TargetId == newParcel.SenderId);
                 newParcel.Weigth = (WeightCategories)rnd.Next(RANGE_ENUM);
                 newParcel.Priority = (Prioripies)rnd.Next(RANGE_ENUM);
-                newParcel.Requested = new DateTime();
-                if (Config.idxParcels < Config.idxDrones)
-                {
-                    newParcel.DorneId = (drones[Config.idxParcels]).Id;
-                    (drones[Config.idxParcels]).Status = 3;
-                }
+                newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);
                 newParcel.Requested = DateTime.Now;
                 newParcel.Sceduled = DateTime.Now; ;
                 newParcel.PickedUp = new DateTime();
@@ -100,6 +95,15 @@ namespace DalObject
                 parcels.Add(newParcel);
             }
         }
+        public int AssignParcelDrone(WeightCategories weight)
+        {
+            Drone tmpDrone = DataSorce.drones.First(item => (weight <= item.MaxWeight && item.Status == DroneStatuses.AVAILABLE));
+            DataSorce.drones.Remove(tmpDrone);
+            tmpDrone.Status = DroneStatuses.DELIVERY;
+            DataSorce.drones.Add(tmpDrone);
+            return tmpDrone.Id;
+        }
     }
+
 }
 
