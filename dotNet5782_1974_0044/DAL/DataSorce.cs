@@ -21,7 +21,7 @@ namespace DalObject
         public const int PHONE_MAX = 1000000000;
         public const int LATITUDE_MAX = 180;
         public const int LONGITUDE_MAX = 90;
-        public const int FULL_BATTERY = 100;
+        public const int FULL_BATTERY = 100; 
 
         internal static List<Drone> drones = new List<Drone>();
         internal static List<Station> stations = new List<Station>();
