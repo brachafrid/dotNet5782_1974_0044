@@ -86,7 +86,6 @@ namespace DalObject
                 if (Config.idxParcels < Config.idxDrones)
                 {
                     newParcel.DorneId = (drones[Config.idxParcels]).Id;
-                    (drones[Config.idxParcels]).Status =3;
                 }
                 newParcel.DorneId = 0;
                 newParcel.DorneId = Config.idxParcels<Config.idxDrones?Config.idxDrones :0;
