@@ -81,7 +81,7 @@ namespace DalObject
         {
             Customer newCustomer = new Customer();
             newCustomer.Id = Config.idxCustomers;
-            newCustomer.Name = $"Customer_ { Config.idxCustomers + 1}_{customers[Config.idxCustomers].Id}";
+            newCustomer.Name = $"Customer_ { Config.idxCustomers + 1}_{newCustomer.Id}";
             newCustomer.Phone = $"0{rnd.Next(PHONE_MIN, PHONE_MAX)}";
             newCustomer.Latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
             newCustomer.Longitude = rnd.Next(LONGITUDE_MAX) + rnd.NextDouble();
