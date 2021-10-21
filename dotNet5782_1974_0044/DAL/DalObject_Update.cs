@@ -19,8 +19,11 @@ namespace DalObject
             Parcel tmpParcel = DataSorce.parcels.First(item => item.Id == parcelId);
             DataSorce.parcels.Remove(tmpParcel);
             Drone tmpDrone = DataSorce.drones.Find(item => (tmpParcel.Weigth <= item.MaxWeight && item.Status == DroneStatuses.AVAILABLE));
-            DataSorce.drones.Remove(tmpDrone);
-            tmpParcel.DorneId = tmpDrone.Id;
+            if(tmpDrone==null)
+            {
+                DataSorce.drones.Remove(tmpDrone);
+                tmpParcel.DorneId = tmpDrone.Id;
+            }
             tmpDrone.Status = DroneStatuses.DELIVERY;
             tmpParcel.Sceduled = DateTime.Now;
             DataSorce.drones.Add(tmpDrone);
