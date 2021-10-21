@@ -4,7 +4,7 @@ namespace IDAL
 {
     namespace DO
     {
-       public struct Station
+        public struct Station
         {
             private double longitude;
             private double latitude;
@@ -13,10 +13,12 @@ namespace IDAL
             public string Name { get; set; }
             public double Longitude
             {
-                get { 
-                    return longitude; 
+                get
+                {
+                    return longitude;
                 }
-                set {
+                set
+                {
                     if (value < 0 || value > 90)
                         throw new ArgumentException("invalid longitude");
                     longitude = value;
@@ -35,21 +37,18 @@ namespace IDAL
                     latitude = value;
                 }
             }
-          
+
 
             public int ChargeSlots
             {
                 get { return chargeSlots; }
-                set 
+                set
                 {
-                    if(value<=0)
+                    if (value <= 0)
                         throw new ArgumentException("sum of Charge Slots must be positive");
-                    ChargeSlots =value;
+                    chargeSlots = value;
                 }
             }
-
-
-
             public override string ToString()
             {
                 return $"Station ID:{Id} Name:{Name} ";
