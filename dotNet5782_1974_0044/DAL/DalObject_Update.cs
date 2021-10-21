@@ -18,7 +18,7 @@ namespace DalObject
         {
             Parcel tmpParcel = DataSorce.parcels.First(item => item.Id == parcelId);
             DataSorce.parcels.Remove(tmpParcel);
-            Drone tmpDrone = DataSorce.drones.First(item => (tmpParcel.Weigth <= item.MaxWeight && item.Status == DroneStatuses.AVAILABLE));
+            Drone tmpDrone = DataSorce.drones.Find(item => (tmpParcel.Weigth <= item.MaxWeight && item.Status == DroneStatuses.AVAILABLE));
             DataSorce.drones.Remove(tmpDrone);
             tmpParcel.DorneId = tmpDrone.Id;
             tmpDrone.Status = DroneStatuses.DELIVERY;
@@ -50,7 +50,7 @@ namespace DalObject
             DataSorce.parcels.Remove(tmpParcel);
             tmpParcel.Delivered = DateTime.Now;
             DataSorce.parcels.Add(tmpParcel);
-            Drone tmpDrone = DataSorce.drones.First(item => item.Id == tmpParcel.DorneId);
+            Drone tmpDrone = DataSorce.drones.Find(item => item.Id == tmpParcel.DorneId);
             DataSorce.drones.Remove(tmpDrone);
             tmpDrone.Status = DroneStatuses.AVAILABLE;
             DataSorce.drones.Add(tmpDrone);
@@ -82,7 +82,7 @@ namespace DalObject
         public void ReleasingDroneCharging(int droneId)
         {
             DataSorce.droneCharges.Remove(DataSorce.droneCharges.First(item => item.Droneld == droneId));
-            Drone tmpDrone = DataSorce.drones.First(item => item.Id == droneId);
+            Drone tmpDrone = DataSorce.drones.Find(item => item.Id == droneId);
             DataSorce.drones.Remove(tmpDrone);
             tmpDrone.Status = DroneStatuses.AVAILABLE;
             tmpDrone.Battery = 100;
