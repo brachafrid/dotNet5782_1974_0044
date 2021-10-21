@@ -9,7 +9,11 @@ namespace DalObject
 {
    public partial class DalObject
     {
-      
+      /// <summary>
+      /// 
+      /// </summary>
+      /// <param name="id"></param>
+      /// <returns></returns>
         public Station GetStation(int id)
         {
             return DataSorce.stations.First(item => item.Id == id);
@@ -48,7 +52,7 @@ namespace DalObject
         }
         public Station[] GetStationsWithEmptyChargeSlots()
         {
-            return DataSorce.stations.Where(item => item.ChargeSlots > countFullChargeSlots(item.Id)).ToArray();
+            return getAvailbleStations().ToArray();
         }
         private int countFullChargeSlots(int id)
         {
@@ -60,6 +64,10 @@ namespace DalObject
             }
             return count;
 
+        }
+        private List<Station> getAvailbleStations()
+        {
+            return DataSorce.stations.Where(item => item.ChargeSlots > countFullChargeSlots(item.Id)).ToList();
         }
     }
 }
