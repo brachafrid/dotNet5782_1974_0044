@@ -9,6 +9,7 @@ namespace DalObject
 {
    public partial class DalObject
     {
+      
         public Station GetStation(int id)
         {
             return DataSorce.stations.First(item => item.Id == id);
@@ -45,7 +46,20 @@ namespace DalObject
         {
             return DataSorce.parcels.Where(item => item.DorneId == 0).ToArray();
         }
-        
+        public Station[] GetStationsWithEmptyChargeSlots()
+        {
+            return DataSorce.stations.Where(item => item.ChargeSlots > countFullChargeSlots(item.Id)).ToArray();
+        }
+        private int countFullChargeSlots(int id)
+        {
+            int count = 0;
+            foreach (DroneCharge item in DataSorce.droneCharges)
+            {
+                if (item.Droneld == id)
+                    ++count;
+            }
+            return count;
 
+        }
     }
 }
