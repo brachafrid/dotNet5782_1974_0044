@@ -37,7 +37,7 @@ namespace DalObject
             internal static int idxCustomers = 0;
             internal static int idxParcels = 0;
 
-            static int IdParcel = 0;
+            internal static int IdParcel = 0;
         }
 
         static internal void Initialize()
@@ -93,11 +93,12 @@ namespace DalObject
                 newParcel.PickedUp = new DateTime();
                 newParcel.Delivered = new DateTime();
                 parcels.Add(newParcel);
-                ++IdParcel;
+                ++Config.IdParcel;
+               
 
             }
         }
-        public int AssignParcelDrone(WeightCategories weight)
+        public static int AssignParcelDrone(WeightCategories weight)
         {
             Drone tmpDrone = DataSorce.drones.First(item => (weight <= item.MaxWeight && item.Status == DroneStatuses.AVAILABLE));
             DataSorce.drones.Remove(tmpDrone);

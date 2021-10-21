@@ -42,8 +42,9 @@ namespace IDAL
                 get { return chargeSlots; }
                 set 
                 {
-
-                    value >0? ChargeSlots =value:throw new ArgumentException("sum of Charge Slots must be positive")
+                    if(value<=0)
+                        throw new ArgumentException("sum of Charge Slots must be positive");
+                    ChargeSlots =value;
                 }
             }
 
