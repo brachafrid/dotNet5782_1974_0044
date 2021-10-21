@@ -7,7 +7,7 @@ using IDAL.DO;
 
 namespace DalObject
 {
-    partial class DalObject
+  public  partial class DalObject
     {
         public void addStation(string name, double longitude, double latitude)
         {

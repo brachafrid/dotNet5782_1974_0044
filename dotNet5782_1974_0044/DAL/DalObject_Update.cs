@@ -7,7 +7,7 @@ using IDAL.DO;
 
 namespace DalObject
 {
-    partial class DalObject
+   public partial class DalObject
     {
        public void AssignParcelDrone(int parcelId)
         {

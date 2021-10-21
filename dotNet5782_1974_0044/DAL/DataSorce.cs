@@ -39,64 +39,16 @@ namespace DalObject
 
             internal static int IdParcel = 0;
         }
-
         static internal void Initialize()
         {
             for (; Config.idxDrones < DRONE_INIT; Config.idxDrones++)
-            {
-                Drone newDrone = new Drone();
-                newDrone.Id = Config.idxDrones;
-                newDrone.Model = $"Model_Drone_ {'a' + Config.idxDrones++}_{Config.idxDrones++ * rnd.Next()}";
-                newDrone.MaxWeight = (WeightCategories)rnd.Next(RANGE_ENUM);
-                newDrone.Status = DroneStatuses.AVAILABLE;
-                newDrone.Battery = rnd.Next(FULL_BATTERY) + rnd.NextDouble();
-                drones.Add(newDrone);
-
-            }
-
+                randomDrone();
             for (; Config.idxStations < STATIONS_INIT; Config.idxStations++)
-            {
-                Station newStation = new Station();
-                newStation.Id = Config.idxStations;
-                newStation.Name = $"station_{'a' + Config.idxStations++}";
-                newStation.Latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
-                newStation.Longitude = rnd.Next(LONGITUDE_MAX) + rnd.NextDouble();
-                stations.Add(newStation);
-            }
-
+                randomStation();
             for (; Config.idxCustomers < CUSTOMERS_INIT; Config.idxCustomers++)
-            {
-                Customer newCustomer = new Customer();
-                newCustomer.Id = Config.idxCustomers;
-                newCustomer.Name = $"Customer_ { Config.idxCustomers + 1}_{customers[Config.idxCustomers].Id}";
-                newCustomer.Phone = $"0{rnd.Next(PHONE_MIN, PHONE_MAX)}";
-                newCustomer.Latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
-                newCustomer.Longitude = rnd.Next(LONGITUDE_MAX) + rnd.NextDouble();
-                customers.Add(newCustomer);
-            }
-
-
+                randomCustomer();
             for (; Config.idxParcels < PARCELS_INIT; Config.idxParcels++)
-            {
-                Parcel newParcel = new Parcel();
-                newParcel.Id = Config.idxParcels;
-                newParcel.SenderId = customers[rnd.Next(Config.idxCustomers)].Id;
-                do
-                {
-                    newParcel.TargetId = customers[rnd.Next(Config.idxCustomers)].Id;
-                } while (newParcel.TargetId == newParcel.SenderId);
-                newParcel.Weigth = (WeightCategories)rnd.Next(RANGE_ENUM);
-                newParcel.Priority = (Prioripies)rnd.Next(RANGE_ENUM);
-                newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);
-                newParcel.Requested = DateTime.Now;
-                newParcel.Sceduled = DateTime.Now; ;
-                newParcel.PickedUp = new DateTime();
-                newParcel.Delivered = new DateTime();
-                parcels.Add(newParcel);
-                ++Config.IdParcel;
-               
-
-            }
+                randParcel();
         }
         public static int AssignParcelDrone(WeightCategories weight)
         {
@@ -105,6 +57,54 @@ namespace DalObject
             tmpDrone.Status = DroneStatuses.DELIVERY;
             DataSorce.drones.Add(tmpDrone);
             return tmpDrone.Id;
+        }
+        private static void randomDrone()
+        {
+            Drone newDrone = new Drone();
+            newDrone.Id = Config.idxDrones;
+            newDrone.Model = $"Model_Drone_ {'a' + Config.idxDrones}_{Config.idxDrones++ * rnd.Next()}";
+            newDrone.MaxWeight = (WeightCategories)rnd.Next(RANGE_ENUM);
+            newDrone.Status = DroneStatuses.AVAILABLE;
+            newDrone.Battery = rnd.Next(FULL_BATTERY) + rnd.NextDouble();
+            drones.Add(newDrone);
+        }
+        private static void randomStation()
+        {
+            Station newStation = new Station();
+            newStation.Id = Config.idxStations;
+            newStation.Name = $"station_{'a' + Config.idxStations}";
+            newStation.Latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
+            newStation.Longitude = rnd.Next(LONGITUDE_MAX) + rnd.NextDouble();
+            stations.Add(newStation);
+        }
+        private static void randomCustomer()
+        {
+            Customer newCustomer = new Customer();
+            newCustomer.Id = Config.idxCustomers;
+            newCustomer.Name = $"Customer_ { Config.idxCustomers + 1}_{customers[Config.idxCustomers].Id}";
+            newCustomer.Phone = $"0{rnd.Next(PHONE_MIN, PHONE_MAX)}";
+            newCustomer.Latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
+            newCustomer.Longitude = rnd.Next(LONGITUDE_MAX) + rnd.NextDouble();
+            customers.Add(newCustomer);
+        }
+        private static void randParcel()
+        {
+            Parcel newParcel = new Parcel();
+            newParcel.Id = Config.idxParcels;
+            newParcel.SenderId = customers[rnd.Next(Config.idxCustomers)].Id;
+            do
+            {
+                newParcel.TargetId = customers[rnd.Next(Config.idxCustomers)].Id;
+            } while (newParcel.TargetId == newParcel.SenderId);
+            newParcel.Weigth = (WeightCategories)rnd.Next(RANGE_ENUM);
+            newParcel.Priority = (Prioripies)rnd.Next(RANGE_ENUM);
+            newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);
+            newParcel.Requested = DateTime.Now;
+            newParcel.Sceduled = DateTime.Now;
+            newParcel.PickedUp = new DateTime();
+            newParcel.Delivered = new DateTime();
+            parcels.Add(newParcel);
+            ++Config.IdParcel;
         }
     }
 
