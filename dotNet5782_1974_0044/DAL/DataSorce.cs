@@ -93,6 +93,7 @@ namespace DalObject
                 newParcel.PickedUp = new DateTime();
                 newParcel.Delivered = new DateTime();
                 parcels.Add(newParcel);
+                ++IdParcel;
             }
         }
         public int AssignParcelDrone(WeightCategories weight)
