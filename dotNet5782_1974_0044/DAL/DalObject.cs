@@ -9,11 +9,11 @@ namespace DalObject
 {
      public partial class DalObject
     {
-        //public DalObject()
-        //{
-        //    DataSorce.Initialize();
-        //}
-       
+        public DalObject()
+        {
+            DataSorce.Initialize();
+        }
+
     }
   
 }
