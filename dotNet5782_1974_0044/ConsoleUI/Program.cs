@@ -14,11 +14,11 @@ namespace ConsoleUI
         static void Main(string[] args)
         {
             DalObject.DalObject dalObject = new DalObject.DalObject();
-            DisplayMenus(typeof(Menu));
             Menu option;
             do
             {
-                Menu.TryParse(Console.ReadLine(), out option);
+                DisplayMenus(typeof(Menu));
+                Enum.TryParse(Console.ReadLine(), out option);
                 switch (option)
                 {
                     case Menu.Add:
@@ -68,7 +68,7 @@ namespace ConsoleUI
         public static void switchAdd(ref DalObject.DalObject dalObject)
         {
             Add option;
-            Add.TryParse(Console.ReadLine(), out option);
+            Enum.TryParse(Console.ReadLine(), out option);
             switch (option)
             {
                 case Add.Drone:
@@ -76,7 +76,7 @@ namespace ConsoleUI
                         Console.WriteLine("enter values to drone properties: model,max wheight");
                         string model = Console.ReadLine();
                         WeightCategories maxWeight;
-                        WeightCategories.TryParse(Console.ReadLine(), out maxWeight);
+                        Enum.TryParse(Console.ReadLine(), out maxWeight);
                         dalObject.addDrone(model, maxWeight);
                         break;
                     }
@@ -103,9 +103,9 @@ namespace ConsoleUI
                         int targetId;
                         int.TryParse(Console.ReadLine(), out targetId);
                         WeightCategories weigth;
-                        WeightCategories.TryParse(Console.ReadLine(), out weigth);
+                        Enum.TryParse(Console.ReadLine(), out weigth);
                         Prioripies priority;
-                        Prioripies.TryParse(Console.ReadLine(), out priority);
+                        Enum.TryParse(Console.ReadLine(), out priority);
                         dalObject.parcelsReception(senderId, targetId, weigth, priority);
                         break;
                     }
@@ -130,7 +130,7 @@ namespace ConsoleUI
         public static void switchUpdate(ref DalObject.DalObject dalObject)
         {
             Update option;
-            Update.TryParse(Console.ReadLine(), out option);
+            Enum.TryParse(Console.ReadLine(), out option);
             int id;
             switch (option)
             {
@@ -177,7 +177,7 @@ namespace ConsoleUI
         public static void switchDisplay(ref DalObject.DalObject dalObject)
         {
             Display option;
-            Display.TryParse(Console.ReadLine(), out option);
+            Enum.TryParse(Console.ReadLine(), out option);
             int id;
             switch (option)
             {
@@ -217,7 +217,7 @@ namespace ConsoleUI
         public static void switchDisplayList(ref DalObject.DalObject dalObject)
         {
             DisplayList option;
-            DisplayList.TryParse(Console.ReadLine(), out option);
+            Enum.TryParse(Console.ReadLine(), out option);
             switch (option)
             {
                 case DisplayList.Stations:
