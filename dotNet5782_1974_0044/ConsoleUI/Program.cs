@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using DalObject;
+using System.Collections;
 using IDAL.DO;
 namespace ConsoleUI
 {
@@ -23,20 +22,30 @@ namespace ConsoleUI
                 switch (option)
                 {
                     case Menu.Add:
-                        DisplayMenus(typeof(Add));
-                        switchAdd(ref dalObject);
-                        break;
+                        {
+                            DisplayMenus(typeof(Add));
+                            switchAdd(ref dalObject);
+                            break;
+                        }
                     case Menu.Update:
-                        DisplayMenus(typeof(Update));
-                        switchUpdate(ref dalObject);
-                        break;
+                        {
+                            DisplayMenus(typeof(Update));
+                            switchUpdate(ref dalObject);
+                            break;
+                        }
                     case Menu.Display:
-                        DisplayMenus(typeof(Display));
-                        switchDisplay(ref dalObject);
-                        break;
+                        {
+                            DisplayMenus(typeof(Display));
+                            switchDisplay(ref dalObject);
+                            break;
+                        }
                     case Menu.DisplayList:
-                        DisplayMenus(typeof(DisplayList));
-                        break;
+                        {
+                            DisplayMenus(typeof(DisplayList));
+                            switchDisplayList(ref dalObject);
+                            break;
+                        }
+
                     case Menu.Exit:
                         break;
                     default:
@@ -127,35 +136,35 @@ namespace ConsoleUI
             {
                 case Update.AssingParcelToDrone:
                     {
-                        Console.WriteLine("enter a id of parcel");
+                        Console.WriteLine("enter an id of parcel");
                         int.TryParse(Console.ReadLine(), out id);
                         dalObject.AssignParcelDrone(id);
                         break;
                     }
                 case Update.CollectParcelByDrone:
                     {
-                        Console.WriteLine("enter a id of parcel");
+                        Console.WriteLine("enter an id of parcel");
                         int.TryParse(Console.ReadLine(), out id);
                         dalObject.CollectParcel(id);
                         break;
                     }
                 case Update.SupplyParcelToDestination:
                     {
-                        Console.WriteLine("enter a id of parcel");
+                        Console.WriteLine("enter an id of parcel");
                         int.TryParse(Console.ReadLine(), out id);
                         dalObject.SupplyParcel(id);
                         break;
                     }
                 case Update.SendingDroneForCharging:
                     {
-                        Console.WriteLine("enter a id of drone");
+                        Console.WriteLine("enter an id of drone");
                         int.TryParse(Console.ReadLine(), out id);
                         dalObject.SendingDroneCharging(id);
                         break;
                     }
                 case Update.RealsingDroneFromCharghing:
                     {
-                        Console.WriteLine("enter a id of drone");
+                        Console.WriteLine("enter an id of drone");
                         int.TryParse(Console.ReadLine(), out id);
                         dalObject.ReleasingDroneCharging(id);
                         break;
@@ -174,28 +183,28 @@ namespace ConsoleUI
             {
                 case Display.Station:
                     {
-                        Console.WriteLine("enter a id of station");
+                        Console.WriteLine("enter an id of station");
                         int.TryParse(Console.ReadLine(), out id);
                         Console.WriteLine(dalObject.GetStation(id));
                         break;
                     }
                 case Display.Drone:
                     {
-                        Console.WriteLine("enter a id of drone");
+                        Console.WriteLine("enter an id of drone");
                         int.TryParse(Console.ReadLine(), out id);
                         Console.WriteLine(dalObject.GetDrone(id));
                         break;
                     }
                 case Display.Customer:
                     {
-                        Console.WriteLine("enter a id of customer");
+                        Console.WriteLine("enter an id of customer");
                         int.TryParse(Console.ReadLine(), out id);
                         Console.WriteLine(dalObject.GetCustomer(id));
                         break;
                     }
                 case Display.Parcel:
                     {
-                        Console.WriteLine("enter a id of parcel");
+                        Console.WriteLine("enter an id of parcel");
                         int.TryParse(Console.ReadLine(), out id);
                         Console.WriteLine(dalObject.GetParcel(id));
                         break;
@@ -209,63 +218,37 @@ namespace ConsoleUI
         {
             DisplayList option;
             DisplayList.TryParse(Console.ReadLine(), out option);
-            int id;
             switch (option)
             {
                 case DisplayList.Stations:
-                    {
-                        foreach (Station item in dalObject.GetStations())
-                        {
-                            Console.WriteLine(item);
-                        }
-                        break;
-                    }
+                    printList(dalObject.GetStations());
+                    break;
                 case DisplayList.Drones:
-                    {
-                        foreach (Drone item in dalObject.GetDrones())
-                        {
-                            Console.WriteLine(item);
-                        }
-                        break;
-                    }
+                    printList(dalObject.GetDrones());
+                    break;
                 case DisplayList.Customers:
-                    {
-                        foreach (Customer item in dalObject.GetCustomers())
-                        {
-                            Console.WriteLine(item);
-                        }
-                        break;
-                    }
+                    printList(dalObject.GetCustomers());
+                    break;
                 case DisplayList.Parcels:
-                    {
-                        foreach (Parcel item in dalObject.GetParcels())
-                        {
-                            Console.WriteLine(item);
-                        }
-                        break;
-                    }
+                    printList(dalObject.GetParcels());
+                    break;
                 case DisplayList.AvailableChargingStations:
-                    {
-                        foreach (Station item in dalObject.GetStationsWithEmptyChargeSlots())
-                        {
-                            Console.WriteLine(item);
-                        }
-                        break;
-                    }
+                    printList(dalObject.GetStationsWithEmptyChargeSlots());
+                    break;
                 case DisplayList.ParcelnotAssignToDrone:
-                    {
-                        foreach (Parcel item in dalObject.GetParcelsNotAssignedToDrone())
-                        {
-                            Console.WriteLine(item);
-                        }
-                        break;
-                    }
+                    printList(dalObject.GetParcelsNotAssignedToDrone());
+                    break;
                 default:
                     break;
             }
         }
+        public static void printList(IList list)
+        {
+            foreach (var item in list)
+            {
+                Console.WriteLine(item);
+            }
+        }
     }
-
-
 }
 
