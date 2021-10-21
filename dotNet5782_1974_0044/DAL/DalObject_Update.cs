@@ -30,7 +30,7 @@ namespace DalObject
         /// collect parcel fo sending:
         /// update time of pick up parcel
         /// </summary>
-        /// <param name="parcelId"></param>
+        /// <param name="parcelId">id of parcel</param>
         public void CollectParcel(int parcelId)
         {
             Parcel tmpParcel = DataSorce.parcels.First(item => item.Id == parcelId);
@@ -43,7 +43,7 @@ namespace DalObject
         /// Releases the drone,
         /// update the time of delivered.
         /// </summary>
-        /// <param name="parcelId"></param>
+        /// <param name="parcelId"> id of parcel</param>
         public void SupplyParcel(int parcelId)
         {
             Parcel tmpParcel = DataSorce.parcels.First(item => item.Id == parcelId);
@@ -61,7 +61,7 @@ namespace DalObject
         /// create new droneCharge object, initializing it and add to droneCharges list.
         /// update the drone's status.
         /// </summary>
-        /// <param name="droneId"></param>
+        /// <param name="droneId"> id of drone</param>
         public void SendingDroneCharging(int droneId)
         {
             DroneCharge tmpDroneCharge = new DroneCharge();
@@ -78,7 +78,7 @@ namespace DalObject
         /// update battary and status.
         /// remove the droneCharge object from droneCharges list
         /// </summary>
-        /// <param name="droneId"></param>
+        /// <param name="droneId"> id of drone</param>
         public void ReleasingDroneCharging(int droneId)
         {
             DataSorce.droneCharges.Remove(DataSorce.droneCharges.First(item => item.Droneld == droneId));

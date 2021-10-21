@@ -12,7 +12,7 @@ namespace DalObject
         public  void addStation(string name, double longitude, double latitude, int chargeSlots )
         {
             Station newStation = new Station();
-            newStation.Id = DataSorce.Config.idxStations++;
+            newStation.Id = ++DataSorce.Config.idxStations;
             newStation.Name = name;
             newStation.Latitude = latitude;
             newStation.Longitude = longitude;
@@ -22,7 +22,7 @@ namespace DalObject
         public  void addCustomer(string phone, string name, double longitude, double lattitude)
         {
             Customer newCustomer = new Customer();
-            newCustomer.Id = DataSorce.Config.idxCustomers++;
+            newCustomer.Id = ++DataSorce.Config.idxCustomers;
             newCustomer.Name = name;
             newCustomer.Phone = phone;
             newCustomer.Latitude = lattitude;
@@ -32,7 +32,7 @@ namespace DalObject
         public  void addDrone(string model, WeightCategories MaxWeight)
         {
             Drone newDrone = new Drone();
-            newDrone.Id = DataSorce.Config.idxDrones++;
+            newDrone.Id = ++DataSorce.Config.idxDrones;
             newDrone.Model = model;
             newDrone.MaxWeight = MaxWeight;
             newDrone.Status = DroneStatuses.AVAILABLE;
@@ -42,7 +42,7 @@ namespace DalObject
         public  void parcelsReception(int SenderId, int TargetId, WeightCategories Weigth, Prioripies Priority)
         {
             Parcel newParcel = new Parcel();
-            newParcel.Id = DataSorce.Config.idxParcels++;
+            newParcel.Id = ++DataSorce.Config.idxParcels;
             newParcel.SenderId = SenderId;
             newParcel.TargetId = TargetId;
             newParcel.Weigth = Weigth;

@@ -18,6 +18,7 @@ namespace ConsoleUI
             Menu option;
             do
             {
+                DisplayMenus(typeof(Menu));
                 Menu.TryParse(Console.ReadLine(), out option);
                 switch (option)
                 {

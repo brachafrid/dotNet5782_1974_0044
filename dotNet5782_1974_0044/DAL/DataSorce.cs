@@ -36,7 +36,6 @@ namespace DalObject
             internal static int idxStations = 0;
             internal static int idxCustomers = 0;
             internal static int idxParcels = 0;
-
             internal static int IdParcel = 0;
         }
         static internal void Initialize()
@@ -61,7 +60,7 @@ namespace DalObject
         private static void randomDrone()
         {
             Drone newDrone = new Drone();
-            newDrone.Id = Config.idxDrones;
+            newDrone.Id = Config.idxDrones + 1;
             newDrone.Model = $"Model_Drone_ {'a' + Config.idxDrones}_{Config.idxDrones++ * rnd.Next()}";
             newDrone.MaxWeight = (WeightCategories)rnd.Next(RANGE_ENUM);
             newDrone.Status = DroneStatuses.AVAILABLE;
@@ -71,7 +70,7 @@ namespace DalObject
         private static void randomStation()
         {
             Station newStation = new Station();
-            newStation.Id = Config.idxStations;
+            newStation.Id = Config.idxStations +1;
             newStation.Name = $"station_{'a' + Config.idxStations}";
             newStation.Latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
             newStation.Longitude = rnd.Next(LONGITUDE_MAX) + rnd.NextDouble();
@@ -80,7 +79,7 @@ namespace DalObject
         private static void randomCustomer()
         {
             Customer newCustomer = new Customer();
-            newCustomer.Id = Config.idxCustomers;
+            newCustomer.Id = Config.idxCustomers +1;
             newCustomer.Name = $"Customer_ { Config.idxCustomers + 1}_{newCustomer.Id}";
             newCustomer.Phone = $"0{rnd.Next(PHONE_MIN, PHONE_MAX)}";
             newCustomer.Latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
@@ -90,7 +89,7 @@ namespace DalObject
         private static void randParcel()
         {
             Parcel newParcel = new Parcel();
-            newParcel.Id = Config.idxParcels;
+            newParcel.Id = Config.idxParcels +1;
             newParcel.SenderId = customers[rnd.Next(Config.idxCustomers)].Id;
             do
             {
