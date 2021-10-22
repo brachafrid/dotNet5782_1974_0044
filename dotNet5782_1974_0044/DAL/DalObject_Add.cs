@@ -67,6 +67,8 @@ namespace DalObject
         /// <param name="Priority"> The priority of send the parcel (regular - 0,fast - 1,emergency - 2)</param>
         public void parcelsReception(int SenderId, int TargetId, WeightCategories Weigth, Prioripies Priority)
         {
+            DataSorce.customers.First(item => item.Id == SenderId);
+            DataSorce.customers.First(item => item.Id == TargetId);
             Parcel newParcel = new Parcel();
             newParcel.Id = ++DataSorce.Config.idxParcels;
             newParcel.SenderId = SenderId;
