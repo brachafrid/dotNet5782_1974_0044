@@ -56,6 +56,8 @@ namespace ConsoleUI
 
 
         }
+
+
         static public void DisplayMenus(Type en)
         {
             int idx = 0;

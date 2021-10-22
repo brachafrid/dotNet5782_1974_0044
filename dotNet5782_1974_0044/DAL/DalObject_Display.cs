@@ -86,7 +86,7 @@ namespace DalObject
             return DataSorce.parcels.Where(item => item.DorneId == 0).ToArray();
         }
         /// <summary>
-        /// Find the parcels that not assign to drone
+        /// Find the satation that have empty charging slots
         /// </summary>
         /// <returns>A array of the requested station</returns>
         public Station[] GetStationsWithEmptyChargeSlots()
@@ -94,10 +94,10 @@ namespace DalObject
             return getAvailbleStations().ToArray();
         }
         /// <summary>
-        /// 
+        /// Count a number of charging slots occupied at a particular station 
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="id">the id number of a station</param>
+        /// <returns>The counter of empty slots</returns>
         private int countFullChargeSlots(int id)
         {
             int count = 0;
@@ -110,9 +110,9 @@ namespace DalObject
 
         }
         /// <summary>
-        /// 
+        /// Checks which base stations are available for charging
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A list of avaiable satations</returns>
         private List<Station> getAvailbleStations()
         {
             return DataSorce.stations.Where(item => item.ChargeSlots > countFullChargeSlots(item.Id)).ToList();
