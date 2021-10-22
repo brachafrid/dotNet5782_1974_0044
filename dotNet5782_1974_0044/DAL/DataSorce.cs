@@ -51,11 +51,16 @@ namespace DalObject
         }
         public static int AssignParcelDrone(WeightCategories weight)
         {
-            Drone tmpDrone = DataSorce.drones.Find(item => (weight <= item.MaxWeight && item.Status == DroneStatuses.AVAILABLE));
-            DataSorce.drones.Remove(tmpDrone);
-            tmpDrone.Status = DroneStatuses.DELIVERY;
-            DataSorce.drones.Add(tmpDrone);
-            return tmpDrone.Id;
+            Drone tmpDrone = drones.FirstOrDefault(item => (weight <= item.MaxWeight && item.Status == DroneStatuses.AVAILABLE));
+            if (!(tmpDrone.Equals(default(Drone))))
+            {
+                drones.Remove(tmpDrone);
+                tmpDrone.Status = DroneStatuses.DELIVERY;
+                drones.Add(tmpDrone);
+                return tmpDrone.Id;
+            }
+            return 0;
+
         }
         private static void randomDrone()
         {

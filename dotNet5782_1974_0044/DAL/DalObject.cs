@@ -9,6 +9,9 @@ namespace DalObject
 {
      public partial class DalObject
     {
+        /// <summary>
+        /// Call to quick initialization function
+        /// </summary>
         public DalObject()
         {
             DataSorce.Initialize();
