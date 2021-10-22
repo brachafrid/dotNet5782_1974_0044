@@ -7,7 +7,7 @@ namespace ConsoleUI
     {
         enum Menu { Add, Update, Display, DisplayList, Exit }
         enum Add { Drone, Station, Parcel, Customer }
-        enum Update { AssingParcelToDrone, CollectParcelByDrone, SupplyParcelToDestination, SendingDroneForCharging, RealsingDroneFromCharghing }
+        enum Update { AssingParcelToDrone, CollectParcelByDrone, SupplyParcelToDestination, SendDroneForCharg, RealsDroneFromChargh }
         enum DisplayList { Stations, Drones, Customers, Parcels, AvailableChargingStations, ParcelnotAssignToDrone }
         enum Display { Station, Drone, Customer, Parcel }
 
@@ -24,25 +24,72 @@ namespace ConsoleUI
                     case Menu.Add:
                         {
                             DisplayMenus(typeof(Add));
-                            switchAdd(ref dalObject);
+                            try
+                            {
+                                switchAdd(ref dalObject);
+                            }
+                            catch
+                            {
+                                Console.WriteLine("error");
+                            }
+
                             break;
                         }
+
                     case Menu.Update:
                         {
+
                             DisplayMenus(typeof(Update));
-                            switchUpdate(ref dalObject);
+                            try
+                            {
+                                switchUpdate(ref dalObject);
+                            }
+                            catch (ArgumentNullException)
+                            {
+                                Console.WriteLine("incorrect id");
+                            }
+                            catch (ArgumentException ex)
+                            {
+                                Console.WriteLine(ex.Message);
+                            }
+                            catch
+                            {
+                                Console.WriteLine("ERROR");
+                            }
+
                             break;
                         }
                     case Menu.Display:
                         {
                             DisplayMenus(typeof(Display));
-                            switchDisplay(ref dalObject);
+                            try
+                            {
+                                switchDisplay(ref dalObject);
+                            }
+                            catch (ArgumentNullException)
+                            {
+                                Console.WriteLine("incorrect id");
+                            }
+                            catch
+                            {
+                                Console.WriteLine("ERROR");
+                            }
+
                             break;
                         }
                     case Menu.DisplayList:
                         {
                             DisplayMenus(typeof(DisplayList));
-                            switchDisplayList(ref dalObject);
+                            try
+                            {
+                                switchDisplayList(ref dalObject);
+                            }
+                            catch
+                            {
+                                Console.WriteLine("ERROR");
+                            }
+
+
                             break;
                         }
 
@@ -56,6 +103,10 @@ namespace ConsoleUI
 
 
         }
+        /// <summary>
+        /// gets enum and prints his values
+        /// </summary>
+        /// <param name="en"> type of enum</param>
         static public void DisplayMenus(Type en)
         {
             int idx = 0;
@@ -155,18 +206,18 @@ namespace ConsoleUI
                         dalObject.SupplyParcel(id);
                         break;
                     }
-                case Update.SendingDroneForCharging:
+                case Update.SendDroneForCharg:
                     {
                         Console.WriteLine("enter an id of drone");
                         int.TryParse(Console.ReadLine(), out id);
-                        dalObject.SendingDroneCharging(id);
+                        dalObject.SendDroneCharg(id);
                         break;
                     }
-                case Update.RealsingDroneFromCharghing:
+                case Update.RealsDroneFromChargh:
                     {
                         Console.WriteLine("enter an id of drone");
                         int.TryParse(Console.ReadLine(), out id);
-                        dalObject.ReleasingDroneCharging(id);
+                        dalObject.ReleasDroneCharg(id);
                         break;
                     }
                 default:

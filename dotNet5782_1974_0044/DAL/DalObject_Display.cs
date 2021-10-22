@@ -83,7 +83,7 @@ namespace DalObject
         /// <returns>A array of the requested parcels</returns>
         public Parcel[] GetParcelsNotAssignedToDrone()
         {
-            return DataSorce.parcels.Where(item => item.DorneId == 0).ToArray();
+            return DataSorce.parcels.FindAll(item => item.DorneId == 0).ToArray();
         }
         /// <summary>
         /// Find the parcels that not assign to drone
@@ -115,7 +115,7 @@ namespace DalObject
         /// <returns></returns>
         private List<Station> getAvailbleStations()
         {
-            return DataSorce.stations.Where(item => item.ChargeSlots > countFullChargeSlots(item.Id)).ToList();
+            return DataSorce.stations.FindAll(item => item.ChargeSlots > countFullChargeSlots(item.Id));
         }
     }
 }
