@@ -51,11 +51,16 @@ namespace DalObject
         }
         public static int AssignParcelDrone(WeightCategories weight)
         {
-            Drone tmpDrone = DataSorce.drones.Find(item => (weight <= item.MaxWeight && item.Status == DroneStatuses.AVAILABLE));
-            DataSorce.drones.Remove(tmpDrone);
-            tmpDrone.Status = DroneStatuses.DELIVERY;
-            DataSorce.drones.Add(tmpDrone);
-            return tmpDrone.Id;
+            Drone tmpDrone = drones.FirstOrDefault(item => (weight <= item.MaxWeight && item.Status == DroneStatuses.AVAILABLE));
+            if (!(tmpDrone.Equals(default(Drone))))
+            {
+                drones.Remove(tmpDrone);
+                tmpDrone.Status = DroneStatuses.DELIVERY;
+                drones.Add(tmpDrone);
+                return tmpDrone.Id;
+            }
+            return 0;
+
         }
         private static void randomDrone()
         {
@@ -70,7 +75,7 @@ namespace DalObject
         private static void randomStation()
         {
             Station newStation = new Station();
-            newStation.Id = Config.idxStations +1;
+            newStation.Id = Config.idxStations + 1;
             newStation.Name = $"station_{'a' + Config.idxStations}";
             newStation.Latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
             newStation.Longitude = rnd.Next(LONGITUDE_MAX) + rnd.NextDouble();
@@ -79,7 +84,7 @@ namespace DalObject
         private static void randomCustomer()
         {
             Customer newCustomer = new Customer();
-            newCustomer.Id = Config.idxCustomers +1;
+            newCustomer.Id = Config.idxCustomers + 1;
             newCustomer.Name = $"Customer_ { Config.idxCustomers + 1}_{newCustomer.Id}";
             newCustomer.Phone = $"0{rnd.Next(PHONE_MIN, PHONE_MAX)}";
             newCustomer.Latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
@@ -89,7 +94,7 @@ namespace DalObject
         private static void randParcel()
         {
             Parcel newParcel = new Parcel();
-            newParcel.Id = Config.idxParcels +1;
+            newParcel.Id = Config.idxParcels + 1;
             newParcel.SenderId = customers[rnd.Next(Config.idxCustomers)].Id;
             do
             {

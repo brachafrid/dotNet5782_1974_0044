@@ -18,15 +18,15 @@ namespace DalObject
         {
             Parcel tmpParcel = DataSorce.parcels.First(item => item.Id == parcelId);
             DataSorce.parcels.Remove(tmpParcel);
-            Drone tmpDrone = DataSorce.drones.Find(item => (tmpParcel.Weigth <= item.MaxWeight && item.Status == DroneStatuses.AVAILABLE));
-            if(tmpDrone==null)
+            Drone tmpDrone = DataSorce.drones.FirstOrDefault(item => (tmpParcel.Weigth <= item.MaxWeight && item.Status == DroneStatuses.AVAILABLE));
+            if(!(tmpDrone.Equals(default(Drone))))
             {
                 DataSorce.drones.Remove(tmpDrone);
                 tmpParcel.DorneId = tmpDrone.Id;
-            }
-            tmpDrone.Status = DroneStatuses.DELIVERY;
-            tmpParcel.Sceduled = DateTime.Now;
-            DataSorce.drones.Add(tmpDrone);
+                tmpDrone.Status = DroneStatuses.DELIVERY;
+                tmpParcel.Sceduled = DateTime.Now;
+                DataSorce.drones.Add(tmpDrone);
+            } 
             DataSorce.parcels.Add(tmpParcel);
         }
         /// <summary>
@@ -53,10 +53,13 @@ namespace DalObject
             DataSorce.parcels.Remove(tmpParcel);
             tmpParcel.Delivered = DateTime.Now;
             DataSorce.parcels.Add(tmpParcel);
-            Drone tmpDrone = DataSorce.drones.Find(item => item.Id == tmpParcel.DorneId);
-            DataSorce.drones.Remove(tmpDrone);
-            tmpDrone.Status = DroneStatuses.AVAILABLE;
-            DataSorce.drones.Add(tmpDrone);
+            Drone tmpDrone = DataSorce.drones.FirstOrDefault(item => item.Id == tmpParcel.DorneId);
+            if (!(tmpDrone.Equals(default(Drone))))
+            {
+                DataSorce.drones.Remove(tmpDrone);
+                tmpDrone.Status = DroneStatuses.AVAILABLE;
+                DataSorce.drones.Add(tmpDrone);
+            }
         }
         /// <summary>
         /// sends drone to charge.
@@ -85,11 +88,14 @@ namespace DalObject
         public void ReleasingDroneCharging(int droneId)
         {
             DataSorce.droneCharges.Remove(DataSorce.droneCharges.First(item => item.Droneld == droneId));
-            Drone tmpDrone = DataSorce.drones.Find(item => item.Id == droneId);
-            DataSorce.drones.Remove(tmpDrone);
-            tmpDrone.Status = DroneStatuses.AVAILABLE;
-            tmpDrone.Battery = 100;
-            DataSorce.drones.Add(tmpDrone);
+            Drone tmpDrone = DataSorce.drones.FirstOrDefault(item => item.Id == droneId);
+            if (!(tmpDrone.Equals(default(Drone))))
+            {
+                DataSorce.drones.Remove(tmpDrone);
+                tmpDrone.Status = DroneStatuses.AVAILABLE;
+                tmpDrone.Battery = 100;
+                DataSorce.drones.Add(tmpDrone);
+            }
         }
 
     }
