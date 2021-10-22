@@ -7,11 +7,15 @@ using IDAL.DO;
 
 namespace DalObject
 {
-  public  partial class DalObject
+  public  partial class DalObject   
     {
-        const char[] helpSexagesimal=new char[] { '0','1','2','3','4','5','6','7','8','9',
+        /// <summary>
+        /// help array to convert for sexgesimal base
+        /// </summary>
+       private const char[] helpSexagesimal = new char[59]{'0','1','2','3','4','5','6','7','8','9',
                      'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
-                     'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x'});
+                     'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x'};
+        const char[] = q { 'l' };
         /// <summary>
         ///  Gets parameters and create new station 
         /// </summary>
@@ -86,7 +90,12 @@ namespace DalObject
             newParcel.DorneId = 0;
             DataSorce.parcels.Add(newParcel);
         }
-
+        /// <summary>
+        /// convert a int number to any base in accordance the array of signs parameter
+        /// </summary>
+        /// <param name="value">The value thar needed to convert</param><param>
+        /// <param name="baseChars">The arrray of signs in the needed base</param>
+        /// <returns>A string that it is the value in the other base</returns>
         public static string IntToString(int value, char[] baseChars)
         {
             string result = string.Empty;

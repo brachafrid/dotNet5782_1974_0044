@@ -20,7 +20,7 @@ namespace IDAL
             internal string longitudeSexagesimal;
             public override string ToString()
             {
-                return $"Cusomer ID:{Id} name:{Name}";
+                return $"Cusomer ID:{Id} Name:{Name} Latitude:{Latitude} Longitude:{Longitude} Latitude in sexagesimal:{latitudeSexagesimal} Longitude in sexagesimal:{longitudeSexagesimal}";
             }
 
         }
