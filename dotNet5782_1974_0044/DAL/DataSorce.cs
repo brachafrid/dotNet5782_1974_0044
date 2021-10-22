@@ -38,8 +38,9 @@ namespace DalObject
             internal static int idxParcels = 0;
             internal static int IdParcel = 0;
         }
-        static internal void Initialize(DalObject dal)
+        static internal void Initialize()
         {
+            DalObject dal = new DalObject();
 
             for (; Config.idxDrones < DRONE_INIT; Config.idxDrones++)
                 randomDrone(dal);
