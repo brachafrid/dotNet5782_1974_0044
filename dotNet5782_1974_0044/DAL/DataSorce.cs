@@ -70,7 +70,7 @@ namespace DalObject
         private static void randomStation()
         {
             Station newStation = new Station();
-            newStation.Id = Config.idxStations +1;
+            newStation.Id = Config.idxStations + 1;
             newStation.Name = $"station_{'a' + Config.idxStations}";
             newStation.Latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
             newStation.Longitude = rnd.Next(LONGITUDE_MAX) + rnd.NextDouble();
@@ -79,7 +79,7 @@ namespace DalObject
         private static void randomCustomer()
         {
             Customer newCustomer = new Customer();
-            newCustomer.Id = Config.idxCustomers +1;
+            newCustomer.Id = Config.idxCustomers + 1;
             newCustomer.Name = $"Customer_ { Config.idxCustomers + 1}_{newCustomer.Id}";
             newCustomer.Phone = $"0{rnd.Next(PHONE_MIN, PHONE_MAX)}";
             newCustomer.Latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
@@ -89,7 +89,7 @@ namespace DalObject
         private static void randParcel()
         {
             Parcel newParcel = new Parcel();
-            newParcel.Id = Config.idxParcels +1;
+            newParcel.Id = Config.idxParcels + 1;
             newParcel.SenderId = customers[rnd.Next(Config.idxCustomers)].Id;
             do
             {
