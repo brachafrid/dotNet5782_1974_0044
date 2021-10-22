@@ -9,6 +9,9 @@ namespace DalObject
 {
   public  partial class DalObject
     {
+        const char[] helpSexagesimal=new char[] { '0','1','2','3','4','5','6','7','8','9',
+                     'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+                     'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x'});
         /// <summary>
         ///  Gets parameters and create new station 
         /// </summary>
@@ -24,6 +27,8 @@ namespace DalObject
             newStation.Latitude = latitude;
             newStation.Longitude = longitude;
             newStation.ChargeSlots = chargeSlots;
+            newStation.latitudeSexagesimal = IntToString((int)newStation.Latitude, helpSexagesimal);
+            newStation.longitudeSexagesimal = IntToString((int)newStation.Latitude, helpSexagesimal);
             DataSorce.stations.Add(newStation);
         }
         /// <summary>
@@ -41,6 +46,8 @@ namespace DalObject
             newCustomer.Phone = phone;
             newCustomer.Latitude = latitude;
             newCustomer.Longitude = longitude;
+            newCustomer.latitudeSexagesimal = IntToString((int)newCustomer.Latitude, helpSexagesimal);
+            newCustomer.longitudeSexagesimal = IntToString((int)newCustomer.Latitude, helpSexagesimal);
             DataSorce.customers.Add(newCustomer);
         }
         /// <summary>
@@ -78,6 +85,21 @@ namespace DalObject
             newParcel.Requested = DateTime.Now;
             newParcel.DorneId = 0;
             DataSorce.parcels.Add(newParcel);
+        }
+
+        public static string IntToString(int value, char[] baseChars)
+        {
+            string result = string.Empty;
+            int targetBase = baseChars.Length;
+
+            do
+            {
+                result = baseChars[value % targetBase] + result;
+                value = value / targetBase;
+            }
+            while (value > 0);
+
+            return result;
         }
     }
 }
