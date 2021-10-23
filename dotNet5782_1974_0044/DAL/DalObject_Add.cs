@@ -30,8 +30,8 @@ namespace DalObject
             newStation.Latitude = latitude;
             newStation.Longitude = longitude;
             newStation.ChargeSlots = chargeSlots;
-            newStation.latitudeSexagesimal = IntToString((int)newStation.Latitude, helpSexagesimal);
-            newStation.longitudeSexagesimal = IntToString((int)newStation.Latitude, helpSexagesimal);
+            newStation.latitudeSexagesimal = DoubleToString(newStation.Latitude, helpSexagesimal);
+            newStation.longitudeSexagesimal = DoubleToString(newStation.Longitude, helpSexagesimal);
             DataSorce.stations.Add(newStation);
         }
         /// <summary>
@@ -49,8 +49,8 @@ namespace DalObject
             newCustomer.Phone = phone;
             newCustomer.Latitude = latitude;
             newCustomer.Longitude = longitude;
-            newCustomer.latitudeSexagesimal = IntToString((int)newCustomer.Latitude, helpSexagesimal);
-            newCustomer.longitudeSexagesimal = IntToString((int)newCustomer.Latitude, helpSexagesimal);
+            newCustomer.latitudeSexagesimal = DoubleToString(newCustomer.Latitude, helpSexagesimal);
+            newCustomer.longitudeSexagesimal = DoubleToString(newCustomer.Longitude, helpSexagesimal);
             DataSorce.customers.Add(newCustomer);
         }
         /// <summary>
@@ -90,24 +90,32 @@ namespace DalObject
             DataSorce.parcels.Add(newParcel);
         }
         /// <summary>
-        /// convert a int number to any base in accordance the array of signs parameter
+        /// convert a double number to any base in accordance the array of signs parameter
         /// </summary>
         /// <param name="value">The value thar needed to convert</param><param>
         /// <param name="baseChars">The arrray of signs in the needed base</param>
         /// <returns>A string that it is the value in the other base</returns>
-        public static string IntToString(int value, char[] baseChars)
+        public static string DoubleToString(double value, char[] baseChars)
         {
-            string result = string.Empty;
+            string result1 = string.Empty;
+            string result2 = string.Empty;
             int targetBase = baseChars.Length;
+            int valueInt = (int)value;
+            double valueDouble = value - (int)value;
 
             do
             {
-                result = baseChars[value % targetBase] + result;
-                value = value / targetBase;
+                result1 = baseChars[valueInt % targetBase] + result1;
+                valueInt = valueInt / targetBase;
             }
-            while (value > 0);
+            while (valueInt > 0);
 
-            return result;
+            do
+            {
+                result2+= baseChars[(int)valueDouble % targetBase] ;
+                valueDouble = (valueDouble%1) * targetBase;
+            } while (valueDouble > 0);
+            return result1+'.'+result2;
         }
     }
 }
