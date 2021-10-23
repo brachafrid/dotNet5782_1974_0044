@@ -56,7 +56,7 @@ namespace IDAL
 
             public override string ToString()
             {
-                return $"Station ID:{Id} Name:{Name} Latitude:{latitude} Longitude:{longitude} Latitude in sexagesimal:{latitudeSexagesimal} Longitude in sexagesimal:{longitudeSexagesimal}";
+                return $"Station ID:{Id} Name:{Name} Latitude:{latitude} Longitude:{longitude} ";
             }
         }
     }
