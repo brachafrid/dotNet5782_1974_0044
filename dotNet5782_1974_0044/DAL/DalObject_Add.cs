@@ -12,9 +12,9 @@ namespace DalObject
         /// <summary>
         /// help array to convert for sexgesimal base
         /// </summary>
-       private char[] helpSexagesimal = new char[]{'0','1','2','3','4','5','6','7','8','9',
-                     'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
-                     'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x'};
+       //private char[] helpSexagesimal = new char[]{'0','1','2','3','4','5','6','7','8','9',
+        //             'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
+          //           'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x'};
         /// <summary>
         ///  Gets parameters and create new station 
         /// </summary>
@@ -30,8 +30,8 @@ namespace DalObject
             newStation.Latitude = latitude;
             newStation.Longitude = longitude;
             newStation.ChargeSlots = chargeSlots;
-            newStation.latitudeSexagesimal = IntToString((int)newStation.Latitude, helpSexagesimal);
-            newStation.longitudeSexagesimal = IntToString((int)newStation.Latitude, helpSexagesimal);
+           // newStation.latitudeSexagesimal = IntToString((int)newStation.Latitude, helpSexagesimal);
+            //newStation.longitudeSexagesimal = IntToString((int)newStation.Latitude, helpSexagesimal);
             DataSorce.stations.Add(newStation);
         }
         /// <summary>
@@ -49,8 +49,8 @@ namespace DalObject
             newCustomer.Phone = phone;
             newCustomer.Latitude = latitude;
             newCustomer.Longitude = longitude;
-            newCustomer.latitudeSexagesimal = IntToString((int)newCustomer.Latitude, helpSexagesimal);
-            newCustomer.longitudeSexagesimal = IntToString((int)newCustomer.Latitude, helpSexagesimal);
+           // newCustomer.latitudeSexagesimal = IntToString((int)newCustomer.Latitude, helpSexagesimal);
+           // newCustomer.longitudeSexagesimal = IntToString((int)newCustomer.Latitude, helpSexagesimal);
             DataSorce.customers.Add(newCustomer);
         }
         /// <summary>
@@ -95,7 +95,7 @@ namespace DalObject
         /// <param name="value">The value thar needed to convert</param><param>
         /// <param name="baseChars">The arrray of signs in the needed base</param>
         /// <returns>A string that it is the value in the other base</returns>
-        public static string IntToString(int value, char[] baseChars)
+        /*public static string IntToString(int value, char[] baseChars)
         {
             string result = string.Empty;
             int targetBase = baseChars.Length;
@@ -108,6 +108,6 @@ namespace DalObject
             while (value > 0);
 
             return result;
-        }
+        }*/
     }
 }
