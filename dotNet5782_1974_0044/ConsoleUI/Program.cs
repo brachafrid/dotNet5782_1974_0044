@@ -8,7 +8,7 @@ namespace ConsoleUI
         enum Menu { Add, Update, Display, DisplayList, Exit }
         enum Add { Drone, Station, Parcel, Customer }
         enum Update { AssingParcelToDrone, CollectParcelByDrone, SupplyParcelToDestination, SendDroneForCharg, RealsDroneFromChargh }
-        enum DisplayList { Stations, Drones, Customers, Parcels, AvailableChargingStations, ParcelnotAssignToDrone }
+        enum DisplayList { Stations, Drones, Customers, Parcels, AvailableChargingStations, ParcelNotAssignToDrone }
         enum Display { Station, Drone, Customer, Parcel }
 
         static void Main(string[] args)
@@ -113,11 +113,10 @@ namespace ConsoleUI
             foreach (var item in Enum.GetValues(en))
             {
                 string tmp = item.ToString();
-                
                 for (int i = 0; i <  tmp.Length; i++)
                 {
-                    if (char.IsUpper(tmp[i]))
-                        Console.Write(" {0}",tmp[i]);
+                    if (char.IsUpper(tmp[i]) && i!=0)
+                        Console.Write(" {0}",tmp[i].ToString().ToLower());
                     else
                         Console.Write(tmp[i]);
                 }
