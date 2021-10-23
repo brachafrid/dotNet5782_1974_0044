@@ -112,10 +112,22 @@ namespace ConsoleUI
             int idx = 0;
             foreach (var item in Enum.GetValues(en))
             {
-                Console.WriteLine(item + " press " + idx++);
+                string tmp = item.ToString();
+                
+                for (int i = 0; i <  tmp.Length; i++)
+                {
+                    if (char.IsUpper(tmp[i]))
+                        Console.Write(" {0}",tmp[i]);
+                    else
+                        Console.Write(tmp[i]);
+                }
+                Console.WriteLine(" press " + idx++);
             }
         }
-
+        /// <summary>
+        /// Receives input from the user what type of organ to print as well as ID number and calls to the appropriate adding method
+        /// </summary>
+        /// <param name="dalObject"></param>
         public static void switchAdd(ref DalObject.DalObject dalObject)
         {
             Add option;
@@ -178,6 +190,10 @@ namespace ConsoleUI
 
             }
         }
+        /// <summary>
+        /// Receives input from the user what type of organ to print as well as ID number and calls to the appropriate updating method
+        /// </summary>
+        /// <param name="dalObject"></param>
         public static void switchUpdate(ref DalObject.DalObject dalObject)
         {
             Update option;
@@ -225,6 +241,10 @@ namespace ConsoleUI
 
             }
         }
+        /// <summary>
+        /// Receives input from the user what type of organ to print as well as ID number and calls to the appropriate printing method
+        /// </summary>
+        /// <param name="dalObject"></param>
         public static void switchDisplay(ref DalObject.DalObject dalObject)
         {
             Display option;
@@ -265,6 +285,10 @@ namespace ConsoleUI
 
             }
         }
+        /// <summary>
+        /// Receives input from the user and calls the printing method accordingly 
+        /// </summary>
+        /// <param name="dalObject"></param>
         public static void switchDisplayList(ref DalObject.DalObject dalObject)
         {
             DisplayList option;
@@ -293,6 +317,10 @@ namespace ConsoleUI
                     break;
             }
         }
+        /// <summary>
+        /// Prints the whole items in collection to the console
+        /// </summary>
+        /// <param name="list">collection for printing</param>
         public static void printList(IList list)
         {
             foreach (var item in list)

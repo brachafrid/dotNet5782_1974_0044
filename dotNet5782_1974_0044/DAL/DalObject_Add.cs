@@ -31,7 +31,7 @@ namespace DalObject
             newStation.Longitude = longitude;
             newStation.ChargeSlots = chargeSlots;
             newStation.latitudeSexagesimal = IntToString((int)newStation.Latitude, helpSexagesimal);
-            newStation.longitudeSexagesimal = IntToString((int)newStation.Latitude, helpSexagesimal);
+            newStation.longitudeSexagesimal = IntToString((int)newStation.Longitude, helpSexagesimal);
             DataSorce.stations.Add(newStation);
         }
         /// <summary>
@@ -50,7 +50,7 @@ namespace DalObject
             newCustomer.Latitude = latitude;
             newCustomer.Longitude = longitude;
             newCustomer.latitudeSexagesimal = IntToString((int)newCustomer.Latitude, helpSexagesimal);
-            newCustomer.longitudeSexagesimal = IntToString((int)newCustomer.Latitude, helpSexagesimal);
+            newCustomer.longitudeSexagesimal = IntToString((int)newCustomer.Longitude, helpSexagesimal);
             DataSorce.customers.Add(newCustomer);
         }
         /// <summary>
