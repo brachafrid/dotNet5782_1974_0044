@@ -38,9 +38,9 @@ namespace DalObject
             internal static int idxParcels = 0;
             internal static int IdParcel = 0;
         }
-        static internal void Initialize()
+        static internal void Initialize(DalObject dal)
         {
-            DalObject dal = new DalObject();
+             //= new DalObject();
 
             for (; Config.idxDrones < DRONE_INIT; Config.idxDrones++)
                 randomDrone(dal);
@@ -90,10 +90,10 @@ namespace DalObject
         {
             Parcel newParcel = new Parcel();
             newParcel.Id = Config.idxParcels + 1;
-            newParcel.SenderId = customers[rnd.Next(Config.idxCustomers)].Id;
+            newParcel.SenderId = customers[rnd.Next(0, customers.Count())].Id;
             do
             {
-                newParcel.TargetId = customers[rnd.Next(Config.idxCustomers)].Id;
+                newParcel.TargetId = customers[rnd.Next(0, customers.Count())].Id;
             } while (newParcel.TargetId == newParcel.SenderId);
             newParcel.Weigth = (WeightCategories)rnd.Next(RANGE_ENUM);
             newParcel.Priority = (Prioripies)rnd.Next(RANGE_ENUM);
@@ -104,6 +104,7 @@ namespace DalObject
             newParcel.Delivered = new DateTime();
             parcels.Add(newParcel);
             ++Config.IdParcel;
+            
         }
     }
 

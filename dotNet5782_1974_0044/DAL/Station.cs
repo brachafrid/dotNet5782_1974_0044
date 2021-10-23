@@ -9,8 +9,8 @@ namespace IDAL
         {
             private double longitude;
             private double latitude;
-            //internal string latitudeSexagesimal;
-            //internal string longitudeSexagesimal;
+            internal string latitudeSexagesimal;
+            internal string longitudeSexagesimal;
             private int chargeSlots;
             public int Id { get; set; }
             public string Name { get; set; }

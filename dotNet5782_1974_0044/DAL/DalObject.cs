@@ -14,8 +14,7 @@ namespace DalObject
         /// </summary>
         public DalObject()
         {
-           
-            DataSorce.Initialize();
+            DataSorce.Initialize(this);
         }
 
     }

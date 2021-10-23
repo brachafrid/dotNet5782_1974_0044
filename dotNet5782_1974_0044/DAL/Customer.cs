@@ -16,8 +16,8 @@ namespace IDAL
             public string Phone { get; set; }
             public double Longitude { get; set; }
             public double Latitude { get; set; }
-            //internal string latitudeSexagesimal;
-            //internal string longitudeSexagesimal;
+            internal string latitudeSexagesimal;
+            internal string longitudeSexagesimal;
             public override string ToString()
             {
                 return $"Cusomer ID:{Id} Name:{Name} Latitude:{Latitude} Longitude:{Longitude} ";
