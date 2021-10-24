@@ -42,7 +42,7 @@ namespace DalObject
             Parcel tmpParcel = DataSorce.parcels.First(item => item.Id == parcelId);
             if (tmpParcel.DorneId == 0)
                 throw new ArgumentException("dosent have a drone");
-            if (tmpParcel.PickedUp.Equals(new DateTime()))
+            if (!tmpParcel.PickedUp.Equals(new DateTime()))
                 throw new ArgumentException("already picked up");
             DataSorce.parcels.Remove(tmpParcel);
             tmpParcel.PickedUp = DateTime.Now;
@@ -61,7 +61,7 @@ namespace DalObject
                 throw new ArgumentException("dosent have a drone");
             if (tmpParcel.PickedUp.Equals(new DateTime()))
                 throw new ArgumentException("parcel not picked up");
-            if (tmpParcel.Delivered.Equals(new DateTime()))
+            if (!tmpParcel.Delivered.Equals(new DateTime()))
                 throw new ArgumentException("already delivered");
             DataSorce.parcels.Remove(tmpParcel);
             tmpParcel.Delivered = DateTime.Now;
