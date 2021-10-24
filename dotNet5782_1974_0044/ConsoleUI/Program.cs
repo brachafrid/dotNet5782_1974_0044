@@ -309,7 +309,7 @@ namespace ConsoleUI
                 case DisplayList.AvailableChargingStations:
                     printList(dalObject.GetStationsWithEmptyChargeSlots());
                     break;
-                case DisplayList.ParcelnotAssignToDrone:
+                case DisplayList.ParcelNotAssignToDrone:
                     printList(dalObject.GetParcelsNotAssignedToDrone());
                     break;
                 default:
