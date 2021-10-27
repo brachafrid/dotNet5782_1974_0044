@@ -42,13 +42,13 @@ namespace DalObject
         {
              //= new DalObject();
 
-            for (; Config.idxDrones < DRONE_INIT; Config.idxDrones++)
+          while(Config.idxDrones < DRONE_INIT)
                 randomDrone(dal);
-            for (; Config.idxStations < STATIONS_INIT; Config.idxStations++)
+            while (Config.idxStations < STATIONS_INIT)
                 randomStation(dal);
-            for (; Config.idxCustomers < CUSTOMERS_INIT; Config.idxCustomers++)
+            while (Config.idxCustomers < CUSTOMERS_INIT)
                 randomCustomer(dal);
-            for (; Config.idxParcels < PARCELS_INIT; Config.idxParcels++)
+            while( Config.idxParcels < PARCELS_INIT)
                 randParcel(dal);
         }
         public static int AssignParcelDrone(WeightCategories weight)
@@ -89,7 +89,7 @@ namespace DalObject
         private static void randParcel(DalObject dal)
         {
             Parcel newParcel = new Parcel();
-            newParcel.Id = Config.idxParcels + 1;
+            newParcel.Id = ++Config.idxParcels;
             newParcel.SenderId = customers[rnd.Next(0, customers.Count())].Id;
             do
             {
