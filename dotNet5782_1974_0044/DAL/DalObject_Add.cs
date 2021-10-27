@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,12 +8,12 @@ using IDAL.DO;
 
 namespace DalObject
 {
-  public  partial class DalObject   
+    public partial class DalObject
     {
         /// <summary>
         /// help array to convert for sexgesimal base
         /// </summary>
-       private char[] helpSexagesimal = new char[]{'0','1','2','3','4','5','6','7','8','9',
+        private char[] helpSexagesimal = new char[]{'0','1','2','3','4','5','6','7','8','9',
                     'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
                      'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x'};
         /// <summary>
@@ -22,10 +23,11 @@ namespace DalObject
         /// <param name="longitude">The position of the station in relation to the longitude </param>
         /// <param name="latitude">The position of the station in relation to the latitude</param>
         /// <param name="chargeSlots">Number of charging slots at the station</param>
-        public void addStation(string name, double longitude, double latitude, int chargeSlots )
+        public void addStation(int id, string name, double longitude, double latitude, int chargeSlots)
         {
+            uniqueIDTaxCheck<Station>(DataSorce.stations, id);
             Station newStation = new Station();
-            newStation.Id = ++DataSorce.Config.idxStations;
+            newStation.Id = id;
             newStation.Name = name;
             newStation.Latitude = latitude;
             newStation.Longitude = longitude;
@@ -41,8 +43,9 @@ namespace DalObject
         /// <param name="name">The customer`s name</param>
         /// <param name="longitude">>The position of the customer in relation to the longitude</param>
         /// <param name="latitude">>The position of the customer in relation to the latitude</param>
-        public void addCustomer(string phone, string name, double longitude, double latitude)
+        public void addCustomer(int id,string phone, string name, double longitude, double latitude)
         {
+            uniqueIDTaxCheck<Customer>(DataSorce.customers, id);
             Customer newCustomer = new Customer();
             newCustomer.Id = ++DataSorce.Config.idxCustomers;
             newCustomer.Name = name;
@@ -58,8 +61,9 @@ namespace DalObject
         /// </summary>
         /// <param name="model"> Grone's model</param>
         /// <param name="MaxWeight"> The max weight that the drone can swipe (light- 0,medium - 1,heavy - 2)</param>
-        public void addDrone(string model, WeightCategories MaxWeight)
+        public void addDrone(int id, string model, WeightCategories MaxWeight)
         {
+            uniqueIDTaxCheck<Drone>(DataSorce.drones, id);
             Drone newDrone = new Drone();
             newDrone.Id = ++DataSorce.Config.idxDrones;
             newDrone.Model = model;
@@ -75,8 +79,9 @@ namespace DalObject
         /// <param name="TargetId"> Id of target</param>
         /// <param name="Weigth"> The weigth of parcel (light- 0,medium - 1,heavy - 2)</param>
         /// <param name="Priority"> The priority of send the parcel (regular - 0,fast - 1,emergency - 2)</param>
-        public void parcelsReception(int SenderId, int TargetId, WeightCategories Weigth, Prioripies Priority)
+        public void parcelsReception(int id, int SenderId, int TargetId, WeightCategories Weigth, Prioripies Priority)
         {
+            uniqueIDTaxCheck<Parcel>(DataSorce.parcels, id);
             DataSorce.customers.First(item => item.Id == SenderId);
             DataSorce.customers.First(item => item.Id == TargetId);
             Parcel newParcel = new Parcel();
@@ -109,13 +114,29 @@ namespace DalObject
                 valueInt = valueInt / targetBase;
             }
             while (valueInt > 0);
-
             do
             {
-                result2+= baseChars[(int)valueDouble % targetBase] ;
-                valueDouble = (valueDouble%1) * targetBase;
+                result2 += baseChars[(int)valueDouble % targetBase];
+                valueDouble = (valueDouble % 1) * targetBase;
             } while (valueDouble > 0);
-            return result1+'.'+result2;
+            return result1 + '.' + result2;
+        }
+        /// <summary>
+        /// Checks if id is uniqe
+        /// </summary>
+        /// <typeparam name="T">object that has property - "id"</typeparam>
+        /// <param name="lst"> list</param>
+        /// <param name="id"> int </param>
+        private void uniqueIDTaxCheck<T>(List<T> lst, int id)
+        {
+            foreach (var item in lst)
+            {
+                Type t = item.GetType();
+                if ((int)t.GetProperty("id").GetValue(item) == id)
+                    throw new ArgumentException(" An element with the same key already exists in the list");
+            }
+
         }
     }
+
 }
