@@ -83,6 +83,7 @@ namespace ConsoleUI
                             try
                             {
                                 switchDisplayList(ref dalObject);
+
                             }
                             catch
                             {

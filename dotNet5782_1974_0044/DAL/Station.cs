@@ -9,8 +9,6 @@ namespace IDAL
         {
             private double longitude;
             private double latitude;
-            internal string latitudeSexagesimal;
-            internal string longitudeSexagesimal;
             private int chargeSlots;
             public int Id { get; set; }
             public string Name { get; set; }
@@ -56,7 +54,7 @@ namespace IDAL
 
             public override string ToString()
             {
-                return $"Station ID:{Id} Name:{Name} Latitude:{latitude} Longitude:{longitude} Latitude in sexagesimal:{latitudeSexagesimal} Longitude in sexagesimal:{longitudeSexagesimal}";
+                return $"Station ID:{Id} Name:{Name} Latitude:{latitude} Longitude:{longitude} ";
             }
         }
     }
