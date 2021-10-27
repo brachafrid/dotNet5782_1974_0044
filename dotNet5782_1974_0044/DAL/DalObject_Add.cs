@@ -10,12 +10,6 @@ namespace DalObject
   public  partial class DalObject   
     {
         /// <summary>
-        /// help array to convert for sexgesimal base
-        /// </summary>
-       private char[] helpSexagesimal = new char[]{'0','1','2','3','4','5','6','7','8','9',
-                    'A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z',
-                     'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x'};
-        /// <summary>
         ///  Gets parameters and create new station 
         /// </summary>
         /// <param name="name"> Station`s name</param>
@@ -30,8 +24,6 @@ namespace DalObject
             newStation.Latitude = latitude;
             newStation.Longitude = longitude;
             newStation.ChargeSlots = chargeSlots;
-            newStation.latitudeSexagesimal = DoubleToString(newStation.Latitude, helpSexagesimal);
-            newStation.longitudeSexagesimal = DoubleToString(newStation.Longitude, helpSexagesimal);
             DataSorce.stations.Add(newStation);
         }
         /// <summary>
@@ -49,8 +41,6 @@ namespace DalObject
             newCustomer.Phone = phone;
             newCustomer.Latitude = latitude;
             newCustomer.Longitude = longitude;
-            newCustomer.latitudeSexagesimal = DoubleToString(newCustomer.Latitude, helpSexagesimal);
-            newCustomer.longitudeSexagesimal = DoubleToString(newCustomer.Longitude, helpSexagesimal);
             DataSorce.customers.Add(newCustomer);
         }
         /// <summary>
@@ -88,34 +78,6 @@ namespace DalObject
             newParcel.Requested = DateTime.Now;
             newParcel.DorneId = 0;
             DataSorce.parcels.Add(newParcel);
-        }
-        /// <summary>
-        /// convert a double number to any base in accordance the array of signs parameter
-        /// </summary>
-        /// <param name="value">The value thar needed to convert</param><param>
-        /// <param name="baseChars">The arrray of signs in the needed base</param>
-        /// <returns>A string that it is the value in the other base</returns>
-        public static string DoubleToString(double value, char[] baseChars)
-        {
-            string result1 = string.Empty;
-            string result2 = string.Empty;
-            int targetBase = baseChars.Length;
-            int valueInt = (int)value;
-            double valueDouble = value - (int)value;
-
-            do
-            {
-                result1 = baseChars[valueInt % targetBase] + result1;
-                valueInt = valueInt / targetBase;
-            }
-            while (valueInt > 0);
-
-            do
-            {
-                result2+= baseChars[(int)valueDouble % targetBase] ;
-                valueDouble = (valueDouble%1) * targetBase;
-            } while (valueDouble > 0);
-            return result1+'.'+result2;
         }
     }
 }
