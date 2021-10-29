@@ -34,7 +34,7 @@ namespace DalObject
         /// <returns>A customer for display</returns>
         public Customer GetCustomer(int id)
         {
-            return DataSorce.customers.First(item => item.Id == id);
+            return DataSorce.Customers.First(item => item.Id == id);
         }
         /// <summary>
         /// Find a parcel that has tha same id number as the parameter
@@ -49,25 +49,25 @@ namespace DalObject
         ///  Prepares the list of Sations for display
         /// </summary>
         /// <returns>A list of stations</returns>
-        public IEnumerable<Station> GetStations() => DataSorce.stations;
+        public IEnumerable<Station> GetStations() => DataSorce.Stations;
 
         /// <summary>
         /// Prepares the list of Drones for display
         /// </summary>
         /// <returns>A list of drones</returns>
-        public IEnumerable<Drone> GetDrones() => DataSorce.drones;
+        public IEnumerable<Drone> GetDrones() => DataSorce.Drones;
 
         /// <summary>
         /// Prepares the list of Parcels for display
         /// </summary>
         /// <returns>A list of parcel</returns>
-        public IEnumerable<Parcel> GetParcels() => DataSorce.parcels;
+        public IEnumerable<Parcel> GetParcels() => DataSorce.Parcels;
         }
         /// <summary>
         /// Prepares the list of customer for display
         /// </summary>
         /// <returns>A list of customer</returns>
-        public IEnumerable<Customer> GetCustomers() => DataSorce.customers;
+        public IEnumerable<Customer> GetCustomers() => DataSorce.Customers;
        
         /// <summary>
         /// Find the Parcels that not assign to drone
