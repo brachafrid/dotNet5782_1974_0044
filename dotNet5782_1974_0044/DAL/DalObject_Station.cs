@@ -5,10 +5,10 @@ using System.Text;
 using System.Threading.Tasks;
 using IDAL.DO;
 
-namespace  DalObjec
+namespace  DalObject
 
 {
-    public partial class DalObjec
+    public partial class DalObject
     {
         /// <summary>
         ///  Gets parameters and create new station 
