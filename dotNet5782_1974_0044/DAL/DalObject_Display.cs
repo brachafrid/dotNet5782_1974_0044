@@ -48,26 +48,23 @@ namespace DalObject
         /// <summary>
         ///  Prepares the list of Sations for display
         /// </summary>
-        /// <returns>A array of Sations</returns>
-        public Station[] GetSations()
-        {
-            return DataSorce.Sations.ToArray();
-        }
+        /// <returns>A list of stations</returns>
+        public IEnumerable<Station> GetStations() => DataSorce.stations;
+
         /// <summary>
         /// Prepares the list of Drones for display
         /// </summary>
-        /// <returns>A array of Drones</returns>
-        public Drone[] GetDrones()
-        {
-            return DataSorce.Drones.ToArray();
-        }
+        /// <returns>A list of drones</returns>
+        public IEnumerable<Drone> GetDrones() => DataSorce.drones;
+
         /// <summary>
         /// Prepares the list of Parcels for display
         /// </summary>
         /// <returns>A array of parcel</returns>
-        public Parcel[] GetParcels()
+        public Parcel[] GetParcels()=>
         {
-            return DataSorce.Parcels.ToArray();
+            
+            return DataSorce.parcels.ToArray();
         }
         /// <summary>
         /// Prepares the list of customer for display
