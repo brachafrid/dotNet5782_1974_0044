@@ -7,7 +7,7 @@ using IDAL.DO;
 
 namespace IDAL
 {
-    interface IDal
+    public interface IDal
     {
         public void addCustomer(int id, string phone, string name, double longitude, double latitude);
         public void addDrone(int id, string model, WeightCategories MaxWeight);
