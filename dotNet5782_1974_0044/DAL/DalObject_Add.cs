@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,7 +8,7 @@ using IDAL.DO;
 
 namespace DalObject
 {
-  public  partial class DalObject   
+    public partial class DalObject
     {
         /// <summary>
         ///  Gets parameters and create new station 
@@ -16,10 +17,11 @@ namespace DalObject
         /// <param name="longitude">The position of the station in relation to the longitude </param>
         /// <param name="latitude">The position of the station in relation to the latitude</param>
         /// <param name="chargeSlots">Number of charging slots at the station</param>
-        public void addStation(string name, double longitude, double latitude, int chargeSlots )
+        public void addStation(int id, string name, double longitude, double latitude, int chargeSlots)
         {
+            uniqueIDTaxCheck<Station>(DataSorce.stations, id);
             Station newStation = new Station();
-            newStation.Id = ++DataSorce.Config.idxStations;
+            newStation.Id = id;
             newStation.Name = name;
             newStation.Latitude = latitude;
             newStation.Longitude = longitude;
@@ -33,8 +35,9 @@ namespace DalObject
         /// <param name="name">The customer`s name</param>
         /// <param name="longitude">>The position of the customer in relation to the longitude</param>
         /// <param name="latitude">>The position of the customer in relation to the latitude</param>
-        public void addCustomer(string phone, string name, double longitude, double latitude)
+        public void addCustomer(int id, string phone, string name, double longitude, double latitude)
         {
+            uniqueIDTaxCheck<Customer>(DataSorce.customers, id);
             Customer newCustomer = new Customer();
             newCustomer.Id = ++DataSorce.Config.idxCustomers;
             newCustomer.Name = name;
@@ -48,8 +51,9 @@ namespace DalObject
         /// </summary>
         /// <param name="model"> Grone's model</param>
         /// <param name="MaxWeight"> The max weight that the drone can swipe (light- 0,medium - 1,heavy - 2)</param>
-        public void addDrone(string model, WeightCategories MaxWeight)
+        public void addDrone(int id, string model, WeightCategories MaxWeight)
         {
+            uniqueIDTaxCheck<Drone>(DataSorce.drones, id);
             Drone newDrone = new Drone();
             newDrone.Id = ++DataSorce.Config.idxDrones;
             newDrone.Model = model;
@@ -65,8 +69,9 @@ namespace DalObject
         /// <param name="TargetId"> Id of target</param>
         /// <param name="Weigth"> The weigth of parcel (light- 0,medium - 1,heavy - 2)</param>
         /// <param name="Priority"> The priority of send the parcel (regular - 0,fast - 1,emergency - 2)</param>
-        public void parcelsReception(int SenderId, int TargetId, WeightCategories Weigth, Prioripies Priority)
+        public void parcelsReception(int id, int SenderId, int TargetId, WeightCategories Weigth, Prioripies Priority)
         {
+            uniqueIDTaxCheck<Parcel>(DataSorce.parcels, id);
             DataSorce.customers.First(item => item.Id == SenderId);
             DataSorce.customers.First(item => item.Id == TargetId);
             Parcel newParcel = new Parcel();
@@ -79,5 +84,15 @@ namespace DalObject
             newParcel.DorneId = 0;
             DataSorce.parcels.Add(newParcel);
         }
+        void uniqueIDTaxCheck<T>(List<T> lst, int id)
+        {
+            foreach (var item in lst)
+            {
+                if ((int)item.GetType().GetProperty("id").GetValue(item, null) == id)
+                    throw new ArgumentException(" An element with the same key already exists in the list");
+            }
+        }
     }
+
+
 }

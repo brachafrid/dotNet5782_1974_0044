@@ -86,9 +86,9 @@ namespace DalObject
         /// Find the satation that have empty charging slots
         /// </summary>
         /// <returns>A array of the requested station</returns>
-        public Station[] GetStationsWithEmptyChargeSlots()
+        public IEnumerable<Station> GetStationsWithEmptyChargeSlots()
         {
-            return getAvailbleStations().ToArray();
+            return getAvailbleStations().ToList();
         }
         /// <summary>
         /// Count a number of charging slots occupied at a particular station 
