@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections;
 using IDAL.DO;
+
+
 namespace ConsoleUI
 {
     class Program
@@ -13,7 +15,7 @@ namespace ConsoleUI
 
         static void Main(string[] args)
         {
-            DalObject.DalObject dalObject = new DalObject.DalObject();
+            IDAL.IDal dalObject = new DalObject.DalObject();
             Menu option;
             do
             {
@@ -128,7 +130,7 @@ namespace ConsoleUI
         /// Receives input from the user what type of organ to print as well as ID number and calls to the appropriate adding method
         /// </summary>
         /// <param name="dalObject"></param>
-        public static void switchAdd(ref DalObject.DalObject dalObject)
+        public static void switchAdd(ref IDAL.IDal dalObject)
         {
             Add option;
             Enum.TryParse(Console.ReadLine(), out option);
@@ -205,7 +207,7 @@ namespace ConsoleUI
         /// Receives input from the user what type of organ to print as well as ID number and calls to the appropriate updating method
         /// </summary>
         /// <param name="dalObject"></param>
-        public static void switchUpdate(ref DalObject.DalObject dalObject)
+        public static void switchUpdate(ref IDAL.IDal dalObject)
         {
             Update option;
             Enum.TryParse(Console.ReadLine(), out option);
@@ -256,7 +258,7 @@ namespace ConsoleUI
         /// Receives input from the user what type of organ to print as well as ID number and calls to the appropriate printing method
         /// </summary>
         /// <param name="dalObject"></param>
-        public static void switchDisplay(ref DalObject.DalObject dalObject)
+        public static void switchDisplay(ref IDAL.IDal dalObject)
         {
             Display option;
             Enum.TryParse(Console.ReadLine(), out option);
@@ -300,7 +302,7 @@ namespace ConsoleUI
         /// Receives input from the user and calls the printing method accordingly 
         /// </summary>
         /// <param name="dalObject"></param>
-        public static void switchDisplayList(ref DalObject.DalObject dalObject)
+        public static void switchDisplayList(ref IDAL.IDal dalObject)
         {
             DisplayList option;
             Enum.TryParse(Console.ReadLine(), out option);
