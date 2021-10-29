@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,25 +11,47 @@ namespace DalObject
     public partial class DalObject
     {
         /// <summary>
+        /// Gets parameters and create new parcel 
+        /// </summary>
+        /// <param name="SenderId"> Id of sener</param>
+        /// <param name="TargetId"> Id of target</param>
+        /// <param name="Weigth"> The weigth of parcel (light- 0,medium - 1,heavy - 2)</param>
+        /// <param name="Priority"> The priority of send the parcel (regular - 0,fast - 1,emergency - 2)</param>
+        public void ParcelsReception(int id, int SenderId, int TargetId, WeightCategories Weigth, Prioripies Priority)
+        {
+            uniqueIDTaxCheck<Parcel>(DataSorce.Parcels, id);
+            DataSorce.Customers.First(item => item.Id == SenderId);
+            DataSorce.Customers.First(item => item.Id == TargetId);
+            Parcel newParcel = new Parcel();
+            newParcel.Id = id;
+            newParcel.SenderId = SenderId;
+            newParcel.TargetId = TargetId;
+            newParcel.Weigth = Weigth;
+            newParcel.Priority = Priority;
+            newParcel.Requested = DateTime.Now;
+            newParcel.DorneId = 0;
+            DataSorce.Parcels.Add(newParcel);
+        }
+        /// <summary>
         /// Assign parcel to drone:
         /// Find suitable drone and 
         /// </summary>
         /// <param name="parcelId">Id of parcel</param>
         public void AssignParcelDrone(int parcelId)
         {
-            
+
             Parcel tmpParcel = DataSorce.Parcels.First(item => item.Id == parcelId);
             if (tmpParcel.DorneId != 0)
                 throw new ArgumentException("A drone already exists");
             DataSorce.Parcels.Remove(tmpParcel);
-            Drone tmpDrone = DataSorce.Drones.FirstOrDefault(item => (tmpParcel.Weigth <= item.MaxWeight ));
-            if(!(tmpDrone.Equals(default(Drone))))
+            Drone tmpDrone = DataSorce.Drones.FirstOrDefault(item => (tmpParcel.Weigth <= item.MaxWeight));
+            if (!(tmpDrone.Equals(default(Drone))))
             {
                 DataSorce.Drones.Remove(tmpDrone);
                 tmpParcel.DorneId = tmpDrone.Id;
                 tmpParcel.Sceduled = DateTime.Now;
                 DataSorce.Drones.Add(tmpDrone);
-            } 
+            }
             DataSorce.Parcels.Add(tmpParcel);
         }
         /// <summary>
@@ -72,39 +95,5 @@ namespace DalObject
                 DataSorce.Drones.Add(tmpDrone);
             }
         }
-        /// <summary>
-        /// Sends drone to charge.
-        /// Find available charge solt
-        /// Create new droneCharge object, initializ it and add to DroneCharges list.
-        /// Update the drone's status.
-        /// </summary>
-        /// <param name="droneId"> id of drone</param>
-        public void SendDroneCharg(int droneId)
-        {
-            DroneCharge tmpDroneCharge = new DroneCharge();
-            tmpDroneCharge.Droneld = droneId;
-            tmpDroneCharge.Stationld = getAvailbleStaion().First().Id;
-            DataSorce.DroneCharges.Add(tmpDroneCharge);
-            Drone tmpDrone = DataSorce.Drones.First(item => item.Id == droneId);
-            DataSorce.Drones.Remove(tmpDrone);
-            DataSorce.Drones.Add(tmpDrone);
-        }
-        /// <summary>
-        /// Releases the drone from charging.
-        /// Update battary and status.
-        /// Remove the droneCharge object from DroneCharges list
-        /// </summary>
-        /// <param name="droneId"> id of drone</param>
-        public void ReleasDroneCharg(int droneId)
-        {
-            DataSorce.DroneCharges.Remove(DataSorce.DroneCharges.First(item => item.Droneld == droneId));
-            Drone tmpDrone = DataSorce.Drones.FirstOrDefault(item => item.Id == droneId);
-            if (!(tmpDrone.Equals(default(Drone))))
-            {
-                DataSorce.Drones.Remove(tmpDrone);
-                DataSorce.Drones.Add(tmpDrone);
-            }
-        }
-
     }
 }

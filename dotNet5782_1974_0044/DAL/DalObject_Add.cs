@@ -46,42 +46,8 @@ namespace DalObject
             newCustomer.Longitude = longitude;
             DataSorce.Customers.Add(newCustomer);
         }
-        /// <summary>
-        ///  Gets parameters and create new drone 
-        /// </summary>
-        /// <param name="model"> Grone's model</param>
-        /// <param name="MaxWeight"> The max weight that the drone can swipe (light- 0,medium - 1,heavy - 2)</param>
-        public void addDrone(int id, string model, WeightCategories MaxWeight)
-        {
-            uniqueIDTaxCheck<Drone>(DataSorce.Drones, id);
-            Drone newDrone = new Drone();
-            newDrone.Id = id;
-            newDrone.Model = model;
-            newDrone.MaxWeight = MaxWeight;
-            DataSorce.Drones.Add(newDrone);
-        }
-        /// <summary>
-        /// Gets parameters and create new parcel 
-        /// </summary>
-        /// <param name="SenderId"> Id of sener</param>
-        /// <param name="TargetId"> Id of target</param>
-        /// <param name="Weigth"> The weigth of parcel (light- 0,medium - 1,heavy - 2)</param>
-        /// <param name="Priority"> The priority of send the parcel (regular - 0,fast - 1,emergency - 2)</param>
-        public void ParcelsReception(int id, int SenderId, int TargetId, WeightCategories Weigth, Prioripies Priority)
-        {
-            uniqueIDTaxCheck<Parcel>(DataSorce.Parcels, id);
-            DataSorce.Customers.First(item => item.Id == SenderId);
-            DataSorce.Customers.First(item => item.Id == TargetId);
-            Parcel newParcel = new Parcel();
-            newParcel.Id =id;
-            newParcel.SenderId = SenderId;
-            newParcel.TargetId = TargetId;
-            newParcel.Weigth = Weigth;
-            newParcel.Priority = Priority;
-            newParcel.Requested = DateTime.Now;
-            newParcel.DorneId = 0;
-            DataSorce.Parcels.Add(newParcel);
-        }
+
+       
         void uniqueIDTaxCheck<T>(List<T> lst, int id)
         {
             foreach (var item in lst)
