@@ -7,13 +7,13 @@ using IDAL.DO;
 
 namespace DalObject
 {
-   public partial class DalObject
+    public partial class DalObject
     {
-      /// <summary>
-      /// Find a satation that has tha same id number as the parameter
-      /// </summary>
-      /// <param name="id">The id number of the requested station/param>
-      /// <returns>A station for display</returns>
+        /// <summary>
+        /// Find a satation that has tha same id number as the parameter
+        /// </summary>
+        /// <param name="id">The id number of the requested station/param>
+        /// <returns>A station for display</returns>
         public Station GetStation(int id)
         {
             return DataSorce.Sations.First(item => item.Id == id);
@@ -62,29 +62,25 @@ namespace DalObject
         /// </summary>
         /// <returns>A list of parcel</returns>
         public IEnumerable<Parcel> GetParcels() => DataSorce.Parcels;
-        }
+
         /// <summary>
         /// Prepares the list of customer for display
         /// </summary>
         /// <returns>A list of customer</returns>
         public IEnumerable<Customer> GetCustomers() => DataSorce.Customers;
-       
+
         /// <summary>
         /// Find the Parcels that not assign to drone
         /// </summary>
-        /// <returns>A array of the requested Parcels</returns>
-        public Parcel[] GetParcelsNotAssignedToDrone()
-        {
-            return DataSorce.Parcels.FindAll(item => item.DorneId == 0).ToArray();
-        }
+        /// <returns>A list of the requested Parcels</returns>
+        public IEnumerable<Parcel> GetParcelsNotAssignedToDrone() => DataSorce.Parcels.FindAll(item => item.DorneId == 0);
+
         /// <summary>
         /// Find the satation that have empty charging slots
         /// </summary>
-        /// <returns>A array of the requested station</returns>
-        public IEnumerable<Station> GetSationsWithEmptyChargeSlots()
-        {
-            return getAvailbleSations().ToList();
-        }
+        /// <returns>A list of the requested station</returns>
+        public IEnumerable<Station> GetSationsWithEmptyChargeSlots() => getAvailbleSations().ToList();
+
         /// <summary>
         /// Count a number of charging slots occupied at a particular station 
         /// </summary>
@@ -104,9 +100,6 @@ namespace DalObject
         /// Checks which base Sations are available for charging
         /// </summary>
         /// <returns>A list of avaiable satations</returns>
-        private List<Station> getAvailbleSations()
-        {
-            return DataSorce.Sations.FindAll(item => item.ChargeSlots > countFullChargeSlots(item.Id));
-        }
+        private List<Station> getAvailbleSations() => DataSorce.Stations.FindAll(item => item.ChargeSlots > countFullChargeSlots(item.Id));
     }
 }

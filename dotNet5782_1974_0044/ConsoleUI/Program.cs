@@ -89,7 +89,7 @@ namespace ConsoleUI
                             {
                                 Console.WriteLine("ERROR");
                             }
-                             
+
 
                             break;
                         }
@@ -114,10 +114,10 @@ namespace ConsoleUI
             foreach (var item in Enum.GetValues(en))
             {
                 string tmp = item.ToString();
-                for (int i = 0; i <  tmp.Length; i++)
+                for (int i = 0; i < tmp.Length; i++)
                 {
-                    if (char.IsUpper(tmp[i]) && i!=0)
-                        Console.Write(" {0}",tmp[i].ToString().ToLower());
+                    if (char.IsUpper(tmp[i]) && i != 0)
+                        Console.Write(" {0}", tmp[i].ToString().ToLower());
                     else
                         Console.Write(tmp[i]);
                 }
@@ -132,57 +132,68 @@ namespace ConsoleUI
         {
             Add option;
             Enum.TryParse(Console.ReadLine(), out option);
+            int id;
             switch (option)
             {
                 case Add.Drone:
                     {
-                        Console.WriteLine("enter values to drone properties: model,max wheight");
-                        string model = Console.ReadLine();
+                        Console.WriteLine("enter values to drone properties:id,max wheight,model");
                         WeightCategories maxWeight;
-                        Enum.TryParse(Console.ReadLine(), out maxWeight);
-                        dalObject.addDrone(model, maxWeight);
+                        if (int.TryParse(Console.ReadLine(), out id) && Enum.TryParse(Console.ReadLine(), out maxWeight))
+                        {
+                            string model = Console.ReadLine();
+                            dalObject.addDrone(id, model, maxWeight);
+                        }
+                        else
+                            Console.WriteLine("The conversion failed and therefore the addition was not made");
+
                         break;
                     }
 
                 case Add.Station:
                     {
-                        Console.WriteLine("enter values to station properties: name,latitude,longitude,chargeSlots");
-                        string name = Console.ReadLine();
-                        double latitude;
-                        double.TryParse(Console.ReadLine(), out latitude);
-                        double longitude;
-                        double.TryParse(Console.ReadLine(), out longitude);
+                        Console.WriteLine("enter values to station properties:id, name,latitude,longitude,chargeSlots");
+                        double latitude, longitude;
                         int chargeslots;
-                        int.TryParse(Console.ReadLine(), out chargeslots);
-                        dalObject.addStation(name, latitude, longitude, chargeslots);
+                        if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out latitude) && double.TryParse(Console.ReadLine(), out longitude) && int.TryParse(Console.ReadLine(), out chargeslots))
+                        {
+                            string name = Console.ReadLine();
+                            dalObject.addStation(id, name, latitude, longitude, chargeslots);
+                        }
+                        else
+                            Console.WriteLine("The conversion failed and therefore the addition was not made");
                         break;
                     }
 
                 case Add.Parcel:
                     {
-                        Console.WriteLine("enter values to station properties: sender id,target id,weigth,priority");
-                        int senderId;
-                        int.TryParse(Console.ReadLine(), out senderId);
-                        int targetId;
-                        int.TryParse(Console.ReadLine(), out targetId);
+                        Console.WriteLine("enter values to station properties: id,sender id,target id,weigth,priority");
+                        int senderId, targetId;
                         WeightCategories weigth;
-                        Enum.TryParse(Console.ReadLine(), out weigth);
                         Prioripies priority;
-                        Enum.TryParse(Console.ReadLine(), out priority);
-                        dalObject.ParcelsReception(senderId, targetId, weigth, priority);
+                        if (int.TryParse(Console.ReadLine(), out id)&& int.TryParse(Console.ReadLine(), out senderId)&&int.TryParse(Console.ReadLine(), out targetId)&&Enum.TryParse(Console.ReadLine(), out weigth)&& Enum.TryParse(Console.ReadLine(), out priority))
+                        {
+                            dalObject.ParcelsReception(id, senderId, targetId, weigth, priority);
+                        }
+                        else
+                            Console.WriteLine("The conversion failed and therefore the addition was not made");
+
                         break;
                     }
 
                 case Add.Customer:
                     {
-                        Console.WriteLine("enter values to station properties: name,phone,latitude,longitude");
-                        string name = Console.ReadLine();
-                        string phone = Console.ReadLine();
-                        double latitude;
-                        double.TryParse(Console.ReadLine(), out latitude);
-                        double longitude;
-                        double.TryParse(Console.ReadLine(), out longitude);
-                        dalObject.addCustomer(name, phone, latitude, longitude);
+                        Console.WriteLine("enter values to station properties:id, name,phone,latitude,longitude");
+                        double latitude, longitude;
+                        if (int.TryParse(Console.ReadLine(), out id)&&double.TryParse(Console.ReadLine(), out latitude)&&double.TryParse(Console.ReadLine(), out longitude))
+                        {
+                           
+                            string name = Console.ReadLine();
+                            string phone = Console.ReadLine();
+                            dalObject.addCustomer(id, name, phone, latitude, longitude);
+                        }
+                        else
+                            Console.WriteLine("The conversion failed and therefore the addition was not made");
                         break;
                     }
                 default:
@@ -296,7 +307,7 @@ namespace ConsoleUI
             switch (option)
             {
                 case DisplayList.Sations:
-                    printList(dalObject.GetSations());
+                    printList(dalObject.GetStations());
                     break;
                 case DisplayList.Drones:
                     printList(dalObject.GetDrones());
@@ -321,7 +332,7 @@ namespace ConsoleUI
         /// Prints the whole items in collection to the console
         /// </summary>
         /// <param name="list">collection for printing</param>
-        public static void printList(IList list)
+        public static void printList(IEnumerable list)
         {
             foreach (var item in list)
             {
