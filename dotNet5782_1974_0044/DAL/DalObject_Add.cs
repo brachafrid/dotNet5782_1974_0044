@@ -19,14 +19,14 @@ namespace DalObject
         /// <param name="chargeSlots">Number of charging slots at the station</param>
         public void addStation(int id, string name, double longitude, double latitude, int chargeSlots)
         {
-            uniqueIDTaxCheck<Station>(DataSorce.stations, id);
+            uniqueIDTaxCheck<Station>(DataSorce.Sations, id);
             Station newStation = new Station();
             newStation.Id = id;
             newStation.Name = name;
             newStation.Latitude = latitude;
             newStation.Longitude = longitude;
             newStation.ChargeSlots = chargeSlots;
-            DataSorce.stations.Add(newStation);
+            DataSorce.Sations.Add(newStation);
         }
         /// <summary>
         /// Gets parameters and create new customer 
@@ -39,7 +39,7 @@ namespace DalObject
         {
             uniqueIDTaxCheck<Customer>(DataSorce.customers, id);
             Customer newCustomer = new Customer();
-            newCustomer.Id = ++DataSorce.Config.idxCustomers;
+            newCustomer.Id =id;
             newCustomer.Name = name;
             newCustomer.Phone = phone;
             newCustomer.Latitude = latitude;
@@ -53,14 +53,12 @@ namespace DalObject
         /// <param name="MaxWeight"> The max weight that the drone can swipe (light- 0,medium - 1,heavy - 2)</param>
         public void addDrone(int id, string model, WeightCategories MaxWeight)
         {
-            uniqueIDTaxCheck<Drone>(DataSorce.drones, id);
+            uniqueIDTaxCheck<Drone>(DataSorce.Drones, id);
             Drone newDrone = new Drone();
-            newDrone.Id = ++DataSorce.Config.idxDrones;
+            newDrone.Id = id;
             newDrone.Model = model;
             newDrone.MaxWeight = MaxWeight;
-            newDrone.Status = DroneStatuses.AVAILABLE;
-            newDrone.Battery = 100;
-            DataSorce.drones.Add(newDrone);
+            DataSorce.Drones.Add(newDrone);
         }
         /// <summary>
         /// Gets parameters and create new parcel 
@@ -69,20 +67,20 @@ namespace DalObject
         /// <param name="TargetId"> Id of target</param>
         /// <param name="Weigth"> The weigth of parcel (light- 0,medium - 1,heavy - 2)</param>
         /// <param name="Priority"> The priority of send the parcel (regular - 0,fast - 1,emergency - 2)</param>
-        public void parcelsReception(int id, int SenderId, int TargetId, WeightCategories Weigth, Prioripies Priority)
+        public void ParcelsReception(int id, int SenderId, int TargetId, WeightCategories Weigth, Prioripies Priority)
         {
-            uniqueIDTaxCheck<Parcel>(DataSorce.parcels, id);
+            uniqueIDTaxCheck<Parcel>(DataSorce.Parcels, id);
             DataSorce.customers.First(item => item.Id == SenderId);
             DataSorce.customers.First(item => item.Id == TargetId);
             Parcel newParcel = new Parcel();
-            newParcel.Id = ++DataSorce.Config.idxParcels;
+            newParcel.Id =id;
             newParcel.SenderId = SenderId;
             newParcel.TargetId = TargetId;
             newParcel.Weigth = Weigth;
             newParcel.Priority = Priority;
             newParcel.Requested = DateTime.Now;
             newParcel.DorneId = 0;
-            DataSorce.parcels.Add(newParcel);
+            DataSorce.Parcels.Add(newParcel);
         }
         void uniqueIDTaxCheck<T>(List<T> lst, int id)
         {
