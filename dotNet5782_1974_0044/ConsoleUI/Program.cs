@@ -8,7 +8,7 @@ namespace ConsoleUI
         enum Menu { Add, Update, Display, DisplayList, Exit }
         enum Add { Drone, Station, Parcel, Customer }
         enum Update { AssingParcelToDrone, CollectParcelByDrone, SupplyParcelToDestination, SendDroneForCharg, RealsDroneFromChargh }
-        enum DisplayList { Stations, Drones, Customers, Parcels, AvailableChargingStations, ParcelNotAssignToDrone }
+        enum DisplayList { Sations, Drones, Customers, Parcels, AvailableChargingSations, ParcelNotAssignToDrone }
         enum Display { Station, Drone, Customer, Parcel }
 
         static void Main(string[] args)
@@ -169,7 +169,7 @@ namespace ConsoleUI
                         Enum.TryParse(Console.ReadLine(), out weigth);
                         Prioripies priority;
                         Enum.TryParse(Console.ReadLine(), out priority);
-                        dalObject.parcelsReception(senderId, targetId, weigth, priority);
+                        dalObject.ParcelsReception(senderId, targetId, weigth, priority);
                         break;
                     }
 
@@ -295,8 +295,8 @@ namespace ConsoleUI
             Enum.TryParse(Console.ReadLine(), out option);
             switch (option)
             {
-                case DisplayList.Stations:
-                    printList(dalObject.GetStations());
+                case DisplayList.Sations:
+                    printList(dalObject.GetSations());
                     break;
                 case DisplayList.Drones:
                     printList(dalObject.GetDrones());
@@ -307,8 +307,8 @@ namespace ConsoleUI
                 case DisplayList.Parcels:
                     printList(dalObject.GetParcels());
                     break;
-                case DisplayList.AvailableChargingStations:
-                    printList(dalObject.GetStationsWithEmptyChargeSlots());
+                case DisplayList.AvailableChargingSations:
+                    printList(dalObject.GetSationsWithEmptyChargeSlots());
                     break;
                 case DisplayList.ParcelNotAssignToDrone:
                     printList(dalObject.GetParcelsNotAssignedToDrone());

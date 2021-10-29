@@ -16,7 +16,7 @@ namespace DalObject
       /// <returns>A station for display</returns>
         public Station GetStation(int id)
         {
-            return DataSorce.stations.First(item => item.Id == id);
+            return DataSorce.Sations.First(item => item.Id == id);
         }
         /// <summary>
         /// Find a drone that has tha same id number as the parameter
@@ -25,7 +25,7 @@ namespace DalObject
         /// <returns>A drone for display</returns>
         public Drone GetDrone(int id)
         {
-            return DataSorce.drones.First(item => item.Id == id);
+            return DataSorce.Drones.First(item => item.Id == id);
         }
         /// <summary>
         /// Find a customer that has tha same id number as the parameter
@@ -43,22 +43,22 @@ namespace DalObject
         /// <returns>A parcel for display</returns>
         public Parcel GetParcel(int id)
         {
-            return DataSorce.parcels.First(item => item.Id == id);
+            return DataSorce.Parcels.First(item => item.Id == id);
         }
         /// <summary>
-        ///  Prepares the list of stations for display
+        ///  Prepares the list of Sations for display
         /// </summary>
         /// <returns>A list of stations</returns>
         public IEnumerable<Station> GetStations() => DataSorce.stations;
 
         /// <summary>
-        /// Prepares the list of drones for display
+        /// Prepares the list of Drones for display
         /// </summary>
         /// <returns>A list of drones</returns>
         public IEnumerable<Drone> GetDrones() => DataSorce.drones;
 
         /// <summary>
-        /// Prepares the list of parcels for display
+        /// Prepares the list of Parcels for display
         /// </summary>
         /// <returns>A list of parcel</returns>
         public IEnumerable<Parcel> GetParcels() => DataSorce.parcels;
@@ -70,20 +70,20 @@ namespace DalObject
         public IEnumerable<Customer> GetCustomers() => DataSorce.customers;
        
         /// <summary>
-        /// Find the parcels that not assign to drone
+        /// Find the Parcels that not assign to drone
         /// </summary>
-        /// <returns>A array of the requested parcels</returns>
+        /// <returns>A array of the requested Parcels</returns>
         public Parcel[] GetParcelsNotAssignedToDrone()
         {
-            return DataSorce.parcels.FindAll(item => item.DorneId == 0).ToArray();
+            return DataSorce.Parcels.FindAll(item => item.DorneId == 0).ToArray();
         }
         /// <summary>
         /// Find the satation that have empty charging slots
         /// </summary>
         /// <returns>A array of the requested station</returns>
-        public IEnumerable<Station> GetStationsWithEmptyChargeSlots()
+        public IEnumerable<Station> GetSationsWithEmptyChargeSlots()
         {
-            return getAvailbleStations().ToList();
+            return getAvailbleSations().ToList();
         }
         /// <summary>
         /// Count a number of charging slots occupied at a particular station 
@@ -93,21 +93,20 @@ namespace DalObject
         private int countFullChargeSlots(int id)
         {
             int count = 0;
-            foreach (DroneCharge item in DataSorce.droneCharges)
+            foreach (DroneCharge item in DataSorce.DroneCharges)
             {
                 if (item.Droneld == id)
                     ++count;
             }
             return count;
-
         }
         /// <summary>
-        /// Checks which base stations are available for charging
+        /// Checks which base Sations are available for charging
         /// </summary>
         /// <returns>A list of avaiable satations</returns>
-        private List<Station> getAvailbleStations()
+        private List<Station> getAvailbleSations()
         {
-            return DataSorce.stations.FindAll(item => item.ChargeSlots > countFullChargeSlots(item.Id));
+            return DataSorce.Sations.FindAll(item => item.ChargeSlots > countFullChargeSlots(item.Id));
         }
     }
 }
