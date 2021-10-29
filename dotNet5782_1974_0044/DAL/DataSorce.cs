@@ -24,7 +24,7 @@ namespace DalObject
         public const int FULL_BATTERY = 100;
 
         internal static List<Drone> Drones = new List<Drone>();
-        internal static List<Station> Sations = new List<Station>();
+        internal static List<Station> Satations = new List<Station>();
         internal static List<Customer> customers = new List<Customer>();
         internal static List<Parcel> Parcels = new List<Parcel>();
         internal static List<DroneCharge> DroneCharges = new List<DroneCharge>();
