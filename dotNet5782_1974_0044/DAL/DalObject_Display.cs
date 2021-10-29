@@ -16,7 +16,7 @@ namespace DalObject
         /// <returns>A station for display</returns>
         public Station GetStation(int id)
         {
-            return DataSorce.Sations.First(item => item.Id == id);
+            return DataSorce.Stations.First(item => item.Id == id);
         }
         /// <summary>
         /// Find a drone that has tha same id number as the parameter
