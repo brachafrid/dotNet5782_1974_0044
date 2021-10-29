@@ -33,18 +33,23 @@ namespace DalObject
         internal class Config
         {
             internal static int IdParcel = 0;
+            internal static double Available = 0;
+            internal static double LightWeightCarrier; 
+            internal static double MediumWeightBearing ;
+            internal static double CarriesHeavyWeight;
+            internal static double DroneLoadingRate;
         }
 
         static internal void Initialize(DalObject dal)
         {
-          for(int i =1; i <= DRONE_INIT;++i)
-                randomDrone(dal ,i);
-            for ( int i =1; i <= Sations_INIT; ++i )
+            for (int i = 1; i <= DRONE_INIT; ++i)
+                randomDrone(dal, i);
+            for (int i = 1; i <= Sations_INIT; ++i)
                 randomStation(dal, i);
-            for (int i =1;  i <= CUSTOMERS_INIT; ++i)
+            for (int i = 1; i <= CUSTOMERS_INIT; ++i)
                 randomCustomer(dal, i);
-            for( int i =1; i <= Parcels_INIT; ++i)
-                randParcel(dal,i);
+            for (int i = 1; i <= Parcels_INIT; ++i)
+                randParcel(dal, i);
         }
         public static int AssignParcelDrone(WeightCategories weight)
         {
@@ -58,11 +63,11 @@ namespace DalObject
             return 0;
 
         }
-        private static void randomDrone(DalObject dal,int id)
+        private static void randomDrone(DalObject dal, int id)
         {
             string model = $"Model_Drone_ {'a' + id}_{id * rnd.Next()}";
             WeightCategories maxWeight = (WeightCategories)rnd.Next(RANGE_ENUM);
-            dal.addDrone( id, model, maxWeight);
+            dal.addDrone(id, model, maxWeight);
         }
         private static void randomStation(DalObject dal, int id)
         {
@@ -70,17 +75,17 @@ namespace DalObject
             double latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
             double longitude = rnd.Next(LONGITUDE_MAX) + rnd.NextDouble();
             int chargeSlots = rnd.Next() + 1;
-            dal.addStation(id,name, longitude, latitude, chargeSlots);
+            dal.addStation(id, name, longitude, latitude, chargeSlots);
         }
-        private static void randomCustomer(DalObject dal,int id)
+        private static void randomCustomer(DalObject dal, int id)
         {
-            string name = $"Customer_ { id}_{id* rnd.Next()}";
+            string name = $"Customer_ { id}_{id * rnd.Next()}";
             string phone = $"0{rnd.Next(PHONE_MIN, PHONE_MAX)}";
             double latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
             double longitude = rnd.Next(LONGITUDE_MAX) + rnd.NextDouble();
-            dal.addCustomer(id,phone, name, longitude, latitude);
+            dal.addCustomer(id, phone, name, longitude, latitude);
         }
-        private static void randParcel(DalObject dal,int id)
+        private static void randParcel(DalObject dal, int id)
         {
             Parcel newParcel = new Parcel();
             newParcel.Id = id;
@@ -97,7 +102,6 @@ namespace DalObject
             newParcel.PickedUp = new DateTime();
             newParcel.Delivered = new DateTime();
             Parcels.Add(newParcel);
-            
         }
     }
 
