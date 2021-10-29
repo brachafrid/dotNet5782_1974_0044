@@ -60,20 +60,15 @@ namespace DalObject
         /// <summary>
         /// Prepares the list of parcels for display
         /// </summary>
-        /// <returns>A array of parcel</returns>
-        public Parcel[] GetParcels()=>
-        {
-            
-            return DataSorce.parcels.ToArray();
+        /// <returns>A list of parcel</returns>
+        public IEnumerable<Parcel> GetParcels() => DataSorce.parcels;
         }
         /// <summary>
         /// Prepares the list of customer for display
         /// </summary>
-        /// <returns>A array of customer</returns>
-        public Customer[] GetCustomers()
-        {
-            return DataSorce.customers.ToArray();
-        }
+        /// <returns>A list of customer</returns>
+        public IEnumerable<Customer> GetCustomers() => DataSorce.customers;
+       
         /// <summary>
         /// Find the parcels that not assign to drone
         /// </summary>
