@@ -25,7 +25,7 @@ namespace DalObject
 
         internal static List<Drone> Drones = new List<Drone>();
         internal static List<Station> Stations = new List<Station>();
-        internal static List<Customer> customers = new List<Customer>();
+        internal static List<Customer> Customers = new List<Customer>();
         internal static List<Parcel> Parcels = new List<Parcel>();
         internal static List<DroneCharge> DroneCharges = new List<DroneCharge>();
 
@@ -84,10 +84,10 @@ namespace DalObject
         {
             Parcel newParcel = new Parcel();
             newParcel.Id = id;
-            newParcel.SenderId = customers[rnd.Next(0, customers.Count())].Id;
+            newParcel.SenderId = Customers[rnd.Next(0, Customers.Count())].Id;
             do
             {
-                newParcel.TargetId = customers[rnd.Next(0, customers.Count())].Id;
+                newParcel.TargetId = Customers[rnd.Next(0, Customers.Count())].Id;
             } while (newParcel.TargetId == newParcel.SenderId);
             newParcel.Weigth = (WeightCategories)rnd.Next(RANGE_ENUM);
             newParcel.Priority = (Prioripies)rnd.Next(RANGE_ENUM);

@@ -37,14 +37,14 @@ namespace DalObject
         /// <param name="latitude">>The position of the customer in relation to the latitude</param>
         public void addCustomer(int id, string phone, string name, double longitude, double latitude)
         {
-            uniqueIDTaxCheck<Customer>(DataSorce.customers, id);
+            uniqueIDTaxCheck<Customer>(DataSorce.Customers, id);
             Customer newCustomer = new Customer();
             newCustomer.Id =id;
             newCustomer.Name = name;
             newCustomer.Phone = phone;
             newCustomer.Latitude = latitude;
             newCustomer.Longitude = longitude;
-            DataSorce.customers.Add(newCustomer);
+            DataSorce.Customers.Add(newCustomer);
         }
         /// <summary>
         ///  Gets parameters and create new drone 
@@ -70,8 +70,8 @@ namespace DalObject
         public void ParcelsReception(int id, int SenderId, int TargetId, WeightCategories Weigth, Prioripies Priority)
         {
             uniqueIDTaxCheck<Parcel>(DataSorce.Parcels, id);
-            DataSorce.customers.First(item => item.Id == SenderId);
-            DataSorce.customers.First(item => item.Id == TargetId);
+            DataSorce.Customers.First(item => item.Id == SenderId);
+            DataSorce.Customers.First(item => item.Id == TargetId);
             Parcel newParcel = new Parcel();
             newParcel.Id =id;
             newParcel.SenderId = SenderId;
