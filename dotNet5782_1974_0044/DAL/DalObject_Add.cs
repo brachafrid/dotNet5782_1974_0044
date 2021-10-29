@@ -19,14 +19,14 @@ namespace DalObject
         /// <param name="chargeSlots">Number of charging slots at the station</param>
         public void addStation(int id, string name, double longitude, double latitude, int chargeSlots)
         {
-            uniqueIDTaxCheck<Station>(DataSorce.Sations, id);
+            uniqueIDTaxCheck<Station>(DataSorce.Stations, id);
             Station newStation = new Station();
             newStation.Id = id;
             newStation.Name = name;
             newStation.Latitude = latitude;
             newStation.Longitude = longitude;
             newStation.ChargeSlots = chargeSlots;
-            DataSorce.Sations.Add(newStation);
+            DataSorce.Stations.Add(newStation);
         }
         /// <summary>
         /// Gets parameters and create new customer 

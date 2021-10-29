@@ -296,7 +296,7 @@ namespace ConsoleUI
             switch (option)
             {
                 case DisplayList.Sations:
-                    printList(dalObject.GetSations());
+                    printList(dalObject.GetStations());
                     break;
                 case DisplayList.Drones:
                     printList(dalObject.GetDrones());

@@ -21,12 +21,11 @@ namespace DalObject
             if (tmpParcel.DorneId != 0)
                 throw new ArgumentException("A drone already exists");
             DataSorce.Parcels.Remove(tmpParcel);
-            Drone tmpDrone = DataSorce.Drones.FirstOrDefault(item => (tmpParcel.Weigth <= item.MaxWeight && item.Status == Dronestatuses.AVAILABLE));
+            Drone tmpDrone = DataSorce.Drones.FirstOrDefault(item => (tmpParcel.Weigth <= item.MaxWeight ));
             if(!(tmpDrone.Equals(default(Drone))))
             {
                 DataSorce.Drones.Remove(tmpDrone);
                 tmpParcel.DorneId = tmpDrone.Id;
-                tmpDrone.Status = Dronestatuses.DELIVERY;
                 tmpParcel.Sceduled = DateTime.Now;
                 DataSorce.Drones.Add(tmpDrone);
             } 
@@ -70,7 +69,6 @@ namespace DalObject
             if (!(tmpDrone.Equals(default(Drone))))
             {
                 DataSorce.Drones.Remove(tmpDrone);
-                tmpDrone.Status = Dronestatuses.AVAILABLE;
                 DataSorce.Drones.Add(tmpDrone);
             }
         }
@@ -85,11 +83,10 @@ namespace DalObject
         {
             DroneCharge tmpDroneCharge = new DroneCharge();
             tmpDroneCharge.Droneld = droneId;
-            tmpDroneCharge.Stationld = getAvailbleSations().First().Id;
+            tmpDroneCharge.Stationld = getAvailbleStaion().First().Id;
             DataSorce.DroneCharges.Add(tmpDroneCharge);
             Drone tmpDrone = DataSorce.Drones.First(item => item.Id == droneId);
             DataSorce.Drones.Remove(tmpDrone);
-            tmpDrone.Status = Dronestatuses.MAINTENANCE;
             DataSorce.Drones.Add(tmpDrone);
         }
         /// <summary>
@@ -105,8 +102,6 @@ namespace DalObject
             if (!(tmpDrone.Equals(default(Drone))))
             {
                 DataSorce.Drones.Remove(tmpDrone);
-                tmpDrone.Status = Dronestatuses.AVAILABLE;
-                tmpDrone.Battery = 100;
                 DataSorce.Drones.Add(tmpDrone);
             }
         }

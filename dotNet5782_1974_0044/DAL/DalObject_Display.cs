@@ -62,7 +62,6 @@ namespace DalObject
         /// </summary>
         /// <returns>A list of parcel</returns>
         public IEnumerable<Parcel> GetParcels() => DataSorce.Parcels;
-        }
         /// <summary>
         /// Prepares the list of customer for display
         /// </summary>
