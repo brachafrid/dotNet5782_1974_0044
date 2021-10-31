@@ -19,7 +19,7 @@ namespace DalObject
         public const int RANGE_ENUM = 3;
         public const int PHONE_MIN = 100000000;
         public const int PHONE_MAX = 1000000000;
-        public const int LATITUDE_MAX = 180;
+        public const int LATITUDE_MAX = 180; 
         public const int LONGITUDE_MAX = 90;
         public const int FULL_BATTERY = 100;
 
