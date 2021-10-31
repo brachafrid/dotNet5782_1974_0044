@@ -10,6 +10,7 @@ namespace DalObject
 {
     public partial class DalObject
     {
+        //--------------------------------------Adding---------------------------
         /// <summary>
         /// Gets parameters and create new parcel 
         /// </summary>
@@ -32,6 +33,8 @@ namespace DalObject
             newParcel.DorneId = 0;
             DataSorce.Parcels.Add(newParcel);
         }
+
+        //-------------------------------------------Update-------------------------------------------
         /// <summary>
         /// Assign parcel to drone:
         /// Find suitable drone and 
@@ -44,16 +47,17 @@ namespace DalObject
             if (tmpParcel.DorneId != 0)
                 throw new ArgumentException("A drone already exists");
             DataSorce.Parcels.Remove(tmpParcel);
-            Drone tmpDrone = DataSorce.Drones.FirstOrDefault(item => (tmpParcel.Weigth <= item.MaxWeight));
+            Drone tmpDrone;
+            findSuitableDrone(out tmpDrone, tmpParcel.Weigth);
             if (!(tmpDrone.Equals(default(Drone))))
             {
-                DataSorce.Drones.Remove(tmpDrone);
                 tmpParcel.DorneId = tmpDrone.Id;
                 tmpParcel.Sceduled = DateTime.Now;
-                DataSorce.Drones.Add(tmpDrone);
             }
             DataSorce.Parcels.Add(tmpParcel);
         }
+
+
         /// <summary>
         /// collect parcel fo sending:
         /// update time of pick up parcel
@@ -88,12 +92,26 @@ namespace DalObject
             DataSorce.Parcels.Remove(tmpParcel);
             tmpParcel.Delivered = DateTime.Now;
             DataSorce.Parcels.Add(tmpParcel);
-            Drone tmpDrone = DataSorce.Drones.FirstOrDefault(item => item.Id == tmpParcel.DorneId);
-            if (!(tmpDrone.Equals(default(Drone))))
-            {
-                DataSorce.Drones.Remove(tmpDrone);
-                DataSorce.Drones.Add(tmpDrone);
-            }
+            
         }
+        //-----------------------------------------------------Display--------------------------------------
+        /// <summary>
+        /// Find a parcel that has tha same id number as the parameter
+        /// </summary>
+        /// <param name="id">The id number of the requested parcel</param>
+        /// <returns>A parcel for display</returns>
+        public Parcel GetParcel(int id)=>DataSorce.Parcels.First(item => item.Id == id);
+
+        /// <summary>
+        /// Prepares the list of Parcels for display
+        /// </summary>
+        /// <returns>A list of parcel</returns>
+        public IEnumerable<Parcel> GetParcels() => DataSorce.Parcels;
+
+        /// <summary>
+        /// Find the Parcels that not assign to drone
+        /// </summary>
+        /// <returns>A list of the requested Parcels</returns>
+        public IEnumerable<Parcel> GetParcelsNotAssignedToDrone() => DataSorce.Parcels.FindAll(item => item.DorneId == 0);
     }
 }

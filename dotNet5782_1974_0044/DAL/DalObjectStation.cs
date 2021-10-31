@@ -10,6 +10,7 @@ namespace  DalObject
 {
     public partial class DalObject
     {
+        //-------------------------------------------------------Adding-------------------------------------------------
         /// <summary>
         ///  Gets parameters and create new station 
         /// </summary>
@@ -29,19 +30,31 @@ namespace  DalObject
             DataSorce.Stations.Add(newStation);
         }
 
+        //-------------------------------------------------Display-------------------------------------------------------------
         /// <summary>
         /// Find a satation that has tha same id number as the parameter
         /// </summary>
         /// <param name="id">The id number of the requested station/param>
         /// <returns>A station for display</returns>
-        public Station GetStation(int id)
-        {
-            return DataSorce.Stations.First(item => item.Id == id);
-        }
+        public Station GetStation(int id)=>DataSorce.Stations.First(item => item.Id == id);
+       
         /// <summary>
-        /// Find a drone that has tha same id number as the parameter
+        ///  Prepares the list of Sations for display
         /// </summary>
-        /// <param name="id">The id number of the requested drone</param>
-        /// <returns>A drone for display</returns>
+        /// <returns>A list of stations</returns>
+        public IEnumerable<Station> GetStations() => DataSorce.Stations;
+
+        /// <summary>
+        /// Find the satation that have empty charging slots
+        /// </summary>
+        /// <returns>A list of the requested station</returns>
+        public IEnumerable<Station> GetSationsWithEmptyChargeSlots() => getAvailbleStations().ToList();
+
+
+        /// <summary>
+        /// Checks which base Sations are available for charging
+        /// </summary>
+        /// <returns>A list of avaiable satations</returns>
+        private List<Station> getAvailbleStations() => (DataSorce.Stations.FindAll(item => item.ChargeSlots > countFullChargeSlots(item.Id)));
     }
 }

@@ -9,6 +9,7 @@ namespace DalObject
 {
     public partial class DalObject
     {
+        //----------------------------------------------Adding-----------------------------------
         /// <summary>
         /// Gets parameters and create new customer 
         /// </summary>
@@ -27,5 +28,22 @@ namespace DalObject
             newCustomer.Longitude = longitude;
             DataSorce.Customers.Add(newCustomer);
         }
+        //-----------------------------------------Display----------------------------------
+        /// <summary>
+        /// Prepares the list of customer for display
+        /// </summary>
+        /// <returns>A list of customer</returns>
+        public IEnumerable<Customer> GetCustomers() => DataSorce.Customers;
+
+        /// <summary>
+        /// Find a customer that has tha same id number as the parameter
+        /// </summary>
+        /// <param name="id">The id number of the requested customer</param>
+        /// <returns>A customer for display</returns>
+        public Customer GetCustomer(int id)
+        {
+            return DataSorce.Customers.First(item => item.Id == id);
+        }
     }
+
 }
