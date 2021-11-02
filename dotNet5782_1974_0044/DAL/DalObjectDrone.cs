@@ -10,6 +10,7 @@ namespace DalObject
 {
     public partial class DalObject
     {
+        //-------------------------Adding---------------------------------
         /// <summary>
         ///  Gets parameters and create new drone 
         /// </summary>
@@ -24,6 +25,23 @@ namespace DalObject
             newDrone.MaxWeight = MaxWeight;
             DataSorce.Drones.Add(newDrone);
         }
+
+        //--------------------------------Update--------------------------------
+        /// <summary>
+        /// find aviable drone to assign it to parcell
+        /// </summary>
+        /// <param name="tmpDrone"></param>
+        /// <param name="weight">the weight of the parcell</param>
+        public void findSuitableDrone(out Drone tmpDrone, IDAL.DO.WeightCategories weight)
+        {
+            tmpDrone = DataSorce.Drones.FirstOrDefault(item => (weight <= item.MaxWeight));
+            if (!(tmpDrone.Equals(default(Drone))))
+            {
+                DataSorce.Drones.Remove(tmpDrone);
+                DataSorce.Drones.Add(tmpDrone);
+            }
+        }
+
         /// <summary>
         /// Sends drone to charge.
         /// Find available charge solt
@@ -57,6 +75,20 @@ namespace DalObject
                 DataSorce.Drones.Add(tmpDrone);
             }
         }
+
+        //----------------------------------Display--------------------------------
+        /// <summary>
+        /// Find a drone that has tha same id number as the parameter
+        /// </summary>
+        /// <param name="id">The id number of the requested drone</param>
+        /// <returns>A drone for display</returns>
+        public Drone GetDrone(int id)=>DataSorce.Drones.First(item => item.Id == id);
+
+        /// <summary>
+        /// Prepares the list of Drones for display
+        /// </summary>
+        /// <returns>A list of drones</returns>
+        public IEnumerable<Drone> GetDrones() => DataSorce.Drones;
 
     }
 }
