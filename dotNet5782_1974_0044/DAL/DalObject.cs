@@ -7,7 +7,7 @@ using IDAL.DO;
 
 namespace DalObject
 {
-     public partial class DalObject
+     public partial class DalObject:IDAL.IDal
     {
         /// <summary>
         /// Call to quick initialization function

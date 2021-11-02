@@ -15,7 +15,7 @@ namespace ConsoleUI
 
         static void Main(string[] args)
         {
-            IDAL.IDal dalObject = new DalObject.DalObject();
+            IDAL.IDal dalObject =new DalObject.DalObject();
             Menu option;
             do
             {
