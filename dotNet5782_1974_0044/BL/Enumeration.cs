@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL
+namespace IBL
 {
     namespace BO
     {
         public enum WeightCategories { LIGHT, MEDIUM, HEAVY }
-        public enum Prioripies { REGULAR, FAST, EMERGENCY }
+        public enum Priority { REGULAR, FAST, EMERGENCY }
         public enum DroneStatuses { AVAILABLE, MAINTENANCE, DELIVERY }
     }
 }
