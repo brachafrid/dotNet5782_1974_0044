@@ -9,7 +9,7 @@ namespace IDAL
     namespace DO
     {
         public enum WeightCategories {LIGHT,MEDIUM,HEAVY }
-        public enum Prioripies {REGULAR,FAST,EMERGENCY } 
+        public enum Priorities {REGULAR,FAST,EMERGENCY } 
     }
 }
   

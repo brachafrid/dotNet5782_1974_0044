@@ -95,7 +95,7 @@ namespace DalObject
                 newParcel.TargetId = Customers[rnd.Next(0, Customers.Count())].Id;
             } while (newParcel.TargetId == newParcel.SenderId);
             newParcel.Weigth = (WeightCategories)rnd.Next(RANGE_ENUM);
-            newParcel.Priority = (Prioripies)rnd.Next(RANGE_ENUM);
+            newParcel.Priority = (Priorities)rnd.Next(RANGE_ENUM);
             newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);
             newParcel.Requested = DateTime.Now;
             newParcel.Sceduled = DateTime.Now;

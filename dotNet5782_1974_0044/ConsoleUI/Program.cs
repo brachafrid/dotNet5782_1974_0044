@@ -172,7 +172,7 @@ namespace ConsoleUI
                         Console.WriteLine("enter values to station properties: id,sender id,target id,weigth,priority");
                         int senderId, targetId;
                         WeightCategories weigth;
-                        Prioripies priority;
+                        Priorities priority;
                         if (int.TryParse(Console.ReadLine(), out id)&& int.TryParse(Console.ReadLine(), out senderId)&&int.TryParse(Console.ReadLine(), out targetId)&&Enum.TryParse(Console.ReadLine(), out weigth)&& Enum.TryParse(Console.ReadLine(), out priority))
                         {
                             dalObject.ParcelsReception(id, senderId, targetId, weigth, priority);
