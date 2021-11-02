@@ -8,12 +8,10 @@ namespace IBL
 {
     namespace BO
     {
-
-        class PackageInTransfer
+        class DroneInCharging
         {
             public int Id { get; set; }
-            public Priority priority { get; set; }
-            public int MyProperty { get; set; }
+            public int ChargingMode { get; set; }
         }
     }
 
