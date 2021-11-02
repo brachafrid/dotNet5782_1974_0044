@@ -4,6 +4,9 @@ namespace IBL
 {
     namespace BO
     {
+        class BL:IBL
+        {
 
+        }
     }
 }
