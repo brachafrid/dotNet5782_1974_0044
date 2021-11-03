@@ -4,7 +4,7 @@ namespace IBL
 {
     namespace BO
     {
-        class Location
+       public class Location
         {
            private double longitude;
            private double latitude;

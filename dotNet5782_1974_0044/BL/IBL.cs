@@ -7,7 +7,7 @@ using IBL.BO;
 
 namespace IBL
 {
-    interface IBL
+   public interface IBL
     {
         public void AddStation(int id, string name, Location location, int chargeSlots);
         public void AddDrone(int id, BO.WeightCategories MaximumWeight, int stationId);
