@@ -10,8 +10,10 @@ namespace BL
     {
         public void AddCustomer(int id, string name, string phone)
         {
-            
-            throw new NotImplementedException();
+            if(ExistsIDTaxCheck(dal.GetCustomers(),id))
+            {
+throw new Exception
+            }
         }
         public IDAL.DO.Customer GetCustomer(int id)
         {
