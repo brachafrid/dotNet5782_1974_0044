@@ -18,6 +18,7 @@ namespace IBL
         public void UpdateCusomer(int id, string name, string phone);
         public void SendDroneForCharg(int id);
         public void ReleaseDroneFromCharging(int id, float timeOfCharg);
+        public void AssingParcellToDrone(int droneId);
         public void ParcelCollectionByDrone(int DroneId);
         public void DeliveryParcelByDrone(int droneId);
         public IDAL.DO.Station GetStation(int id);
