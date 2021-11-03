@@ -348,5 +348,3 @@ MigrationBackup/
 
 # Ionide (cross platform F# VS Code tools) working folder
 .ionide/
-/dotNet5782_1974_0044/ConsoleUI_BL/ConsoleUI_BL.csproj
-/dotNet5782_1974_0044/ConsoleUI_BL/Program.cs
