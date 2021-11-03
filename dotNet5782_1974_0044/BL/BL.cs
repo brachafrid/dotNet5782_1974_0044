@@ -8,7 +8,7 @@ using IDAL.DO;
 
 namespace BL
 {
-    class BL : IBL.IBL
+   public class BL : IBL.IBL
     {
         void IBL.IBL.AddCustomer(int id, string name, string phone)
         {
