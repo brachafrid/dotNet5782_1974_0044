@@ -13,7 +13,9 @@ namespace BL
         public void AddStation(int id, string name, Location location, int chargeSlots)
         {
             if (ExistsIDTaxCheck(dal.GetStations(), id))
-                throw;
+                throw ;
+            dal.addStation(id,name, location.Longitude, location.Longitude, chargeSlots);
+            
         }
         public void UpdateStation(int id, string name, int chargeSlots)
         {
