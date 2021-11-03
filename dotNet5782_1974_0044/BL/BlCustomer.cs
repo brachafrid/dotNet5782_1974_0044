@@ -10,6 +10,7 @@ namespace BL
     {
         public void AddCustomer(int id, string name, string phone)
         {
+            
             throw new NotImplementedException();
         }
         public IDAL.DO.Customer GetCustomer(int id)
