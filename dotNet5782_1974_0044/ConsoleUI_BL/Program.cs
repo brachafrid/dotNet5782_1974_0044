@@ -15,7 +15,7 @@ namespace ConsoleUI_BL
         {
             enum Menu { Add, Update, Display, DisplayList, Exit }
             enum Add { Station, Drone, Customer, Parcel }
-            enum Update { DroneName, StationDetails, CustomerTedails, SendDroneForCharg, RealsDroneFromChargh, AssingParcelToDrone, CollectParcelByDrone, SupplyParcelToDestination }
+            enum Update { DroneName, StationDetails, CustomerDedails, SendDroneForCharg, RealsDroneFromChargh, AssingParcelToDrone, CollectParcelByDrone, SupplyParcelToDestination }
             enum DisplayList { Sations, Drones, Customers, Parcels, ParcelNotAssignToDrone, AvailableChargingSations }
             enum Display { Station, Drone, Customer, Parcel }
 
@@ -137,7 +137,7 @@ namespace ConsoleUI_BL
             /// Receives input from the user what type of organ to print as well as ID number and calls to the appropriate adding method
             /// </summary>
             /// <param name="dalObject"></param>
-            public static void switchAdd(ref IBL.IBL bal)
+            public static void switchAdd(ref IBL.IBL bl)
             {
                 Add option;
                 Enum.TryParse(Console.ReadLine(), out option);
@@ -152,7 +152,10 @@ namespace ConsoleUI_BL
                             if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out latitude) && double.TryParse(Console.ReadLine(), out longitude) && int.TryParse(Console.ReadLine(), out chargeslots))
                             {
                                 string name = Console.ReadLine();
-                                bal.addStation(id, name, latitude, longitude, chargeslots);
+                                Location location = new Location();
+                                location.Longitude = longitude;
+                                location.Latitude = latitude;
+                                bl.AddStation(id, name, location, chargeslots);
                             }
                             else
                                 Console.WriteLine("The conversion failed and therefore the addition was not made");
@@ -160,49 +163,49 @@ namespace ConsoleUI_BL
                         }
                     case Add.Drone:
                         {
-                            Console.WriteLine("enter values to drone properties:id,max wheight,model");
+                            Console.WriteLine("enter values to drone properties:id,max wheight,station id");
                             WeightCategories maxWeight;
-                            if (int.TryParse(Console.ReadLine(), out id) && Enum.TryParse(Console.ReadLine(), out maxWeight))
+                            int stationId;
+                            if (int.TryParse(Console.ReadLine(), out id) && Enum.TryParse(Console.ReadLine(), out maxWeight) && int.TryParse(Console.ReadLine(), out stationId))
                             {
-                                string model = Console.ReadLine();
-                                bal.addDrone(id, model, maxWeight);
+
+                                bl.AddDrone(id, maxWeight, stationId);
                             }
                             else
                                 Console.WriteLine("The conversion failed and therefore the addition was not made");
 
                             break;
                         }
-                    case Add.Parcel:
-                        {
-                            Console.WriteLine("enter values to station properties: id,sender id,target id,weigth,priority");
-                            int senderId, targetId;
-                            WeightCategories weigth;
-                            Priorities priority;
-                            if (int.TryParse(Console.ReadLine(), out id) && int.TryParse(Console.ReadLine(), out senderId) && int.TryParse(Console.ReadLine(), out targetId) && Enum.TryParse(Console.ReadLine(), out weigth) && Enum.TryParse(Console.ReadLine(), out priority))
-                            {
-                                bal.ParcelsReception(id, senderId, targetId, weigth, priority);
-                            }
-                            else
-                                Console.WriteLine("The conversion failed and therefore the addition was not made");
-
-                            break;
-                        }
-
                     case Add.Customer:
                         {
-                            Console.WriteLine("enter values to station properties:id, name,phone,latitude,longitude");
-                            double latitude, longitude;
-                            if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out latitude) && double.TryParse(Console.ReadLine(), out longitude))
+                            Console.WriteLine("enter values to station properties:id, name,phone");
+                            if (int.TryParse(Console.ReadLine(), out id))
                             {
 
                                 string name = Console.ReadLine();
                                 string phone = Console.ReadLine();
-                                bal.addCustomer(id, name, phone, latitude, longitude);
+                                bl.AddCustomer(id, name, phone);
                             }
                             else
                                 Console.WriteLine("The conversion failed and therefore the addition was not made");
                             break;
                         }
+                    case Add.Parcel:
+                        {
+                            Console.WriteLine("enter values to station properties: sender id,target id,weigth,priority");
+                            int senderId, targetId;
+                            WeightCategories weigth;
+                            Priorities priority;
+                            if (int.TryParse(Console.ReadLine(), out senderId) && int.TryParse(Console.ReadLine(), out targetId) && Enum.TryParse(Console.ReadLine(), out weigth) && Enum.TryParse(Console.ReadLine(), out priority))
+                            {
+                                bl.ReceiptParcelForDelivery(senderId, targetId, weigth, priority);
+                            }
+                            else
+                                Console.WriteLine("The conversion failed and therefore the addition was not made");
+
+                            break;
+                        }
+
                     default:
                         break;
 
@@ -212,46 +215,94 @@ namespace ConsoleUI_BL
             /// Receives input from the user what type of organ to print as well as ID number and calls to the appropriate updating method
             /// </summary>
             /// <param name="dalObject"></param>
-            public static void switchUpdate(ref IDAL.IDal dalObject)
+            public static void switchUpdate(ref IBL.IBL bl)
             {
                 Update option;
                 Enum.TryParse(Console.ReadLine(), out option);
                 int id;
                 switch (option)
                 {
-                    case Update.AssingParcelToDrone:
+                    case Update.DroneName:
                         {
-                            Console.WriteLine("enter an id of parcel");
-                            int.TryParse(Console.ReadLine(), out id);
-                            dalObject.AssignParcelDrone(id);
+                            Console.WriteLine("enter an id of drone");
+                            if (int.TryParse(Console.ReadLine(), out id))
+                            {
+                                Console.WriteLine("enter the new name");
+                                string name = Console.ReadLine();
+                                bl.UpdateDrone(id, name);
+                            }
+                            else
+                                Console.WriteLine("The conversion failed and therefore the updating was not made");
                             break;
                         }
-                    case Update.CollectParcelByDrone:
+                    case Update.StationDetails:
                         {
-                            Console.WriteLine("enter an id of parcel");
-                            int.TryParse(Console.ReadLine(), out id);
-                            dalObject.CollectParcel(id);
+                            int chargeSlots;
+                            Console.WriteLine("enter an id of station");
+                            if (int.TryParse(Console.ReadLine(), out id))
+                            {
+                                Console.WriteLine("if you want only update one details press enter instead enter an input");
+                                Console.WriteLine("the new  number of chrge slots ");
+                                int.TryParse(Console.ReadLine(), out chargeSlots);
+                                Console.WriteLine("enter the new name");
+                                string name = Console.ReadLine();
+                                bl.UpdateStation(id, name, chargeSlots);
+                            }
+                            else
+                                Console.WriteLine("The conversion failed and therefore the updating was not made");
                             break;
                         }
-                    case Update.SupplyParcelToDestination:
+                    case Update.CustomerDedails:
                         {
-                            Console.WriteLine("enter an id of parcel");
-                            int.TryParse(Console.ReadLine(), out id);
-                            dalObject.SupplyParcel(id);
+                            Console.WriteLine("enter an id of customer");
+                            if (int.TryParse(Console.ReadLine(), out id))
+                            {
+                                Console.WriteLine("if you want only update one details press enter instead enter an input");
+                                Console.WriteLine("enter the new name");
+                                string name = Console.ReadLine();
+                                Console.WriteLine("enter the new number phone");
+                                string phone = Console.ReadLine();
+                                bl.UpdateCusomer(id, name, phone);
+                            }
+                            else
+                                Console.WriteLine("The conversion failed and therefore the updating was not made");
                             break;
                         }
                     case Update.SendDroneForCharg:
                         {
                             Console.WriteLine("enter an id of drone");
-                            int.TryParse(Console.ReadLine(), out id);
-                            dalObject.SendDroneCharg(id);
+                            if (int.TryParse(Console.ReadLine(), out id))
+                                bl.SendDroneForCharg(id);
                             break;
+
                         }
                     case Update.RealsDroneFromChargh:
                         {
+                            float timeOfCharge;
+                            Console.WriteLine("enter an id of drone and time of charge");
+                            if (int.TryParse(Console.ReadLine(), out id) && float.TryParse(Console.ReadLine(),out timeOfCharge))
+                                bl.ReleaseDroneFromCharging(id,timeOfCharge);
+                            break;
+                        }
+                    case Update.AssingParcelToDrone:
+                        {
                             Console.WriteLine("enter an id of drone");
-                            int.TryParse(Console.ReadLine(), out id);
-                            dalObject.ReleasDroneCharg(id);
+                            if (int.TryParse(Console.ReadLine(), out id))
+                                bl.AssingParcellToDrone(id);
+                            break;
+                        }
+                    case Update.CollectParcelByDrone:
+                        {
+                            Console.WriteLine("enter an id of drone");
+                            if (int.TryParse(Console.ReadLine(), out id))
+                                bl.ParcelCollectionByDrone(id);
+                            break;
+                        }
+                    case Update.SupplyParcelToDestination:
+                        {
+                            Console.WriteLine("enter an id of parcel");
+                            if (int.TryParse(Console.ReadLine(), out id))
+                                bl.DeliveryParcelByDrone(id);
                             break;
                         }
                     default:
@@ -263,7 +314,7 @@ namespace ConsoleUI_BL
             /// Receives input from the user what type of organ to print as well as ID number and calls to the appropriate printing method
             /// </summary>
             /// <param name="dalObject"></param>
-            public static void switchDisplay(ref IDAL.IDal dalObject)
+            public static void switchDisplay(ref IBL.IBL bl)
             {
                 Display option;
                 Enum.TryParse(Console.ReadLine(), out option);
@@ -273,29 +324,29 @@ namespace ConsoleUI_BL
                     case Display.Station:
                         {
                             Console.WriteLine("enter an id of station");
-                            int.TryParse(Console.ReadLine(), out id);
-                            Console.WriteLine(dalObject.GetStation(id));
+                            if (int.TryParse(Console.ReadLine(), out id))
+                                Console.WriteLine(bl.GetStation(id));
                             break;
                         }
                     case Display.Drone:
                         {
                             Console.WriteLine("enter an id of drone");
-                            int.TryParse(Console.ReadLine(), out id);
-                            Console.WriteLine(dalObject.GetDrone(id));
+                            if (int.TryParse(Console.ReadLine(), out id))
+                                Console.WriteLine(bl.GetDrone(id));
                             break;
                         }
                     case Display.Customer:
                         {
                             Console.WriteLine("enter an id of customer");
-                            int.TryParse(Console.ReadLine(), out id);
-                            Console.WriteLine(dalObject.GetCustomer(id));
+                            if (int.TryParse(Console.ReadLine(), out id))
+                                Console.WriteLine(bl.GetCustomer(id));
                             break;
                         }
                     case Display.Parcel:
                         {
                             Console.WriteLine("enter an id of parcel");
-                            int.TryParse(Console.ReadLine(), out id);
-                            Console.WriteLine(dalObject.GetParcel(id));
+                            if (int.TryParse(Console.ReadLine(), out id))
+                                Console.WriteLine(bl.GetParcel(id));
                             break;
                         }
                     default:
@@ -307,29 +358,29 @@ namespace ConsoleUI_BL
             /// Receives input from the user and calls the printing method accordingly 
             /// </summary>
             /// <param name="dalObject"></param>
-            public static void switchDisplayList(ref IDAL.IDal dalObject)
+            public static void switchDisplayList(ref IBL.IBL bl)
             {
                 DisplayList option;
                 Enum.TryParse(Console.ReadLine(), out option);
                 switch (option)
                 {
                     case DisplayList.Sations:
-                        printList(dalObject.GetStations());
+                        printList(bl.GetStations());
                         break;
                     case DisplayList.Drones:
-                        printList(dalObject.GetDrones());
+                        printList(bl.GetDrones());
                         break;
                     case DisplayList.Customers:
-                        printList(dalObject.GetCustomers());
+                        printList(bl.GetCustomers());
                         break;
                     case DisplayList.Parcels:
-                        printList(dalObject.GetParcels());
+                        printList(bl.GetParcels());
                         break;
                     case DisplayList.AvailableChargingSations:
-                        printList(dalObject.GetSationsWithEmptyChargeSlots());
+                        printList(bl.GetSationsWithEmptyChargeSlots());
                         break;
                     case DisplayList.ParcelNotAssignToDrone:
-                        printList(dalObject.GetParcelsNotAssignedToDrone());
+                        printList(bl.GetParcelsNotAssignedToDrone());
                         break;
                     default:
                         break;
