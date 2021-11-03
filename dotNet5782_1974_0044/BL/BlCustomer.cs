@@ -12,7 +12,7 @@ namespace BL
         {
             if(ExistsIDTaxCheck(dal.GetCustomers(),id))
             {
-throw new Exception
+                throw new IBL.BO.AnElementWithTheSameKeyAlreadyExistsInTheListException();
             }
         }
         public IDAL.DO.Customer GetCustomer(int id)
