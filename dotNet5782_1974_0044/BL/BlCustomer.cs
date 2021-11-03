@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-   public partial class BL : IBL.IBL
+   public partial class BL : IBL.IblCustomer
     {
         public void AddCustomer(int id, string name, string phone)
         {
@@ -20,7 +20,7 @@ namespace BL
         {
             throw new NotImplementedException();
         }
-        public void UpdateCusomer(int id, string name, string phone)
+        public void UpdateCustomer(int id, string name, string phone)
         {
             throw new NotImplementedException();
         }

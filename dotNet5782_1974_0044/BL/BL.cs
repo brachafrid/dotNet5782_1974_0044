@@ -8,11 +8,8 @@ using IDAL.DO;
 
 namespace BL
 {
-   public partial class BL : IBL.IBL
+    public partial class BL : IBL.IBL
     {
-
-      
-
        
     }
 }

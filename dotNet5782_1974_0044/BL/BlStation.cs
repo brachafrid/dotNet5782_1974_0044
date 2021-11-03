@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-    public partial class BL:IBL.IBL
+    public partial class BL:IBL.IblStationcs
     {
       public  void UpdateStation(int id, string name, int chargeSlots)
         {
@@ -17,7 +17,7 @@ namespace BL
         {
             throw new NotImplementedException();
         }
-        public IEnumerable<IDAL.DO.Station> GetSationsWithEmptyChargeSlots()
+        public IEnumerable<IDAL.DO.Station> GetStaionsWithEmptyChargeSlots()
         {
             throw new NotImplementedException();
         }

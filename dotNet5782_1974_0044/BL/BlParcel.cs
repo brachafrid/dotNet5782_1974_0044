@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-   public partial class BL : IBL.IBL
+   public partial class BL : IBL.IblParcel
     {
         public void ReceiptParcelForDelivery(int senderCustomerId, int recieveCustomerId, IBL.BO.WeightCategories Weight, IBL.BO.Priorities priority)
         {
@@ -25,6 +25,10 @@ namespace BL
             throw new NotImplementedException();
         }
         public void DeliveryParcelByDrone(int droneId)
+        {
+            throw new NotImplementedException();
+        }
+        public void AssingParcellToDrone(int droneId)
         {
             throw new NotImplementedException();
         }
