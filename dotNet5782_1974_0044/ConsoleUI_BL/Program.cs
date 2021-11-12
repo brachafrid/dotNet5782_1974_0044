@@ -163,13 +163,13 @@ namespace ConsoleUI_BL
                         }
                     case Add.Drone:
                         {
-                            Console.WriteLine("enter values to drone properties:id,max wheight,station id");
+                            Console.WriteLine("enter values to drone properties:id,max wheight,station id,model");
                             WeightCategories maxWeight;
                             int stationId;
                             if (int.TryParse(Console.ReadLine(), out id) && Enum.TryParse(Console.ReadLine(), out maxWeight) && int.TryParse(Console.ReadLine(), out stationId))
                             {
 
-                                bl.AddDrone(id, maxWeight, stationId);
+                                bl.AddDrone(id, Console.ReadLine(), maxWeight, stationId);
                             }
                             else
                                 Console.WriteLine("The conversion failed and therefore the addition was not made");
@@ -178,13 +178,14 @@ namespace ConsoleUI_BL
                         }
                     case Add.Customer:
                         {
-                            Console.WriteLine("enter values to station properties:id, name,phone");
-                            if (int.TryParse(Console.ReadLine(), out id))
+                            double latitude, longitude;
+                            Console.WriteLine("enter values to station properties:id,latitude,longitude, name,phone");
+                            if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out latitude) && double.TryParse(Console.ReadLine(), out longitude))
                             {
-
-                                string name = Console.ReadLine();
-                                string phone = Console.ReadLine();
-                                bl.AddCustomer(id, name, phone);
+                                Location location = new Location();
+                                location.Longitude = longitude;
+                                location.Latitude = latitude;
+                                bl.AddCustomer(id, Console.ReadLine(), Console.ReadLine(), location);
                             }
                             else
                                 Console.WriteLine("The conversion failed and therefore the addition was not made");
@@ -227,9 +228,8 @@ namespace ConsoleUI_BL
                             Console.WriteLine("enter an id of drone");
                             if (int.TryParse(Console.ReadLine(), out id))
                             {
-                                Console.WriteLine("enter the new name");
-                                string name = Console.ReadLine();
-                                bl.UpdateDrone(id, name);
+                                Console.WriteLine("enter the new model name");
+                                bl.UpdateDrone(id, Console.ReadLine());
                             }
                             else
                                 Console.WriteLine("The conversion failed and therefore the updating was not made");
@@ -280,8 +280,8 @@ namespace ConsoleUI_BL
                         {
                             float timeOfCharge;
                             Console.WriteLine("enter an id of drone and time of charge");
-                            if (int.TryParse(Console.ReadLine(), out id) && float.TryParse(Console.ReadLine(),out timeOfCharge))
-                                bl.ReleaseDroneFromCharging(id,timeOfCharge);
+                            if (int.TryParse(Console.ReadLine(), out id) && float.TryParse(Console.ReadLine(), out timeOfCharge))
+                                bl.ReleaseDroneFromCharging(id, timeOfCharge);
                             break;
                         }
                     case Update.AssingParcelToDrone:

@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-   public partial class BL : IBL.IblCustomer
+    public partial class BL : IBL.IblCustomer
     {
-        public void AddCustomer(int id, string name, string phone)
+        public void AddCustomer(int id, string name, string phone, IBL.BO.Location location)
         {
-            if(ExistsIDTaxCheck(dal.GetCustomers(),id))
+            if (ExistsIDTaxCheck(dal.GetCustomers(), id))
             {
                 throw new IBL.BO.AnElementWithTheSameKeyAlreadyExistsInTheListException();
             }
