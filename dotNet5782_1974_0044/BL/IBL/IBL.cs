@@ -8,7 +8,6 @@ using IBL.BO;
 namespace IBL
 {
    public interface IBL:IblDrone, IblStationcs,IblParcel,IblCustomer
-    {
-        
-    }
+   {  
+   }
 }
