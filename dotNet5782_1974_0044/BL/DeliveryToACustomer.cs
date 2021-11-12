@@ -14,7 +14,7 @@ namespace IBL
             public WeightCategories WeightCategory { get; set; }
             public Priority priority { get; set; }
             public DroneStatuses status { get; set; }
-            public CustomerInDelivery Customer { get; set; }
+            public CustomerInParcel Customer { get; set; }
         }
     }
 
