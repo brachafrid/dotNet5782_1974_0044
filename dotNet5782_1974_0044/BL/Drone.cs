@@ -16,7 +16,7 @@ namespace IBL
             public DroneStatuses DroneStatuses { get; set; }
             public int BattaryMode { get; set; }
             public Location CurrentLocation { get; set; }
-            public DeliveryByTransfer Delivery { get; set; }
+            public ParcelInTransfer Delivery { get; set; }
         }
     }
 
