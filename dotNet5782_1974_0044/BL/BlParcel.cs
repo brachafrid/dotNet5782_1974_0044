@@ -30,7 +30,7 @@ namespace BL
         }
         public void AssingParcellToDrone(int droneId)
         {
-            throw new NotImplementedException();
+            
         }
     }
 }
