@@ -1,12 +1,13 @@
-﻿using System;
+﻿using IBL.BO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL
+namespace IBL
 {
-   public partial class BL : IBL.IblParcel
+   public partial class BL : IblParcel
     {
         public void ReceiptParcelForDelivery(int senderCustomerId, int recieveCustomerId, IBL.BO.WeightCategories Weight, IBL.BO.Priorities priority)
         {
@@ -31,6 +32,11 @@ namespace BL
         public void AssingParcellToDrone(int droneId)
         {
             
+        }
+
+        public void ReceiptParcelForDelivery(int senderCustomerId, int recieveCustomerId, WeightCategories Weight, Priorities priority)
+        {
+            throw new NotImplementedException();
         }
     }
 }

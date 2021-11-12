@@ -5,9 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL
+namespace IBL
 {
-    public partial class BL:IBL.IblStationcs
+    public partial class BL:IblStationcs
     {
 
         public void AddStation(int id, string name, Location location, int chargeSlots)

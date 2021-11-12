@@ -4,11 +4,11 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL
+namespace IBL
 {
-    public partial class BL : IBL.IblCustomer
+    public partial class BL : IblCustomer
     {
-        public void AddCustomer(int id, string name, string phone, IBL.BO.Location location)
+        public void AddCustomer(int id, string name, string phone, BO.Location location)
         {
             if (ExistsIDTaxCheck(dal.GetCustomers(), id))
             {

@@ -1,14 +1,15 @@
-﻿using System;
+﻿using IBL.BO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BL
+namespace IBL
 {
-    public partial class BL : IBL.IblDrone
+    public partial class BL : IblDrone
     {
-        public void AddDrone(int id, string model, IBL.BO.WeightCategories MaximumWeight, int stationId)
+        public void AddDrone(int id, string model, BO.WeightCategories MaximumWeight, int stationId)
         {
             throw new NotImplementedException();
         }
@@ -37,5 +38,6 @@ namespace BL
         {
             throw new NotImplementedException();
         }
+
     }
 }

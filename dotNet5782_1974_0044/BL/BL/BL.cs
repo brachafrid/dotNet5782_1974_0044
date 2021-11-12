@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using IBL.BO;
 using IDAL.DO;
 
-namespace BL
+namespace IBL
 {
-    public partial class BL : IBL.IBL
+    public partial class BL : IBL
     {
         IDAL.IDal dal = new DalObject.DalObject();
         bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
