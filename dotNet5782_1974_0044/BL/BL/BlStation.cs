@@ -13,7 +13,7 @@ namespace IBL
         public void AddStation(int id, string name, Location location, int chargeSlots)
         {
             if (ExistsIDTaxCheck(dal.GetStations(), id))
-                throw ;
+                throw new BO.AnElementWithTheSameKeyAlreadyExistsInTheListException();
             dal.addStation(id,name, location.Longitude, location.Longitude, chargeSlots);
             
         }
@@ -26,14 +26,27 @@ namespace IBL
         {
             throw new NotImplementedException();
         }
-        public IDAL.DO.Station GetStation(int id)
+        public BO.Station GetStation(int id)
         {
-            throw new NotImplementedException();
+            if (!ExistsIDTaxCheck(dal.GetStations(), id))
+                throw;
+            return Map(dal.GetStation(id));
         }
 
         public IEnumerable<IDAL.DO.Station> GetStations()
         {
             throw new NotImplementedException();
         }
+        private BO.Station Map(IDAL.DO.Station station)
+        {
+            return new Station() {
+                Id = station.Id,
+                Name = station.Name,
+                Location = new Location() { Latitude=station.Latitude,Longitude=station.Longitude },
+                AvailableChargingPorts=station.ChargeSlots-dal.countFullChargeSlots(station.Id),
+            };
+        }
+
+
     }
 }
