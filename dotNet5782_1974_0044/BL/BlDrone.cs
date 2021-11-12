@@ -29,7 +29,7 @@ namespace BL
         {
             throw new NotImplementedException();
         }
-        public void UpdateDrone(int id, string name)
+        public void UpdateDrone(int id, string model)
         {
             throw new NotImplementedException();
         }

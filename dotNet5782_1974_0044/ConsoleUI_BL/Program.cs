@@ -228,9 +228,8 @@ namespace ConsoleUI_BL
                             Console.WriteLine("enter an id of drone");
                             if (int.TryParse(Console.ReadLine(), out id))
                             {
-                                Console.WriteLine("enter the new name");
-                                string name = Console.ReadLine();
-                                bl.UpdateDrone(id, name);
+                                Console.WriteLine("enter the new model name");
+                                bl.UpdateDrone(id, Console.ReadLine());
                             }
                             else
                                 Console.WriteLine("The conversion failed and therefore the updating was not made");
