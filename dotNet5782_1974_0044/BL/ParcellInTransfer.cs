@@ -9,7 +9,7 @@ namespace IBL
 {
     namespace BO
     {
-        class ParcellByTransfer
+        class ParcellInTransfer
         {
             public int Id { get; set; }
             public WeightCategories WeightCategory { get; set; }
