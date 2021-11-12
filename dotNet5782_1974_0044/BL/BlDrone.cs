@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace BL
 {
-   public partial class BL:IBL.IblDrone
-   {
-        public void AddDrone(int id, IBL.BO.WeightCategories MaximumWeight, int stationId)
+    public partial class BL : IBL.IblDrone
+    {
+        public void AddDrone(int id, string model, IBL.BO.WeightCategories MaximumWeight, int stationId)
         {
             throw new NotImplementedException();
         }

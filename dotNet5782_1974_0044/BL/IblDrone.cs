@@ -8,7 +8,7 @@ namespace IBL
 {
     public interface IblDrone
     {
-        public void AddDrone(int id, BO.WeightCategories MaximumWeight, int stationId);
+        public void AddDrone(int id, string model, BO.WeightCategories MaximumWeight, int stationId);
         public void UpdateDrone(int id, string name);
         public void SendDroneForCharg(int id);
         public void ReleaseDroneFromCharging(int id, float timeOfCharg);
