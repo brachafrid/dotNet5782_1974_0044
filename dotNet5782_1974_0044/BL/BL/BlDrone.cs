@@ -58,14 +58,16 @@ namespace IBL
         }
         private BO.Drone MapDrone(IDAL.DO.Drone drone)
         {
+            DroneToList droneToList = drones.Find(item => item.Id == drone.Id);
             return new Drone()
             {
                 Id = drone.Id,
                 Model = drone.Model,
-               WeightCategory=(WeightCategories)drone.MaxWeight,
-               DroneStatus=drones.Find(item=>item.Id==drone.Id).DroneStatus,
-               BattaryMode=drones.Find(item=>item.Id==drone.Id).BatteryStatus,
-
+                WeightCategory = (WeightCategories)drone.MaxWeight,
+                DroneStatus = droneToList.DroneStatus,
+                BattaryMode = droneToList.BatteryStatus,
+                CurrentLocation = droneToList.CurrentLocation,
+                Parcel = droneToList.ParcellId!=null?CreateParcelInTransfer((int)droneToList.ParcellId):null
             };
         }
     }

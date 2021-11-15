@@ -13,7 +13,7 @@ namespace IBL
         {
             public int Id { get; set; }
             public WeightCategories WeightCategory { get; set; }
-            public Priorities priority { get; set; }
+            public Priorities Priority { get; set; }
             public bool ParcelStatus { get; set; }
             public Location CollectionPoint { get; set; }
             public Location DeliveryDestination { get; set; }

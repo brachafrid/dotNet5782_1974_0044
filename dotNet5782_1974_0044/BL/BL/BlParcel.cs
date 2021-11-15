@@ -64,7 +64,30 @@ namespace IBL
         {
             throw new NotImplementedException();
         }
-    
+        private ParcelInTransfer CreateParcelInTransfer(int id)
+        {
+            IDAL.DO.Parcel parcel = dal.GetParcel(id);
+            IDAL.DO.Customer sender = dal.GetCustomer(parcel.SenderId);
+            IDAL.DO.Customer target = dal.GetCustomer(parcel.TargetId);
+            return new ParcelInTransfer
+            {
+                Id = id,
+                WeightCategory = (BO.WeightCategories)parcel.Weigth,
+                Priority = (BO.Priorities)parcel.Priority,
+                ParcelStatus = !parcel.PickedUp.Equals(default(DateTime)),
+                CollectionPoint = new BO.Location() { Longitude = sender.Longitude, Latitude = sender.Latitude },
+                DeliveryDestination = new BO.Location() { Longitude = target.Longitude, Latitude = target.Latitude },
+                TransportDistance =,
+                CustomerSender = new CustomerInParcel() { Id = sender.Id, Name = sender.Name },
+                CustomerReceives = new CustomerInParcel() { Id = target.Id, Name = target.Name }
+            };
+        }
+        private int Distance(BO.Location sLocation,BO.Location tLocation)
+        {
+            var sCoord = new GeoCoordinate(sLocation.Latitude, sLocation.Longitude);
+            var eCoord = new GeoCoordinate(tLocation.Latitude, tLocation.Longitude);
 
+            return sCoord.GetDistanceTo(eCoord);
+        }
     }
 }
