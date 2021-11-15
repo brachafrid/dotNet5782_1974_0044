@@ -49,9 +49,9 @@ namespace  DalObject
         /// </summary>
         /// <returns>A list of the requested station</returns>
         public IEnumerable<Station> GetSationsWithEmptyChargeSlots() => getAvailbleStations().ToList();
-        public void RemoveStation(int id)
+        public void RemoveStation(Station station)
         {
-            DataSorce.Stations.RemoveAll(item => item.Id == id);
+            DataSorce.Stations.Remove(station);
         }
 
 

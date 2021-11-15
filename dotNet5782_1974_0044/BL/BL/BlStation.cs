@@ -22,11 +22,11 @@ namespace IBL
             if (!ExistsIDTaxCheck(dal.GetStations(), id))
                 throw new KeyNotFoundException();
             IDAL.DO.Station station = dal.GetStation(id);
-            if (name.Equals(default(string)) || chargeSlots.Equals(default(string)))
-            {
-              
-            }
-            dal.RemoveStation(id);
+            if (name.Equals(default(string)) && chargeSlots.Equals(default(int)))
+                throw new ArgumentNullException("For updating at least one parameter must be initialized ");
+            if (!chargeSlots.Equals(default(int)) && chargeSlots < dal.countFullChargeSlots(station.Id))
+                throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
+            dal.RemoveStation(station);
             dal.addStation(id, name.Equals(default(string)) ? station.Name : name, station.Longitude, station.Latitude, chargeSlots.Equals(default(int)) ? station.ChargeSlots : chargeSlots);
         }
         public IEnumerable<Station> GetStaionsWithEmptyChargeSlots()
