@@ -8,7 +8,7 @@ namespace IBL
 {
     public interface IblStationcs
     {
-        public void AddStation(int id, string name, Location location, int chargeSlots);
+        public void AddStation(BO.Station station);
         public void UpdateStation(int id, string name, int chargeSlots);
         public Station GetStation(int id);
         public IEnumerable<Station> GetStations();

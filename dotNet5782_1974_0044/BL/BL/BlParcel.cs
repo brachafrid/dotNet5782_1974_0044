@@ -13,15 +13,15 @@ namespace IBL
         {
             throw new NotImplementedException();
         }
-        public IEnumerable<IDAL.DO.Parcel> GetParcelsNotAssignedToDrone()
+        public IEnumerable<Parcel> GetParcelsNotAssignedToDrone()
         {
             throw new NotImplementedException();
         }
-        public IDAL.DO.Parcel GetParcel(int id)
+        public Parcel GetParcel(int id)
         {
             throw new NotImplementedException();
         }
-        public IEnumerable<IDAL.DO.Parcel> GetParcels()
+        public IEnumerable<Parcel> GetParcels()
         {
             throw new NotImplementedException();
         }
@@ -53,6 +53,11 @@ namespace IBL
 
 
             }
+        }
+
+        public void AddParcel(IblParcel parcel)
+        {
+            throw new NotImplementedException();
         }
     }
 }
