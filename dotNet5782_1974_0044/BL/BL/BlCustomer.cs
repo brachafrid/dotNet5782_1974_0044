@@ -12,7 +12,7 @@ namespace IBL
         {
             if (ExistsIDTaxCheck(dal.GetCustomers(), id))
             {
-                throw new BO.AnElementWithTheSameKeyAlreadyExistsInTheListException();
+                throw new AnElementWithTheSameKeyAlreadyExistsInTheListException();
             }
             dal.addCustomer(id, phone, name, location.Longitude, location.Latitude);
         }
@@ -36,8 +36,9 @@ namespace IBL
             IDAL.DO.Customer customer = dal.GetCustomer(id);
             if (name.Equals(default(string)))
                 name = customer.Name;
-            else if()
-
+            else if (phone.Equals(default(string)))
+                phone = customer.Phone;
+            dal.addCustomer(id, phone, name, customer.Longitude, customer.Latitude);
         }
 
         IEnumerable<Customer> IblCustomer.GetCustomers()
