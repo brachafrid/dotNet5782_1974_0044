@@ -260,7 +260,7 @@ namespace ConsoleUI_BL
                             string name = Console.ReadLine();
                             Console.WriteLine("enter the new number phone");
                             string phone = Console.ReadLine();
-                            bl.UpdateCusomer(id, name, phone);
+                            bl.UpdateCustomer(id, name, phone);
                         }
                         else
                             Console.WriteLine("The conversion failed and therefore the updating was not made");
