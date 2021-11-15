@@ -22,8 +22,12 @@ namespace IBL
             if (!ExistsIDTaxCheck(dal.GetStations(), id))
                 throw new KeyNotFoundException();
             IDAL.DO.Station station = dal.GetStation(id);
+            if (name.Equals(default(string)) || chargeSlots.Equals(default(string)))
+            {
+              
+            }
             dal.RemoveStation(id);
-            dal.addStation(id, name.Equals(default(string)) ? station.Name : name, station.Longitude, station.Latitude, chargeSlots.Equals(default(string)) ? station.ChargeSlots : chargeSlots);
+            dal.addStation(id, name.Equals(default(string)) ? station.Name : name, station.Longitude, station.Latitude, chargeSlots.Equals(default(int)) ? station.ChargeSlots : chargeSlots);
         }
         public IEnumerable<Station> GetStaionsWithEmptyChargeSlots()
         {

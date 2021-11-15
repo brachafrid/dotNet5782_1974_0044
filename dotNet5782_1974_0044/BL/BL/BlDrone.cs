@@ -14,7 +14,7 @@ namespace IBL
             dal.addDrone();
             throw new NotImplementedException();
         }
-        public IDAL.DO.Drone GetDrone(int id)
+        public BO.Drone GetDrone(int id)
         {
             throw new NotImplementedException();
         }
@@ -35,7 +35,7 @@ namespace IBL
         {
             throw new NotImplementedException();
         }
-        public IEnumerable<IDAL.DO.Drone> GetDrones()
+        public IEnumerable<Drone> GetDrones()
         {
             throw new NotImplementedException();
         }

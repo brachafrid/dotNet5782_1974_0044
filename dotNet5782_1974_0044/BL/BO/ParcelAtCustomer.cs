@@ -8,13 +8,13 @@ namespace IBL
 {
     namespace BO
     {
-      public  class ParcelAtCustomer
+        public class ParcelAtCustomer
         {
-            public int Id { get; set; }
-            public WeightCategories WeightCategory { get; set; }
-            public Priorities priority { get; set; }
-            public DroneStatuses status { get; set; }
-            public CustomerInParcel Customer { get; set; }
+           public int Id { get; set; }
+           public WeightCategories WeightCategory { get; set; }
+           public Priorities Priority { get; set; }
+           public DroneStatuses DroneStatus { get; set; }
+           public CustomerInParcel Customer { get; set; }
         }
     }
 
