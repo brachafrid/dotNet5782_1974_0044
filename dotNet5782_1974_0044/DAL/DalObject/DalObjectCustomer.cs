@@ -44,6 +44,10 @@ namespace DalObject
         {
             return DataSorce.Customers.First(item => item.Id == id);
         }
+        public void RemoveCustomer(Customer customer)
+        {
+            DataSorce.Customers.Remove(customer);
+        }
     }
 
 }
