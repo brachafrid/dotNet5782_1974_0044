@@ -16,7 +16,9 @@ namespace IBL
         }
         public BO.Drone GetDrone(int id)
         {
-            throw new NotImplementedException();
+            if (!ExistsIDTaxCheck(dal.GetDrones(), id))
+                throw new KeyNotFoundException();
+            return Map(dal.GetDrone(id));
         }
         public void ParcelCollectionByDrone(int DroneId)
         {
@@ -39,7 +41,7 @@ namespace IBL
         {
             throw new NotImplementedException();
         }
-        public List<DroneInCharging> CreatList(int id)
+        private List<DroneInCharging> CreatList(int id)
         {
             List<int>list=dal.GetDronechargingInStation(id);
             List<DroneInCharging> droneInChargings = new List<DroneInCharging>();
@@ -53,6 +55,18 @@ namespace IBL
                 }
             }
             return droneInChargings;
+        }
+        private BO.Drone MapDrone(IDAL.DO.Drone drone)
+        {
+            return new Drone()
+            {
+                Id = drone.Id,
+                Model = drone.Model,
+               WeightCategory=(WeightCategories)drone.MaxWeight,
+               DroneStatus=drones.Find(item=>item.Id==drone.Id).DroneStatus,
+               BattaryMode=drones.Find(item=>item.Id==drone.Id).BatteryStatus,
+
+            };
         }
     }
 }

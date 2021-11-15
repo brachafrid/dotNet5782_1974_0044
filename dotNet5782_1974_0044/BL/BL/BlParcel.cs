@@ -59,17 +59,12 @@ namespace IBL
 
             return newParcel;
         }
-        
-        public void AddParcel(IblParcel parcel)
-        {
-            throw new NotImplementedException();
-        }
-    }
-        }
 
         public void AddParcel(IblParcel parcel)
         {
             throw new NotImplementedException();
         }
+    
+
     }
 }

@@ -35,7 +35,7 @@ namespace IBL
             List<Station> stations = new List<Station>();
             foreach (var item in list)
             {
-                stations.Add(Map(item));
+                stations.Add(MapStation(item));
             }
             return stations;
         }
@@ -43,7 +43,7 @@ namespace IBL
         {
             if (!ExistsIDTaxCheck(dal.GetStations(), id))
                 throw new KeyNotFoundException();
-            return Map(dal.GetStation(id));
+            return MapStation(dal.GetStation(id));
         }
 
         public IEnumerable<Station> GetStations()
@@ -52,11 +52,11 @@ namespace IBL
             List<Station> stations = new List<Station>();
             foreach (var item in list)
             {
-                stations.Add(Map(item));
+                stations.Add(MapStation(item));
             }
             return stations;
         }
-        private BO.Station Map(IDAL.DO.Station station)
+        private BO.Station MapStation(IDAL.DO.Station station)
         {
             return new Station() {
                 Id = station.Id,
