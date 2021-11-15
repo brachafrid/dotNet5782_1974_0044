@@ -9,6 +9,10 @@ namespace IBL
 {
     public partial class BL : IblParcel
     {
+        public void AddParcel(Parcel parcel)
+        {
+            parcel.
+        }
         public void ReceiptParcelForDelivery(int senderCustomerId, int recieveCustomerId, BO.WeightCategories Weight, BO.Priorities priority)
         {
             throw new NotImplementedException();
@@ -34,6 +38,7 @@ namespace IBL
 
         }
         private ParcelAtCustomer ParcelToParcelAtCustomer(Parcel parcel, string type)
+       
         {
             ParcelAtCustomer newParcel = new ParcelAtCustomer();
             newParcel.Id = parcel.Id;
@@ -59,12 +64,5 @@ namespace IBL
 
             return newParcel;
         }
-
-        public void AddParcel(IblParcel parcel)
-        {
-            throw new NotImplementedException();
-        }
-    
-
     }
 }

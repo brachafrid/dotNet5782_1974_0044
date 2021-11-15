@@ -151,7 +151,7 @@ namespace ConsoleUI_BL
                             Location location = new Location();
                             location.Longitude = longitude;
                             location.Latitude = latitude;
-                            Station station=new Station() { Id=id,Name=name,Location=location,AvailableChargingPorts=chargeslots,DroneInChargings=new List<DroneInCharging>()}
+                            Station station = new Station() { Id = id, Name = name, Location = location, AvailableChargingPorts = chargeslots, DroneInChargings = new List<DroneInCharging>() }
                             bl.AddStation(station);
                         }
                         else
@@ -176,13 +176,32 @@ namespace ConsoleUI_BL
                 case Add.Customer:
                     {
                         double latitude, longitude;
-                        Console.WriteLine("enter values to station properties:id,latitude,longitude, name,phone");
+                        Console.WriteLine("enter values to station properties:id,latitude,longitude, name");
                         if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out latitude) && double.TryParse(Console.ReadLine(), out longitude))
                         {
                             Location location = new Location();
                             location.Longitude = longitude;
                             location.Latitude = latitude;
-                            bl.AddCustomer(id, Console.ReadLine(), Console.ReadLine(), location);
+                            string name = Console.ReadLine();
+                            string phone;
+                            bool correctName = true;
+                            do
+                            {
+                                Console.WriteLine("Enter phone");
+                                phone = Console.ReadLine();
+                                if(!(phone[0] == '+' || phone[0] == '*'|| char.IsDigit(phone[0])))
+                                foreach (char item in phone.Substring(1))
+                                    if (!char.IsDigit(item))
+                                        correctName = false;
+                            } while (!correctName);
+                          
+                            bl.AddCustomer(new Customer()
+                            {
+                                Id = id,
+                                Name = name,
+                                Phone = phone,
+                                Location = location
+                            });
                         }
                         else
                             Console.WriteLine("The conversion failed and therefore the addition was not made");

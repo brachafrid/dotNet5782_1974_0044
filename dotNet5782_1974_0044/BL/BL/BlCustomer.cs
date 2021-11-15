@@ -8,13 +8,13 @@ namespace IBL
 {
     public partial class BL : IblCustomer
     {
-        public void AddCustomer(int id, string name, string phone, BO.Location location)
+        public void AddCustomer(Customer customer)
         {
-            if (ExistsIDTaxCheck(dal.GetCustomers(), id))
+            if (ExistsIDTaxCheck(dal.GetCustomers(), customer.Id))
             {
                 throw new AnElementWithTheSameKeyAlreadyExistsInTheListException();
             }
-            dal.addCustomer(id, phone, name, location.Longitude, location.Latitude);
+            dal.addCustomer(customer.Id, customer.Phone, customer.Name, customer.Location.Longitude, customer.Location.Latitude);
         }
         public Customer GetCustomer(int id)
         {
@@ -45,7 +45,7 @@ namespace IBL
         {
             return dal.GetCustomers().Select(customer => GetCustomer(customer.Id));
         }
-
+        
         private Customer Map(IDAL.DO.Customer customer)
         {
             return new Customer()
@@ -62,6 +62,7 @@ namespace IBL
                 ToCustomer = GetParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "Recive")).ToList()
             };
         }
+        Converter<IDAL.DO.Customer, Customer>;
     }
 }
 

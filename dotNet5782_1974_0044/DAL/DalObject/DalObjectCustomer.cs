@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using IDAL.DO;
 
+
 namespace DalObject
 {
     public partial class DalObject
