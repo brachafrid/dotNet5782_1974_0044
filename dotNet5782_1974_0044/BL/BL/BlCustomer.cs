@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
+using IBL.BO;
 namespace IBL
 {
     public partial class BL : IblCustomer
@@ -16,7 +16,7 @@ namespace IBL
             }
             dal.addCustomer(id, phone, name, location.Longitude, location.Latitude);
         }
-        public BO.Customer GetCustomer(int id)
+        public Customer GetCustomer(int id)
         {
             try
             {
@@ -35,6 +35,12 @@ namespace IBL
         {
             throw new NotImplementedException();
         }
+
+        IEnumerable<Customer> IblCustomer.GetCustomers()
+        {
+            throw new NotImplementedException();
+        }
+
         private BO.Customer Map(IDAL.DO.Customer customer)
         {
             return new BO.Customer()
@@ -47,6 +53,7 @@ namespace IBL
                     Longitude = customer.Longitude,
                     Latitude = customer.Latitude
                 },
+                FromCustomer = dal.GetParcels().Where(parcel=>parcel.SenderId == customer.Id)
             };
         }
     }

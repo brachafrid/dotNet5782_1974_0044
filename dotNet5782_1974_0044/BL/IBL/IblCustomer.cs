@@ -9,8 +9,8 @@ namespace IBL
     public interface IblCustomer
     {
         public void AddCustomer(int id, string name, string phone, BO.Location location);
-        public IDAL.DO.Customer GetCustomer(int id);
-        public IEnumerable<IDAL.DO.Customer> GetCustomers();
+        public BO.Customer GetCustomer(int id);
+        public IEnumerable<BO.Customer> GetCustomers();
         public void UpdateCustomer(int id, string name, string phone);
     }
 }

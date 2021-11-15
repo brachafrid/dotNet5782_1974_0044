@@ -1,14 +1,16 @@
-﻿using System;
+﻿using IBL.BO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+
 namespace IBL
 {
     namespace BO
     {
-        class Station
+        public class Station
         {
             public int Id { get; set; }
             public string Name { get; set; }

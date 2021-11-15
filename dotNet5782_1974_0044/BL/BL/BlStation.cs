@@ -21,17 +21,18 @@ namespace IBL
         {
             if (!ExistsIDTaxCheck(dal.GetStations(), id))
                 throw new KeyNotFoundException();
-            
+           
+
 
         }
         public IEnumerable<IDAL.DO.Station> GetStaionsWithEmptyChargeSlots()
         {
             throw new NotImplementedException();
         }
-        public BO.Station GetStation(int id)
+        public Station GetStation(int id)
         {
             if (!ExistsIDTaxCheck(dal.GetStations(), id))
-                throw;
+                throw new AnElementWithTheSameKeyAlreadyExistsInTheListException();
             return Map(dal.GetStation(id));
         }
 
@@ -49,6 +50,9 @@ namespace IBL
             };
         }
 
-
+        IDAL.DO.Station IblStationcs.GetStation(int id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
