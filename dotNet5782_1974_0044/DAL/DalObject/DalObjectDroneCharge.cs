@@ -24,5 +24,15 @@ namespace DalObject
             }
             return count;
         }
+        public List<int> GetDronechargingInStation(int id)
+        {
+            List<int> list = new List<int>();
+            foreach (var item in DataSorce.DroneCharges)
+            {
+                if (item.Stationld == id)
+                    list.Add(item.Droneld);
+            }
+            return list;
+        }
     }
 }

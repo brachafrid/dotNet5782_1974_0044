@@ -29,5 +29,6 @@ namespace IDAL
         public IEnumerable<Parcel> GetParcelsNotAssignedToDrone();
         public IEnumerable<Station> GetSationsWithEmptyChargeSlots();
         public int countFullChargeSlots(int id);
+        public List<int> GetDronechargingInStation(int id);
     }
 }
