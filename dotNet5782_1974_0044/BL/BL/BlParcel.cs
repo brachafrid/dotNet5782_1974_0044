@@ -33,10 +33,6 @@ namespace IBL
         {
 
         }
-        public void ReceiptParcelForDelivery(int senderCustomerId, int recieveCustomerId, WeightCategories Weight, Priorities priority)
-        {
-            throw new NotImplementedException();
-        }
         private ParcelAtCustomer ParcelToParcelAtCustomer(Parcel parcel, string type)
         {
             ParcelAtCustomer newParcel = new ParcelAtCustomer();
@@ -64,13 +60,11 @@ namespace IBL
             return newParcel;
         }
 
-
-            }
-        }
-
         public void AddParcel(IblParcel parcel)
         {
             throw new NotImplementedException();
         }
+    
+
     }
 }
