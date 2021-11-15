@@ -14,7 +14,7 @@ namespace DalObject
         /// </summary>
         /// <param name="id">the id number of a station</param>
         /// <returns>The counter of empty slots</returns>
-        private int countFullChargeSlots(int id)
+        public int countFullChargeSlots(int id)
         {
             int count = 0;
             foreach (DroneCharge item in DataSorce.DroneCharges)

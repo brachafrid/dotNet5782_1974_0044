@@ -28,5 +28,6 @@ namespace IDAL
         public IEnumerable<Customer> GetCustomers();
         public IEnumerable<Parcel> GetParcelsNotAssignedToDrone();
         public IEnumerable<Station> GetSationsWithEmptyChargeSlots();
+        public int countFullChargeSlots(int id);
     }
 }
