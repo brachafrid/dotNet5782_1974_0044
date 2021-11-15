@@ -53,7 +53,7 @@ namespace IBL
                     Longitude = customer.Longitude,
                     Latitude = customer.Latitude
                 },
-                FromCustomer = dal.GetParcels().Where(parcel=>parcel.SenderId == customer.Id)
+                FromCustomer = 
             };
         }
     }

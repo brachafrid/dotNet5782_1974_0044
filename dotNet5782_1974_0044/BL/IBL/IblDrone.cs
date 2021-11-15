@@ -12,7 +12,7 @@ namespace IBL
         public void UpdateDrone(int id, string model);
         public void SendDroneForCharg(int id);
         public void ReleaseDroneFromCharging(int id, float timeOfCharg);
-        public IDAL.DO.Drone GetDrone(int id);
-        public IEnumerable<IDAL.DO.Drone> GetDrones();
+        public BO.Drone GetDrone(int id);
+        public IEnumerable<BO.Drone> GetDrones();
     }
 }

@@ -193,7 +193,7 @@ namespace ConsoleUI_BL
                         }
                     case Add.Parcel:
                         {
-                            Console.WriteLine("enter values to station properties: sender id,target id,weigth,priority");
+                            Console.WriteLine("enter values to station properties: sender id,target id,weigth,Priority");
                             int senderId, targetId;
                             WeightCategories weigth;
                             Priorities priority;

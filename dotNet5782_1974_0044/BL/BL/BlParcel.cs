@@ -33,10 +33,26 @@ namespace IBL
         {
             
         }
-
         public void ReceiptParcelForDelivery(int senderCustomerId, int recieveCustomerId, WeightCategories Weight, Priorities priority)
         {
             throw new NotImplementedException();
+        }
+        private ParcelAtCustomer ParcelToParcelAtCustomer(Parcel parcel)
+        {
+            return new ParcelAtCustomer()
+            {
+                Id = parcel.Id,
+                WeightCategory = parcel.Weight,
+                Priority = parcel.Priority,
+                DroneStatus = .DroneStatuses,
+                Customer = new CustomerInParcel()
+                {
+                    Id =
+                    
+                }
+
+
+            }
         }
     }
 }
