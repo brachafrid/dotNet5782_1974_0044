@@ -19,7 +19,7 @@ namespace DalObject
             int count = 0;
             foreach (DroneCharge item in DataSorce.DroneCharges)
             {
-                if (item.Droneld == id)
+                if (item.Stationld == id)
                     ++count;
             }
             return count;
