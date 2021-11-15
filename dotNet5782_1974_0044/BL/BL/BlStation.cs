@@ -21,24 +21,36 @@ namespace IBL
         {
             if (!ExistsIDTaxCheck(dal.GetStations(), id))
                 throw new KeyNotFoundException();
-           
-
-
+            IDAL.DO.Station station = dal.GetStation(id);
+            dal.RemoveStation(id);
+            dal.addStation(id, name.Equals(default(string)) ? station.Name : name, station.Longitude, station.Latitude, chargeSlots.Equals(default(string)) ? station.ChargeSlots : chargeSlots);
         }
-        public IEnumerable<IDAL.DO.Station> GetStaionsWithEmptyChargeSlots()
+        public IEnumerable<Station> GetStaionsWithEmptyChargeSlots()
         {
-            throw new NotImplementedException();
+            IEnumerable<IDAL.DO.Station> list = dal.GetSationsWithEmptyChargeSlots();
+            List<Station> stations = new List<Station>();
+            foreach (var item in list)
+            {
+                stations.Add(Map(item));
+            }
+            return stations;
         }
         public Station GetStation(int id)
         {
             if (!ExistsIDTaxCheck(dal.GetStations(), id))
-                throw new AnElementWithTheSameKeyAlreadyExistsInTheListException();
+                throw new KeyNotFoundException();
             return Map(dal.GetStation(id));
         }
 
-        public IEnumerable<IDAL.DO.Station> GetStations()
+        public IEnumerable<Station> GetStations()
         {
-            throw new NotImplementedException();
+            IEnumerable<IDAL.DO.Station> list = dal.GetStations();
+            List<Station> stations = new List<Station>();
+            foreach (var item in list)
+            {
+                stations.Add(Map(item));
+            }
+            return stations;
         }
         private BO.Station Map(IDAL.DO.Station station)
         {
@@ -47,12 +59,9 @@ namespace IBL
                 Name = station.Name,
                 Location = new Location() { Latitude=station.Latitude,Longitude=station.Longitude },
                 AvailableChargingPorts=station.ChargeSlots-dal.countFullChargeSlots(station.Id),
+                DroneInChargings=CreatList(station.Id)
             };
         }
 
-        IDAL.DO.Station IblStationcs.GetStation(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

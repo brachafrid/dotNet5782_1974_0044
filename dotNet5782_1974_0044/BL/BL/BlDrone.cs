@@ -11,7 +11,7 @@ namespace IBL
     {
         public void AddDrone(int id, string model, BO.WeightCategories MaximumWeight, int stationId)
         {
-            dal.addDrone()
+            dal.addDrone();
             throw new NotImplementedException();
         }
         public IDAL.DO.Drone GetDrone(int id)
@@ -43,6 +43,16 @@ namespace IBL
         {
             List<int>list=dal.GetDronechargingInStation(id);
             List<DroneInCharging> droneInChargings = new List<DroneInCharging>();
+            DroneToList droneToList;
+            foreach (var idDrone in list)
+            {
+                droneToList = drones.FirstOrDefault(item => (item.Id == idDrone));
+                if (!droneToList.Equals(default(DroneToList)))
+                {
+                    droneInChargings.Add(new DroneInCharging() { Id = idDrone, ChargingMode = droneToList.BatteryStatus });
+                }
+            }
+            return droneInChargings;
         }
     }
 }
