@@ -8,7 +8,7 @@ namespace IBL
 {
     namespace BO
     {
-        class Drone
+       public class Drone
         {
             public int Id { get; set; }
             public string Model { get; set; }
@@ -16,7 +16,7 @@ namespace IBL
             public DroneStatuses DroneStatuses { get; set; }
             public int BattaryMode { get; set; }
             public Location CurrentLocation { get; set; }
-            public ParcelInTransfer Delivery { get; set; }
+            public ParcelInTransfer Parcel { get; set; }
         }
     }
 

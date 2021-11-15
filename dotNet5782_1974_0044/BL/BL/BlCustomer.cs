@@ -12,12 +12,20 @@ namespace IBL
         {
             if (ExistsIDTaxCheck(dal.GetCustomers(), id))
             {
-                throw new IBL.BO.AnElementWithTheSameKeyAlreadyExistsInTheListException();
+                throw new BO.AnElementWithTheSameKeyAlreadyExistsInTheListException();
             }
+            dal.addCustomer(id, phone, name, location.Longitude, location.Latitude);
         }
-        public IDAL.DO.Customer GetCustomer(int id)
+        public BO.Customer GetCustomer(int id)
         {
-            throw new NotImplementedException();
+            try
+            {
+               return Map(dal.GetCustomer(id));
+            }
+            catch
+            {
+                throw new Exception();
+            }
         }
         public IEnumerable<IDAL.DO.Customer> GetCustomers()
         {
@@ -27,5 +35,22 @@ namespace IBL
         {
             throw new NotImplementedException();
         }
+        private BO.Customer Map(IDAL.DO.Customer customer)
+        {
+            return new BO.Customer()
+            {
+                Id = customer.Id,
+                Phone = customer.Phone,
+                Name = customer.Name,
+                Location = new BO.Location()
+                {
+                    Longitude = customer.Longitude,
+                    Latitude = customer.Latitude
+                },
+            };
+        }
     }
 }
+
+
+

@@ -21,7 +21,7 @@ namespace ConsoleUI_BL
 
             static void Main(string[] args)
             {
-                IBL.IBL bal = new BL.BL();
+                IBL.IBL bal = new IBL.BL();
                 Menu option;
                 do
                 {
@@ -243,7 +243,8 @@ namespace ConsoleUI_BL
                             {
                                 Console.WriteLine("if you want only update one details press enter instead enter an input");
                                 Console.WriteLine("the new  number of chrge slots ");
-                                int.TryParse(Console.ReadLine(), out chargeSlots);
+                                if (!int.TryParse(Console.ReadLine(), out chargeSlots))
+                                    chargeSlots = -1;
                                 Console.WriteLine("enter the new name");
                                 string name = Console.ReadLine();
                                 bl.UpdateStation(id, name, chargeSlots);

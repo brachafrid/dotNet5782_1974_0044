@@ -13,13 +13,15 @@ namespace IBL
         public void AddStation(int id, string name, Location location, int chargeSlots)
         {
             if (ExistsIDTaxCheck(dal.GetStations(), id))
-                throw ;
+                throw new AnElementWithTheSameKeyAlreadyExistsInTheListException();
             dal.addStation(id,name, location.Longitude, location.Longitude, chargeSlots);
             
         }
         public void UpdateStation(int id, string name, int chargeSlots)
         {
-            throw new NotImplementedException();
+            if (!ExistsIDTaxCheck(dal.GetStations(), id))
+                throw new KeyNotFoundException();
+            
 
         }
         public IEnumerable<IDAL.DO.Station> GetStaionsWithEmptyChargeSlots()
