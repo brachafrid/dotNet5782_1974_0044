@@ -10,24 +10,24 @@ namespace IBL
     public partial class BL:IblStationcs
     {
 
-        public void AddStation(int id, string name, Location location, int chargeSlots)
+        public void AddStation(Station stationBL)
         {
-            if (ExistsIDTaxCheck(dal.GetStations(), id))
+            if (ExistsIDTaxCheck(dal.GetStations(), stationBL.Id))
                 throw new AnElementWithTheSameKeyAlreadyExistsInTheListException();
-            dal.addStation(id,name, location.Longitude, location.Longitude, chargeSlots);
+            dal.addStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);
             
         }
         public void UpdateStation(int id, string name, int chargeSlots)
         {
             if (!ExistsIDTaxCheck(dal.GetStations(), id))
                 throw new KeyNotFoundException();
-            IDAL.DO.Station station = dal.GetStation(id);
+            IDAL.DO.Station satationDl = dal.GetStation(id);
             if (name.Equals(default(string)) && chargeSlots.Equals(default(int)))
                 throw new ArgumentNullException("For updating at least one parameter must be initialized ");
-            if (!chargeSlots.Equals(default(int)) && chargeSlots < dal.countFullChargeSlots(station.Id))
+            if (!chargeSlots.Equals(default(int)) && chargeSlots < dal.countFullChargeSlots(satationDl.Id))
                 throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
-            dal.RemoveStation(station);
-            dal.addStation(id, name.Equals(default(string)) ? station.Name : name, station.Longitude, station.Latitude, chargeSlots.Equals(default(int)) ? station.ChargeSlots : chargeSlots);
+            dal.RemoveStation(satationDl);
+            dal.addStation(id, name.Equals(default(string)) ? satationDl.Name : name, satationDl.Longitude, satationDl.Latitude, chargeSlots.Equals(default(int)) ? satationDl.ChargeSlots : chargeSlots);
         }
         public IEnumerable<Station> GetStaionsWithEmptyChargeSlots()
         {

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using IBL.BO;
 
 
@@ -150,7 +151,8 @@ namespace ConsoleUI_BL
                             Location location = new Location();
                             location.Longitude = longitude;
                             location.Latitude = latitude;
-                            bl.AddStation(id, name, location, chargeslots);
+                            Station station=new Station() { Id=id,Name=name,Location=location,AvailableChargingPorts=chargeslots,DroneInChargings=new List<DroneInCharging>()}
+                            bl.AddStation(station);
                         }
                         else
                             Console.WriteLine("The conversion failed and therefore the addition was not made");

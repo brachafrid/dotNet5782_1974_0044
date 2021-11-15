@@ -64,7 +64,11 @@ namespace IBL
             return newParcel;
         }
 
-        Parcel IblParcel.GetParcel(int id)
+
+            }
+        }
+
+        public void AddParcel(IblParcel parcel)
         {
             throw new NotImplementedException();
         }
