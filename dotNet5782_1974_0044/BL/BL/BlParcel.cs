@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace IBL
 {
-   public partial class BL : IblParcel
+    public partial class BL : IblParcel
     {
-        public void ReceiptParcelForDelivery(int senderCustomerId, int recieveCustomerId, IBL.BO.WeightCategories Weight, IBL.BO.Priorities priority)
+        public void ReceiptParcelForDelivery(int senderCustomerId, int recieveCustomerId, BO.WeightCategories Weight, BO.Priorities priority)
         {
             throw new NotImplementedException();
         }
@@ -21,7 +21,7 @@ namespace IBL
         {
             throw new NotImplementedException();
         }
-        public IEnumerable<Parcel> GetParcels()
+        public IEnumerable<BO.Parcel> GetParcels()
         {
             throw new NotImplementedException();
         }
@@ -31,25 +31,38 @@ namespace IBL
         }
         public void AssingParcellToDrone(int droneId)
         {
-            
+
         }
         public void ReceiptParcelForDelivery(int senderCustomerId, int recieveCustomerId, WeightCategories Weight, Priorities priority)
         {
             throw new NotImplementedException();
         }
-        private ParcelAtCustomer ParcelToParcelAtCustomer(Parcel parcel)
+        private ParcelAtCustomer ParcelToParcelAtCustomer(Parcel parcel, string type)
         {
-            return new ParcelAtCustomer()
+            ParcelAtCustomer newParcel = new ParcelAtCustomer();
+            newParcel.Id = parcel.Id;
+            newParcel.WeightCategory = parcel.Weight;
+            newParcel.Priority = parcel.Priority;
+            newParcel.DroneStatus = drones.Find(drone => drone.Id == parcel.Drone.Id).DroneStatus;
+            if (type == "sender")
             {
-                Id = parcel.Id,
-                WeightCategory = parcel.Weight,
-                Priority = parcel.Priority,
-                DroneStatus = .DroneStatuses,
-                Customer = new CustomerInParcel()
+                newParcel.Customer = new CustomerInParcel()
                 {
-                    Id =
-                    
-                }
+                    Id = parcel.CustomerReceives.Id,
+                    Name = parcel.CustomerReceives.Name
+                };
+            }
+            else
+            {
+                newParcel.Customer = new CustomerInParcel()
+                {
+                    Id = parcel.CustomerSender.Id,
+                    Name = parcel.CustomerSender.Name
+                };
+            }
+
+            return newParcel;
+        }
 
 
             }

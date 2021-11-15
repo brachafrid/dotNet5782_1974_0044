@@ -27,23 +27,27 @@ namespace IBL
                 throw new Exception();
             }
         }
-        public IEnumerable<IDAL.DO.Customer> GetCustomers()
-        {
-            throw new NotImplementedException();
-        }
         public void UpdateCustomer(int id, string name, string phone)
         {
-            throw new NotImplementedException();
+            if (ExistsIDTaxCheck(dal.GetCustomers(), id))
+                throw new AnElementWithTheSameKeyAlreadyExistsInTheListException();
+            if (name.Equals(default(string)) && phone.Equals(default(string)))
+                throw new ArgumentNullException("no field to update");
+            IDAL.DO.Customer customer = dal.GetCustomer(id);
+            if (name.Equals(default(string)))
+                name = customer.Name;
+            else if()
+
         }
 
         IEnumerable<Customer> IblCustomer.GetCustomers()
         {
-            throw new NotImplementedException();
+            return dal.GetCustomers().Select(customer => GetCustomer(customer.Id));
         }
 
-        private BO.Customer Map(IDAL.DO.Customer customer)
+        private Customer Map(IDAL.DO.Customer customer)
         {
-            return new BO.Customer()
+            return new Customer()
             {
                 Id = customer.Id,
                 Phone = customer.Phone,
@@ -53,7 +57,8 @@ namespace IBL
                     Longitude = customer.Longitude,
                     Latitude = customer.Latitude
                 },
-                FromCustomer = 
+                FromCustomer = GetParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "sender")).ToList(),
+                ToCustomer = GetParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "Recive")).ToList()
             };
         }
     }
