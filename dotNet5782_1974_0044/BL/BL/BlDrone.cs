@@ -39,6 +39,10 @@ namespace IBL
         {
             throw new NotImplementedException();
         }
-
+        public List<DroneInCharging> CreatList(int id)
+        {
+            List<int>list=dal.GetDronechargingInStation(id);
+            List<DroneInCharging> droneInChargings = new List<DroneInCharging>();
+        }
     }
 }

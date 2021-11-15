@@ -10,7 +10,8 @@ namespace IBL
 {
     public partial class BL : IBL
     {
-        IDAL.IDal dal = new DalObject.DalObject();
+        private List<BO.DroneToList> drones;
+        private IDAL.IDal dal = new DalObject.DalObject();
         bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
         {
             T temp=lst.FirstOrDefault(item => (int)item.GetType().GetProperty("id").GetValue(item, null) == id);
