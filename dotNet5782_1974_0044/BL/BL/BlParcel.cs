@@ -11,7 +11,8 @@ namespace IBL
     {
         public void AddParcel(Parcel parcel)
         {
-            parcel.
+            dal.
+
         }
         public void ReceiptParcelForDelivery(int senderCustomerId, int recieveCustomerId, BO.WeightCategories Weight, BO.Priorities priority)
         {
@@ -38,7 +39,6 @@ namespace IBL
 
         }
         private ParcelAtCustomer ParcelToParcelAtCustomer(Parcel parcel, string type)
-       
         {
             ParcelAtCustomer newParcel = new ParcelAtCustomer();
             newParcel.Id = parcel.Id;
