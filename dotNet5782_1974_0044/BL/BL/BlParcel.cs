@@ -1,6 +1,7 @@
 ﻿using IBL.BO;
 using System;
 using System.Collections.Generic;
+using System.Device.Location;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -87,12 +88,12 @@ namespace IBL
                 CustomerReceives = new CustomerInParcel() { Id = target.Id, Name = target.Name }
             };
         }
-        private int Distance(BO.Location sLocation,BO.Location tLocation)
+        private double Distance(BO.Location sLocation,BO.Location tLocation)
         {
             var sCoord = new GeoCoordinate(sLocation.Latitude, sLocation.Longitude);
-            var eCoord = new GeoCoordinate(tLocation.Latitude, tLocation.Longitude);
+            var tCoord = new GeoCoordinate(tLocation.Latitude, tLocation.Longitude);
 
-            return sCoord.GetDistanceTo(eCoord);
+            return sCoord.GetDistanceTo(tCoord);
         }
     }
 }
