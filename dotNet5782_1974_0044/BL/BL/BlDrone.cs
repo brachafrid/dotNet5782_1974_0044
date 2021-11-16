@@ -33,15 +33,18 @@ namespace IBL
         {
             throw new NotImplementedException();
         }
-        public void UpdateDrone(int id, string model)
+        public void UpdateDrone(int id, string name)
         {
-            throw new NotImplementedException();
+            if (!ExistsIDTaxCheck(dal.GetDrones(), id))
+                throw new KeyNotFoundException();
+            IDAL.DO.Drone droneDl = dal.GetDrone(id);
+            if (name.Equals(default(string)))
+                throw new ArgumentNullException("For updating the name must be initialized ");
+            dal.RemoveDrone(droneDl);
+            dal.addDrone(id,name,droneDl.MaxWeight ); 
         }
-        public IEnumerable<Drone> GetDrones()
-        {
-            throw new NotImplementedException();
-        }
-        private List<DroneInCharging> CreatList(int id)
+        public IEnumerable<DroneToList> GetDrones()=>drones
+        private List<DroneInCharging> CreatListDroneInCharging(int id)
         {
             List<int>list=dal.GetDronechargingInStation(id);
             List<DroneInCharging> droneInChargings = new List<DroneInCharging>();
@@ -70,5 +73,6 @@ namespace IBL
                 Parcel = droneToList.ParcellId!=null?CreateParcelInTransfer((int)droneToList.ParcellId):null
             };
         }
+        
     }
 }

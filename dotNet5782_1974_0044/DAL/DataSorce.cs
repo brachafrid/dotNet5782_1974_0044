@@ -33,11 +33,11 @@ namespace DalObject
         internal class Config
         {
             internal static int IdParcel = 0;
-            internal static double Available = 0;
-            internal static double LightWeightCarrier; 
-            internal static double MediumWeightBearing ;
-            internal static double CarriesHeavyWeight;
-            internal static double DroneLoadingRate;
+            internal static int Available = rnd.Next();
+            internal static int LightWeightCarrier =rnd.Next(Available,1000); 
+            internal static int MediumWeightBearing = rnd.Next(LightWeightCarrier, 1000);
+            internal static int CarriesHeavyWeight = rnd.Next(MediumWeightBearing,1000);
+            internal static double DroneLoadingRate=rnd.NextDouble();
         }
 
         static internal void Initialize(DalObject dal)

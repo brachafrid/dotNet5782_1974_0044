@@ -1,15 +1,17 @@
 ﻿using System;
+using System.Device.Location;
 
 namespace IBL
 {
     namespace BO
     {
-       public class Location
+        public class Location 
         {
-           private double longitude;
-           private double latitude;
-           public double Longitude { 
-                get=>longitude;
+            private double longitude;
+            private double latitude;
+            public double Longitude
+            {
+                get => longitude;
                 set
                 {
                     if (value > 0 && value <= 90)
@@ -20,7 +22,7 @@ namespace IBL
             }
             public double Latitude
             {
-                get =>latitude;
+                get => latitude;
                 set
                 {
                     if (value > 0 && value <= 180)

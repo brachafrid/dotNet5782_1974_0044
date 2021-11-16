@@ -7,7 +7,7 @@ using IBL.BO;
 
 namespace IBL
 {
-   public interface IBL:IblDrone, IblStationcs,IblParcel,IblCustomer
+   public interface IBL:IblDrone, IblStations,IblParcel,IblCustomer
    {  
    }
 }

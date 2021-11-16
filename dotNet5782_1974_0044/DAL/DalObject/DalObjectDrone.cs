@@ -90,5 +90,15 @@ namespace DalObject
         /// <returns>A list of drones</returns>
         public IEnumerable<Drone> GetDrones() => DataSorce.Drones;
 
+        //-------------------------------------------------Removing-------------------------------------------------------------
+        /// <summary>
+        /// Removing a Drone from the list
+        /// </summary>
+        /// <param name="station"></param>
+        public void RemoveDrone(Drone drone)
+        {
+            DataSorce.Drones.Remove(drone);
+        }
     }
+
 }
