@@ -48,17 +48,24 @@ namespace  DalObject
         /// Find the satation that have empty charging slots
         /// </summary>
         /// <returns>A list of the requested station</returns>
+        /// /// <summary>
+        /// Checks which base Sations are available for charging
+        /// </summary>
+        /// <returns>A list of avaiable satations</returns>
+        private List<Station> getAvailbleStations() => (DataSorce.Stations.FindAll(item => item.ChargeSlots > countFullChargeSlots(item.Id)));
         public IEnumerable<Station> GetSationsWithEmptyChargeSlots() => getAvailbleStations().ToList();
+
+        //-------------------------------------------------Removing-------------------------------------------------------------
+        /// <summary>
+        /// Removing a station from the list
+        /// </summary>
+        /// <param name="station"></param>
         public void RemoveStation(Station station)
         {
             DataSorce.Stations.Remove(station);
         }
 
 
-        /// <summary>
-        /// Checks which base Sations are available for charging
-        /// </summary>
-        /// <returns>A list of avaiable satations</returns>
-        private List<Station> getAvailbleStations() => (DataSorce.Stations.FindAll(item => item.ChargeSlots > countFullChargeSlots(item.Id)));
+        
     }
 }

@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace IBL
 {
-    public partial class BL:IblStationcs
+    public partial class BL:IblStations
     {
 
         public void AddStation(Station stationBL)
@@ -29,13 +29,13 @@ namespace IBL
             dal.RemoveStation(satationDl);
             dal.addStation(id, name.Equals(default(string)) ? satationDl.Name : name, satationDl.Longitude, satationDl.Latitude, chargeSlots.Equals(default(int)) ? satationDl.ChargeSlots : chargeSlots);
         }
-        public IEnumerable<Station> GetStaionsWithEmptyChargeSlots()
+        public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots()
         {
             IEnumerable<IDAL.DO.Station> list = dal.GetSationsWithEmptyChargeSlots();
-            List<Station> stations = new List<Station>();
+            List<StationToList> stations = new List<StationToList>();
             foreach (var item in list)
             {
-                stations.Add(MapStation(item));
+                stations.Add(MapStationToList(item));
             }
             return stations;
         }
@@ -46,13 +46,13 @@ namespace IBL
             return MapStation(dal.GetStation(id));
         }
 
-        public IEnumerable<Station> GetStations()
+        public IEnumerable<StationToList> GetStations()
         {
             IEnumerable<IDAL.DO.Station> list = dal.GetStations();
-            List<Station> stations = new List<Station>();
+            List<StationToList> stations = new List<StationToList>();
             foreach (var item in list)
             {
-                stations.Add(MapStation(item));
+                stations.Add(MapStationToList(item));
             }
             return stations;
         }
@@ -63,7 +63,17 @@ namespace IBL
                 Name = station.Name,
                 Location = new Location() { Latitude=station.Latitude,Longitude=station.Longitude },
                 AvailableChargingPorts=station.ChargeSlots-dal.countFullChargeSlots(station.Id),
-                DroneInChargings=CreatList(station.Id)
+                DroneInChargings=CreatListDroneInCharging(station.Id)
+            };
+        }
+        private BO.StationToList MapStationToList(IDAL.DO.Station station)
+        {
+            return new StationToList()
+            {
+                Id = station.Id,
+                Name = station.Name,
+                EmptyChargeSlots= station.ChargeSlots - dal.countFullChargeSlots(station.Id),
+                FullChargeSlots= dal.countFullChargeSlots(station.Id)
             };
         }
 
