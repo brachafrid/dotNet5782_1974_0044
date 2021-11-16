@@ -9,15 +9,15 @@ namespace IBL
 {
     namespace BO
     {
-        class CustomerToList
+       public class CustomerToList
         {
             public int Id { get; set; }
             public string Name { get; set; }
             public string Phone { get; set; }
-            public int NumParcellSentDelivered { get; set; }
-            public int NumParcellSentNotDelivered { get; set; }
-            public int NumParcellReceived { get; set; }
-            public int NumParcellWayToCustomer { get; set; }
+            public int NumParcelSentDelivered { get; set; }
+            public int NumParcelSentNotDelivered { get; set; }
+            public int NumParcelReceived { get; set; }
+            public int NumParcelWayToCustomer { get; set; }
         }
     }
 }

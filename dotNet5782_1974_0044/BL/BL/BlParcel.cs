@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IDAL;
 
 namespace IBL
 {
@@ -11,20 +12,24 @@ namespace IBL
     {
         public void AddParcel(Parcel parcel)
         {
-            dal.
-
+            if (ExistsIDTaxCheck(dal.GetParcels(), parcel.Id))
+                throw new AnElementWithTheSameKeyAlreadyExistsInTheListException();
+            if (!ExistsIDTaxCheck(dal.GetCustomers(), parcel.CustomerSender.Id))
+                throw new KeyNotFoundException("sender not exist");
+            if (!ExistsIDTaxCheck(dal.GetCustomers(), parcel.CustomerReceives.Id))
+                throw new KeyNotFoundException("target not exist");
+            dal.ParcelsReception(parcel.Id, parcel.CustomerSender.Id, parcel.CustomerReceives.Id, (IDAL.DO.WeightCategories)parcel.Weight, (IDAL.DO.Priorities)parcel.Priority);
         }
-        public void ReceiptParcelForDelivery(int senderCustomerId, int recieveCustomerId, BO.WeightCategories Weight, BO.Priorities priority)
+        public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone()
         {
-            throw new NotImplementedException();
-        }
-        public IEnumerable<Parcel> GetParcelsNotAssignedToDrone()
-        {
-            throw new NotImplementedException();
+            return dal.GetParcelsNotAssignedToDrone().Select(parcel => mapParcelToList(parcel));
         }
         public Parcel GetParcel(int id)
         {
-            throw new NotImplementedException();
+            if (!ExistsIDTaxCheck(dal.GetParcels(), id))
+                throw new KeyNotFoundException();
+            return
+
         }
         public IEnumerable<BO.Parcel> GetParcels()
         {
@@ -87,6 +92,42 @@ namespace IBL
                 CustomerReceives = new CustomerInParcel() { Id = target.Id, Name = target.Name }
             };
         }
-
+        private ParcelToList mapParcelToList(IDAL.DO.Parcel parcel)
+        {
+            PackageModes PackageMode;
+            if (!parcel.Delivered.Equals(default(DateTime)))
+                PackageMode = PackageModes.PROVIDED;
+            else if (!parcel.PickedUp.Equals(default(DateTime)))
+                PackageMode = PackageModes.COLLECTED;
+            else if (!parcel.Sceduled.Equals(default(DateTime)))
+                PackageMode = PackageModes.ASSOCIATED;
+            else
+                PackageMode = PackageModes.DEFINED;
+            return new ParcelToList()
+            {
+                Id = parcel.Id,
+                CustomerReceives = GetCustomer(parcel.TargetId),
+                CustomerSender = GetCustomer(parcel.SenderId),
+                Weight = (BO.WeightCategories)parcel.Weigth,
+                Piority = (BO.Priorities)parcel.Priority,
+                PackageMode = PackageMode
+            };
+        }
+        private Parcel mapParcel(IDAL.DO.Parcel parcel)
+        {
+            
+            return new Parcel()
+            {
+                Id = parcel.Id,
+                
+                CustomerReceives = mapCustomerInParcel(),
+                CustomerSender = GetCustomer(parcel.SenderId),
+                Weight = (BO.WeightCategories)parcel.Weigth,
+                Piority = (BO.Priorities)parcel.Priority,
+            }
+        }
     }
 }
+
+    
+
