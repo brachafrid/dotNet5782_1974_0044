@@ -72,7 +72,17 @@ namespace IBL
                 NumParcelReceived = dal.GetParcels().Count(parcel => parcel.TargetId == customer.Id && !parcel.Delivered.Equals(default(DateTime))),
                 NumParcelSentDelivered = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && !parcel.Delivered.Equals(default(DateTime))),
                 NumParcelSentNotDelivered = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && parcel.Delivered.Equals(default(DateTime))),
-                NumParcelWayToCustomer = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && parcel.Delivered.Equals(default(DateTime)) && !parcel.PickedUp.Equals(default(DateTime)))
+                NumParcelWayToCustomer = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && parcel.Delivered.Equals(default(DateTime))
+                && !parcel.PickedUp.Equals(default(DateTime)))
+            };
+           
+        }
+        private CustomerInParcel mapCustomerInParcel(IDAL.DO.Customer customer)
+        {
+            return new CustomerInParcel()
+            {
+                Id = customer.Id,
+                Name = customer.Name
             };
         }
     }

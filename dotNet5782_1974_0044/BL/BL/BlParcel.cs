@@ -20,13 +20,16 @@ namespace IBL
                 throw new KeyNotFoundException("target not exist");
             dal.ParcelsReception(parcel.Id, parcel.CustomerSender.Id, parcel.CustomerReceives.Id, (IDAL.DO.WeightCategories)parcel.Weight, (IDAL.DO.Priorities)parcel.Priority);
         }
-        public IEnumerable<Parcel> GetParcelsNotAssignedToDrone()
+        public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone()
         {
-           return dal.GetParcelsNotAssignedToDrone()
+            return dal.GetParcelsNotAssignedToDrone().Select(parcel => mapParcelToList(parcel));
         }
         public Parcel GetParcel(int id)
         {
-            throw new NotImplementedException();
+            if (!ExistsIDTaxCheck(dal.GetParcels(), id))
+                throw new KeyNotFoundException();
+            return
+
         }
         public IEnumerable<BO.Parcel> GetParcels()
         {
@@ -89,16 +92,42 @@ namespace IBL
                 CustomerReceives = new CustomerInParcel() { Id = target.Id, Name = target.Name }
             };
         }
+        private ParcelToList mapParcelToList(IDAL.DO.Parcel parcel)
+        {
+            PackageModes PackageMode;
+            if (!parcel.Delivered.Equals(default(DateTime)))
+                PackageMode = PackageModes.PROVIDED;
+            else if (!parcel.PickedUp.Equals(default(DateTime)))
+                PackageMode = PackageModes.COLLECTED;
+            else if (!parcel.Sceduled.Equals(default(DateTime)))
+                PackageMode = PackageModes.ASSOCIATED;
+            else
+                PackageMode = PackageModes.DEFINED;
+            return new ParcelToList()
+            {
+                Id = parcel.Id,
+                CustomerReceives = GetCustomer(parcel.TargetId),
+                CustomerSender = GetCustomer(parcel.SenderId),
+                Weight = (BO.WeightCategories)parcel.Weigth,
+                Piority = (BO.Priorities)parcel.Priority,
+                PackageMode = PackageMode
+            };
+        }
         private Parcel mapParcel(IDAL.DO.Parcel parcel)
         {
-            parcel.Sceduled
-            Parcel p;
-            p.
+            
             return new Parcel()
             {
+                Id = parcel.Id,
                 
+                CustomerReceives = mapCustomerInParcel(),
+                CustomerSender = GetCustomer(parcel.SenderId),
+                Weight = (BO.WeightCategories)parcel.Weigth,
+                Piority = (BO.Priorities)parcel.Priority,
             }
         }
-
     }
 }
+
+    
+
