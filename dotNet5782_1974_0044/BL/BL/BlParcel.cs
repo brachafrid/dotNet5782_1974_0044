@@ -40,12 +40,9 @@ namespace IBL
 
         }
         private ParcelAtCustomer ParcelToParcelAtCustomer(Parcel parcel, string type)
-       
         {
             ParcelAtCustomer newParcel = new ParcelAtCustomer();
             newParcel.Id = parcel.Id;
-                    Id = parcel.CustomerReceives.Id,
-                    Name = parcel.CustomerReceives.Name
             newParcel.WeightCategory = parcel.Weight;
             newParcel.Priority = parcel.Priority;
             newParcel.DroneStatus = drones.Find(drone => drone.Id == parcel.Drone.Id).DroneStatus;
@@ -53,6 +50,8 @@ namespace IBL
             {
                 newParcel.Customer = new CustomerInParcel()
                 {
+                    Id = parcel.CustomerReceives.Id,
+                    Name = parcel.CustomerReceives.Name
                 };
             }
             else
@@ -89,7 +88,7 @@ namespace IBL
                 CustomerReceives = new CustomerInParcel() { Id = target.Id, Name = target.Name }
             };
         }
-        private double Distance(BO.Location sLocation,BO.Location tLocation)
+        private double Distance(BO.Location sLocation, BO.Location tLocation)
         {
             var sCoord = new GeoCoordinate(sLocation.Latitude, sLocation.Longitude);
             var tCoord = new GeoCoordinate(tLocation.Latitude, tLocation.Longitude);
