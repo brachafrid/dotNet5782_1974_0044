@@ -18,7 +18,7 @@ namespace IBL
         {
             if (!ExistsIDTaxCheck(dal.GetDrones(), id))
                 throw new KeyNotFoundException();
-            return Map(dal.GetDrone(id));
+            return MapDrone(dal.GetDrone(id));
         }
         public void ParcelCollectionByDrone(int DroneId)
         {

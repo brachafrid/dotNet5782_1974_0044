@@ -1,7 +1,6 @@
 ﻿using IBL.BO;
 using System;
 using System.Collections.Generic;
-using System.Device.Location;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -83,17 +82,11 @@ namespace IBL
                 ParcelStatus = !parcel.PickedUp.Equals(default(DateTime)),
                 CollectionPoint = new BO.Location() { Longitude = sender.Longitude, Latitude = sender.Latitude },
                 DeliveryDestination = new BO.Location() { Longitude = target.Longitude, Latitude = target.Latitude },
-                TransportDistance =,
+                TransportDistance = Distance(new Location() { Longitude = sender.Longitude, Latitude = sender.Latitude }, new Location() { Longitude = sender.Longitude, Latitude = sender.Latitude }),
                 CustomerSender = new CustomerInParcel() { Id = sender.Id, Name = sender.Name },
                 CustomerReceives = new CustomerInParcel() { Id = target.Id, Name = target.Name }
             };
         }
-        private double Distance(BO.Location sLocation, BO.Location tLocation)
-        {
-            var sCoord = new GeoCoordinate(sLocation.Latitude, sLocation.Longitude);
-            var tCoord = new GeoCoordinate(tLocation.Latitude, tLocation.Longitude);
 
-            return sCoord.GetDistanceTo(tCoord);
-        }
     }
 }
