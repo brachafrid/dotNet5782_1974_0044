@@ -11,7 +11,8 @@ namespace IBL
     {
         public void AddParcel(Parcel parcel)
         {
-            parcel.
+            dal.
+
         }
         public void ReceiptParcelForDelivery(int senderCustomerId, int recieveCustomerId, BO.WeightCategories Weight, BO.Priorities priority)
         {
@@ -42,6 +43,8 @@ namespace IBL
         {
             ParcelAtCustomer newParcel = new ParcelAtCustomer();
             newParcel.Id = parcel.Id;
+                    Id = parcel.CustomerReceives.Id,
+                    Name = parcel.CustomerReceives.Name
             newParcel.WeightCategory = parcel.Weight;
             newParcel.Priority = parcel.Priority;
             newParcel.DroneStatus = drones.Find(drone => drone.Id == parcel.Drone.Id).DroneStatus;
@@ -49,8 +52,6 @@ namespace IBL
             {
                 newParcel.Customer = new CustomerInParcel()
                 {
-                    Id = parcel.CustomerReceives.Id,
-                    Name = parcel.CustomerReceives.Name
                 };
             }
             else
