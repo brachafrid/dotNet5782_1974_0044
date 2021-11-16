@@ -20,7 +20,7 @@ namespace IBL
         {
             try
             {
-               return Map(dal.GetCustomer(id));
+               return MapCustomer(dal.GetCustomer(id));
             }
             catch
             {
@@ -46,7 +46,7 @@ namespace IBL
             return dal.GetCustomers().Select(customer => GetCustomer(customer.Id));
         }
         
-        private Customer Map(IDAL.DO.Customer customer)
+        private Customer MapCustomer(IDAL.DO.Customer customer)
         {
             return new Customer()
             {
