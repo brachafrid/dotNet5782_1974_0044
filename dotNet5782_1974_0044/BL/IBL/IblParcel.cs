@@ -9,7 +9,6 @@ namespace IBL
     public interface IblParcel
     {
         public void AddParcel(BO.Parcel parcel);
-        public void ReceiptParcelForDelivery(int senderCustomerId, int recieveCustomerId, BO.WeightCategories Weight, BO.Priorities priority);
         public void AssingParcellToDrone(int droneId);
         public void ParcelCollectionByDrone(int DroneId);
         public void DeliveryParcelByDrone(int droneId);

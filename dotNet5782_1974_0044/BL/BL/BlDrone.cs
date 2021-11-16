@@ -11,7 +11,7 @@ namespace IBL
     {
         public void AddDrone(int id, string model, BO.WeightCategories MaximumWeight, int stationId)
         {
-            dal.addDrone();
+           
             throw new NotImplementedException();
         }
         public BO.Drone GetDrone(int id)

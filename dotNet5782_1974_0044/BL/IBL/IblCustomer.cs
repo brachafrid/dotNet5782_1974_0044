@@ -10,7 +10,7 @@ namespace IBL
     {
         public void AddCustomer(BO.Customer customer);
         public BO.Customer GetCustomer(int id);
-        public IEnumerable<BO.Customer> GetCustomers();
+        public IEnumerable<BO.CustomerToList> GetCustomers();
         public void UpdateCustomer(int id, string name, string phone);
     }
 }

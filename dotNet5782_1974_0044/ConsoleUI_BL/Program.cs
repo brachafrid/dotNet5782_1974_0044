@@ -89,17 +89,13 @@ namespace ConsoleUI_BL
                             try
                             {
                                 switchDisplayList(ref bal);
-
                             }
                             catch
                             {
                                 Console.WriteLine("ERROR");
                             }
-
-
                             break;
                         }
-
                     case Menu.Exit:
                         break;
                     default:
@@ -190,12 +186,12 @@ namespace ConsoleUI_BL
                             {
                                 Console.WriteLine("Enter phone");
                                 phone = Console.ReadLine();
-                                if(!(phone[0] == '+' || phone[0] == '*'|| char.IsDigit(phone[0])))
-                                foreach (char item in phone.Substring(1))
-                                    if (!char.IsDigit(item))
-                                        correctName = false;
+                                if (!(phone[0] == '+' || phone[0] == '*' || char.IsDigit(phone[0])))
+                                    foreach (char item in phone.Substring(1))
+                                        if (!char.IsDigit(item))
+                                            correctName = false;
                             } while (!correctName);
-                          
+
                             bl.AddCustomer(new Customer()
                             {
                                 Id = id,
@@ -214,9 +210,23 @@ namespace ConsoleUI_BL
                         int senderId, targetId;
                         WeightCategories weigth;
                         Priorities priority;
+
                         if (int.TryParse(Console.ReadLine(), out senderId) && int.TryParse(Console.ReadLine(), out targetId) && Enum.TryParse(Console.ReadLine(), out weigth) && Enum.TryParse(Console.ReadLine(), out priority))
                         {
-                            bl.ReceiptParcelForDelivery(senderId, targetId, weigth, priority);
+                            bl.AddParcel(new Parcel()
+                            {
+                                CustomerReceives = new CustomerInParcel()
+                                {
+                                    Id = targetId
+                                },
+                                CustomerSender = new CustomerInParcel()
+                                {
+                                    Id = senderId
+                                },
+                                Weight = weigth,
+                                Priority = priority
+
+                            });
                         }
                         else
                             Console.WriteLine("The conversion failed and therefore the addition was not made");

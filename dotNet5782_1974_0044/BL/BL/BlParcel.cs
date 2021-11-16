@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using IDAL;
 
 namespace IBL
 {
@@ -11,16 +12,17 @@ namespace IBL
     {
         public void AddParcel(Parcel parcel)
         {
-            dal.
-
-        }
-        public void ReceiptParcelForDelivery(int senderCustomerId, int recieveCustomerId, BO.WeightCategories Weight, BO.Priorities priority)
-        {
-            throw new NotImplementedException();
+            if (ExistsIDTaxCheck(dal.GetParcels(), parcel.Id))
+                throw new AnElementWithTheSameKeyAlreadyExistsInTheListException();
+            if (!ExistsIDTaxCheck(dal.GetCustomers(), parcel.CustomerSender.Id))
+                throw new KeyNotFoundException("sender not exist");
+            if (!ExistsIDTaxCheck(dal.GetCustomers(), parcel.CustomerReceives.Id))
+                throw new KeyNotFoundException("target not exist");
+            dal.ParcelsReception(parcel.Id, parcel.CustomerSender.Id, parcel.CustomerReceives.Id, (IDAL.DO.WeightCategories)parcel.Weight, (IDAL.DO.Priorities)parcel.Priority);
         }
         public IEnumerable<Parcel> GetParcelsNotAssignedToDrone()
         {
-            throw new NotImplementedException();
+           return dal.GetParcelsNotAssignedToDrone()
         }
         public Parcel GetParcel(int id)
         {
@@ -86,6 +88,16 @@ namespace IBL
                 CustomerSender = new CustomerInParcel() { Id = sender.Id, Name = sender.Name },
                 CustomerReceives = new CustomerInParcel() { Id = target.Id, Name = target.Name }
             };
+        }
+        private Parcel mapParcel(IDAL.DO.Parcel parcel)
+        {
+            parcel.Sceduled
+            Parcel p;
+            p.
+            return new Parcel()
+            {
+                
+            }
         }
 
     }

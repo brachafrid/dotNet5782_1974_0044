@@ -20,7 +20,7 @@ namespace IBL
         {
             try
             {
-               return MapCustomer(dal.GetCustomer(id));
+                return MapCustomer(dal.GetCustomer(id));
             }
             catch
             {
@@ -41,11 +41,11 @@ namespace IBL
             dal.addCustomer(id, phone, name, customer.Longitude, customer.Latitude);
         }
 
-        IEnumerable<Customer> IblCustomer.GetCustomers()
+        IEnumerable<CustomerToList> IblCustomer.GetCustomers()
         {
-            return dal.GetCustomers().Select(customer => GetCustomer(customer.Id));
+            return dal.GetCustomers().Select(customer => mapCustomerToList(customer));
         }
-        
+
         private Customer MapCustomer(IDAL.DO.Customer customer)
         {
             return new Customer()
@@ -62,7 +62,20 @@ namespace IBL
                 ToCustomer = GetParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "Recive")).ToList()
             };
         }
-        Converter<IDAL.DO.Customer, Customer>;
+        private CustomerToList mapCustomerToList(IDAL.DO.Customer customer)
+        {
+            return new CustomerToList()
+            {
+                Id = customer.Id,
+                Phone = customer.Phone,
+                Name = customer.Name,
+                NumParcelReceived = dal.GetParcels().Count(parcel => parcel.TargetId == customer.Id && !parcel.PickedUp.Equals(default(DateTime))),
+                NumParcelSentDelivered = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && !parcel.Delivered.Equals(default(DateTime))),
+                NumParcelSentNotDelivered = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && parcel.Delivered.Equals(default(DateTime))),
+                NumParcelWayToCustomer
+                
+            }
+        }
     }
 }
 
