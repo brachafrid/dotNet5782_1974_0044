@@ -33,7 +33,7 @@ namespace DalObject
         internal class Config
         {
             internal static int IdParcel = 0;
-            internal static int Available = rnd.Next();
+            internal static int Available = rnd.Next(1000);
             internal static int LightWeightCarrier =rnd.Next(Available,1000); 
             internal static int MediumWeightBearing = rnd.Next(LightWeightCarrier, 1000);
             internal static int CarriesHeavyWeight = rnd.Next(MediumWeightBearing,1000);

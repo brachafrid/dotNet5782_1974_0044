@@ -152,7 +152,7 @@ namespace ConsoleUI_BL
                             Location location = new Location();
                             location.Longitude = longitude;
                             location.Latitude = latitude;
-                            Station station = new Station() { Id = id, Name = name, Location = location, AvailableChargingPorts = chargeslots, DroneInChargings = new List<DroneInCharging>() }
+                            Station station = new Station() { Id = id, Name = name, Location = location, AvailableChargingPorts = chargeslots, DroneInChargings = new List<DroneInCharging>() };
                             bl.AddStation(station);
                         }
                         else

@@ -34,5 +34,9 @@ namespace DalObject
             }
             return list;
         }
+        public void addDRoneCharge(int droneId,int stationId)
+        {
+            DataSorce.DroneCharges.Add(new DroneCharge() { Droneld = droneId, Stationld = stationId });
+        }
     }
 }

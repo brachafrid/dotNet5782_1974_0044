@@ -18,7 +18,7 @@ namespace IDAL
         public void SupplyParcel(int parcelId);
         public void SendDroneCharg(int droneId);
         public void ReleasDroneCharg(int droneId);
-        public void RemoveCustomer(Customer customer)
+        public void RemoveCustomer(Customer customer);
         public Station GetStation(int id);
         public Drone GetDrone(int id);
         public Customer GetCustomer(int id);
@@ -33,5 +33,6 @@ namespace IDAL
         public int countFullChargeSlots(int id);
         public List<int> GetDronechargingInStation(int id);
         public void RemoveDrone(Drone drone);
+        public void addDRoneCharge(int droneId, int stationId)
     }
 }

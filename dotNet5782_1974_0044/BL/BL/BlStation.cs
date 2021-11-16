@@ -14,8 +14,7 @@ namespace IBL
         {
             if (ExistsIDTaxCheck(dal.GetStations(), stationBL.Id))
                 throw new AnElementWithTheSameKeyAlreadyExistsInTheListException();
-            dal.addStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);
-            
+            dal.addStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);    
         }
         public void UpdateStation(int id, string name, int chargeSlots)
         {
@@ -76,6 +75,7 @@ namespace IBL
                 FullChargeSlots= dal.countFullChargeSlots(station.Id)
             };
         }
+
 
     }
 }
