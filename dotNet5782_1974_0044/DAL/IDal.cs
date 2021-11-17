@@ -11,7 +11,7 @@ namespace IDAL
     {
         public void addCustomer(int id, string phone, string name, double longitude, double latitude);
         public void addDrone(int id, string model, WeightCategories MaxWeight);
-        public void ParcelsReception(int id, int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority);
+        public void ParcelsReception( int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority);
         public void addStation(int id, string name, double longitude, double latitude, int chargeSlots);
         public void AssignParcelDrone(int parcelId);
         public void CollectParcel(int parcelId);

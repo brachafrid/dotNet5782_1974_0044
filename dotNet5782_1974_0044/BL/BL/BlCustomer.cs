@@ -41,7 +41,7 @@ namespace IBL
             dal.addCustomer(id, phone, name, customer.Longitude, customer.Latitude);
         }
 
-        IEnumerable<CustomerToList> IblCustomer.GetCustomers()
+        IEnumerable<CustomerToList> GetCustomers()
         {
             return dal.GetCustomers().Select(customer => mapCustomerToList(customer));
         }
@@ -58,8 +58,8 @@ namespace IBL
                     Longitude = customer.Longitude,
                     Latitude = customer.Latitude
                 },
-                FromCustomer = GetParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "sender")).ToList(),
-                ToCustomer = GetParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "Recive")).ToList()
+                FromCustomer = getAllParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "sender")).ToList(),
+                ToCustomer = getAllParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "Recive")).ToList()
             };
         }
         private CustomerToList mapCustomerToList(IDAL.DO.Customer customer)
