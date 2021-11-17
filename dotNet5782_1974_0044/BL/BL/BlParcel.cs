@@ -28,20 +28,11 @@ namespace IBL
         {
             if (!ExistsIDTaxCheck(dal.GetParcels(), id))
                 throw new KeyNotFoundException();
-            return
-
+            return mapParcel(dal.GetParcel(id));
         }
-        public IEnumerable<BO.Parcel> GetParcels()
+        public IEnumerable<ParcelToList> GetParcels()
         {
-            throw new NotImplementedException();
-        }
-        public void DeliveryParcelByDrone(int droneId)
-        {
-            throw new NotImplementedException();
-        }
-        public void AssingParcellToDrone(int droneId)
-        {
-
+            return dal.GetParcels().Select(parcel => mapParcelToList(parcel));
         }
         private ParcelAtCustomer ParcelToParcelAtCustomer(Parcel parcel, string type)
         {
@@ -70,10 +61,6 @@ namespace IBL
             return newParcel;
         }
 
-        public void AddParcel(IblParcel parcel)
-        {
-            throw new NotImplementedException();
-        }
         private ParcelInTransfer CreateParcelInTransfer(int id)
         {
             IDAL.DO.Parcel parcel = dal.GetParcel(id);
@@ -115,19 +102,22 @@ namespace IBL
         }
         private Parcel mapParcel(IDAL.DO.Parcel parcel)
         {
-            
+            DroneToList tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
+            if (tmpDrone.Equals(default(DroneToList)))
+                throw new KeyNotFoundException();
             return new Parcel()
             {
                 Id = parcel.Id,
-                
-                CustomerReceives = mapCustomerInParcel(),
-                CustomerSender = GetCustomer(parcel.SenderId),
+                CustomerReceives = mapCustomerInParcel(dal.GetCustomer(parcel.TargetId)),
+                CustomerSender = mapCustomerInParcel(dal.GetCustomer(parcel.SenderId)),
                 Weight = (BO.WeightCategories)parcel.Weigth,
-                Piority = (BO.Priorities)parcel.Priority,
-            }
+                Priority = (BO.Priorities)parcel.Priority,
+                AssignmentTime = parcel.Sceduled,
+                CollectionTime = parcel.PickedUp,
+                CreationTime = parcel.Requested,
+                DeliveryTime = parcel.Delivered,
+                Drone = mapDroneWithParcel(tmpDrone)
+            };
         }
     }
 }
-
-    
-
