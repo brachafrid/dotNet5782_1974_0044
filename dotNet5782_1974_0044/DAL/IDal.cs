@@ -36,6 +36,7 @@ namespace IDAL
         public void AddDRoneCharge(int droneId, int stationId);
         public void RemoveDroneCharge(int droneId);
         public double[] GetElectricityUse();
+        public void RemoveParcel(Parcel parcel);
 
     }
 }

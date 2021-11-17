@@ -113,5 +113,14 @@ namespace DalObject
         /// </summary>
         /// <returns>A list of the requested Parcels</returns>
         public IEnumerable<Parcel> GetParcelsNotAssignedToDrone() => DataSorce.Parcels.FindAll(item => item.DorneId == 0);
+        //-------------------------------------------------Removing-------------------------------------------------------------
+        /// <summary>
+        /// Removing a Parcel from the list
+        /// </summary>
+        /// <param name="station"></param>
+        public void RemoveParcel(Parcel parcel)
+        {
+            DataSorce.Parcels.Remove(parcel);
+        }
     }
 }

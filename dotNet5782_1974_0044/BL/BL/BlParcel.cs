@@ -130,5 +130,28 @@ namespace IBL
                 Drone = mapDroneWithParcel(tmpDrone)
             };
         }
+
+        private void AssigningDroneToParcel(int parcelId,int droneId)
+        {
+            IDAL.DO.Parcel parcel=dal.GetParcel(parcelId);
+            dal.RemoveParcel(parcel);
+            parcel.DorneId = droneId;
+            parcel.Sceduled = DateTime.Now;
+            dal.ParcelsReception(parcel.Id, parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority);
+        }
+        private void ParcelcollectionDrone(int parcelId)
+        {
+            IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
+            dal.RemoveParcel(parcel);
+            parcel.PickedUp = DateTime.Now;
+            dal.ParcelsReception(parcel.Id, parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority);
+        }
+        private void ParcelDeliveredDrone(int parcelId)
+        {
+            IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
+            dal.RemoveParcel(parcel);
+            parcel.Delivered = DateTime.Now;
+            dal.ParcelsReception(parcel.Id, parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority);
+        }
     }
 }
