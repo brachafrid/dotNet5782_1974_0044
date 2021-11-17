@@ -77,6 +77,17 @@ namespace IBL
                 CustomerReceives = new CustomerInParcel() { Id = target.Id, Name = target.Name }
             };
         }
+
+        private IEnumerable<ParcelInTransfer> CreateParcelInTransferList(WeightCategories weight)
+        {
+            List<ParcelInTransfer> parcels = new List<ParcelInTransfer>();
+            foreach (var item in dal.GetParcels())
+            {
+                if (item.DorneId != 0 &&  (WeightCategories)item.Weigth<=weight)
+                    parcels.Add(CreateParcelInTransfer(item.Id));
+            }
+            return parcels;
+        }
         private ParcelToList mapParcelToList(IDAL.DO.Parcel parcel)
         {
             PackageModes PackageMode;
