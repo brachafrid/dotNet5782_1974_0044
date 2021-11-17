@@ -32,7 +32,7 @@ namespace IBL
             drones.Remove(droneToList);
             droneToList.DroneStatus = DroneStatuses.AVAILABLE;
             droneToList.BatteryStatus += timeOfCharg/60*dal.GetElectricityUse()[4];
-            dal.RemoveDRoneCharge(id);
+            dal.RemoveDroneCharge(id);
         }
 
         public void SendDroneForCharg(int id)
@@ -117,7 +117,6 @@ namespace IBL
                 }
             }
             return minDistance*dal.GetElectricityUse()[0]< droneToList.BatteryStatus ? station : default(IDAL.DO.Station);
-            return minDistance*/*הצריכה*/*100/*כמות הוואט שיש לבטריה של הרחפן*/< droneToList ? station : default(IDAL.DO.Station);
         }
         private DroneWithParcel mapDroneWithParcel(DroneToList drone)
         {
@@ -134,6 +133,7 @@ namespace IBL
         }
         public void AssingParcellToDrone(int droneId)
         {
+            DroneToList droneToList = drones.Find(item => item.Id == droneId);
 
         }
     }
