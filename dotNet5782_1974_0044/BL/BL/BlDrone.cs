@@ -60,12 +60,6 @@ namespace IBL
                 throw new ArgumentNullException("For updating the name must be initialized ");
             dal.RemoveDrone(droneDl);
             dal.addDrone(id, name, droneDl.MaxWeight);
-            //לברר האם ניתן לשנות אובייקט בforeach
-            //foreach (var item in drones)
-            //{
-            //    if(item.Id==id)
-            //        item.DroneModel=name;
-            //}
             DroneToList droneToList = drones.Find(item => item.Id == id);
             drones.Remove(droneToList);
             droneToList.DroneModel = name;
@@ -133,8 +127,21 @@ namespace IBL
         }
         public void AssingParcellToDrone(int droneId)
         {
-            DroneToList droneToList = drones.Find(item => item.Id == droneId);
-
+            DroneToList aviableDrone = drones.Find(item => item.Id == droneId);
+            DroneToList tempDrone = aviableDrone;
+            List<ParcelInTransfer> parcels = (List<ParcelInTransfer>)CreateParcelInTransferList(aviableDrone.Weight);
+            double emergency;
+            foreach (var item in parcels)
+            {
+                if (item.Priority == Priorities.EMERGENCY)
+                {
+                    emergency = Distance(aviableDrone.CurrentLocation, item.CollectionPoint) * dal.GetElectricityUse()[0] +
+                    Distance(item.CollectionPoint, item.DeliveryDestination) * dal.GetElectricityUse()[3];
+                    tempDrone.BatteryStatus -= emergency;
+                    emergency += closetStation(dal.GetStations(), tempDrone);
+                    
+                }
+            }
         }
     }
 }
