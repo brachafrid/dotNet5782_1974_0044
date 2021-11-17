@@ -110,7 +110,24 @@ namespace IBL
                     station = item;
                 }
             }
-            return minDistance*/*הצריכה*/*100/*כמות הואט שיש לבטריה של הרחפן*/< droneToList ? station : default(IDAL.DO.Station);
+            return minDistance*/*הצריכה*/*100/*כמות הוואט שיש לבטריה של הרחפן*/< droneToList ? station : default(IDAL.DO.Station);
+        }
+        private DroneWithParcel mapDroneWithParcel(DroneToList drone)
+        {
+            return new DroneWithParcel()
+            {
+                CurrentLocation = drone.CurrentLocation,
+                Id = drone.Id,
+                ChargingMode = drone.BatteryStatus
+            };
+        }
+        public void DeliveryParcelByDrone(int droneId)
+        {
+            throw new NotImplementedException();
+        }
+        public void AssingParcellToDrone(int droneId)
+        {
+
         }
     }
 }
