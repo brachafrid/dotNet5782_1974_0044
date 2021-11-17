@@ -12,13 +12,11 @@ namespace IBL
     {
         public void AddParcel(Parcel parcel)
         {
-            if (ExistsIDTaxCheck(dal.GetParcels(), parcel.Id))
-                throw new AnElementWithTheSameKeyAlreadyExistsInTheListException();
             if (!ExistsIDTaxCheck(dal.GetCustomers(), parcel.CustomerSender.Id))
                 throw new KeyNotFoundException("sender not exist");
             if (!ExistsIDTaxCheck(dal.GetCustomers(), parcel.CustomerReceives.Id))
                 throw new KeyNotFoundException("target not exist");
-            dal.ParcelsReception(parcel.Id, parcel.CustomerSender.Id, parcel.CustomerReceives.Id, (IDAL.DO.WeightCategories)parcel.Weight, (IDAL.DO.Priorities)parcel.Priority);
+            dal.ParcelsReception(parcel.CustomerSender.Id, parcel.CustomerReceives.Id, (IDAL.DO.WeightCategories)parcel.Weight, (IDAL.DO.Priorities)parcel.Priority);
         }
         public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone()
         {
