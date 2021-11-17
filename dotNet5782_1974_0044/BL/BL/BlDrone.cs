@@ -26,7 +26,13 @@ namespace IBL
         }
         public void ReleaseDroneFromCharging(int id, float timeOfCharg)
         {
-            throw new NotImplementedException();
+            DroneToList droneToList = drones.Find(item => item.Id == id);
+            if (droneToList.DroneStatus != DroneStatuses.MAINTENANCE)
+                throw new Exception();
+            drones.Remove(droneToList);
+            droneToList.DroneStatus = DroneStatuses.AVAILABLE;
+            droneToList.BatteryStatus += timeOfCharg/60*dal.GetElectricityUse()[4];
+            dal.RemoveDRoneCharge(id);
         }
 
         public void SendDroneForCharg(int id)
@@ -41,9 +47,9 @@ namespace IBL
             drones.Remove(droneToList);
             droneToList.CurrentLocation = new Location() { Longitude = station.Longitude, Latitude = station.Latitude };
             droneToList.DroneStatus = DroneStatuses.MAINTENANCE;
-            droneToList.BatteryStatus -= minDistance */*הצריכה*/*100/*כמות הואט שיש לבטריה של הרחפן*/;
+            droneToList.BatteryStatus -= minDistance * dal.GetElectricityUse()[0];
             //הורדת מספר עמדות טעינה בתחנה
-            dal.addDRoneCharge(id, station.Id);
+            dal.AddDRoneCharge(id, station.Id);
         }
         public void UpdateDrone(int id, string name)
         {
@@ -110,7 +116,7 @@ namespace IBL
                     station = item;
                 }
             }
-            return minDistance*/*הצריכה*/*100/*כמות הואט שיש לבטריה של הרחפן*/< droneToList ? station : default(IDAL.DO.Station);
+            return minDistance*dal.GetElectricityUse()[0]< droneToList.BatteryStatus ? station : default(IDAL.DO.Station);
         }
     }
 }

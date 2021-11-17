@@ -14,7 +14,7 @@ namespace DalObject
         /// </summary>
         /// <param name="id">the id number of a station</param>
         /// <returns>The counter of empty slots</returns>
-        public int countFullChargeSlots(int id)
+        public int CountFullChargeSlots(int id)
         {
             int count = 0;
             foreach (DroneCharge item in DataSorce.DroneCharges)
@@ -34,9 +34,13 @@ namespace DalObject
             }
             return list;
         }
-        public void addDRoneCharge(int droneId,int stationId)
+        public void AddDRoneCharge(int droneId,int stationId)
         {
             DataSorce.DroneCharges.Add(new DroneCharge() { Droneld = droneId, Stationld = stationId });
+        }
+        public void RemoveDroneCharge(int droneId)
+        {
+            DataSorce.DroneCharges.RemoveAll(item=>item.Droneld==droneId);
         }
     }
 }

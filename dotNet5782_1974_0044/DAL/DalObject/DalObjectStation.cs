@@ -52,7 +52,7 @@ namespace  DalObject
         /// Checks which base Sations are available for charging
         /// </summary>
         /// <returns>A list of avaiable satations</returns>
-        private List<Station> getAvailbleStations() => (DataSorce.Stations.FindAll(item => item.ChargeSlots > countFullChargeSlots(item.Id)));
+        private List<Station> getAvailbleStations() => (DataSorce.Stations.FindAll(item => item.ChargeSlots > CountFullChargeSlots(item.Id)));
         public IEnumerable<Station> GetSationsWithEmptyChargeSlots() => getAvailbleStations().ToList();
 
         //-------------------------------------------------Removing-------------------------------------------------------------

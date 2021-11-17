@@ -75,6 +75,14 @@ namespace DalObject
                 DataSorce.Drones.Add(tmpDrone);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public double[] GetElectricityUse()
+        {
+            return new double[] { DataSorce.Config.Available, DataSorce.Config.LightWeightCarrier, DataSorce.Config.MediumWeightBearing, DataSorce.Config.CarriesHeavyWeight, DataSorce.Config.DroneLoadingRate }
+        }
 
         //----------------------------------Display--------------------------------
         /// <summary>
@@ -99,6 +107,8 @@ namespace DalObject
         {
             DataSorce.Drones.Remove(drone);
         }
+
+
     }
 
 }

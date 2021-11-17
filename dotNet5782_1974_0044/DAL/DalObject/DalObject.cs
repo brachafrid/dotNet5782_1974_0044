@@ -7,7 +7,7 @@ using IDAL.DO;
 
 namespace DalObject
 {
-     public partial class DalObject:IDAL.IDal
+    public partial class DalObject : IDAL.IDal
     {
         /// <summary>
         /// Call to quick initialization function
@@ -16,6 +16,7 @@ namespace DalObject
         {
             DataSorce.Initialize(this);
         }
+
         /// <summary>
         /// Find if the id is unique in a spesific list
         /// </summary>
@@ -32,7 +33,6 @@ namespace DalObject
         }
 
     }
-  
+
 }
 
-   
