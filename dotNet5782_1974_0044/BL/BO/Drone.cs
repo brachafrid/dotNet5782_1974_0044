@@ -14,7 +14,7 @@ namespace IBL
             public string Model { get; set; }
             public WeightCategories WeightCategory { get; set; }
             public DroneStatuses DroneStatus { get; set; }
-            public int BattaryMode { get; set; }
+            public double BattaryMode { get; set; }
             public Location CurrentLocation { get; set; }
             public ParcelInTransfer Parcel { get; set; }
         }

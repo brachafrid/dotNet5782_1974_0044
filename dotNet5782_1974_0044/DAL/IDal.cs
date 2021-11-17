@@ -30,9 +30,12 @@ namespace IDAL
         public IEnumerable<Parcel> GetParcelsNotAssignedToDrone();
         public IEnumerable<Station> GetSationsWithEmptyChargeSlots();
         public void RemoveStation(Station station);
-        public int countFullChargeSlots(int id);
+        public int CountFullChargeSlots(int id);
         public List<int> GetDronechargingInStation(int id);
         public void RemoveDrone(Drone drone);
-        public void addDRoneCharge(int droneId, int stationId)
+        public void AddDRoneCharge(int droneId, int stationId);
+        public void RemoveDroneCharge(int droneId);
+        public double[] GetElectricityUse();
+
     }
 }

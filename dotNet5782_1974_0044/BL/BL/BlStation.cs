@@ -23,7 +23,7 @@ namespace IBL
             IDAL.DO.Station satationDl = dal.GetStation(id);
             if (name.Equals(default(string)) && chargeSlots.Equals(default(int)))
                 throw new ArgumentNullException("For updating at least one parameter must be initialized ");
-            if (!chargeSlots.Equals(default(int)) && chargeSlots < dal.countFullChargeSlots(satationDl.Id))
+            if (!chargeSlots.Equals(default(int)) && chargeSlots < dal.CountFullChargeSlots(satationDl.Id))
                 throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
             dal.RemoveStation(satationDl);
             dal.addStation(id, name.Equals(default(string)) ? satationDl.Name : name, satationDl.Longitude, satationDl.Latitude, chargeSlots.Equals(default(int)) ? satationDl.ChargeSlots : chargeSlots);
@@ -61,7 +61,7 @@ namespace IBL
                 Id = station.Id,
                 Name = station.Name,
                 Location = new Location() { Latitude=station.Latitude,Longitude=station.Longitude },
-                AvailableChargingPorts=station.ChargeSlots-dal.countFullChargeSlots(station.Id),
+                AvailableChargingPorts=station.ChargeSlots-dal.CountFullChargeSlots(station.Id),
                 DroneInChargings=CreatListDroneInCharging(station.Id)
             };
         }
@@ -71,8 +71,8 @@ namespace IBL
             {
                 Id = station.Id,
                 Name = station.Name,
-                EmptyChargeSlots= station.ChargeSlots - dal.countFullChargeSlots(station.Id),
-                FullChargeSlots= dal.countFullChargeSlots(station.Id)
+                EmptyChargeSlots= station.ChargeSlots - dal.CountFullChargeSlots(station.Id),
+                FullChargeSlots= dal.CountFullChargeSlots(station.Id)
             };
         }
 
