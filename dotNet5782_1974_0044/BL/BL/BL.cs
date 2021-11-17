@@ -10,21 +10,54 @@ namespace IBL
 {
     public partial class BL : IBL
     {
+        private static Random rand = new Random();
         private List<DroneToList> drones;
         private IDAL.IDal dal;
         public BL()
         {
             dal = new DalObject.DalObject();
             drones = new List<DroneToList>();
-            Initialize((List<IDAL.DO.Drone>)dal.GetDrones());  
+            Initialize();
         }
-        private void Initialize(List<IDAL.DO.Drone> drones)
+        private void Initialize()
         {
-            
+            foreach (IDAL.DO.Drone drone in dal.GetDrones())
+            {
+                DroneToList tmpDrone = new DroneToList()
+                {
+                    Id = drone.Id,
+                    Weight = (BO.WeightCategories)drone.MaxWeight,
+                    DroneModel = drone.Model
+                };
+                foreach (var parcel in dal.GetParcels())
+                {
+                    if (parcel.DorneId == drone.Id && parcel.Delivered.Equals(default(DateTime)))
+                    {
+                        tmpDrone.DroneStatus = DroneStatuses.DELIVERY;
+                        tmpDrone.CurrentLocation = 
+                    }
+                    else
+                    {
+                        tmpDrone.DroneStatus = (DroneStatuses)rand.Next(0, 1);
+                        if(tmpDrone.DroneStatus == DroneStatuses.AVAILABLE)
+                        {
+                            var tmp = GetCustomers().Where(customer => customer.NumParcelReceived > 0).
+                                Select(Customer => GetCustomer(Customer.Id)).ToList();
+                            tmpDrone.CurrentLocation = tmp[rand.Next(0, tmp.Count)].Location;
+
+                        }
+                    }
+
+
+                }
+
+            }
+
+
         }
         bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
         {
-            T temp=lst.FirstOrDefault(item => (int)item.GetType().GetProperty("id").GetValue(item, null) == id);
+            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("id").GetValue(item, null) == id);
             return !(temp.GetType().Equals(default(T)));
         }
         private double Distance(Location sLocation, Location tLocation)

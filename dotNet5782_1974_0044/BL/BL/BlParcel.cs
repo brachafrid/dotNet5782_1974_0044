@@ -117,5 +117,10 @@ namespace IBL
                 Drone = mapDroneWithParcel(tmpDrone)
             };
         }
+        private IEnumerable<Parcel> getAllParcels()
+        {
+            return dal.GetParcels().Select(Parcel => GetParcel(Parcel.Id));
+        }
+            
     }
 }

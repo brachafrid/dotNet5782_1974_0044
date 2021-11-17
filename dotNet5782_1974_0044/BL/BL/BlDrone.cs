@@ -98,7 +98,7 @@ namespace IBL
                 DroneStatus = droneToList.DroneStatus,
                 BattaryMode = droneToList.BatteryStatus,
                 CurrentLocation = droneToList.CurrentLocation,
-                Parcel = droneToList.ParcellId != null ? CreateParcelInTransfer((int)droneToList.ParcellId) : null
+                Parcel = droneToList.ParcelId != null ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
             };
         }
         private IDAL.DO.Station closetStation(IEnumerable<IDAL.DO.Station> stations, DroneToList droneToList,out double minDistance)
