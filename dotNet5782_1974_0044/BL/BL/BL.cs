@@ -16,12 +16,11 @@ namespace IBL
         {
             dal = new DalObject.DalObject();
             drones = new List<DroneToList>();
-            Initialize(dal.GetDrones());
-            
+            Initialize((List<IDAL.DO.Drone>)dal.GetDrones());  
         }
-        private static void Initialize(List<IDAL.DO.Drone> drones)
+        private void Initialize(List<IDAL.DO.Drone> drones)
         {
-
+            
         }
         bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
         {
