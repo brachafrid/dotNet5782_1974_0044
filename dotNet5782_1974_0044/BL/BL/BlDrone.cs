@@ -21,12 +21,12 @@ namespace IBL
         public void ParcelCollectionByDrone(int DroneId)
         {
             DroneToList droneToList = drones.Find(item => item.Id == DroneId);
-            if (droneToList.ParcellId == null)
+            if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
-            IDAL.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcellId);
+            IDAL.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
             if (!parcel.PickedUp.Equals(default(DateTime)))
                 throw new ArgumentNullException("The package has already been collected");
-            drones.Remove(droneToList);
+            drones.Remove(droneToList); 
             IDAL.DO.Customer customer = dal.GetCustomer(parcel.SenderId);
             Location senderLocation = new Location() { Longitude = customer.Longitude, Latitude = customer.Latitude };
             droneToList.BatteryStatus -= Distance(droneToList.CurrentLocation, senderLocation)*dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE];
