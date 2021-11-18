@@ -48,7 +48,7 @@ namespace DalObject
             DataSorce.Parcels.Remove(tmpParcel);
             Drone tmpDrone;
             findSuitableDrone(out tmpDrone, tmpParcel.Weigth);
-            if (!(tmpDrone.Equals(default(Drone))))
+            if (!(tmpDrone.Equals(default)))
             {
                 tmpParcel.DorneId = tmpDrone.Id;
                 tmpParcel.Sceduled = DateTime.Now;

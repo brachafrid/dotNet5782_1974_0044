@@ -10,7 +10,7 @@ namespace IBL
 {
     public partial class BL : IBL
     {
-        private static readonly Random rand = new Random();
+        private static readonly Random rand = new();
         private List<DroneToList> drones;
         private IDAL.IDal dal;
         public BL()
@@ -31,10 +31,10 @@ namespace IBL
                 };
                 foreach (var parcel in dal.GetParcels())
                 {
-                    if (parcel.DorneId == drone.Id && parcel.Delivered.Equals(default(DateTime)))
+                    if (parcel.DorneId == drone.Id && parcel.Delivered.Equals(default))
                     {
                         tmpDrone.DroneStatus = DroneStatuses.DELIVERY;
-                        if (parcel.PickedUp.Equals(default(DateTime)))
+                        if (parcel.PickedUp.Equals(default))
                         {
                             var tmpStation = ClosetStation(dal.GetStations(), MapCustomer(dal.GetCustomer(parcel.SenderId)).Location);
                             tmpDrone.CurrentLocation = new Location() { 
@@ -74,7 +74,7 @@ namespace IBL
         bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
         {
             T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("id").GetValue(item, null) == id);
-            return !(temp.GetType().Equals(default(T)));
+            return !(temp.GetType().Equals(default));
         }
         private double Distance(Location sLocation, Location tLocation)
         {

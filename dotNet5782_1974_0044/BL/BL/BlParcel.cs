@@ -69,7 +69,7 @@ namespace IBL
                 Id = id,
                 WeightCategory = (BO.WeightCategories)parcel.Weigth,
                 Priority = (BO.Priorities)parcel.Priority,
-                ParcelStatus = !parcel.PickedUp.Equals(default(DateTime)),
+                ParcelStatus = !parcel.PickedUp.Equals(default),
                 CollectionPoint = new BO.Location() { Longitude = sender.Longitude, Latitude = sender.Latitude },
                 DeliveryDestination = new BO.Location() { Longitude = target.Longitude, Latitude = target.Latitude },
                 TransportDistance = Distance(new Location() { Longitude = sender.Longitude, Latitude = sender.Latitude }, new Location() { Longitude = sender.Longitude, Latitude = sender.Latitude }),
@@ -95,11 +95,11 @@ namespace IBL
         private ParcelToList mapParcelToList(IDAL.DO.Parcel parcel)
         {
             PackageModes PackageMode;
-            if (!parcel.Delivered.Equals(default(DateTime)))
+            if (!parcel.Delivered.Equals(default))
                 PackageMode = PackageModes.PROVIDED;
-            else if (!parcel.PickedUp.Equals(default(DateTime)))
+            else if (!parcel.PickedUp.Equals(default))
                 PackageMode = PackageModes.COLLECTED;
-            else if (!parcel.Sceduled.Equals(default(DateTime)))
+            else if (!parcel.Sceduled.Equals(default))
                 PackageMode = PackageModes.ASSOCIATED;
             else
                 PackageMode = PackageModes.DEFINED;
@@ -116,7 +116,7 @@ namespace IBL
         private Parcel mapParcel(IDAL.DO.Parcel parcel)
         {
             DroneToList tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
-            if (tmpDrone.Equals(default(DroneToList)))
+            if (tmpDrone.Equals(default))
                 throw new KeyNotFoundException();
             return new Parcel()
             {
