@@ -10,7 +10,7 @@ namespace DalObject
 {
     public class DataSorce
     {
-        static readonly Random rnd = new ();
+        static readonly Random Rnd = new ();
 
         public const int DRONE_INIT = 5;
         public const int Sations_INIT = 2;
@@ -29,7 +29,7 @@ namespace DalObject
         internal static List<Parcel> Parcels = new ();
         internal static List<DroneCharge> DroneCharges = new ();
 
-        public static Random Rnd { get => rnd; set => rnd = value; }
+
 
         internal class Config
         {
@@ -50,7 +50,7 @@ namespace DalObject
             for (int i = 1; i <= CUSTOMERS_INIT; ++i)
                 RandomCustomer(dal, i);
             for (int i = 1; i <= Parcels_INIT; ++i)
-                randParcel(dal, i);
+                RandParcel(i);
         }
         public static int AssignParcelDrone(WeightCategories weight)
         {
