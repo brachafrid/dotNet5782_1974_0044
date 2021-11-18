@@ -34,7 +34,7 @@ namespace IBL
         }
         private ParcelAtCustomer ParcelToParcelAtCustomer(Parcel parcel, string type)
         {
-            ParcelAtCustomer newParcel = new ParcelAtCustomer();
+            ParcelAtCustomer newParcel = new();
             newParcel.Id = parcel.Id;
             newParcel.WeightCategory = parcel.Weight;
             newParcel.Priority = parcel.Priority;
@@ -78,17 +78,17 @@ namespace IBL
             };
         }
 
-        private Dictionary<ParcelToList,double> creatParcelListToAssign(DroneToList aviableDrone)
+        private Dictionary<ParcelToList, double> creatParcelListToAssign(DroneToList aviableDrone)
         {
             double minDistance;
-            Dictionary<ParcelToList,double> parcels = new Dictionary<ParcelToList, double>();
+            Dictionary<ParcelToList, double> parcels = new();
             foreach (var item in dal.GetParcels())
             {
-                if (item.DorneId != 0 &&  (WeightCategories)item.Weigth<=aviableDrone.Weight && calculateElectricity(aviableDrone, mapParcelToList(item),out minDistance) <= aviableDrone.BatteryStatus)
+                if (item.DorneId != 0 && (WeightCategories)item.Weigth <= aviableDrone.Weight && calculateElectricity(aviableDrone, mapParcelToList(item).CustomerSender.Location, mapParcelToList(item).CustomerReceives.Location,(WeightCategories)item.Weigth, out minDistance) <= aviableDrone.BatteryStatus)
                 {
-                    parcels.Add(mapParcelToList(item),minDistance);
-                    
-                }     
+                    parcels.Add(mapParcelToList(item), minDistance);
+
+                }
             }
             return parcels;
         }
@@ -115,7 +115,7 @@ namespace IBL
         }
         private Parcel mapParcel(IDAL.DO.Parcel parcel)
         {
-            DroneToList tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
+            var tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
             if (tmpDrone.Equals(default))
                 throw new KeyNotFoundException();
             return new Parcel()
@@ -133,46 +133,46 @@ namespace IBL
             };
         }
 
-        private void AssigningDroneToParcel(int parcelId,int droneId)
+        private void AssigningDroneToParcel(int parcelId, int droneId)
         {
-            IDAL.DO.Parcel parcel=dal.GetParcel(parcelId);
+            IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
             dal.RemoveParcel(parcel);
             parcel.DorneId = droneId;
             parcel.Sceduled = DateTime.Now;
-            dal.ParcelsReception( parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
+            dal.ParcelsReception(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
         }
         private void ParcelcollectionDrone(int parcelId)
         {
             IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
             dal.RemoveParcel(parcel);
             parcel.PickedUp = DateTime.Now;
-            dal.ParcelsReception( parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
+            dal.ParcelsReception(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
         }
         private void ParcelDeliveredDrone(int parcelId)
         {
             IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
             dal.RemoveParcel(parcel);
             parcel.Delivered = DateTime.Now;
-            dal.ParcelsReception( parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
+            dal.ParcelsReception(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
         }
         private IEnumerable<Parcel> getAllParcels()
         {
             return dal.GetParcels().Select(Parcel => GetParcel(Parcel.Id));
         }
-        private double calculateElectricity(DroneToList aviableDrone, ParcelToList parcel,out double minDistance)
+        private double calculateElectricity(DroneToList aviableDrone, Location CustomerSender,Location CustomerReceives,WeightCategories weight, out double minDistance)
         {
             DroneToList tempDrone = aviableDrone;
             double electricity;
             IDAL.DO.Station station;
-            electricity = Distance(aviableDrone.CurrentLocation, parcel.CustomerSender.Location) * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE] +
-                        Distance(parcel.CustomerSender.Location, parcel.CustomerReceives.Location) * dal.GetElectricityUse()[(int)parcel.Weight + 1];
+            electricity = Distance(aviableDrone.CurrentLocation, CustomerSender) * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE] +
+                        Distance(CustomerSender, CustomerReceives) * dal.GetElectricityUse()[(int)weight + 1];
             tempDrone.BatteryStatus -= electricity;
             station = ClosetStationPossible(dal.GetStations(), tempDrone, out minDistance);
-            electricity += Distance(parcel.CustomerReceives.Location,
+            electricity += Distance(CustomerReceives,
                          new Location() { Latitude = station.Latitude, Longitude = station.Longitude }) * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE];
-            minDistance = Distance(aviableDrone.CurrentLocation, parcel.CustomerSender.Location) + 
-                Distance(parcel.CustomerSender.Location, parcel.CustomerReceives.Location) + 
-                Distance(parcel.CustomerReceives.Location,new Location() { Latitude = station.Latitude, Longitude = station.Longitude });
+            minDistance = Distance(aviableDrone.CurrentLocation, CustomerSender) +
+                Distance(CustomerSender, CustomerReceives) +
+                Distance(CustomerReceives, new Location() { Latitude = station.Latitude, Longitude = station.Longitude });
             return electricity;
         }
 

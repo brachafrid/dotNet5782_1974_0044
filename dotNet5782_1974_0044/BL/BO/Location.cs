@@ -14,7 +14,7 @@ namespace IBL
                 get => longitude;
                 set
                 {
-                    if (value > 0 && value <= 90)
+                    if (value >= 0 && value <= 90)
                         longitude = value;
                     else
                         throw new ArgumentOutOfRangeException();
@@ -25,7 +25,7 @@ namespace IBL
                 get => latitude;
                 set
                 {
-                    if (value > 0 && value <= 180)
+                    if (value > -90 && value <= 90)
                         latitude = value;
                     else
                         throw new ArgumentOutOfRangeException();

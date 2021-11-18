@@ -10,7 +10,7 @@ namespace IBL
     {
         public class ParcelAtCustomer
         {
-           public int Id { get; init; }
+           public int Id { get; set; }
            public WeightCategories WeightCategory { get; set; }
            public Priorities Priority { get; set; }
            public DroneStatuses DroneStatus { get; set; }

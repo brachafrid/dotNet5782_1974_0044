@@ -30,8 +30,11 @@ namespace DalObject
         }
         bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
         {
-            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("id").GetValue(item, null) == id);
-            return !(temp.GetType().Equals(default));
+            if (lst.Count() <= 0)
+                return false;
+           T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id);
+            
+            return !(temp.Equals(default(T)));
         }
 
     }

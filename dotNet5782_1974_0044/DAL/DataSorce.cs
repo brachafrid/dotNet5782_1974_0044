@@ -19,7 +19,8 @@ namespace DalObject
         public const int RANGE_ENUM = 3;
         public const int PHONE_MIN = 100000000;
         public const int PHONE_MAX = 1000000000;
-        public const int LATITUDE_MAX = 180; 
+        public const int LATITUDE_MAX = 90; 
+        public const int LATITUDE_MIN = -90; 
         public const int LONGITUDE_MAX = 90;
         public const int PERCENTAGE = 100;
 
@@ -73,7 +74,7 @@ namespace DalObject
         private static void RandomStation(DalObject dal, int id)
         {
             string name = $"station_{'a' + id}";
-            double latitude = Rnd.Next(LATITUDE_MAX) + Rnd.NextDouble();
+            double latitude = Rnd.Next(LATITUDE_MIN,LATITUDE_MAX) + Rnd.NextDouble();
             double longitude = Rnd.Next(LONGITUDE_MAX) + Rnd.NextDouble();
             int chargeSlots = Rnd.Next() + 1;
             dal.AddStation(id, name, longitude, latitude, chargeSlots);
@@ -82,7 +83,7 @@ namespace DalObject
         {
             string name = $"Customer_ { id}_{id * Rnd.Next()}";
             string phone = $"0{Rnd.Next(PHONE_MIN, PHONE_MAX)}";
-            double latitude = Rnd.Next(LATITUDE_MAX) + Rnd.NextDouble();
+            double latitude = Rnd.Next(LATITUDE_MIN, LATITUDE_MAX) + Rnd.NextDouble();
             double longitude = Rnd.Next(LONGITUDE_MAX) + Rnd.NextDouble();
             dal.AddCustomer(id, phone, name, longitude, latitude);
         }

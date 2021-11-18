@@ -93,7 +93,7 @@ namespace IBL
         private List<DroneInCharging> CreatListDroneInCharging(int id)
         {
             List<int> list = dal.GetDronechargingInStation(id);
-            List<DroneInCharging> droneInChargings = new List<DroneInCharging>();
+            List<DroneInCharging> droneInChargings = new();
             DroneToList droneToList;
             foreach (var idDrone in list)
             {
@@ -151,6 +151,7 @@ namespace IBL
                 ChargingMode = drone.BatteryStatus
             };
         }
+
         public void DeliveryParcelByDrone(int droneId)
         {
             DroneToList droneToList = drones.Find(item => item.Id == droneId);
@@ -161,7 +162,7 @@ namespace IBL
                 throw new ArgumentNullException("The package has already been deliverd");
             drones.Remove(droneToList);
             IDAL.DO.Customer customer = dal.GetCustomer(parcel.TargetId);
-            Location receiverLocation = new Location() { Longitude = customer.Longitude, Latitude = customer.Latitude };
+            Location receiverLocation = new() { Longitude = customer.Longitude, Latitude = customer.Latitude };
             droneToList.BatteryStatus -= Distance(droneToList.CurrentLocation, receiverLocation) * dal.GetElectricityUse()[1 + (int)parcel.Weigth];
             droneToList.CurrentLocation = receiverLocation;
             droneToList.DroneStatus = DroneStatuses.AVAILABLE;

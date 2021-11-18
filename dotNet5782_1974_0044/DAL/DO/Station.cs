@@ -34,7 +34,7 @@ namespace IDAL
                 }
                 set
                 {
-                    if (value < 0 || value > 180)
+                    if (value < -90 || value > 90)
                         throw new ArgumentException("invalid longitude");
                     latitude = value;
                 }
