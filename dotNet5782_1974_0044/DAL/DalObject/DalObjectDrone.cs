@@ -19,10 +19,12 @@ namespace DalObject
         public void addDrone(int id, string model, WeightCategories MaxWeight)
         {
             uniqueIDTaxCheck<Drone>(DataSorce.Drones, id);
-            Drone newDrone = new Drone();
-            newDrone.Id = id;
-            newDrone.Model = model;
-            newDrone.MaxWeight = MaxWeight;
+            Drone newDrone = new ()
+            {
+                Id = id,
+                Model = model,
+                MaxWeight = MaxWeight
+            };
             DataSorce.Drones.Add(newDrone);
         }
 
@@ -51,9 +53,11 @@ namespace DalObject
         /// <param name="droneId"> id of drone</param>
         public void SendDroneCharg(int droneId)
         {
-            DroneCharge tmpDroneCharge = new DroneCharge();
-            tmpDroneCharge.Droneld = droneId;
-            tmpDroneCharge.Stationld = getAvailbleStations().First().Id;
+            DroneCharge tmpDroneCharge = new DroneCharge
+            {
+                Droneld = droneId,
+                Stationld = getAvailbleStations().First().Id
+            };
             DataSorce.DroneCharges.Add(tmpDroneCharge);
             Drone tmpDrone = DataSorce.Drones.First(item => item.Id == droneId);
             DataSorce.Drones.Remove(tmpDrone);
