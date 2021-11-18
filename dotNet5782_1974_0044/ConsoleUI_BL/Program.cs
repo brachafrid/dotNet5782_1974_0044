@@ -34,7 +34,6 @@ namespace ConsoleUI_BL
                             {
                                 DisplayMenus(typeof(Add));
                                 SwitchAdd(ref bal);
-                                Console.WriteLine("error");
                                 break;
                             }
 
@@ -129,7 +128,7 @@ namespace ConsoleUI_BL
             {
                 case Add.Station:
                     {
-                        Console.WriteLine("enter values to station properties:id, name,latitude,longitude,chargeSlots");
+                        Console.WriteLine("enter values to station properties:id,latitude,longitude,chargeSlots, name");
                         double latitude, longitude;
                         int chargeslots;
                         if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out latitude) && double.TryParse(Console.ReadLine(), out longitude) && int.TryParse(Console.ReadLine(), out chargeslots))

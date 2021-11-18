@@ -14,7 +14,7 @@ namespace IBL
             if (ExistsIDTaxCheck(dal.GetStations(), droneBl.Id))
                 throw new ThereIsAnObjectWithTheSameKeyInTheList();
             if (!ExistsIDTaxCheck(dal.GetCustomers(), stationId))
-                throw new KeyNotFoundException("sender not exist");
+                throw new KeyNotFoundException("station not exist");
             dal.AddDrone(droneBl.Id,droneBl.Model,(IDAL.DO.WeightCategories)droneBl.WeightCategory);
             IDAL.DO.Station station = dal.GetStation(stationId);
             DroneToList droneToList = new ()
