@@ -51,13 +51,13 @@ namespace IBL
             if (droneToList.DroneStatus != DroneStatuses.AVAILABLE)
                 throw new Exception();
             double minDistance;
-            IDAL.DO.Station station = ClosetStationPossible(dal.GetStations(), droneToList, out minDistance);
+            IDAL.DO.Station station = ClosetStationPossible(dal.GetStations(), droneToList,out minDistance);
             if (station.Equals(default(IDAL.DO.Station)))
                 throw new Exception();
             drones.Remove(droneToList);
-            droneToList.CurrentLocation = new Location() { Longitude = station.Longitude, Latitude = station.Latitude };
             droneToList.DroneStatus = DroneStatuses.MAINTENANCE;
             droneToList.BatteryStatus -= minDistance * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE];
+            droneToList.CurrentLocation = new Location() { Longitude = station.Longitude, Latitude = station.Latitude };;
             //הורדת מספר עמדות טעינה בתחנה
             dal.AddDRoneCharge(id, station.Id);
         }
@@ -105,19 +105,20 @@ namespace IBL
                 Parcel = droneToList.ParcelId != null ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
             };
         }
-        private IDAL.DO.Station ClosetStationPossible(IEnumerable<IDAL.DO.Station> stations, DroneToList droneToList, out double minDistance)
+        private IDAL.DO.Station ClosetStationPossible(IEnumerable<IDAL.DO.Station> stations, DroneToList droneToList,out double minDistance)
         {
-            IDAL.DO.Station station = ClosetStation(stations, droneToList, out minDistance);
+            IDAL.DO.Station station = ClosetStation(stations, droneToList.CurrentLocation);
+            minDistance = Distance(new Location() { Longitude = station.Longitude, Latitude = station.Latitude }, droneToList.CurrentLocation);
             return minDistance * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE] < droneToList.BatteryStatus ? station : default(IDAL.DO.Station);
         }
-        private IDAL.DO.Station ClosetStation(IEnumerable<IDAL.DO.Station> stations, DroneToList droneToList, out double minDistance)
+        private IDAL.DO.Station ClosetStation(IEnumerable<IDAL.DO.Station> stations, Location location)
         {
-            minDistance = 0;
+            double minDistance = 0;
             double curDistance;
             IDAL.DO.Station station = default(IDAL.DO.Station);
             foreach (var item in stations)
             {
-                curDistance = Distance(droneToList.CurrentLocation,
+                curDistance = Distance(location,
                     new Location() { Latitude = item.Latitude, Longitude = item.Longitude });
                 if (curDistance < minDistance)
                 {
@@ -141,7 +142,7 @@ namespace IBL
             DroneToList droneToList = drones.Find(item => item.Id == droneId);
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
-            IDAL.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcellId);
+            IDAL.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
             if (!parcel.Delivered.Equals(default(DateTime)))
                 throw new ArgumentNullException("The package has already been deliverd");
             drones.Remove(droneToList);
@@ -157,7 +158,7 @@ namespace IBL
         public void AssingParcelToDrone(int droneId)
         {
             DroneToList aviableDrone = drones.Find(item => item.Id == droneId);
-            List<ParcelInTransfer> parcels = (List<ParcelInTransfer>)CreateParcelInTransferList(aviableDrone.Weight);
+            Dictionary<ParcelToList,double> parcels = creatParcelListToAssign(aviableDrone);
             treatInPiority(ref aviableDrone, parcels, Priorities.EMERGENCY);
             if (!(aviableDrone.DroneStatus == DroneStatuses.DELIVERY))
             {
@@ -168,22 +169,21 @@ namespace IBL
 
 
         }
-        private void treatInPiority(ref DroneToList aviableDrone, List<ParcelInTransfer> parcels, Priorities piority)
+        private void treatInPiority(ref DroneToList aviableDrone, List<ParcelToList> parcels, Priorities priority)
         {
-            double minDistance = double.MaxValue, tmpDistance;
+            double minDistance = double.MaxValue;
             WeightCategories weight = WeightCategories.LIGHT;
-            ParcelInTransfer parcel = default(ParcelInTransfer);
+            ParcelToList parcel = default(ParcelToList);
+            Priorities maxPriority = Priorities.REGULAR;
             foreach (var item in parcels)
             {
-                if (item.Priority == piority)
-                {
-                    if (calculateElectricity(aviableDrone, item, item.WeightCategory, out tmpDistance) <= aviableDrone.BatteryStatus && tmpDistance <= minDistance && item.WeightCategory >= weight)
+                    if ( maxPriority<item.Piority&& /**/<= minDistance && item.Weight >= weight )
                     {
                         parcel = item;
-                        minDistance = tmpDistance;
-                        weight = item.WeightCategory;
+                        minDistance =/**/ ;
+                        weight = item.Weight;
                     }
-                }
+
             }
             treatInDrone(ref aviableDrone, parcel);
         }
@@ -196,19 +196,7 @@ namespace IBL
             AssigningDroneToParcel(parcel.Id, aviableDrone.Id);
             drones.Add(aviableDrone);
         }
-        private double calculateElectricity(DroneToList aviableDrone, ParcelInTransfer parcel, WeightCategories status, out double minDistance)
-        {
-            DroneToList tempDrone = aviableDrone;
-            double electricity;
-            IDAL.DO.Station station;
-            electricity = Distance(aviableDrone.CurrentLocation, parcel.CollectionPoint) * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE] +
-                        Distance(parcel.CollectionPoint, parcel.DeliveryDestination) * dal.GetElectricityUse()[(int)status + 1];
-            tempDrone.BatteryStatus -= electricity;
-            station = ClosetStationPossible(dal.GetStations(), tempDrone, out minDistance);
-            electricity += Distance(parcel.DeliveryDestination,
-                         new Location() { Latitude = station.Latitude, Longitude = station.Longitude }) * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE];
-            return electricity;
-        }
+       
 
     }
 }
