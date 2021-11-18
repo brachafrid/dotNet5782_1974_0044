@@ -389,26 +389,27 @@ namespace ConsoleUI_BL
         public static void switchDisplayList(ref IBL.IBL bl)
         {
             DisplayList option;
-            Enum.TryParse(Console.ReadLine(), out option);
+            if(!Enum.TryParse(Console.ReadLine(), out option))
+                Console.WriteLine();
             switch (option)
             {
                 case DisplayList.Sations:
-                    printList(bl.GetStations());
+                    PrintList(bl.GetStations());
                     break;
                 case DisplayList.Drones:
-                    printList(bl.GetDrones());
+                    PrintList(bl.GetDrones());
                     break;
                 case DisplayList.Customers:
-                    printList(bl.GetCustomers());
+                    PrintList(bl.GetCustomers());
                     break;
                 case DisplayList.Parcels:
-                    printList(bl.GetParcels());
+                    PrintList(bl.GetParcels());
                     break;
                 case DisplayList.AvailableChargingSations:
-                    printList(bl.GetStaionsWithEmptyChargeSlots());
+                    PrintList(bl.GetStaionsWithEmptyChargeSlots());
                     break;
                 case DisplayList.ParcelNotAssignToDrone:
-                    printList(bl.GetParcelsNotAssignedToDrone());
+                    PrintList(bl.GetParcelsNotAssignedToDrone());
                     break;
                 default:
                     break;
@@ -418,7 +419,7 @@ namespace ConsoleUI_BL
         /// Prints the whole items in collection to the console
         /// </summary>
         /// <param name="list">collection for printing</param>
-        public static void printList(IEnumerable list)
+        public static void PrintList(IEnumerable list)
         {
             foreach (var item in list)
             {
