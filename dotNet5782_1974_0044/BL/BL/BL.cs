@@ -10,7 +10,7 @@ namespace IBL
 {
     public partial class BL : IBL
     {
-        private static Random rand = new Random();
+        private static readonly Random rand = new Random();
         private List<DroneToList> drones;
         private IDAL.IDal dal;
         public BL()
@@ -35,10 +35,17 @@ namespace IBL
                     {
                         tmpDrone.DroneStatus = DroneStatuses.DELIVERY;
                         if (parcel.PickedUp.Equals(default(DateTime)))
-                            tmpDrone.CurrentLocation = ClosetStation(dal.GetStations(), MapCustomer(dal.GetCustomer(parcel.SenderId)).Location);
+                        {
+                            var tmpStation = ClosetStation(dal.GetStations(), MapCustomer(dal.GetCustomer(parcel.SenderId)).Location);
+                            tmpDrone.CurrentLocation = new Location() { 
+                                Longitude = tmpStation.Longitude,
+                                Latitude = tmpStation.Latitude
+                            };
+                        }   
                         else
                             tmpDrone.CurrentLocation = MapCustomer(dal.GetCustomer(parcel.SenderId)).Location;
-                        tmpDrone.BatteryStatus = rand.Next(0, 2) == 0 ? 100 :calculateElectricity(drone,mapParcelToList(parcel),)
+                        double minDistance;
+                        tmpDrone.BatteryStatus = rand.NextDouble() + rand.Next((int)calculateElectricity(tmpDrone, mapParcelToList(parcel),out minDistance)+1, 100);
                     }
                     else
                     {
@@ -48,20 +55,21 @@ namespace IBL
                             var tmp = GetCustomers().Where(customer => customer.NumParcelReceived > 0).
                                 Select(Customer => GetCustomer(Customer.Id)).ToList();
                             tmpDrone.CurrentLocation = tmp[rand.Next(0, tmp.Count)].Location;
-
                         }
                         else
                         {
-                            tmpDrone.
+                            tmpDrone.BatteryStatus = rand.Next(0,20) + rand.NextDouble();
+                            IDAL.DO.Station station = dal.GetStations().ToList()[rand.Next(0, dal.GetStations().ToList().Count())];
+                            tmpDrone.CurrentLocation = new Location()
+                            {
+                                Latitude = station.Latitude,
+                                Longitude = station.Longitude
+                            };      
                         }
                     }
-
-
                 }
-
+                drones.Add(tmpDrone);
             }
-
-
         }
         bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
         {
@@ -74,7 +82,5 @@ namespace IBL
             var tCoord = new GeoCoordinate(tLocation.Latitude, tLocation.Longitude);
             return sCoord.GetDistanceTo(tCoord);
         }
-
     }
 }
-
