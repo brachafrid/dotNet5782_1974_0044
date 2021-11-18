@@ -168,7 +168,7 @@ namespace IBL
             droneToList.CurrentLocation = receiverLocation;
             droneToList.DroneStatus = DroneStatuses.AVAILABLE;
             drones.Add(droneToList);
-            ParcelcollectionDrone(parcel.Id);
+            ParcelDeliveredDrone(parcel.Id);
         }
 
         public void AssingParcelToDrone(int droneId)
