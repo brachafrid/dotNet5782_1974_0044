@@ -78,13 +78,14 @@ namespace IBL
             };
         }
 
-        private IEnumerable<ParcelInTransfer> CreateParcelInTransferList(WeightCategories weight)
+        private IEnumerable<ParcelToList> creatParcelList(DroneToList aviableDrone)
         {
-            List<ParcelInTransfer> parcels = new List<ParcelInTransfer>();
+            double tmpDistance;
+            List<ParcelToList> parcels = new List<ParcelToList>();
             foreach (var item in dal.GetParcels())
             {
-                if (item.DorneId != 0 &&  (WeightCategories)item.Weigth<=weight)
-                    parcels.Add(CreateParcelInTransfer(item.Id));
+                if (item.DorneId != 0 &&  (WeightCategories)item.Weigth<=aviableDrone.Weight && calculateElectricity(aviableDrone, item, (WeightCategories)item.Weigth) <= aviableDrone.BatteryStatus)
+                    parcels.Add(mapParcelToList(item));
             }
             return parcels;
         }
@@ -155,6 +156,19 @@ namespace IBL
         {
             return dal.GetParcels().Select(Parcel => GetParcel(Parcel.Id));
         }
-            
+        private double calculateElectricity(DroneToList aviableDrone, ParcelInTransfer parcel, WeightCategories status)
+        {
+
+            DroneToList tempDrone = aviableDrone;
+            double electricity;
+            IDAL.DO.Station station;
+            electricity = Distance(aviableDrone.CurrentLocation, parcel.CollectionPoint) * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE] +
+                        Distance(parcel.CollectionPoint, parcel.DeliveryDestination) * dal.GetElectricityUse()[(int)status + 1];
+            tempDrone.BatteryStatus -= electricity;
+            station = ClosetStationPossible(dal.GetStations(), tempDrone, out minDistance);
+            electricity += Distance(parcel.DeliveryDestination,
+                         new Location() { Latitude = station.Latitude, Longitude = station.Longitude }) * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE];
+            return electricity;
+        }
     }
 }
