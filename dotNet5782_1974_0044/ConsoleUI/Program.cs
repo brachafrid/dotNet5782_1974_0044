@@ -173,9 +173,9 @@ namespace ConsoleUI
                         int senderId, targetId;
                         WeightCategories weigth;
                         Priorities priority;
-                        if (int.TryParse(Console.ReadLine(), out id)&& int.TryParse(Console.ReadLine(), out senderId)&&int.TryParse(Console.ReadLine(), out targetId)&&Enum.TryParse(Console.ReadLine(), out weigth)&& Enum.TryParse(Console.ReadLine(), out priority))
+                        if ( int.TryParse(Console.ReadLine(), out senderId)&&int.TryParse(Console.ReadLine(), out targetId)&&Enum.TryParse(Console.ReadLine(), out weigth)&& Enum.TryParse(Console.ReadLine(), out priority))
                         {
-                            dalObject.ParcelsReception(id, senderId, targetId, weigth, priority);
+                            dalObject.ParcelsReception(senderId, targetId, weigth, priority);
                         }
                         else
                             Console.WriteLine("The conversion failed and therefore the addition was not made");
