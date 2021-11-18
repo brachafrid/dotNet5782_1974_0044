@@ -35,7 +35,7 @@ namespace DalObject
         public void findSuitableDrone(out Drone tmpDrone, IDAL.DO.WeightCategories weight)
         {
             tmpDrone = DataSorce.Drones.FirstOrDefault(item => (weight <= item.MaxWeight));
-            if (!(tmpDrone.Equals(default(Drone))))
+            if (!(tmpDrone.Equals(default)))
             {
                 DataSorce.Drones.Remove(tmpDrone);
                 DataSorce.Drones.Add(tmpDrone);
@@ -81,7 +81,7 @@ namespace DalObject
         /// <returns></returns>
         public double[] GetElectricityUse()
         {
-            return new double[] { DataSorce.Config.Available, DataSorce.Config.LightWeightCarrier, DataSorce.Config.MediumWeightBearing, DataSorce.Config.CarriesHeavyWeight, DataSorce.Config.DroneLoadingRate }
+            return new double[] { DataSorce.Config.Available, DataSorce.Config.LightWeightCarrier, DataSorce.Config.MediumWeightBearing, DataSorce.Config.CarriesHeavyWeight, DataSorce.Config.DroneLoadingRate };
         }
 
         //----------------------------------Display--------------------------------

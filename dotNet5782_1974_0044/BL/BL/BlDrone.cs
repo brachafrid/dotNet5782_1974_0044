@@ -38,7 +38,7 @@ namespace IBL
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
             IDAL.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
-            if (!parcel.PickedUp.Equals(default(DateTime)))
+            if (!parcel.PickedUp.Equals(default))
                 throw new ArgumentNullException("The package has already been collected");
             drones.Remove(droneToList); 
             IDAL.DO.Customer customer = dal.GetCustomer(parcel.SenderId);
@@ -66,7 +66,7 @@ namespace IBL
                 throw new Exception();
             double minDistance;
             IDAL.DO.Station station = ClosetStationPossible(dal.GetStations(), droneToList,out minDistance);
-            if (station.Equals(default(IDAL.DO.Station)))
+            if (station.Equals(default))
                 throw new Exception();
             drones.Remove(droneToList);
             droneToList.DroneStatus = DroneStatuses.MAINTENANCE;
@@ -80,7 +80,7 @@ namespace IBL
             if (!ExistsIDTaxCheck(dal.GetDrones(), id))
                 throw new KeyNotFoundException();
             IDAL.DO.Drone droneDl = dal.GetDrone(id);
-            if (name.Equals(default(string)))
+            if (name.Equals(default))
                 throw new ArgumentNullException("For updating the name must be initialized ");
             dal.RemoveDrone(droneDl);
             dal.addDrone(id, name, droneDl.MaxWeight);
@@ -98,7 +98,7 @@ namespace IBL
             foreach (var idDrone in list)
             {
                 droneToList = drones.FirstOrDefault(item => (item.Id == idDrone));
-                if (!droneToList.Equals(default(DroneToList)))
+                if (!droneToList.Equals(default))
                 {
                     droneInChargings.Add(new DroneInCharging() { Id = idDrone, ChargingMode = droneToList.BatteryStatus });
                 }
@@ -129,7 +129,7 @@ namespace IBL
         {
             double minDistance = 0;
             double curDistance;
-            IDAL.DO.Station station = default(IDAL.DO.Station);
+            IDAL.DO.Station station = default;
             foreach (var item in stations)
             {
                 curDistance = Distance(location,
@@ -157,7 +157,7 @@ namespace IBL
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
             IDAL.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
-            if (!parcel.Delivered.Equals(default(DateTime)))
+            if (!parcel.Delivered.Equals(default))
                 throw new ArgumentNullException("The package has already been deliverd");
             drones.Remove(droneToList);
             IDAL.DO.Customer customer = dal.GetCustomer(parcel.TargetId);
@@ -185,7 +185,7 @@ namespace IBL
         {
             double minDistance = double.MaxValue;
             WeightCategories weight = WeightCategories.LIGHT;
-            ParcelToList parcel = default(ParcelToList);
+            ParcelToList parcel = default;
             Priorities maxPriority = Priorities.REGULAR;
             foreach (var item in parcels)
             {
