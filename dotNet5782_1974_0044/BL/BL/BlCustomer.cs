@@ -34,6 +34,7 @@ namespace IBL
             if (name.Equals(default(string)) && phone.Equals(default(string)))
                 throw new ArgumentNullException("no field to update");
             IDAL.DO.Customer customer = dal.GetCustomer(id);
+            dal.RemoveCustomer(customer);
             if (name.Equals(default(string)))
                 name = customer.Name;
             else if (phone.Equals(default(string)))
@@ -41,7 +42,7 @@ namespace IBL
             dal.addCustomer(id, phone, name, customer.Longitude, customer.Latitude);
         }
 
-        IEnumerable<CustomerToList> GetCustomers()
+       public IEnumerable<CustomerToList> GetCustomers()
         {
             return dal.GetCustomers().Select(customer => mapCustomerToList(customer));
         }

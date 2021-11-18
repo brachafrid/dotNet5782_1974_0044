@@ -34,12 +34,17 @@ namespace IBL
                     if (parcel.DorneId == drone.Id && parcel.Delivered.Equals(default(DateTime)))
                     {
                         tmpDrone.DroneStatus = DroneStatuses.DELIVERY;
-                        tmpDrone.CurrentLocation = 
+
+                        if (parcel.PickedUp.Equals(default(DateTime)))
+                        {
+                            double help;
+                            tmpDrone.CurrentLocation = ClosetStation(dal.GetStations(), MapCustomer(dal.GetCustomer(parcel.SenderId)).Location,out help);
+                        }
                     }
                     else
                     {
                         tmpDrone.DroneStatus = (DroneStatuses)rand.Next(0, 1);
-                        if(tmpDrone.DroneStatus == DroneStatuses.AVAILABLE)
+                        if (tmpDrone.DroneStatus == DroneStatuses.AVAILABLE)
                         {
                             var tmp = GetCustomers().Where(customer => customer.NumParcelReceived > 0).
                                 Select(Customer => GetCustomer(Customer.Id)).ToList();
