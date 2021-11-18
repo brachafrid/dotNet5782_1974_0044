@@ -14,7 +14,7 @@ namespace IBL
         {
             if (ExistsIDTaxCheck(dal.GetStations(), stationBL.Id))
                 throw new AnElementWithTheSameKeyAlreadyExistsInTheListException();
-            dal.addStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);    
+            dal.AddStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);    
         }
         public void UpdateStation(int id, string name, int chargeSlots)
         {
@@ -26,7 +26,7 @@ namespace IBL
             if (!chargeSlots.Equals(default) && chargeSlots < dal.CountFullChargeSlots(satationDl.Id))
                 throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
             dal.RemoveStation(satationDl);
-            dal.addStation(id, name.Equals(default) ? satationDl.Name : name, satationDl.Longitude, satationDl.Latitude, chargeSlots.Equals(default(int)) ? satationDl.ChargeSlots : chargeSlots);
+            dal.AddStation(id, name.Equals(default) ? satationDl.Name : name, satationDl.Longitude, satationDl.Latitude, chargeSlots.Equals(default(int)) ? satationDl.ChargeSlots : chargeSlots);
         }
         public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots()
         {

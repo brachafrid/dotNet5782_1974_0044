@@ -14,7 +14,7 @@ namespace IBL
             {
                 throw new AnElementWithTheSameKeyAlreadyExistsInTheListException();
             }
-            dal.addCustomer(customer.Id, customer.Phone, customer.Name, customer.Location.Longitude, customer.Location.Latitude);
+            dal.AddCustomer(customer.Id, customer.Phone, customer.Name, customer.Location.Longitude, customer.Location.Latitude);
         }
         public Customer GetCustomer(int id)
         {
@@ -39,12 +39,12 @@ namespace IBL
                 name = customer.Name;
             else if (phone.Equals(default))
                 phone = customer.Phone;
-            dal.addCustomer(id, phone, name, customer.Longitude, customer.Latitude);
+            dal.AddCustomer(id, phone, name, customer.Longitude, customer.Latitude);
         }
 
        public IEnumerable<CustomerToList> GetCustomers()
         {
-            return dal.GetCustomers().Select(customer => mapCustomerToList(customer));
+            return dal.GetCustomers().Select(customer => MapCustomerToList(customer));
         }
 
         private Customer MapCustomer(IDAL.DO.Customer customer)
@@ -63,7 +63,7 @@ namespace IBL
                 ToCustomer = getAllParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "Recive")).ToList()
             };
         }
-        private CustomerToList mapCustomerToList(IDAL.DO.Customer customer)
+        private CustomerToList MapCustomerToList(IDAL.DO.Customer customer)
         {
             return new CustomerToList()
             {
@@ -78,7 +78,7 @@ namespace IBL
             };
            
         }
-        private CustomerInParcel mapCustomerInParcel(IDAL.DO.Customer customer)
+        private CustomerInParcel MapCustomerInParcel(IDAL.DO.Customer customer)
         {
             return new CustomerInParcel()
             {

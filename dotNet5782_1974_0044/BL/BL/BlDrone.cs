@@ -13,9 +13,9 @@ namespace IBL
                 throw new AnElementWithTheSameKeyAlreadyExistsInTheListException();
             if (!ExistsIDTaxCheck(dal.GetCustomers(), stationId))
                 throw new KeyNotFoundException("sender not exist");
-            dal.addDrone(droneBl.Id,droneBl.Model,(IDAL.DO.WeightCategories)droneBl.WeightCategory);
+            dal.AddDrone(droneBl.Id,droneBl.Model,(IDAL.DO.WeightCategories)droneBl.WeightCategory);
             IDAL.DO.Station station = dal.GetStation(stationId);
-            DroneToList droneToList = new DroneToList()
+            DroneToList droneToList = new ()
             {
                 Id = droneBl.Id,
                 DroneModel = droneBl.Model,
@@ -83,7 +83,7 @@ namespace IBL
             if (name.Equals(default))
                 throw new ArgumentNullException("For updating the name must be initialized ");
             dal.RemoveDrone(droneDl);
-            dal.addDrone(id, name, droneDl.MaxWeight);
+            dal.AddDrone(id, name, droneDl.MaxWeight);
             DroneToList droneToList = drones.Find(item => item.Id == id);
             drones.Remove(droneToList);
             droneToList.DroneModel = name;

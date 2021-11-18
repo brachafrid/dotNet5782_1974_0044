@@ -22,7 +22,7 @@ namespace DalObject
         {
             DataSorce.Customers.First(item => item.Id == SenderId);
             DataSorce.Customers.First(item => item.Id == TargetId);
-            Parcel newParcel = new Parcel();
+            Parcel newParcel = new ();
             newParcel.Id = ++DataSorce.Config.IdParcel;
             newParcel.SenderId = SenderId;
             newParcel.TargetId = TargetId;

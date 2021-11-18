@@ -144,7 +144,7 @@ namespace ConsoleUI
                         if (int.TryParse(Console.ReadLine(), out id) && Enum.TryParse(Console.ReadLine(), out maxWeight))
                         {
                             string model = Console.ReadLine();
-                            dalObject.addDrone(id, model, maxWeight);
+                            dalObject.AddDrone(id, model, maxWeight);
                         }
                         else
                             Console.WriteLine("The conversion failed and therefore the addition was not made");
@@ -160,7 +160,7 @@ namespace ConsoleUI
                         if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out latitude) && double.TryParse(Console.ReadLine(), out longitude) && int.TryParse(Console.ReadLine(), out chargeslots))
                         {
                             string name = Console.ReadLine();
-                            dalObject.addStation(id, name, latitude, longitude, chargeslots);
+                            dalObject.AddStation(id, name, latitude, longitude, chargeslots);
                         }
                         else
                             Console.WriteLine("The conversion failed and therefore the addition was not made");
@@ -192,7 +192,7 @@ namespace ConsoleUI
                            
                             string name = Console.ReadLine();
                             string phone = Console.ReadLine();
-                            dalObject.addCustomer(id, name, phone, latitude, longitude);
+                            dalObject.AddCustomer(id, name, phone, latitude, longitude);
                         }
                         else
                             Console.WriteLine("The conversion failed and therefore the addition was not made");
