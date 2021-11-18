@@ -16,14 +16,15 @@ namespace ConsoleUI_BL
         enum DisplayList { Sations, Drones, Customers, Parcels, ParcelNotAssignToDrone, AvailableChargingSations }
         enum Display { Station, Drone, Customer, Parcel }
 
-        static void Main(string[] args)
+        static void Main()
         {
             IBL.IBL bal = new IBL.BL();
             Menu option;
             do
             {
                 DisplayMenus(typeof(Menu));
-                Enum.TryParse(Console.ReadLine(), out option);
+                if(!Enum.TryParse(Console.ReadLine(), out option))
+                    Console.WriteLine();
                 switch (option)
 
                 {
@@ -32,7 +33,7 @@ namespace ConsoleUI_BL
                             DisplayMenus(typeof(Add));
                             try
                             {
-                                switchAdd(ref bal);
+                                SwitchAdd(ref bal);
                             }
                             catch
                             {
@@ -48,7 +49,7 @@ namespace ConsoleUI_BL
                             DisplayMenus(typeof(Update));
                             try
                             {
-                                switchUpdate(ref bal);
+                                SwitchUpdate(ref bal);
                             }
                             catch (ArgumentNullException)
                             {
@@ -70,7 +71,7 @@ namespace ConsoleUI_BL
                             DisplayMenus(typeof(Display));
                             try
                             {
-                                switchDisplay(ref bal);
+                                SwitchDisplay(ref bal);
                             }
                             catch (ArgumentNullException)
                             {
@@ -88,7 +89,7 @@ namespace ConsoleUI_BL
                             DisplayMenus(typeof(DisplayList));
                             try
                             {
-                                switchDisplayList(ref bal);
+                                SwitchDisplayList(ref bal);
                             }
                             catch
                             {
@@ -130,10 +131,11 @@ namespace ConsoleUI_BL
         /// Receives input from the user what type of organ to print as well as ID number and calls to the appropriate adding method
         /// </summary>
         /// <param name="dalObject"></param>
-        public static void switchAdd(ref IBL.IBL bl)
+        public static void SwitchAdd(ref IBL.IBL bl)
         {
             Add option;
-            Enum.TryParse(Console.ReadLine(), out option);
+            if(!Enum.TryParse(Console.ReadLine(), out option))
+                Console.WriteLine();
             int id;
             switch (option)
             {
@@ -145,10 +147,10 @@ namespace ConsoleUI_BL
                         if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out latitude) && double.TryParse(Console.ReadLine(), out longitude) && int.TryParse(Console.ReadLine(), out chargeslots))
                         {
                             string name = Console.ReadLine();
-                            Location location = new Location();
+                            Location location = new ();
                             location.Longitude = longitude;
                             location.Latitude = latitude;
-                            Station station = new Station() { Id = id, Name = name, Location = location, AvailableChargingPorts = chargeslots, DroneInChargings = new List<DroneInCharging>() };
+                            Station station = new () { Id = id, Name = name, Location = location, AvailableChargingPorts = chargeslots, DroneInChargings = new List<DroneInCharging>() };
                             bl.AddStation(station);
                         }
                         else
@@ -162,7 +164,7 @@ namespace ConsoleUI_BL
                         int stationId;
                         if (int.TryParse(Console.ReadLine(), out id) && Enum.TryParse(Console.ReadLine(), out maxWeight) && int.TryParse(Console.ReadLine(), out stationId))
                         {
-                            Drone drone = new Drone() { Id = id, WeightCategory = maxWeight,Model=Console.ReadLine() };
+                            Drone drone = new () { Id = id, WeightCategory = maxWeight,Model=Console.ReadLine() };
                             bl.AddDrone(drone, stationId);
                         }
                         else
@@ -176,7 +178,7 @@ namespace ConsoleUI_BL
                         Console.WriteLine("enter values to station properties:id,latitude,longitude, name");
                         if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out latitude) && double.TryParse(Console.ReadLine(), out longitude))
                         {
-                            Location location = new Location();
+                            Location location = new ();
                             location.Longitude = longitude;
                             location.Latitude = latitude;
                             string name = Console.ReadLine();
@@ -241,10 +243,11 @@ namespace ConsoleUI_BL
         /// Receives input from the user what type of organ to print as well as ID number and calls to the appropriate updating method
         /// </summary>
         /// <param name="dalObject"></param>
-        public static void switchUpdate(ref IBL.IBL bl)
+        public static void SwitchUpdate(ref IBL.IBL bl)
         {
             Update option;
-            Enum.TryParse(Console.ReadLine(), out option);
+            if(!Enum.TryParse(Console.ReadLine(), out option))
+                Console.WriteLine();
             int id;
             switch (option)
             {
@@ -340,10 +343,11 @@ namespace ConsoleUI_BL
         /// Receives input from the user what type of organ to print as well as ID number and calls to the appropriate printing method
         /// </summary>
         /// <param name="dalObject"></param>
-        public static void switchDisplay(ref IBL.IBL bl)
+        public static void SwitchDisplay(ref IBL.IBL bl)
         {
             Display option;
-            Enum.TryParse(Console.ReadLine(), out option);
+            if(!Enum.TryParse(Console.ReadLine(), out option))
+                Console.WriteLine();
             int id;
             switch (option)
             {
@@ -384,7 +388,7 @@ namespace ConsoleUI_BL
         /// Receives input from the user and calls the printing method accordingly 
         /// </summary>
         /// <param name="dalObject"></param>
-        public static void switchDisplayList(ref IBL.IBL bl)
+        public static void SwitchDisplayList(ref IBL.IBL bl)
         {
             DisplayList option;
             if(!Enum.TryParse(Console.ReadLine(), out option))
