@@ -10,7 +10,7 @@ namespace IBL
     {
       public class Parcel
         {
-            public int Id { get; set; }
+            public int Id { get; init; }
             public CustomerInParcel CustomerSender { get; set; }
             public CustomerInParcel CustomerReceives { get; set; }
             public WeightCategories Weight { get; set; }
@@ -20,6 +20,10 @@ namespace IBL
             public DateTime? AssignmentTime { get; set; }
             public DateTime? CollectionTime { get; set; }
             public DateTime? DeliveryTime { get; set; }
+            public override string ToString()
+            {
+                return this.ToStringProperties();
+            }
 
         }
     }

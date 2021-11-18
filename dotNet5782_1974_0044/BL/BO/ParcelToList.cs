@@ -10,12 +10,16 @@ namespace IBL
     {
       public  class ParcelToList
         {
-            public int Id { get; set; }
+            public int Id { get; init; }
             public Customer CustomerSender { get; set; }
             public Customer CustomerReceives { get; set; }
             public WeightCategories Weight { get; set; }
             public Priorities Piority { get; set; }
             public PackageModes PackageMode { get; set; }
+            public override string ToString()
+            {
+                return this.ToStringProperties();
+            }
         }
     }
 

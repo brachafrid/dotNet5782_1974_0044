@@ -11,7 +11,7 @@ namespace IBL
     {
       public class ParcelInTransfer
         {
-            public int Id { get; set; }
+            public int Id { get; init; }
             public WeightCategories WeightCategory { get; set; }
             public Priorities Priority { get; set; }
             public bool ParcelStatus { get; set; }
@@ -20,6 +20,10 @@ namespace IBL
             public double TransportDistance { get; set; }
             public CustomerInParcel CustomerSender { get; set; }
             public CustomerInParcel CustomerReceives { get; set; }
+            public override string ToString()
+            {
+                return this.ToStringProperties();
+            }
 
         }
     }

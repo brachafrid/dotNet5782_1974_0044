@@ -10,13 +10,17 @@ namespace IBL
     {
        public class Drone
         {
-            public int Id { get; set; }
+            public int Id { get; init; }
             public string Model { get; set; }
             public WeightCategories WeightCategory { get; set; }
             public DroneStatuses DroneStatus { get; set; }
             public double BattaryMode { get; set; }
             public Location CurrentLocation { get; set; }
             public ParcelInTransfer Parcel { get; set; }
+            public override string ToString()
+            {
+                return this.ToStringProperties();
+            }
         }
     }
 

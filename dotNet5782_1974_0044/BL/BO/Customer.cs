@@ -10,12 +10,16 @@ namespace IBL
     {
        public class Customer
         {
-            public int Id { get; set; }
+            public int Id { get; init; }
             public string Name { get; set; }
             public string Phone { get; set; }
             public Location Location { get; set; }
             public List<ParcelAtCustomer> FromCustomer  { get; set; }
             public List<ParcelAtCustomer> ToCustomer  { get; set; }
+            public override string ToString()
+            {
+                return this.ToStringProperties();
+            }
         }
     }
 

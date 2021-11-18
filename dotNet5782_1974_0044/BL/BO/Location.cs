@@ -31,6 +31,10 @@ namespace IBL
                         throw new ArgumentOutOfRangeException();
                 }
             }
+            public override string ToString()
+            {
+                return this.ToStringProperties();
+            }
         }
     }
 }
