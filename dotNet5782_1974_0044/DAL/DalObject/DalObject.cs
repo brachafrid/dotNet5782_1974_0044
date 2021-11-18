@@ -25,11 +25,13 @@ namespace DalObject
         /// <param name="id">the id to check</param>
         void uniqueIDTaxCheck<T>(List<T> lst, int id)
         {
-            foreach (var item in lst)
-            {
-                if ((int)item.GetType().GetProperty("id").GetValue(item, null) == id)
-                    throw new ArgumentException(" An element with the same key already exists in the list");
-            }
+            if (ExistsIDTaxCheck(lst, id))
+                throw new Exception();
+        }
+        bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
+        {
+            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("id").GetValue(item, null) == id);
+            return !(temp.GetType().Equals(default));
         }
 
     }
