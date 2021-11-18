@@ -34,17 +34,25 @@ namespace IBL
                     if (parcel.DorneId == drone.Id && parcel.Delivered.Equals(default(DateTime)))
                     {
                         tmpDrone.DroneStatus = DroneStatuses.DELIVERY;
-                        tmpDrone.CurrentLocation = 
+                        if (parcel.PickedUp.Equals(default(DateTime)))
+                            tmpDrone.CurrentLocation = ClosetStation(dal.GetStations(), MapCustomer(dal.GetCustomer(parcel.SenderId)).Location);
+                        else
+                            tmpDrone.CurrentLocation = MapCustomer(dal.GetCustomer(parcel.SenderId)).Location;
+                        tmpDrone.BatteryStatus = rand.Next(0, 2) == 0 ? 100 :calculateElectricity(drone,mapParcelToList(parcel),)
                     }
                     else
                     {
-                        tmpDrone.DroneStatus = (DroneStatuses)rand.Next(0, 1);
-                        if(tmpDrone.DroneStatus == DroneStatuses.AVAILABLE)
+                        tmpDrone.DroneStatus = (DroneStatuses)rand.Next(0, 2);
+                        if (tmpDrone.DroneStatus == DroneStatuses.AVAILABLE)
                         {
                             var tmp = GetCustomers().Where(customer => customer.NumParcelReceived > 0).
                                 Select(Customer => GetCustomer(Customer.Id)).ToList();
                             tmpDrone.CurrentLocation = tmp[rand.Next(0, tmp.Count)].Location;
 
+                        }
+                        else
+                        {
+                            tmpDrone.
                         }
                     }
 

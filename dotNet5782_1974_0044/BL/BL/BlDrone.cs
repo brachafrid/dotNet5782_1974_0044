@@ -169,7 +169,7 @@ namespace IBL
             ParcelcollectionDrone(parcel.Id);
         }
 
-        public void AssingParcellToDrone(int droneId)
+        public void AssingParcelToDrone(int droneId)
         {
             DroneToList aviableDrone = drones.Find(item => item.Id == droneId);
             Dictionary<ParcelToList,double> parcels = creatParcelListToAssign(aviableDrone);
