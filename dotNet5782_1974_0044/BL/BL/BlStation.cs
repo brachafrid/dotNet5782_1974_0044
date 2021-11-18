@@ -1,9 +1,6 @@
 ﻿using IBL.BO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace IBL
 {
@@ -13,7 +10,7 @@ namespace IBL
         public void AddStation(Station stationBL)
         {
             if (ExistsIDTaxCheck(dal.GetStations(), stationBL.Id))
-                throw new AnElementWithTheSameKeyAlreadyExistsInTheListException();
+                throw new ThereIsAnObjectWithTheSameKeyInTheList();
             dal.AddStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);    
         }
         public void UpdateStation(int id, string name, int chargeSlots)
@@ -21,9 +18,9 @@ namespace IBL
             if (!ExistsIDTaxCheck(dal.GetStations(), id))
                 throw new KeyNotFoundException();
             IDAL.DO.Station satationDl = dal.GetStation(id);
-            if (name.Equals(default) && chargeSlots.Equals(default))
+            if (name.Equals(default) && chargeSlots==-1)
                 throw new ArgumentNullException("For updating at least one parameter must be initialized ");
-            if (!chargeSlots.Equals(default) && chargeSlots < dal.CountFullChargeSlots(satationDl.Id))
+            if ( chargeSlots < dal.CountFullChargeSlots(satationDl.Id))
                 throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
             dal.RemoveStation(satationDl);
             dal.AddStation(id, name.Equals(default) ? satationDl.Name : name, satationDl.Longitude, satationDl.Latitude, chargeSlots.Equals(default) ? satationDl.ChargeSlots : chargeSlots);

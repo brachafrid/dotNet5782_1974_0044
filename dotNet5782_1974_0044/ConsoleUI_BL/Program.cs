@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using IBL.BO;
-using System.Device;
+using System.ComponentModel;
 using System.Text.RegularExpressions;
 
 namespace ConsoleUI_BL
@@ -23,85 +23,73 @@ namespace ConsoleUI_BL
             do
             {
                 DisplayMenus(typeof(Menu));
-                if(!Enum.TryParse(Console.ReadLine(), out option))
+                if (!Enum.TryParse(Console.ReadLine(), out option))
                     Console.WriteLine();
-                switch (option)
-
+                try
                 {
-                    case Menu.Add:
-                        {
-                            DisplayMenus(typeof(Add));
-                            try
+                    switch (option)
+
+                    {
+                        case Menu.Add:
                             {
+                                DisplayMenus(typeof(Add));
                                 SwitchAdd(ref bal);
-                            }
-                            catch
-                            {
                                 Console.WriteLine("error");
+                                break;
                             }
 
-                            break;
-                        }
-
-                    case Menu.Update:
-                        {
-
-                            DisplayMenus(typeof(Update));
-                            try
+                        case Menu.Update:
                             {
+
+                                DisplayMenus(typeof(Update));
                                 SwitchUpdate(ref bal);
+                                break;
                             }
-                            catch (ArgumentNullException)
+                        case Menu.Display:
                             {
-                                Console.WriteLine("incorrect id");
-                            }
-                            catch (ArgumentException ex)
-                            {
-                                Console.WriteLine(ex.Message);
-                            }
-                            catch
-                            {
-                                Console.WriteLine("ERROR");
-                            }
-
-                            break;
-                        }
-                    case Menu.Display:
-                        {
-                            DisplayMenus(typeof(Display));
-                            try
-                            {
+                                DisplayMenus(typeof(Display));
                                 SwitchDisplay(ref bal);
+                                break;
                             }
-                            catch (ArgumentNullException)
+                        case Menu.DisplayList:
                             {
-                                Console.WriteLine("incorrect id");
-                            }
-                            catch
-                            {
-                                Console.WriteLine("ERROR");
-                            }
-
-                            break;
-                        }
-                    case Menu.DisplayList:
-                        {
-                            DisplayMenus(typeof(DisplayList));
-                            try
-                            {
+                                DisplayMenus(typeof(DisplayList));
                                 SwitchDisplayList(ref bal);
+                                break;
                             }
-                            catch
-                            {
-                                Console.WriteLine("ERROR");
-                            }
+                        case Menu.Exit:
                             break;
-                        }
-                    case Menu.Exit:
-                        break;
-                    default:
-                        break;
+                        default:
+                            break;
 
+                    }
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    Console.WriteLine(ex.Message==string.Empty?ex:ex.Message);
+                }
+                catch (ThereIsNoNearbyBaseStationThatTheDroneCanReachException ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                catch (ThereIsAnObjectWithTheSameKeyInTheList ex)
+                {
+                    Console.WriteLine(ex);
+                }
+                catch (ArgumentNullException ex)
+                {
+
+                    Console.WriteLine(ex.Message == string.Empty ? ex : ex.Message);
+                }
+                catch (InvalidEnumArgumentException ex)
+                {
+
+                    Console.WriteLine(ex.Message == string.Empty ? ex : ex.Message);
+                }
+                catch (Exception ex)
+                {
+
+                    Console.WriteLine(ex.Message == string.Empty ? ex : ex.Message);
                 }
             } while (option != Menu.Exit);
 
@@ -134,8 +122,8 @@ namespace ConsoleUI_BL
         public static void SwitchAdd(ref IBL.IBL bl)
         {
             Add option;
-            if(!Enum.TryParse(Console.ReadLine(), out option))
-                Console.WriteLine();
+            if (!Enum.TryParse(Console.ReadLine(), out option))
+                Console.WriteLine("There is no suitable option");
             int id;
             switch (option)
             {
@@ -147,10 +135,10 @@ namespace ConsoleUI_BL
                         if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out latitude) && double.TryParse(Console.ReadLine(), out longitude) && int.TryParse(Console.ReadLine(), out chargeslots))
                         {
                             string name = Console.ReadLine();
-                            Location location = new ();
+                            Location location = new();
                             location.Longitude = longitude;
                             location.Latitude = latitude;
-                            Station station = new () { Id = id, Name = name, Location = location, AvailableChargingPorts = chargeslots, DroneInChargings = new List<DroneInCharging>() };
+                            Station station = new() { Id = id, Name = name, Location = location, AvailableChargingPorts = chargeslots, DroneInChargings = new List<DroneInCharging>() };
                             bl.AddStation(station);
                         }
                         else
@@ -164,7 +152,7 @@ namespace ConsoleUI_BL
                         int stationId;
                         if (int.TryParse(Console.ReadLine(), out id) && Enum.TryParse(Console.ReadLine(), out maxWeight) && int.TryParse(Console.ReadLine(), out stationId))
                         {
-                            Drone drone = new () { Id = id, WeightCategory = maxWeight,Model=Console.ReadLine() };
+                            Drone drone = new() { Id = id, WeightCategory = maxWeight, Model = Console.ReadLine() };
                             bl.AddDrone(drone, stationId);
                         }
                         else
@@ -178,7 +166,7 @@ namespace ConsoleUI_BL
                         Console.WriteLine("enter values to station properties:id,latitude,longitude, name");
                         if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out latitude) && double.TryParse(Console.ReadLine(), out longitude))
                         {
-                            Location location = new ();
+                            Location location = new();
                             location.Longitude = longitude;
                             location.Latitude = latitude;
                             string name = Console.ReadLine();
@@ -189,7 +177,7 @@ namespace ConsoleUI_BL
                                 Console.WriteLine("Enter phone");
                                 phone = Console.ReadLine();
                                 if (!Regex.Match(phone, @"^(\+[0-9]{9})$").Success)
-                                            correctPhone = false;
+                                    correctPhone = false;
                             } while (!correctPhone);
 
                             bl.AddCustomer(new Customer()
@@ -246,8 +234,8 @@ namespace ConsoleUI_BL
         public static void SwitchUpdate(ref IBL.IBL bl)
         {
             Update option;
-            if(!Enum.TryParse(Console.ReadLine(), out option))
-                Console.WriteLine();
+            if (!Enum.TryParse(Console.ReadLine(), out option))
+                Console.WriteLine("There is no suitable option");
             int id;
             switch (option)
             {
@@ -346,8 +334,8 @@ namespace ConsoleUI_BL
         public static void SwitchDisplay(ref IBL.IBL bl)
         {
             Display option;
-            if(!Enum.TryParse(Console.ReadLine(), out option))
-                Console.WriteLine();
+            if (!Enum.TryParse(Console.ReadLine(), out option))
+                Console.WriteLine("There is no suitable option");
             int id;
             switch (option)
             {
@@ -391,8 +379,8 @@ namespace ConsoleUI_BL
         public static void SwitchDisplayList(ref IBL.IBL bl)
         {
             DisplayList option;
-            if(!Enum.TryParse(Console.ReadLine(), out option))
-                Console.WriteLine();
+            if (!Enum.TryParse(Console.ReadLine(), out option))
+                Console.WriteLine("There is no suitable option");
             switch (option)
             {
                 case DisplayList.Sations:

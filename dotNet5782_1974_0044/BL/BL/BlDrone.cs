@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.ComponentModel;
+
 
 namespace IBL
 {
@@ -10,7 +12,7 @@ namespace IBL
         public void AddDrone(Drone droneBl, int stationId)
         {
             if (ExistsIDTaxCheck(dal.GetStations(), droneBl.Id))
-                throw new AnElementWithTheSameKeyAlreadyExistsInTheListException();
+                throw new ThereIsAnObjectWithTheSameKeyInTheList();
             if (!ExistsIDTaxCheck(dal.GetCustomers(), stationId))
                 throw new KeyNotFoundException("sender not exist");
             dal.AddDrone(droneBl.Id,droneBl.Model,(IDAL.DO.WeightCategories)droneBl.WeightCategory);
@@ -52,7 +54,7 @@ namespace IBL
         {
             DroneToList droneToList = drones.Find(item => item.Id == id);
             if (droneToList.DroneStatus != DroneStatuses.MAINTENANCE)
-                throw new Exception();
+                throw new InvalidEnumArgumentException();
             drones.Remove(droneToList);
             droneToList.DroneStatus = DroneStatuses.AVAILABLE;
             droneToList.BatteryStatus += timeOfCharg / 60 * dal.GetElectricityUse()[4];
@@ -63,11 +65,11 @@ namespace IBL
         {
             DroneToList droneToList = drones.Find(item => item.Id == id);
             if (droneToList.DroneStatus != DroneStatuses.AVAILABLE)
-                throw new Exception();
+                throw new InvalidEnumArgumentException();
             double minDistance;
             IDAL.DO.Station station = ClosetStationPossible(dal.GetStations(), droneToList,out minDistance);
             if (station.Equals(default))
-                throw new Exception();
+                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();
             drones.Remove(droneToList);
             droneToList.DroneStatus = DroneStatuses.MAINTENANCE;
             droneToList.BatteryStatus -= minDistance * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE];
@@ -167,7 +169,7 @@ namespace IBL
             droneToList.CurrentLocation = receiverLocation;
             droneToList.DroneStatus = DroneStatuses.AVAILABLE;
             drones.Add(droneToList);
-            ParcelcollectionDrone(parcel.Id);
+            ParcelDeliveredDrone(parcel.Id);
         }
 
         public void AssingParcelToDrone(int droneId)
