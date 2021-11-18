@@ -14,7 +14,7 @@ namespace IBL
         public void ReleaseDroneFromCharging(int id, float timeOfCharg);
         public BO.Drone GetDrone(int id);
         public IEnumerable<BO.DroneToList> GetDrones();
-        public void AssingParcellToDrone(int droneId);
+        public void AssingParcelToDrone(int droneId);
         public void ParcelCollectionByDrone(int DroneId);
         public void DeliveryParcelByDrone(int droneId);
     }
