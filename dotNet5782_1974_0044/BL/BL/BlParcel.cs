@@ -34,11 +34,13 @@ namespace IBL
         }
         private ParcelAtCustomer ParcelToParcelAtCustomer(Parcel parcel, string type)
         {
-            ParcelAtCustomer newParcel = new ParcelAtCustomer();
-            newParcel.Id = parcel.Id;
-            newParcel.WeightCategory = parcel.Weight;
-            newParcel.Priority = parcel.Priority;
-            newParcel.DroneStatus = drones.Find(drone => drone.Id == parcel.Drone.Id).DroneStatus;
+            ParcelAtCustomer newParcel = new ParcelAtCustomer
+            {
+                Id = parcel.Id,
+                WeightCategory = parcel.Weight,
+                Priority = parcel.Priority,
+                DroneStatus = drones.Find(drone => drone.Id == parcel.Drone.Id).DroneStatus
+            };
             if (type == "sender")
             {
                 newParcel.Customer = new CustomerInParcel()
