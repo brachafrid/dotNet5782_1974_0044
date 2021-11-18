@@ -316,7 +316,7 @@ namespace ConsoleUI_BL
                     {
                         Console.WriteLine("enter an id of drone");
                         if (int.TryParse(Console.ReadLine(), out id))
-                            bl.AssingParcellToDrone(id);
+                            bl.AssingParcelToDrone(id);
                         break;
                     }
                 case Update.CollectParcelByDrone:
@@ -405,7 +405,7 @@ namespace ConsoleUI_BL
                     printList(bl.GetParcels());
                     break;
                 case DisplayList.AvailableChargingSations:
-                    printList(bl.GetSationsWithEmptyChargeSlots());
+                    printList(bl.GetStaionsWithEmptyChargeSlots());
                     break;
                 case DisplayList.ParcelNotAssignToDrone:
                     printList(bl.GetParcelsNotAssignedToDrone());
