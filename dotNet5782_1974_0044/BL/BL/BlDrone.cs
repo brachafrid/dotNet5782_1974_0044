@@ -139,7 +139,7 @@ namespace IBL
         public void DeliveryParcelByDrone(int droneId)
         {
             DroneToList droneToList = drones.Find(item => item.Id == droneId);
-            if (droneToList.ParcellId == null)
+            if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
             IDAL.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcellId);
             if (!parcel.Delivered.Equals(default(DateTime)))
@@ -154,7 +154,7 @@ namespace IBL
             ParcelcollectionDrone(parcel.Id);
         }
 
-        public void AssingParcellToDrone(int droneId)
+        public void AssingParcelToDrone(int droneId)
         {
             DroneToList aviableDrone = drones.Find(item => item.Id == droneId);
             List<ParcelInTransfer> parcels = (List<ParcelInTransfer>)CreateParcelInTransferList(aviableDrone.Weight);
@@ -192,7 +192,7 @@ namespace IBL
         {
             drones.Remove(aviableDrone);
             aviableDrone.DroneStatus = DroneStatuses.DELIVERY;
-            aviableDrone.ParcellId = parcel.Id;
+            aviableDrone.ParcelId = parcel.Id;
             AssigningDroneToParcel(parcel.Id, aviableDrone.Id);
             drones.Add(aviableDrone);
         }
