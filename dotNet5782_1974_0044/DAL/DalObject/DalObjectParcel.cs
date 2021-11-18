@@ -18,12 +18,12 @@ namespace DalObject
         /// <param name="TargetId"> Id of target</param>
         /// <param name="Weigth"> The weigth of parcel (light- 0,medium - 1,heavy - 2)</param>
         /// <param name="Priority"> The priority of send the parcel (regular - 0,fast - 1,emergency - 2)</param>
-        public void ParcelsReception( int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority)
+        public void ParcelsReception( int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority,int id=0)
         {
             DataSorce.Customers.First(item => item.Id == SenderId);
             DataSorce.Customers.First(item => item.Id == TargetId);
             Parcel newParcel = new Parcel();
-            newParcel.Id = DataSorce.Config.IdParcel++;
+            newParcel.Id = ++DataSorce.Config.IdParcel;
             newParcel.SenderId = SenderId;
             newParcel.TargetId = TargetId;
             newParcel.Weigth = Weigth;
