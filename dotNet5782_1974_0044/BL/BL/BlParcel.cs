@@ -121,8 +121,8 @@ namespace IBL
             return new Parcel()
             {
                 Id = parcel.Id,
-                CustomerReceives = mapCustomerInParcel(dal.GetCustomer(parcel.TargetId)),
-                CustomerSender = mapCustomerInParcel(dal.GetCustomer(parcel.SenderId)),
+                CustomerReceives = MapCustomerInParcel(dal.GetCustomer(parcel.TargetId)),
+                CustomerSender = MapCustomerInParcel(dal.GetCustomer(parcel.SenderId)),
                 Weight = (BO.WeightCategories)parcel.Weigth,
                 Priority = (BO.Priorities)parcel.Priority,
                 AssignmentTime = parcel.Sceduled,

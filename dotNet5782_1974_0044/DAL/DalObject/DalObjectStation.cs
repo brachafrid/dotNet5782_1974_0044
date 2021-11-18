@@ -18,7 +18,7 @@ namespace  DalObject
         /// <param name="longitude">The position of the station in relation to the longitude </param>
         /// <param name="latitude">The position of the station in relation to the latitude</param>
         /// <param name="chargeSlots">Number of charging slots at the station</param>
-        public void addStation(int id, string name, double longitude, double latitude, int chargeSlots)
+        public void AddStation(int id, string name, double longitude, double latitude, int chargeSlots)
         {
             uniqueIDTaxCheck<Station>(DataSorce.Stations, id);
             Station newStation = new Station();

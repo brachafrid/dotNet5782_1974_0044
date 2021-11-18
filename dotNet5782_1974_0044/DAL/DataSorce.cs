@@ -10,7 +10,7 @@ namespace DalObject
 {
     public class DataSorce
     {
-        static Random rnd = new Random();
+        static readonly Random rnd = new ();
 
         public const int DRONE_INIT = 5;
         public const int Sations_INIT = 2;
@@ -23,31 +23,32 @@ namespace DalObject
         public const int LONGITUDE_MAX = 90;
         public const int PERCENTAGE = 100;
 
-        internal static List<Drone> Drones = new List<Drone>();
-        internal static List<Station> Stations = new List<Station>();
-        internal static List<Customer> Customers = new List<Customer>();
-        internal static List<Parcel> Parcels = new List<Parcel>();
-        internal static List<DroneCharge> DroneCharges = new List<DroneCharge>();
+        internal static List<Drone> Drones = new();
+        internal static List<Station> Stations = new ();
+        internal static List<Customer> Customers = new ();
+        internal static List<Parcel> Parcels = new ();
+        internal static List<DroneCharge> DroneCharges = new ();
 
+        public static Random Rnd { get => rnd; set => rnd = value; }
 
         internal class Config
         {
             internal static int IdParcel = 0;
-            internal static double Available = rnd.NextDouble();
-            internal static double LightWeightCarrier =rnd.Next((int)Available* PERCENTAGE, PERCENTAGE) / PERCENTAGE; 
-            internal static double MediumWeightBearing = rnd.Next((int)LightWeightCarrier* PERCENTAGE, PERCENTAGE) / PERCENTAGE;
-            internal static double CarriesHeavyWeight = rnd.Next((int)MediumWeightBearing* PERCENTAGE, PERCENTAGE) / PERCENTAGE;
-            internal static double DroneLoadingRate=rnd.NextDouble();
+            internal static double Available = Rnd.NextDouble();
+            internal static double LightWeightCarrier =Rnd.Next((int)Available* PERCENTAGE, PERCENTAGE) / PERCENTAGE; 
+            internal static double MediumWeightBearing = Rnd.Next((int)LightWeightCarrier* PERCENTAGE, PERCENTAGE) / PERCENTAGE;
+            internal static double CarriesHeavyWeight = Rnd.Next((int)MediumWeightBearing* PERCENTAGE, PERCENTAGE) / PERCENTAGE;
+            internal static double DroneLoadingRate=Rnd.NextDouble();
         }
 
         static internal void Initialize(DalObject dal)
         {
             for (int i = 1; i <= DRONE_INIT; ++i)
-                randomDrone(dal, i);
+                RandomDrone(dal, i);
             for (int i = 1; i <= Sations_INIT; ++i)
-                randomStation(dal, i);
+                RandomStation(dal, i);
             for (int i = 1; i <= CUSTOMERS_INIT; ++i)
-                randomCustomer(dal, i);
+                RandomCustomer(dal, i);
             for (int i = 1; i <= Parcels_INIT; ++i)
                 randParcel(dal, i);
         }
@@ -63,39 +64,39 @@ namespace DalObject
             return 0;
 
         }
-        private static void randomDrone(DalObject dal, int id)
+        private static void RandomDrone(DalObject dal, int id)
         {
-            string model = $"Model_Drone_ {'a' + id}_{id * rnd.Next()}";
-            WeightCategories maxWeight = (WeightCategories)rnd.Next(RANGE_ENUM);
-            dal.addDrone(id, model, maxWeight);
+            string model = $"Model_Drone_ {'a' + id}_{id * Rnd.Next()}";
+            WeightCategories maxWeight = (WeightCategories)Rnd.Next(RANGE_ENUM);
+            dal.AddDrone(id, model, maxWeight);
         }
-        private static void randomStation(DalObject dal, int id)
+        private static void RandomStation(DalObject dal, int id)
         {
             string name = $"station_{'a' + id}";
-            double latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
-            double longitude = rnd.Next(LONGITUDE_MAX) + rnd.NextDouble();
-            int chargeSlots = rnd.Next() + 1;
-            dal.addStation(id, name, longitude, latitude, chargeSlots);
+            double latitude = Rnd.Next(LATITUDE_MAX) + Rnd.NextDouble();
+            double longitude = Rnd.Next(LONGITUDE_MAX) + Rnd.NextDouble();
+            int chargeSlots = Rnd.Next() + 1;
+            dal.AddStation(id, name, longitude, latitude, chargeSlots);
         }
-        private static void randomCustomer(DalObject dal, int id)
+        private static void RandomCustomer(DalObject dal, int id)
         {
-            string name = $"Customer_ { id}_{id * rnd.Next()}";
-            string phone = $"0{rnd.Next(PHONE_MIN, PHONE_MAX)}";
-            double latitude = rnd.Next(LATITUDE_MAX) + rnd.NextDouble();
-            double longitude = rnd.Next(LONGITUDE_MAX) + rnd.NextDouble();
-            dal.addCustomer(id, phone, name, longitude, latitude);
+            string name = $"Customer_ { id}_{id * Rnd.Next()}";
+            string phone = $"0{Rnd.Next(PHONE_MIN, PHONE_MAX)}";
+            double latitude = Rnd.Next(LATITUDE_MAX) + Rnd.NextDouble();
+            double longitude = Rnd.Next(LONGITUDE_MAX) + Rnd.NextDouble();
+            dal.AddCustomer(id, phone, name, longitude, latitude);
         }
-        private static void randParcel(DalObject dal, int id)
+        private static void RandParcel( int id)
         {
-            Parcel newParcel = new Parcel();
+            Parcel newParcel = new ();
             newParcel.Id = id;
-            newParcel.SenderId = Customers[rnd.Next(0, Customers.Count())].Id;
+            newParcel.SenderId = Customers[Rnd.Next(0, Customers.Count)].Id;
             do
             {
-                newParcel.TargetId = Customers[rnd.Next(0, Customers.Count())].Id;
+                newParcel.TargetId = Customers[Rnd.Next(0, Customers.Count)].Id;
             } while (newParcel.TargetId == newParcel.SenderId);
-            newParcel.Weigth = (WeightCategories)rnd.Next(RANGE_ENUM);
-            newParcel.Priority = (Priorities)rnd.Next(RANGE_ENUM);
+            newParcel.Weigth = (WeightCategories)Rnd.Next(RANGE_ENUM);
+            newParcel.Priority = (Priorities)Rnd.Next(RANGE_ENUM);
             newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);
             newParcel.Requested = DateTime.Now;
             newParcel.Sceduled = DateTime.Now;

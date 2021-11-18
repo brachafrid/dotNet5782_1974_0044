@@ -16,7 +16,7 @@ namespace DalObject
         /// </summary>
         /// <param name="model"> Grone's model</param>
         /// <param name="MaxWeight"> The max weight that the drone can swipe (light- 0,medium - 1,heavy - 2)</param>
-        public void addDrone(int id, string model, WeightCategories MaxWeight)
+        public void AddDrone(int id, string model, WeightCategories MaxWeight)
         {
             uniqueIDTaxCheck<Drone>(DataSorce.Drones, id);
             Drone newDrone = new ()

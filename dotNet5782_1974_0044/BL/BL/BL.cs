@@ -12,7 +12,7 @@ namespace IBL
     {
         private static readonly Random rand = new();
         private List<DroneToList> drones;
-        private IDAL.IDal dal;
+        private readonly IDAL.IDal dal;
         public BL()
         {
             dal = new DalObject.DalObject();
@@ -23,7 +23,7 @@ namespace IBL
         {
             foreach (IDAL.DO.Drone drone in dal.GetDrones())
             {
-                DroneToList tmpDrone = new ()
+                DroneToList tmpDrone = new()
                 {
                     Id = drone.Id,
                     Weight = (BO.WeightCategories)drone.MaxWeight,
@@ -59,7 +59,7 @@ namespace IBL
                         else
                         {
                             tmpDrone.BatteryStatus = rand.Next(0,20) + rand.NextDouble();
-                            IDAL.DO.Station station = dal.GetStations().ToList()[rand.Next(0, dal.GetStations().ToList().Count())];
+                            IDAL.DO.Station station = dal.GetStations().ToList()[rand.Next(0, dal.GetStations().ToList().Count)];
                             tmpDrone.CurrentLocation = new Location()
                             {
                                 Latitude = station.Latitude,
@@ -71,7 +71,7 @@ namespace IBL
                 drones.Add(tmpDrone);
             }
         }
-        bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
+        private static bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
         {
             T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("id").GetValue(item, null) == id);
             return !(temp.GetType().Equals(default));
