@@ -4,14 +4,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-
-namespace Targil0
+namespace IBL
 {
-    partial class Program
+    namespace BO
     {
-        static partial void welcome0044()
+      public class CustomerInParcel
         {
-            Console.WriteLine("I'm also here");
+            public int Id { get; set; }
+            public string Name { get; set; }
         }
     }
+
 }

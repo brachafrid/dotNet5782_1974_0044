@@ -21,7 +21,7 @@ namespace DalObject
         public const int PHONE_MAX = 1000000000;
         public const int LATITUDE_MAX = 180; 
         public const int LONGITUDE_MAX = 90;
-        public const int FULL_BATTERY = 100;
+        public const int PERCENTAGE = 100;
 
         internal static List<Drone> Drones = new List<Drone>();
         internal static List<Station> Stations = new List<Station>();
@@ -33,11 +33,11 @@ namespace DalObject
         internal class Config
         {
             internal static int IdParcel = 0;
-            internal static double Available = 0;
-            internal static double LightWeightCarrier; 
-            internal static double MediumWeightBearing ;
-            internal static double CarriesHeavyWeight;
-            internal static double DroneLoadingRate;
+            internal static double Available = rnd.NextDouble();
+            internal static double LightWeightCarrier =rnd.Next((int)Available* PERCENTAGE, PERCENTAGE) / PERCENTAGE; 
+            internal static double MediumWeightBearing = rnd.Next((int)LightWeightCarrier* PERCENTAGE, PERCENTAGE) / PERCENTAGE;
+            internal static double CarriesHeavyWeight = rnd.Next((int)MediumWeightBearing* PERCENTAGE, PERCENTAGE) / PERCENTAGE;
+            internal static double DroneLoadingRate=rnd.NextDouble();
         }
 
         static internal void Initialize(DalObject dal)

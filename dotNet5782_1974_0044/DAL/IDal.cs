@@ -11,13 +11,14 @@ namespace IDAL
     {
         public void addCustomer(int id, string phone, string name, double longitude, double latitude);
         public void addDrone(int id, string model, WeightCategories MaxWeight);
-        public void ParcelsReception(int id, int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority);
+        public void ParcelsReception( int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority);
         public void addStation(int id, string name, double longitude, double latitude, int chargeSlots);
         public void AssignParcelDrone(int parcelId);
         public void CollectParcel(int parcelId);
         public void SupplyParcel(int parcelId);
         public void SendDroneCharg(int droneId);
         public void ReleasDroneCharg(int droneId);
+        public void RemoveCustomer(Customer customer);
         public Station GetStation(int id);
         public Drone GetDrone(int id);
         public Customer GetCustomer(int id);
@@ -28,5 +29,14 @@ namespace IDAL
         public IEnumerable<Customer> GetCustomers();
         public IEnumerable<Parcel> GetParcelsNotAssignedToDrone();
         public IEnumerable<Station> GetSationsWithEmptyChargeSlots();
+        public void RemoveStation(Station station);
+        public int CountFullChargeSlots(int id);
+        public List<int> GetDronechargingInStation(int id);
+        public void RemoveDrone(Drone drone);
+        public void AddDRoneCharge(int droneId, int stationId);
+        public void RemoveDroneCharge(int droneId);
+        public double[] GetElectricityUse();
+        public void RemoveParcel(Parcel parcel);
+
     }
 }
