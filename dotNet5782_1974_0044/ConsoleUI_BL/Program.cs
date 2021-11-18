@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using IBL.BO;
 using System.Device;
-
+using System.Text.RegularExpressions;
 
 namespace ConsoleUI_BL
 {
@@ -181,16 +181,14 @@ namespace ConsoleUI_BL
                             location.Latitude = latitude;
                             string name = Console.ReadLine();
                             string phone;
-                            bool correctName = true;
+                            bool correctPhone = true;
                             do
                             {
                                 Console.WriteLine("Enter phone");
                                 phone = Console.ReadLine();
-                                if (!(phone[0] == '+' || phone[0] == '*' || char.IsDigit(phone[0])))
-                                    foreach (char item in phone.Substring(1))
-                                        if (!char.IsDigit(item))
-                                            correctName = false;
-                            } while (!correctName);
+                                if (!Regex.Match(phone, @"^(\+[0-9]{9})$").Success)
+                                            correctPhone = false;
+                            } while (!correctPhone);
 
                             bl.AddCustomer(new Customer()
                             {
