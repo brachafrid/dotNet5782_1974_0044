@@ -7,10 +7,24 @@ namespace IBL
 {
     public partial class BL : IblDrone
     {
-        public void AddDrone(int id, string model, BO.WeightCategories MaximumWeight, int stationId)
+        public void AddDrone(Drone droneBl, int stationId)
         {
-
-            throw new NotImplementedException();
+            if (ExistsIDTaxCheck(dal.GetStations(), droneBl.Id))
+                throw new AnElementWithTheSameKeyAlreadyExistsInTheListException();
+            if (!ExistsIDTaxCheck(dal.GetCustomers(), stationId))
+                throw new KeyNotFoundException("sender not exist");
+            dal.addDrone(droneBl.Id,droneBl.Model,(IDAL.DO.WeightCategories)droneBl.WeightCategory);
+            IDAL.DO.Station station = dal.GetStation(stationId);
+            DroneToList droneToList = new DroneToList()
+            {
+                Id = droneBl.Id,
+                DroneModel = droneBl.Model,
+                Weight = droneBl.WeightCategory,
+                BatteryStatus = rand.NextDouble() + rand.Next(20, 40),
+                DroneStatus = DroneStatuses.MAINTENANCE,
+                CurrentLocation = new Location() { Latitude = station.Latitude, Longitude = station.Longitude }
+            };
+            drones.Add(droneToList);
         }
         public BO.Drone GetDrone(int id)
         {
@@ -159,17 +173,15 @@ namespace IBL
         {
             DroneToList aviableDrone = drones.Find(item => item.Id == droneId);
             Dictionary<ParcelToList,double> parcels = creatParcelListToAssign(aviableDrone);
-            treatInPiority(ref aviableDrone, parcels, Priorities.EMERGENCY);
-            if (!(aviableDrone.DroneStatus == DroneStatuses.DELIVERY))
-            {
-                treatInPiority(ref aviableDrone, parcels, Priorities.FAST);
-                if (!(aviableDrone.DroneStatus == DroneStatuses.DELIVERY))
-                    treatInPiority(ref aviableDrone, parcels, Priorities.REGULAR);
-            }
-
+            ParcelToList parcel=treatInPiority(aviableDrone, parcels, Priorities.EMERGENCY);
+            drones.Remove(aviableDrone);
+            aviableDrone.DroneStatus = DroneStatuses.DELIVERY;
+            aviableDrone.ParcelId = parcel.Id;
+            AssigningDroneToParcel(parcel.Id, aviableDrone.Id);
+            drones.Add(aviableDrone);
 
         }
-        private void treatInPiority(ref DroneToList aviableDrone, List<ParcelToList> parcels, Priorities priority)
+        private ParcelToList treatInPiority( DroneToList aviableDrone, Dictionary<ParcelToList, double> parcels, Priorities priority)
         {
             double minDistance = double.MaxValue;
             WeightCategories weight = WeightCategories.LIGHT;
@@ -177,26 +189,15 @@ namespace IBL
             Priorities maxPriority = Priorities.REGULAR;
             foreach (var item in parcels)
             {
-                    if ( maxPriority<item.Piority&& /**/<= minDistance && item.Weight >= weight )
+                    if ( maxPriority<item.Key.Piority &&item.Value<= minDistance && item.Key.Weight >= weight )
                     {
-                        parcel = item;
-                        minDistance =/**/ ;
-                        weight = item.Weight;
+                        parcel = item.Key;
+                        minDistance =item.Value;
+                        weight = item.Key.Weight;
                     }
-
             }
-            treatInDrone(ref aviableDrone, parcel);
+            return parcel;
         }
-
-        private void treatInDrone(ref DroneToList aviableDrone, ParcelInTransfer parcel)
-        {
-            drones.Remove(aviableDrone);
-            aviableDrone.DroneStatus = DroneStatuses.DELIVERY;
-            aviableDrone.ParcelId = parcel.Id;
-            AssigningDroneToParcel(parcel.Id, aviableDrone.Id);
-            drones.Add(aviableDrone);
-        }
-       
 
     }
 }

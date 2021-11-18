@@ -162,8 +162,8 @@ namespace ConsoleUI_BL
                         int stationId;
                         if (int.TryParse(Console.ReadLine(), out id) && Enum.TryParse(Console.ReadLine(), out maxWeight) && int.TryParse(Console.ReadLine(), out stationId))
                         {
-
-                            bl.AddDrone(id, Console.ReadLine(), maxWeight, stationId);
+                            Drone drone = new Drone() { Id = id, WeightCategory = maxWeight,Model=Console.ReadLine() };
+                            bl.AddDrone(drone, stationId);
                         }
                         else
                             Console.WriteLine("The conversion failed and therefore the addition was not made");
