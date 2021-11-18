@@ -34,7 +34,7 @@ namespace DalObject
         /// </summary>
         /// <param name="tmpDrone"></param>
         /// <param name="weight">the weight of the parcell</param>
-        public void findSuitableDrone(out Drone tmpDrone, IDAL.DO.WeightCategories weight)
+        public static void findSuitableDrone(out Drone tmpDrone, IDAL.DO.WeightCategories weight)
         {
             tmpDrone = DataSorce.Drones.FirstOrDefault(item => (weight <= item.MaxWeight));
             if (!(tmpDrone.Equals(default)))
@@ -53,7 +53,7 @@ namespace DalObject
         /// <param name="droneId"> id of drone</param>
         public void SendDroneCharg(int droneId)
         {
-            DroneCharge tmpDroneCharge = new DroneCharge
+            DroneCharge tmpDroneCharge = new ()
             {
                 Droneld = droneId,
                 Stationld = getAvailbleStations().First().Id

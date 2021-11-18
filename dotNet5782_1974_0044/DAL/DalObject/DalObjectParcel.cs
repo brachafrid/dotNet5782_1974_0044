@@ -20,9 +20,11 @@ namespace DalObject
         /// <param name="Priority"> The priority of send the parcel (regular - 0,fast - 1,emergency - 2)</param>
         public void ParcelsReception( int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority,int id=0)
         {
-            DataSorce.Customers.First(item => item.Id == SenderId);
-            DataSorce.Customers.First(item => item.Id == TargetId);
-            Parcel newParcel = new Parcel();
+            if (!ExistsIDTaxCheck(GetCustomers(), SenderId))
+                throw new KeyNotFoundException("sender not exist");
+            if (!ExistsIDTaxCheck(GetCustomers(), TargetId))
+                throw new KeyNotFoundException("target not exist");
+            Parcel newParcel = new();
             newParcel.Id = ++DataSorce.Config.IdParcel;
             newParcel.SenderId = SenderId;
             newParcel.TargetId = TargetId;
@@ -32,7 +34,6 @@ namespace DalObject
             newParcel.DorneId = 0;
             DataSorce.Parcels.Add(newParcel);
         }
-
         //-------------------------------------------Update-------------------------------------------
         /// <summary>
         /// Assign parcel to drone:

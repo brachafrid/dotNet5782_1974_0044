@@ -23,7 +23,7 @@ namespace IBL
         {
             foreach (IDAL.DO.Drone drone in dal.GetDrones())
             {
-                DroneToList tmpDrone = new DroneToList()
+                DroneToList tmpDrone = new ()
                 {
                     Id = drone.Id,
                     Weight = (BO.WeightCategories)drone.MaxWeight,
