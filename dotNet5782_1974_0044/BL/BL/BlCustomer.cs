@@ -1,10 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using IBL.BO;
-using System.Data;
+
 namespace IBL
 {
     public partial class BL : IblCustomer
@@ -13,7 +11,7 @@ namespace IBL
         {
             if (ExistsIDTaxCheck(dal.GetCustomers(), customer.Id))
             {
-                throw new DuplicateNameException();
+                throw new ThereIsAnObjectWithTheSameKeyInTheList();
             }
             dal.AddCustomer(customer.Id, customer.Phone, customer.Name, customer.Location.Longitude, customer.Location.Latitude);
         }

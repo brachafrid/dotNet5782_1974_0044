@@ -1,10 +1,6 @@
 ﻿using IBL.BO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Data;
 
 namespace IBL
 {
@@ -14,7 +10,7 @@ namespace IBL
         public void AddStation(Station stationBL)
         {
             if (ExistsIDTaxCheck(dal.GetStations(), stationBL.Id))
-                throw new DuplicateNameException();
+                throw new ThereIsAnObjectWithTheSameKeyInTheList();
             dal.AddStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);    
         }
         public void UpdateStation(int id, string name, int chargeSlots)

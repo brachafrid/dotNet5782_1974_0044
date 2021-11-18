@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel;
-using System.Data;
+
 
 namespace IBL
 {
@@ -12,7 +12,7 @@ namespace IBL
         public void AddDrone(Drone droneBl, int stationId)
         {
             if (ExistsIDTaxCheck(dal.GetStations(), droneBl.Id))
-                throw new DuplicateNameException();
+                throw new ThereIsAnObjectWithTheSameKeyInTheList();
             if (!ExistsIDTaxCheck(dal.GetCustomers(), stationId))
                 throw new KeyNotFoundException("sender not exist");
             dal.AddDrone(droneBl.Id,droneBl.Model,(IDAL.DO.WeightCategories)droneBl.WeightCategory);
