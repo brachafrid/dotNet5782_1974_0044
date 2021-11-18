@@ -42,7 +42,7 @@ namespace IBL
                 throw new ArgumentNullException("The package has already been collected");
             drones.Remove(droneToList); 
             IDAL.DO.Customer customer = dal.GetCustomer(parcel.SenderId);
-            Location senderLocation = new Location() { Longitude = customer.Longitude, Latitude = customer.Latitude };
+            Location senderLocation = new () { Longitude = customer.Longitude, Latitude = customer.Latitude };
             droneToList.BatteryStatus -= Distance(droneToList.CurrentLocation, senderLocation)*dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE];
             droneToList.CurrentLocation = senderLocation;
             drones.Add(droneToList);

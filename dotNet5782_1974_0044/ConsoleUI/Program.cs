@@ -84,7 +84,7 @@ namespace ConsoleUI
                             DisplayMenus(typeof(DisplayList));
                             try
                             {
-                                switchDisplayList(ref dalObject);
+                                SwitchDisplayList(ref dalObject);
 
                             }
                             catch
@@ -302,29 +302,30 @@ namespace ConsoleUI
         /// Receives input from the user and calls the printing method accordingly 
         /// </summary>
         /// <param name="dalObject"></param>
-        public static void switchDisplayList(ref IDAL.IDal dalObject)
+        public static void SwitchDisplayList(ref IDAL.IDal dalObject)
         {
             DisplayList option;
-            Enum.TryParse(Console.ReadLine(), out option);
+            if(!Enum.TryParse(Console.ReadLine(), out option))
+                Console.WriteLine();
             switch (option)
             {
                 case DisplayList.Sations:
-                    printList(dalObject.GetStations());
+                    PrintList(dalObject.GetStations());
                     break;
                 case DisplayList.Drones:
-                    printList(dalObject.GetDrones());
+                    PrintList(dalObject.GetDrones());
                     break;
                 case DisplayList.Customers:
-                    printList(dalObject.GetCustomers());
+                    PrintList(dalObject.GetCustomers());
                     break;
                 case DisplayList.Parcels:
-                    printList(dalObject.GetParcels());
+                    PrintList(dalObject.GetParcels());
                     break;
                 case DisplayList.AvailableChargingSations:
-                    printList(dalObject.GetSationsWithEmptyChargeSlots());
+                    PrintList(dalObject.GetSationsWithEmptyChargeSlots());
                     break;
                 case DisplayList.ParcelNotAssignToDrone:
-                    printList(dalObject.GetParcelsNotAssignedToDrone());
+                    PrintList(dalObject.GetParcelsNotAssignedToDrone());
                     break;
                 default:
                     break;
@@ -334,7 +335,7 @@ namespace ConsoleUI
         /// Prints the whole items in collection to the console
         /// </summary>
         /// <param name="list">collection for printing</param>
-        public static void printList(IEnumerable list)
+        public static void PrintList(IEnumerable list)
         {
             foreach (var item in list)
             {
