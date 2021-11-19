@@ -40,6 +40,7 @@ namespace IBL
         {
             return dal.GetParcels().Select(parcel => mapParcelToList(parcel));
         }
+        
 
         /// <summary>
         /// Retrieves the list of parcels from the data and converts it to BL parcel 
@@ -126,6 +127,37 @@ namespace IBL
                 DeliveryTime = parcel.Delivered,
                 Drone = mapDroneWithParcel(tmpDrone)
             };
+        }
+
+        private ParcelAtCustomer ParcelToParcelAtCustomer(Parcel parcel, string type)
+        {
+            ParcelAtCustomer newParcel = new ParcelAtCustomer
+            {
+                Id = parcel.Id,
+                WeightCategory = parcel.Weight,
+                Priority = parcel.Priority,
+                Status = parcel.AssignmentTime == default ? PackageModes.DEFINED : parcel.CollectionTime == default ? PackageModes.ASSOCIATED : parcel.DeliveryTime == default ? PackageModes.COLLECTED : PackageModes.PROVIDED
+            };
+
+
+            if (type == "sender")
+            {
+                newParcel.Customer = new CustomerInParcel()
+                {
+                    Id = parcel.CustomerReceives.Id,
+                    Name = parcel.CustomerReceives.Name
+                };
+            }
+            else
+            {
+                newParcel.Customer = new CustomerInParcel()
+                {
+                    Id = parcel.CustomerSender.Id,
+                    Name = parcel.CustomerSender.Name
+                };
+            }
+
+            return newParcel;
         }
 
     }
