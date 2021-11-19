@@ -86,13 +86,13 @@ namespace IBL
                 drones.Add(tmpDrone);
             }
         }
-        /// <summary>
-        /// 
+
+        ///  <summary>
+        /// Find if the id is unique in a spesific list
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="lst"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <typeparam name="T">the type of list</typeparam>
+        /// <param name="lst">the spesific list </param>
+        /// <param name="id">the id to check</param>
         private static bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
         {
             if (!lst.Any())
