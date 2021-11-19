@@ -8,119 +8,111 @@ namespace IBL
 {
     public partial class BL : IblParcel
     {
-        public void AddParcel(Parcel parcel)
+        //-----------------------------------------------------------Adding------------------------------------------------------------------------
+        /// <summary>
+        /// Add a parcel to the list of parcels
+        /// </summary>
+        /// <param name="parcelBl">The parcel for Adding</param>
+        public void AddParcel(Parcel parcelBl)
         {
-            if (!ExistsIDTaxCheck(dal.GetCustomers(), parcel.CustomerSender.Id))
+            if (!ExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerSender.Id))
                 throw new KeyNotFoundException("sender not exist");
-            if (!ExistsIDTaxCheck(dal.GetCustomers(), parcel.CustomerReceives.Id))
+            if (!ExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerReceives.Id))
                 throw new KeyNotFoundException("target not exist");
-            dal.ParcelsReception(parcel.CustomerSender.Id, parcel.CustomerReceives.Id, (IDAL.DO.WeightCategories)parcel.Weight, (IDAL.DO.Priorities)parcel.Priority);
+            dal.ParcelsReception(parcelBl.CustomerSender.Id, parcelBl.CustomerReceives.Id, (IDAL.DO.WeightCategories)parcelBl.Weight, (IDAL.DO.Priorities)parcelBl.Priority);
         }
+
+        //-------------------------------------------------Return List-----------------------------------------------------------------------------
+        /// <summary>
+        /// Retrieves the list of parcels that not assigned to drone from the data and converts it to parcel to list
+        /// </summary>
+        /// <returns>A list of parcels to print</returns>
         public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone()
         {
             return dal.GetParcelsNotAssignedToDrone().Select(parcel => mapParcelToList(parcel));
         }
+
+        /// <summary>
+        /// Retrieves the list of parcels from the data and converts it to parcel to list
+        /// </summary>
+        /// <returns>A list of parcels to print</returns>
+        public IEnumerable<ParcelToList> GetParcels()
+        {
+            return dal.GetParcels().Select(parcel => mapParcelToList(parcel));
+        }
+        
+
+        /// <summary>
+        /// Retrieves the list of parcels from the data and converts it to BL parcel 
+        /// </summaryparfcel
+        /// <returns>A list of parcels to print</returns>
+        private IEnumerable<Parcel> getAllParcels()
+        {
+            return dal.GetParcels().Select(Parcel => GetParcel(Parcel.Id));
+        }
+
+        //--------------------------------------------------Return-----------------------------------------------------------------------------------
+        /// <summary>
+        /// Retrieves the requested parcel from the data and converts it to BL parcel
+        /// </summary>
+        /// <param name="id">The requested parcel id</param>
+        /// <returns>A Bl parcel to print</returns>
         public Parcel GetParcel(int id)
         {
             if (!ExistsIDTaxCheck(dal.GetParcels(), id))
                 throw new KeyNotFoundException();
             return mapParcel(dal.GetParcel(id));
         }
-        public IEnumerable<ParcelToList> GetParcels()
-        {
-            return dal.GetParcels().Select(parcel => mapParcelToList(parcel));
-        }
-        private ParcelAtCustomer ParcelToParcelAtCustomer(Parcel parcel, string type)
-        {
-            ParcelAtCustomer newParcel = new ParcelAtCustomer
-            {
-                Id = parcel.Id,
-                WeightCategory = parcel.Weight,
-                Priority = parcel.Priority,
-                Status = parcel.AssignmentTime == default ? PackageModes.DEFINED : parcel.CollectionTime == default ? PackageModes.ASSOCIATED : parcel.DeliveryTime == default ? PackageModes.COLLECTED : PackageModes.PROVIDED
-            };
-    
-       
-            if (type == "sender")
-            {
-                newParcel.Customer = new CustomerInParcel()
-                {
-                    Id = parcel.CustomerReceives.Id,
-                    Name = parcel.CustomerReceives.Name
-                };
-            }
-            else
-            {
-                newParcel.Customer = new CustomerInParcel()
-                {
-                    Id = parcel.CustomerSender.Id,
-                    Name = parcel.CustomerSender.Name
-                };
-            }
 
-            return newParcel;
+        //-------------------------------------------------Updating--------------------------------------------------------------------------------------
+        /// <summary>
+        /// Assign the parcel to drone
+        /// </summary>
+        /// <param name="parcelId">The parcel to update</param>
+        /// <param name="droneId">The drone to assign</param>
+        private void AssigningDroneToParcel(int parcelId, int droneId)
+        {
+            IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
+            dal.RemoveParcel(parcel);
+            parcel.DorneId = droneId;
+            parcel.Sceduled = DateTime.Now;
+            dal.ParcelsReception(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
         }
 
-
-        private ParcelInTransfer CreateParcelInTransfer(int id)
+        /// <summary>
+        /// Collect the parcel by drone
+        /// </summary>
+        /// <param name="parcelId">The parcel to update</param>
+        private void ParcelcollectionDrone(int parcelId)
         {
-            IDAL.DO.Parcel parcel = dal.GetParcel(id);
-            IDAL.DO.Customer sender = dal.GetCustomer(parcel.SenderId);
-            IDAL.DO.Customer target = dal.GetCustomer(parcel.TargetId);
-            return new ParcelInTransfer
-            {
-                Id = id,
-                WeightCategory = (BO.WeightCategories)parcel.Weigth,
-                Priority = (BO.Priorities)parcel.Priority,
-                ParcelStatus = !parcel.PickedUp.Equals(default),
-                CollectionPoint = new BO.Location() { Longitude = sender.Longitude, Latitude = sender.Latitude },
-                DeliveryDestination = new BO.Location() { Longitude = target.Longitude, Latitude = target.Latitude },
-                TransportDistance = Distance(new Location() { Longitude = sender.Longitude, Latitude = sender.Latitude }, new Location() { Longitude = sender.Longitude, Latitude = sender.Latitude }),
-                CustomerSender = new CustomerInParcel() { Id = sender.Id, Name = sender.Name },
-                CustomerReceives = new CustomerInParcel() { Id = target.Id, Name = target.Name }
-            };
+            IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
+            dal.RemoveParcel(parcel);
+            parcel.PickedUp = DateTime.Now;
+            dal.ParcelsReception(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
         }
 
-        private Dictionary<ParcelToList, double> creatParcelListToAssign(DroneToList aviableDrone)
+        /// <summary>
+        /// Deliverd the parcel by drone
+        /// </summary>
+        /// <param name="parcelId">The parcel to update</param>
+        private void ParcelDeliveredDrone(int parcelId)
         {
-            double minDistance;
-            Dictionary<ParcelToList, double> parcels = new();
-            foreach (var item in dal.GetParcels())
-            {
-                if (item.DorneId != 0 && (WeightCategories)item.Weigth <= aviableDrone.Weight && calculateElectricity(aviableDrone, mapParcelToList(item).CustomerSender.Location, mapParcelToList(item).CustomerReceives.Location,(WeightCategories)item.Weigth, out minDistance) <= aviableDrone.BatteryStatus)
-                {
-                    parcels.Add(mapParcelToList(item), minDistance);
+            IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
+            dal.RemoveParcel(parcel);
+            parcel.Delivered = DateTime.Now;
+            dal.ParcelsReception(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
+        }
 
-                }
-            }
-            return parcels;
-        }
-        private ParcelToList mapParcelToList(IDAL.DO.Parcel parcel)
-        {
-            PackageModes PackageMode;
-            if (!parcel.Delivered.Equals(default))
-                PackageMode = PackageModes.PROVIDED;
-            else if (!parcel.PickedUp.Equals(default))
-                PackageMode = PackageModes.COLLECTED;
-            else if (!parcel.Sceduled.Equals(default))
-                PackageMode = PackageModes.ASSOCIATED;
-            else
-                PackageMode = PackageModes.DEFINED;
-            return new ParcelToList()
-            {
-                Id = parcel.Id,
-                CustomerReceives = GetCustomer(parcel.TargetId),
-                CustomerSender = GetCustomer(parcel.SenderId),
-                Weight = (BO.WeightCategories)parcel.Weigth,
-                Piority = (BO.Priorities)parcel.Priority,
-                PackageMode = PackageMode
-            };
-        }
+        //-----------------------------------------------Help function-----------------------------------------------------------------------------------
+        /// <summary>
+        /// Convert a DAL parcel to BL parcel
+        /// </summary>
+        /// <param name="parcel">The parcel to convert</param>
+        /// <returns>The converted parcel</returns>
         private Parcel mapParcel(IDAL.DO.Parcel parcel)
         {
-            
-            DroneToList tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
-            if (tmpDrone == default&& parcel.DorneId != 0)
+            var tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
+            if (tmpDrone.Equals(default))
                 throw new KeyNotFoundException();
             return new Parcel()
             {
@@ -133,52 +125,11 @@ namespace IBL
                 CollectionTime = parcel.PickedUp,
                 CreationTime = parcel.Requested,
                 DeliveryTime = parcel.Delivered,
-                Drone =tmpDrone==default?default:mapDroneWithParcel(tmpDrone)
+                Drone = mapDroneWithParcel(tmpDrone)
             };
         }
 
-        private void AssigningDroneToParcel(int parcelId, int droneId)
-        {
-            IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
-            dal.RemoveParcel(parcel);
-            parcel.DorneId = droneId;
-            parcel.Sceduled = DateTime.Now;
-            dal.ParcelsReception(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
-        }
-        private void ParcelcollectionDrone(int parcelId)
-        {
-            IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
-            dal.RemoveParcel(parcel);
-            parcel.PickedUp = DateTime.Now;
-            dal.ParcelsReception(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
-        }
-        private void ParcelDeliveredDrone(int parcelId)
-        {
-            IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
-            dal.RemoveParcel(parcel);
-            parcel.Delivered = DateTime.Now;
-            dal.ParcelsReception(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
-        }
-        private IEnumerable<Parcel> getAllParcels()
-        {
-            return dal.GetParcels().Select(Parcel => GetParcel(Parcel.Id));
-        }
-        private double calculateElectricity(DroneToList aviableDrone, Location CustomerSender,Location CustomerReceives,WeightCategories weight, out double minDistance)
-        {
-            DroneToList tempDrone = aviableDrone;
-            double electricity;
-            IDAL.DO.Station station;
-            electricity = Distance(aviableDrone.CurrentLocation, CustomerSender) * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE] +
-                        Distance(CustomerSender, CustomerReceives) * dal.GetElectricityUse()[(int)weight + 1];
-            tempDrone.BatteryStatus -= electricity;
-            station = ClosetStationPossible(dal.GetStations(), tempDrone, out minDistance);
-            electricity += Distance(CustomerReceives,
-                         new Location() { Latitude = station.Latitude, Longitude = station.Longitude }) * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE];
-            minDistance = Distance(aviableDrone.CurrentLocation, CustomerSender) +
-                Distance(CustomerSender, CustomerReceives) +
-                Distance(CustomerReceives, new Location() { Latitude = station.Latitude, Longitude = station.Longitude });
-            return electricity;
-        }
+        
 
     }
 }

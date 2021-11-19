@@ -9,6 +9,12 @@ namespace IBL
 {
     public partial class BL : IblDrone
     {
+        //-----------------------------------------------------------Adding------------------------------------------------------------------------
+        /// <summary>
+        /// Add a drone to the list of drones in data and also convert it to Drone To List and add it to BL list
+        /// </summary>
+        /// <param name="droneBl">The drone for Adding</param>
+        ///<param name="stationId">The station to put the drone</param>
         public void AddDrone(Drone droneBl, int stationId)
         {
             if (ExistsIDTaxCheck(dal.GetDrones(), droneBl.Id))
@@ -28,12 +34,101 @@ namespace IBL
             };
             drones.Add(droneToList);
         }
+
+        //--------------------------------------------------Return-----------------------------------------------------------------------------------
+        /// <summary>
+        /// Retrieves the requested drone from the data and converts it to BL drone
+        /// </summary>
+        /// <param name="id">The requested drone id</param>
+        /// <returns>A Bl drone to print</returns>
         public BO.Drone GetDrone(int id)
         {
             if (!ExistsIDTaxCheck(dal.GetDrones(), id))
                 throw new KeyNotFoundException();
             return MapDrone(dal.GetDrone(id));
         }
+
+        //--------------------------------------------------Updating-----------------------------------------------------------------------------------
+
+        /// <summary>
+        /// Update a drone in the Stations list
+        /// </summary>
+        /// <param name="id">The drone to update</param>
+        /// <param name="name">The new name</param>
+        public void UpdateDrone(int id, string name)
+        {
+            if (!ExistsIDTaxCheck(dal.GetDrones(), id))
+                throw new KeyNotFoundException();
+            IDAL.DO.Drone droneDl = dal.GetDrone(id);
+            if (name.Equals(default))
+                throw new ArgumentNullException("For updating the name must be initialized ");
+            dal.RemoveDrone(droneDl);
+            dal.AddDrone(id, name, droneDl.MaxWeight);
+            DroneToList droneToList = drones.Find(item => item.Id == id);
+            drones.Remove(droneToList);
+            droneToList.DroneModel = name;
+            drones.Add(droneToList);
+        }
+
+        /// <summary>
+        /// Send a drone for charging in the closet station with empty charge slots tha t the drone can arrive there
+        /// </summary>
+        /// <param name="id">The id of the drone</param>
+        public void SendDroneForCharg(int id)
+        {
+            DroneToList droneToList = drones.Find(item => item.Id == id);
+            if (droneToList.DroneStatus != DroneStatuses.AVAILABLE)
+                throw new InvalidEnumArgumentException();
+            double minDistance;
+            IDAL.DO.Station station = ClosetStationPossible(dal.GetStations(), droneToList, out minDistance);
+            if (station.Equals(default))
+                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();
+            drones.Remove(droneToList);
+            droneToList.DroneStatus = DroneStatuses.MAINTENANCE;
+            droneToList.BatteryStatus -= minDistance * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE];
+            droneToList.CurrentLocation = new Location() { Longitude = station.Longitude, Latitude = station.Latitude }; ;
+            //No charging position was subtracting because there is no point in changing a variable that is not saved after the end of the function
+            dal.AddDRoneCharge(id, station.Id);
+        }
+
+        /// <summary>
+        /// REalse the drone from charging
+        /// </summary>
+        /// <param name="id">The drone to realsing</param>
+        /// <param name="timeOfCharg">The time of charging</param>
+        public void ReleaseDroneFromCharging(int id, float timeOfCharg)
+        {
+            DroneToList droneToList = drones.Find(item => item.Id == id);
+            if (droneToList.DroneStatus != DroneStatuses.MAINTENANCE)
+                throw new InvalidEnumArgumentException();
+            drones.Remove(droneToList);
+            droneToList.DroneStatus = DroneStatuses.AVAILABLE;
+            droneToList.BatteryStatus += timeOfCharg / 60 * dal.GetElectricityUse().Last();
+            //No charging position was adding because there is no point in changing a variable that is not saved after the end of the function
+            dal.RemoveDroneCharge(id);
+        }
+
+        /// <summary>
+        /// Assign parcel to drone in according to weight and distance (call to help function)
+        /// </summary>
+        /// <param name="droneId">The dreone to assign it a parcel</param>
+        public void AssingParcelToDrone(int droneId)
+        {
+            DroneToList aviableDrone = drones.Find(item => item.Id == droneId);
+            Dictionary<ParcelToList, double> parcels = creatParcelListToAssign(aviableDrone);
+            ParcelToList parcel = treatInPiority(aviableDrone, parcels, Priorities.EMERGENCY);
+            drones.Remove(aviableDrone);
+            aviableDrone.DroneStatus = DroneStatuses.DELIVERY;
+            aviableDrone.ParcelId = parcel.Id;
+            AssigningDroneToParcel(parcel.Id, aviableDrone.Id);
+            drones.Add(aviableDrone);
+
+        }
+
+        /// <summary>
+        /// Collecting the parcel from the sender 
+        /// </summary>
+        /// <param name="DroneId">The drone that collect</param>
         public void ParcelCollectionByDrone(int DroneId)
         {
             DroneToList droneToList = drones.Find(item => item.Id == DroneId);
@@ -50,110 +145,11 @@ namespace IBL
             drones.Add(droneToList);
             ParcelcollectionDrone(parcel.Id);
         }
-        public void ReleaseDroneFromCharging(int id, float timeOfCharg)
-        {
-            DroneToList droneToList = drones.Find(item => item.Id == id);
-            if (droneToList.DroneStatus != DroneStatuses.MAINTENANCE)
-                throw new InvalidEnumArgumentException();
-            drones.Remove(droneToList);
-            droneToList.DroneStatus = DroneStatuses.AVAILABLE;
-            droneToList.BatteryStatus += timeOfCharg / 60 * dal.GetElectricityUse()[4];
-            dal.RemoveDroneCharge(id);
-        }
 
-        public void SendDroneForCharg(int id)
-        {
-            DroneToList droneToList = drones.Find(item => item.Id == id);
-            if (droneToList.DroneStatus != DroneStatuses.AVAILABLE)
-                throw new InvalidEnumArgumentException();
-            double minDistance;
-            IDAL.DO.Station station = ClosetStationPossible(dal.GetStations(), droneToList,out minDistance);
-            if (station.Equals(default))
-                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();
-            drones.Remove(droneToList);
-            droneToList.DroneStatus = DroneStatuses.MAINTENANCE;
-            droneToList.BatteryStatus -= minDistance * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE];
-            droneToList.CurrentLocation = new Location() { Longitude = station.Longitude, Latitude = station.Latitude };;
-            //הורדת מספר עמדות טעינה בתחנה
-            dal.AddDRoneCharge(id, station.Id);
-        }
-        public void UpdateDrone(int id, string name)
-        {
-            if (!ExistsIDTaxCheck(dal.GetDrones(), id))
-                throw new KeyNotFoundException();
-            IDAL.DO.Drone droneDl = dal.GetDrone(id);
-            if (name.Equals(default))
-                throw new ArgumentNullException("For updating the name must be initialized ");
-            dal.RemoveDrone(droneDl);
-            dal.AddDrone(id, name, droneDl.MaxWeight);
-            DroneToList droneToList = drones.Find(item => item.Id == id);
-            drones.Remove(droneToList);
-            droneToList.DroneModel = name;
-            drones.Add(droneToList);
-        }
-        public IEnumerable<DroneToList> GetDrones() => drones;
-        private List<DroneInCharging> CreatListDroneInCharging(int id)
-        {
-            List<int> list = dal.GetDronechargingInStation(id);
-            List<DroneInCharging> droneInChargings = new();
-            DroneToList droneToList;
-            foreach (var idDrone in list)
-            {
-                droneToList = drones.FirstOrDefault(item => (item.Id == idDrone));
-                if (!droneToList.Equals(default))
-                {
-                    droneInChargings.Add(new DroneInCharging() { Id = idDrone, ChargingMode = droneToList.BatteryStatus });
-                }
-            }
-            return droneInChargings;
-        }
-        private BO.Drone MapDrone(IDAL.DO.Drone drone)
-        {
-            DroneToList droneToList = drones.Find(item => item.Id == drone.Id);
-            return new Drone()
-            {
-                Id = drone.Id,
-                Model = drone.Model,
-                WeightCategory = (WeightCategories)drone.MaxWeight,
-                DroneStatus = droneToList.DroneStatus,
-                BattaryMode = droneToList.BatteryStatus,
-                CurrentLocation = droneToList.CurrentLocation,
-                Parcel = droneToList.ParcelId != null ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
-            };
-        }
-        private IDAL.DO.Station ClosetStationPossible(IEnumerable<IDAL.DO.Station> stations, DroneToList droneToList,out double minDistance)
-        {
-            IDAL.DO.Station station = ClosetStation(stations, droneToList.CurrentLocation);
-            minDistance = Distance(new Location() { Longitude = station.Longitude, Latitude = station.Latitude }, droneToList.CurrentLocation);
-            return minDistance * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE] < droneToList.BatteryStatus ? station : default(IDAL.DO.Station);
-        }
-        private IDAL.DO.Station ClosetStation(IEnumerable<IDAL.DO.Station> stations, Location location)
-        {
-            double minDistance = 0;
-            double curDistance;
-            IDAL.DO.Station station = default;
-            foreach (var item in stations)
-            {
-                curDistance = Distance(location,
-                    new Location() { Latitude = item.Latitude, Longitude = item.Longitude });
-                if (curDistance < minDistance)
-                {
-                    minDistance = curDistance;
-                    station = item;
-                }
-            }
-            return station;
-        }
-        private DroneWithParcel mapDroneWithParcel(DroneToList drone)
-        {
-            return new DroneWithParcel()
-            {
-                CurrentLocation = drone.CurrentLocation,
-                Id = drone.Id,
-                ChargingMode = drone.BatteryStatus
-            };
-        }
-
+        /// <summary>
+        /// Deliverd the parcel to the reciver 
+        /// </summary>
+        /// <param name="droneId">The drone that deliverd</param>
         public void DeliveryParcelByDrone(int droneId)
         {
             DroneToList droneToList = drones.Find(item => item.Id == droneId);
@@ -172,34 +168,58 @@ namespace IBL
             ParcelDeliveredDrone(parcel.Id);
         }
 
-        public void AssingParcelToDrone(int droneId)
-        {
-            DroneToList aviableDrone = drones.Find(item => item.Id == droneId);
-            Dictionary<ParcelToList,double> parcels = creatParcelListToAssign(aviableDrone);
-            ParcelToList parcel=treatInPiority(aviableDrone, parcels, Priorities.EMERGENCY);
-            drones.Remove(aviableDrone);
-            aviableDrone.DroneStatus = DroneStatuses.DELIVERY;
-            aviableDrone.ParcelId = parcel.Id;
-            AssigningDroneToParcel(parcel.Id, aviableDrone.Id);
-            drones.Add(aviableDrone);
 
+        //-------------------------------------------------Return List-----------------------------------------------------------------------------
+        /// <summary>
+        /// Retrieves the list of drones from BL
+        /// </summary>
+        /// <returns>A list of drones to print</returns>
+        public IEnumerable<DroneToList> GetDrones() => drones;
+        private List<DroneInCharging> CreatListDroneInCharging(int id)
+        {
+            List<int> list = dal.GetDronechargingInStation(id);
+            List<DroneInCharging> droneInChargings = new();
+            DroneToList droneToList;
+            foreach (var idDrone in list)
+            {
+                droneToList = drones.FirstOrDefault(item => (item.Id == idDrone));
+                if (!droneToList.Equals(default))
+                {
+                    droneInChargings.Add(new DroneInCharging() { Id = idDrone, ChargingMode = droneToList.BatteryStatus });
+                }
+            }
+            return droneInChargings;
         }
+        //--------------------------------------------------Help function-----------------------------------------------------------------------------------
+        /// <summary>
+        /// Convert a Bl Drone To List to BL drone
+        /// </summary>
+        /// <param name="drone">The drone to convert</param>
+        /// <returns>The converted drone</returns>
+        private BO.Drone MapDrone(IDAL.DO.Drone drone)
+        {
+            DroneToList droneToList = drones.Find(item => item.Id == drone.Id);
+            return new Drone()
+            {
+                Id = drone.Id,
+                Model = drone.Model,
+                WeightCategory = (WeightCategories)drone.MaxWeight,
+                DroneStatus = droneToList.DroneStatus,
+                BattaryMode = droneToList.BatteryStatus,
+                CurrentLocation = droneToList.CurrentLocation,
+                Parcel = droneToList.ParcelId != null ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
+            };
+        }
+
+        /// <summary>
+        /// Find the best parcel to assigning to thev drone
+        /// </summary>
+        /// <param name="drone">The drone to assining it</param>
+        /// <returns>The best parcel</returns>
         private ParcelToList treatInPiority( DroneToList aviableDrone, Dictionary<ParcelToList, double> parcels, Priorities priority)
         {
-            double minDistance = double.MaxValue;
-            WeightCategories weight = WeightCategories.LIGHT;
-            ParcelToList parcel = default;
-            Priorities maxPriority = Priorities.REGULAR;
-            foreach (var item in parcels)
-            {
-                    if ( maxPriority<item.Key.Piority &&item.Value<= minDistance && item.Key.Weight >= weight )
-                    {
-                        parcel = item.Key;
-                        minDistance =item.Value;
-                        weight = item.Key.Weight;
-                    }
-            }
-            return parcel;
+            parcels.OrderByDescending(parcel => parcel.Key.Piority).ThenByDescending(parcel => parcel.Key.Weight).ThenBy(parcel => parcel.Value);
+            return parcels.Keys.First();
         }
 
     }

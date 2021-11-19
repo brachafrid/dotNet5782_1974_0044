@@ -7,14 +7,25 @@ namespace IBL
 {
     public partial class BL : IblCustomer
     {
-        public void AddCustomer(Customer customer)
+        //-----------------------------------------------------------Adding------------------------------------------------------------------------
+        /// <summary>
+        /// Add a customer to the list of customers
+        /// </summary>
+        /// <param name="customerBL">The customer for Adding</param>
+        public void AddCustomer(Customer customerBL)
         {
-            if (ExistsIDTaxCheck(dal.GetCustomers(), customer.Id))
+            if (ExistsIDTaxCheck(dal.GetCustomers(), customerBL.Id))
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheList();
             }
-            dal.AddCustomer(customer.Id, customer.Phone, customer.Name, customer.Location.Longitude, customer.Location.Latitude);
+            dal.AddCustomer(customerBL.Id, customerBL.Phone, customerBL.Name, customerBL.Location.Longitude, customerBL.Location.Latitude);
         }
+        //--------------------------------------------------Return-----------------------------------------------------------------------------------
+        /// <summary>
+        /// Retrieves the requested customer from the data and converts it to BL customer
+        /// </summary>
+        /// <param name="id">The requested customer id</param>
+        /// <returns>A Bl customer to print</returns>
         public Customer GetCustomer(int id)
         {
             try
@@ -26,6 +37,13 @@ namespace IBL
                 throw new Exception();
             }
         }
+        //-------------------------------------------------------Updating-----------------------------------------------------------------------------
+        /// <summary>
+        /// Update a customer in the customers list
+        /// </summary>
+        /// <param name="id">the id of the customer</param>
+        /// <param name="name"></param>
+        /// <param name="phone"></param>
         public void UpdateCustomer(int id, string name, string phone)
         {
             if (!ExistsIDTaxCheck(dal.GetCustomers(), id))
@@ -41,11 +59,22 @@ namespace IBL
             dal.AddCustomer(id, phone, name, customer.Longitude, customer.Latitude);
         }
 
-       public IEnumerable<CustomerToList> GetCustomers()
+        //-------------------------------------------------Return List-----------------------------------------------------------------------------
+        /// <summary>
+        /// Retrieves the list of customers  from the data and converts it to station to list
+        /// </summary>
+        /// <returns>A list of statin to print</returns>
+        public IEnumerable<CustomerToList> GetCustomers()
         {
             return dal.GetCustomers().Select(customer => MapCustomerToList(customer));
         }
 
+        //-----------------------------------------------Help function-----------------------------------------------------------------------------------
+        /// <summary>
+        /// Convert a DAL customer to BL customer
+        /// </summary>
+        /// <param name="parcel">The customer to convert</param>
+        /// <returns>The converted customer</returns>
         private Customer MapCustomer(IDAL.DO.Customer customer)
         {
             return new Customer()
@@ -62,29 +91,7 @@ namespace IBL
                 ToCustomer = getAllParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "Recive")).ToList()
             };
         }
-        private CustomerToList MapCustomerToList(IDAL.DO.Customer customer)
-        {
-            return new CustomerToList()
-            {
-                Id = customer.Id,
-                Phone = customer.Phone,
-                Name = customer.Name,
-                NumParcelReceived = dal.GetParcels().Count(parcel => parcel.TargetId == customer.Id && !parcel.Delivered.Equals(default)),
-                NumParcelSentDelivered = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && !parcel.Delivered.Equals(default)),
-                NumParcelSentNotDelivered = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && parcel.Delivered.Equals(default)),
-                NumParcelWayToCustomer = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && parcel.Delivered.Equals(default)
-                && !parcel.PickedUp.Equals(default))
-            };
-           
-        }
-        private CustomerInParcel MapCustomerInParcel(IDAL.DO.Customer customer)
-        {
-            return new CustomerInParcel()
-            {
-                Id = customer.Id,
-                Name = customer.Name
-            };
-        }
+       
     }
 }
 
