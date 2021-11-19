@@ -6,7 +6,7 @@ using IBL.BO;
 
 namespace IBL
 {
-    public partial class Bl
+    public partial class BL
     {
         /// <summary>
         /// Convert a drone To List to Drone With Parcel
@@ -17,9 +17,9 @@ namespace IBL
         {
             return new DroneWithParcel()
             {
-                CurrentLocation = drone.CurrentLocation,
                 Id = drone.Id,
-                ChargingMode = drone.BatteryStatus
+                ChargingMode = drone.BatteryStatus,
+                CurrentLocation = drone.CurrentLocation
             };
         }
     }

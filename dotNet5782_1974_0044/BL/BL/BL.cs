@@ -86,6 +86,13 @@ namespace IBL
                 drones.Add(tmpDrone);
             }
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="lst"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
         private static bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
         {
             if (!lst.Any())

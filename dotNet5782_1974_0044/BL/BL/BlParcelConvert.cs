@@ -22,8 +22,10 @@ namespace IBL
                 Id = parcel.Id,
                 WeightCategory = parcel.Weight,
                 Priority = parcel.Priority,
-                DroneStatus = drones.Find(drone => drone.Id == parcel.Drone.Id).DroneStatus
+                Status = parcel.AssignmentTime == default ? PackageModes.DEFINED : parcel.CollectionTime == default ? PackageModes.ASSOCIATED : parcel.DeliveryTime == default ? PackageModes.COLLECTED : PackageModes.PROVIDED
             };
+
+
             if (type == "sender")
             {
                 newParcel.Customer = new CustomerInParcel()
@@ -40,6 +42,7 @@ namespace IBL
                     Name = parcel.CustomerSender.Name
                 };
             }
+
             return newParcel;
         }
 
