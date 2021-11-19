@@ -37,8 +37,10 @@ namespace IBL
                 Id = parcel.Id,
                 WeightCategory = parcel.Weight,
                 Priority = parcel.Priority,
-                DroneStatus = drones.Find(drone => drone.Id == parcel.Drone.Id).DroneStatus
+                Status = parcel.AssignmentTime == default ? PackageModes.DEFINED : parcel.CollectionTime == default ? PackageModes.ASSOCIATED : parcel.DeliveryTime == default ? PackageModes.COLLECTED : PackageModes.PROVIDED
             };
+    
+       
             if (type == "sender")
             {
                 newParcel.Customer = new CustomerInParcel()
@@ -58,6 +60,7 @@ namespace IBL
 
             return newParcel;
         }
+
 
         private ParcelInTransfer CreateParcelInTransfer(int id)
         {
@@ -115,11 +118,9 @@ namespace IBL
         }
         private Parcel mapParcel(IDAL.DO.Parcel parcel)
         {
-                Console.WriteLine(drones.Count) ;
+            
             DroneToList tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
-            //if (tmpDrone == null)
-            //    throw new KeyNotFoundException();
-            if (tmpDrone == default)
+            if (tmpDrone == default&& parcel.DorneId != 0)
                 throw new KeyNotFoundException();
             return new Parcel()
             {
@@ -132,7 +133,7 @@ namespace IBL
                 CollectionTime = parcel.PickedUp,
                 CreationTime = parcel.Requested,
                 DeliveryTime = parcel.Delivered,
-                Drone = mapDroneWithParcel(tmpDrone)
+                Drone =tmpDrone==default?default:mapDroneWithParcel(tmpDrone)
             };
         }
 
