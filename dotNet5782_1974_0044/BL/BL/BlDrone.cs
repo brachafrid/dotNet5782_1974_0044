@@ -11,9 +11,9 @@ namespace IBL
     {
         public void AddDrone(Drone droneBl, int stationId)
         {
-            if (ExistsIDTaxCheck(dal.GetStations(), droneBl.Id))
+            if (ExistsIDTaxCheck(dal.GetDrones(), droneBl.Id))
                 throw new ThereIsAnObjectWithTheSameKeyInTheList();
-            if (!ExistsIDTaxCheck(dal.GetCustomers(), stationId))
+            if (!ExistsIDTaxCheck(dal.GetStations(), stationId))
                 throw new KeyNotFoundException("station not exist");
             dal.AddDrone(droneBl.Id,droneBl.Model,(IDAL.DO.WeightCategories)droneBl.WeightCategory);
             IDAL.DO.Station station = dal.GetStation(stationId);
