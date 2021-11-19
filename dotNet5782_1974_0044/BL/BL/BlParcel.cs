@@ -115,8 +115,11 @@ namespace IBL
         }
         private Parcel mapParcel(IDAL.DO.Parcel parcel)
         {
-            var tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
-            if (tmpDrone.Equals(default))
+                Console.WriteLine(drones.Count) ;
+            DroneToList tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
+            //if (tmpDrone == null)
+            //    throw new KeyNotFoundException();
+            if (tmpDrone == default)
                 throw new KeyNotFoundException();
             return new Parcel()
             {

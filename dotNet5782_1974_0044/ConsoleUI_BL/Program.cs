@@ -175,8 +175,8 @@ namespace ConsoleUI_BL
                             {
                                 Console.WriteLine("Enter phone");
                                 phone = Console.ReadLine();
-                                if (!Regex.Match(phone, @"^(\+[0-9]{9})$").Success)
-                                    correctPhone = false;
+                                if (!(Regex.Match(phone, @"^((?:\+?)[0-9]{10})$").Success))
+                                correctPhone = false;
                             } while (!correctPhone);
 
                             bl.AddCustomer(new Customer()

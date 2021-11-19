@@ -53,7 +53,7 @@ namespace IBL
                 Id = customer.Id,
                 Phone = customer.Phone,
                 Name = customer.Name,
-                Location = new BO.Location()
+                Location = new()
                 {
                     Longitude = customer.Longitude,
                     Latitude = customer.Latitude

@@ -43,7 +43,9 @@ namespace DalObject
         public void AssignParcelDrone(int parcelId)
         {
 
-            Parcel tmpParcel = DataSorce.Parcels.First(item => item.Id == parcelId);
+            Parcel tmpParcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == parcelId);
+            if (tmpParcel.Equals(default))
+                throw new KeyNotFoundException();
             if (tmpParcel.DorneId != 0)
                 throw new ArgumentException("A drone already exists");
             DataSorce.Parcels.Remove(tmpParcel);
@@ -65,7 +67,9 @@ namespace DalObject
         /// <param name="parcelId">id of parcel</param>
         public void CollectParcel(int parcelId)
         {
-            Parcel tmpParcel = DataSorce.Parcels.First(item => item.Id == parcelId);
+            Parcel tmpParcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == parcelId);
+            if (tmpParcel.Equals(default))
+                throw new KeyNotFoundException();
             if (tmpParcel.DorneId == 0)
                 throw new ArgumentException("dosent have a drone");
             if (!tmpParcel.PickedUp.Equals(new DateTime()))
@@ -82,7 +86,9 @@ namespace DalObject
         /// <param name="parcelId"> Id of parcel</param>
         public void SupplyParcel(int parcelId)
         {
-            Parcel tmpParcel = DataSorce.Parcels.First(item => item.Id == parcelId);
+            Parcel tmpParcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == parcelId);
+            if (tmpParcel.Equals(default))
+                throw new KeyNotFoundException();
             if (tmpParcel.DorneId == 0)
                 throw new ArgumentException("dosent have a drone");
             if (tmpParcel.PickedUp.Equals(new DateTime()))
@@ -100,7 +106,13 @@ namespace DalObject
         /// </summary>
         /// <param name="id">The id number of the requested parcel</param>
         /// <returns>A parcel for display</returns>
-        public Parcel GetParcel(int id)=>DataSorce.Parcels.First(item => item.Id == id);
+        public Parcel GetParcel(int id)
+        {
+           Parcel parcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == id);
+            if (parcel.Equals(default))
+                throw new KeyNotFoundException();
+            return parcel;
+        }
 
         /// <summary>
         /// Prepares the list of Parcels for display
