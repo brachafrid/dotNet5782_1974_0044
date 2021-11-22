@@ -76,7 +76,9 @@ namespace IBL
         /// <param name="id">The id of the drone</param>
         public void SendDroneForCharg(int id)
         {
-            DroneToList droneToList = drones.Find(item => item.Id == id);
+            DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
+            if (droneToList == default)
+                throw new ArgumentNullException();
             if (droneToList.DroneStatus != DroneStatuses.AVAILABLE)
                 throw new InvalidEnumArgumentException();
             double minDistance;
@@ -98,7 +100,9 @@ namespace IBL
         /// <param name="timeOfCharg">The time of charging</param>
         public void ReleaseDroneFromCharging(int id, float timeOfCharg)
         {
-            DroneToList droneToList = drones.Find(item => item.Id == id);
+            DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
+            if (droneToList == default)
+                throw new ArgumentNullException();
             if (droneToList.DroneStatus != DroneStatuses.MAINTENANCE)
                 throw new InvalidEnumArgumentException();
             drones.Remove(droneToList);
@@ -114,7 +118,9 @@ namespace IBL
         /// <param name="droneId">The dreone to assign it a parcel</param>
         public void AssingParcelToDrone(int droneId)
         {
-            DroneToList aviableDrone = drones.Find(item => item.Id == droneId);
+            DroneToList aviableDrone = drones.FirstOrDefault(item => item.Id == droneId);
+            if (aviableDrone == default)
+                throw new ArgumentNullException();
             Dictionary<ParcelToList, double> parcels = creatParcelListToAssign(aviableDrone);
             ParcelToList parcel = treatInPiority(aviableDrone, parcels, Priorities.EMERGENCY);
             drones.Remove(aviableDrone);
@@ -131,7 +137,9 @@ namespace IBL
         /// <param name="DroneId">The drone that collect</param>
         public void ParcelCollectionByDrone(int DroneId)
         {
-            DroneToList droneToList = drones.Find(item => item.Id == DroneId);
+            DroneToList droneToList = drones.FirstOrDefault(item => item.Id == DroneId);
+            if (droneToList == default)
+                throw new ArgumentNullException();
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
             IDAL.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
@@ -152,7 +160,9 @@ namespace IBL
         /// <param name="droneId">The drone that deliverd</param>
         public void DeliveryParcelByDrone(int droneId)
         {
-            DroneToList droneToList = drones.Find(item => item.Id == droneId);
+            DroneToList droneToList = drones.FirstOrDefault(item => item.Id == droneId);
+            if (droneToList == default)
+                throw new ArgumentNullException();
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
             IDAL.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
