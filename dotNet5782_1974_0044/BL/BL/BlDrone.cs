@@ -17,11 +17,9 @@ namespace IBL
         ///<param name="stationId">The station to put the drone</param>
         public void AddDrone(Drone droneBl, int stationId)
         {
-            if (!ExistsIDTaxCheck(dal.GetStations(), stationId))
-                throw new KeyNotFoundException("Add drone -BL- : Station not exist");
-            dal.AddDrone(droneBl.Id,droneBl.Model,(IDAL.DO.WeightCategories)droneBl.WeightCategory);
             try
             {
+                dal.AddDrone(droneBl.Id, droneBl.Model, (IDAL.DO.WeightCategories)droneBl.WeightCategory);
                 IDAL.DO.Station station = dal.GetStation(stationId);
                 DroneToList droneToList = new()
                 {
@@ -42,7 +40,7 @@ namespace IBL
             catch (KeyNotFoundException ex)
             {
 
-                throw new KeyNotFoundException(ex.Message+"Add drone -BL-");
+                throw new KeyNotFoundException("Add drone -BL-"+ex.Message);
             }
 
         }
@@ -55,8 +53,6 @@ namespace IBL
         /// <returns>A Bl drone to print</returns>
         public BO.Drone GetDrone(int id)
         {
-            if (!ExistsIDTaxCheck(dal.GetDrones(), id))
-                throw new KeyNotFoundException("Get drone -BL-");
             try
             {
                 return MapDrone(id);
@@ -64,7 +60,7 @@ namespace IBL
             catch (ArgumentNullException ex)
             {
 
-                throw new ArgumentNullException(ex.Message+ "Get drone -BL-");
+                throw new ArgumentNullException("Get drone -BL-"+ex.Message);
             }
             
         }
@@ -78,13 +74,11 @@ namespace IBL
         /// <param name="name">The new name</param>
         public void UpdateDrone(int id, string name)
         {
-            if (!ExistsIDTaxCheck(dal.GetDrones(), id))
-                throw new KeyNotFoundException("Update drone -BL-:There is not suitable drone in the data");
+            if (name.Equals(default))
+                throw new ArgumentNullException("Update drone -BL-:For updating the name must be initialized ");
             try
             {
                 IDAL.DO.Drone droneDl = dal.GetDrone(id);
-                if (name.Equals(default))
-                    throw new ArgumentNullException("Update drone -BL-:For updating the name must be initialized ");
                 dal.RemoveDrone(droneDl);
                 dal.AddDrone(id, name, droneDl.MaxWeight);
                 DroneToList droneToList = drones.Find(item => item.Id == id);
@@ -94,13 +88,11 @@ namespace IBL
             }
             catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message+"Update drone -BL-");
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Update drone -BL-"+ex.Message);
             }
             catch (KeyNotFoundException ex)
             {
-
-                throw new KeyNotFoundException(ex.Message + "Update drone -BL-");
+                throw new KeyNotFoundException("Update drone -BL-"+ex.Message);
             }
 
         }
@@ -172,7 +164,7 @@ namespace IBL
             }
             catch(ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message+ "Assing Parcel To Drone -BL-");
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
 
         }
@@ -188,12 +180,12 @@ namespace IBL
                 throw new ArgumentNullException("Parcel Collection By Drone -BL-: There is no a drone with the same id in data");
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("Parcel Collection By Drone -BL-:No parcel has been associated yet");
-            IDAL.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
-            if (!parcel.PickedUp.Equals(default))
-                throw new ArgumentNullException("Parcel Collection By Drone -BL-:The package has already been collected");
             drones.Remove(droneToList);
             try
             {
+                IDAL.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
+                if (!parcel.PickedUp.Equals(default))
+                    throw new ArgumentNullException("Parcel Collection By Drone -BL-:The package has already been collected");
                 IDAL.DO.Customer customer = dal.GetCustomer(parcel.SenderId);
                 Location senderLocation = new() { Longitude = customer.Longitude, Latitude = customer.Latitude };
                 droneToList.BatteryStatus -= Distance(droneToList.CurrentLocation, senderLocation) * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE];
@@ -203,7 +195,6 @@ namespace IBL
             }
             catch (KeyNotFoundException ex)
             {
-
                 throw new KeyNotFoundException(ex.Message+ "Parcel Collection By Drone -BL-");
             }
             catch(ThereIsAnObjectWithTheSameKeyInTheListException ex)

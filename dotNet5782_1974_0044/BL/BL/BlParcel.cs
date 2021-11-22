@@ -98,12 +98,11 @@ namespace IBL
             }
             catch (KeyNotFoundException ex)
             {
-
-                throw new KeyNotFoundException(ex.Message+ "Assigning Drone To Parcel -BL-");
+                throw new KeyNotFoundException("Assigning Drone To Parcel -BL-"+ex.Message);
             }
             catch(IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message + "Assigning Drone To Parcel -BL-");
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Assigning Drone To Parcel -BL-"+ex.Message );
             }
 
         }

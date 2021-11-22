@@ -52,8 +52,6 @@ namespace IBL
         /// <param name="phone"></param>
         public void UpdateCustomer(int id, string name, string phone)
         {
-            if (!ExistsIDTaxCheck(dal.GetCustomers(), id))
-                throw new KeyNotFoundException("Update customer -BL-:There is no customer with same id in the data");
             if (name.Equals(default) && phone.Equals(default))
                 throw new ArgumentNullException("Update customer -BL-:There is not field to update");
             try
@@ -68,11 +66,11 @@ namespace IBL
             }
             catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message+ "Update customer -BL-");
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Update customer -BL-"+ex.Message);
             }
             catch (KeyNotFoundException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message + "Update customer -BL-");
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Update customer -BL-"+ex.Message );
             }
 
         }
