@@ -195,11 +195,11 @@ namespace IBL
             }
             catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException(ex.Message+ "Parcel Collection By Drone -BL-");
+                throw new KeyNotFoundException("Parcel Collection By Drone -BL-"+ex.Message);
             }
             catch(ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message+ "Parcel Collection By Drone -BL");
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Parcel Collection By Drone -BL"+ex.Message);
             }
 
         }
@@ -231,7 +231,7 @@ namespace IBL
             }
             catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException(ex.Message + "Delivery Parcel By Drone -BL-");
+                throw new KeyNotFoundException("Delivery Parcel By Drone -BL-"+ex.Message );
             }
             catch (ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
