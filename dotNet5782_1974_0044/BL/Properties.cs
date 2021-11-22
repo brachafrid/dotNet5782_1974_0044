@@ -12,11 +12,15 @@ namespace IBL
         public static string ToStringProperties<T>(this T obj)
         {
             Type t = obj.GetType();
-            string s = $"{t.Name}:" + Environment.NewLine;
+            string s= "";
             foreach (PropertyInfo item in t.GetProperties())
             {
-                s += $"{item.Name} = {item.GetValue(obj)}" +
-                    Environment.NewLine;
+                if (item.GetValue(obj) != null && item.GetType() != System.Collections.Generic.List)
+                {
+                    s += $"{item.Name} = {item.GetValue(obj)}" +
+                                        Environment.NewLine;
+                }
+
             }
             return s;
         }
