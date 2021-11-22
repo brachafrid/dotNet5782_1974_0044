@@ -101,15 +101,15 @@ namespace IBL
             foreach (var drone in tmpDrones)
             {
                 bool canTakeParcel = true;
-                var parcel = dal.GetParcels().FirstOrDefault(parcel => parcel.DorneId == drone.Id);
+                var parcel = parcels.FirstOrDefault(parcel => parcel.DorneId == drone.Id && !parcel.Delivered.Equals(default));
                 double BatteryStatus ;
                 double tmpBatteryStatus = default;
                 Location tmpLocaiton = default;
                 Location Location;
                 DroneStatuses statuse = default;
                 //set status
-                // if the drone make delivery
-                if (!parcel.Equals(default) || !parcel.Delivered.Equals(default))
+                // if the drone makes delivery
+                if (!parcel.Equals(default)  )
                 {
                     statuse = DroneStatuses.DELIVERY;
                     tmpBatteryStatus = minBattary(parcel, drone, ref canTakeParcel);
