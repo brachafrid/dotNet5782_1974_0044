@@ -196,9 +196,11 @@ namespace IBL
         /// </summary>
         /// <param name="drone">The drone to convert</param>
         /// <returns>The converted drone</returns>
-        private BO.Drone MapDrone(IDAL.DO.Drone drone)
+        private Drone MapDrone(IDAL.DO.Drone drone)
         {
-            DroneToList droneToList = drones.Find(item => item.Id == drone.Id);
+            DroneToList droneToList = drones.FirstOrDefault(item => item.Id == drone.Id);
+            if (droneToList == default)
+                throw new ArgumentNullException();
             return new Drone()
             {
                 Id = drone.Id,

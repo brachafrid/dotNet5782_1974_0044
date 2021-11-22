@@ -111,10 +111,7 @@ namespace IBL
         /// <returns>The converted parcel</returns>
         private Parcel mapParcel(IDAL.DO.Parcel parcel)
         {
-            DroneToList tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
-            
-            if (tmpDrone.Equals(default))
-                throw new KeyNotFoundException();
+            var tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
             return new Parcel()
             {
                 Id = parcel.Id,
@@ -126,7 +123,7 @@ namespace IBL
                 CollectionTime = parcel.PickedUp,
                 CreationTime = parcel.Requested,
                 DeliveryTime = parcel.Delivered,
-                Drone = mapDroneWithParcel(tmpDrone)
+                Drone = tmpDrone != default ? mapDroneWithParcel(tmpDrone) : null
             };
         }
 
