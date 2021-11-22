@@ -122,11 +122,11 @@ namespace IBL
             }
             catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException(ex.Message + "Parcel ollection Drone -BL-");
+                throw new KeyNotFoundException("Parcel ollection Drone -BL-"+ex.Message );
             }
             catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message + "Parcel ollection Drone -BL-");
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Parcel ollection Drone -BL-"+ex.Message );
             }
 
         }
