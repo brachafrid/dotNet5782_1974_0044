@@ -13,15 +13,12 @@ namespace IBL
         /// <param name="stationBL">The station for Adding</param>
         public void AddStation(Station stationBL)
         {
-            if (ExistsIDTaxCheck(dal.GetStations(), stationBL.Id))
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Add sattion -BL-");
             try
             {
                 dal.AddStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);
             }
             catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
            
@@ -36,23 +33,23 @@ namespace IBL
         /// <param name="chargeSlots">A nwe number for charging slots</param>
         public void UpdateStation(int id, string name, int chargeSlots)
         {
+            if (name.Equals(default) && chargeSlots == -1)
+                throw new ArgumentNullException("Update station -BL-:For updating at least one parameter must be initialized ");
+            if (chargeSlots < dal.CountFullChargeSlots(satationDl.Id))
+                throw new ArgumentOutOfRangeException("Update station -BL-:The number of charging slots is smaller than the number of slots used");
             try
             {
                 IDAL.DO.Station satationDl = dal.GetStation(id);
-                if (name.Equals(default) && chargeSlots == -1)
-                    throw new ArgumentNullException("Update station -BL-:For updating at least one parameter must be initialized ");
-                if (chargeSlots < dal.CountFullChargeSlots(satationDl.Id))
-                    throw new ArgumentOutOfRangeException("Update station -BL-:The number of charging slots is smaller than the number of slots used");
                 dal.RemoveStation(satationDl);
                 dal.AddStation(id, name.Equals(default) ? satationDl.Name : name, satationDl.Longitude, satationDl.Latitude, chargeSlots.Equals(default) ? satationDl.ChargeSlots : chargeSlots);
             }
             catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException(ex.Message+"Update station -BL-");
+                throw new KeyNotFoundException("Update station -BL-"+ex.Message);
             }
             catch(IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message + "Update station -BL-");
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Update station -BL-"+ex.Message );
             }
            
         }
