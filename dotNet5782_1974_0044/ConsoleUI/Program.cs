@@ -185,7 +185,7 @@ namespace ConsoleUI
 
                 case Add.Customer:
                     {
-                        Console.WriteLine("enter values to station properties:id, name,phone,latitude,longitude");
+                        Console.WriteLine("enter values to customer properties:id,latitude,longitude,name,phone");
                         double latitude, longitude;
                         if (int.TryParse(Console.ReadLine(), out id)&&double.TryParse(Console.ReadLine(), out latitude)&&double.TryParse(Console.ReadLine(), out longitude))
                         {

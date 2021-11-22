@@ -162,7 +162,7 @@ namespace ConsoleUI_BL
                 case Add.Customer:
                     {
                         double latitude, longitude;
-                        Console.WriteLine("enter values to station properties:id,latitude,longitude, name");
+                        Console.WriteLine("enter values to customer properties:id,latitude,longitude, name");
                         if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out latitude) && double.TryParse(Console.ReadLine(), out longitude))
                         {
                             Location location = new();
