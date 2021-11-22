@@ -20,9 +20,9 @@ namespace DalObject
         /// <summary>
         /// Find if the id is exist in a spesific list
         /// </summary>
-        /// <typeparam name="T">the type of list</typeparam>
-        /// <param name="lst">the spesific list </param>
-        /// <param name="id">the id to check</param>
+        /// <typeparam name="T">The type of list</typeparam>
+        /// <param name="lst">The spesific list </param>
+        /// <param name="id">The id to check</param>
         bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
         {
             if (lst.Count() <= 0)
@@ -31,7 +31,14 @@ namespace DalObject
             
             return !(temp.Equals(default(T)));
         }
-
+        /// <summary>
+        /// Takes from the DataSource the electricity use data of the drone
+        /// </summary>
+        /// <returns>A array of electricity use</returns>
+        public double[] GetElectricityUse()
+        {
+            return new double[] { DataSorce.Config.Available, DataSorce.Config.LightWeightCarrier, DataSorce.Config.MediumWeightBearing, DataSorce.Config.CarriesHeavyWeight, DataSorce.Config.DroneLoadingRate };
+        }
     }
 
 }

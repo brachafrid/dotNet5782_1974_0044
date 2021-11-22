@@ -18,12 +18,12 @@ namespace DalObject
         /// <param name="TargetId"> Id of target</param>
         /// <param name="Weigth"> The weigth of parcel (light- 0,medium - 1,heavy - 2)</param>
         /// <param name="Priority"> The priority of send the parcel (regular - 0,fast - 1,emergency - 2)</param>
-        public void ParcelsReception( int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority,int id=0)
+        public void AddParcel( int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority,int id=0)
         {
             if (!ExistsIDTaxCheck(GetCustomers(), SenderId))
-                throw new KeyNotFoundException("sender not exist");
+                throw new KeyNotFoundException("Add parcel -DAL-:Sender not exist");
             if (!ExistsIDTaxCheck(GetCustomers(), TargetId))
-                throw new KeyNotFoundException("target not exist");
+                throw new KeyNotFoundException("Add parcel -DAL-:Target not exist");
             Parcel newParcel = new();
             newParcel.Id = ++DataSorce.Config.IdParcel;
             newParcel.SenderId = SenderId;
@@ -34,72 +34,7 @@ namespace DalObject
             newParcel.DorneId = 0;
             DataSorce.Parcels.Add(newParcel);
         }
-        //-------------------------------------------Update-------------------------------------------
-        /// <summary>
-        /// Assign parcel to drone:
-        /// Find suitable drone and 
-        /// </summary>
-        /// <param name="parcelId">Id of parcel</param>
-        public void AssignParcelDrone(int parcelId)
-        {
 
-            Parcel tmpParcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == parcelId);
-            if (tmpParcel.Equals(default))
-                throw new KeyNotFoundException();
-            if (tmpParcel.DorneId != 0)
-                throw new ArgumentException("A drone already exists");
-            DataSorce.Parcels.Remove(tmpParcel);
-            Drone tmpDrone;
-            findSuitableDrone(out tmpDrone, tmpParcel.Weigth);
-            if (!(tmpDrone.Equals(default)))
-            {
-                tmpParcel.DorneId = tmpDrone.Id;
-                tmpParcel.Sceduled = DateTime.Now;
-            }
-            DataSorce.Parcels.Add(tmpParcel);
-        }
-
-
-        /// <summary>
-        /// collect parcel fo sending:
-        /// update time of pick up parcel
-        /// </summary>
-        /// <param name="parcelId">id of parcel</param>
-        public void CollectParcel(int parcelId)
-        {
-            Parcel tmpParcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == parcelId);
-            if (tmpParcel.Equals(default))
-                throw new KeyNotFoundException();
-            if (tmpParcel.DorneId == 0)
-                throw new ArgumentException("dosent have a drone");
-            if (!tmpParcel.PickedUp.Equals(new DateTime()))
-                throw new ArgumentException("already picked up");
-            DataSorce.Parcels.Remove(tmpParcel);
-            tmpParcel.PickedUp = DateTime.Now;
-            DataSorce.Parcels.Add(tmpParcel);
-        }
-        /// <summary>
-        /// Supply parcel to customer:
-        /// Releases the drone,
-        /// Update the time of delivered.
-        /// </summary>
-        /// <param name="parcelId"> Id of parcel</param>
-        public void SupplyParcel(int parcelId)
-        {
-            Parcel tmpParcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == parcelId);
-            if (tmpParcel.Equals(default))
-                throw new KeyNotFoundException();
-            if (tmpParcel.DorneId == 0)
-                throw new ArgumentException("dosent have a drone");
-            if (tmpParcel.PickedUp.Equals(new DateTime()))
-                throw new ArgumentException("parcel not picked up");
-            if (!tmpParcel.Delivered.Equals(new DateTime()))
-                throw new ArgumentException("already delivered");
-            DataSorce.Parcels.Remove(tmpParcel);
-            tmpParcel.Delivered = DateTime.Now;
-            DataSorce.Parcels.Add(tmpParcel);
-            
-        }
         //-----------------------------------------------------Display--------------------------------------
         /// <summary>
         /// Find a parcel that has tha same id number as the parameter
@@ -110,7 +45,7 @@ namespace DalObject
         {
            Parcel parcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == id);
             if (parcel.Equals(default))
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException("Get Parcel -DAL-:There is not suitable parcel in data");
             return parcel;
         }
 

@@ -20,7 +20,8 @@ namespace  DalObject
         /// <param name="chargeSlots">Number of charging slots at the station</param>
         public void AddStation(int id, string name, double longitude, double latitude, int chargeSlots)
         {
-            uniqueIDTaxCheck<Station>(DataSorce.Stations, id);
+            if(ExistsIDTaxCheck(DataSorce.Stations, id))
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Adding a station - DAL");
             Station newStation = new Station();
             newStation.Id = id;
             newStation.Name = name;
@@ -32,12 +33,18 @@ namespace  DalObject
 
         //-------------------------------------------------Display-------------------------------------------------------------
         /// <summary>
-        /// Find a satation that has tha same id number as the parameter
+        /// Find a station that has tha same id number as the parameter
         /// </summary>
         /// <param name="id">The id number of the requested station/param>
         /// <returns>A station for display</returns>
-        public Station GetStation(int id)=>DataSorce.Stations.First(item => item.Id == id);
-       
+        public Station GetStation(int id)
+        {
+            Station station = DataSorce.Stations.FirstOrDefault(item => item.Id == id);
+            if (station.GetType().Equals(default))
+                throw new KeyNotFoundException("Get station -DAL-: There is no suitable customer in data");
+            return station;
+        }
+
         /// <summary>
         ///  Prepares the list of Sations for display
         /// </summary>

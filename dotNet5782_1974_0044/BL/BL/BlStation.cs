@@ -14,8 +14,17 @@ namespace IBL
         public void AddStation(Station stationBL)
         {
             if (ExistsIDTaxCheck(dal.GetStations(), stationBL.Id))
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException();
-            dal.AddStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);    
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Add sattion -BL-");
+            try
+            {
+                dal.AddStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);
+            }
+            catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            {
+
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
+            }
+           
         }
 
         //-------------------------------------------------------Updating-----------------------------------------------------------------------------
@@ -27,15 +36,25 @@ namespace IBL
         /// <param name="chargeSlots">A nwe number for charging slots</param>
         public void UpdateStation(int id, string name, int chargeSlots)
         {
-            if (!ExistsIDTaxCheck(dal.GetStations(), id))
-                throw new KeyNotFoundException();
-            IDAL.DO.Station satationDl = dal.GetStation(id);
-            if (name.Equals(default) && chargeSlots==-1)
-                throw new ArgumentNullException("For updating at least one parameter must be initialized ");
-            if ( chargeSlots < dal.CountFullChargeSlots(satationDl.Id))
-                throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
-            dal.RemoveStation(satationDl);
-            dal.AddStation(id, name.Equals(default) ? satationDl.Name : name, satationDl.Longitude, satationDl.Latitude, chargeSlots.Equals(default) ? satationDl.ChargeSlots : chargeSlots);
+            try
+            {
+                IDAL.DO.Station satationDl = dal.GetStation(id);
+                if (name.Equals(default) && chargeSlots == -1)
+                    throw new ArgumentNullException("Update station -BL-:For updating at least one parameter must be initialized ");
+                if (chargeSlots < dal.CountFullChargeSlots(satationDl.Id))
+                    throw new ArgumentOutOfRangeException("Update station -BL-:The number of charging slots is smaller than the number of slots used");
+                dal.RemoveStation(satationDl);
+                dal.AddStation(id, name.Equals(default) ? satationDl.Name : name, satationDl.Longitude, satationDl.Latitude, chargeSlots.Equals(default) ? satationDl.ChargeSlots : chargeSlots);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException(ex.Message+"Update station -BL-");
+            }
+            catch(IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            {
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message + "Update station -BL-");
+            }
+           
         }
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
@@ -77,9 +96,15 @@ namespace IBL
         /// <returns>A Bl satation to print</returns>
         public Station GetStation(int id)
         {
-            if (!ExistsIDTaxCheck(dal.GetStations(), id))
-                throw new KeyNotFoundException();
-            return MapStation(dal.GetStation(id));
+            try
+            {
+                return MapStation(dal.GetStation(id));
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException(ex.Message);
+            }
+            
         }
 
         //-----------------------------------------------Help function-----------------------------------------------------------------------------------
@@ -107,11 +132,11 @@ namespace IBL
         /// <param name="droneToList">The drone</param>
         /// <param name="minDistance">The distance the drone need to travel</param>
         /// <returns></returns>
-        private IDAL.DO.Station ClosetStationPossible(IEnumerable<IDAL.DO.Station> stations, DroneToList droneToList, out double minDistance)
+        private IDAL.DO.Station ClosetStationPossible(IEnumerable<IDAL.DO.Station> stations, Location droneToListLocation,double BatteryStatus, out double minDistance)
         {
-            IDAL.DO.Station station = ClosetStation(stations, droneToList.CurrentLocation);
-            minDistance = Distance(new Location() { Longitude = station.Longitude, Latitude = station.Latitude }, droneToList.CurrentLocation);
-            return minDistance * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE] < droneToList.BatteryStatus ? station : default(IDAL.DO.Station);
+            IDAL.DO.Station station = ClosetStation(stations, droneToListLocation);
+            minDistance = Distance(new Location() { Longitude = station.Longitude, Latitude = station.Latitude }, droneToListLocation);
+            return minDistance * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE] < BatteryStatus ? station : default(IDAL.DO.Station);
         }
 
         /// <summary>
@@ -137,7 +162,5 @@ namespace IBL
             }
             return station;
         }
-       
-
     }
 }

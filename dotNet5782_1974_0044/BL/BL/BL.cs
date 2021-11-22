@@ -54,7 +54,7 @@ namespace IBL
                         if(electrity>100)
                         {
                             dal.RemoveParcel(parcel);
-                            dal.ParcelsReception(parcel.SenderId, parcel.TargetId,parcel.Weigth,parcel.Priority,parcel.Id);
+                            dal.AddParcel(parcel.SenderId, parcel.TargetId,parcel.Weigth,parcel.Priority,parcel.Id);
                             tmpDrone.ParcelId = null;
                         }    
                         tmpDrone.BatteryStatus = rand.NextDouble() + rand.Next(electrity>100?0:(int)electrity+1, 100);

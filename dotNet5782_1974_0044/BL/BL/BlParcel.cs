@@ -16,10 +16,19 @@ namespace IBL
         public void AddParcel(Parcel parcelBl)
         {
             if (!ExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerSender.Id))
-                throw new KeyNotFoundException("sender not exist");
+                throw new KeyNotFoundException("Add parcel -BL_:Sender not exist");
             if (!ExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerReceives.Id))
-                throw new KeyNotFoundException("target not exist");
-            dal.ParcelsReception(parcelBl.CustomerSender.Id, parcelBl.CustomerReceives.Id, (IDAL.DO.WeightCategories)parcelBl.Weight, (IDAL.DO.Priorities)parcelBl.Priority);
+                throw new KeyNotFoundException("Add parcel -BL-:Target not exist");
+            try
+            {
+                dal.AddParcel(parcelBl.CustomerSender.Id, parcelBl.CustomerReceives.Id, (IDAL.DO.WeightCategories)parcelBl.Weight, (IDAL.DO.Priorities)parcelBl.Priority);
+            }
+            catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            {
+
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
+            }
+           
         }
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
@@ -29,7 +38,7 @@ namespace IBL
         /// <returns>A list of parcels to print</returns>
         public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone()
         {
-            return dal.GetParcelsNotAssignedToDrone().Select(parcel => mapParcelToList(parcel));
+            return dal.GetParcelsNotAssignedToDrone().Select(parcel => mapParcelToList(parcel)); ;
         }
 
         /// <summary>
@@ -59,9 +68,16 @@ namespace IBL
         /// <returns>A Bl parcel to print</returns>
         public Parcel GetParcel(int id)
         {
-            if (!ExistsIDTaxCheck(dal.GetParcels(), id))
-                throw new KeyNotFoundException();
-            return mapParcel(dal.GetParcel(id));
+            try
+            {
+                return mapParcel(dal.GetParcel(id));
+            }
+            catch (KeyNotFoundException ex)
+            {
+
+                throw new KeyNotFoundException(ex.Message);
+            }
+            
         }
 
         //-------------------------------------------------Updating--------------------------------------------------------------------------------------
@@ -72,11 +88,24 @@ namespace IBL
         /// <param name="droneId">The drone to assign</param>
         private void AssigningDroneToParcel(int parcelId, int droneId)
         {
-            IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
-            dal.RemoveParcel(parcel);
-            parcel.DorneId = droneId;
-            parcel.Sceduled = DateTime.Now;
-            dal.ParcelsReception(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
+            try
+            {
+                IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
+                dal.RemoveParcel(parcel);
+                parcel.DorneId = droneId;
+                parcel.Sceduled = DateTime.Now;
+                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
+            }
+            catch (KeyNotFoundException ex)
+            {
+
+                throw new KeyNotFoundException(ex.Message+ "Assigning Drone To Parcel -BL-");
+            }
+            catch(IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            {
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message + "Assigning Drone To Parcel -BL-");
+            }
+
         }
 
         /// <summary>
@@ -85,10 +114,22 @@ namespace IBL
         /// <param name="parcelId">The parcel to update</param>
         private void ParcelcollectionDrone(int parcelId)
         {
-            IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
-            dal.RemoveParcel(parcel);
-            parcel.PickedUp = DateTime.Now;
-            dal.ParcelsReception(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
+            try
+            {
+                IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
+                dal.RemoveParcel(parcel);
+                parcel.PickedUp = DateTime.Now;
+                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException(ex.Message + "Parcel ollection Drone -BL-");
+            }
+            catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            {
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message + "Parcel ollection Drone -BL-");
+            }
+
         }
 
         /// <summary>
@@ -97,10 +138,21 @@ namespace IBL
         /// <param name="parcelId">The parcel to update</param>
         private void ParcelDeliveredDrone(int parcelId)
         {
-            IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
-            dal.RemoveParcel(parcel);
-            parcel.Delivered = DateTime.Now;
-            dal.ParcelsReception(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
+            try
+            {
+                IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
+                dal.RemoveParcel(parcel);
+                parcel.Delivered = DateTime.Now;
+                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException(ex.Message + "Parcel Delivered Drone -BL-");
+            }
+            catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            {
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message + "Parcel Delivered Drone -BL-");
+            }
         }
 
         //-----------------------------------------------Help function-----------------------------------------------------------------------------------

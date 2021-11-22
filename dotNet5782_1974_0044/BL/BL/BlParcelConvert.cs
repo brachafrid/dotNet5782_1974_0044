@@ -53,6 +53,7 @@ namespace IBL
         /// <returns>The converted parcel</returns>
         private ParcelInTransfer CreateParcelInTransfer(int id)
         {
+
             IDAL.DO.Parcel parcel = dal.GetParcel(id);
             IDAL.DO.Customer sender = dal.GetCustomer(parcel.SenderId);
             IDAL.DO.Customer target = dal.GetCustomer(parcel.TargetId);
@@ -108,7 +109,7 @@ namespace IBL
             Dictionary<ParcelToList, double> parcels = new();
             foreach (var item in dal.GetParcels())
             {
-                if (item.DorneId != 0 && (WeightCategories)item.Weigth <= aviableDrone.Weight && calculateElectricity(aviableDrone, mapParcelToList(item).CustomerSender.Location, mapParcelToList(item).CustomerReceives.Location, (WeightCategories)item.Weigth, out minDistance) <= aviableDrone.BatteryStatus)
+                if (item.DorneId != 0 && (WeightCategories)item.Weigth <= aviableDrone.Weight && calculateElectricity(aviableDrone.CurrentLocation,aviableDrone.BatteryStatus, mapParcelToList(item).CustomerSender.Location, mapParcelToList(item).CustomerReceives.Location, (WeightCategories)item.Weigth, out minDistance) <= aviableDrone.BatteryStatus)
                 {
                     parcels.Add(mapParcelToList(item), minDistance);
 

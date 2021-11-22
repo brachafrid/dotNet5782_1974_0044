@@ -18,21 +18,20 @@ namespace IBL
         /// <param name="weight">The weight of the parcels</param>
         /// <param name="distance">The distance the drone traveling</param>
         /// <returns></returns>
-        private double calculateElectricity(DroneToList aviableDrone, Location CustomerSender, Location CustomerReceives, WeightCategories weight, out double distance)
+        private double calculateElectricity(Location aviableDroneLocation,double? batteryStatus, Location CustomerSender, Location CustomerReceives, WeightCategories weight, out double distance)
         {
-            DroneToList tempDrone = aviableDrone;
             double electricity;
             IDAL.DO.Station station;
-            electricity = Distance(aviableDrone.CurrentLocation, CustomerSender) * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE] +
+            electricity = Distance(aviableDroneLocation, CustomerSender) * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE] +
                         Distance(CustomerSender, CustomerReceives) * dal.GetElectricityUse()[(int)weight + 1];
-            tempDrone.BatteryStatus -= electricity;
-            station = ClosetStationPossible(dal.GetStations(), tempDrone, out distance);
+            station =batteryStatus!=null? ClosetStationPossible(dal.GetStations(), aviableDroneLocation,(double)batteryStatus-electricity, out distance):ClosetStation(dal.GetStations(),aviableDroneLocation);
             electricity += Distance(CustomerReceives,
                          new Location() { Latitude = station.Latitude, Longitude = station.Longitude }) * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE];
-            distance = Distance(aviableDrone.CurrentLocation, CustomerSender) +
+            distance = Distance(aviableDroneLocation, CustomerSender) +
                 Distance(CustomerSender, CustomerReceives) +
                 Distance(CustomerReceives, new Location() { Latitude = station.Latitude, Longitude = station.Longitude });
             return electricity;
         }
+
     }
 }

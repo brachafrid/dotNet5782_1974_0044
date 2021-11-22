@@ -20,7 +20,7 @@ namespace IBL
         {
             var sCoord = new GeoCoordinate(sLocation.Latitude, sLocation.Longitude);
             var tCoord = new GeoCoordinate(dLocation.Latitude, dLocation.Longitude);
-            return sCoord.GetDistanceTo(tCoord); 
+            return sCoord.GetDistanceTo(tCoord)/1000; 
         }
     }
 }

@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using IBL.BO;
+using System.Device.Location;
 
 namespace IBL
 {
@@ -37,9 +38,9 @@ namespace IBL
             {
                 return MapCustomer(dal.GetCustomer(id));
             }
-            catch
+            catch(KeyNotFoundException ex)
             {
-                throw new Exception();   
+                throw new KeyNotFoundException(ex.Message);   
             }
         }
         //-------------------------------------------------------Updating-----------------------------------------------------------------------------
@@ -52,16 +53,28 @@ namespace IBL
         public void UpdateCustomer(int id, string name, string phone)
         {
             if (!ExistsIDTaxCheck(dal.GetCustomers(), id))
-                throw new KeyNotFoundException();
+                throw new KeyNotFoundException("Update customer -BL-:There is no customer with same id in the data");
             if (name.Equals(default) && phone.Equals(default))
-                throw new ArgumentNullException("no field to update");
-            IDAL.DO.Customer customer = dal.GetCustomer(id);
-            dal.RemoveCustomer(customer);
-            if (name.Equals(default))
-                name = customer.Name;
-            else if (phone.Equals(default))
-                phone = customer.Phone;
-            dal.AddCustomer(id, phone, name, customer.Longitude, customer.Latitude);
+                throw new ArgumentNullException("Update customer -BL-:There is not field to update");
+            try
+            {
+                IDAL.DO.Customer customer = dal.GetCustomer(id);
+                dal.RemoveCustomer(customer);
+                if (name.Equals(default))
+                    name = customer.Name;
+                else if (phone.Equals(default))
+                    phone = customer.Phone;
+                dal.AddCustomer(id, phone, name, customer.Longitude, customer.Latitude);
+            }
+            catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            {
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message+ "Update customer -BL-");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message + "Update customer -BL-");
+            }
+
         }
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------

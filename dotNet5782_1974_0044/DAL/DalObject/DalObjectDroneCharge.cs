@@ -24,6 +24,11 @@ namespace DalObject
             }
             return count;
         }
+        /// <summary>
+        /// Finds all the drones that are charged at a particular station
+        /// </summary>
+        /// <param name="id">The id of particular station</param>
+        /// <returns>A list of DroneCarge</returns>
         public List<int> GetDronechargingInStation(int id)
         {
             List<int> list = new List<int>();
@@ -34,10 +39,19 @@ namespace DalObject
             }
             return list;
         }
+        /// <summary>
+        /// Gets parameters and create new DroneCharge 
+        /// </summary>
+        /// <param name="droneId">The drone to add</param>
+        /// <param name="stationId">The station to add the drone</param>
         public void AddDRoneCharge(int droneId,int stationId)
         {
             DataSorce.DroneCharges.Add(new DroneCharge() { Droneld = droneId, Stationld = stationId });
         }
+        /// <summary>
+        /// Remove DroneCharge object from the list
+        /// </summary>
+        /// <param name="droneId">The drone to remove</param>
         public void RemoveDroneCharge(int droneId)
         {
             DataSorce.DroneCharges.RemoveAll(item=>item.Droneld==droneId);
