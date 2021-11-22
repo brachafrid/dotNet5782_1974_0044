@@ -193,7 +193,7 @@ namespace IBL
             foreach (var idDrone in list)
             {
                 droneToList = drones.FirstOrDefault(item => (item.Id == idDrone));
-                if (!droneToList.Equals(default))
+                if (droneToList!=default)
                 {
                     droneInChargings.Add(new DroneInCharging() { Id = idDrone, ChargingMode = droneToList.BatteryStatus });
                 }

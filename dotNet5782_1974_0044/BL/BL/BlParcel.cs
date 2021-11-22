@@ -113,7 +113,7 @@ namespace IBL
         {
             DroneToList tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
             
-            if (tmpDrone.Equals(default))
+            if (tmpDrone==default)
                 throw new KeyNotFoundException();
             return new Parcel()
             {
