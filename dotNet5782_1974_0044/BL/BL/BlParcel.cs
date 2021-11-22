@@ -111,7 +111,8 @@ namespace IBL
         /// <returns>The converted parcel</returns>
         private Parcel mapParcel(IDAL.DO.Parcel parcel)
         {
-            var tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
+            DroneToList tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
+            
             if (tmpDrone.Equals(default))
                 throw new KeyNotFoundException();
             return new Parcel()

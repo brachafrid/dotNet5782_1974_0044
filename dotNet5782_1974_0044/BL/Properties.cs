@@ -15,7 +15,7 @@ namespace IBL
             string s= "";
             foreach (PropertyInfo item in t.GetProperties())
             {
-                if (item.GetValue(obj) != null && item.GetType() != System.Collections.Generic.List)
+                if (item.GetValue(obj) != null && !(item.GetType().IsGenericType && (item.GetType().GetGenericTypeDefinition() == typeof(List<>))))
                 {
                     s += $"{item.Name} = {item.GetValue(obj)}" +
                                         Environment.NewLine;
