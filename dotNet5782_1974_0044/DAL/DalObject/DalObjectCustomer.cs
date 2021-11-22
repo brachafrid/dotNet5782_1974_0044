@@ -20,7 +20,8 @@ namespace DalObject
         /// <param name="latitude">>The position of the customer in relation to the latitude</param>
         public void AddCustomer(int id, string phone, string name, double longitude, double latitude)
         {
-            uniqueIDTaxCheck<Customer>(DataSorce.Customers, id);
+            if (ExistsIDTaxCheck(DataSorce.Customers, id))
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Adding a customer - DAL");
             Customer newCustomer = new Customer();
             newCustomer.Id = id;
             newCustomer.Name = name;
@@ -43,7 +44,7 @@ namespace DalObject
         /// <returns>A customer for display</returns>
         public Customer GetCustomer(int id)
         {
-            return DataSorce.Customers.First(item => item.Id == id);
+            return DataSorce.Customers.FirstOrDefault(item => item.Id == id);
         }
         public void RemoveCustomer(Customer customer)
         {

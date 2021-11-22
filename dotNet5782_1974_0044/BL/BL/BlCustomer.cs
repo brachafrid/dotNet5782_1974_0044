@@ -14,11 +14,16 @@ namespace IBL
         /// <param name="customerBL">The customer for Adding</param>
         public void AddCustomer(Customer customerBL)
         {
-            if (ExistsIDTaxCheck(dal.GetCustomers(), customerBL.Id))
+            try
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheList();
+                dal.AddCustomer(customerBL.Id, customerBL.Phone, customerBL.Name, customerBL.Location.Longitude, customerBL.Location.Latitude);
             }
-            dal.AddCustomer(customerBL.Id, customerBL.Phone, customerBL.Name, customerBL.Location.Longitude, customerBL.Location.Latitude);
+            catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            {
+
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
+            }
+            
         }
         //--------------------------------------------------Return-----------------------------------------------------------------------------------
         /// <summary>

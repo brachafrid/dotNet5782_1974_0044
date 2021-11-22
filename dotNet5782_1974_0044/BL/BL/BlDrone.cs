@@ -18,7 +18,7 @@ namespace IBL
         public void AddDrone(Drone droneBl, int stationId)
         {
             if (ExistsIDTaxCheck(dal.GetDrones(), droneBl.Id))
-                throw new ThereIsAnObjectWithTheSameKeyInTheList();
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException();
             if (!ExistsIDTaxCheck(dal.GetStations(), stationId))
                 throw new KeyNotFoundException("station not exist");
             dal.AddDrone(droneBl.Id,droneBl.Model,(IDAL.DO.WeightCategories)droneBl.WeightCategory);
@@ -45,7 +45,7 @@ namespace IBL
         {
             if (!ExistsIDTaxCheck(dal.GetDrones(), id))
                 throw new KeyNotFoundException();
-            return MapDrone(dal.GetDrone(id));
+            return MapDrone(id);
         }
 
         //--------------------------------------------------Updating-----------------------------------------------------------------------------------
@@ -206,16 +206,16 @@ namespace IBL
         /// </summary>
         /// <param name="drone">The drone to convert</param>
         /// <returns>The converted drone</returns>
-        private Drone MapDrone(IDAL.DO.Drone drone)
+        private Drone MapDrone(int id)
         {
-            DroneToList droneToList = drones.FirstOrDefault(item => item.Id == drone.Id);
+            DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
             if (droneToList == default)
                 throw new ArgumentNullException();
             return new Drone()
             {
-                Id = drone.Id,
-                Model = drone.Model,
-                WeightCategory = (WeightCategories)drone.MaxWeight,
+                Id = droneToList.Id,
+                Model = droneToList.DroneModel,
+                WeightCategory = droneToList.Weight,
                 DroneStatus = droneToList.DroneStatus,
                 BattaryMode = droneToList.BatteryStatus,
                 CurrentLocation = droneToList.CurrentLocation,

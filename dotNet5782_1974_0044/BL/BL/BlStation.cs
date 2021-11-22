@@ -14,7 +14,7 @@ namespace IBL
         public void AddStation(Station stationBL)
         {
             if (ExistsIDTaxCheck(dal.GetStations(), stationBL.Id))
-                throw new ThereIsAnObjectWithTheSameKeyInTheList();
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException();
             dal.AddStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);    
         }
 

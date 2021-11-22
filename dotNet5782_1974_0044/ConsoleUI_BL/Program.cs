@@ -71,7 +71,7 @@ namespace ConsoleUI_BL
                 {
                     Console.WriteLine(ex);
                 }
-                catch (ThereIsAnObjectWithTheSameKeyInTheList ex)
+                catch (ThereIsAnObjectWithTheSameKeyInTheListException ex)
                 {
                     Console.WriteLine(ex);
                 }

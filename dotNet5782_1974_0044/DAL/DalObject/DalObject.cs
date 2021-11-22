@@ -18,16 +18,11 @@ namespace DalObject
         }
 
         /// <summary>
-        /// Find if the id is unique in a spesific list
+        /// Find if the id is exist in a spesific list
         /// </summary>
         /// <typeparam name="T">the type of list</typeparam>
         /// <param name="lst">the spesific list </param>
         /// <param name="id">the id to check</param>
-        void uniqueIDTaxCheck<T>(List<T> lst, int id)
-        {
-            if (ExistsIDTaxCheck(lst, id))
-                throw new Exception();
-        }
         bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
         {
             if (lst.Count() <= 0)
