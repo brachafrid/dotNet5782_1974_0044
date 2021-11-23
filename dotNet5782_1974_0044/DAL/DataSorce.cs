@@ -22,7 +22,7 @@ namespace DalObject
         public const int LATITUDE_MAX = 90; 
         public const int LATITUDE_MIN = -90; 
         public const int LONGITUDE_MAX = 90;
-        public const int PERCENTAGE = 100;
+
 
         internal static List<Drone> Drones = new();
         internal static List<Station> Stations = new ();
@@ -35,10 +35,10 @@ namespace DalObject
         internal class Config
         {
             internal static int IdParcel = 0;
-            internal static double Available = Rnd.NextDouble();
-            internal static double LightWeightCarrier =Rnd.Next((int)Available* PERCENTAGE, PERCENTAGE) / PERCENTAGE; 
-            internal static double MediumWeightBearing = Rnd.Next((int)LightWeightCarrier* PERCENTAGE, PERCENTAGE) / PERCENTAGE;
-            internal static double CarriesHeavyWeight = Rnd.Next((int)MediumWeightBearing* PERCENTAGE, PERCENTAGE) / PERCENTAGE;
+            internal static double Available = 0.5;
+            internal static double LightWeightCarrier =0.75; 
+            internal static double MediumWeightBearing = 1;
+            internal static double CarriesHeavyWeight = 1.5;
             internal static double DroneLoadingRate=Rnd.NextDouble();
         }
 
