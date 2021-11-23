@@ -13,21 +13,21 @@ namespace IBL
         private static readonly Random rand = new();
         private List<DroneToList> drones;
         private readonly IDAL.IDal dal;
-        public double Available { get; set; }
-        public double LightWeightCarrier{ get; set; }
-        public double MediumWeightBearing { get; set; }
-        public double CarriesHeavyWeight { get; set; }
-        public double DroneLoadingRate { get; set; }
+        private double available { get; set; }
+        private double lightWeightCarrier{ get; set; }
+        private double mediumWeightBearing { get; set; }
+        private double carriesHeavyWeight { get; set; }
+        private double droneLoadingRate { get; set; }
         public BL()
         {
             dal = new DalObject.DalObject();
             drones = new List<DroneToList>();
             (
-                Available,
-                LightWeightCarrier,
-                MediumWeightBearing,
-                CarriesHeavyWeight,
-                DroneLoadingRate
+                available,
+                lightWeightCarrier,
+                mediumWeightBearing,
+                carriesHeavyWeight,
+                droneLoadingRate
             ) = dal.GetElectricity();
             Initialize();
         }
@@ -217,7 +217,7 @@ namespace IBL
         {
             var station = ClosetStation(dal.GetStations(), loc);
 
-           return Distance(loc, new() { Latitude = station.Latitude, Longitude = station.Longitude }) * dal.GetElectricityUse()[1];
+           return Distance(loc, new() { Latitude = station.Latitude, Longitude = station.Longitude }) * available;
         }
     }
 }
