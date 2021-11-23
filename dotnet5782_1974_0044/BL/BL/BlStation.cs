@@ -133,7 +133,7 @@ namespace IBL
         {
             IDAL.DO.Station station = ClosetStation(stations, droneToListLocation);
             minDistance = Distance(new Location() { Longitude = station.Longitude, Latitude = station.Latitude }, droneToListLocation);
-            return minDistance * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE] < BatteryStatus ? station : default(IDAL.DO.Station);
+            return minDistance * available < BatteryStatus ? station : default(IDAL.DO.Station);
         }
 
         /// <summary>

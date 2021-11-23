@@ -22,11 +22,16 @@ namespace IBL
         {
             double electricity;
             IDAL.DO.Station station;
-            electricity = Distance(aviableDroneLocation, CustomerSender) * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE] +
-                        Distance(CustomerSender, CustomerReceives) * dal.GetElectricityUse()[(int)weight + 1];
+            electricity = Distance(aviableDroneLocation, CustomerSender) * available +
+                        Distance(CustomerSender, CustomerReceives) * weight switch
+                        {
+                            WeightCategories.LIGHT => lightWeightCarrier,
+                            WeightCategories.MEDIUM => mediumWeightBearing,
+                            WeightCategories.HEAVY => carriesHeavyWeight
+                        }; ;
             station =batteryStatus!=null? ClosetStationPossible(dal.GetStations(), aviableDroneLocation,(double)batteryStatus-electricity, out distance):ClosetStation(dal.GetStations(),aviableDroneLocation);
             electricity += Distance(CustomerReceives,
-                         new Location() { Latitude = station.Latitude, Longitude = station.Longitude }) * dal.GetElectricityUse()[(int)DroneStatuses.AVAILABLE];
+                         new Location() { Latitude = station.Latitude, Longitude = station.Longitude }) * available;
             distance = Distance(aviableDroneLocation, CustomerSender) +
                 Distance(CustomerSender, CustomerReceives) +
                 Distance(CustomerReceives, new Location() { Latitude = station.Latitude, Longitude = station.Longitude });

@@ -35,10 +35,7 @@ namespace DalObject
         /// Takes from the DataSource the electricity use data of the drone
         /// </summary>
         /// <returns>A array of electricity use</returns>
-        public double[] GetElectricityUse()
-        {
-            return new double[] { DataSorce.Config.Available, DataSorce.Config.LightWeightCarrier, DataSorce.Config.MediumWeightBearing, DataSorce.Config.CarriesHeavyWeight, DataSorce.Config.DroneLoadingRate };
-        }
+
         public (double, double,double,double,double) GetElectricity()
         {
             return (DataSorce.Config.Available, DataSorce.Config.LightWeightCarrier, DataSorce.Config.MediumWeightBearing, DataSorce.Config.CarriesHeavyWeight, DataSorce.Config.DroneLoadingRate);

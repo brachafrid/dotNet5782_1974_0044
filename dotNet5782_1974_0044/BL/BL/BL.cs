@@ -13,22 +13,22 @@ namespace IBL
         private static readonly Random rand = new();
         private List<DroneToList> drones;
         private readonly IDAL.IDal dal;
-        public double Available { get; set; }
-        public double LightWeightCarrier{ get; set; }
-        public double MediumWeightBearing { get; set; }
-        public double CarriesHeavyWeight { get; set; }
-        public double DroneLoadingRate { get; set; }
+        private double available { get; set; }
+        private double lightWeightCarrier{ get; set; }
+        private double mediumWeightBearing { get; set; }
+        private double carriesHeavyWeight { get; set; }
+        private double droneLoadingRate { get; set; }
         public BL()
         {
             dal = new DalObject.DalObject();
             // set electricty variablses
             drones = new List<DroneToList>();
             (
-                Available,
-                LightWeightCarrier,
-                MediumWeightBearing,
-                CarriesHeavyWeight,
-                DroneLoadingRate
+                available,
+                lightWeightCarrier,
+                mediumWeightBearing,
+                carriesHeavyWeight,
+                droneLoadingRate
             ) = dal.GetElectricity();
             // set the drones
             Initialize();
