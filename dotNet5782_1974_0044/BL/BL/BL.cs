@@ -127,10 +127,10 @@ namespace IBL
                 DroneStatuses statuse = default;
                 //set status
                 // if the drone makes delivery
-                if (!parcel.Equals(default))
+                if (parcel.DorneId !=0)
                 {
                     statuse = DroneStatuses.DELIVERY;
-                    tmpBatteryStatus = minBattary(parcel, drone, ref canTakeParcel);
+                    tmpBatteryStatus = Battary(parcel, drone, ref canTakeParcel);
                     if (!canTakeParcel)
                         statuse = default;
                 }
@@ -206,7 +206,7 @@ namespace IBL
         {
             //get sender location
             Location locaiton = GetCustomer(parcel.SenderId).Location;
-            // if the drone has
+            // if the drone hasn't picked up the parcel
             if (parcel.Delivered == default && parcel.PickedUp != default)
                 return locaiton;
             var station = ClosetStation(dal.GetStations(), locaiton);
@@ -217,21 +217,23 @@ namespace IBL
             };
         }
         /// <summary>
-        /// Calculate minimum amount of electricity for drone to take spesipic parcel 
+        /// Calculate electricity for drone to take spesipic parcel 
         /// </summary>
         /// <param name="parcel">the drone's parcel</param>
         /// <param name="drone">drone</param>
         /// <param name="canTakeParcel">ref boolian</param>
-        /// <returns> min electricity</returns>
-        private double minBattary(IDAL.DO.Parcel parcel, IDAL.DO.Drone drone,ref bool canTakeParcel)
+        /// <returns>electricity</returns>
+        private double Battary(IDAL.DO.Parcel parcel, IDAL.DO.Drone drone,ref bool canTakeParcel)
         {
             double minDistance;
-            IDAL.DO.Customer customerSender = dal.GetCustomer(parcel.SenderId);
-            IDAL.DO.Customer customerReciver = dal.GetCustomer(parcel.TargetId);
+            var customerSender = dal.GetCustomer(parcel.SenderId);
+            var customerReciver = dal.GetCustomer(parcel.TargetId);
             Location senderLocation = new() { Latitude = customerSender.Latitude, Longitude = customerSender.Longitude };
             Location targetLocation = new() { Latitude = customerReciver.Latitude, Longitude = customerReciver.Longitude };
+            // find drone's location 
             var location = FindLocationDroneWithParcel(drone, parcel);
             double electrity = calculateElectricity(location,null,senderLocation ,targetLocation, (BO.WeightCategories)parcel.Weigth, out minDistance); 
+            // if the drone need more electricity 
             if (electrity > 100)
             {
                 dal.RemoveParcel(parcel);
@@ -248,8 +250,7 @@ namespace IBL
         private double MinBatteryForAvailAble(Location location)
         {
             var station = ClosetStation(dal.GetStations(), location);
-
-           return Distance(location, new() { Latitude = station.Latitude, Longitude = station.Longitude }) * dal.GetElectricityUse()[1];
+           return Distance(location, new() { Latitude = station.Latitude, Longitude = station.Longitude }) * available;
         }
     }
 }
