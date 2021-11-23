@@ -25,7 +25,7 @@ namespace DalObject
         /// <param name="id">The id to check</param>
         bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
         {
-            if (lst.Count() <= 0)
+            if (!lst.Any())
                 return false;
            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id);
             

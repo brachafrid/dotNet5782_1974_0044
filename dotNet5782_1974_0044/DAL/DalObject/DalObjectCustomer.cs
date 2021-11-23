@@ -22,7 +22,7 @@ namespace DalObject
         {
             if (ExistsIDTaxCheck(DataSorce.Customers, id))
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException("Adding a customer - DAL");
-            Customer newCustomer = new Customer();
+            Customer newCustomer = new ();
             newCustomer.Id = id;
             newCustomer.Name = name;
             newCustomer.Phone = phone;
