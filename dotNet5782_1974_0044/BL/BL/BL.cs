@@ -238,6 +238,7 @@ namespace IBL
                 dal.RemoveParcel(parcel);
                 dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id, parcel.DorneId);
                 canTakeParcel = false;
+                return 0;
             }
             return rand.NextDouble() + rand.Next((int)electrity + 1, 100);
         }
