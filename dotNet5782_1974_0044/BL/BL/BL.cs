@@ -21,6 +21,7 @@ namespace IBL
         public BL()
         {
             dal = new DalObject.DalObject();
+            // set electricty variablses
             drones = new List<DroneToList>();
             (
                 Available,
@@ -29,6 +30,7 @@ namespace IBL
                 CarriesHeavyWeight,
                 DroneLoadingRate
             ) = dal.GetElectricity();
+            // set the drones
             Initialize();
         }
         //private void Initialize()
@@ -104,10 +106,14 @@ namespace IBL
         //    }
         //}
 
+        /// <summary>
+        /// init drones list
+        /// </summary>
         private void Initialize()
         {
             var tmpDrones = dal.GetDrones();
             var parcels = dal.GetParcels();
+            // create list of stations' location
             var locationOfStation = dal.GetStations().Select(Station => new Location() { Latitude = Station.Latitude, Longitude = Station.Longitude }).ToList();
             var customersGotParcelLocation = GetLocationsCustomersGotParcels();
             foreach (var drone in tmpDrones)
@@ -144,7 +150,8 @@ namespace IBL
                     DroneStatuses.MAINTENANCE => (locationOfStation[rand.Next(0, locationOfStation.Count)],
                     rand.NextDouble() + rand.Next(0,20)),
                     DroneStatuses.DELIVERY => (FindLocationDroneWithParcel(drone, parcel), tmpBatteryStatus)
-                };   
+                }; 
+                // add the new drone to drones list
                 drones.Add(new DroneToList()
                 {
                     Id = drone.Id,
@@ -174,6 +181,10 @@ namespace IBL
             T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item, null) == id);
             return !(temp.Equals(default(T)));
         }
+        /// <summary>
+        /// creates list of locations of all the customers that recived at least one parcel
+        /// </summary>
+        /// <returns>list of locations</returns>
         private List<Location> GetLocationsCustomersGotParcels()
         {
             return GetCustomers().Where(customer => customer.NumParcelReceived > 0)
@@ -184,6 +195,12 @@ namespace IBL
                      })
                      .ToList();
         }
+        /// <summary>
+        /// find the location for drone that has parcel
+        /// </summary>
+        /// <param name="drone">drone</param>
+        /// <param name="parcel">drone's parcel</param>
+        /// <returns>drone location</returns>
         private Location FindLocationDroneWithParcel(IDAL.DO.Drone drone, IDAL.DO.Parcel parcel)
         {
             Location locaiton = GetCustomer(parcel.SenderId).Location;
@@ -196,6 +213,13 @@ namespace IBL
                 Longitude = station.Longitude
             };
         }
+        /// <summary>
+        /// Calculate minimum amount of electricity for drone to take spesipic parcel 
+        /// </summary>
+        /// <param name="parcel">the drone's parcel</param>
+        /// <param name="drone">drone</param>
+        /// <param name="canTakeParcel">ref boolian</param>
+        /// <returns> min electricity</returns>
         private double minBattary(IDAL.DO.Parcel parcel, IDAL.DO.Drone drone,ref bool canTakeParcel)
         {
             double minDistance;
@@ -213,11 +237,16 @@ namespace IBL
             }
             return  rand.NextDouble() + rand.Next((int)electrity + 1, 100);
         }
-        private double MinBatteryForAvailAble(Location loc)
+        /// <summary>
+        /// Calculate minimum amount of electricity for drone for arraiving to the closet statoin  
+        /// </summary>
+        /// <param name="location">drose's location</param>
+        /// <returns> min electricity</returns>
+        private double MinBatteryForAvailAble(Location location)
         {
-            var station = ClosetStation(dal.GetStations(), loc);
+            var station = ClosetStation(dal.GetStations(), location);
 
-           return Distance(loc, new() { Latitude = station.Latitude, Longitude = station.Longitude }) * dal.GetElectricityUse()[1];
+           return Distance(location, new() { Latitude = station.Latitude, Longitude = station.Longitude }) * dal.GetElectricityUse()[1];
         }
     }
 }
