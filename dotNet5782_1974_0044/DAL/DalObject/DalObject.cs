@@ -39,6 +39,12 @@ namespace DalObject
         {
             return new double[] { DataSorce.Config.Available, DataSorce.Config.LightWeightCarrier, DataSorce.Config.MediumWeightBearing, DataSorce.Config.CarriesHeavyWeight, DataSorce.Config.DroneLoadingRate };
         }
+        public (double, double,double,double,double) GetElectricity()
+        {
+            return (DataSorce.Config.Available, DataSorce.Config.LightWeightCarrier, DataSorce.Config.MediumWeightBearing, DataSorce.Config.CarriesHeavyWeight, DataSorce.Config.DroneLoadingRate);
+    
+        }
+
     }
 
 }
