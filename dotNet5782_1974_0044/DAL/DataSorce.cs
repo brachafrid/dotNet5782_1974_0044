@@ -58,8 +58,6 @@ namespace DalObject
             Drone tmpDrone = Drones.FirstOrDefault(item => (weight <= item.MaxWeight));
             if (!(tmpDrone.Equals(default)))
             {
-                Drones.Remove(tmpDrone);
-                Drones.Add(tmpDrone);
                 return tmpDrone.Id;
             }
             return 0;
@@ -76,7 +74,7 @@ namespace DalObject
             string name = $"station_{'a' + id}";
             double latitude = Rnd.Next(LATITUDE_MIN,LATITUDE_MAX) + Rnd.NextDouble();
             double longitude = Rnd.Next(LONGITUDE_MAX) + Rnd.NextDouble();
-            int chargeSlots = Rnd.Next() + 1;
+            int chargeSlots = Rnd.Next(100) + 1;
             dal.AddStation(id, name, longitude, latitude, chargeSlots);
         }
         private static void RandomCustomer(DalObject dal, int id)
@@ -98,11 +96,27 @@ namespace DalObject
             } while (newParcel.TargetId == newParcel.SenderId);
             newParcel.Weigth = (WeightCategories)Rnd.Next(RANGE_ENUM);
             newParcel.Priority = (Priorities)Rnd.Next(RANGE_ENUM);
-            newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);
-            newParcel.Requested = DateTime.Now;
-            newParcel.Sceduled = DateTime.Now;
-            newParcel.PickedUp = new DateTime();
-            newParcel.Delivered = new DateTime();
+            newParcel.Requested = DateTime.Now;;
+            newParcel.Sceduled =default;
+            newParcel.PickedUp = default;
+            newParcel.Delivered = default;
+            int state = Rnd.Next(0, 4);
+            if (state!=0)
+            {
+                newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);
+                if (newParcel.DorneId != 0)
+                {
+                    if(!Parcels.FirstOrDefault(parcel=>parcel.DorneId!=newParcel.DorneId).GetType().Equals(default))
+                    {
+                        newParcel.Sceduled = DateTime.Now;
+                        if (state == 2)
+                            newParcel.PickedUp = DateTime.Now;
+                    }
+                    if (state == 3)
+                        newParcel.Delivered = DateTime.Now;
+                }
+
+            }
             Parcels.Add(newParcel);
         }
     }
