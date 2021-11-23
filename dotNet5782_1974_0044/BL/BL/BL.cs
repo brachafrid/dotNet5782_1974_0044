@@ -121,7 +121,7 @@ namespace IBL
                 DroneStatuses statuse = default;
                 //set status
                 // if the drone makes delivery
-                if (!parcel.Equals(default)  )
+                if (!parcel.Equals(default))
                 {
                     statuse = DroneStatuses.DELIVERY;
                     tmpBatteryStatus = minBattary(parcel, drone, ref canTakeParcel);
@@ -208,7 +208,7 @@ namespace IBL
             if (electrity > 100)
             {
                 dal.RemoveParcel(parcel);
-                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
+                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id,parcel.DorneId);
                 canTakeParcel = false;
             }
             return  rand.NextDouble() + rand.Next((int)electrity + 1, 100);

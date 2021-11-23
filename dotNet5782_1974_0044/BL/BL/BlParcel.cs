@@ -94,7 +94,7 @@ namespace IBL
                 dal.RemoveParcel(parcel);
                 parcel.DorneId = droneId;
                 parcel.Sceduled = DateTime.Now;
-                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
+                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id,parcel.DorneId);
             }
             catch (KeyNotFoundException ex)
             {
@@ -118,7 +118,7 @@ namespace IBL
                 IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
                 dal.RemoveParcel(parcel);
                 parcel.PickedUp = DateTime.Now;
-                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
+                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id,parcel.DorneId);
             }
             catch (KeyNotFoundException ex)
             {
@@ -142,7 +142,7 @@ namespace IBL
                 IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
                 dal.RemoveParcel(parcel);
                 parcel.Delivered = DateTime.Now;
-                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id);
+                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id,parcel.DorneId);
             }
             catch (KeyNotFoundException ex)
             {
