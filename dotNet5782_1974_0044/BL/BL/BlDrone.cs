@@ -232,7 +232,6 @@ namespace IBL
                 };
                 droneToList.CurrentLocation = receiverLocation;
                 droneToList.DroneStatus = DroneStatuses.AVAILABLE;
-                drones.Add(droneToList);
                 ParcelDeliveredDrone(parcel.Id);
             }
             catch (KeyNotFoundException ex)
@@ -242,6 +241,10 @@ namespace IBL
             catch (ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
+            }
+            finally
+            {
+                drones.Add(droneToList);
             }
 
         }
