@@ -47,7 +47,7 @@ namespace IDAL
                 {
            
                     if (value <= 0)
-                        throw new ArgumentException("sum of Charge Slots must be positive");
+                        throw new ArgumentException("num of Charge Slots must be positive");
                     chargeSlots = value;
                 }
             }

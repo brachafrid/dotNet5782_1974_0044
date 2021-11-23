@@ -38,8 +38,8 @@ namespace ConsoleUI_BL
                         {
                             Console.WriteLine("if you want only update one details press enter instead enter an input");
                             Console.WriteLine("the new  number of chrge slots ");
-                            if (!int.TryParse(Console.ReadLine(), out chargeSlots))
-                                chargeSlots = -1;
+                            if (!int.TryParse(Console.ReadLine(), out chargeSlots) || chargeSlots==default)
+                                chargeSlots = 0;
                             Console.WriteLine("enter the new name");
                             string name = Console.ReadLine();
                             bl.UpdateStation(id, name, chargeSlots);
