@@ -176,6 +176,7 @@ namespace IBL
         /// <param name="id">the id to check</param>
         private static bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
         {
+            // no item in the list
             if (!lst.Any())
                 return false;
             T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item, null) == id);
@@ -203,7 +204,9 @@ namespace IBL
         /// <returns>drone location</returns>
         private Location FindLocationDroneWithParcel(IDAL.DO.Drone drone, IDAL.DO.Parcel parcel)
         {
+            //get sender location
             Location locaiton = GetCustomer(parcel.SenderId).Location;
+            // if the drone has
             if (parcel.Delivered == default && parcel.PickedUp != default)
                 return locaiton;
             var station = ClosetStation(dal.GetStations(), locaiton);
