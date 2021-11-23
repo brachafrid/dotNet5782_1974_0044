@@ -136,6 +136,7 @@ namespace IBL
             droneToList.BatteryStatus += timeOfCharg / 60 * droneLoadingRate;
             //No charging position was adding because there is no point in changing a variable that is not saved after the end of the function
             dal.RemoveDroneCharge(id);
+            drones.Add(droneToList);
         }
 
         /// <summary>
@@ -152,7 +153,7 @@ namespace IBL
             Dictionary<ParcelToList, double> parcels = creatParcelListToAssign(aviableDrone);
             try
             {
-                ParcelToList parcel = TreatInPiority( parcels);
+                ParcelToList parcel = TreatInPiority(parcels);
                 drones.Remove(aviableDrone);
                 aviableDrone.DroneStatus = DroneStatuses.DELIVERY;
                 aviableDrone.ParcelId = parcel.Id;
@@ -283,7 +284,7 @@ namespace IBL
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
             if (droneToList == default)
-                throw new ArgumentNullException("Map drone -BL-:There is not drone with same id i data");
+                throw new ArgumentNullException("Map drone:There is not drone with same id in the data");
             return new Drone()
             {
                 Id = droneToList.Id,
