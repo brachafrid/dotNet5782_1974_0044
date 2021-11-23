@@ -33,12 +33,12 @@ namespace IBL
         /// <param name="chargeSlots">A nwe number for charging slots</param>
         public void UpdateStation(int id, string name, int chargeSlots)
         {
-            if (name.Equals(default) && chargeSlots == -1)
+            if (name.Equals(default) && chargeSlots ==0)
                 throw new ArgumentNullException("Update station -BL-:For updating at least one parameter must be initialized ");
             try
             {
                 IDAL.DO.Station satationDl = dal.GetStation(id);
-                if (chargeSlots < dal.CountFullChargeSlots(satationDl.Id))
+                if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(satationDl.Id))
                     throw new ArgumentOutOfRangeException("Update station -BL-:The number of charging slots is smaller than the number of slots used");
                 dal.RemoveStation(satationDl);
                 dal.AddStation(id, name.Equals(default) ? satationDl.Name : name, satationDl.Longitude, satationDl.Latitude, chargeSlots.Equals(default) ? satationDl.ChargeSlots : chargeSlots);
