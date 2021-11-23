@@ -223,7 +223,7 @@ namespace IBL
         /// <param name="drone">drone</param>
         /// <param name="canTakeParcel">ref boolian</param>
         /// <returns> min electricity</returns>
-        private double minBattary(IDAL.DO.Parcel parcel,ref bool canTakeParcel)
+        private double MinBattary(IDAL.DO.Parcel parcel,ref bool canTakeParcel)
         {
             IDAL.DO.Customer customerSender = dal.GetCustomer(parcel.SenderId);
             IDAL.DO.Customer customerReciver = dal.GetCustomer(parcel.TargetId);

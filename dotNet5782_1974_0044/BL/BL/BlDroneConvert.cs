@@ -13,7 +13,7 @@ namespace IBL
         /// </summary>
         /// <param name="drone">The drone to convert</param>
         /// <returns>The converter drone</returns>
-        private DroneWithParcel mapDroneWithParcel(DroneToList drone)
+        private DroneWithParcel MapDroneWithParcel(DroneToList drone)
         {
             return new DroneWithParcel()
             {

@@ -152,7 +152,7 @@ namespace IBL
             Dictionary<ParcelToList, double> parcels = creatParcelListToAssign(aviableDrone);
             try
             {
-                ParcelToList parcel = TreatInPiority(aviableDrone, parcels, Priorities.EMERGENCY);
+                ParcelToList parcel = TreatInPiority( parcels);
                 drones.Remove(aviableDrone);
                 aviableDrone.DroneStatus = DroneStatuses.DELIVERY;
                 aviableDrone.ParcelId = parcel.Id;
@@ -298,7 +298,7 @@ namespace IBL
         /// </summary>
         /// <param name="drone">The drone to assining it</param>
         /// <returns>The best parcel</returns>
-        private ParcelToList TreatInPiority(DroneToList aviableDrone, Dictionary<ParcelToList, double> parcels, Priorities priority)
+        private ParcelToList TreatInPiority(Dictionary<ParcelToList, double> parcels)
         {
             var orderdParcel=parcels.OrderByDescending(parcel => parcel.Key.Piority).ThenByDescending(parcel => parcel.Key.Weight).ThenBy(parcel => parcel.Value).ToDictionary(item=>item.Key,item=>item.Value);
             if (orderdParcel.FirstOrDefault().Equals(default))
