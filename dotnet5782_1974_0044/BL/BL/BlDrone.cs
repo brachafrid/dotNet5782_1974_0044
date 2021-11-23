@@ -305,7 +305,7 @@ namespace IBL
         private ParcelToList TreatInPiority(Dictionary<ParcelToList, double> parcels)
         {
             var orderdParcel=parcels.OrderByDescending(parcel => parcel.Key.Piority).ThenByDescending(parcel => parcel.Key.Weight).ThenBy(parcel => parcel.Value).ToDictionary(item=>item.Key,item=>item.Value);
-            if (orderdParcel.FirstOrDefault().Equals(default))
+            if (!orderdParcel.Any())
                 throw new KeyNotFoundException("Assing drone to parcel -BL-:There is no suitable parcel that meets all the conditions");
             ParcelToList suitableParcel = orderdParcel.FirstOrDefault().Key;
             return suitableParcel;
