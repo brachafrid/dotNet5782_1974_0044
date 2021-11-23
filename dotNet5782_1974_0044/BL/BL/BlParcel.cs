@@ -174,7 +174,7 @@ namespace IBL
                 CollectionTime = parcel.PickedUp,
                 CreationTime = parcel.Requested,
                 DeliveryTime = parcel.Delivered,
-                Drone = tmpDrone != default ? mapDroneWithParcel(tmpDrone) : null
+                Drone = tmpDrone != default ? MapDroneWithParcel(tmpDrone) : null
             };
         }
 

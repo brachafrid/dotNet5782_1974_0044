@@ -22,7 +22,7 @@ namespace  DalObject
         {
             if(ExistsIDTaxCheck(DataSorce.Stations, id))
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException("Adding a station - DAL");
-            Station newStation = new Station();
+            Station newStation = new ();
             newStation.Id = id;
             newStation.Name = name;
             newStation.Latitude = latitude;
@@ -59,8 +59,8 @@ namespace  DalObject
         /// Checks which base Sations are available for charging
         /// </summary>
         /// <returns>A list of avaiable satations</returns>
-        private List<Station> getAvailbleStations() => (DataSorce.Stations.FindAll(item => item.ChargeSlots > CountFullChargeSlots(item.Id)));
-        public IEnumerable<Station> GetSationsWithEmptyChargeSlots() => getAvailbleStations().ToList();
+        private List<Station> GetAvailbleStations() => (DataSorce.Stations.FindAll(item => item.ChargeSlots > CountFullChargeSlots(item.Id)));
+        public IEnumerable<Station> GetSationsWithEmptyChargeSlots() => GetAvailbleStations().ToList();
 
         //-------------------------------------------------Removing-------------------------------------------------------------
         /// <summary>

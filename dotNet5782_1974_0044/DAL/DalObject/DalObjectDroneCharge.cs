@@ -31,7 +31,7 @@ namespace DalObject
         /// <returns>A list of DroneCarge</returns>
         public List<int> GetDronechargingInStation(int id)
         {
-            List<int> list = new List<int>();
+            List<int> list = new ();
             foreach (var item in DataSorce.DroneCharges)
             {
                 if (item.Stationld == id)

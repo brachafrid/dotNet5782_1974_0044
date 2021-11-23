@@ -108,8 +108,7 @@ namespace IBL
                 throw new ArgumentNullException("Send Drone For Charg -BL-: There is no a drone with the same id in data");
             if (droneToList.DroneStatus != DroneStatuses.AVAILABLE)
                 throw new InvalidEnumArgumentException("Send Drone For Charg -BL-: The drone is not available so it is not possible to send it for charging ");
-            double minDistance;
-            IDAL.DO.Station station = ClosetStationPossible(dal.GetStations(), droneToList.CurrentLocation, droneToList.BatteryStatus, out minDistance);
+            IDAL.DO.Station station = ClosetStationPossible(dal.GetStations(), droneToList.CurrentLocation, droneToList.BatteryStatus, out double minDistance);
             if (station.Equals(default))
                 throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException("Send Drone For Charg -BL-");
             drones.Remove(droneToList);
@@ -153,7 +152,7 @@ namespace IBL
             Dictionary<ParcelToList, double> parcels = creatParcelListToAssign(aviableDrone);
             try
             {
-                ParcelToList parcel = treatInPiority(aviableDrone, parcels, Priorities.EMERGENCY);
+                ParcelToList parcel = TreatInPiority( parcels);
                 drones.Remove(aviableDrone);
                 aviableDrone.DroneStatus = DroneStatuses.DELIVERY;
                 aviableDrone.ParcelId = parcel.Id;
@@ -302,12 +301,12 @@ namespace IBL
         /// </summary>
         /// <param name="drone">The drone to assining it</param>
         /// <returns>The best parcel</returns>
-        private ParcelToList treatInPiority(DroneToList aviableDrone, Dictionary<ParcelToList, double> parcels, Priorities priority)
+        private ParcelToList TreatInPiority(Dictionary<ParcelToList, double> parcels)
         {
-            parcels.OrderByDescending(parcel => parcel.Key.Piority).ThenByDescending(parcel => parcel.Key.Weight).ThenBy(parcel => parcel.Value);
-            ParcelToList suitableParcel = parcels.Keys.FirstOrDefault();
-            if (suitableParcel == default)
+            var orderdParcel=parcels.OrderByDescending(parcel => parcel.Key.Piority).ThenByDescending(parcel => parcel.Key.Weight).ThenBy(parcel => parcel.Value).ToDictionary(item=>item.Key,item=>item.Value);
+            if (orderdParcel.FirstOrDefault().Equals(default))
                 throw new KeyNotFoundException("Assing drone to parcel -BL-:There is no suitable parcel that meets all the conditions");
+            ParcelToList suitableParcel = orderdParcel.FirstOrDefault().Key;
             return suitableParcel;
         }
 
