@@ -21,6 +21,7 @@ namespace IBL
         public BL()
         {
             dal = new DalObject.DalObject();
+            // set electricty variablses
             drones = new List<DroneToList>();
             (
                 available,
@@ -29,6 +30,7 @@ namespace IBL
                 carriesHeavyWeight,
                 droneLoadingRate
             ) = dal.GetElectricity();
+            // set the drones
             Initialize();
         }
         //private void Initialize()
@@ -104,10 +106,14 @@ namespace IBL
         //    }
         //}
 
+        /// <summary>
+        /// init drones list
+        /// </summary>
         private void Initialize()
         {
             var tmpDrones = dal.GetDrones();
             var parcels = dal.GetParcels();
+            // create list of stations' location
             var locationOfStation = dal.GetStations().Select(Station => new Location() { Latitude = Station.Latitude, Longitude = Station.Longitude }).ToList();
             var customersGotParcelLocation = GetLocationsCustomersGotParcels();
             foreach (var drone in tmpDrones)
@@ -142,9 +148,10 @@ namespace IBL
                     DroneStatuses.AVAILABLE => (tmpLocaiton = customersGotParcelLocation[rand.Next(0, customersGotParcelLocation.Count)], MinBatteryForAvailAble(tmpLocaiton)
                     ),
                     DroneStatuses.MAINTENANCE => (locationOfStation[rand.Next(0, locationOfStation.Count)],
-                    rand.NextDouble() + rand.Next(0, 20)),
+                    rand.NextDouble() + rand.Next(0,20)),
                     DroneStatuses.DELIVERY => (FindLocationDroneWithParcel( parcel), tmpBatteryStatus)
-                };
+                }; 
+                // add the new drone to drones list
                 drones.Add(new DroneToList()
                 {
                     Id = drone.Id,
@@ -169,11 +176,16 @@ namespace IBL
         /// <param name="id">the id to check</param>
         private static bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
         {
+            // no item in the list
             if (!lst.Any())
                 return false;
             T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item, null) == id);
             return !(temp.Equals(default(T)));
         }
+        /// <summary>
+        /// creates list of locations of all the customers that recived at least one parcel
+        /// </summary>
+        /// <returns>list of locations</returns>
         private List<Location> GetLocationsCustomersGotParcels()
         {
             return GetCustomers().Where(customer => customer.NumParcelReceived > 0)
@@ -184,9 +196,17 @@ namespace IBL
                      })
                      .ToList();
         }
-        private Location FindLocationDroneWithParcel(IDAL.DO.Parcel parcel)
+        /// <summary>
+        /// find the location for drone that has parcel
+        /// </summary>
+        /// <param name="drone">drone</param>
+        /// <param name="parcel">drone's parcel</param>
+        /// <returns>drone location</returns>
+        private Location FindLocationDroneWithParcel( IDAL.DO.Parcel parcel)
         {
+            //get sender location
             Location locaiton = GetCustomer(parcel.SenderId).Location;
+            // if the drone has
             if (parcel.Delivered == default && parcel.PickedUp != default)
                 return locaiton;
             var station = ClosetStation(dal.GetStations(), locaiton);
@@ -196,7 +216,14 @@ namespace IBL
                 Longitude = station.Longitude
             };
         }
-        private double MinBattary(IDAL.DO.Parcel parcel, ref bool canTakeParcel)
+        /// <summary>
+        /// Calculate minimum amount of electricity for drone to take spesipic parcel 
+        /// </summary>
+        /// <param name="parcel">the drone's parcel</param>
+        /// <param name="drone">drone</param>
+        /// <param name="canTakeParcel">ref boolian</param>
+        /// <returns> min electricity</returns>
+        private double minBattary(IDAL.DO.Parcel parcel,ref bool canTakeParcel)
         {
             IDAL.DO.Customer customerSender = dal.GetCustomer(parcel.SenderId);
             IDAL.DO.Customer customerReciver = dal.GetCustomer(parcel.TargetId);
@@ -212,11 +239,16 @@ namespace IBL
             }
             return rand.NextDouble() + rand.Next((int)electrity + 1, 100);
         }
-        private double MinBatteryForAvailAble(Location loc)
+        /// <summary>
+        /// Calculate minimum amount of electricity for drone for arraiving to the closet statoin  
+        /// </summary>
+        /// <param name="location">drose's location</param>
+        /// <returns> min electricity</returns>
+        private double MinBatteryForAvailAble(Location location)
         {
-            var station = ClosetStation(dal.GetStations(), loc);
+            var station = ClosetStation(dal.GetStations(), location);
 
-            return Distance(loc, new() { Latitude = station.Latitude, Longitude = station.Longitude }) * available;
+            return Distance(location, new() { Latitude = station.Latitude, Longitude = station.Longitude }) * available;
         }
     }
 }
