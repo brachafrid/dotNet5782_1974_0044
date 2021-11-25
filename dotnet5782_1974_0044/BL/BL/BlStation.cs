@@ -132,8 +132,8 @@ namespace IBL
         private IDAL.DO.Station ClosetStationPossible(IEnumerable<IDAL.DO.Station> stations, Location droneToListLocation,double BatteryStatus, out double minDistance)
         {
             IDAL.DO.Station station = ClosetStation(stations, droneToListLocation);
-            minDistance = Distance(new Location() { Longitude = station.Longitude, Latitude = station.Latitude }, droneToListLocation);
-            return minDistance * available < BatteryStatus ? station : default(IDAL.DO.Station);
+            minDistance = Distance( droneToListLocation, new Location() { Longitude = station.Longitude, Latitude = station.Latitude });
+            return minDistance * available <= BatteryStatus ? station : default(IDAL.DO.Station);
         }
 
         /// <summary>
@@ -144,7 +144,7 @@ namespace IBL
         /// <returns>The station</returns>
         private IDAL.DO.Station ClosetStation(IEnumerable<IDAL.DO.Station> stations, Location location)
         {
-            double minDistance = 0;
+            double minDistance = double.MaxValue;
             double curDistance;
             IDAL.DO.Station station = default;
             foreach (var item in stations)
