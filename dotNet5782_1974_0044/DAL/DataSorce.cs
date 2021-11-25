@@ -89,10 +89,10 @@ namespace DalObject
         {
             Parcel newParcel = new ();
             newParcel.Id = id;
-            newParcel.SenderId = Customers[Rnd.Next(0, Customers.Count)].Id;
+            newParcel.SenderId = Customers[Rnd.Next(1, Customers.Count)].Id;
             do
             {
-                newParcel.TargetId = Customers[Rnd.Next(0, Customers.Count)].Id;
+                newParcel.TargetId = Customers[Rnd.Next(1, Customers.Count)].Id;
             } while (newParcel.TargetId == newParcel.SenderId);
             newParcel.Weigth = (WeightCategories)Rnd.Next(RANGE_ENUM);
             newParcel.Priority = (Priorities)Rnd.Next(RANGE_ENUM);
@@ -106,7 +106,7 @@ namespace DalObject
                 newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);
                 if (newParcel.DorneId != 0)
                 {
-                    if(!Parcels.FirstOrDefault(parcel=>parcel.DorneId!=newParcel.DorneId).GetType().Equals(default))
+                    if(!Parcels.FirstOrDefault(parcel=>parcel.DorneId==newParcel.DorneId && parcel.Delivered==default).GetType().Equals(default))
                     {
                         newParcel.Sceduled = DateTime.Now;
                         if (state == 2)
