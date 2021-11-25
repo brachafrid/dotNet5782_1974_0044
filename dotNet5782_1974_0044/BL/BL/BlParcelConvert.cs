@@ -103,16 +103,15 @@ namespace IBL
         /// </summary>
         /// <param name="aviableDrone"></param>
         /// <returns>A dictionary of converted parcels and distance</returns>
-        private Dictionary<ParcelToList, double> creatParcelListToAssign(DroneToList aviableDrone)
+        private Dictionary<ParcelToList, double> creatParcelDictionaryToAssign(DroneToList aviableDrone)
         {
             double minDistance;
             Dictionary<ParcelToList, double> parcels = new();
             foreach (var item in dal.GetParcels())
             {
-                if (item.DorneId != 0 && (WeightCategories)item.Weigth <= aviableDrone.Weight && calculateElectricity(aviableDrone.CurrentLocation,aviableDrone.BatteryStatus, mapParcelToList(item).CustomerSender.Location, mapParcelToList(item).CustomerReceives.Location, (WeightCategories)item.Weigth, out minDistance) <= aviableDrone.BatteryStatus)
+                if (item.DorneId == 0 && (WeightCategories)item.Weigth <= aviableDrone.Weight && calculateElectricity(aviableDrone.CurrentLocation,aviableDrone.BatteryStatus, mapParcelToList(item).CustomerSender.Location, mapParcelToList(item).CustomerReceives.Location, (WeightCategories)item.Weigth, out minDistance) <= aviableDrone.BatteryStatus)
                 {
                     parcels.Add(mapParcelToList(item), minDistance);
-
                 }
             }
             return parcels;

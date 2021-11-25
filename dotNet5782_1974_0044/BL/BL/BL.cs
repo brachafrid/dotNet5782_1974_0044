@@ -236,7 +236,7 @@ namespace IBL
             if (electrity > 100)
             {
                 dal.RemoveParcel(parcel);
-                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id, parcel.DorneId);
+                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id, parcel.DorneId,parcel.Requested,parcel.Sceduled,parcel.PickedUp,parcel.Delivered);
                 canTakeParcel = false;
                 return 0;
             }
