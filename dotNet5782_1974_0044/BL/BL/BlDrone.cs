@@ -76,15 +76,16 @@ namespace IBL
         {
             if (name.Equals(default))
                 throw new ArgumentNullException("Update drone -BL-:For updating the name must be initialized ");
+            DroneToList droneToList = default;
             try
             {
                 IDAL.DO.Drone droneDl = dal.GetDrone(id);
                 dal.RemoveDrone(droneDl);
                 dal.AddDrone(id, name, droneDl.MaxWeight);
-                DroneToList droneToList = drones.Find(item => item.Id == id);
+                droneToList = drones.Find(item => item.Id == id);
                 drones.Remove(droneToList);
                 droneToList.DroneModel = name;
-                drones.Add(droneToList);
+
             }
             catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
@@ -94,7 +95,10 @@ namespace IBL
             {
                 throw new KeyNotFoundException("Update drone -BL-" + ex.Message);
             }
-
+            finally
+            {
+                drones.Add(droneToList);
+            }
         }
 
         /// <summary>
@@ -117,6 +121,7 @@ namespace IBL
             droneToList.CurrentLocation = new Location() { Longitude = station.Longitude, Latitude = station.Latitude }; ;
             //No charging position was subtracting because there is no point in changing a variable that is not saved after the end of the function
             dal.AddDRoneCharge(id, station.Id);
+            drones.Add(droneToList);
         }
 
         /// <summary>
@@ -158,7 +163,7 @@ namespace IBL
                 aviableDrone.DroneStatus = DroneStatuses.DELIVERY;
                 aviableDrone.ParcelId = parcel.Id;
                 AssigningDroneToParcel(parcel.Id, aviableDrone.Id);
-                drones.Add(aviableDrone);
+
             }
             catch (KeyNotFoundException ex)
             {
@@ -168,7 +173,10 @@ namespace IBL
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
-
+            finally
+            {
+                drones.Add(aviableDrone);
+            }
         }
 
         /// <summary>
@@ -183,17 +191,16 @@ namespace IBL
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("Parcel Collection By Drone -BL-:No parcel has been associated yet");
             drones.Remove(droneToList);
+            IDAL.DO.Parcel parcel = default;
             try
             {
-                IDAL.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
+                 parcel= dal.GetParcel((int)droneToList.ParcelId);
                 if (!parcel.PickedUp.Equals(default))
                     throw new ArgumentNullException("Parcel Collection By Drone -BL-:The package has already been collected");
                 IDAL.DO.Customer customer = dal.GetCustomer(parcel.SenderId);
                 Location senderLocation = new() { Longitude = customer.Longitude, Latitude = customer.Latitude };
                 droneToList.BatteryStatus -= Distance(droneToList.CurrentLocation, senderLocation) * available;
                 droneToList.CurrentLocation = senderLocation;
-                drones.Add(droneToList);
-                ParcelcollectionDrone(parcel.Id);
             }
             catch (KeyNotFoundException ex)
             {
@@ -202,6 +209,12 @@ namespace IBL
             catch (ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException("Parcel Collection By Drone -BL" + ex.Message);
+            }
+            finally
+            {
+                drones.Add(droneToList);
+                if(!parcel.GetType().Equals(default))
+                    ParcelcollectionDrone(parcel.Id);
             }
 
         }
@@ -304,7 +317,7 @@ namespace IBL
         /// <returns>The best parcel</returns>
         private ParcelToList TreatInPiority(Dictionary<ParcelToList, double> parcels)
         {
-            var orderdParcel=parcels.OrderByDescending(parcel => parcel.Key.Piority).ThenByDescending(parcel => parcel.Key.Weight).ThenBy(parcel => parcel.Value).ToDictionary(item=>item.Key,item=>item.Value);
+            var orderdParcel = parcels.OrderByDescending(parcel => parcel.Key.Piority).ThenByDescending(parcel => parcel.Key.Weight).ThenBy(parcel => parcel.Value).ToDictionary(item => item.Key, item => item.Value);
             if (!orderdParcel.Any())
                 throw new KeyNotFoundException("Assing drone to parcel -BL-:There is no suitable parcel that meets all the conditions");
             ParcelToList suitableParcel = orderdParcel.FirstOrDefault().Key;

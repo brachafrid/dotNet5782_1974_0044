@@ -35,10 +35,10 @@ namespace DalObject
         internal class Config
         {
             internal static int IdParcel = 0;
-            internal static double Available = 0.1;
-            internal static double LightWeightCarrier =0.2; 
-            internal static double MediumWeightBearing = 0.3;
-            internal static double CarriesHeavyWeight = 0.4;
+            internal static double Available = 0.001;
+            internal static double LightWeightCarrier =0.002; 
+            internal static double MediumWeightBearing = 0.003;
+            internal static double CarriesHeavyWeight = 0.004;
             internal static double DroneLoadingRate=Rnd.NextDouble();
         }
 

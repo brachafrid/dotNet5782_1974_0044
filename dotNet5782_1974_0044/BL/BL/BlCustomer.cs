@@ -54,15 +54,16 @@ namespace IBL
         {
             if (name.Equals(default) && phone.Equals(default))
                 throw new ArgumentNullException("Update customer -BL-:There is not field to update");
+            IDAL.DO.Customer customer = default;
             try
             {
-                IDAL.DO.Customer customer = dal.GetCustomer(id);
+                customer = dal.GetCustomer(id);
                 dal.RemoveCustomer(customer);
                 if (name.Equals(default))
                     name = customer.Name;
                 else if (phone.Equals(default))
                     phone = customer.Phone;
-                dal.AddCustomer(id, phone, name, customer.Longitude, customer.Latitude);
+                
             }
             catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
@@ -71,6 +72,10 @@ namespace IBL
             catch (KeyNotFoundException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException("Update customer -BL-"+ex.Message );
+            }
+            finally
+            {
+                dal.AddCustomer(id, phone, name, customer.Longitude, customer.Latitude);
             }
 
         }
