@@ -27,6 +27,21 @@ namespace ConsoleUI_BL
                         int chargeslots;
                         if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out latitude) && double.TryParse(Console.ReadLine(), out longitude) && int.TryParse(Console.ReadLine(), out chargeslots))
                         {
+                            if (latitude > 90 || latitude < -90)
+                            {
+                                Console.WriteLine("invalid latitude");
+                                break;
+                            }
+                            if (longitude > 90 || longitude < 0)
+                            {
+                                Console.WriteLine("invalid longitude");
+                                break;
+                            }
+                            if (chargeslots < 0)
+                            {
+                                Console.WriteLine("invalid charge slots");
+                                break;
+                            }
                             string name = Console.ReadLine();
                             Location location = new();
                             location.Longitude = longitude;
@@ -45,6 +60,11 @@ namespace ConsoleUI_BL
                         int stationId;
                         if (int.TryParse(Console.ReadLine(), out id) && Enum.TryParse(Console.ReadLine(), out maxWeight) && int.TryParse(Console.ReadLine(), out stationId))
                         {
+                            if ((int)maxWeight > 2 || (int)maxWeight < 0)
+                            {
+                                Console.WriteLine("invalid max weight max weight range is 0-2");
+                                break;
+                            }
                             Drone drone = new() { Id = id, WeightCategory = maxWeight, Model = Console.ReadLine() };
                             bl.AddDrone(drone, stationId);
                         }
@@ -56,7 +76,7 @@ namespace ConsoleUI_BL
                 case Add.Customer:
                     {
                         double latitude, longitude;
-                        Console.WriteLine("enter values to customer properties:id,latitude,longitude, name");
+                        Console.WriteLine("enter values to customer properties:id,latitude,longitude, name, phone");
                         if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out latitude) && double.TryParse(Console.ReadLine(), out longitude))
                         {
                             Location location = new();
@@ -64,15 +84,24 @@ namespace ConsoleUI_BL
                             location.Latitude = latitude;
                             string name = Console.ReadLine();
                             string phone;
-                            bool correctPhone = true;
-                            do
+                            if (latitude > 90 || latitude < -90)
                             {
-                                Console.WriteLine("Enter phone");
-                                phone = Console.ReadLine();
-                                if (!(Regex.Match(phone, @"^((?:\+?)[0-9]{10})$").Success))
-                                    correctPhone = false;
-                            } while (!correctPhone);
+                                Console.WriteLine("invalid latitude");
+                                break;
+                            }
+                            if (longitude > 90 || longitude < 0)
+                            {
+                                Console.WriteLine("invalid longitude");
+                                break;
+                            }
 
+                            Console.WriteLine("Enter phone");
+                            phone = Console.ReadLine();
+                            if (!(Regex.Match(phone, @"^((?:\+?)[0-9]{10})$").Success))
+                            {
+                                Console.WriteLine("invalid phone");
+                                break;
+                            }
                             bl.AddCustomer(new Customer()
                             {
                                 Id = id,
@@ -94,6 +123,16 @@ namespace ConsoleUI_BL
 
                         if (int.TryParse(Console.ReadLine(), out senderId) && int.TryParse(Console.ReadLine(), out targetId) && Enum.TryParse(Console.ReadLine(), out weigth) && Enum.TryParse(Console.ReadLine(), out priority))
                         {
+                            if ((int)weigth > 2 || (int)weigth < 0)
+                            {
+                                Console.WriteLine("invalid weight, weight range is 0-2");
+                                break;
+                            }
+                            if ((int)priority > 2 || (int)priority < 0)
+                            {
+                                Console.WriteLine("invalid priority, priority range is 0-2");
+                                break;
+                            }
                             bl.AddParcel(new Parcel()
                             {
                                 CustomerReceives = new CustomerInParcel()

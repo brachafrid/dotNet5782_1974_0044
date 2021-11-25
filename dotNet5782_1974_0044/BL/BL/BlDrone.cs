@@ -97,7 +97,8 @@ namespace IBL
             }
             finally
             {
-                drones.Add(droneToList);
+                if(droneToList != default)
+                    drones.Add(droneToList);
             }
         }
 

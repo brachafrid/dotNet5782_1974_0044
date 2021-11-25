@@ -36,10 +36,14 @@ namespace ConsoleUI_BL
                         Console.WriteLine("enter an id of station");
                         if (int.TryParse(Console.ReadLine(), out id))
                         {
-                            Console.WriteLine("if you want only update one details press enter instead enter an input");
+                            Console.WriteLine("if you only want update one details press enter instead enter an input");
                             Console.WriteLine("the new  number of chrge slots ");
                             if (!int.TryParse(Console.ReadLine(), out chargeSlots) || chargeSlots==default)
                                 chargeSlots = 0;
+                            if(chargeSlots <0)
+                            {
+                                Console.WriteLine("invalid charg slots");
+                            }    
                             Console.WriteLine("enter the new name");
                             string name = Console.ReadLine();
                             bl.UpdateStation(id, name, chargeSlots);

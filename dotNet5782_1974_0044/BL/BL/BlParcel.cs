@@ -137,12 +137,13 @@ namespace IBL
         /// <param name="parcelId">The parcel to update</param>
         private void ParcelDeliveredDrone(int parcelId)
         {
+            IDAL.DO.Parcel parcel = default;
             try
             {
-                IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
+               parcel  = dal.GetParcel(parcelId);
                 dal.RemoveParcel(parcel);
                 parcel.Delivered = DateTime.Now;
-                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id,parcel.DorneId, parcel.Requested, parcel.Sceduled, parcel.PickedUp, parcel.Delivered);
+                
             }
             catch (KeyNotFoundException ex)
             {
@@ -151,6 +152,10 @@ namespace IBL
             catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message + "Parcel Delivered Drone -BL-");
+            }
+            finally
+            {
+                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id, parcel.DorneId, parcel.Requested, parcel.Sceduled, parcel.PickedUp, parcel.Delivered);
             }
         }
 
