@@ -21,14 +21,15 @@ namespace IBL
         private double calculateElectricity(Location aviableDroneLocation,double? batteryStatus, Location CustomerSender, Location CustomerReceives, WeightCategories weight, out double distance)
         {
             double electricity;
+            double e= weight switch
+            {
+                WeightCategories.LIGHT => lightWeightCarrier,
+                WeightCategories.MEDIUM => mediumWeightBearing,
+                WeightCategories.HEAVY => carriesHeavyWeight
+            };
             IDAL.DO.Station station;
             electricity = Distance(aviableDroneLocation, CustomerSender) * available +
-                        Distance(CustomerSender, CustomerReceives) * weight switch
-                        {
-                            WeightCategories.LIGHT => lightWeightCarrier,
-                            WeightCategories.MEDIUM => mediumWeightBearing,
-                            WeightCategories.HEAVY => carriesHeavyWeight
-                        }; ;
+                        Distance(CustomerSender, CustomerReceives) * e;
             station =batteryStatus!=null? ClosetStationPossible(dal.GetStations(), aviableDroneLocation,(double)batteryStatus-electricity, out distance):ClosetStation(dal.GetStations(),aviableDroneLocation);
             electricity += Distance(CustomerReceives,
                          new Location() { Latitude = station.Latitude, Longitude = station.Longitude }) * available;
