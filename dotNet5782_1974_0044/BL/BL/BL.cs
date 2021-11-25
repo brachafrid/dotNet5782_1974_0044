@@ -127,12 +127,16 @@ namespace IBL
                 DroneStatuses statuse = default;
                 //set status
                 // if the drone makes delivery
-                if (parcel.DorneId !=0)
+                if (parcel.DorneId != 0 )
                 {
                     statuse = DroneStatuses.DELIVERY;
                     tmpBatteryStatus = MinBattary(parcel,ref canTakeParcel);
                     if (!canTakeParcel)
+                    {
                         statuse = default;
+                        parcel.DorneId = 0;
+                    }
+                        
                 }
                 else if (statuse == default)
                 {
@@ -159,7 +163,7 @@ namespace IBL
                     DroneModel = drone.Model,
                     DroneStatus = statuse,
                     CurrentLocation = Location,
-                    ParcelId = parcel.Id,
+                    ParcelId =parcel.DorneId == 0? 0: parcel.Id,
                     BatteryStatus = BatteryStatus
                 });
 
@@ -236,7 +240,7 @@ namespace IBL
             if (electrity > 100)
             {
                 dal.RemoveParcel(parcel);
-                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id, parcel.DorneId,parcel.Requested,parcel.Sceduled,parcel.PickedUp,parcel.Delivered);
+                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id, 0,parcel.Requested,parcel.Sceduled,parcel.PickedUp,parcel.Delivered);
                 canTakeParcel = false;
                 return 0;
             }
