@@ -149,7 +149,7 @@ namespace IBL
                 // set location and battery
                 (Location, BatteryStatus) = statuse switch
                 {
-                    DroneStatuses.AVAILABLE => (tmpLocaiton = customersGotParcelLocation[rand.Next(0, customersGotParcelLocation.Count)], MinBatteryForAvailAble(tmpLocaiton)
+                    DroneStatuses.AVAILABLE => (tmpLocaiton = customersGotParcelLocation[rand.Next(0, customersGotParcelLocation.Count)], rand.Next((int)MinBatteryForAvailAble(tmpLocaiton) +1,100)
                     ),
                     DroneStatuses.MAINTENANCE => (locationOfStation[rand.Next(0, locationOfStation.Count)],
                     rand.NextDouble() + rand.Next(0,20)),
@@ -254,8 +254,8 @@ namespace IBL
         private double MinBatteryForAvailAble(Location location)
         {
             var station = ClosetStation(dal.GetStations(), location);
-
-            return Distance(location, new() { Latitude = station.Latitude, Longitude = station.Longitude }) * available;
+            double electricity = Distance(location, new() { Latitude = station.Latitude, Longitude = station.Longitude }) * available;
+            return electricity > 100 ? 0 : electricity;
         }
     }
 }
