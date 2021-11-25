@@ -127,7 +127,7 @@ namespace IBL
                 DroneStatuses statuse = default;
                 //set status
                 // if the drone makes delivery
-                if (parcel.DorneId !=0)
+                if (parcel.DorneId !=0 && parcel.DorneId != null)
                 {
                     statuse = DroneStatuses.DELIVERY;
                     tmpBatteryStatus = MinBattary(parcel,ref canTakeParcel);

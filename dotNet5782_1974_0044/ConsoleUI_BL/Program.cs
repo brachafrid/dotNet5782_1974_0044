@@ -111,10 +111,7 @@ namespace ConsoleUI_BL
                 }
                 Console.WriteLine(" press " + idx++);
             }
-        }
-        
-        
-       
+        } 
     }
 }
 
