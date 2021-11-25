@@ -106,7 +106,7 @@ namespace DalObject
                 newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);
                 if (newParcel.DorneId != 0)
                 {
-                    if(!Parcels.FirstOrDefault(parcel=>parcel.DorneId!=newParcel.DorneId).GetType().Equals(default))
+                    if(!Parcels.FirstOrDefault(parcel=>parcel.DorneId==newParcel.DorneId && parcel.Delivered==default).GetType().Equals(default))
                     {
                         newParcel.Sceduled = DateTime.Now;
                         if (state == 2)

@@ -79,11 +79,11 @@ namespace IBL
         private ParcelToList mapParcelToList(IDAL.DO.Parcel parcel)
         {
             PackageModes PackageMode;
-            if (!parcel.Delivered.Equals(default))
+            if (parcel.Delivered!=default)
                 PackageMode = PackageModes.PROVIDED;
-            else if (!parcel.PickedUp.Equals(default))
+            else if (parcel.PickedUp != default)
                 PackageMode = PackageModes.COLLECTED;
-            else if (!parcel.Sceduled.Equals(default))
+            else if (parcel.Sceduled != default)
                 PackageMode = PackageModes.ASSOCIATED;
             else
                 PackageMode = PackageModes.DEFINED;

@@ -59,11 +59,12 @@ namespace IBL
             {
                 customer = dal.GetCustomer(id);
                 dal.RemoveCustomer(customer);
-                if (name.Equals(default))
+                if (name.Equals(string.Empty))
                     name = customer.Name;
-                else if (phone.Equals(default))
+                else if (phone.Equals(string.Empty))
                     phone = customer.Phone;
-                
+                dal.AddCustomer(id, phone, name, customer.Longitude, customer.Latitude);
+
             }
             catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
@@ -73,10 +74,7 @@ namespace IBL
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException("Update customer -BL-"+ex.Message );
             }
-            finally
-            {
-                dal.AddCustomer(id, phone, name, customer.Longitude, customer.Latitude);
-            }
+
 
         }
 
