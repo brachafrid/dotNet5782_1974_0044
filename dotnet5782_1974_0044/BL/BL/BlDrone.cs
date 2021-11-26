@@ -29,7 +29,7 @@ namespace IBL
                     DroneModel = droneBl.Model,
                     Weight = droneBl.WeightCategory,
                     BatteryState = rand.NextDouble() + rand.Next(20, 40),
-                    DroneState = DroneStatuses.MAINTENANCE,
+                    DroneState = DroneState.MAINTENANCE,
                     CurrentLocation = new Location() { Latitude = station.Latitude, Longitude = station.Longitude }
                 };
                 drones.Add(droneToList);
@@ -113,13 +113,13 @@ namespace IBL
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
             if (droneToList == default)
                 throw new ArgumentNullException(" There is no a drone with the same id in data");
-            if (droneToList.DroneState != DroneStatuses.AVAILABLE)
+            if (droneToList.DroneState != DroneState.AVAILABLE)
                 throw new InvalidEnumArgumentException("The drone is not available so it is not possible to send it for charging ");
             IDAL.DO.Station station = ClosetStationPossible(dal.GetStations(), droneToList.CurrentLocation, droneToList.BatteryState, out double minDistance);
             if (station.Equals(default(IDAL.DO.Station)))
                 throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();
             drones.Remove(droneToList);
-            droneToList.DroneState = DroneStatuses.MAINTENANCE;
+            droneToList.DroneState = DroneState.MAINTENANCE;
             droneToList.BatteryState -= minDistance * available;
             droneToList.CurrentLocation = new Location() { Longitude = station.Longitude, Latitude = station.Latitude }; ;
             //No charging position was subtracting because there is no point in changing a variable that is not saved after the end of the function
@@ -137,10 +137,10 @@ namespace IBL
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
             if (droneToList == default)
                 throw new ArgumentNullException("There is no a drone with the same id in charging");
-            if (droneToList.DroneState != DroneStatuses.MAINTENANCE)
+            if (droneToList.DroneState != DroneState.MAINTENANCE)
                 throw new InvalidEnumArgumentException(" The drone is not maintenace so it is not possible to release it form charging ");
             drones.Remove(droneToList);
-            droneToList.DroneState = DroneStatuses.AVAILABLE;
+            droneToList.DroneState = DroneState.AVAILABLE;
             droneToList.BatteryState += timeOfCharg / NUM_OF_MINUTE_IN_HOUR * droneLoadingRate;
             //No charging position was adding because there is no point in changing a variable that is not saved after the end of the function
             dal.RemoveDroneCharge(id);
@@ -156,14 +156,14 @@ namespace IBL
             DroneToList aviableDrone = drones.FirstOrDefault(item => item.Id == droneId);
             if (aviableDrone == default)
                 throw new ArgumentNullException(" There is no a drone with the same id in data");
-            if (aviableDrone.DroneState != DroneStatuses.AVAILABLE)
+            if (aviableDrone.DroneState != DroneState.AVAILABLE)
                 throw new InvalidEnumArgumentException(" The drone is not aviable so it is not possible to assign it a parcel");
             Dictionary<ParcelToList, double> parcels = CreatParcelDictionaryToAssign(aviableDrone);
             try
             {
                 ParcelToList parcel = TreatInPiority(parcels);
                 drones.Remove(aviableDrone);
-                aviableDrone.DroneState = DroneStatuses.DELIVERY;
+                aviableDrone.DroneState = DroneState.DELIVERY;
                 aviableDrone.ParcelId = parcel.Id;
                 AssigningDroneToParcel(parcel.Id, aviableDrone.Id);
 
@@ -248,7 +248,7 @@ namespace IBL
                     WeightCategories.HEAVY => carriesHeavyWeight
                 };
                 droneToList.CurrentLocation = receiverLocation;
-                droneToList.DroneState = DroneStatuses.AVAILABLE;
+                droneToList.DroneState = DroneState.AVAILABLE;
                 droneToList.ParcelId = 0;
                 ParcelDeliveredDrone(parcel.Id);
             }
