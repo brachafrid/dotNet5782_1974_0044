@@ -7,7 +7,10 @@ namespace ConsoleUI_BL
 {
     partial class Program
     {
-
+        private const int LATITUDE_MAX = 90;
+        private const int LATITUDE_MIN = -90;
+        private const int LONGITUDE_MAX = 90;
+        private const int LONGITUDE_MIN = 0;
         /// <summary>
         /// Receives input from the user what type of organ to print as well as ID number and calls to the appropriate adding method
         /// </summary>
@@ -28,12 +31,12 @@ namespace ConsoleUI_BL
                         Console.WriteLine("enter values to station properties:id,latitude,longitude,chargeSlots, name");
                         if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out double latitude) && double.TryParse(Console.ReadLine(), out double longitude) && int.TryParse(Console.ReadLine(), out int chargeslots))
                         {
-                            if (latitude > 90 || latitude < -90)
+                            if (latitude > LATITUDE_MAX || latitude < LATITUDE_MIN)
                             {
                                 Console.WriteLine("invalid latitude");
                                 break;
                             }
-                            if (longitude > 90 || longitude < 0)
+                            if (longitude > LONGITUDE_MAX || longitude < LONGITUDE_MIN)
                             {
                                 Console.WriteLine("invalid longitude");
                                 break;
