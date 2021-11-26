@@ -50,12 +50,12 @@ namespace IBL
                 double tmpBatteryStatus = default;
                 Location tmpLocaiton = default;
                 Location Location;
-                DroneStatuses statuse = default;
+                DroneState statuse = default;
                 //set status
                 // if the drone makes delivery
                 if (parcel.DorneId != 0 )
                 {
-                    statuse = DroneStatuses.DELIVERY;
+                    statuse = DroneState.DELIVERY;
                     tmpBatteryStatus = MinBattary(parcel,ref canTakeParcel);
                     if (!canTakeParcel)
                     {
@@ -67,19 +67,19 @@ namespace IBL
                 else if (statuse == default)
                 {
                     if (customersGotParcelLocation.Count > 0)
-                        statuse = (DroneStatuses)rand.Next(0, 2);
+                        statuse = (DroneState)rand.Next(0, 2);
                     else
-                        statuse = DroneStatuses.MAINTENANCE;
+                        statuse = DroneState.MAINTENANCE;
 
                 }
                 // set location and battery
                 (Location, BatteryStatus) = statuse switch
                 {
-                    DroneStatuses.AVAILABLE => (tmpLocaiton = customersGotParcelLocation[rand.Next(0, customersGotParcelLocation.Count)], rand.Next((int)MinBatteryForAvailAble(tmpLocaiton) +1,100)
+                    DroneState.AVAILABLE => (tmpLocaiton = customersGotParcelLocation[rand.Next(0, customersGotParcelLocation.Count)], rand.Next((int)MinBatteryForAvailAble(tmpLocaiton) +1,100)
                     ),
-                    DroneStatuses.MAINTENANCE => (locationOfStation[rand.Next(0, locationOfStation.Count)],
+                    DroneState.MAINTENANCE => (locationOfStation[rand.Next(0, locationOfStation.Count)],
                     rand.NextDouble() + rand.Next(0,20)),
-                    DroneStatuses.DELIVERY => (FindLocationDroneWithParcel( parcel), tmpBatteryStatus)
+                    DroneState.DELIVERY => (FindLocationDroneWithParcel( parcel), tmpBatteryStatus)
                 }; 
                 // add the new drone to drones list
                 drones.Add(new DroneToList()
@@ -87,7 +87,7 @@ namespace IBL
                     Id = drone.Id,
                     Weight = (WeightCategories)drone.MaxWeight,
                     DroneModel = drone.Model,
-                    DroneStatus = statuse,
+                    DroneState = statuse,
                     CurrentLocation = Location,
                     ParcelId =parcel.DorneId == 0? 0: parcel.Id,
                     BatteryStatus = BatteryStatus

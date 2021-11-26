@@ -14,7 +14,7 @@ namespace IBL
             public string DroneModel { get; set; }
             public WeightCategories Weight { get; set; }
             public double BatteryStatus { get; set; }
-            public DroneStatuses DroneStatus { get; set; }
+            public DroneState DroneState { get; set; }
             public Location CurrentLocation { get; set; }
             public int? ParcelId { get; set; }
             public override string ToString()
