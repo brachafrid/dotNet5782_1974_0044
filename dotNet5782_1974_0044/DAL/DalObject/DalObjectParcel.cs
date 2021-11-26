@@ -45,7 +45,7 @@ namespace DalObject
         public Parcel GetParcel(int id)
         {
            Parcel parcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == id);
-            if (parcel.Equals(default))
+            if (parcel.Equals(default(Parcel)))
                 throw new KeyNotFoundException("Get Parcel -DAL-:There is not suitable parcel in data");
             return parcel;
         }

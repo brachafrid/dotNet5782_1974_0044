@@ -74,7 +74,7 @@ namespace IBL
         /// <param name="name">The new name</param>
         public void UpdateDrone(int id, string name)
         {
-            if (name.Equals(default))
+            if (name.Equals(string.Empty))
                 throw new ArgumentNullException("Update drone -BL-:For updating the name must be initialized ");
             DroneToList droneToList = default;
             try
@@ -114,7 +114,7 @@ namespace IBL
             if (droneToList.DroneStatus != DroneStatuses.AVAILABLE)
                 throw new InvalidEnumArgumentException("Send Drone For Charg -BL-: The drone is not available so it is not possible to send it for charging ");
             IDAL.DO.Station station = ClosetStationPossible(dal.GetStations(), droneToList.CurrentLocation, droneToList.BatteryStatus, out double minDistance);
-            if (station.Equals(default))
+            if (station.Equals(default(IDAL.DO.Station)))
                 throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException("Send Drone For Charg -BL-");
             drones.Remove(droneToList);
             droneToList.DroneStatus = DroneStatuses.MAINTENANCE;
@@ -196,7 +196,7 @@ namespace IBL
             try
             {
                  parcel= dal.GetParcel((int)droneToList.ParcelId);
-                if (!parcel.PickedUp.Equals(default))
+                if (parcel.PickedUp!=default)
                     throw new ArgumentNullException("Parcel Collection By Drone -BL-:The package has already been collected");
                 IDAL.DO.Customer customer = dal.GetCustomer(parcel.SenderId);
                 Location senderLocation = new() { Longitude = customer.Longitude, Latitude = customer.Latitude };
@@ -214,7 +214,7 @@ namespace IBL
             finally
             {
                 drones.Add(droneToList);
-                if(!parcel.GetType().Equals(default))
+                if(parcel.Equals(default(IDAL.DO.Parcel)))
                     ParcelcollectionDrone(parcel.Id);
             }
 
@@ -232,7 +232,7 @@ namespace IBL
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("Delivery Parcel By Drone -BL-:No parcel has been associated yet");
             IDAL.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
-            if (!parcel.Delivered.Equals(default))
+            if (parcel.Delivered!=default)
                 throw new ArgumentNullException("Delivery Parcel By Drone -BL-:The package has already been deliverd");
             drones.Remove(droneToList);
             try

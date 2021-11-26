@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using IBL.BO;
 namespace IBL
 {
-    public interface IblCustomer
+    public interface IBlCustomer
     {
         public void AddCustomer(Customer customer);
         public Customer GetCustomer(int id);

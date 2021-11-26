@@ -38,7 +38,7 @@ namespace  DalObject
         public Station GetStation(int id)
         {
             Station station = DataSorce.Stations.FirstOrDefault(item => item.Id == id);
-            if (station.GetType().Equals(default))
+            if (station.Equals(default(Station)))
                 throw new KeyNotFoundException("Get station -DAL-: There is no suitable customer in data");
             return station;
         }

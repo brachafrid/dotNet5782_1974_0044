@@ -2,7 +2,7 @@
 
 namespace IBL
 {
-   public interface IBL:IblDrone, IBlStations,IblParcel,IblCustomer
+   public interface IBL:IBlDrone, IBlStations,IBlParcel,IBlCustomer
    {
         
    }

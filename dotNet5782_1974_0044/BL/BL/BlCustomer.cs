@@ -6,7 +6,7 @@ using IBL.BO;
 
 namespace IBL
 {
-    public partial class BL : IblCustomer
+    public partial class BL : IBlCustomer
     {
         //-----------------------------------------------------------Adding------------------------------------------------------------------------
         /// <summary>
@@ -52,7 +52,7 @@ namespace IBL
         /// <param name="phone"></param>
         public void UpdateCustomer(int id, string name, string phone)
         {
-            if (name.Equals(default) && phone.Equals(default))
+            if (name.Equals(string.Empty) && phone.Equals(string.Empty))
                 throw new ArgumentNullException("Update customer -BL-:There is not field to update");
             IDAL.DO.Customer customer ;
             try
