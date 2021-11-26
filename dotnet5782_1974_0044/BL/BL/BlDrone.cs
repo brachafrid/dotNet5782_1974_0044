@@ -11,6 +11,8 @@ namespace IBL
     public partial class BL : IBlDrone
     {
         private const int NUM_OF_MINUTE_IN_HOUR = 60;
+        private const int MIN_BATTERY = 20;
+        private const int MAX_BATTERY = 40;
         //-----------------------------------------------------------Adding------------------------------------------------------------------------
         /// <summary>
         /// Add a drone to the list of drones in data and also convert it to Drone To List and add it to BL list
@@ -28,7 +30,7 @@ namespace IBL
                     Id = droneBl.Id,
                     DroneModel = droneBl.Model,
                     Weight = droneBl.WeightCategory,
-                    BatteryState = rand.NextDouble() + rand.Next(20, 40),
+                    BatteryState = rand.NextDouble() + rand.Next(MAX_BATTERY, MAX_BATTERY),
                     DroneState = DroneState.MAINTENANCE,
                     CurrentLocation = new Location() { Latitude = station.Latitude, Longitude = station.Longitude }
                 };
