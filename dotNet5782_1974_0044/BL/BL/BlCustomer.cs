@@ -53,7 +53,7 @@ namespace IBL
         public void UpdateCustomer(int id, string name, string phone)
         {
             if (name.Equals(string.Empty) && phone.Equals(string.Empty))
-                throw new ArgumentNullException("Update customer -BL-:There is not field to update");
+                throw new ArgumentNullException("There is not field to update");
             IDAL.DO.Customer customer ;
             try
             {

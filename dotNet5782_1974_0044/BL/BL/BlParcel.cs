@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace IBL
 {
-    public partial class BL : IblParcel
+    public partial class BL : IBlParcel
     {
         //-----------------------------------------------------------Adding------------------------------------------------------------------------
         /// <summary>

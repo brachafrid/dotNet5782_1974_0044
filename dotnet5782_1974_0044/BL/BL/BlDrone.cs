@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 namespace IBL
 {
-    public partial class BL : IblDrone
+    public partial class BL : IBlDrone
     {
         //-----------------------------------------------------------Adding------------------------------------------------------------------------
         /// <summary>
