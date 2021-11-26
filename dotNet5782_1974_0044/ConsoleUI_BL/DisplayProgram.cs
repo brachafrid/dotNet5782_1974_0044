@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 
 
@@ -93,13 +94,15 @@ namespace ConsoleUI_BL
         /// Prints the whole items in collection to the console
         /// </summary>
         /// <param name="list">collection for printing</param>
-        public static void PrintList(IEnumerable list)
+        public static void PrintList<T>(IEnumerable<T> list)
         {
-            if(list.Count)
+            if (!list.Any())
+                Console.WriteLine("empty list");
             foreach (var item in list)
             {
                 Console.WriteLine(item);
             }
+
         }
     }
 }
