@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections;
-using System.Collections.Generic;
+using System.Linq;
 
 
 namespace ConsoleUI_BL
@@ -95,7 +95,7 @@ namespace ConsoleUI_BL
         /// <param name="list">collection for printing</param>
         public static void PrintList(IEnumerable list)
         {
-            
+            if(list.Count)
             foreach (var item in list)
             {
                 Console.WriteLine(item);
