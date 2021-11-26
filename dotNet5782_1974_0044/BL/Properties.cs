@@ -18,10 +18,19 @@ namespace IBL
                 if (item.GetValue(obj) != null && !(item.PropertyType.IsGenericType && (item.PropertyType.GetGenericTypeDefinition() == typeof(List<>))))
                 {
                     s += FormatString(item.Name) + $": {item.GetValue(obj)}" +
-                                        Environment.NewLine;
+                                        '\n';
                 }
             }
-            return s;
+            string str = "";
+            for( int i =0; i<s.Length;++i)
+            {
+                if (s[i] != '\n')
+                    str += s[i];
+                else if (i + 1 < s.Length && s[i + 1] != '\n')
+                    str += s[i];
+            }
+            str += '\n';
+            return str;
         }
 
         static string FormatString(string str)
