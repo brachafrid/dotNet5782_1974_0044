@@ -100,7 +100,7 @@ namespace ConsoleUI_BL
                     }
                 case Update.SupplyParcelToDestination:
                     {
-                        Console.WriteLine("enter an id of parcel");
+                        Console.WriteLine("enter an id of drone");
                         if (int.TryParse(Console.ReadLine(), out id))
                             bl.DeliveryParcelByDrone(id);
                         break;

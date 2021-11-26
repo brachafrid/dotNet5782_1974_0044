@@ -25,7 +25,7 @@ namespace DalObject
             if (!ExistsIDTaxCheck(GetCustomers(), TargetId))
                 throw new KeyNotFoundException("Add parcel -DAL-:Target not exist");
             Parcel newParcel = new();
-            newParcel.Id = ++DataSorce.Config.IdParcel;
+            newParcel.Id = id==0?++DataSorce.Config.IdParcel:id;
             newParcel.SenderId = SenderId;
             newParcel.TargetId = TargetId;
             newParcel.Weigth = Weigth;
