@@ -16,7 +16,11 @@ namespace ConsoleUI_BL
         {
             Add option;
             if (!Enum.TryParse(Console.ReadLine(), out option))
-                Console.WriteLine("There is no suitable option");
+            {
+                Console.WriteLine("The convertion faild  therefore the no option choose ");
+                option = Add.Parcel + 1;
+            }
+                
             int id;
             switch (option)
             {
@@ -116,7 +120,7 @@ namespace ConsoleUI_BL
                     }
                 case Add.Parcel:
                     {
-                        Console.WriteLine("enter values to station properties: sender id,target id,weigth,priority");
+                        Console.WriteLine("enter values to parcel properties: sender id,target id,weigth,priority");
                         int senderId, targetId;
                         WeightCategories weigth;
                         Priorities priority;

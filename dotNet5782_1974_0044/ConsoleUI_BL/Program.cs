@@ -22,7 +22,11 @@ namespace ConsoleUI_BL
             {
                 DisplayMenus(typeof(Menu));
                 if (!Enum.TryParse(Console.ReadLine(), out option))
-                    Console.WriteLine();
+                {
+                    Console.WriteLine("The conversion failed  therefore the no option choose");
+                    option =Menu.Exit+1;
+                }
+                    
                 try
                 {
                     switch (option)
