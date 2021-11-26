@@ -38,7 +38,7 @@ namespace ConsoleUI_BL
                         {
                             Console.WriteLine("if you only want update one details press enter instead enter an input");
                             Console.WriteLine("the new  number of chrge slots ");
-                            if (!int.TryParse(Console.ReadLine(), out chargeSlots) || chargeSlots==default)
+                            if (!int.TryParse(Console.ReadLine(), out chargeSlots) || chargeSlots == default)
                                 chargeSlots = 0;
                             if(chargeSlots <0)
                             {
