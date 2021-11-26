@@ -36,7 +36,7 @@ namespace DalObject
         public Drone GetDrone(int id)
         {
             Drone drone=DataSorce.Drones.FirstOrDefault(item => item.Id == id);
-            if (drone.GetType().Equals(default))
+            if (drone.Equals(default(Drone)))
                 throw new KeyNotFoundException("Get drone -DAL-:There is not suitable drone in the data");
             return drone;
         }

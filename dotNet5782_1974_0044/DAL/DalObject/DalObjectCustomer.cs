@@ -43,7 +43,7 @@ namespace DalObject
         public Customer GetCustomer(int id)
         {
             Customer customer=DataSorce.Customers.FirstOrDefault(item => item.Id == id);
-            if (customer.GetType().Equals(default))
+            if (customer.Equals(default(Customer)))
                 throw new KeyNotFoundException("Get customer -DAL-: There is no suitable customer in data");
             return customer;
         }
