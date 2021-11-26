@@ -14,7 +14,11 @@ namespace ConsoleUI_BL
         {
             Update option;
             if (!Enum.TryParse(Console.ReadLine(), out option))
-                Console.WriteLine("There is no suitable option");
+            {
+                Console.WriteLine("The convertion faild  therefore the no option choose ");
+                option = Update.SupplyParcelToDestination + 1;
+            }
+
             int id;
             switch (option)
             {
@@ -40,10 +44,10 @@ namespace ConsoleUI_BL
                             Console.WriteLine("the new  number of chrge slots ");
                             if (!int.TryParse(Console.ReadLine(), out chargeSlots) || chargeSlots == default)
                                 chargeSlots = 0;
-                            if(chargeSlots <0)
+                            if (chargeSlots < 0)
                             {
                                 Console.WriteLine("invalid charg slots");
-                            }    
+                            }
                             Console.WriteLine("enter the new name");
                             string name = Console.ReadLine();
                             bl.UpdateStation(id, name, chargeSlots);

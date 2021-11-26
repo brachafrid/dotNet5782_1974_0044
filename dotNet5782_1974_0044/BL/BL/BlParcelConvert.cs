@@ -58,7 +58,7 @@ namespace IBL
                 Id = id,
                 WeightCategory = (BO.WeightCategories)parcel.Weigth,
                 Priority = (BO.Priorities)parcel.Priority,
-                ParcelStatus = !parcel.PickedUp.Equals(default),
+                ParcelStatus = parcel.PickedUp!=default,
                 CollectionPoint = new BO.Location() { Longitude = sender.Longitude, Latitude = sender.Latitude },
                 DeliveryDestination = new BO.Location() { Longitude = target.Longitude, Latitude = target.Latitude },
                 TransportDistance = Distance(new Location() { Longitude = sender.Longitude, Latitude = sender.Latitude }, new Location() { Longitude = sender.Longitude, Latitude = sender.Latitude }),

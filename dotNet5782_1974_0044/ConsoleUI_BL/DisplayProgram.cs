@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections;
+using System.Collections.Generic;
 
 
 namespace ConsoleUI_BL
@@ -14,7 +15,10 @@ namespace ConsoleUI_BL
         {
             Display option;
             if (!Enum.TryParse(Console.ReadLine(), out option))
-                Console.WriteLine("There is no suitable option");
+            {
+                Console.WriteLine("The convertion faild  therefore the no option choose ");
+                option = Display.Parcel + 1;
+            }
             int id;
             switch (option)
             {
@@ -59,7 +63,10 @@ namespace ConsoleUI_BL
         {
             DisplayList option;
             if (!Enum.TryParse(Console.ReadLine(), out option))
-                Console.WriteLine("There is no suitable option");
+            {
+                Console.WriteLine("The convertion faild  therefore the no option choose ");
+                option = DisplayList.AvailableChargingSations + 1;
+            }
             switch (option)
             {
                 case DisplayList.Sations:
@@ -90,6 +97,7 @@ namespace ConsoleUI_BL
         /// <param name="list">collection for printing</param>
         public static void PrintList(IEnumerable list)
         {
+            
             foreach (var item in list)
             {
                 Console.WriteLine(item);
