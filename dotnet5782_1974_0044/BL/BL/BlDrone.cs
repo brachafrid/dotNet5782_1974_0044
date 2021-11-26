@@ -7,8 +7,10 @@ using System.ComponentModel;
 
 namespace IBL
 {
+    
     public partial class BL : IBlDrone
     {
+        private const int NUM_OF_MINUTE_IN_HOUR = 60;
         //-----------------------------------------------------------Adding------------------------------------------------------------------------
         /// <summary>
         /// Add a drone to the list of drones in data and also convert it to Drone To List and add it to BL list
@@ -139,7 +141,7 @@ namespace IBL
                 throw new InvalidEnumArgumentException(" The drone is not maintenace so it is not possible to release it form charging ");
             drones.Remove(droneToList);
             droneToList.DroneStatus = DroneStatuses.AVAILABLE;
-            droneToList.BatteryStatus += timeOfCharg / 60 * droneLoadingRate;
+            droneToList.BatteryStatus += timeOfCharg / NUM_OF_MINUTE_IN_HOUR * droneLoadingRate;
             //No charging position was adding because there is no point in changing a variable that is not saved after the end of the function
             dal.RemoveDroneCharge(id);
             drones.Add(droneToList);
