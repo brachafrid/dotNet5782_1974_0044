@@ -19,7 +19,7 @@ namespace DalObject
         public void AddCustomer(int id, string phone, string name, double longitude, double latitude)
         {
             if (ExistsIDTaxCheck(DataSorce.Customers, id))
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Adding a customer - DAL");
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException();
             Customer newCustomer = new ();
             newCustomer.Id = id;
             newCustomer.Name = name;
@@ -44,7 +44,7 @@ namespace DalObject
         {
             Customer customer=DataSorce.Customers.FirstOrDefault(item => item.Id == id);
             if (customer.Equals(default(Customer)))
-                throw new KeyNotFoundException("Get customer -DAL-: There is no suitable customer in data");
+                throw new KeyNotFoundException("There is no suitable customer in data");
             return customer;
         }
         public void RemoveCustomer(Customer customer)

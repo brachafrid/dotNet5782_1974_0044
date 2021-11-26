@@ -19,7 +19,7 @@ namespace  DalObject
         public void AddStation(int id, string name, double longitude, double latitude, int chargeSlots)
         {
             if(ExistsIDTaxCheck(DataSorce.Stations, id))
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Adding a station - DAL");
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException();
             Station newStation = new ();
             newStation.Id = id;
             newStation.Name = name;
@@ -39,7 +39,7 @@ namespace  DalObject
         {
             Station station = DataSorce.Stations.FirstOrDefault(item => item.Id == id);
             if (station.Equals(default(Station)))
-                throw new KeyNotFoundException("Get station -DAL-: There is no suitable customer in data");
+                throw new KeyNotFoundException(" There is no suitable customer in data");
             return station;
         }
 

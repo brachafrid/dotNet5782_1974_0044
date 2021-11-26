@@ -16,7 +16,7 @@ namespace DalObject
         public void AddDrone(int id, string model, WeightCategories MaxWeight)
         {
             if (ExistsIDTaxCheck(DataSorce.Drones, id))
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Adding a drone - DAL");
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException();
             Drone newDrone = new ()
             {
                 Id = id,
@@ -37,7 +37,7 @@ namespace DalObject
         {
             Drone drone=DataSorce.Drones.FirstOrDefault(item => item.Id == id);
             if (drone.Equals(default(Drone)))
-                throw new KeyNotFoundException("Get drone -DAL-:There is not suitable drone in the data");
+                throw new KeyNotFoundException("There is not suitable drone in the data");
             return drone;
         }
 

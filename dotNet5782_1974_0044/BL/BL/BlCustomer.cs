@@ -68,11 +68,11 @@ namespace IBL
             }
             catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Update customer -BL-"+ex.Message);
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
             catch (KeyNotFoundException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Update customer -BL-"+ex.Message );
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
             }
 
 

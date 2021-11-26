@@ -16,9 +16,9 @@ namespace IBL
         public void AddParcel(Parcel parcelBl)
         {
             if (!ExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerSender.Id))
-                throw new KeyNotFoundException("Add parcel -BL_:Sender not exist");
+                throw new KeyNotFoundException("Sender not exist");
             if (!ExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerReceives.Id))
-                throw new KeyNotFoundException("Add parcel -BL-:Target not exist");
+                throw new KeyNotFoundException("Target not exist");
             try
             {
                 dal.AddParcel(parcelBl.CustomerSender.Id, parcelBl.CustomerReceives.Id, (IDAL.DO.WeightCategories)parcelBl.Weight, (IDAL.DO.Priorities)parcelBl.Priority);
@@ -98,11 +98,11 @@ namespace IBL
             }
             catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException("Assigning Drone To Parcel -BL-"+ex.Message);
+                throw new KeyNotFoundException(ex.Message);
             }
             catch(IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Assigning Drone To Parcel -BL-"+ex.Message );
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
             }
 
         }
@@ -122,11 +122,11 @@ namespace IBL
             }
             catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException("Parcel ollection Drone -BL-"+ex.Message );
+                throw new KeyNotFoundException(ex.Message );
             }
             catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Parcel ollection Drone -BL-"+ex.Message );
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
             }
 
         }
@@ -148,11 +148,11 @@ namespace IBL
             }
             catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException(ex.Message + "Parcel Delivered Drone -BL-");
+                throw new KeyNotFoundException(ex.Message);
             }
             catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message + "Parcel Delivered Drone -BL-");
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
 
         }

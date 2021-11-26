@@ -40,7 +40,7 @@ namespace IBL
             catch (KeyNotFoundException ex)
             {
 
-                throw new KeyNotFoundException("Add drone -BL-" + ex.Message);
+                throw new KeyNotFoundException(ex.Message);
             }
 
         }
@@ -60,7 +60,7 @@ namespace IBL
             catch (ArgumentNullException ex)
             {
 
-                throw new ArgumentNullException("Get drone -BL-" + ex.Message);
+                throw new ArgumentNullException( ex.Message);
             }
 
         }
@@ -75,7 +75,7 @@ namespace IBL
         public void UpdateDrone(int id, string name)
         {
             if (name.Equals(string.Empty))
-                throw new ArgumentNullException("Update drone -BL-:For updating the name must be initialized ");
+                throw new ArgumentNullException("For updating the name must be initialized ");
             DroneToList droneToList = default;
             try
             {
@@ -89,11 +89,11 @@ namespace IBL
             }
             catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Update drone -BL-" + ex.Message);
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException( ex.Message);
             }
             catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException("Update drone -BL-" + ex.Message);
+                throw new KeyNotFoundException( ex.Message);
             }
             finally
             {
@@ -110,12 +110,12 @@ namespace IBL
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
             if (droneToList == default)
-                throw new ArgumentNullException("Send Drone For Charg -BL-: There is no a drone with the same id in data");
+                throw new ArgumentNullException(" There is no a drone with the same id in data");
             if (droneToList.DroneStatus != DroneStatuses.AVAILABLE)
-                throw new InvalidEnumArgumentException("Send Drone For Charg -BL-: The drone is not available so it is not possible to send it for charging ");
+                throw new InvalidEnumArgumentException("The drone is not available so it is not possible to send it for charging ");
             IDAL.DO.Station station = ClosetStationPossible(dal.GetStations(), droneToList.CurrentLocation, droneToList.BatteryStatus, out double minDistance);
             if (station.Equals(default(IDAL.DO.Station)))
-                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException("Send Drone For Charg -BL-");
+                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();
             drones.Remove(droneToList);
             droneToList.DroneStatus = DroneStatuses.MAINTENANCE;
             droneToList.BatteryStatus -= minDistance * available;
@@ -134,9 +134,9 @@ namespace IBL
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
             if (droneToList == default)
-                throw new ArgumentNullException("Release Drone Form Charging -BL-: There is no a drone with the same id in charging");
+                throw new ArgumentNullException("There is no a drone with the same id in charging");
             if (droneToList.DroneStatus != DroneStatuses.MAINTENANCE)
-                throw new InvalidEnumArgumentException("Release Drone Form Charging -BL-: The drone is not maintenace so it is not possible to release it form charging ");
+                throw new InvalidEnumArgumentException(" The drone is not maintenace so it is not possible to release it form charging ");
             drones.Remove(droneToList);
             droneToList.DroneStatus = DroneStatuses.AVAILABLE;
             droneToList.BatteryStatus += timeOfCharg / 60 * droneLoadingRate;
@@ -153,9 +153,9 @@ namespace IBL
         {
             DroneToList aviableDrone = drones.FirstOrDefault(item => item.Id == droneId);
             if (aviableDrone == default)
-                throw new ArgumentNullException("Assing Parcel To Drone -BL-: There is no a drone with the same id in data");
+                throw new ArgumentNullException(" There is no a drone with the same id in data");
             if (aviableDrone.DroneStatus != DroneStatuses.AVAILABLE)
-                throw new InvalidEnumArgumentException("Assing Parcel To Drone -BL-: The drone is not aviable so it is not possible to assign it a parcel");
+                throw new InvalidEnumArgumentException(" The drone is not aviable so it is not possible to assign it a parcel");
             Dictionary<ParcelToList, double> parcels = CreatParcelDictionaryToAssign(aviableDrone);
             try
             {
@@ -188,16 +188,16 @@ namespace IBL
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == DroneId);
             if (droneToList == default)
-                throw new ArgumentNullException("Parcel Collection By Drone -BL-: There is no a drone with the same id in data");
+                throw new ArgumentNullException(" There is no a drone with the same id in data");
             if (droneToList.ParcelId == null)
-                throw new ArgumentNullException("Parcel Collection By Drone -BL-:No parcel has been associated yet");
+                throw new ArgumentNullException("No parcel has been associated yet");
             drones.Remove(droneToList);
             IDAL.DO.Parcel parcel = default;
             try
             {
                  parcel= dal.GetParcel((int)droneToList.ParcelId);
                 if (parcel.PickedUp!=default)
-                    throw new ArgumentNullException("Parcel Collection By Drone -BL-:The package has already been collected");
+                    throw new ArgumentNullException("The package has already been collected");
                 IDAL.DO.Customer customer = dal.GetCustomer(parcel.SenderId);
                 Location senderLocation = new() { Longitude = customer.Longitude, Latitude = customer.Latitude };
                 droneToList.BatteryStatus -= Distance(droneToList.CurrentLocation, senderLocation) * available;
@@ -205,11 +205,11 @@ namespace IBL
             }
             catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException("Parcel Collection By Drone -BL-" + ex.Message);
+                throw new KeyNotFoundException(ex.Message);
             }
             catch (ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Parcel Collection By Drone -BL" + ex.Message);
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException( ex.Message);
             }
             finally
             {
@@ -228,12 +228,12 @@ namespace IBL
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == droneId);
             if (droneToList == default)
-                throw new ArgumentNullException("Delivery Parcel By Drone -BL-: There is no a drone with the same id in data");
+                throw new ArgumentNullException("There is no a drone with the same id in data");
             if (droneToList.ParcelId == null)
-                throw new ArgumentNullException("Delivery Parcel By Drone -BL-:No parcel has been associated yet");
+                throw new ArgumentNullException("No parcel has been associated yet");
             IDAL.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
             if (parcel.Delivered!=default)
-                throw new ArgumentNullException("Delivery Parcel By Drone -BL-:The package has already been deliverd");
+                throw new ArgumentNullException("The package has already been deliverd");
             drones.Remove(droneToList);
             try
             {
@@ -252,7 +252,7 @@ namespace IBL
             }
             catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException("Delivery Parcel By Drone -BL-" + ex.Message);
+                throw new KeyNotFoundException( ex.Message);
             }
             catch (ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
@@ -321,7 +321,7 @@ namespace IBL
         {
             var orderdParcel = parcels.OrderByDescending(parcel => parcel.Key.Piority).ThenByDescending(parcel => parcel.Key.Weight).ThenBy(parcel => parcel.Value).ToDictionary(item => item.Key, item => item.Value);
             if (!orderdParcel.Any())
-                throw new KeyNotFoundException("Assing drone to parcel -BL-:There is no suitable parcel that meets all the conditions");
+                throw new KeyNotFoundException("There is no suitable parcel that meets all the conditions");
             ParcelToList suitableParcel = orderdParcel.FirstOrDefault().Key;
             return suitableParcel;
         }
