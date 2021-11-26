@@ -34,22 +34,22 @@ namespace IBL
         public void UpdateStation(int id, string name, int chargeSlots)
         {
             if (name.Equals(string.Empty) && chargeSlots ==0)
-                throw new ArgumentNullException("Update station -BL-:For updating at least one parameter must be initialized ");
+                throw new ArgumentNullException("For updating at least one parameter must be initialized ");
             try
             {
                 IDAL.DO.Station satationDl = dal.GetStation(id);
                 if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(satationDl.Id))
-                    throw new ArgumentOutOfRangeException("Update station -BL-:The number of charging slots is smaller than the number of slots used");
+                    throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
                 dal.RemoveStation(satationDl);
                 dal.AddStation(id, name.Equals(string.Empty) ? satationDl.Name : name, satationDl.Longitude, satationDl.Latitude, chargeSlots==0 ? satationDl.ChargeSlots : chargeSlots);
             }
             catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException("Update station -BL-"+ex.Message);
+                throw new KeyNotFoundException(ex.Message);
             }
             catch(IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException("Update station -BL-"+ex.Message );
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
             }
            
         }
