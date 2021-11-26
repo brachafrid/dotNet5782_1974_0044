@@ -7,7 +7,7 @@
             public int Id { get; init; }
             public WeightCategories WeightCategory { get; set; }
             public Priorities Priority { get; set; }
-            public bool ParcelStatus { get; set; }
+            public bool ParcelState { get; set; }
             public Location CollectionPoint { get; set; }
             public Location DeliveryDestination { get; set; }
             public double TransportDistance { get; set; }

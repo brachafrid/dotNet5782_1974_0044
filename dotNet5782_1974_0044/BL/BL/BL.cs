@@ -8,6 +8,10 @@ namespace IBL
 {
     public partial class BL : IBL
     {
+        private const int DRONESTATUSESLENGTH = 2;
+        public  const int MAXINITBATTARY = 20;
+        public  const int MININITBATTARY = 0;
+        public const int FULLBATTRY = 100;
         private static readonly Random rand = new();
         private readonly List<DroneToList> drones;
         private readonly IDAL.IDal dal;
@@ -67,7 +71,7 @@ namespace IBL
                 else if (statuse == default)
                 {
                     if (customersGotParcelLocation.Count > 0)
-                        statuse = (DroneStatuses)rand.Next(0, 2);
+                        statuse = (DroneStatuses)rand.Next(0, DRONESTATUSESLENGTH);
                     else
                         statuse = DroneStatuses.MAINTENANCE;
 
@@ -75,10 +79,10 @@ namespace IBL
                 // set location and battery
                 (Location, BatteryStatus) = statuse switch
                 {
-                    DroneStatuses.AVAILABLE => (tmpLocaiton = customersGotParcelLocation[rand.Next(0, customersGotParcelLocation.Count)], rand.Next((int)MinBatteryForAvailAble(tmpLocaiton) +1,100)
+                    DroneStatuses.AVAILABLE => (tmpLocaiton = customersGotParcelLocation[rand.Next(0, customersGotParcelLocation.Count)], rand.Next((int)MinBatteryForAvailAble(tmpLocaiton) +1, FULLBATTRY)
                     ),
                     DroneStatuses.MAINTENANCE => (locationOfStation[rand.Next(0, locationOfStation.Count)],
-                    rand.NextDouble() + rand.Next(0,20)),
+                    rand.NextDouble() + rand.Next(MININITBATTARY, MAXINITBATTARY)),
                     DroneStatuses.DELIVERY => (FindLocationDroneWithParcel( parcel), tmpBatteryStatus)
                 }; 
                 // add the new drone to drones list
@@ -87,10 +91,10 @@ namespace IBL
                     Id = drone.Id,
                     Weight = (WeightCategories)drone.MaxWeight,
                     DroneModel = drone.Model,
-                    DroneStatus = statuse,
+                    DroneState = statuse,
                     CurrentLocation = Location,
                     ParcelId =parcel.DorneId == 0? 0: parcel.Id,
-                    BatteryStatus = BatteryStatus
+                    BatteryState = BatteryStatus
                 });
 
             }
@@ -163,14 +167,14 @@ namespace IBL
             var location = FindLocationDroneWithParcel(parcel);
             double electrity = CalculateElectricity(location,null,senderLocation ,targetLocation, (BO.WeightCategories)parcel.Weigth, out _); 
             // if the drone need more electricity 
-            if (electrity > 100)
+            if (electrity > FULLBATTRY)
             {
                 dal.RemoveParcel(parcel);
                 dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id, 0,parcel.Requested,parcel.Sceduled,parcel.PickedUp,parcel.Delivered);
                 canTakeParcel = false;
                 return 0;
             }
-            return rand.NextDouble() + rand.Next((int)electrity + 1, 100);
+            return rand.NextDouble() + rand.Next((int)electrity + 1, FULLBATTRY);
         }
         /// <summary>
         /// Calculate minimum amount of electricity for drone for arraiving to the closet statoin  
@@ -181,7 +185,7 @@ namespace IBL
         {
             var station = ClosetStation(dal.GetStations(), location);
             double electricity = Distance(location, new() { Latitude = station.Latitude, Longitude = station.Longitude }) * available;
-            return electricity > 100 ? 0 : electricity;
+            return electricity > FULLBATTRY ? MININITBATTARY : electricity;
         }
     }
 }

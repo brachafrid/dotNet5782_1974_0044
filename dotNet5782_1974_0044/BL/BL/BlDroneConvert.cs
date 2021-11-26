@@ -14,7 +14,7 @@ namespace IBL
             return new DroneWithParcel()
             {
                 Id = drone.Id,
-                ChargingMode = drone.BatteryStatus,
+                ChargingMode = drone.BatteryState,
                 CurrentLocation = drone.CurrentLocation
             };
         }

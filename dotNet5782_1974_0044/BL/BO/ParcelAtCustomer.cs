@@ -13,7 +13,7 @@ namespace IBL
            public int Id { get; set; }
            public WeightCategories WeightCategory { get; set; }
            public Priorities Priority { get; set; }
-           public PackageModes Status { get; set; }
+           public PackageModes State { get; set; }
            public CustomerInParcel Customer { get; set; }
             public override string ToString()
             {

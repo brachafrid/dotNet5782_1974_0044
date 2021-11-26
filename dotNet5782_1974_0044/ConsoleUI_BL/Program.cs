@@ -63,7 +63,6 @@ namespace ConsoleUI_BL
                             break;
                         default:
                             break;
-
                     }
                 }
                 catch (KeyNotFoundException ex)
@@ -94,8 +93,6 @@ namespace ConsoleUI_BL
                     Console.WriteLine(ex.Message == string.Empty ? ex : ex.Message);
                 }
             } while (option != Menu.Exit);
-
-
         }
         /// <summary>
         /// gets enum and prints his values
@@ -103,13 +100,14 @@ namespace ConsoleUI_BL
         /// <param name="en"> type of enum</param>
         static public void DisplayMenus(Type en)
         {
-            int idx = 0;
+            const int FIRST = 0;
+            int idx = FIRST;
             foreach (var item in Enum.GetValues(en))
             {
                 string tmp = item.ToString();
-                for (int i = 0; i < tmp.Length; i++)
+                for (int i = FIRST; i < tmp.Length; i++)
                 {
-                    if (char.IsUpper(tmp[i]) && i != 0)
+                    if (char.IsUpper(tmp[i]) && i != FIRST)
                         Console.Write(" {0}", tmp[i].ToString().ToLower());
                     else
                         Console.Write(tmp[i]);
