@@ -247,6 +247,7 @@ namespace IBL
                 };
                 droneToList.CurrentLocation = receiverLocation;
                 droneToList.DroneStatus = DroneStatuses.AVAILABLE;
+                droneToList.ParcelId = 0;
                 ParcelDeliveredDrone(parcel.Id);
             }
             catch (KeyNotFoundException ex)

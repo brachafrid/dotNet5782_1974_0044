@@ -100,20 +100,30 @@ namespace DalObject
             newParcel.Sceduled =default;
             newParcel.PickedUp = default;
             newParcel.Delivered = default;
+            newParcel.DorneId = 0;
             int state = Rnd.Next(0, 4);
             if (state!=0)
             {
                 newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);
                 if (newParcel.DorneId != 0)
                 {
-                    if(!Parcels.FirstOrDefault(parcel=>parcel.DorneId==newParcel.DorneId && parcel.Delivered==default).GetType().Equals(default))
+                    Parcel tmp = (Parcels.FirstOrDefault(parcel => parcel.DorneId == newParcel.DorneId && parcel.Delivered == default));
+                    if (tmp.DorneId==0)
                     {
                         newParcel.Sceduled = DateTime.Now;
-                        if (state == 2)
+                        if (state==2)
+                        {
                             newParcel.PickedUp = DateTime.Now;
+                        }
+                           
                     }
                     if (state == 3)
+                    {
+                        newParcel.Sceduled = DateTime.Now;
+                        newParcel.PickedUp = DateTime.Now;
                         newParcel.Delivered = DateTime.Now;
+                    }
+                        
                 }
 
             }

@@ -119,7 +119,7 @@ namespace IBL
             foreach (var drone in tmpDrones)
             {
                 bool canTakeParcel = true;
-                var parcel = parcels.FirstOrDefault(parcel => parcel.DorneId == drone.Id && !parcel.Delivered.Equals(default));
+                var parcel = parcels.FirstOrDefault(parcel => parcel.DorneId == drone.Id && parcel.Delivered==default);
                 double BatteryStatus;
                 double tmpBatteryStatus = default;
                 Location tmpLocaiton = default;
