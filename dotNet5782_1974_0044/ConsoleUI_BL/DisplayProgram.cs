@@ -13,8 +13,7 @@ namespace ConsoleUI_BL
         /// <param name="dalObject"></param>
         public static void SwitchDisplay(ref IBL.IBL bl)
         {
-            Display option;
-            if (!Enum.TryParse(Console.ReadLine(), out option))
+            if (!Enum.TryParse(Console.ReadLine(), out Display option))
             {
                 Console.WriteLine("The convertion faild  therefore the no option choose ");
                 option = Display.Parcel + 1;
@@ -61,8 +60,7 @@ namespace ConsoleUI_BL
         /// <param name="dalObject"></param>
         public static void SwitchDisplayList(ref IBL.IBL bl)
         {
-            DisplayList option;
-            if (!Enum.TryParse(Console.ReadLine(), out option))
+            if (!Enum.TryParse(Console.ReadLine(), out DisplayList option))
             {
                 Console.WriteLine("The convertion faild  therefore the no option choose ");
                 option = DisplayList.AvailableChargingSations + 1;

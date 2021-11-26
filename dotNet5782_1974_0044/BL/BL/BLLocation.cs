@@ -30,9 +30,6 @@ namespace IBL
             double c = 2 * Math.Atan2(Math.Sqrt(a), Math.Sqrt(1 - a));
             double d = R * c / 1000; // in kilometres
             return d;
-            //var sCoord = new GeoCoordinate(sLocation.Latitude, sLocation.Longitude);
-            //var tCoord = new GeoCoordinate(dLocation.Latitude, dLocation.Longitude);
-            //return sCoord.GetDistanceTo(tCoord)/1000; 
         }
     }
 }

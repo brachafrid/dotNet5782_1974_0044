@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace IBL
 {
-    public partial class BL:IblStations
+    public partial class BL:IBlStations
     {
         //-----------------------------------------------------------Adding------------------------------------------------------------------------
         /// <summary>
@@ -62,7 +62,7 @@ namespace IBL
         public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots()
         {
             IEnumerable<IDAL.DO.Station> list = dal.GetSationsWithEmptyChargeSlots();
-            List<StationToList> stations = new List<StationToList>();
+            List<StationToList> stations = new ();
             foreach (var item in list)
             {
                 stations.Add(MapStationToList(item));
@@ -77,7 +77,7 @@ namespace IBL
         public IEnumerable<StationToList> GetStations()
         {
             IEnumerable<IDAL.DO.Station> list = dal.GetStations();
-            List<StationToList> stations = new List<StationToList>();
+            List<StationToList> stations = new ();
             foreach (var item in list)
             {
                 stations.Add(MapStationToList(item));

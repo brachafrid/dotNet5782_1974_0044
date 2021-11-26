@@ -14,8 +14,7 @@ namespace ConsoleUI_BL
         /// <param name="dalObject"></param>
         public static void SwitchAdd(ref IBL.IBL bl)
         {
-            Add option;
-            if (!Enum.TryParse(Console.ReadLine(), out option))
+            if (!Enum.TryParse(Console.ReadLine(), out Add option))
             {
                 Console.WriteLine("The convertion faild  therefore the no option choose ");
                 option = Add.Parcel + 1;
@@ -27,9 +26,7 @@ namespace ConsoleUI_BL
                 case Add.Station:
                     {
                         Console.WriteLine("enter values to station properties:id,latitude,longitude,chargeSlots, name");
-                        double latitude, longitude;
-                        int chargeslots;
-                        if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out latitude) && double.TryParse(Console.ReadLine(), out longitude) && int.TryParse(Console.ReadLine(), out chargeslots))
+                        if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out double latitude) && double.TryParse(Console.ReadLine(), out double longitude) && int.TryParse(Console.ReadLine(), out int chargeslots))
                         {
                             if (latitude > 90 || latitude < -90)
                             {
@@ -60,9 +57,7 @@ namespace ConsoleUI_BL
                 case Add.Drone:
                     {
                         Console.WriteLine("enter values to drone properties:id,max wheight,station id,model");
-                        WeightCategories maxWeight;
-                        int stationId;
-                        if (int.TryParse(Console.ReadLine(), out id) && Enum.TryParse(Console.ReadLine(), out maxWeight) && int.TryParse(Console.ReadLine(), out stationId))
+                        if (int.TryParse(Console.ReadLine(), out id) && Enum.TryParse(Console.ReadLine(), out WeightCategories maxWeight) && int.TryParse(Console.ReadLine(), out int stationId))
                         {
                             if ((int)maxWeight > 2 || (int)maxWeight < 0)
                             {
@@ -79,9 +74,8 @@ namespace ConsoleUI_BL
                     }
                 case Add.Customer:
                     {
-                        double latitude, longitude;
                         Console.WriteLine("enter values to customer properties:id,latitude,longitude, name, phone");
-                        if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out latitude) && double.TryParse(Console.ReadLine(), out longitude))
+                        if (int.TryParse(Console.ReadLine(), out id) && double.TryParse(Console.ReadLine(), out double latitude) && double.TryParse(Console.ReadLine(), out double longitude))
                         {
                             Location location = new();
                             location.Longitude = longitude;
@@ -121,11 +115,8 @@ namespace ConsoleUI_BL
                 case Add.Parcel:
                     {
                         Console.WriteLine("enter values to parcel properties: sender id,target id,weigth,priority");
-                        int senderId, targetId;
-                        WeightCategories weigth;
-                        Priorities priority;
 
-                        if (int.TryParse(Console.ReadLine(), out senderId) && int.TryParse(Console.ReadLine(), out targetId) && Enum.TryParse(Console.ReadLine(), out weigth) && Enum.TryParse(Console.ReadLine(), out priority))
+                        if (int.TryParse(Console.ReadLine(), out int senderId) && int.TryParse(Console.ReadLine(), out int targetId) && Enum.TryParse(Console.ReadLine(), out WeightCategories weigth) && Enum.TryParse(Console.ReadLine(), out Priorities priority))
                         {
                             if ((int)weigth > 2 || (int)weigth < 0)
                             {

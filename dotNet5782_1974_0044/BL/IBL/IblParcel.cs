@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IBL
 {
-    public interface IblParcel
+    public interface IBlParcel
     {
         public void AddParcel(BO.Parcel parcel);
         public BO.Parcel GetParcel(int id);

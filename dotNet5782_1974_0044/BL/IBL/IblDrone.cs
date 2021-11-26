@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace IBL
 {
-    public interface IblDrone
+    public interface IBlDrone
     {
         public void AddDrone(BO.Drone drone, int stationId);
         public void UpdateDrone(int id, string model);

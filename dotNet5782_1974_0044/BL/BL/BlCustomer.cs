@@ -54,7 +54,7 @@ namespace IBL
         {
             if (name.Equals(default) && phone.Equals(default))
                 throw new ArgumentNullException("Update customer -BL-:There is not field to update");
-            IDAL.DO.Customer customer = default;
+            IDAL.DO.Customer customer ;
             try
             {
                 customer = dal.GetCustomer(id);
@@ -106,8 +106,8 @@ namespace IBL
                     Longitude = customer.Longitude,
                     Latitude = customer.Latitude
                 },
-                FromCustomer = getAllParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "sender")).ToList(),
-                ToCustomer = getAllParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "Recive")).ToList()
+                FromCustomer = GetAllParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "sender")).ToList(),
+                ToCustomer = GetAllParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "Recive")).ToList()
             };
         }
        

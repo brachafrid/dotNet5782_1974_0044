@@ -38,7 +38,7 @@ namespace IBL
         /// <returns>A list of parcels to print</returns>
         public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone()
         {
-            return dal.GetParcelsNotAssignedToDrone().Select(parcel => mapParcelToList(parcel)); ;
+            return dal.GetParcelsNotAssignedToDrone().Select(parcel => MapParcelToList(parcel)); ;
         }
 
         /// <summary>
@@ -47,7 +47,7 @@ namespace IBL
         /// <returns>A list of parcels to print</returns>
         public IEnumerable<ParcelToList> GetParcels()
         {
-            return dal.GetParcels().Select(parcel => mapParcelToList(parcel));
+            return dal.GetParcels().Select(parcel => MapParcelToList(parcel));
         }
         
 
@@ -55,7 +55,7 @@ namespace IBL
         /// Retrieves the list of parcels from the data and converts it to BL parcel 
         /// </summaryparfcel
         /// <returns>A list of parcels to print</returns>
-        private IEnumerable<Parcel> getAllParcels()
+        private IEnumerable<Parcel> GetAllParcels()
         {
             return dal.GetParcels().Select(Parcel => GetParcel(Parcel.Id));
         }
@@ -70,7 +70,7 @@ namespace IBL
         {
             try
             {
-                return mapParcel(dal.GetParcel(id));
+                return MapParcel(dal.GetParcel(id));
             }
             catch (KeyNotFoundException ex)
             {
@@ -137,13 +137,14 @@ namespace IBL
         /// <param name="parcelId">The parcel to update</param>
         private void ParcelDeliveredDrone(int parcelId)
         {
-            IDAL.DO.Parcel parcel = default;
+            IDAL.DO.Parcel parcel;
             try
             {
                parcel  = dal.GetParcel(parcelId);
                 dal.RemoveParcel(parcel);
                 parcel.Delivered = DateTime.Now;
-                
+                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id, parcel.DorneId, parcel.Requested, parcel.Sceduled, parcel.PickedUp, parcel.Delivered);
+
             }
             catch (KeyNotFoundException ex)
             {
@@ -153,10 +154,7 @@ namespace IBL
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message + "Parcel Delivered Drone -BL-");
             }
-            finally
-            {
-                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id, parcel.DorneId, parcel.Requested, parcel.Sceduled, parcel.PickedUp, parcel.Delivered);
-            }
+
         }
 
         //-----------------------------------------------Help function-----------------------------------------------------------------------------------
@@ -165,7 +163,7 @@ namespace IBL
         /// </summary>
         /// <param name="parcel">The parcel to convert</param>
         /// <returns>The converted parcel</returns>
-        private Parcel mapParcel(IDAL.DO.Parcel parcel)
+        private Parcel MapParcel(IDAL.DO.Parcel parcel)
         {
             var tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
             return new Parcel()
