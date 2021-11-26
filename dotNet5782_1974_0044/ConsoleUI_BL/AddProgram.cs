@@ -17,7 +17,7 @@ namespace ConsoleUI_BL
             if (!Enum.TryParse(Console.ReadLine(), out Add option))
             {
                 Console.WriteLine("The convertion faild  therefore the no option choose ");
-                option = Add.Parcel + 1;
+                option = (Add)Enum.GetValues(typeof(Add)).Length;
             }
                 
             int id;
@@ -59,7 +59,7 @@ namespace ConsoleUI_BL
                         Console.WriteLine("enter values to drone properties:id,max wheight,station id,model");
                         if (int.TryParse(Console.ReadLine(), out id) && Enum.TryParse(Console.ReadLine(), out WeightCategories maxWeight) && int.TryParse(Console.ReadLine(), out int stationId))
                         {
-                            if ((int)maxWeight > 2 || (int)maxWeight < 0)
+                            if ((int)maxWeight > Enum.GetValues(typeof(WeightCategories)).Length || (int)maxWeight < 0)
                             {
                                 Console.WriteLine("invalid max weight max weight range is 0-2");
                                 break;
@@ -123,7 +123,7 @@ namespace ConsoleUI_BL
                                 Console.WriteLine("invalid weight, weight range is 0-2");
                                 break;
                             }
-                            if ((int)priority > 2 || (int)priority < 0)
+                            if ((int)priority > Enum.GetValues(typeof(Priorities)).Length || (int)priority < 0)
                             {
                                 Console.WriteLine("invalid priority, priority range is 0-2");
                                 break;

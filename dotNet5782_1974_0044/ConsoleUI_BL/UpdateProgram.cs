@@ -15,7 +15,7 @@ namespace ConsoleUI_BL
             if (!Enum.TryParse(Console.ReadLine(), out Update option))
             {
                 Console.WriteLine("The convertion faild  therefore the no option choose ");
-                option = Update.SupplyParcelToDestination + 1;
+                option = (Update)Enum.GetValues(typeof(Update)).Length; ;
             }
 
             int id;
@@ -80,7 +80,7 @@ namespace ConsoleUI_BL
                     }
                 case Update.RealsDroneFromChargh:
                     {
-                        Console.WriteLine("enter an id of drone and time of charge");
+                        Console.WriteLine("enter an id of drone and time of charge in minute");
                         if (int.TryParse(Console.ReadLine(), out id) && float.TryParse(Console.ReadLine(), out float timeOfCharge))
                             bl.ReleaseDroneFromCharging(id, timeOfCharge);
                         break;

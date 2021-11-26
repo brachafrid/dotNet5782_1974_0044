@@ -39,7 +39,7 @@ namespace  DalObject
         {
             Station station = DataSorce.Stations.FirstOrDefault(item => item.Id == id);
             if (station.Equals(default(Station)))
-                throw new KeyNotFoundException(" There is no suitable customer in data");
+                throw new KeyNotFoundException("There is no suitable customer in data");
             return station;
         }
 
