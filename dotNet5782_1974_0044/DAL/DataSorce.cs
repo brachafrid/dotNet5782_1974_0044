@@ -54,7 +54,7 @@ namespace DalObject
         public static int AssignParcelDrone(WeightCategories weight)
         {
             Drone tmpDrone = Drones.FirstOrDefault(item => (weight <= item.MaxWeight));
-            if (!(tmpDrone.Equals(default)))
+            if (!tmpDrone.Equals(default(Drone)))
             {
                 return tmpDrone.Id;
             }

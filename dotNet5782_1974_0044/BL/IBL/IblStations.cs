@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using IBL.BO;
 namespace IBL
 {
-    public interface IblStations
+    public interface IBlStations
     {
         public void AddStation(BO.Station station);
         public void UpdateStation(int id, string name, int chargeSlots);

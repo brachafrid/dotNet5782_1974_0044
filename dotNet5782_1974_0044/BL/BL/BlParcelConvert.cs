@@ -13,7 +13,7 @@ namespace IBL
         /// <returns>The converted parcel</returns>
         private ParcelAtCustomer ParcelToParcelAtCustomer(Parcel parcel, string type)
         {
-            ParcelAtCustomer newParcel = new ParcelAtCustomer
+            ParcelAtCustomer newParcel = new()
             {
                 Id = parcel.Id,
                 WeightCategory = parcel.Weight,
@@ -72,7 +72,7 @@ namespace IBL
         /// </summary>
         /// <param name="parcel">The parcel to convert</param>
         /// <returns>The converted parcel</returns>
-        private ParcelToList mapParcelToList(IDAL.DO.Parcel parcel)
+        private ParcelToList MapParcelToList(IDAL.DO.Parcel parcel)
         {
             PackageModes PackageMode;
             if (parcel.Delivered!=default)
@@ -99,15 +99,14 @@ namespace IBL
         /// </summary>
         /// <param name="aviableDrone"></param>
         /// <returns>A dictionary of converted parcels and distance</returns>
-        private Dictionary<ParcelToList, double> creatParcelDictionaryToAssign(DroneToList aviableDrone)
+        private Dictionary<ParcelToList, double> CreatParcelDictionaryToAssign(DroneToList aviableDrone)
         {
-            double minDistance;
             Dictionary<ParcelToList, double> parcels = new();
             foreach (var item in dal.GetParcels())
             {
-                if (item.DorneId == 0 && (WeightCategories)item.Weigth <= aviableDrone.Weight && calculateElectricity(aviableDrone.CurrentLocation,aviableDrone.BatteryStatus, mapParcelToList(item).CustomerSender.Location, mapParcelToList(item).CustomerReceives.Location, (WeightCategories)item.Weigth, out minDistance) <= aviableDrone.BatteryStatus)
+                if (item.DorneId == 0 && (WeightCategories)item.Weigth <= aviableDrone.Weight && CalculateElectricity(aviableDrone.CurrentLocation,aviableDrone.BatteryStatus, MapParcelToList(item).CustomerSender.Location, MapParcelToList(item).CustomerReceives.Location, (WeightCategories)item.Weigth, out double minDistance) <= aviableDrone.BatteryStatus)
                 {
-                    parcels.Add(mapParcelToList(item), minDistance);
+                    parcels.Add(MapParcelToList(item), minDistance);
                 }
             }
             return parcels;

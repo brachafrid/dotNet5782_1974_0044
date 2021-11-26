@@ -13,7 +13,7 @@ namespace IBL
         /// <param name="weight">The weight of the parcels</param>
         /// <param name="distance">The distance the drone traveling</param>
         /// <returns></returns>
-        private double calculateElectricity(Location aviableDroneLocation,double? batteryStatus, Location CustomerSender, Location CustomerReceives, WeightCategories weight, out double distance)
+        private double CalculateElectricity(Location aviableDroneLocation,double? batteryStatus, Location CustomerSender, Location CustomerReceives, WeightCategories weight, out double distance)
         {
             double electricity;
             double e= weight switch
@@ -25,7 +25,7 @@ namespace IBL
             IDAL.DO.Station station;
             electricity = Distance(aviableDroneLocation, CustomerSender) * available +
                         Distance(CustomerSender, CustomerReceives) * e;
-            station =batteryStatus!=null? ClosetStationPossible(dal.GetStations(), aviableDroneLocation,(double)batteryStatus-electricity, out distance):ClosetStation(dal.GetStations(),aviableDroneLocation);
+            station =batteryStatus!=null? ClosetStationPossible(dal.GetStations(), aviableDroneLocation,(double)batteryStatus-electricity, out _ ):ClosetStation(dal.GetStations(),aviableDroneLocation);
             electricity += Distance(CustomerReceives,
                          new Location() { Latitude = station.Latitude, Longitude = station.Longitude }) * available;
             distance = Distance(aviableDroneLocation, CustomerSender) +

@@ -12,8 +12,7 @@ namespace ConsoleUI_BL
         /// <param name="dalObject"></param>
         public static void SwitchUpdate(ref IBL.IBL bl)
         {
-            Update option;
-            if (!Enum.TryParse(Console.ReadLine(), out option))
+            if (!Enum.TryParse(Console.ReadLine(), out Update option))
             {
                 Console.WriteLine("The convertion faild  therefore the no option choose ");
                 option = Update.SupplyParcelToDestination + 1;
@@ -36,13 +35,12 @@ namespace ConsoleUI_BL
                     }
                 case Update.StationDetails:
                     {
-                        int chargeSlots;
                         Console.WriteLine("enter an id of station");
                         if (int.TryParse(Console.ReadLine(), out id))
                         {
                             Console.WriteLine("if you only want update one details press enter instead enter an input");
                             Console.WriteLine("the new  number of chrge slots ");
-                            if (!int.TryParse(Console.ReadLine(), out chargeSlots) || chargeSlots == default)
+                            if (!int.TryParse(Console.ReadLine(), out int chargeSlots) || chargeSlots == default)
                                 chargeSlots = 0;
                             if (chargeSlots < 0)
                             {
@@ -82,9 +80,8 @@ namespace ConsoleUI_BL
                     }
                 case Update.RealsDroneFromChargh:
                     {
-                        float timeOfCharge;
                         Console.WriteLine("enter an id of drone and time of charge");
-                        if (int.TryParse(Console.ReadLine(), out id) && float.TryParse(Console.ReadLine(), out timeOfCharge))
+                        if (int.TryParse(Console.ReadLine(), out id) && float.TryParse(Console.ReadLine(), out float timeOfCharge))
                             bl.ReleaseDroneFromCharging(id, timeOfCharge);
                         break;
                     }

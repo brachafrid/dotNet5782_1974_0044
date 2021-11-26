@@ -17,7 +17,7 @@ namespace IBL
                     if (value >= 0 && value <= 90)
                         longitude = value;
                     else
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException("invalid longitude");
                 }
             }
             public double Latitude
@@ -28,7 +28,7 @@ namespace IBL
                     if (value > -90 && value <= 90)
                         latitude = value;
                     else
-                        throw new ArgumentOutOfRangeException();
+                        throw new ArgumentOutOfRangeException("invalid latitude");
                 }
             }
             public override string ToString()

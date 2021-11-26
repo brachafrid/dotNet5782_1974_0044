@@ -161,7 +161,7 @@ namespace IBL
             Location targetLocation = new() { Latitude = customerReciver.Latitude, Longitude = customerReciver.Longitude };
             // find drone's location 
             var location = FindLocationDroneWithParcel(parcel);
-            double electrity = calculateElectricity(location,null,senderLocation ,targetLocation, (BO.WeightCategories)parcel.Weigth, out _); 
+            double electrity = CalculateElectricity(location,null,senderLocation ,targetLocation, (BO.WeightCategories)parcel.Weigth, out _); 
             // if the drone need more electricity 
             if (electrity > 100)
             {

@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace IBL
 {
-    public interface IblParcel
+    public interface IBlParcel
     {
         public void AddParcel(BO.Parcel parcel);
         public BO.Parcel GetParcel(int id);

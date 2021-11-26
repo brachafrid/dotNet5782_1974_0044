@@ -156,7 +156,7 @@ namespace IBL
                 throw new ArgumentNullException("Assing Parcel To Drone -BL-: There is no a drone with the same id in data");
             if (aviableDrone.DroneStatus != DroneStatuses.AVAILABLE)
                 throw new InvalidEnumArgumentException("Assing Parcel To Drone -BL-: The drone is not aviable so it is not possible to assign it a parcel");
-            Dictionary<ParcelToList, double> parcels = creatParcelDictionaryToAssign(aviableDrone);
+            Dictionary<ParcelToList, double> parcels = CreatParcelDictionaryToAssign(aviableDrone);
             try
             {
                 ParcelToList parcel = TreatInPiority(parcels);
