@@ -10,16 +10,18 @@ namespace DalObject
     {
         static readonly Random Rnd = new ();
 
-        public const int DRONE_INIT = 5;
-        public const int Sations_INIT = 2;
-        public const int CUSTOMERS_INIT = 10;
-        public const int Parcels_INIT = 10;
-        public const int RANGE_ENUM = 3;
-        public const int PHONE_MIN = 100000000;
-        public const int PHONE_MAX = 1000000000;
-        public const int LATITUDE_MAX = 90; 
-        public const int LATITUDE_MIN = -90; 
-        public const int LONGITUDE_MAX = 90;
+        private const int DRONE_INIT = 5;
+        private const int STATIONS_INIT = 2;
+        private const int CUSTOMERS_INIT = 10;
+        private const int PARCELS_INIT = 10;
+        private const int RANGE_ENUM = 3;
+        private const int PHONE_MIN = 100000000;
+        private const int PHONE_MAX = 1000000000;
+        private const int LATITUDE_MAX = 90;
+        private const int LATITUDE_MIN = -90;
+        private const int LONGITUDE_MAX = 90;
+        private const int CHARGE_SLOTS_MAX = 100;
+        private const int PARCELS_STATE = 4;
 
 
         internal static List<Drone> Drones = new();
@@ -44,11 +46,11 @@ namespace DalObject
         {
             for (int i = 1; i <= DRONE_INIT; ++i)
                 RandomDrone(dal, i);
-            for (int i = 1; i <= Sations_INIT; ++i)
+            for (int i = 1; i <= STATIONS_INIT; ++i)
                 RandomStation(dal, i);
             for (int i = 1; i <= CUSTOMERS_INIT; ++i)
                 RandomCustomer(dal, i);
-            for (int i = 1; i <= Parcels_INIT; ++i)
+            for (int i = 1; i <= PARCELS_INIT; ++i)
                 RandParcel(i);
         }
         public static int AssignParcelDrone(WeightCategories weight)
@@ -72,7 +74,7 @@ namespace DalObject
             string name = $"station_{'a' + id}";
             double latitude = Rnd.Next(LATITUDE_MIN,LATITUDE_MAX) + Rnd.NextDouble();
             double longitude = Rnd.Next(LONGITUDE_MAX) + Rnd.NextDouble();
-            int chargeSlots = Rnd.Next(100) + 1;
+            int chargeSlots = Rnd.Next(1,CHARGE_SLOTS_MAX);
             dal.AddStation(id, name, longitude, latitude, chargeSlots);
         }
         private static void RandomCustomer(DalObject dal, int id)
@@ -99,7 +101,7 @@ namespace DalObject
             newParcel.PickedUp = default;
             newParcel.Delivered = default;
             newParcel.DorneId = 0;
-            int state = Rnd.Next(0, 4);
+            int state = Rnd.Next(PARCELS_STATE);
             if (state!=0)
             {
                 newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);

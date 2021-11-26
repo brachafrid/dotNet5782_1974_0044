@@ -17,7 +17,7 @@ namespace ConsoleUI_BL
             if (!Enum.TryParse(Console.ReadLine(), out Display option))
             {
                 Console.WriteLine("The convertion faild  therefore the no option choose ");
-                option = Display.Parcel + 1;
+                option = (Display)Enum.GetValues(typeof(Display)).Length; ;
             }
             int id;
             switch (option)
@@ -64,7 +64,7 @@ namespace ConsoleUI_BL
             if (!Enum.TryParse(Console.ReadLine(), out DisplayList option))
             {
                 Console.WriteLine("The convertion faild  therefore the no option choose ");
-                option = DisplayList.AvailableChargingSations + 1;
+                option = (DisplayList)Enum.GetValues(typeof(DisplayList)).Length;
             }
             switch (option)
             {

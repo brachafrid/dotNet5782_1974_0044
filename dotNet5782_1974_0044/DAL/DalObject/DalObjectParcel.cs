@@ -19,9 +19,9 @@ namespace DalObject
         public void AddParcel(int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority, int id = 0, int droneId = 0, DateTime requested = default, DateTime sceduled = default, DateTime pickedUp = default, DateTime delivered = default)
         {
             if (!ExistsIDTaxCheck(GetCustomers(), SenderId))
-                throw new KeyNotFoundException("Add parcel -DAL-:Sender not exist");
+                throw new KeyNotFoundException("Sender not exist");
             if (!ExistsIDTaxCheck(GetCustomers(), TargetId))
-                throw new KeyNotFoundException("Add parcel -DAL-:Target not exist");
+                throw new KeyNotFoundException("Target not exist");
             Parcel newParcel = new();
             newParcel.Id = id==0?++DataSorce.Config.IdParcel:id;
             newParcel.SenderId = SenderId;

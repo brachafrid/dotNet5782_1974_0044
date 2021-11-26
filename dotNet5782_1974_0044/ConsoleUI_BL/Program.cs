@@ -25,13 +25,12 @@ namespace ConsoleUI_BL
                 if (!Enum.TryParse(Console.ReadLine(), out option))
                 {
                     Console.WriteLine("The conversion failed  therefore the no option choose");
-                    option =Menu.Exit+1;
+                    option = (Menu)Enum.GetValues(typeof(Menu)).Length;
                 }
                     
                 try
                 {
                     switch (option)
-
                     {
                         case Menu.Add:
                             {
