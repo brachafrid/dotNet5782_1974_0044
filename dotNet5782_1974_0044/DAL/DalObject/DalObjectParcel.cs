@@ -16,20 +16,20 @@ namespace DalObject
         /// <param name="TargetId"> Id of target</param>
         /// <param name="Weigth"> The weigth of parcel (light- 0,medium - 1,heavy - 2)</param>
         /// <param name="Priority"> The priority of send the parcel (regular - 0,fast - 1,emergency - 2)</param>
-        public void AddParcel(int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority, int id = 0, int droneId = 0, DateTime requested = default, DateTime sceduled = default, DateTime pickedUp = default, DateTime delivered = default)
+        public void AddParcel(int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority, int id = 0, int droneId = 0, DateTime? requested = default, DateTime? sceduled = default, DateTime? pickedUp = default, DateTime? delivered = default)
         {
             if (!ExistsIDTaxCheck(GetCustomers(), SenderId))
                 throw new KeyNotFoundException("Sender not exist");
             if (!ExistsIDTaxCheck(GetCustomers(), TargetId))
                 throw new KeyNotFoundException("Target not exist");
             Parcel newParcel = new();
-            newParcel.Id = id==0?++DataSorce.Config.IdParcel:id;
+            newParcel.Id = id == 0 ? ++DataSorce.Config.IdParcel : id;
             newParcel.SenderId = SenderId;
             newParcel.TargetId = TargetId;
             newParcel.Weigth = Weigth;
             newParcel.Priority = Priority;
-            newParcel.Requested =requested==default? DateTime.Now:requested;
-            newParcel.Sceduled =sceduled;
+            newParcel.Requested = requested == null ? DateTime.Now : requested;
+            newParcel.Sceduled = sceduled;
             newParcel.PickedUp = pickedUp;
             newParcel.Delivered = delivered;
             newParcel.DorneId = droneId;
@@ -44,7 +44,7 @@ namespace DalObject
         /// <returns>A parcel for display</returns>
         public Parcel GetParcel(int id)
         {
-           Parcel parcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == id);
+            Parcel parcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == id);
             if (parcel.Equals(default(Parcel)))
                 throw new KeyNotFoundException("There is not suitable parcel in data");
             return parcel;

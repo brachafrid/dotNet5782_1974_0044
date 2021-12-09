@@ -18,7 +18,7 @@ namespace IBL
                 Id = parcel.Id,
                 WeightCategory = parcel.Weight,
                 Priority = parcel.Priority,
-                State = parcel.AssignmentTime == default ? PackageModes.DEFINED : parcel.CollectionTime == default ? PackageModes.ASSOCIATED : parcel.DeliveryTime == default ? PackageModes.COLLECTED : PackageModes.PROVIDED
+                State = parcel.AssignmentTime == null ? PackageModes.DEFINED : parcel.CollectionTime == null ? PackageModes.ASSOCIATED : parcel.DeliveryTime == null ? PackageModes.COLLECTED : PackageModes.PROVIDED
             };
 
 
@@ -58,7 +58,7 @@ namespace IBL
                 Id = id,
                 WeightCategory = (BO.WeightCategories)parcel.Weigth,
                 Priority = (BO.Priorities)parcel.Priority,
-                ParcelState = parcel.PickedUp!=default,
+                ParcelState = parcel.PickedUp!=null,
                 CollectionPoint = new BO.Location() { Longitude = sender.Longitude, Latitude = sender.Latitude },
                 DeliveryDestination = new BO.Location() { Longitude = target.Longitude, Latitude = target.Latitude },
                 TransportDistance = Distance(new Location() { Longitude = sender.Longitude, Latitude = sender.Latitude }, new Location() { Longitude = sender.Longitude, Latitude = sender.Latitude }),
@@ -75,11 +75,11 @@ namespace IBL
         private ParcelToList MapParcelToList(IDAL.DO.Parcel parcel)
         {
             PackageModes PackageMode;
-            if (parcel.Delivered!=default)
+            if (parcel.Delivered!=null)
                 PackageMode = PackageModes.PROVIDED;
-            else if (parcel.PickedUp != default)
+            else if (parcel.PickedUp != null)
                 PackageMode = PackageModes.COLLECTED;
-            else if (parcel.Sceduled != default)
+            else if (parcel.Sceduled != null)
                 PackageMode = PackageModes.ASSOCIATED;
             else
                 PackageMode = PackageModes.DEFINED;

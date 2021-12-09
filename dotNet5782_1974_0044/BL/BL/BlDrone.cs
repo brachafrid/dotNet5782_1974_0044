@@ -200,7 +200,7 @@ namespace IBL
             try
             {
                  parcel= dal.GetParcel((int)droneToList.ParcelId);
-                if (parcel.PickedUp!=default)
+                if (parcel.PickedUp!= null)
                     throw new ArgumentNullException("The package has already been collected");
                 IDAL.DO.Customer customer = dal.GetCustomer(parcel.SenderId);
                 Location senderLocation = new() { Longitude = customer.Longitude, Latitude = customer.Latitude };
@@ -236,7 +236,7 @@ namespace IBL
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
             IDAL.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
-            if (parcel.Delivered!=default)
+            if (parcel.Delivered!=null)
                 throw new ArgumentNullException("The package has already been deliverd");
             drones.Remove(droneToList);
             try

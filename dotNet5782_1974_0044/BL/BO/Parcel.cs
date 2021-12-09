@@ -16,10 +16,10 @@ namespace IBL
             public WeightCategories Weight { get; set; }
             public Priorities Priority { get; set; }
             public DroneWithParcel Drone { get; set; }
-            public DateTime CreationTime { get; set; }
-            public DateTime? AssignmentTime { get; set; }
-            public DateTime? CollectionTime { get; set; }
-            public DateTime? DeliveryTime { get; set; }
+            public DateTime?  CreationTime { get; set; }
+            public DateTime?  AssignmentTime { get; set; }
+            public DateTime?  CollectionTime { get; set; }
+            public DateTime?  DeliveryTime { get; set; }
             public override string ToString()
             {
                 return this.ToStringProperties();

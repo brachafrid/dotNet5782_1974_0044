@@ -49,7 +49,7 @@ namespace IBL
             foreach (var drone in tmpDrones)
             {
                 bool canTakeParcel = true;
-                var parcel = parcels.FirstOrDefault(parcel => parcel.DorneId == drone.Id && parcel.Delivered==default);
+                var parcel = parcels.FirstOrDefault(parcel => parcel.DorneId == drone.Id && parcel.Delivered==null);
                 double BatteryStatus;
                 double tmpBatteryStatus = default;
                 Location tmpLocaiton = default;
@@ -83,7 +83,7 @@ namespace IBL
                     ),
                     DroneState.MAINTENANCE => (locationOfStation[rand.Next(0, locationOfStation.Count)],
                     rand.NextDouble() + rand.Next(MININITBATTARY, MAXINITBATTARY)),
-                    DroneState.DELIVERY => (FindLocationDroneWithParcel( parcel), tmpBatteryStatus)
+                    DroneState.DELIVERY => (FindLocationDroneWithParcel( parcel), tmpBatteryStatus),
                 }; 
                 // add the new drone to drones list
                 drones.Add(new DroneToList()
@@ -141,7 +141,7 @@ namespace IBL
             //get sender location
             Location locaiton = GetCustomer(parcel.SenderId).Location;
             // if the drone hasn't picked up the parcel
-            if (parcel.Delivered == default && parcel.PickedUp != default)
+            if (parcel.Delivered == null && parcel.PickedUp != null)
                 return locaiton;
             var station = ClosetStation(dal.GetStations(), locaiton);
             return new()
@@ -183,6 +183,7 @@ namespace IBL
         /// <returns> min electricity</returns>
         private double MinBatteryForAvailAble(Location location)
         {
+            
             var station = ClosetStation(dal.GetStations(), location);
             double electricity = Distance(location, new() { Latitude = station.Latitude, Longitude = station.Longitude }) * available;
             return electricity > FULLBATTRY ? MININITBATTARY : electricity;
