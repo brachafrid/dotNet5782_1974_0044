@@ -19,11 +19,11 @@ namespace IDAL
         public IEnumerable<Drone> GetDrones();
         public IEnumerable<Parcel> GetParcels();
         public IEnumerable<Customer> GetCustomers();
-        public IEnumerable<Parcel> GetParcelsNotAssignedToDrone();
-        public IEnumerable<Station> GetSationsWithEmptyChargeSlots();
+        public IEnumerable<Parcel> GetParcelsNotAssignedToDrone(Predicate<int> notAssign);
+        public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty);
         public void RemoveStation(Station station);
         public int CountFullChargeSlots(int id);
-        public List<int> GetDronechargingInStation(int id);
+        public List<int> GetDronechargingInStation(Predicate<int> inTheStation);
         public void RemoveDrone(Drone drone);
         public void AddDRoneCharge(int droneId, int stationId);
         public void RemoveDroneCharge(int droneId);

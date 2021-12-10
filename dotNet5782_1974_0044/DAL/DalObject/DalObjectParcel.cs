@@ -59,8 +59,9 @@ namespace DalObject
         /// <summary>
         /// Find the Parcels that not assign to drone
         /// </summary>
+        /// <param name="notAssign">The predicate to screen out if the parcel not assign to drone</param>
         /// <returns>A list of the requested Parcels</returns>
-        public IEnumerable<Parcel> GetParcelsNotAssignedToDrone() => DataSorce.Parcels.FindAll(item => item.DorneId == 0);
+        public IEnumerable<Parcel> GetParcelsNotAssignedToDrone(Predicate<int> notAssign) => DataSorce.Parcels.FindAll(item =>notAssign(item.DorneId));
         //-------------------------------------------------Removing-------------------------------------------------------------
         /// <summary>
         /// Removing a Parcel from the list

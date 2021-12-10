@@ -278,7 +278,7 @@ namespace IBL
         public IEnumerable<DroneToList> GetDrones() => drones;
         private List<DroneInCharging> CreatListDroneInCharging(int id)
         {
-            List<int> list = dal.GetDronechargingInStation(id);
+            List<int> list = dal.GetDronechargingInStation((int stationIdOfDrone)=> stationIdOfDrone == id);
             if (list.Count == 0)
                 return new();
             List<DroneInCharging> droneInChargings = new();

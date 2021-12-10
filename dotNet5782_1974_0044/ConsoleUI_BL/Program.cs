@@ -92,6 +92,7 @@ namespace ConsoleUI_BL
                     Console.WriteLine(ex.Message == string.Empty ? ex : ex.Message);
                 }
             } while (option != Menu.Exit);
+
         }
         /// <summary>
         /// gets enum and prints his values
