@@ -1,6 +1,9 @@
 ﻿
 using System.Collections.Generic;
+using System;
+using System.Linq;
 using IDAL.DO;
+
 
 namespace DalObject
 {
@@ -21,20 +24,15 @@ namespace DalObject
             }
             return count;
         }
+
         /// <summary>
         /// Finds all the drones that are charged at a particular station
         /// </summary>
-        /// <param name="id">The id of particular station</param>
+        ///<param name="inTheStation">The predicate to screen out if the station id of the drone equal to a spesific station id </param>
         /// <returns>A list of DroneCarge</returns>
-        public List<int> GetDronechargingInStation(int id)
+        public List<int> GetDronechargingInStation(Predicate<int> inTheStation)
         {
-            List<int> list = new ();
-            foreach (var item in DataSorce.DroneCharges)
-            {
-                if (item.Stationld == id)
-                    list.Add(item.Droneld);
-            }
-            return list;
+            return DataSorce.DroneCharges.FindAll(item => inTheStation(item.Stationld)).Select(item=>item.Droneld).ToList();
         }
         /// <summary>
         /// Gets parameters and create new DroneCharge 

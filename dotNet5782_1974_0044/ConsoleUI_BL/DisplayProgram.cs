@@ -81,10 +81,10 @@ namespace ConsoleUI_BL
                     PrintList(bl.GetParcels());
                     break;
                 case DisplayList.AvailableChargingSations:
-                    PrintList(bl.GetStaionsWithEmptyChargeSlots());
+                    PrintList(bl.GetStaionsWithEmptyChargeSlots((int emptyChargeSlots) => emptyChargeSlots > 0));
                     break;
                 case DisplayList.ParcelNotAssignToDrone:
-                    PrintList(bl.GetParcelsNotAssignedToDrone());
+                    PrintList(bl.GetParcelsNotAssignedToDrone((int droneId) => droneId == 0));
                     break;
                 default:
                     break;

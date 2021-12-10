@@ -58,10 +58,11 @@ namespace IBL
         /// <summary>
         /// Retrieves the list of stations with empty charge slots  from the data and converts it to station to list
         /// </summary>
+        /// <param name="exsitEmpty">the predicate to screen out if the station have empty charge slots</param>
         /// <returns>A list of statin to print</returns>
-        public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots()
+        public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
-            IEnumerable<IDAL.DO.Station> list = dal.GetSationsWithEmptyChargeSlots();
+            IEnumerable<IDAL.DO.Station> list = dal.GetSationsWithEmptyChargeSlots(exsitEmpty);
             List<StationToList> stations = new ();
             foreach (var item in list)
             {

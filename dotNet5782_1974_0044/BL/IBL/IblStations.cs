@@ -1,6 +1,6 @@
 ﻿
 using System.Collections.Generic;
-
+using System;
 using IBL.BO;
 namespace IBL
 {
@@ -10,6 +10,6 @@ namespace IBL
         public void UpdateStation(int id, string name, int chargeSlots);
         public Station GetStation(int id);
         public IEnumerable<StationToList> GetStations();
-        public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots();
+        public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots(Predicate<int> exsitEmpty);
     }
 }

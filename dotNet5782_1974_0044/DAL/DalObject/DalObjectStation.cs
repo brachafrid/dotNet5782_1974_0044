@@ -1,6 +1,7 @@
 ﻿
 using System.Collections.Generic;
 using System.Linq;
+using System;
 using IDAL.DO;
 
 namespace  DalObject
@@ -52,13 +53,9 @@ namespace  DalObject
         /// <summary>
         /// Find the satation that have empty charging slots
         /// </summary>
-        /// <returns>A list of the requested station</returns>
-        /// /// <summary>
-        /// Checks which base Sations are available for charging
-        /// </summary>
-        /// <returns>A list of avaiable satations</returns>
-        private List<Station> GetAvailbleStations() => (DataSorce.Stations.FindAll(item => item.ChargeSlots > CountFullChargeSlots(item.Id)));
-        public IEnumerable<Station> GetSationsWithEmptyChargeSlots() => GetAvailbleStations().ToList();
+        /// <param name="exsitEmpty">The predicate to screen out if the station have empty charge slots</param>
+        /// <returns>A collection of the requested station</returns>
+        public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty) => DataSorce.Stations.FindAll(item => exsitEmpty( item.ChargeSlots - CountFullChargeSlots(item.Id)));
 
         //-------------------------------------------------Removing-------------------------------------------------------------
         /// <summary>

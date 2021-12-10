@@ -36,9 +36,9 @@ namespace IBL
         /// Retrieves the list of parcels that not assigned to drone from the data and converts it to parcel to list
         /// </summary>
         /// <returns>A list of parcels to print</returns>
-        public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone()
+        public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone(Predicate<int> notAssign)
         {
-            return dal.GetParcelsNotAssignedToDrone().Select(parcel => MapParcelToList(parcel)); ;
+            return dal.GetParcelsNotAssignedToDrone(notAssign).Select(parcel => MapParcelToList(parcel)); ;
         }
 
         /// <summary>

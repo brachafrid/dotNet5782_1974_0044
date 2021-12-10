@@ -46,7 +46,7 @@ namespace IBL
             var parcels = dal.GetParcels();
             // create list of stations' location
             var locationOfStation = dal.GetStations().Select(Station => new Location() { Latitude = Station.Latitude, Longitude = Station.Longitude }).ToList();
-            var customersGotParcelLocation = GetLocationsCustomersGotParcels();
+            var customersGotParcelLocation = GetLocationsCustomersGotParcels((int recivedparcels)=>recivedparcels>0);
             foreach (var drone in tmpDrones)
             {
                 bool canTakeParcel = true;
@@ -120,10 +120,11 @@ namespace IBL
         /// <summary>
         /// creates list of locations of all the customers that recived at least one parcel
         /// </summary>
+        /// <param name="exsitParcelRecived">The predicate to screen out if the customer have recived parcels</param>
         /// <returns>list of locations</returns>
-        private List<Location> GetLocationsCustomersGotParcels()
+        private List<Location> GetLocationsCustomersGotParcels(Predicate<int> exsitParcelRecived)
         {
-            return GetCustomers().Where(customer => customer.NumParcelReceived > 0)
+            return GetCustomers().Where(customer => exsitParcelRecived(customer.NumParcelReceived))
                      .Select(Customer => new Location()
                      {
                          Latitude = dal.GetCustomer(Customer.Id).Latitude,
