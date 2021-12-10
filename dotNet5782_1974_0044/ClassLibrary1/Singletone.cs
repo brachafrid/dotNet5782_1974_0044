@@ -25,7 +25,7 @@ namespace Utilities
                         {
                             Type t = typeof(T);
                             if (t == null || !t.IsSealed)
-                                throw new SingletoneExpection(string.Format("'{0}' must be asealed class", t.Name));
+                                throw new SingletoneExpection(string.Format("'{0}' must be a sealed class", t.Name));
                             ConstructorInfo constr = null;
                             try
                             {
@@ -44,7 +44,5 @@ namespace Utilities
                 return Nested._instance;
             }
         }
-
-        public static object ConstructorInfo { get; private set; }
     }
 }

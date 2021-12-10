@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using IBL.BO;
 using System.ComponentModel;
+using Utilities;
 
 
 
@@ -17,7 +18,7 @@ namespace ConsoleUI_BL
 
         static void Main()
         {
-            IBL.IBL bal = new IBL.BL();
+            IBL.IBL bal = Singletone<IBL.BL>.Instance;
             Menu option;
             do
             {
