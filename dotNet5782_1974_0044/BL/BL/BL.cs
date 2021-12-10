@@ -2,15 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using IBL.BO;
+using Utilities;
 
 
 namespace IBL
 {
-    public partial class BL : IBL
+    public sealed partial class BL : Singletone<BL>, IBL
     {
         private const int DRONESTATUSESLENGTH = 2;
-        public  const int MAXINITBATTARY = 20;
-        public  const int MININITBATTARY = 0;
+        public const int MAXINITBATTARY = 20;
+        public const int MININITBATTARY = 0;
         public const int FULLBATTRY = 100;
         private static readonly Random rand = new();
         private readonly List<DroneToList> drones;
@@ -20,9 +21,9 @@ namespace IBL
         private readonly double mediumWeightBearing;
         private readonly double carriesHeavyWeight;
         private readonly double droneLoadingRate;
-        public BL()
+        BL()
         {
-            dal = new DalObject.DalObject();
+            dal = Singletone<DalObject.DalObject>.Instance;
             // set electricty variablses
             drones = new List<DroneToList>();
             (
@@ -35,7 +36,7 @@ namespace IBL
             // set the drones
             Initialize();
         }
-        
+
         /// <summary>
         /// init drones list
         /// </summary>
@@ -49,7 +50,7 @@ namespace IBL
             foreach (var drone in tmpDrones)
             {
                 bool canTakeParcel = true;
-                var parcel = parcels.FirstOrDefault(parcel => parcel.DorneId == drone.Id && parcel.Delivered==null);
+                var parcel = parcels.FirstOrDefault(parcel => parcel.DorneId == drone.Id && parcel.Delivered == null);
                 double BatteryStatus;
                 double tmpBatteryStatus = default;
                 Location tmpLocaiton = default;
@@ -57,16 +58,16 @@ namespace IBL
                 DroneState state = default;
                 //set status
                 // if the drone makes delivery
-                if (parcel.DorneId != 0 )
+                if (parcel.DorneId != 0)
                 {
                     state = DroneState.DELIVERY;
-                    tmpBatteryStatus = MinBattary(parcel,ref canTakeParcel);
+                    tmpBatteryStatus = MinBattary(parcel, ref canTakeParcel);
                     if (!canTakeParcel)
                     {
                         state = default;
                         parcel.DorneId = 0;
                     }
-                        
+
                 }
                 else if (state == default)
                 {
@@ -79,12 +80,12 @@ namespace IBL
                 // set location and battery
                 (Location, BatteryStatus) = state switch
                 {
-                    DroneState.AVAILABLE => (tmpLocaiton = customersGotParcelLocation[rand.Next(0, customersGotParcelLocation.Count)], rand.Next((int)MinBatteryForAvailAble(tmpLocaiton) +1, FULLBATTRY)
+                    DroneState.AVAILABLE => (tmpLocaiton = customersGotParcelLocation[rand.Next(0, customersGotParcelLocation.Count)], rand.Next((int)MinBatteryForAvailAble(tmpLocaiton) + 1, FULLBATTRY)
                     ),
                     DroneState.MAINTENANCE => (locationOfStation[rand.Next(0, locationOfStation.Count)],
                     rand.NextDouble() + rand.Next(MININITBATTARY, MAXINITBATTARY)),
-                    DroneState.DELIVERY => (FindLocationDroneWithParcel( parcel), tmpBatteryStatus),
-                }; 
+                    DroneState.DELIVERY => (FindLocationDroneWithParcel(parcel), tmpBatteryStatus),
+                };
                 // add the new drone to drones list
                 drones.Add(new DroneToList()
                 {
@@ -93,7 +94,7 @@ namespace IBL
                     DroneModel = drone.Model,
                     DroneState = state,
                     CurrentLocation = Location,
-                    ParcelId =parcel.DorneId == 0? 0: parcel.Id,
+                    ParcelId = parcel.DorneId == 0 ? 0 : parcel.Id,
                     BatteryState = BatteryStatus
                 });
 
@@ -136,7 +137,7 @@ namespace IBL
         /// <param name="drone">drone</param>
         /// <param name="parcel">drone's parcel</param>
         /// <returns>drone location</returns>
-        private Location FindLocationDroneWithParcel( IDAL.DO.Parcel parcel)
+        private Location FindLocationDroneWithParcel(IDAL.DO.Parcel parcel)
         {
             //get sender location
             Location locaiton = GetCustomer(parcel.SenderId).Location;
@@ -157,7 +158,7 @@ namespace IBL
         /// <param name="drone">drone</param>
         /// <param name="canTakeParcel">ref boolian</param>
         /// <returns> min electricity</returns>
-        private double MinBattary(IDAL.DO.Parcel parcel,ref bool canTakeParcel)
+        private double MinBattary(IDAL.DO.Parcel parcel, ref bool canTakeParcel)
         {
             var customerSender = dal.GetCustomer(parcel.SenderId);
             var customerReciver = dal.GetCustomer(parcel.TargetId);
@@ -165,12 +166,12 @@ namespace IBL
             Location targetLocation = new() { Latitude = customerReciver.Latitude, Longitude = customerReciver.Longitude };
             // find drone's location 
             var location = FindLocationDroneWithParcel(parcel);
-            double electrity = CalculateElectricity(location,null,senderLocation ,targetLocation, (BO.WeightCategories)parcel.Weigth, out _); 
+            double electrity = CalculateElectricity(location, null, senderLocation, targetLocation, (BO.WeightCategories)parcel.Weigth, out _);
             // if the drone need more electricity 
             if (electrity > FULLBATTRY)
             {
                 dal.RemoveParcel(parcel);
-                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id, 0,parcel.Requested,parcel.Sceduled,parcel.PickedUp,parcel.Delivered);
+                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id, 0, parcel.Requested, parcel.Sceduled, parcel.PickedUp, parcel.Delivered);
                 canTakeParcel = false;
                 return 0;
             }
@@ -183,7 +184,7 @@ namespace IBL
         /// <returns> min electricity</returns>
         private double MinBatteryForAvailAble(Location location)
         {
-            
+
             var station = ClosetStation(dal.GetStations(), location);
             double electricity = Distance(location, new() { Latitude = station.Latitude, Longitude = station.Longitude }) * available;
             return electricity > FULLBATTRY ? MININITBATTARY : electricity;

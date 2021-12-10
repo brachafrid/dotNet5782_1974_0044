@@ -1,16 +1,17 @@
 ﻿
 using System.Collections.Generic;
 using System.Linq;
+using Utilities;
 
 
 namespace DalObject
 {
-    public partial class DalObject : IDAL.IDal
+    public sealed partial class DalObject:Singletone<DalObject>, IDAL.IDal
     {
         /// <summary>
         /// Call to quick initialization function
         /// </summary>
-        public DalObject()
+        DalObject()
         {
             DataSorce.Initialize(this);
         }

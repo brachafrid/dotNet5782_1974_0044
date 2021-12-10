@@ -5,6 +5,7 @@ using IBL.BO;
 
 namespace ConsoleUI_BL
 {
+    
     partial class Program
     {
         private const int LATITUDE_MAX = 90;
