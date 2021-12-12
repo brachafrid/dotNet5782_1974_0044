@@ -30,7 +30,7 @@ namespace IBL
                     Id = droneBl.Id,
                     DroneModel = droneBl.Model,
                     Weight = droneBl.WeightCategory,
-                    BatteryState = rand.NextDouble() + rand.Next(MAX_BATTERY, MAX_BATTERY),
+                    BatteryState = rand.NextDouble() + rand.Next(MIN_BATTERY, MAX_BATTERY),
                     DroneState = DroneState.MAINTENANCE,
                     CurrentLocation = new Location() { Latitude = station.Latitude, Longitude = station.Longitude }
                 };

@@ -115,7 +115,7 @@ namespace IBL
             if (!lst.Any())
                 return false;
             T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item, null) == id);
-            return !(temp.Equals(default(T)));
+            return !temp.Equals(default(T));
         }
         /// <summary>
         /// creates list of locations of all the customers that recived at least one parcel
