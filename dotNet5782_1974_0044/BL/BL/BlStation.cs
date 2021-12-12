@@ -1,6 +1,7 @@
 ﻿using IBL.BO;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace IBL
 {
@@ -77,13 +78,7 @@ namespace IBL
         /// <returns>A list of statin to print</returns>
         public IEnumerable<StationToList> GetStations()
         {
-            IEnumerable<IDAL.DO.Station> list = dal.GetStations();
-            List<StationToList> stations = new ();
-            foreach (var item in list)
-            {
-                stations.Add(MapStationToList(item));
-            }
-            return stations;
+            return dal.GetStations().Select(item=>MapStationToList(item));
         }
 
         //--------------------------------------------------Return-----------------------------------------------------------------------------------
