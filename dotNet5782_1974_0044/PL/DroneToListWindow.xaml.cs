@@ -45,5 +45,16 @@ namespace PL
             tabControl = (TabControl)tmp;
             tabControl.Items.Remove(tabItem);
         }
+
+        public void Add_tag_click(object sender, RoutedEventArgs e)
+        {
+            object tmp = sender;
+            while (tmp.GetType() != typeof(MainWindow))
+            {
+                tmp = ((FrameworkElement)tmp).Parent;
+            }
+            MainWindow mainWindow = (MainWindow)tmp;
+            mainWindow.Add_tag_click(sender, e);
+        }
     }
 }

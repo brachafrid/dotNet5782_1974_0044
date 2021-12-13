@@ -31,15 +31,15 @@ namespace PL
             DataContext = option;
         }
 
-        private void tool_click(object sender, RoutedEventArgs e)
+        public void Add_tag_click(object sender, RoutedEventArgs e)
         {
             TabItem tabItem = new TabItem();
             Button b = (Button)sender;
             tabItem.Content = b.Content switch
             {
                 "DroneToList" => new DroneToList(),
+                "add drone" => new Drone()
             };
-            tabItem.Name = b.Content.ToString();
             tabItem.Header = b.Content.ToString();
             tab.Items.Add(tabItem);    
         }

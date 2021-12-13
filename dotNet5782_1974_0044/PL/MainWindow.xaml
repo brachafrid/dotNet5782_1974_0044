@@ -13,7 +13,7 @@
                 <ListBox x:Name="menu" ItemsSource="{Binding}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            <Button x:Name="click" Content="{Binding}" Click="tool_click" />
+                            <Button x:Name="click" Content="{Binding}" Click="Add_tag_click" />
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
