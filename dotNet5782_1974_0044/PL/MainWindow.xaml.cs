@@ -41,7 +41,7 @@ namespace PL
             };
             tabItem.Name = b.Content.ToString();
             tabItem.Header = b.Content.ToString();
-            tab.Items.Add(tabItem);    
+            tab.Items.Add(tabItem);
         }
     }
 }
