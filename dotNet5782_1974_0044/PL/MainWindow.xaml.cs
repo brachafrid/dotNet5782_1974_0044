@@ -37,13 +37,11 @@ namespace PL
             Button b = (Button)sender;
             tabItem.Content = b.Content switch
             {
-                "DroneToList" => new DroneToList()
+                "DroneToList" => new DroneToList(),
             };
             tabItem.Name = b.Content.ToString();
             tabItem.Header = b.Content.ToString();
-            List<TabItem> tabs = new List<TabItem>();
-            tabs.Add(tabItem);
-            tab.ItemsSource = tabs;
+            tab.Items.Add(tabItem);    
         }
     }
 }

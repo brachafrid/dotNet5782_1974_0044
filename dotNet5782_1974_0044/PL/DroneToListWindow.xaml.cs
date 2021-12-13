@@ -31,13 +31,19 @@ namespace PL
 
         private void close_tab(object sender, RoutedEventArgs e)
         {
-            //how to render the suitable useer control in according to contect of link
-            Button b = (Button)sender;
-            TabItem tabItem = (TabItem)b.Parent;
-            TabControl tab = (TabControl)tabItem.Parent;
-            //.ItemsSource.Cast<TabItem>();
-            List<TabItem> lst = (List<TabItem>)tab.ItemsSource;
-            lst.Remove(tabItem);
+            object tabItem = null;
+            TabControl tabControl;
+            object tmp=sender;
+            while(tmp.GetType()!=typeof(TabControl))
+            {
+                tmp = ((FrameworkElement)tmp).Parent;
+                if(tmp!=null && tmp.GetType()==typeof(TabItem))
+                {
+                    tabItem = tmp;
+                }
+            }
+            tabControl = (TabControl)tmp;
+            tabControl.Items.Remove(tabItem);
         }
     }
 }
