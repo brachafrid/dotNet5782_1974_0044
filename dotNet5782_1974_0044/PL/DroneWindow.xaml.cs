@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using IBL.BO;
+using IBL;
+using Utilities;
 
 namespace PL
 {
@@ -20,17 +23,23 @@ namespace PL
     /// </summary>
     public partial class Drone : UserControl
     {
+        IBL.IBL bl = Singletone<BL>.Instance;
         //add new drone
         public Drone()
         {
             InitializeComponent();
-            
-
+            //DroneToList drone = new();
+            DataContext = Enum.GetValues(typeof(WeightCategories));
         }
         //
-        public Drone(DroneToList droneToList)
+        public Drone(DroneToList drone)
         {
             InitializeComponent();
+        }
+
+        private void ComboBox_Selected(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
