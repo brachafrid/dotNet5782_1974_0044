@@ -17,9 +17,6 @@ namespace IBL
         public void AssingParcelToDrone(int droneId);
         public void ParcelCollectionByDrone(int DroneId);
         public void DeliveryParcelByDrone(int droneId);
-        //temporary
-        public IEnumerable<BO.DroneToList> GetDronesScreenOutweight(Predicate<BO.WeightCategories> screenOut);
-        public IEnumerable<BO.DroneToList> GetDronesScreenOutstate(Predicate<BO.DroneState> screenOut);
         public IEnumerable<BO.DroneToList> GetDronesScreenOut<T>(Predicate<T> screenOut);
     }
 }
