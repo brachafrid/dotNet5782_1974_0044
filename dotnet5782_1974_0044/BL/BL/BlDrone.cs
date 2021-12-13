@@ -276,14 +276,14 @@ namespace IBL
         /// </summary>
         /// <returns>A list of drones to print</returns>
         public IEnumerable<DroneToList> GetDrones() => drones;
-        ///// <summary>
-        ///// Retrieves the list of drones from BL screenn out in according to  the predicate
-        ///// </summary>
-        ///// <returns>A list of drones to print</returns>
-        //public IEnumerable<DroneToList> GetDronesScreenOut<T>(Predicate<T> screenOut)
-        //{
-        //    return drones.FindAll(item => screenOut((T)item.GetType().GetProperties().First(itm=>itm.GetType().Equals(typeof(T))).GetValue(item)));
-        //}
+        /// <summary>
+        /// Retrieves the list of drones from BL screenn out in according to  the predicate
+        /// </summary>
+        /// <returns>A list of drones to print</returns>
+        public IEnumerable<DroneToList> GetDronesScreenOut<T>(Predicate<T> screenOut)
+        {
+            return drones.FindAll(item => screenOut((T)item.GetType().GetProperties().First(itm => itm.GetType().FullName.Equals(typeof(T).FullName)).GetValue(item)));
+        }
 
         public IEnumerable<DroneToList> GetDronesScreenOutweight(Predicate<WeightCategories> screenOut)
         {
