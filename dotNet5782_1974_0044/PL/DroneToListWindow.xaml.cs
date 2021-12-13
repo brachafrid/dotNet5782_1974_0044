@@ -46,7 +46,7 @@ namespace PL
             tabControl.Items.Remove(tabItem);
         }
 
-        public void Add_tag_click(object sender, RoutedEventArgs e)
+        private void Add_tag_click(object sender, RoutedEventArgs e)
         {
             object tmp = sender;
             while (tmp.GetType() != typeof(MainWindow))
@@ -56,5 +56,20 @@ namespace PL
             MainWindow mainWindow = (MainWindow)tmp;
             mainWindow.Add_tag_click(sender, e);
         }
+
+        private void double_click(object sender, MouseButtonEventArgs e)
+        {
+            object tmp = sender;
+            while (tmp.GetType() != typeof(MainWindow))
+            {
+                tmp = ((FrameworkElement)tmp).Parent;
+            }
+            MainWindow mainWindow = (MainWindow)tmp;
+            TabItem tabItem = new TabItem();
+            tabItem.Content = new Drone();
+            tabItem.Header = "Drone";
+            mainWindow.tab.Items.Add(tabItem);
+        }
     }
+    
 }

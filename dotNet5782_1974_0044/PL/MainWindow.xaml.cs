@@ -38,7 +38,7 @@ namespace PL
             tabItem.Content = b.Content switch
             {
                 "DroneToList" => new DroneToList(),
-                "add drone" => new Drone()
+                "add drone" => new Drone(),
             };
             tabItem.Header = b.Content.ToString();
             tab.Items.Add(tabItem);
