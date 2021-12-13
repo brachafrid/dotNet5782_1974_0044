@@ -12,6 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using Utilities;
 
 namespace PL
 {
@@ -20,9 +21,23 @@ namespace PL
     /// </summary>
     public partial class DroneToList : UserControl
     {
+        public IBL.IBL ibal;
         public DroneToList()
         {
             InitializeComponent();
+            ibal = Singletone<IBL.BL>.Instance;
+            DataContext = ibal.GetDrones();
+        }
+
+        private void close_tab(object sender, RoutedEventArgs e)
+        {
+            //how to render the suitable useer control in according to contect of link
+            Button b = (Button)sender;
+            TabItem tabItem = (TabItem)b.Parent;
+            TabControl tab = (TabControl)tabItem.Parent;
+            //.ItemsSource.Cast<TabItem>();
+            List<TabItem> lst = (List<TabItem>)tab.ItemsSource;
+            lst.Remove(tabItem);
         }
     }
 }

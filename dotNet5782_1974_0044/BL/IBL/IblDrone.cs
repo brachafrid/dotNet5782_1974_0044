@@ -1,5 +1,7 @@
 ﻿
 using System.Collections.Generic;
+using System;
+
 
 
 namespace IBL
@@ -15,5 +17,8 @@ namespace IBL
         public void AssingParcelToDrone(int droneId);
         public void ParcelCollectionByDrone(int DroneId);
         public void DeliveryParcelByDrone(int droneId);
+        //temporary
+        public IEnumerable<BO.DroneToList> GetDronesScreenOutweight(Predicate<BO.WeightCategories> screenOut);
+        public IEnumerable<BO.DroneToList> GetDronesScreenOutstate(Predicate<BO.DroneState> screenOut);
     }
 }

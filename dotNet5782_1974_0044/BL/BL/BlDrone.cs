@@ -276,13 +276,22 @@ namespace IBL
         /// </summary>
         /// <returns>A list of drones to print</returns>
         public IEnumerable<DroneToList> GetDrones() => drones;
-        /// <summary>
-        /// Retrieves the list of drones from BL screenn out in according to  the predicate
-        /// </summary>
-        /// <returns>A list of drones to print</returns>
-        public IEnumerable<DroneToList> GetDronesScreenOut(Predicate<Type> screenOut)
+        ///// <summary>
+        ///// Retrieves the list of drones from BL screenn out in according to  the predicate
+        ///// </summary>
+        ///// <returns>A list of drones to print</returns>
+        //public IEnumerable<DroneToList> GetDronesScreenOut<T>(Predicate<T> screenOut)
+        //{
+        //    return drones.FindAll(item => screenOut((T)item.GetType().GetProperties().First(itm=>itm.GetType().Equals(typeof(T))).GetValue(item)));
+        //}
+
+        public IEnumerable<DroneToList> GetDronesScreenOutweight(Predicate<WeightCategories> screenOut)
         {
-            return drones.FindAll(item => screenOut(item.GetType().GetProperty(screenOut.GetType().ToString()));
+            return drones.FindAll(item => screenOut(item.Weight));
+        }
+        public IEnumerable<DroneToList> GetDronesScreenOutstate(Predicate<DroneState> screenOut)
+        {
+            return drones.FindAll(item => screenOut(item.DroneState));
         }
         private List<DroneInCharging> CreatListDroneInCharging(int id)
         {

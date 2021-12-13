@@ -6,9 +6,19 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
-    <Grid>
-        <!--<local:DroneToList x:Name="DroneToList"></local:DroneToList>
-        <local:Drone x:Name="Drone"></local:Drone>-->
-        
-    </Grid>
+    <DockPanel>
+        <ToolBarTray DockPanel.Dock="Left">
+            <ToolBar x:Name="menue">
+                <ListBox x:Name="menu" ItemsSource="{Binding}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <Button x:Name="click" Content="{Binding}" Click="tool_click" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+            </ToolBar>
+        </ToolBarTray>
+        <TabControl x:Name="tab" DockPanel.Dock="Top">
+        </TabControl>
+    </DockPanel>
 </Window>
