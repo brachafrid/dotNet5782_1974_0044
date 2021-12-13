@@ -20,5 +20,6 @@ namespace IBL
         //temporary
         public IEnumerable<BO.DroneToList> GetDronesScreenOutweight(Predicate<BO.WeightCategories> screenOut);
         public IEnumerable<BO.DroneToList> GetDronesScreenOutstate(Predicate<BO.DroneState> screenOut);
+        public IEnumerable<BO.DroneToList> GetDronesScreenOut<T>(Predicate<T> screenOut);
     }
 }
