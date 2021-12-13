@@ -41,7 +41,7 @@ namespace PL
                 "add drone" => new Drone()
             };
             tabItem.Header = b.Content.ToString();
-            tab.Items.Add(tabItem);    
+            tab.Items.Add(tabItem);
         }
     }
 }
