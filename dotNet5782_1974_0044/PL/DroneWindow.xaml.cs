@@ -37,9 +37,11 @@ namespace PL
             InitializeComponent();
         }
 
-        private void ComboBox_Selected(object sender, RoutedEventArgs e)
+        private void AddDrone_click(object sender, RoutedEventArgs e)
         {
-
+            UserControl userControl = (sender as Button).Parent as UserControl;
+            WeightCategories maxweight = (WeightCategories)weigth.SelectedIndex;
+            string dronemodel = model
         }
     }
 }

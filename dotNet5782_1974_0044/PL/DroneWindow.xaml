@@ -7,11 +7,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
 
-    <Grid Name="DroneGrid">
-        <DockPanel>
-        <ComboBox ItemsSource="{Binding}"/>
+    <Grid  x:Name="add">
+        <StackPanel>
+            <Label Content="model"/>
             <TextBox ></TextBox>
-</DockPanel>
+            <Label Content="max weigth" x:Name="model"/>
+            <ComboBox ItemsSource="{Binding}" x:Name="weigth"/>
+            <Button Content="Add" Click="AddDrone_click"/>
+        </StackPanel>
 
     </Grid>
 
