@@ -80,7 +80,7 @@ namespace PL
                 }, stationId);
 
                 MessageBox.Show("add succses");
-               // Close(sender, e);
+                Close(sender, e);
 
             }
             catch (ThereIsAnObjectWithTheSameKeyInTheListException)

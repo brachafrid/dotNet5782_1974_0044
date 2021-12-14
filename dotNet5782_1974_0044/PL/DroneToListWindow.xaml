@@ -13,7 +13,7 @@
         </ComboBox>
         <ComboBox x:Name="ChooseWeight"  ItemsSource="{Binding}" Visibility="Collapsed" SelectionChanged="select_screen_out_parameter"/>
         <ComboBox x:Name="ChooseState" ItemsSource="{Binding}" Visibility="Collapsed" SelectionChanged="select_screen_out_parameter" />
-        <ListView x:Name="droneToListListView" ItemsSource="{Binding  }" Margin="31,87,361,132" SelectionMode="Single" DockPanel.Dock="Top"  MouseDoubleClick="double_click" >
+        <ListView x:Name="droneToListListView" ItemsSource="{Binding}" Margin="31,87,361,132" SelectionMode="Single" DockPanel.Dock="Top"  MouseDoubleClick="double_click" >
             <ListView.ItemContainerStyle >
                 <Style>
                     <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>

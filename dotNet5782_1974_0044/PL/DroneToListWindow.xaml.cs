@@ -28,7 +28,13 @@ namespace PL
         {
             InitializeComponent();
             ibal = Singletone<IBL.BL>.Instance;
-            DataContext = ibal.GetDrones() as Collection<IBL.BO.DroneToList>;
+            ObservableCollection<IBL.BO.DroneToList> droneToLists = new();
+            foreach (var item in ibal.GetDrones())
+            {
+                droneToLists.Add(item);
+            }
+            DataContext = droneToLists;
+            //DataContext = ibal.GetDrones() as ObservableCollection<IBL.BO.DroneToList>;
         }
 
         private void Close_tab_click(object sender, RoutedEventArgs e)
