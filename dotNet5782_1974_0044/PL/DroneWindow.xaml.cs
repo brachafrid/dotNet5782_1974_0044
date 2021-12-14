@@ -32,7 +32,7 @@ namespace PL
             DataContext = Enum.GetValues(typeof(WeightCategories));
         }
         //
-        public Drone(DroneToList drone)
+        public Drone(IBL.BO.DroneToList drone)
         {
             InitializeComponent();
         }

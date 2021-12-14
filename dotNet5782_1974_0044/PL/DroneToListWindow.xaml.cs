@@ -66,7 +66,7 @@ namespace PL
             }
             MainWindow mainWindow = (MainWindow)tmp;
             TabItem tabItem = new TabItem();
-            tabItem.Content = new Drone();
+            tabItem.Content = new Drone((IBL.BO.DroneToList)((ListView)sender).Items.CurrentItem);
             tabItem.Header = "Drone";
             mainWindow.tab.Items.Add(tabItem);
         }
