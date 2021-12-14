@@ -122,10 +122,10 @@ namespace PL
             //    tmp = (tmp as FrameworkElement).Parent;
             //foreach (var item in (tmp as TabControl).Items)
             //{
-               
-               
+
+
             //}
-            ftv.DataContext = ftv.c
+            
         }
     }
 }

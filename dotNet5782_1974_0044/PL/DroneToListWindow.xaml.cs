@@ -102,7 +102,7 @@ namespace PL
             selectCategory.SelectedValue = "";
         }
 
-        private ObservableCollection<IBL.BO.DroneToList> ConvertDroneToList(IEnumerable<DroneToList> IbalDroneToLists)
+        public ObservableCollection<IBL.BO.DroneToList> ConvertDroneToList(IEnumerable<DroneToList> IbalDroneToLists)
         {
             ObservableCollection<IBL.BO.DroneToList> droneToLists = new();
             foreach (var item in IbalDroneToLists)
