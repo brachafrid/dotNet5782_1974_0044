@@ -33,12 +33,12 @@ namespace PL
             //DroneToList drone = new();
             details.Visibility = Visibility.Collapsed;
             DataContext = Enum.GetValues(typeof(WeightCategories));
-            station.DataContext = bl.GetStaionsWithEmptyChargeSlots((int num)=>num >0).ToList().Select(station => station.Id);
+            station.DataContext = bl.GetStaionsWithEmptyChargeSlots((int num) => num > 0).ToList().Select(station => station.Id);
         }
         //
         public Drone(IBL.BO.DroneToList drone)
         {
-            
+
             InitializeComponent();
             add.Visibility = Visibility.Collapsed;
             DataContext = drone;
@@ -46,14 +46,63 @@ namespace PL
 
         private void AddDrone_click(object sender, RoutedEventArgs e)
         {
-            
-            WeightCategories maxWeight = (WeightCategories)weigth.SelectedIndex;
-            string droneModel = model.Text;
-            int stationId =(int)station.SelectedValue;
 
-           //bl.AddDrone(
-           // new   
-           //    )
+            WeightCategories maxWeight = (WeightCategories)weigth.SelectedIndex;
+            if ((int)maxWeight == -1)
+            {
+                MessageBox.Show("choose max weigth");
+                return;
+            }
+            string droneModel = model.Text;
+            if (droneModel == string.Empty)
+            {
+                MessageBox.Show("enter model");
+                return;
+            }
+            if (station.SelectedIndex == -1)
+            {
+                MessageBox.Show("choose station");
+                return;
+            }
+            if (id.Text == string.Empty)
+            {
+                MessageBox.Show("enter id");
+                return;
+            }
+            int stationId = (int)station.SelectedValue;
+            try
+            {
+                bl.AddDrone(new IBL.BO.Drone() 
+                { 
+                    Id = int.Parse(id.Text),
+                    Model = droneModel, 
+                    WeightCategory = maxWeight 
+                }, stationId);
+
+                MessageBox.Show("add succses");
+            }
+            catch (ThereIsAnObjectWithTheSameKeyInTheListException)
+            {
+                MessageBox.Show("id is already exist");
+            }
+
+
+        }
+
+        private void is_num(object sender, TextChangedEventArgs e)
+        {
+            foreach (var item in id.Text)
+                if (!char.IsDigit(item))
+                {
+                    MessageBox.Show("please enter positive number for id");
+                    id.Text = "";
+                    break;
+                }
+        }
+
+        private void close(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }
