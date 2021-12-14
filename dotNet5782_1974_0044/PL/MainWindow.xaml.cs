@@ -43,5 +43,15 @@ namespace PL
             tabItem.Header = b.Content.ToString();
             tab.Items.Add(tabItem);
         }
+        public void Close_tab(object sender, RoutedEventArgs e)
+        {
+            object tmp = sender;
+            while (tmp.GetType() != typeof(TabItem))
+            {
+                tmp = ((FrameworkElement)tmp).Parent;
+            }
+            TabItem tabItem = (TabItem)tmp;
+            tab.Items.Remove(tabItem);
+        }
     }
 }

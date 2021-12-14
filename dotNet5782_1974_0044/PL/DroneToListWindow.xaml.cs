@@ -29,24 +29,18 @@ namespace PL
             DataContext = ibal.GetDrones();
         }
 
-        private void close_tab(object sender, RoutedEventArgs e)
+        private void Close_tab_click(object sender, RoutedEventArgs e)
         {
-            object tabItem = null;
-            TabControl tabControl;
-            object tmp=sender;
-            while(tmp.GetType()!=typeof(TabControl))
+            object tmp = sender;
+            while (tmp.GetType() != typeof(MainWindow))
             {
                 tmp = ((FrameworkElement)tmp).Parent;
-                if(tmp!=null && tmp.GetType()==typeof(TabItem))
-                {
-                    tabItem = tmp;
-                }
             }
-            tabControl = (TabControl)tmp;
-            tabControl.Items.Remove(tabItem);
+            MainWindow mainWindow = (MainWindow)tmp;
+            mainWindow.Close_tab(sender, e);
         }
 
-        private void Add_tag_click(object sender, RoutedEventArgs e)
+        private void Add_tab_click(object sender, RoutedEventArgs e)
         {
             object tmp = sender;
             while (tmp.GetType() != typeof(MainWindow))
@@ -69,6 +63,11 @@ namespace PL
             tabItem.Content = new Drone((IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext);
             tabItem.Header = "Drone";
             mainWindow.tab.Items.Add(tabItem);
+        }
+
+        private void select_screen_out(object sender, SelectionChangedEventArgs e)
+        {
+
         }
     }
     
