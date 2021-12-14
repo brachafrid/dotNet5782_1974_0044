@@ -37,7 +37,7 @@ namespace PL
             Button b = (Button)sender;
             tabItem.Content = b.Content switch
             {
-                "DroneToList" => new DroneToList(),
+                "DroneToList" => new DroneToListWindow(),
                 "add drone" => new Drone(),
             };
             tabItem.Header = b.Content.ToString();

@@ -13,20 +13,22 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Utilities;
+using IBL.BO;
+using System.Collections.ObjectModel;
 
 namespace PL
 {
     /// <summary>
     /// Interaction logic for DroneToList.xaml
     /// </summary>
-    public partial class DroneToList : UserControl
+    public partial class DroneToListWindow : UserControl
     {
         public IBL.IBL ibal;
-        public DroneToList()
+        public DroneToListWindow()
         {
             InitializeComponent();
             ibal = Singletone<IBL.BL>.Instance;
-            DataContext = ibal.GetDrones();
+            DataContext = ibal.GetDrones() as Collection<IBL.BO.DroneToList>;
         }
 
         private void Close_tab_click(object sender, RoutedEventArgs e)
@@ -67,8 +69,26 @@ namespace PL
 
         private void select_screen_out(object sender, SelectionChangedEventArgs e)
         {
+            if (((e.OriginalSource as ComboBox).SelectedItem as ComboBoxItem).Content == "weight")
+            {
+                ChooseWeight.Visibility = Visibility.Visible;
+                ChooseWeight.DataContext = Enum.GetValues(typeof(WeightCategories));
+            }
+            else
+            {
+                ChooseState.Visibility = Visibility.Visible;
+                ChooseState.DataContext = Enum.GetValues(typeof(DroneState));
+            }
+        }
+
+        private void select_screen_out_parameter(object sender, SelectionChangedEventArgs e)
+        {
+            if ((e.OriginalSource as ComboBox).Name == "ChooseWeight")
+                DataContext = ibal.GetDronesScreenOut((WeightCategories weightCategories) => weightCategories.ToString() == ((e.OriginalSource as ComboBox).SelectedItem as ComboBoxItem).Content.ToString());
+            else
+                DataContext = ibal.GetDronesScreenOut((DroneState droneState) => droneState.ToString() == ((e.OriginalSource as ComboBox).SelectedItem as ComboBoxItem).Content.ToString());
 
         }
     }
-    
+
 }
