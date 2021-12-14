@@ -80,7 +80,7 @@ namespace PL
                 }, stationId);
 
                 MessageBox.Show("add succses");
-                //Close(sender, e);
+               // Close(sender, e);
 
             }
             catch (ThereIsAnObjectWithTheSameKeyInTheListException)
@@ -110,6 +110,7 @@ namespace PL
                 tmp = ((FrameworkElement)tmp).Parent;
             }
             MainWindow mainWindow = (MainWindow)tmp;
+            UpdateDataContent(sender);
             mainWindow.Close_tab(sender, e);
 
         }
@@ -120,11 +121,10 @@ namespace PL
                 tmp = (tmp as FrameworkElement).Parent;
             foreach (var item in (tmp as TabControl).Items)
             {
-                if (item.GetType() == typeof(TabItem))
+                if (item.GetType() == typeof(TabItem) && (item as TabItem).Content.GetType() == typeof(DroneToList))
                 {
-
+                    
                 }
-
             }
 
 
