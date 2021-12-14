@@ -9,7 +9,6 @@
     
     <Grid  >
         <StackPanel x:Name="add">
-
             <Label Content="model"/>
             <TextBox x:Name="model"></TextBox>
             <Label Content="max weigth" />
