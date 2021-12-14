@@ -19,7 +19,7 @@
             <Label Content="station" />
             <ComboBox ItemsSource="{Binding}" x:Name="station"/>
             <Button Content="Add" Click="AddDrone_click"/>
-            <Button Content="cancel" Click="close"/>
+            <Button Content="cancel" Click="Close"/>
         </StackPanel>
         <StackPanel x:Name="details">
             <TextBlock Text="{Binding}"/>

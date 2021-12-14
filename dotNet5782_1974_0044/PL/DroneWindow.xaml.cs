@@ -72,14 +72,16 @@ namespace PL
             int stationId = (int)station.SelectedValue;
             try
             {
-                bl.AddDrone(new IBL.BO.Drone() 
-                { 
+                bl.AddDrone(new IBL.BO.Drone()
+                {
                     Id = int.Parse(id.Text),
-                    Model = droneModel, 
-                    WeightCategory = maxWeight 
+                    Model = droneModel,
+                    WeightCategory = maxWeight
                 }, stationId);
 
                 MessageBox.Show("add succses");
+               // Close(sender, e);
+
             }
             catch (ThereIsAnObjectWithTheSameKeyInTheListException)
             {
@@ -100,8 +102,31 @@ namespace PL
                 }
         }
 
-        private void close(object sender, RoutedEventArgs e)
+        private void Close(object sender, RoutedEventArgs e)
         {
+            object tmp = sender;
+            while (tmp.GetType() != typeof(MainWindow))
+            {
+                tmp = ((FrameworkElement)tmp).Parent;
+            }
+            MainWindow mainWindow = (MainWindow)tmp;
+            UpdateDataContent(sender);
+            mainWindow.Close_tab(sender, e);
+
+        }
+        private void UpdateDataContent(object sender)
+        {
+            object tmp = sender;
+            while (tmp.GetType() != typeof(TabControl))
+                tmp = (tmp as FrameworkElement).Parent;
+            foreach (var item in (tmp as TabControl).Items)
+            {
+                if (item.GetType() == typeof(TabItem) && (item as TabItem).Content.GetType() == typeof(DroneToList))
+                {
+                    
+                }
+            }
+
 
         }
     }
