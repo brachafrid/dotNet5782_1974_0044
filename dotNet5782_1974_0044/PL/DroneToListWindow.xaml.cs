@@ -28,13 +28,7 @@ namespace PL
         {
             InitializeComponent();
             ibal = Singletone<IBL.BL>.Instance;
-            ObservableCollection<IBL.BO.DroneToList> droneToLists = new();
-            foreach (var item in ibal.GetDrones())
-            {
-                droneToLists.Add(item);
-            }
-            DataContext = droneToLists;
-            //DataContext = ibal.GetDrones() as ObservableCollection<IBL.BO.DroneToList>;
+            DataContext = ConvertDroneToList(ibal.GetDrones());
         }
 
         private void Close_tab_click(object sender, RoutedEventArgs e)
@@ -61,21 +55,24 @@ namespace PL
 
         private void double_click(object sender, MouseButtonEventArgs e)
         {
-            object tmp = sender;
-            while (tmp.GetType() != typeof(MainWindow))
+            if(((FrameworkElement)e.OriginalSource).DataContext is IBL.BO.DroneToList)
             {
-                tmp = ((FrameworkElement)tmp).Parent;
+                object tmp = sender;
+                while (tmp.GetType() != typeof(MainWindow))
+                {
+                    tmp = ((FrameworkElement)tmp).Parent;
+                }
+                MainWindow mainWindow = (MainWindow)tmp;
+                TabItem tabItem = new TabItem();
+                tabItem.Content = new Drone((IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext);
+                tabItem.Header = "Drone";
+                mainWindow.tab.Items.Add(tabItem);
             }
-            MainWindow mainWindow = (MainWindow)tmp;
-            TabItem tabItem = new TabItem();
-            tabItem.Content = new Drone((IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext);
-            tabItem.Header = "Drone";
-            mainWindow.tab.Items.Add(tabItem);
         }
 
         private void select_screen_out(object sender, SelectionChangedEventArgs e)
         {
-            if (((e.OriginalSource as ComboBox).SelectedItem as ComboBoxItem).Content == "weight")
+            if (((e.OriginalSource as ComboBox).SelectedItem as ComboBoxItem).Content.ToString() == "weight")
             {
                 ChooseWeight.Visibility = Visibility.Visible;
                 ChooseWeight.DataContext = Enum.GetValues(typeof(WeightCategories));
@@ -89,12 +86,32 @@ namespace PL
 
         private void select_screen_out_parameter(object sender, SelectionChangedEventArgs e)
         {
+            string cont = (e.OriginalSource as ComboBox).SelectedItem.ToString();
             if ((e.OriginalSource as ComboBox).Name == "ChooseWeight")
-                DataContext = ibal.GetDronesScreenOut((WeightCategories weightCategories) => weightCategories.ToString() == ((e.OriginalSource as ComboBox).SelectedItem as ComboBoxItem).Content.ToString());
+                DataContext = ConvertDroneToList( ibal.GetDronesScreenOut((WeightCategories weightCategories) => weightCategories.ToString() == cont));
             else
-                DataContext = ibal.GetDronesScreenOut((DroneState droneState) => droneState.ToString() == ((e.OriginalSource as ComboBox).SelectedItem as ComboBoxItem).Content.ToString());
+                DataContext = ConvertDroneToList(ibal.GetDronesScreenOut((DroneState droneState) => droneState.ToString() == cont));
 
         }
+
+        private void Cancel_screen_out(object sender, RoutedEventArgs e)
+        {
+            ChooseWeight.Visibility = Visibility.Collapsed;
+            ChooseState.Visibility = Visibility.Collapsed;
+            DataContext = ConvertDroneToList(ibal.GetDrones());
+            selectCategory.SelectedValue = "";
+        }
+
+        private ObservableCollection<IBL.BO.DroneToList> ConvertDroneToList(IEnumerable<DroneToList> IbalDroneToLists)
+        {
+            ObservableCollection<IBL.BO.DroneToList> droneToLists = new();
+            foreach (var item in IbalDroneToLists)
+            {
+                droneToLists.Add(item);
+            }
+            return droneToLists;
+        }
+
     }
 
 }
