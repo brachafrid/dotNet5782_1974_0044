@@ -7,6 +7,10 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel DataContext="{Binding}">
+        <ComboBox SelectionChanged="select_screen_out" >
+            <ComboBoxItem>weiht</ComboBoxItem>
+            <ComboBoxItem>state</ComboBoxItem>
+        </ComboBox>
         <ListView x:Name="droneToListListView" ItemsSource="{Binding}" Margin="31,87,361,132" SelectionMode="Single" DockPanel.Dock="Top"  MouseDoubleClick="double_click" >
             <ListView.ItemContainerStyle >
                 <Style>
@@ -61,7 +65,7 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Click="Add_tag_click" Content="add drone" />
-        <Button Click="close_tab" DockPanel.Dock="Bottom" Content="close drone to list" />
+        <Button Click="Add_tab_click" Content="add drone" />
+        <Button Click="Close_tab_click" DockPanel.Dock="Bottom" Content="close drone to list" />
     </DockPanel>
 </UserControl>
