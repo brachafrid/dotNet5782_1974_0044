@@ -6,14 +6,23 @@
              xmlns:local="clr-namespace:PL"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    
+    <Grid  >
+        <StackPanel x:Name="add">
 
-    <Grid Name="DroneGrid">
-        <DockPanel>
-        <ComboBox ItemsSource="{Binding}"/>
-            <TextBox ></TextBox>
-</DockPanel>
-
+            <Label Content="model"/>
+            <TextBox x:Name="model"></TextBox>
+            <Label Content="max weigth" />
+            <ComboBox ItemsSource="{Binding}" x:Name="weigth"/>
+            <Label Content="station" />
+            <ComboBox ItemsSource="{Binding}" x:Name="station"/>
+            <Button Content="Add" Click="AddDrone_click"/>
+        </StackPanel>
+        <StackPanel x:Name="details">
+            <TextBlock Text="{Binding}"/>
+        </StackPanel>
     </Grid>
+   
 
 
 
