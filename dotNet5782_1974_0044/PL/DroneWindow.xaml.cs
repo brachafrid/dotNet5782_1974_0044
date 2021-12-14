@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using IBL.BO;
 using IBL;
 using Utilities;
+using System.Collections.ObjectModel;
 
 namespace PL
 {
@@ -116,18 +117,15 @@ namespace PL
         }
         private void UpdateDataContent(object sender)
         {
-            object tmp = sender;
-            while (tmp.GetType() != typeof(TabControl))
-                tmp = (tmp as FrameworkElement).Parent;
-            foreach (var item in (tmp as TabControl).Items)
-            {
-                if (item.GetType() == typeof(TabItem) && (item as TabItem).Content.GetType() == typeof(DroneToList))
-                {
-                    
-                }
-            }
-
-
+            //object tmp = sender;
+            //while (tmp.GetType() != typeof(TabControl))
+            //    tmp = (tmp as FrameworkElement).Parent;
+            //foreach (var item in (tmp as TabControl).Items)
+            //{
+               
+               
+            //}
+            ftv.DataContext = ftv.c
         }
     }
 }

@@ -9,6 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     
     <Grid  >
+        <local:DroneToListWindow x:Name = "ftv" x:FieldModifier = "public" />
         <StackPanel x:Name="add">
             <Label Content="enter drone's id"/>
             <TextBox TextChanged="is_num" x:Name="id"/>
