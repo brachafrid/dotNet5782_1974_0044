@@ -6,15 +6,17 @@
              xmlns:local="clr-namespace:PL"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <DockPanel DataContext="{Binding}">
+    <StackPanel DataContext="{Binding}">
         <ComboBox x:Name="selectCategory"  SelectionChanged="select_screen_out" >
             <ComboBoxItem Content="weight" />
             <ComboBoxItem Content="state" /> 
         </ComboBox>
         <ComboBox x:Name="ChooseWeight"  ItemsSource="{Binding}" Visibility="Collapsed" SelectionChanged="select_screen_out_parameter"/>
         <ComboBox x:Name="ChooseState" ItemsSource="{Binding}" Visibility="Collapsed" SelectionChanged="select_screen_out_parameter" />
-        <Button Content="to cansel screen out"  Click="Cancel_screen_out" Height="10" Width="10"/>
-        <ListView x:Name="droneToListListView" ItemsSource="{Binding}" Margin="31,87,361,132" SelectionMode="Single" DockPanel.Dock="Top"  MouseDoubleClick="double_click" >
+        <Button Content="to cansel screen out"  Click="Cancel_screen_out" Height="20" Width="120"/>
+        <Button Click="Add_tab_click" Content="add drone" />
+        <Button Click="Close_tab_click" Content="close drone to list" />
+        <ListView x:Name="droneToListListView" ItemsSource="{Binding}" Margin="31,87,361,132" SelectionMode="Single"   MouseDoubleClick="double_click" >
             <ListView.ItemContainerStyle >
                 <Style>
                     <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
@@ -68,7 +70,5 @@
                 </GridView>
             </ListView.View>
         </ListView>
-        <Button Click="Add_tab_click" Content="add drone" />
-        <Button Click="Close_tab_click" DockPanel.Dock="Bottom" Content="close drone to list" />
-    </DockPanel>
+    </StackPanel>
 </UserControl>
