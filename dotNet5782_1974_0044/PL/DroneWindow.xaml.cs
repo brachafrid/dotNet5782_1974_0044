@@ -36,7 +36,7 @@ namespace PL
             station.DataContext = bl.GetStaionsWithEmptyChargeSlots((int num)=>num >0).ToList().Select(station => station.Id);
         }
         //
-        public Drone(DroneToList drone)
+        public Drone(IBL.BO.DroneToList drone)
         {
             
             InitializeComponent();
