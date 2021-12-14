@@ -24,28 +24,29 @@ namespace PL
     public partial class Drone : UserControl
     {
         IBL.IBL bl = Singletone<BL>.Instance;
-        private Visibility collapsed;
+        //private Visibility collapsed = Visibility.Collapsed;
 
         //add new drone
         public Drone()
         {
             InitializeComponent();
             //DroneToList drone = new();
+            details.Visibility = Visibility.Collapsed;
             DataContext = Enum.GetValues(typeof(WeightCategories));
             station.DataContext = bl.GetStaionsWithEmptyChargeSlots((int num)=>num >0).ToList().Select(station => station.Id);
         }
         //
         public Drone(DroneToList drone)
         {
-
+            
             InitializeComponent();
-            details.Visibility = collapsed;
+            add.Visibility = Visibility.Collapsed;
             DataContext = drone;
         }
 
         private void AddDrone_click(object sender, RoutedEventArgs e)
         {
-            add.Visibility = collapsed;
+            
             WeightCategories maxWeight = (WeightCategories)weigth.SelectedIndex;
             string droneModel = model.Text;
             int stationId =(int)station.SelectedValue;
