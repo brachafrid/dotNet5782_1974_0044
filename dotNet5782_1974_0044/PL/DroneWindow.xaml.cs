@@ -80,6 +80,7 @@ namespace PL
                 }, stationId);
 
                 MessageBox.Show("add succses");
+
             }
             catch (ThereIsAnObjectWithTheSameKeyInTheListException)
             {
@@ -100,8 +101,20 @@ namespace PL
                 }
         }
 
-        private void close(object sender, RoutedEventArgs e)
+        private void Close(object sender, RoutedEventArgs e)
         {
+
+        }
+         private void UpdateDataContent(object sender)
+        {
+            object tmp = sender;
+            while(tmp.GetType() != typeof(TabControl))
+                tmp = (tmp as FrameworkElement).Parent;
+            foreach( var item in (tmp as TabControl).Items)
+            {
+
+            }
+            
 
         }
     }
