@@ -7,14 +7,14 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <DockPanel DataContext="{Binding}">
-        <ListView x:Name="droneToListListView" ItemsSource="{Binding}" Margin="31,87,361,132" SelectionMode="Single" DockPanel.Dock="Top"  MouseDoubleClick="double_click" >
+        <!--<ListView x:Name="droneToListListView" ItemsSource="{Binding}" Margin="31,87,361,132" SelectionMode="Single" DockPanel.Dock="Top"  MouseDoubleClick="double_click" >
             <ListView.ItemContainerStyle >
                 <Style>
                     <Setter Property="Control.HorizontalContentAlignment" Value="Stretch"/>
                     <Setter Property="Control.VerticalContentAlignment" Value="Stretch"/>
                 </Style>
             </ListView.ItemContainerStyle>
-            <ListViewItem>
+            --><!--<ListViewItem>
             <ListView.View >
                 <GridView >
                     <GridViewColumn x:Name="batteryStateColumn1" Header="Battery State" >
@@ -62,7 +62,7 @@
                 </GridView>
             </ListView.View>
             </ListViewItem>
-        </ListView>
+        </ListView>-->
         <Button Click="Add_tag_click" Content="add drone" />
         <Button Click="close_tab" DockPanel.Dock="Bottom" Content="close drone to list" />
     </DockPanel>
