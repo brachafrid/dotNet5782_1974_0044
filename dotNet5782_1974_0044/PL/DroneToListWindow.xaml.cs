@@ -112,16 +112,12 @@ namespace PL
 
         private void select_screen_out_parameter(object sender, SelectionChangedEventArgs e)
         {
-            if ((e.OriginalSource as ComboBox).SelectedItem != null && (e.OriginalSource as ComboBox).Name == "ChooseWeight")
-                Drones.Filter = FilterDrones;
-            else if ((e.OriginalSource as ComboBox).SelectedItem != null)
                 Drones.Filter = FilterDrones;
         }
 
         private void Cancel_screen_out(object sender, RoutedEventArgs e)
         {
             ChooseWeight.Visibility = ChooseState.Visibility = Visibility.Collapsed;
-            DataContext = ConvertDroneToList(ibal.GetDrones());
             selectCategory.SelectedItem = ChooseWeight.SelectedItem = ChooseState.SelectedItem = null;
         }
 
