@@ -111,7 +111,21 @@ namespace PL
            
             mainWindow.Close_tab(sender, e);
         }
-       
+        private void UpdateDrone(object sender, RoutedEventArgs e)
+        {
+            DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
+            try
+            {
+                string name = "name";
+                bl.UpdateDrone(droneToList.Id, name);
+                MessageBox.Show("The drone's name was update successfully");
+            }
+            catch (InvalidEnumArgumentException ex)
+            {
+                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
+                //   MessageBox.Show("The drone is not available so it is not possible to send it for charging");
+            }
+        }
         private void SendToCharging(object sender, RoutedEventArgs e)
         {
             DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
@@ -167,9 +181,11 @@ namespace PL
                 bl.ParcelCollectionByDrone(droneToList.Id);
                 MessageBox.Show("The parcel was successfully collected");
             }
-            catch (ArgumentNullException)
+            catch (ArgumentNullException ex)
             {
-                MessageBox.Show("No parcel has been associated yet");
+                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
+              
+                    //MessageBox.Show("No parcel has been associated yet");
             }
             catch (InvalidEnumArgumentException ex)
             {

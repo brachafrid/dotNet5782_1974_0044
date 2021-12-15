@@ -27,7 +27,7 @@
             <Button Content="update options" Click="Buttons"/>
             <Button Content="close drone" Click="Close"/>
             
-            <!--<Button Content="update" Click="Update"/>-->
+            <Button Content="update drone's model" Click="UpdateDrone"/>
             <Button x:Name="sendToCharging" Content="send drone to charging" Click="SendToCharging" Visibility="Collapsed"/>
             <Button x:Name="releaseDroneFromCharging" Content="release drone from charging" Click="ReleaseDroneFromCharging" Visibility="Collapsed"/>
             
