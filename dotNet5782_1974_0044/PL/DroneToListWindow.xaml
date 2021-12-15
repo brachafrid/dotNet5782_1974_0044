@@ -9,14 +9,14 @@
     <UserControl.Resources>
         <ResourceDictionary Source="Dictionary.xaml"/>
     </UserControl.Resources>
-    <DockPanel DataContext="{Binding}">
+    <StackPanel DataContext="{Binding}">
         <ComboBox x:Name="selectCategory"  SelectionChanged="select_screen_out" >
             <ComboBoxItem Content="weight" />
             <ComboBoxItem Content="state" /> 
         </ComboBox>
         <ComboBox x:Name="ChooseWeight"  ItemsSource="{Binding}" Visibility="Collapsed" SelectionChanged="select_screen_out_parameter"/>
         <ComboBox x:Name="ChooseState" ItemsSource="{Binding}" Visibility="Collapsed" SelectionChanged="select_screen_out_parameter" />
-        <Button Content="to cansel screen out"  Click="Cancel_screen_out" Height="10" Width="10"/>
+        <Button Content="to cansel screen out"  Click="Cancel_screen_out" />
         <ListView x:Name="droneToListListView" ItemsSource="{Binding }"  SelectionMode="Single" DockPanel.Dock="Top"  MouseDoubleClick="double_click" >
         
         </ListView>
