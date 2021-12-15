@@ -181,6 +181,11 @@ namespace PL
                 bl.ParcelCollectionByDrone(droneToList.Id);
                 MessageBox.Show("The parcel was successfully collected");
             }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
+            }
+
             catch (ArgumentNullException ex)
             {
                 MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
@@ -202,6 +207,10 @@ namespace PL
             {
                 bl.DeliveryParcelByDrone(droneToList.Id);
                 MessageBox.Show("The drone was successfully shipped");
+            }
+            catch(KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
             }
             catch (InvalidEnumArgumentException ex)
             {
@@ -230,7 +239,6 @@ namespace PL
 
 
         }
-
-
+     
     }
 }

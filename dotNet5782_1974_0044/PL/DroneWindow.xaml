@@ -7,7 +7,13 @@
              xmlns:local="clr-namespace:PL"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
+   
+    <!--<StackPanel.Resources>-->
+        <!--<local:ConverterMaintenance x:Key="ConverterMaintenance"></local:ConverterMaintenance>
+        <local:ConverterAvailable x:Key="ConverterAvailable"></local:ConverterAvailable>
+        <local:ConverterDelivery x:Key="ConverterDelivery"></local:ConverterDelivery>-->
+    <!--</StackPanel.Resources>-->
+    
     <Grid  >
         <!--<local:DroneToListWindow x:Name = "ftv" x:FieldModifier = "public" />-->
         <StackPanel x:Name="add">
@@ -22,21 +28,31 @@
             <Button Content="Add" Click="AddDrone_click"/>
             <Button Content="cancel" Click="Close"/>
         </StackPanel>
-        <StackPanel x:Name="details"  >
+        <StackPanel x:Name="details" >
             <TextBlock Text="{Binding}"/>
             <Button Content="update options" Click="Buttons"/>
             <Button Content="close drone" Click="Close"/>
-            
+
             <Button Content="update drone's model" Click="UpdateDrone"/>
-            <Button x:Name="sendToCharging" Content="send drone to charging" Click="SendToCharging" Visibility="Collapsed"/>
-            <Button x:Name="releaseDroneFromCharging" Content="release drone from charging" Click="ReleaseDroneFromCharging" Visibility="Collapsed"/>
+            <StackPanel x:Name="available" >
+                <!--Visibility="ConverterAvailable">-->
+                <Button x:Name="sendToCharging" Content="send drone to charging" Click="SendToCharging" />
+                <Button x:Name="assingParcelToDrone"  Content="Sending the drone for delivery" Click="AssingParcelToDrone"/>
+            </StackPanel>
+
+            <StackPanel x:Name="maintenance" >
+                <!--Visibility="ConverterMaintenance">-->
+                <Button x:Name="releaseDroneFromCharging" Content="release drone from charging" Click="ReleaseDroneFromCharging"/>
+            </StackPanel>
             
-            <Label  Content="enter drone's id" Visibility="Collapsed"/>
-            <TextBox x:Name="timeOfCharg" Visibility="Collapsed"/>
-            <Button x:Name="assingParcelToDrone"  Content="Sending the drone for delivery" Click="AssingParcelToDrone" Visibility="Collapsed"/>
-            <Button x:Name="parcelCollectionByDrone"  Content="Parcel collection" Click="ParcelCollectionByDrone" Visibility="Collapsed"/>
-            <Button x:Name="deliveryParcelByDrone"  Content="Parcel delivery" Click="DeliveryParcelByDrone" Visibility="Collapsed"/>
-          
+            <!--<Label  Content="enter drone's id" Visibility="Collapsed"/>
+            <TextBox x:Name="timeOfCharg" Visibility="Collapsed"/>-->
+
+            <StackPanel x:Name="delivery" >
+                <!--Visibility="ConverterDelivery">-->
+                <Button x:Name="parcelCollectionByDrone"  Content="Parcel collection" Click="ParcelCollectionByDrone"/>
+                <Button x:Name="deliveryParcelByDrone"  Content="Parcel delivery" Click="DeliveryParcelByDrone"/>
+            </StackPanel>
         </StackPanel>
     </Grid>
 
