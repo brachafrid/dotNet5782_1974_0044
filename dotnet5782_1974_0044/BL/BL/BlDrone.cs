@@ -86,7 +86,7 @@ namespace IBL
                 IDAL.DO.Drone droneDl = dal.GetDrone(id);
                 dal.RemoveDrone(droneDl);
                 dal.AddDrone(id, name, droneDl.MaxWeight);
-                droneToList = drones.Find(item => item.Id == id);
+                droneToList = drones.First(item => item.Id == id);
                 drones.Remove(droneToList);
                 droneToList.DroneModel = name;
 
@@ -276,13 +276,14 @@ namespace IBL
         /// </summary>
         /// <returns>A list of drones to print</returns>
         public IEnumerable<DroneToList> GetDrones() => drones;
+
         /// <summary>
         /// Retrieves the list of drones from BL screenn out in according to  the predicate
         /// </summary>
         /// <returns>A list of drones to print</returns>
         public IEnumerable<DroneToList> GetDronesScreenOut<T>(Predicate<T> screenOut)
         {
-            return drones.FindAll(item => screenOut((T)item.GetType().GetProperties().First(itm => itm.PropertyType.Name.Equals(typeof(T).Name)).GetValue(item)));
+            return drones.Where(item => screenOut((T)item.GetType().GetProperties().First(itm => itm.PropertyType.Name.Equals(typeof(T).Name)).GetValue(item)));
         }
 
         private List<DroneInCharging> CreatListDroneInCharging(int id)

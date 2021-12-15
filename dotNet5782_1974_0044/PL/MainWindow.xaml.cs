@@ -33,15 +33,8 @@ namespace PL
 
         public void Add_tag_click(object sender, RoutedEventArgs e)
         {
-            TabItem tabItem = new TabItem();
-            Button b = (Button)sender;
-            tabItem.Content = b.Content switch
-            {
-                "DroneToList" => new DroneToListWindow(),
-                "add drone" => new Drone(),
-            };
-            tabItem.Header = b.Content.ToString();
-            tab.Items.Add(tabItem);
+            DroneToListTab.Visibility = Visibility.Visible;
+            contentDroneToListTab.Visibility = Visibility.Visible;
         }
         public void Close_tab(object sender, RoutedEventArgs e)
         {

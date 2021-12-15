@@ -20,7 +20,5 @@
         <ListView x:Name="droneToListListView" ItemsSource="{Binding }"  SelectionMode="Single" DockPanel.Dock="Top"  MouseDoubleClick="double_click" >
         
         </ListView>
-        <Button Click="Add_tab_click" Content="add drone" />
-        <Button Click="Close_tab_click" DockPanel.Dock="Bottom" Content="close drone to list" />
-    </DockPanel>
+    </StackPanel>
 </UserControl>
