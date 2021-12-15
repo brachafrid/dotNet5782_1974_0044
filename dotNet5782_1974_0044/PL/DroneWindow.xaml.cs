@@ -120,9 +120,10 @@ namespace PL
                 bl.SendDroneForCharg(droneToList.Id);
                 MessageBox.Show("The drone was sent for loading successfully");
             }
-            catch (InvalidEnumArgumentException)
+            catch (InvalidEnumArgumentException ex)
             {
-                MessageBox.Show("The drone is not available so it is not possible to send it for charging");
+                MessageBox.Show( ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
+             //   MessageBox.Show("The drone is not available so it is not possible to send it for charging");
             }
         }
 
@@ -136,9 +137,10 @@ namespace PL
                 bl.ReleaseDroneFromCharging(droneToList.Id, timeOfCharge);
                 MessageBox.Show("The drone was successfully released from the charging");
             }
-            catch (InvalidEnumArgumentException)
+            catch (InvalidEnumArgumentException ex)
             {
-                MessageBox.Show("The drone is not maintenace so it is not possible to release it form charging");
+                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
+                //MessageBox.Show("The drone is not maintenace so it is not possible to release it form charging");
             }
         }
 
@@ -150,9 +152,10 @@ namespace PL
                 bl.AssingParcelToDrone(droneToList.Id);
                 MessageBox.Show("The drone was successfully shipped");
             }
-            catch (InvalidEnumArgumentException)
+            catch (InvalidEnumArgumentException ex)
             {
-                MessageBox.Show(" The drone is not aviable so it is not possible to assign it a parcel");
+                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
+                //MessageBox.Show(" The drone is not aviable so it is not possible to assign it a parcel");
             }
         }
 
@@ -168,9 +171,11 @@ namespace PL
             {
                 MessageBox.Show("No parcel has been associated yet");
             }
-            catch (InvalidEnumArgumentException)
+            catch (InvalidEnumArgumentException ex)
             {
-                MessageBox.Show("The drone is not in delivery");
+                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
+
+               // MessageBox.Show("The drone is not in delivery");
             }
         }
 
@@ -182,9 +187,10 @@ namespace PL
                 bl.DeliveryParcelByDrone(droneToList.Id);
                 MessageBox.Show("The drone was successfully shipped");
             }
-            catch (InvalidEnumArgumentException)
+            catch (InvalidEnumArgumentException ex)
             {
-                MessageBox.Show(" The drone is not aviable so it is not possible to assign it a parcel");
+                MessageBox.Show( ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
+               // MessageBox.Show(" The drone is not aviable so it is not possible to assign it a parcel");
             }
         }
 
