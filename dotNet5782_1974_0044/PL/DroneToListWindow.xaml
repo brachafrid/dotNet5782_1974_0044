@@ -9,7 +9,7 @@
     <UserControl.Resources>
         <ResourceDictionary Source="Dictionary.xaml"/>
     </UserControl.Resources>
-    <DockPanel DataContext="{Binding}">
+    <StackPanel DataContext="{Binding}">
         <ComboBox x:Name="selectCategory"  SelectionChanged="select_screen_out" >
             <ComboBoxItem Content="weight" />
             <ComboBoxItem Content="state" /> 
