@@ -86,10 +86,10 @@ namespace PL
 
         private void select_screen_out_parameter(object sender, SelectionChangedEventArgs e)
         {
-            string cont = (e.OriginalSource as ComboBox).SelectedItem.ToString();
-            if ((e.OriginalSource as ComboBox).Name == "ChooseWeight")
+            string cont = (e.OriginalSource as ComboBox).SelectedItem?.ToString();
+            if ((e.OriginalSource as ComboBox).SelectedItem!=null && (e.OriginalSource as ComboBox).Name == "ChooseWeight")
                 DataContext = ConvertDroneToList( ibal.GetDronesScreenOut((WeightCategories weightCategories) => weightCategories.ToString() == cont));
-            else
+            else if((e.OriginalSource as ComboBox).SelectedItem != null)
                 DataContext = ConvertDroneToList(ibal.GetDronesScreenOut((DroneState droneState) => droneState.ToString() == cont));
 
         }
@@ -100,6 +100,8 @@ namespace PL
             ChooseState.Visibility = Visibility.Collapsed;
             DataContext = ConvertDroneToList(ibal.GetDrones());
             selectCategory.SelectedItem = null;
+            ChooseWeight.SelectedItem = null;
+            ChooseState.SelectedItem = null;
         }
 
         public ObservableCollection<IBL.BO.DroneToList> ConvertDroneToList(IEnumerable<DroneToList> IbalDroneToLists)
