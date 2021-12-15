@@ -50,6 +50,7 @@ namespace PL
                 tmp = ((FrameworkElement)tmp).Parent;
             }
             MainWindow mainWindow = (MainWindow)tmp;
+
             mainWindow.Add_tag_click(sender, e);
         }
 

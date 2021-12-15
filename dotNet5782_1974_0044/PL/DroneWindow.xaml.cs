@@ -22,11 +22,11 @@ namespace PL
     /// <summary>
     /// Interaction logic for Drone.xaml
     /// </summary>
+
     public partial class Drone : UserControl
     {
         IBL.IBL bl = Singletone<BL>.Instance;
         //private Visibility collapsed = Visibility.Collapsed;
-
         //add new drone
         public Drone()
         {
@@ -36,10 +36,9 @@ namespace PL
             DataContext = Enum.GetValues(typeof(WeightCategories));
             station.DataContext = bl.GetStaionsWithEmptyChargeSlots((int num) => num > 0).ToList().Select(station => station.Id);
         }
-        //
+
         public Drone(IBL.BO.DroneToList drone)
         {
-
             InitializeComponent();
             add.Visibility = Visibility.Collapsed;
             DataContext = drone;
@@ -82,14 +81,11 @@ namespace PL
 
                 MessageBox.Show("add succses");
                 Close(sender, e);
-
             }
             catch (ThereIsAnObjectWithTheSameKeyInTheListException)
             {
                 MessageBox.Show("id is already exist");
             }
-
-
         }
 
         private void is_num(object sender, TextChangedEventArgs e)
@@ -107,25 +103,12 @@ namespace PL
         {
             object tmp = sender;
             while (tmp.GetType() != typeof(MainWindow))
-            {
                 tmp = ((FrameworkElement)tmp).Parent;
-            }
-            MainWindow mainWindow = (MainWindow)tmp;
-            UpdateDataContent(sender);
-            mainWindow.Close_tab(sender, e);
-
-        }
-        private void UpdateDataContent(object sender)
-        {
-            //object tmp = sender;
-            //while (tmp.GetType() != typeof(TabControl))
-            //    tmp = (tmp as FrameworkElement).Parent;
-            //foreach (var item in (tmp as TabControl).Items)
-            //{
-
-
-            //}
             
+            MainWindow mainWindow = (MainWindow)tmp;
+           
+            mainWindow.Close_tab(sender, e);
         }
+       
     }
 }
