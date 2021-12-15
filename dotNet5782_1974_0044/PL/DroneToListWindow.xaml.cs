@@ -16,6 +16,7 @@ using Utilities;
 using IBL.BO;
 using System.Collections.ObjectModel;
 
+
 namespace PL
 {
     /// <summary>
@@ -67,6 +68,7 @@ namespace PL
                 tabItem.Content = new Drone((IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext);
                 tabItem.Header = "Drone";
                 mainWindow.tab.Items.Add(tabItem);
+                //Buttons(sender, e);
             }
         }
 
@@ -114,6 +116,10 @@ namespace PL
             return droneToLists;
         }
 
+        private void droneToListListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 
 }

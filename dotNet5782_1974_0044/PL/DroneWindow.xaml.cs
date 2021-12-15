@@ -16,6 +16,8 @@ using IBL.BO;
 using IBL;
 using Utilities;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Printing;
 
 namespace PL
 {
@@ -125,7 +127,106 @@ namespace PL
 
 
             //}
-            
+
         }
+
+        private void SendToCharging(object sender, RoutedEventArgs e)
+        {
+            DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
+            try
+            {
+                bl.SendDroneForCharg(droneToList.Id);
+                MessageBox.Show("The drone was sent for loading successfully");
+            }
+            catch (InvalidEnumArgumentException)
+            {
+                MessageBox.Show("The drone is not available so it is not possible to send it for charging");
+            }
+        }
+
+        private void ReleaseDroneFromCharging(object sender, RoutedEventArgs e)
+        {
+            DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
+            try
+            {
+                //timeOfCharg.Visibility = Visibility.Collapsed;
+                float timeOfCharge = 0;//float.Parse(timeOfCharg.Text);
+                bl.ReleaseDroneFromCharging(droneToList.Id, timeOfCharge);
+                MessageBox.Show("The drone was successfully released from the charging");
+            }
+            catch (InvalidEnumArgumentException)
+            {
+                MessageBox.Show("The drone is not maintenace so it is not possible to release it form charging");
+            }
+        }
+
+        private void AssingParcelToDrone(object sender, RoutedEventArgs e)
+        {
+            DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
+            try
+            {
+                bl.AssingParcelToDrone(droneToList.Id);
+                MessageBox.Show("The drone was successfully shipped");
+            }
+            catch (InvalidEnumArgumentException)
+            {
+                MessageBox.Show(" The drone is not aviable so it is not possible to assign it a parcel");
+            }
+        }
+
+        private void ParcelCollectionByDrone(object sender, RoutedEventArgs e)
+        {
+            DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
+            try
+            {
+                bl.ParcelCollectionByDrone(droneToList.Id);
+                MessageBox.Show("The parcel was successfully collected");
+            }
+            catch (ArgumentNullException)
+            {
+                MessageBox.Show("No parcel has been associated yet");
+            }
+            catch (InvalidEnumArgumentException)
+            {
+                MessageBox.Show("The drone is not in delivery");
+            }
+        }
+
+        private void DeliveryParcelByDrone(object sender, RoutedEventArgs e)
+        {
+            DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
+            try
+            {
+                bl.DeliveryParcelByDrone(droneToList.Id);
+                MessageBox.Show("The drone was successfully shipped");
+            }
+            catch (InvalidEnumArgumentException)
+            {
+                MessageBox.Show(" The drone is not aviable so it is not possible to assign it a parcel");
+            }
+        }
+
+        private void Buttons(object sender, RoutedEventArgs e)
+        {
+            DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
+            if (droneToList.DroneState == DroneState.AVAILABLE)
+            {
+                sendToCharging.Visibility = Visibility.Visible;
+                assingParcelToDrone.Visibility = Visibility.Visible;
+            }
+            if (droneToList.DroneState == DroneState.MAINTENANCE)
+            {
+                releaseDroneFromCharging.Visibility = Visibility.Visible;
+            }
+            if (droneToList.DroneState == DroneState.DELIVERY)
+            {
+                parcelCollectionByDrone.Visibility = Visibility.Visible;
+                deliveryParcelByDrone.Visibility = Visibility.Visible;
+            }
+
+
+        }
+
+
     }
 }

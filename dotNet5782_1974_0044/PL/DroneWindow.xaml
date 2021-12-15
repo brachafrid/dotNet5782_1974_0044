@@ -7,7 +7,7 @@
              xmlns:local="clr-namespace:PL"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    
+
     <Grid  >
         <!--<local:DroneToListWindow x:Name = "ftv" x:FieldModifier = "public" />-->
         <StackPanel x:Name="add">
@@ -22,11 +22,24 @@
             <Button Content="Add" Click="AddDrone_click"/>
             <Button Content="cancel" Click="Close"/>
         </StackPanel>
-        <StackPanel x:Name="details">
+        <StackPanel x:Name="details"  >
             <TextBlock Text="{Binding}"/>
+            <Button Content="update options" Click="Buttons"/>
+            <Button Content="close drone" Click="Close"/>
+            
+            <!--<Button Content="update" Click="Update"/>-->
+            <Button x:Name="sendToCharging" Content="send drone to charging" Click="SendToCharging" Visibility="Collapsed"/>
+            <Button x:Name="releaseDroneFromCharging" Content="release drone from charging" Click="ReleaseDroneFromCharging" Visibility="Collapsed"/>
+            
+            <Label  Content="enter drone's id" Visibility="Collapsed"/>
+            <TextBox x:Name="timeOfCharg" Visibility="Collapsed"/>
+            <Button x:Name="assingParcelToDrone"  Content="Sending the drone for delivery" Click="AssingParcelToDrone" Visibility="Collapsed"/>
+            <Button x:Name="parcelCollectionByDrone"  Content="Parcel collection" Click="ParcelCollectionByDrone" Visibility="Collapsed"/>
+            <Button x:Name="deliveryParcelByDrone"  Content="Parcel delivery" Click="DeliveryParcelByDrone" Visibility="Collapsed"/>
+          
         </StackPanel>
     </Grid>
-   
+
 
 
 
