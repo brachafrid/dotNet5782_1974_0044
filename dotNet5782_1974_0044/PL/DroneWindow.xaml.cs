@@ -166,6 +166,11 @@ namespace PL
                 bl.AssingParcelToDrone(droneToList.Id);
                 MessageBox.Show("The drone was successfully shipped");
             }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
+            }
+
             catch (InvalidEnumArgumentException ex)
             {
                 MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
