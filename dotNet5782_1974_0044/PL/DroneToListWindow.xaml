@@ -17,6 +17,8 @@
         <ComboBox x:Name="ChooseWeight"  ItemsSource="{Binding}" Visibility="Collapsed" SelectionChanged="select_screen_out_parameter"/>
         <ComboBox x:Name="ChooseState" ItemsSource="{Binding}" Visibility="Collapsed" SelectionChanged="select_screen_out_parameter" />
         <Button Content="to cansel screen out"  Click="Cancel_screen_out" />
+        <Button Click="Add_tab_click" Content="Add Drone"/>
+        <Button Click="Close_tab_click" Content="Close Drone To List"/>
         <ListView x:Name="droneToListListView" ItemsSource="{Binding }"  SelectionMode="Single" DockPanel.Dock="Top"  MouseDoubleClick="double_click" >
         
         </ListView>
