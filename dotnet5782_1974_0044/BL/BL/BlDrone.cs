@@ -10,6 +10,7 @@ namespace IBL
     
     public partial class BL : IBlDrone
     {
+        //
         private const int NUM_OF_MINUTE_IN_HOUR = 60;
         private const int MIN_BATTERY = 20;
         private const int MAX_BATTERY = 40;
@@ -193,8 +194,6 @@ namespace IBL
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == DroneId);
             if (droneToList == default)
                 throw new ArgumentNullException(" There is no a drone with the same id in data");
-            if (droneToList.DroneState != DroneState.DELIVERY)
-                throw new InvalidEnumArgumentException("The drone is not in delivery");
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
             drones.Remove(droneToList);
@@ -235,8 +234,6 @@ namespace IBL
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == droneId);
             if (droneToList == default)
                 throw new ArgumentNullException("There is no a drone with the same id in data");
-            if (droneToList.DroneState != DroneState.DELIVERY)
-                throw new InvalidEnumArgumentException("The drone is not in delivery");
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
             IDAL.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
