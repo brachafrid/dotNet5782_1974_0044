@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using IBL.BO;
 using Utilities;
@@ -14,7 +15,7 @@ namespace IBL
         public const int MININITBATTARY = 0;
         public const int FULLBATTRY = 100;
         private static readonly Random rand = new();
-        private readonly List<DroneToList> drones;
+        private readonly ObservableCollection<DroneToList> drones;
         private readonly IDAL.IDal dal;
         private readonly double available;
         private readonly double lightWeightCarrier;
@@ -25,7 +26,7 @@ namespace IBL
         {
             dal = Singletone<DalObject.DalObject>.Instance;
             // set electricty variablses
-            drones = new List<DroneToList>();
+            drones = new ObservableCollection<DroneToList>();
             (
                 available,
                 lightWeightCarrier,
