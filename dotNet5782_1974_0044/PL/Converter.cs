@@ -1,20 +1,47 @@
-﻿using IBL.BO;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Data;
+using IBL.BO;
 
 namespace PL
 {
-    public partial class DroneWindow : UserControl
+    public class ConverterDroneAviable : IValueConverter
     {
-        private Visibility ConverterAvailable(object sender, RoutedEventArgs e)
+        //private Visibility ConverterAvailable(object sender, RoutedEventArgs e)
+        //{
+
+        //}
+        //private Visibility ConverterMaintenance(object sender, RoutedEventArgs e)
+        //{
+        //    IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+        //    if (drone.DroneState == DroneState.MAINTENANCE)
+        //    {
+        //        return Visibility.Visible;
+        //    }
+        //    else
+        //        return Visibility.Collapsed;
+        //}
+        //private Visibility ConverterDelivery(object sender, RoutedEventArgs e)
+        //{
+        //    IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+        //    if (drone.DroneState == DroneState.DELIVERY)
+        //    {
+        //        return Visibility.Visible;
+        //    }
+        //    else
+        //        return Visibility.Collapsed;
+        //}
+
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            while ((value as FrameworkElement).GetType() == typeof(Drone))
+                value = (value as FrameworkElement).Parent;
+            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)value).DataContext;
             if (drone.DroneState == DroneState.AVAILABLE)
             {
                 return Visibility.Visible;
@@ -22,25 +49,10 @@ namespace PL
             else
                 return Visibility.Collapsed;
         }
-        private Visibility ConverterMaintenance(object sender, RoutedEventArgs e)
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
-            if (drone.DroneState == DroneState.MAINTENANCE)
-            {
-                return Visibility.Visible;
-            }
-            else
-                return Visibility.Collapsed;
-        }
-        private Visibility ConverterDelivery(object sender, RoutedEventArgs e)
-        {
-            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
-            if (drone.DroneState == DroneState.DELIVERY)
-            {
-                return Visibility.Visible;
-            }
-            else
-                return Visibility.Collapsed;
+            throw new NotImplementedException();
         }
     }
 }

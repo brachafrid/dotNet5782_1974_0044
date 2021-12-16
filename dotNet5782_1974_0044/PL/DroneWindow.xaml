@@ -3,12 +3,16 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             
+             xmlns:local="clr-namespace:PL"
              xmlns:local="clr-namespace:PL"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <ResourceDictionary Source="Dictionary.xaml"/>
+        <local:ConverterDroneAviable x:Key="ConverterDroneAviable" />
+        <ResourceDictionary x:Key="dictionary">
+            <ResourceDictionary.MergedDictionaries Source="Dictionary.xaml"/>
+        </ResourceDictionary>
+
     </UserControl.Resources>
     <Grid  >
         <StackPanel x:Name="add">
@@ -24,16 +28,15 @@
             <Button Content="cancel" Click="Close"/>
         </StackPanel>
         <StackPanel x:Name="details" >
-        <ContentPresenter Content="{Binding}"/>
+            <ContentPresenter Content="{Binding}"/>
             <!--<Button Content="update options" Click="Buttons"/>-->
             <Button Content="close drone" Click="Close"/>
 
             <Button Content="update drone's model" Click="UpdateDrone"/>
 
-          
 
-            <StackPanel x:Name="available" >
-                <!--Visibility="ConverterAvailable">-->
+
+            <StackPanel x:Name="available"  Visibility="{Binding status,Converter={StaticResource ConverterDroneAviable}}">
                 <Button x:Name="sendToCharging" Content="send drone to charging" Click="SendToCharging" />
                 <Button x:Name="assingParcelToDrone"  Content="Sending the drone for delivery" Click="AssingParcelToDrone"/>
             </StackPanel>
@@ -45,7 +48,7 @@
                 <TextBox x:Name="timeOfCharge" Visibility="Collapsed"></TextBox>
                 <Button x:Name="confirm" Content="confirm" Click="Confirm" Visibility="Collapsed" Width="50"></Button>
             </StackPanel>
-            
+
             <!--<Label  Content="enter drone's id" Visibility="Collapsed"/>
             <TextBox x:Name="timeOfCharg" Visibility="Collapsed"/>-->
 
