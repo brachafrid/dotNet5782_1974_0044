@@ -24,7 +24,7 @@
             <Button Content="cancel" Click="Close"/>
         </StackPanel>
         <StackPanel x:Name="details" >
-            <TextBlock Text="{Binding}"/>
+        <ContentPresenter Content="{Binding}"/>
             <!--<Button Content="update options" Click="Buttons"/>-->
             <Button Content="close drone" Click="Close"/>
 

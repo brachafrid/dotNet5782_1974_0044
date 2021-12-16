@@ -279,15 +279,6 @@ namespace IBL
         /// <returns>A list of drones to print</returns>
         public IEnumerable<DroneToList> GetDrones() => drones;
 
-        /// <summary>
-        /// Retrieves the list of drones from BL screenn out in according to  the predicate
-        /// </summary>
-        /// <returns>A list of drones to print</returns>
-        public IEnumerable<DroneToList> GetDronesScreenOut<T>(Predicate<T> screenOut)
-        {
-            return drones.Where(item => screenOut((T)item.GetType().GetProperties().First(itm => itm.PropertyType.Name.Equals(typeof(T).Name)).GetValue(item)));
-        }
-
         private List<DroneInCharging> CreatListDroneInCharging(int id)
         {
             List<int> list = dal.GetDronechargingInStation((int stationIdOfDrone)=> stationIdOfDrone == id);
