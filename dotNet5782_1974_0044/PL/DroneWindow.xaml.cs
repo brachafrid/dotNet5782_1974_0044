@@ -46,48 +46,131 @@ namespace PL
             var drone = bl.GetDrone(droneToList.Id);
             DataContext = drone;
         }
+        //private void Valid_Id_Drone(object sender, RoutedEventArgs e)
+        //{
+        //    is_num(sender, (TextChangedEventArgs)e);
+                
+        //    if (id.Text == string.Empty)
+        //    {
+        //        id.Background = Brushes.OrangeRed;
+        //        MessageBox.Show("enter id");
+        //        //return false;
+        //    }
+        //    //return true;
+        //}
+        //private void Valid_Model_Drone(object sender, RoutedEventArgs e)
+        //{
+        //    string droneModel = model.Text;
+        //    if (droneModel == string.Empty)
+        //    {
+        //        model.Background = Brushes.OrangeRed;
+
+        //        MessageBox.Show("enter model");
+        //        //return false;
+        //    }
+        //    //return true;
+        //}
+        //private void Valid_Weight_Drone(object sender, RoutedEventArgs e)
+        //{
+        //    WeightCategories maxWeight = (WeightCategories)weigth.SelectedIndex;
+        //    if ((int)maxWeight == -1)
+        //    {
+        //        //model = "red";
+        //        weigth.Background = Brushes.OrangeRed;
+
+        //        MessageBox.Show("choose max weigth");
+        //        //return false;
+        //    }
+        //    //return true;
+        //}
+        //private void Valid_Station_Drone(object sender, RoutedEventArgs e)
+        //{
+        //    if (station.SelectedIndex == -1)
+        //    {
+        //        station.Background = Brushes.OrangeRed;
+        //        MessageBox.Show("choose station");
+        //        //return false;
+        //    }
+        //    //return true;
+        //}
 
         private void AddDrone_click(object sender, RoutedEventArgs e)
         {
-
+            bool valid = true;
             WeightCategories maxWeight = (WeightCategories)weigth.SelectedIndex;
-            if ((int)maxWeight == -1)
-            {
-                MessageBox.Show("choose max weigth");
-                return;
-            }
             string droneModel = model.Text;
+
             if (droneModel == string.Empty)
             {
+                model.Background = Brushes.OrangeRed;
                 MessageBox.Show("enter model");
-                return;
-            }
-            if (station.SelectedIndex == -1)
-            {
-                MessageBox.Show("choose station");
-                return;
+
+                valid = false;
             }
             if (id.Text == string.Empty)
             {
+                id.Background = Brushes.OrangeRed;
                 MessageBox.Show("enter id");
-                return;
+                valid = false;
+
+                //return false;
             }
-            int stationId = (int)station.SelectedValue;
+            if ((int)maxWeight == -1)
+            {
+                //model = "red";
+                weigth.Background = Brushes.OrangeRed;
+                valid = false;
+
+                MessageBox.Show("choose max weigth");
+                //return false;
+            }
+            if (station.SelectedIndex == -1)
+            {
+                station.Background = Brushes.OrangeRed;
+                valid = false;
+
+                MessageBox.Show("choose station");
+                //return false;
+            }
+           
+            
             try
             {
-                bl.AddDrone(new IBL.BO.Drone()
+                int stationId = 0;
+                if (station.SelectedValue == null)
                 {
-                    Id = int.Parse(id.Text),
-                    Model = droneModel,
-                    WeightCategory = maxWeight
-                }, stationId);
+                    MessageBox.Show("choose station");
+                    valid = false;
 
-                MessageBox.Show("add succses");
-                Close(sender, e);
+                }
+                else
+                {
+                    stationId = (int)station.SelectedValue;
+                }
+                if (valid == true) {
+                    id.Background = Brushes.GreenYellow;
+                    model.Background = Brushes.GreenYellow;
+                    weigth.Background = Brushes.GreenYellow;
+                    station.Background = Brushes.GreenYellow;
+
+                    bl.AddDrone(new IBL.BO.Drone()
+                    {
+                        Id = int.Parse(id.Text),
+                        Model = droneModel,
+                        WeightCategory = maxWeight
+                    }, stationId);
+
+                    MessageBox.Show("add succses");
+                    Close(sender, e);
+                }
             }
             catch (ThereIsAnObjectWithTheSameKeyInTheListException)
             {
                 MessageBox.Show("id is already exist");
+            }
+            catch (NullReferenceException)
+            {
+                MessageBox.Show("choose station");
             }
         }
 
@@ -162,6 +245,7 @@ namespace PL
                 timeCharge.Visibility = Visibility.Collapsed;
                 timeOfCharge.Visibility = Visibility.Collapsed;
                 confirm.Visibility = Visibility.Collapsed;
+                
 
             }
             catch (ArgumentNullException)

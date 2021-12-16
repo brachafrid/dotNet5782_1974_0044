@@ -7,7 +7,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <ResourceDictionary x:Key="dictionary">
+        <ResourceDictionary>
             <local:ConverterDroneAviable x:Key="ConverterDroneAviable" />
             <local:ConverterDroneMaintenance x:Key="ConverterDroneMaintenance" />
             <local:ConverterDroneDelivery x:Key="ConverterDroneDelivery" />
@@ -15,18 +15,20 @@
                 <ResourceDictionary Source="Dictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
-
     </UserControl.Resources>
     <Grid>
         <StackPanel x:Name="add">
             <Label Content="enter drone's id"/>
-            <TextBox TextChanged="is_num" x:Name="id"/>
+
+            <TextBox TextChanged="is_num" x:Name="id" />
             <Label Content="model"/>
-            <TextBox x:Name="model"></TextBox>
+            <TextBox x:Name="model" ></TextBox>
             <Label Content="max weigth" />
-            <ComboBox ItemsSource="{Binding}" x:Name="weigth"/>
+            <ComboBox Background="red" ItemsSource="{Binding}" x:Name="weigth" />
+       
             <Label Content="station" />
-            <ComboBox ItemsSource="{Binding}" x:Name="station"/>
+            <ComboBox ItemsSource="{Binding}" x:Name="station" />
+            <!--DataContextChanged="Valid_Station_Drone"/>-->
             <Button Content="Add" Click="AddDrone_click"/>
             <Button Content="cancel" Click="Close"/>
         </StackPanel>
