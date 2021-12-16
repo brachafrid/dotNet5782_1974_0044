@@ -7,8 +7,9 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <ResourceDictionary x:Key="dictionary">
+        <ResourceDictionary >
             <local:ConverterDroneAviable x:Key="ConverterDroneAviable" />
+            <local:ConverterParcelColection x:Key="ConverterParcelColection" />
             <local:ConverterDroneMaintenance x:Key="ConverterDroneMaintenance" />
             <local:ConverterDroneDelivery x:Key="ConverterDroneDelivery" />
             <ResourceDictionary.MergedDictionaries>
@@ -31,10 +32,10 @@
             <Button Content="cancel" Click="Close"/>
         </StackPanel>
         <StackPanel x:Name="details" >
-            <ContentPresenter Content="{Binding}"/>
+            <ContentPresenter Content="{Binding}" TextBoxBase.TextChanged="model_changed"/>
             <!--<Button Content="update options" Click="Buttons"/>-->
             <Button Content="close drone" Click="Close"/>
-            <Button Content="update drone's model" Click="UpdateDrone"/>
+            <Button Content="update drone's model" Click="UpdateDrone" />
             <StackPanel x:Name="available"  Visibility="{Binding Path=DroneState,Converter={StaticResource ConverterDroneAviable}}">
                 <Button x:Name="sendToCharging" Content="send drone to charging" Click="SendToCharging" />
                 <Button x:Name="assingParcelToDrone"  Content="Sending the drone for delivery" Click="AssingParcelToDrone"/>
@@ -42,7 +43,7 @@
 
             <StackPanel x:Name="maintenance" Visibility="{Binding Path=DroneState,Converter={StaticResource ConverterDroneMaintenance}}">
                 <Button x:Name="releaseDroneFromCharging" Content="release drone from charging" Click="ReleaseDroneFromCharging"/>
-                <Label x:Name="timeCharge" Content="timeOfCharge" Visibility="Collapsed"/>
+                <Label x:Name="timeCharge" Content="enter time Of Charging in minutes" Visibility="Collapsed"/>
                 <TextBox x:Name="timeOfCharge" Visibility="Collapsed"></TextBox>
                 <Button x:Name="confirm" Content="confirm" Click="Confirm" Visibility="Collapsed" Width="50"></Button>
             </StackPanel>
@@ -51,8 +52,8 @@
             <TextBox x:Name="timeOfCharg" Visibility="Collapsed"/>-->
 
             <StackPanel x:Name="delivery" Visibility="{Binding Path=DroneState,Converter={StaticResource ConverterDroneDelivery}}">
-                <Button x:Name="parcelCollectionByDrone"  Content="Parcel collection" Click="ParcelCollectionByDrone"/>
-                <Button x:Name="deliveryParcelByDrone"  Content="Parcel delivery" Click="DeliveryParcelByDrone"/>
+                <Button x:Name="parcelCollectionByDrone"  Content="Parcel collection" Click="ParcelCollectionByDrone" Visibility="{Binding Path=ParcelState,Converter={StaticResource ConverterParcelColection}}"/>
+                <Button x:Name="deliveryParcelByDrone"  Content="Parcel delivery" Click="DeliveryParcelByDrone" Visibility="{Binding Path=ParcelState,Converter={StaticResource ConverterParcelColection}}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

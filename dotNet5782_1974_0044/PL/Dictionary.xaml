@@ -31,8 +31,10 @@
     <DataTemplate DataType="{x:Type bo:Drone}">
         <StackPanel>
             <StackPanel>
-                <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:n}}" />
-                <TextBox x:Name="model" Text="{Binding Path= Model, StringFormat= model :{0:d}}" />
+                <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
+                <DockPanel>
+                <Label Content="model"/>
+                <TextBox  Text="{Binding Mode=OneWay, Path= Model, StringFormat=0:d}" /></DockPanel>
                 <TextBlock Text="{Binding Path=WeightCategory, StringFormat=maxWeigth :{0}}"/>
                 <Expander Header="CurrentLocation">
                     <ContentPresenter Content="{Binding Path=CurrentLocation}" />
@@ -54,7 +56,7 @@
     <DataTemplate DataType="{x:Type bo:ParcelInTransfer}">
         <Expander Header="ParcelInTransfer">
             <StackPanel>
-                <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:n}}" />
+                <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
                 <TextBlock Text="{Binding Path=WeightCategory, StringFormat = maxWeigth:{0}}"/>
                 <TextBlock Text="{Binding Path=Priority, StringFormat = Priority:{0}}"/>
                 <TextBlock Text="{Binding Path = ParcelState, StringFormat= ParcelState :{0}}"/>
