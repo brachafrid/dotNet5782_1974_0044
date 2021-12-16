@@ -25,10 +25,13 @@
         </StackPanel>
         <StackPanel x:Name="details" >
             <TextBlock Text="{Binding}"/>
-            <Button Content="update options" Click="Buttons"/>
+            <!--<Button Content="update options" Click="Buttons"/>-->
             <Button Content="close drone" Click="Close"/>
 
             <Button Content="update drone's model" Click="UpdateDrone"/>
+
+          
+
             <StackPanel x:Name="available" >
                 <!--Visibility="ConverterAvailable">-->
                 <Button x:Name="sendToCharging" Content="send drone to charging" Click="SendToCharging" />
@@ -38,6 +41,9 @@
             <StackPanel x:Name="maintenance" >
                 <!--Visibility="ConverterMaintenance">-->
                 <Button x:Name="releaseDroneFromCharging" Content="release drone from charging" Click="ReleaseDroneFromCharging"/>
+                <Label x:Name="timeCharge" Content="timeOfCharge" Visibility="Collapsed"/>
+                <TextBox x:Name="timeOfCharge" Visibility="Collapsed"></TextBox>
+                <Button x:Name="confirm" Content="confirm" Click="Confirm" Visibility="Collapsed" Width="50"></Button>
             </StackPanel>
             
             <!--<Label  Content="enter drone's id" Visibility="Collapsed"/>

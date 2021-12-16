@@ -114,19 +114,22 @@ namespace PL
         }
         private void UpdateDrone(object sender, RoutedEventArgs e)
         {
-            DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
-            try
-            {
-                string name = "name";
-                bl.UpdateDrone(droneToList.Id, name);
-                MessageBox.Show("The drone's name was update successfully");
-            }
-            catch (InvalidEnumArgumentException ex)
-            {
-                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
-                //   MessageBox.Show("The drone is not available so it is not possible to send it for charging");
-            }
+
+            //DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
+           // try // {
+            //model.Visibility = Visibility.Visible;
+            //NameModel.Visibility = Visibility.Visible;
+            //confirm.Visibility = Visibility.Visible;
+            //}
+        //    catch (InvalidEnumArgumentException ex)
+        //    {
+        //        MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
+        //        //   MessageBox.Show("The drone is not available so it is not possible to send it for charging");
+        //    }
         }
+  
+
+
         private void SendToCharging(object sender, RoutedEventArgs e)
         {
             IBL.BO.Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
@@ -144,18 +147,40 @@ namespace PL
 
         private void ReleaseDroneFromCharging(object sender, RoutedEventArgs e)
         {
+            //IBL.BO.Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+           // try
+           // {
+                //timeOfCharg.Visibility = Visibility.Collapsed;
+                //float timeOfCharge = 0;//float.Parse(timeOfCharg.Text);
+                timeCharge.Visibility = Visibility.Visible;
+                timeOfCharge.Visibility = Visibility.Visible;
+                confirm.Visibility = Visibility.Visible;
+         
+           // }
+           // catch (InvalidEnumArgumentException ex)
+           // {
+                //MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
+                //MessageBox.Show("The drone is not maintenace so it is not possible to release it form charging");
+            
+        }
+
+        private void Confirm(object sender, RoutedEventArgs e)
+        {
             IBL.BO.Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+
             try
             {
-                //timeOfCharg.Visibility = Visibility.Collapsed;
-                float timeOfCharge = 0;//float.Parse(timeOfCharg.Text);
-                bl.ReleaseDroneFromCharging(droneToList.Id, timeOfCharge);
+                float timeCrg = float.Parse(timeOfCharge.Text);
+                bl.ReleaseDroneFromCharging(droneToList.Id, timeCrg);
                 MessageBox.Show("The drone was successfully released from the charging");
+                timeCharge.Visibility = Visibility.Collapsed;
+                timeOfCharge.Visibility = Visibility.Collapsed;
+                confirm.Visibility = Visibility.Collapsed;
+
             }
-            catch (InvalidEnumArgumentException ex)
+            catch (ArgumentNullException)
             {
-                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
-                //MessageBox.Show("The drone is not maintenace so it is not possible to release it form charging");
+                MessageBox.Show("For updating the name must be initialized ");
             }
         }
 
@@ -166,6 +191,10 @@ namespace PL
             {
                 bl.AssingParcelToDrone(droneToList.Id);
                 MessageBox.Show("The drone was successfully shipped");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
             }
             catch (InvalidEnumArgumentException ex)
             {
