@@ -128,8 +128,6 @@ namespace PL
             }
         }
   
-
-
         private void SendToCharging(object sender, RoutedEventArgs e)
         {
             IBL.BO.Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
@@ -147,21 +145,9 @@ namespace PL
 
         private void ReleaseDroneFromCharging(object sender, RoutedEventArgs e)
         {
-            //IBL.BO.Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
-           // try
-           // {
-                //timeOfCharg.Visibility = Visibility.Collapsed;
-                //float timeOfCharge = 0;//float.Parse(timeOfCharg.Text);
-                timeCharge.Visibility = Visibility.Visible;
-                timeOfCharge.Visibility = Visibility.Visible;
-                confirm.Visibility = Visibility.Visible;
-         
-           // }
-           // catch (InvalidEnumArgumentException ex)
-           // {
-                //MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
-                //MessageBox.Show("The drone is not maintenace so it is not possible to release it form charging");
-            
+            timeCharge.Visibility = Visibility.Visible;
+            timeOfCharge.Visibility = Visibility.Visible;
+            confirm.Visibility = Visibility.Visible;
         }
 
         private void Confirm(object sender, RoutedEventArgs e)
