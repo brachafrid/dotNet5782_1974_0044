@@ -1,28 +1,46 @@
-﻿using System;
+﻿using IBL.BO;
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Data;
-using IBL.BO;
+using System.Windows;
+using System.Windows.Controls;
 
 namespace PL
 {
-    class ConverterParcel : IValueConverter
+    public partial class Drone : UserControl
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        private Visibility ConverterAvailable(object sender, RoutedEventArgs e)
         {
-            if ((value as IBL.BO.Drone).Parcel is null)
-                return string.Empty;
-            return (value as IBL.BO.Drone).Parcel;
+            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            if (drone.DroneState == DroneState.AVAILABLE)
+            {
+                return Visibility.Visible;
+            }
+            else
+                return Visibility.Collapsed;
         }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        private Visibility ConverterMaintenance(object sender, RoutedEventArgs e)
         {
-            if (value.Equals( string.Empty))
-                return null;
-            return value;
+            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            if (drone.DroneState == DroneState.MAINTENANCE)
+            {
+                return Visibility.Visible;
+            }
+            else
+                return Visibility.Collapsed;
+        }
+        private Visibility ConverterDelivery(object sender, RoutedEventArgs e)
+        {
+            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            if (drone.DroneState == DroneState.DELIVERY)
+            {
+                return Visibility.Visible;
+            }
+            else
+                return Visibility.Collapsed;
         }
     }
 }
