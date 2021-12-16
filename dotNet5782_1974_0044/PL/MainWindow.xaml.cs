@@ -12,6 +12,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using IBL;
+using Utilities;
 
 namespace PL
 {
@@ -20,12 +22,35 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        public List<string> options { set; get; } = new List<string> { "drone" };
+        public IBL.IBL ibal;
+        private List<string> option = new() { "DroneToList"};
         public MainWindow()
         {
           
             InitializeComponent();
-            DataContext = options;
+            ibal = Singletone<IBL.BL>.Instance;
+            DataContext = option;
+        }
+
+        public void Add_tag_click(object sender, RoutedEventArgs e)
+        {
+            DroneToListTab.Visibility = Visibility.Visible;
+            contentDroneToListTab.Visibility = Visibility.Visible;
+        }
+        public void Close_tab(object sender, RoutedEventArgs e)
+        {
+            object tmp = sender;
+            while (tmp.GetType() != typeof(TabItem))
+            {
+                tmp = ((FrameworkElement)tmp).Parent;
+            }
+            TabItem tabItem = (TabItem)tmp;
+            tab.Items.Remove(tabItem);
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
         }
     }
 }

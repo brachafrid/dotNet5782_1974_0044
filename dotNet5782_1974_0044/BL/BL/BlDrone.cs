@@ -10,6 +10,7 @@ namespace IBL
     
     public partial class BL : IBlDrone
     {
+        //
         private const int NUM_OF_MINUTE_IN_HOUR = 60;
         private const int MIN_BATTERY = 20;
         private const int MAX_BATTERY = 40;
@@ -86,7 +87,7 @@ namespace IBL
                 IDAL.DO.Drone droneDl = dal.GetDrone(id);
                 dal.RemoveDrone(droneDl);
                 dal.AddDrone(id, name, droneDl.MaxWeight);
-                droneToList = drones.Find(item => item.Id == id);
+                droneToList = drones.First(item => item.Id == id);
                 drones.Remove(droneToList);
                 droneToList.DroneModel = name;
 
@@ -276,6 +277,16 @@ namespace IBL
         /// </summary>
         /// <returns>A list of drones to print</returns>
         public IEnumerable<DroneToList> GetDrones() => drones;
+
+        /// <summary>
+        /// Retrieves the list of drones from BL screenn out in according to  the predicate
+        /// </summary>
+        /// <returns>A list of drones to print</returns>
+        public IEnumerable<DroneToList> GetDronesScreenOut<T>(Predicate<T> screenOut)
+        {
+            return drones.Where(item => screenOut((T)item.GetType().GetProperties().First(itm => itm.PropertyType.Name.Equals(typeof(T).Name)).GetValue(item)));
+        }
+
         private List<DroneInCharging> CreatListDroneInCharging(int id)
         {
             List<int> list = dal.GetDronechargingInStation((int stationIdOfDrone)=> stationIdOfDrone == id);
@@ -293,6 +304,7 @@ namespace IBL
             }
             return droneInChargings;
         }
+
         //--------------------------------------------------Help function-----------------------------------------------------------------------------------
         /// <summary>
         /// Convert a Bl Drone To List to BL drone
@@ -312,7 +324,7 @@ namespace IBL
                 DroneState = droneToList.DroneState,
                 BattaryMode = droneToList.BatteryState,
                 CurrentLocation = droneToList.CurrentLocation,
-                Parcel = droneToList.ParcelId != null ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
+                Parcel = droneToList.ParcelId != 0 ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
             };
         }
 

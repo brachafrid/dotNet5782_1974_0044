@@ -1,4 +1,5 @@
-﻿using System;
+﻿using IBL.BO;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -87,6 +88,7 @@ namespace ConsoleUI_BL
                     PrintList(bl.GetParcelsNotAssignedToDrone((int droneId) => droneId == 0));
                     break;
                 default:
+                    PrintList(bl.GetDronesScreenOut((WeightCategories weightCategories) => weightCategories == WeightCategories.HEAVY));
                     break;
             }
         }
