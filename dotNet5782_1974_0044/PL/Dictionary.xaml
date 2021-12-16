@@ -4,14 +4,15 @@
                     xmlns:dxa="http://schemas.devexpress.com/winfx/2008/xaml/accordion" 
                     xmlns:bo ="clr-namespace:IBL.BO;assembly=BL"
                     xmlns:local="clr-namespace:PL">
+
     <DataTemplate DataType="{x:Type bo:Location}">
-        <Expander Header="location">
-            <StackPanel>
-                <TextBlock Text="{Binding Path=Latitude, StringFormat = Latitude:{0:n}}" />
-                <TextBlock Text="{Binding Path=Longitude, StringFormat = Longitude:{0:n}}" />
-            </StackPanel>
-        </Expander>
+
+        <StackPanel>
+            <TextBlock Text="{Binding Path=Latitude, StringFormat = Latitude:{0:n}}" />
+            <TextBlock Text="{Binding Path=Longitude, StringFormat = Longitude:{0:n}}" />
+        </StackPanel>
     </DataTemplate>
+
     <DataTemplate DataType="{x:Type bo:DroneToList}">
         <Expander Header="{Binding Path=Id}">
             <StackPanel>
@@ -20,9 +21,9 @@
                     <Run Text="max weigth:"/>
                     <Run Text="{Binding Path=Weight}"/>
                 </TextBlock>
-                <DockPanel>
+                <Expander Header="CurrentLocation">
                     <ContentPresenter Content="{Binding Path=CurrentLocation}" />
-                </DockPanel>
+                </Expander>
                 <TextBlock >
                     <Run Text="state:"/>
                     <Run Text="{Binding Path=DroneState}"/>
@@ -32,36 +33,66 @@
             </StackPanel>
         </Expander>
     </DataTemplate>
+
     <DataTemplate DataType="{x:Type bo:Drone}">
         <StackPanel>
             <StackPanel>
-                <TextBlock Text="{Binding Path= Model, StringFormat= model :{0:d}}" />
+                <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:n}}" />
+                <TextBox Text="{Binding Path= Model, StringFormat= model :{0:d}}" />
                 <TextBlock >
                     <Run Text="max weigth:"/>
                     <Run Text="{Binding Path=WeightCategory}"/>
                 </TextBlock>
-                <DockPanel>
+                <Expander Header="CurrentLocation">
                     <ContentPresenter Content="{Binding Path=CurrentLocation}" />
-                </DockPanel>
+                </Expander>
                 <TextBlock >
                     <Run Text="state:"/>
                     <Run Text="{Binding Path = DroneState}"/>
                 </TextBlock>
-                <TextBlock Text="{Binding Path = BatteryState, StringFormat= batteryState :{0:p}}" />
+                <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0:p}}" />
+                <ContentPresenter Content="{Binding Path=Parcel}" />
             </StackPanel>
         </StackPanel>
     </DataTemplate>
+
     <DataTemplate DataType="{x:Type bo:CustomerInParcel}">
-        <Expander>
-            <StackPanel>
-                <TextBlock Text="{Binding Path=Id, StringFormat=id: {n}}"/>
-                <TextBlock>
+        <StackPanel>
+            <TextBlock Text="{Binding Path=Id, StringFormat=id :{n}}"/>
+            <TextBlock>
                 <Run Text="name: "/>
                 <Run Text="{Binding Path=Name}"/>
+            </TextBlock>
+        </StackPanel>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type bo:ParcelInTransfer}">
+        <Expander Header="ParcelInTransfer">
+            <StackPanel>
+                <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:n}}" />
+                <TextBlock >
+                    <Run Text="max weigth:"/>
+                    <Run Text="{Binding Path=WeightCategory}"/>
                 </TextBlock>
+                <TextBlock >
+                    <Run Text="Priority:"/>
+                    <Run Text="{Binding Path=Priority}"/>
+                </TextBlock>
+                <TextBlock Text="{Binding Path = ParcelState, StringFormat= ParcelState :{0}}"/>
+                <Expander Header="CollectionPoint">
+                    <ContentPresenter Content="{Binding Path=CollectionPoint}" />
+                </Expander>
+                <Expander Header="DeliveryDestination">
+                    <ContentPresenter Content="{Binding Path=DeliveryDestination}" />
+                </Expander>
+                <TextBlock Text="{Binding Path= TransportDistance, StringFormat= TransportDistance :{0:d}}" />
+                <Expander Header="CustomerSender" >
+                    <ContentPresenter Content="{Binding Path=CustomerSender}" />
+                </Expander>
+                <Expander Header="CustomerReceives">
+                    <ContentPresenter Content="{Binding Path=CustomerReceives}" />
+                </Expander>
             </StackPanel>
         </Expander>
     </DataTemplate>
-    
-
 </ResourceDictionary>

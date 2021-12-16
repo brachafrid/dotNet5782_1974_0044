@@ -15,11 +15,6 @@
             <ComboBoxItem Content="weight" />
             <ComboBoxItem Content="state" /> 
         </ComboBox>
-        <!--<ComboBox
-  materialDesign:HintAssist.Hint="screen out " SelectionChanged="select_screen_out" x:Name="selectCategory">
-           <ComboBoxItem Content="weight" />
-            <ComboBoxItem Content="state" />
-        </ComboBox>-->
         <ComboBox x:Name="ChooseWeight"  ItemsSource="{Binding}" Visibility="Collapsed" SelectionChanged="select_screen_out_parameter"/>
         <ComboBox x:Name="ChooseState" ItemsSource="{Binding}" Visibility="Collapsed" SelectionChanged="select_screen_out_parameter" />
         <Button Content="to cansel screen out"  Click="Cancel_screen_out" />
