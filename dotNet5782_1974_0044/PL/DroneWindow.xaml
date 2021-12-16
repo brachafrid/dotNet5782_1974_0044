@@ -17,7 +17,7 @@
         </ResourceDictionary>
 
     </UserControl.Resources>
-    <Grid  >
+    <Grid>
         <StackPanel x:Name="add">
             <Label Content="enter drone's id"/>
             <TextBox TextChanged="is_num" x:Name="id"/>

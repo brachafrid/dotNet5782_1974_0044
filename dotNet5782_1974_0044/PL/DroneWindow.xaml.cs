@@ -130,10 +130,10 @@ namespace PL
   
         private void SendToCharging(object sender, RoutedEventArgs e)
         {
-            IBL.BO.Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
-                bl.SendDroneForCharg(droneToList.Id);
+                bl.SendDroneForCharg(drone.Id);
                 MessageBox.Show("The drone was sent for loading successfully");
             }
             catch (InvalidEnumArgumentException ex)
@@ -152,12 +152,12 @@ namespace PL
 
         private void Confirm(object sender, RoutedEventArgs e)
         {
-            IBL.BO.Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
 
             try
             {
                 float timeCrg = float.Parse(timeOfCharge.Text);
-                bl.ReleaseDroneFromCharging(droneToList.Id, timeCrg);
+                bl.ReleaseDroneFromCharging(drone.Id, timeCrg);
                 MessageBox.Show("The drone was successfully released from the charging");
                 timeCharge.Visibility = Visibility.Collapsed;
                 timeOfCharge.Visibility = Visibility.Collapsed;
@@ -172,10 +172,10 @@ namespace PL
 
         private void AssingParcelToDrone(object sender, RoutedEventArgs e)
         {
-            IBL.BO.Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
-                bl.AssingParcelToDrone(droneToList.Id);
+                bl.AssingParcelToDrone(drone.Id);
                 MessageBox.Show("The drone was successfully shipped");
             }
             catch (KeyNotFoundException ex)
@@ -191,10 +191,10 @@ namespace PL
 
         private void ParcelCollectionByDrone(object sender, RoutedEventArgs e)
         {
-            IBL.BO.Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
-                bl.ParcelCollectionByDrone(droneToList.Id);
+                bl.ParcelCollectionByDrone(drone.Id);
                 MessageBox.Show("The parcel was successfully collected");
             }
             catch (KeyNotFoundException ex)
@@ -218,10 +218,10 @@ namespace PL
 
         private void DeliveryParcelByDrone(object sender, RoutedEventArgs e)
         {
-            IBL.BO.Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
-                bl.DeliveryParcelByDrone(droneToList.Id);
+                bl.DeliveryParcelByDrone(drone.Id);
                 MessageBox.Show("The drone was successfully shipped");
             }
             catch(KeyNotFoundException ex)
@@ -237,17 +237,17 @@ namespace PL
 
         private void Buttons(object sender, RoutedEventArgs e)
         {
-            IBL.BO.Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
-            if (droneToList.DroneState == DroneState.AVAILABLE)
+            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            if (drone.DroneState == DroneState.AVAILABLE)
             {
                 sendToCharging.Visibility = Visibility.Visible;
                 assingParcelToDrone.Visibility = Visibility.Visible;
             }
-            if (droneToList.DroneState == DroneState.MAINTENANCE)
+            if (drone.DroneState == DroneState.MAINTENANCE)
             {
                 releaseDroneFromCharging.Visibility = Visibility.Visible;
             }
-            if (droneToList.DroneState == DroneState.DELIVERY)
+            if (drone.DroneState == DroneState.DELIVERY)
             {
                 parcelCollectionByDrone.Visibility = Visibility.Visible;
                 deliveryParcelByDrone.Visibility = Visibility.Visible;
