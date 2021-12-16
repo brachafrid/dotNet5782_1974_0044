@@ -37,7 +37,7 @@
                 <Expander Header="CurrentLocation">
                     <ContentPresenter Content="{Binding Path=CurrentLocation}" />
                 </Expander>
-                <TextBlock x:Name="status" Text="{Binding Path=DroneState, StringFormat=state :{0}}"/>
+                <TextBlock  Text="{Binding Path=DroneState, StringFormat=state :{0}}"/>
                 <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0:p}}" />
                 <ContentPresenter Content="{Binding Path=Parcel}" />
             </StackPanel>

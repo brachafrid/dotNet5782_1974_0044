@@ -12,37 +12,9 @@ namespace PL
 {
     public class ConverterDroneAviable : IValueConverter
     {
-        //private Visibility ConverterAvailable(object sender, RoutedEventArgs e)
-        //{
-
-        //}
-        //private Visibility ConverterMaintenance(object sender, RoutedEventArgs e)
-        //{
-        //    IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
-        //    if (drone.DroneState == DroneState.MAINTENANCE)
-        //    {
-        //        return Visibility.Visible;
-        //    }
-        //    else
-        //        return Visibility.Collapsed;
-        //}
-        //private Visibility ConverterDelivery(object sender, RoutedEventArgs e)
-        //{
-        //    IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
-        //    if (drone.DroneState == DroneState.DELIVERY)
-        //    {
-        //        return Visibility.Visible;
-        //    }
-        //    else
-        //        return Visibility.Collapsed;
-        //}
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            while ((value as FrameworkElement).GetType() == typeof(Drone))
-                value = (value as FrameworkElement).Parent;
-            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)value).DataContext;
-            if (drone.DroneState == DroneState.AVAILABLE)
+            if (value.ToString() == DroneState.AVAILABLE.ToString())
             {
                 return Visibility.Visible;
             }
@@ -52,7 +24,42 @@ namespace PL
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            throw new NotImplementedException();
+            return Visibility.Hidden;
         }
     }
+    public class ConverterDroneMaintenance : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value.ToString() == DroneState.MAINTENANCE.ToString())
+            {
+                return Visibility.Visible;
+            }
+            else
+                return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Visibility.Hidden;
+        }
+    }
+    public class ConverterDroneDelivery : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value.ToString() == DroneState.DELIVERY.ToString())
+            {
+                return Visibility.Visible;
+            }
+            else
+                return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Visibility.Hidden;
+        }
+    }
+
 }
