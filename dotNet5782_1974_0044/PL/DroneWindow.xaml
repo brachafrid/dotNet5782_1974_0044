@@ -7,9 +7,11 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <!--<local:ConverterDroneAviable x:Key="ConverterDroneAviable" />-->
-        <!--<ResourceDictionary x:Key="dictionary">-->
-            <ResourceDictionary.MergedDictionaries Source="Dictionary.xaml"/>
+        <ResourceDictionary x:Key="dictionary">
+            <local:ConverterDroneAviable x:Key="ConverterDroneAviable" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Dictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
 
     </UserControl.Resources>
@@ -31,7 +33,7 @@
             <!--<Button Content="update options" Click="Buttons"/>-->
             <Button Content="close drone" Click="Close"/>
             <Button Content="update drone's model" Click="UpdateDrone"/>
-            <StackPanel x:Name="available"  Visibility="{Binding status,Converter={StaticResource ConverterDroneAviable}}">
+            <StackPanel x:Name="available"  Visibility="{Binding Path=status,Converter={StaticResource ConverterDroneAviable}}">
                 <Button x:Name="sendToCharging" Content="send drone to charging" Click="SendToCharging" />
                 <Button x:Name="assingParcelToDrone"  Content="Sending the drone for delivery" Click="AssingParcelToDrone"/>
             </StackPanel>
