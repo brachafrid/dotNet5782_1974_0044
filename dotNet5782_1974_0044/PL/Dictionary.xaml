@@ -15,22 +15,53 @@
     <DataTemplate DataType="{x:Type bo:DroneToList}">
         <Expander Header="{Binding Path=Id}">
             <StackPanel>
-                <TextBlock Text="{Binding Path=DroneModel, StringFormat= model:{0:d}}" />
+                <TextBlock Text="{Binding Path=DroneModel, StringFormat= model :{0:d}}" />
                 <TextBlock >
                     <Run Text="max weigth:"/>
                     <Run Text="{Binding Path=Weight}"/>
                 </TextBlock>
                 <DockPanel>
-                <ContentPresenter Content="{Binding Path=CurrentLocation}" />
+                    <ContentPresenter Content="{Binding Path=CurrentLocation}" />
                 </DockPanel>
                 <TextBlock >
                     <Run Text="state:"/>
                     <Run Text="{Binding Path=DroneState}"/>
                 </TextBlock>
-                <TextBlock Text="{Binding Path=BatteryState, StringFormat= batteryState:{0:p}}" />
-                <TextBlock Text="{Binding Path=ParcelId, StringFormat= parcel:{0:d}}" />
+                <TextBlock Text="{Binding Path=BatteryState, StringFormat= batteryState :{0:p}}" />
+                <TextBlock Text="{Binding Path=ParcelId, StringFormat= parcel :{0:d}}" />
+            </StackPanel>
+        </Expander>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type bo:Drone}">
+        <StackPanel>
+            <StackPanel>
+                <TextBlock Text="{Binding Path= Model, StringFormat= model :{0:d}}" />
+                <TextBlock >
+                    <Run Text="max weigth:"/>
+                    <Run Text="{Binding Path=WeightCategory}"/>
+                </TextBlock>
+                <DockPanel>
+                    <ContentPresenter Content="{Binding Path=CurrentLocation}" />
+                </DockPanel>
+                <TextBlock >
+                    <Run Text="state:"/>
+                    <Run Text="{Binding Path = DroneState}"/>
+                </TextBlock>
+                <TextBlock Text="{Binding Path = BatteryState, StringFormat= batteryState :{0:p}}" />
+            </StackPanel>
+        </StackPanel>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type bo:CustomerInParcel}">
+        <Expander>
+            <StackPanel>
+                <TextBlock Text="{Binding Path=Id, StringFormat=id: {n}}"/>
+                <TextBlock>
+                <Run Text="name: "/>
+                <Run Text="{Binding Path=Name}"/>
+                </TextBlock>
             </StackPanel>
         </Expander>
     </DataTemplate>
     
+
 </ResourceDictionary>

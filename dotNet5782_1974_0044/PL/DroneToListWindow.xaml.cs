@@ -95,7 +95,6 @@ namespace PL
                 tabItem.Content = new Drone((e.OriginalSource as FrameworkElement).DataContext as IBL.BO.DroneToList);
                 tabItem.Header = "Drone";
                 mainWindow.tab.Items.Add(tabItem);
-                //Buttons(sender, e);
             }
         }
 
@@ -127,11 +126,6 @@ namespace PL
         {
             ObservableCollection<IBL.BO.DroneToList> droneToLists = new ObservableCollection<DroneToList>(IbalDroneToLists);
             return droneToLists;
-        }
-
-        private void droneToListListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-
         }
     }
 

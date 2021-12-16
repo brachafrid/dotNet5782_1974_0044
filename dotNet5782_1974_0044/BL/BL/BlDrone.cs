@@ -324,7 +324,7 @@ namespace IBL
                 DroneState = droneToList.DroneState,
                 BattaryMode = droneToList.BatteryState,
                 CurrentLocation = droneToList.CurrentLocation,
-                Parcel = droneToList.ParcelId != null ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
+                Parcel = droneToList.ParcelId != 0 ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
             };
         }
 

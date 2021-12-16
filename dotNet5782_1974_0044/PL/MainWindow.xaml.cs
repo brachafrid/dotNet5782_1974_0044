@@ -46,5 +46,10 @@ namespace PL
             TabItem tabItem = (TabItem)tmp;
             tab.Items.Remove(tabItem);
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

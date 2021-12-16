@@ -7,7 +7,9 @@
              xmlns:local="clr-namespace:PL"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
+    <UserControl.Resources>
+        <ResourceDictionary Source="Dictionary.xaml"/>
+    </UserControl.Resources>
     <Grid  >
         <!--<local:DroneToListWindow x:Name = "ftv" x:FieldModifier = "public" />-->
         <StackPanel x:Name="add">

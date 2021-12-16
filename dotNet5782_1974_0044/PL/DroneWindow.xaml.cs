@@ -39,10 +39,11 @@ namespace PL
             station.DataContext = bl.GetStaionsWithEmptyChargeSlots((int num) => num > 0).ToList().Select(station => station.Id);
         }
 
-        public Drone(IBL.BO.DroneToList drone)
+        public Drone(IBL.BO.DroneToList droneToList)
         {
             InitializeComponent();
             add.Visibility = Visibility.Collapsed;
+            var drone = bl.GetDrone(droneToList.Id);
             DataContext = drone;
         }
 
@@ -114,7 +115,7 @@ namespace PL
        
         private void SendToCharging(object sender, RoutedEventArgs e)
         {
-            DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
+            IBL.BO.Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
                 bl.SendDroneForCharg(droneToList.Id);
@@ -128,7 +129,7 @@ namespace PL
 
         private void ReleaseDroneFromCharging(object sender, RoutedEventArgs e)
         {
-            DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
+            IBL.BO.Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
                 //timeOfCharg.Visibility = Visibility.Collapsed;
@@ -144,7 +145,7 @@ namespace PL
 
         private void AssingParcelToDrone(object sender, RoutedEventArgs e)
         {
-            DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
+            IBL.BO.Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
                 bl.AssingParcelToDrone(droneToList.Id);
@@ -158,7 +159,7 @@ namespace PL
 
         private void ParcelCollectionByDrone(object sender, RoutedEventArgs e)
         {
-            DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
+            IBL.BO.Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
                 bl.ParcelCollectionByDrone(droneToList.Id);
@@ -176,7 +177,7 @@ namespace PL
 
         private void DeliveryParcelByDrone(object sender, RoutedEventArgs e)
         {
-            DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
+            IBL.BO.Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
                 bl.DeliveryParcelByDrone(droneToList.Id);
@@ -190,7 +191,7 @@ namespace PL
 
         private void Buttons(object sender, RoutedEventArgs e)
         {
-            DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
+            IBL.BO.Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             if (droneToList.DroneState == DroneState.AVAILABLE)
             {
                 sendToCharging.Visibility = Visibility.Visible;
@@ -205,7 +206,6 @@ namespace PL
                 parcelCollectionByDrone.Visibility = Visibility.Visible;
                 deliveryParcelByDrone.Visibility = Visibility.Visible;
             }
-
 
         }
 
