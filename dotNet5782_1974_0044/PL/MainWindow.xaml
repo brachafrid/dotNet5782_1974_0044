@@ -7,6 +7,16 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1.23"/>
+            <ColumnDefinition Width="16.77"/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+        <ListBox x:Name="nav" ItemsSource ="{Binding Path=options}">
+            <!--<ListBox.Items >
+                <Button Content="{Binding }"/>
+            </ListBox.Items>-->
 
+        </ListBox>
     </Grid>
 </Window>

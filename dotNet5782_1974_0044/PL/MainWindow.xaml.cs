@@ -20,9 +20,12 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
+        public List<string> options { set; get; } = new List<string> { "drone" };
         public MainWindow()
         {
+          
             InitializeComponent();
+            DataContext = options;
         }
     }
 }
