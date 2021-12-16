@@ -7,15 +7,13 @@
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
      TextElement.FontWeight="Regular"
      TextElement.FontSize="13"
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto"
-     Background="{DynamicResource MaterialDesignPaper}"
-     FontFamily="{DynamicResource MaterialDesignFont}">
-    
+     <!--Background="{DynamicResource MaterialDesignPaper}"-->
+    <!--FontFamily="{DynamicResource MaterialDesignFont}">-->
+
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Left">
             <ToolBar x:Name="menue">
@@ -34,8 +32,8 @@
             </ToolBar>
         </ToolBarTray>
         <TabControl x:Name="tab" DockPanel.Dock="Top">
-            <TabItem x:Name="DroneToListTab" Header="DroneToList"  Visibility="Visible">
-                <local:DroneToListWindow x:Name="contentDroneToListTab" Visibility="Visible"/>
+            <TabItem x:Name="DroneToListTab" Header="DroneToList"  Visibility="Collapsed">
+                <local:DroneToListWindow x:Name="contentDroneToListTab" Visibility="Collapsed"/>
             </TabItem>
         </TabControl>
     </DockPanel>
