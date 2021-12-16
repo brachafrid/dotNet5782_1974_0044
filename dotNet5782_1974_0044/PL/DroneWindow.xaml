@@ -4,17 +4,16 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PL"
-             xmlns:local="clr-namespace:PL"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <local:ConverterDroneAviable x:Key="ConverterDroneAviable" />
-        <ResourceDictionary x:Key="dictionary">
+        <!--<local:ConverterDroneAviable x:Key="ConverterDroneAviable" />-->
+        <!--<ResourceDictionary x:Key="dictionary">-->
             <ResourceDictionary.MergedDictionaries Source="Dictionary.xaml"/>
         </ResourceDictionary>
 
     </UserControl.Resources>
-    <Grid  >
+    <Grid>
         <StackPanel x:Name="add">
             <Label Content="enter drone's id"/>
             <TextBox TextChanged="is_num" x:Name="id"/>
@@ -31,16 +30,11 @@
             <ContentPresenter Content="{Binding}"/>
             <!--<Button Content="update options" Click="Buttons"/>-->
             <Button Content="close drone" Click="Close"/>
-
             <Button Content="update drone's model" Click="UpdateDrone"/>
-
-
-
             <StackPanel x:Name="available"  Visibility="{Binding status,Converter={StaticResource ConverterDroneAviable}}">
                 <Button x:Name="sendToCharging" Content="send drone to charging" Click="SendToCharging" />
                 <Button x:Name="assingParcelToDrone"  Content="Sending the drone for delivery" Click="AssingParcelToDrone"/>
             </StackPanel>
-
             <StackPanel x:Name="maintenance" >
                 <!--Visibility="ConverterMaintenance">-->
                 <Button x:Name="releaseDroneFromCharging" Content="release drone from charging" Click="ReleaseDroneFromCharging"/>
