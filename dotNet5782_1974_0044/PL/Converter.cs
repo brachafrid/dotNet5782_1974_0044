@@ -10,7 +10,7 @@ using System.Windows.Controls;
 
 namespace PL
 {
-    public partial class Drone : UserControl
+    public partial class DroneWIndow : UserControl
     {
         private Visibility ConverterAvailable(object sender, RoutedEventArgs e)
         {

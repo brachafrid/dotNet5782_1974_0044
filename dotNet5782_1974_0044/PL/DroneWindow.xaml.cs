@@ -25,12 +25,12 @@ namespace PL
     /// Interaction logic for Drone.xaml
     /// </summary>
 
-    public partial class Drone : UserControl
+    public partial class DroneWIndow : UserControl
     {
         IBL.IBL bl = Singletone<BL>.Instance;
         //private Visibility collapsed = Visibility.Collapsed;
         //add new drone
-        public Drone()
+        public DroneWIndow()
         {
             InitializeComponent();
             //DroneToList drone = new();
@@ -39,7 +39,7 @@ namespace PL
             station.DataContext = bl.GetStaionsWithEmptyChargeSlots((int num) => num > 0).ToList().Select(station => station.Id);
         }
 
-        public Drone(IBL.BO.DroneToList droneToList)
+        public DroneWIndow(IBL.BO.DroneToList droneToList)
         {
             InitializeComponent();
             add.Visibility = Visibility.Collapsed;
@@ -115,7 +115,7 @@ namespace PL
         private void UpdateDrone(object sender, RoutedEventArgs e)
         {
 
-            DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
+            Drone droneToList = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try 
             {
                 bl.UpdateDrone(droneToList.Id, model.Text);

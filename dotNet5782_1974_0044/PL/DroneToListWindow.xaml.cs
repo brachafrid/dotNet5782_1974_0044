@@ -76,7 +76,7 @@ namespace PL
                 tmp = ((FrameworkElement)tmp).Parent;
             }
             TabItem tabItem = new TabItem();
-            tabItem.Content = new Drone();
+            tabItem.Content = new DroneWIndow();
             tabItem.Header = (sender as Button).Content.ToString();
             (tmp as MainWindow).tab.Items.Add(tabItem);
         }
@@ -92,7 +92,7 @@ namespace PL
                 }
                 MainWindow mainWindow = (MainWindow)tmp;
                 TabItem tabItem = new TabItem();
-                tabItem.Content = new Drone((e.OriginalSource as FrameworkElement).DataContext as IBL.BO.DroneToList);
+                tabItem.Content = new DroneWIndow((e.OriginalSource as FrameworkElement).DataContext as IBL.BO.DroneToList);
                 tabItem.Header = "Drone";
                 mainWindow.tab.Items.Add(tabItem);
             }
