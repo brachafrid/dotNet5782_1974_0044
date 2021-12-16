@@ -115,17 +115,17 @@ namespace PL
         private void UpdateDrone(object sender, RoutedEventArgs e)
         {
 
-            //DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
-           // try // {
-            //model.Visibility = Visibility.Visible;
-            //NameModel.Visibility = Visibility.Visible;
-            //confirm.Visibility = Visibility.Visible;
-            //}
-        //    catch (InvalidEnumArgumentException ex)
-        //    {
-        //        MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
-        //        //   MessageBox.Show("The drone is not available so it is not possible to send it for charging");
-        //    }
+            DroneToList droneToList = (IBL.BO.DroneToList)((FrameworkElement)e.OriginalSource).DataContext;
+            try 
+            {
+                bl.UpdateDrone(droneToList.Id, model.Text);
+                MessageBox.Show("The drone has been successfully updated");
+            }
+            catch (InvalidEnumArgumentException ex)
+            {
+                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
+                //   MessageBox.Show("The drone is not available so it is not possible to send it for charging");
+            }
         }
   
 

@@ -79,8 +79,7 @@ namespace IBL
         /// <param name="name">The new name</param>
         public void UpdateDrone(int id, string name)
         {
-            if (name.Equals(string.Empty))
-                throw new ArgumentNullException("For updating the name must be initialized ");
+          
             DroneToList droneToList = default;
             try
             {
@@ -90,8 +89,10 @@ namespace IBL
                 droneToList = drones.First(item => item.Id == id);
                 drones.Remove(droneToList);
                 droneToList.DroneModel = name;
-
+                if (name.Equals(string.Empty))
+                    throw new ArgumentNullException("For updating the name must be initialized ");
             }
+          
             catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException( ex.Message);

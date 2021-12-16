@@ -35,7 +35,7 @@
     <DataTemplate DataType="{x:Type bo:Drone}">
         <StackPanel>
             <StackPanel>
-                <TextBlock Text="{Binding Path= Model, StringFormat= model :{0:d}}" />
+                <TextBlock x:Name="model" Text="{Binding Path= Model, StringFormat= model :{0:d}}" />
                 <TextBlock >
                     <Run Text="max weigth:"/>
                     <Run Text="{Binding Path=WeightCategory}"/>
