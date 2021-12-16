@@ -8,34 +8,27 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
      TextElement.FontWeight="Regular"
      TextElement.FontSize="13"
      TextOptions.TextFormattingMode="Ideal"
-     TextOptions.TextRenderingMode="Auto"
-     Background="{DynamicResource MaterialDesignPaper}"
-     FontFamily="{DynamicResource MaterialDesignFont}">
-    
+     TextOptions.TextRenderingMode="Auto">
     <DockPanel>
         <ToolBarTray DockPanel.Dock="Left">
             <ToolBar x:Name="menue">
                 <ListBox x:Name="menu" ItemsSource="{Binding}">
                     <ListBox.ItemTemplate>
                         <DataTemplate>
-                            
-                            <!--<Button x:Name="click" Content="{Binding}" Click="Add_tag_click"/>-->
-                            <Button
-                                IsEnabled="True" Click="Button_Click" 
-  Style="{StaticResource MaterialDesignRaisedLightButton}"
-  Content="_LIGHT" />
+                            <Button x:Name="click" Content="{Binding}" Click="Add_tag_click"/>
+                            <!--<Button
+                                IsEnabled="True" Click="Button_Click"   Content="_LIGHT" />-->
                         </DataTemplate>
                     </ListBox.ItemTemplate>
                 </ListBox>
             </ToolBar>
         </ToolBarTray>
         <TabControl x:Name="tab" DockPanel.Dock="Top">
-            <TabItem x:Name="DroneToListTab" Header="DroneToList"  Visibility="Visible">
-                <local:DroneToListWindow x:Name="contentDroneToListTab" Visibility="Visible"/>
+            <TabItem x:Name="DroneToListTab" Header="DroneToList"  Visibility="Collapsed">
+                <local:DroneToListWindow x:Name="contentDroneToListTab" Visibility="Collapsed"/>
             </TabItem>
         </TabControl>
     </DockPanel>

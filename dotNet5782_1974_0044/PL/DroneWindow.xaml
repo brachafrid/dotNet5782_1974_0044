@@ -11,7 +11,6 @@
         <ResourceDictionary Source="Dictionary.xaml"/>
     </UserControl.Resources>
     <Grid  >
-        <!--<local:DroneToListWindow x:Name = "ftv" x:FieldModifier = "public" />-->
         <StackPanel x:Name="add">
             <Label Content="enter drone's id"/>
             <TextBox TextChanged="is_num" x:Name="id"/>
@@ -51,9 +50,6 @@
             </StackPanel>
         </StackPanel>
     </Grid>
-
-
-
 
 </UserControl>
     
