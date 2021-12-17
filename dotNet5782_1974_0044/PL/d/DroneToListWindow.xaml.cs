@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using Utilities;
 using IBL.BO;
 using System.Collections.ObjectModel;
-
+using System.Collections;
 
 namespace PL
 {
@@ -26,17 +26,29 @@ namespace PL
     {
         public IBL.IBL ibal;
         public ListCollectionView Drones { get; set; }
-        public DroneToListWindow()
+        private Action updateList;
+        private MainWindow MainWindow;
+        public DroneToListWindow(MainWindow mainWindow)
         {
             InitializeComponent();
             ibal = Singletone<IBL.BL>.Instance;
-            ObservableCollection<IBL.BO.DroneToList> droneToLists = ibal.GetDrones() as ObservableCollection<IBL.BO.DroneToList>;
-            Drones = new ListCollectionView(droneToLists);
+            Drones = new ListCollectionView(ibal.GetDrones() as IList);
             Drones.Filter += FilterDrones;
             Drones.IsLiveFiltering = true;
             DataContext = Drones;
             ChooseWeight.DataContext = Enum.GetValues(typeof(WeightCategories));
             ChooseState.DataContext = Enum.GetValues(typeof(DroneState));
+            updateList = UpdateNewList;
+            MainWindow = mainWindow;
+        }
+
+        private void UpdateNewList()
+        {
+
+            Drones = new ListCollectionView(ibal.GetDrones() as IList);
+            Drones.Filter += FilterDrones;
+            Drones.IsLiveFiltering = true;
+            DataContext = Drones;
         }
 
         private bool FilterDrones(object obj)
@@ -59,42 +71,26 @@ namespace PL
 
         private void Close_tab_click(object sender, RoutedEventArgs e)
         {
-            object tmp = sender;
-            while (tmp.GetType() != typeof(MainWindow))
-            {
-                tmp = ((FrameworkElement)tmp).Parent;
-            }
-            (tmp as MainWindow).DroneToListTab.Visibility = Visibility.Collapsed;
-            (tmp as MainWindow).contentDroneToListTab.Visibility = Visibility.Collapsed;
+            MainWindow.DroneToListTab.Visibility = Visibility.Collapsed;
+            (MainWindow.DroneToListTab.Content as FrameworkElement).Visibility = Visibility.Collapsed;
         }
 
         private void Add_tab_click(object sender, RoutedEventArgs e)
         {
-            object tmp = sender;
-            while (tmp.GetType() != typeof(MainWindow))
-            {
-                tmp = ((FrameworkElement)tmp).Parent;
-            }
             TabItem tabItem = new TabItem();
-            tabItem.Content = new DroneWindow();
+            tabItem.Content = new DroneWindow(updateList,MainWindow);
             tabItem.Header = (sender as Button).Content.ToString();
-            (tmp as MainWindow).tab.Items.Add(tabItem);
+            MainWindow.tab.Items.Add(tabItem);
         }
 
         private void double_click(object sender, MouseButtonEventArgs e)
         {
             if (((FrameworkElement)e.OriginalSource).DataContext is IBL.BO.DroneToList)
             {
-                object tmp = sender;
-                while (tmp.GetType() != typeof(MainWindow))
-                {
-                    tmp = ((FrameworkElement)tmp).Parent;
-                }
-                MainWindow mainWindow = (MainWindow)tmp;
                 TabItem tabItem = new TabItem();
-                tabItem.Content = new DroneWindow((e.OriginalSource as FrameworkElement).DataContext as IBL.BO.DroneToList);
+                tabItem.Content = new DroneWindow((e.OriginalSource as FrameworkElement).DataContext as IBL.BO.DroneToList, updateList, MainWindow);
                 tabItem.Header = "Drone";
-                mainWindow.tab.Items.Add(tabItem);
+                MainWindow.tab.Items.Add(tabItem);
             }
         }
 

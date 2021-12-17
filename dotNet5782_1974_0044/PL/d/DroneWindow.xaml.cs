@@ -29,24 +29,30 @@ namespace PL
     {
         IBL.IBL bl = Singletone<BL>.Instance;
         private string modelNew;
+        private Action updateList;
+        private MainWindow MainWindow;
         //private Visibility collapsed = Visibility.Collapsed;
         //add new drone
-        public DroneWindow()
+        public DroneWindow(Action updateListNew,MainWindow mainWindow)
         {
             InitializeComponent();
             //DroneToList drone = new();
             details.Visibility = Visibility.Collapsed;
             DataContext = Enum.GetValues(typeof(WeightCategories));
             station.DataContext = bl.GetStaionsWithEmptyChargeSlots((int num) => num > 0).ToList().Select(station => station.Id);
+            updateList = updateListNew;
+            MainWindow = mainWindow;
         }
 
-        public DroneWindow(IBL.BO.DroneToList droneToList)
+        public DroneWindow(IBL.BO.DroneToList droneToList,Action updateListNew,MainWindow mainWindow)
         {
             InitializeComponent();
             add.Visibility = Visibility.Collapsed;
             var drone = bl.GetDrone(droneToList.Id);
             DataContext = drone;
             modelNew = drone.Model;
+            updateList = updateListNew;
+            MainWindow = mainWindow;
         }
         //private void Valid_Id_Drone(object sender, RoutedEventArgs e)
         //{
@@ -130,7 +136,6 @@ namespace PL
             {
                 station.Background = Brushes.OrangeRed;
                 valid = false;
-
                 MessageBox.Show("choose station");
                 //return false;
             }
@@ -161,7 +166,7 @@ namespace PL
                         Model = droneModel,
                         WeightCategory = maxWeight
                     }, stationId);
-
+                    updateList();
                     MessageBox.Show("add succses");
                     Close(sender, e);
                 }
@@ -189,13 +194,7 @@ namespace PL
 
         private void Close(object sender, RoutedEventArgs e)
         {
-            object tmp = sender;
-            while (tmp.GetType() != typeof(MainWindow))
-                tmp = ((FrameworkElement)tmp).Parent;
-
-            MainWindow mainWindow = (MainWindow)tmp;
-
-            mainWindow.Close_tab(sender, e);
+            MainWindow.Close_tab(sender, e);
         }
 
         private void model_changed(object sender, RoutedEventArgs e)
@@ -213,6 +212,7 @@ namespace PL
                 {
                     bl.UpdateDrone(drone.Id, modelNew);
                     MessageBox.Show("The drone has been successfully updated");
+                    updateList();
                 }
             }
             catch (ArgumentNullException ex)
@@ -230,11 +230,11 @@ namespace PL
                 bl.SendDroneForCharg(drone.Id);
                 DataContext = bl.GetDrone(drone.Id);
                 MessageBox.Show("The drone was sent for loading successfully");
+                updateList();
             }
             catch (InvalidEnumArgumentException ex)
             {
                 MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
-                //   MessageBox.Show("The drone is not available so it is not possible to send it for charging");
             }
         }
 
@@ -243,7 +243,6 @@ namespace PL
             timeCharge.Visibility = Visibility.Visible;
             timeOfCharge.Visibility = Visibility.Visible;
             confirm.Visibility = Visibility.Visible;
-
         }
 
         private void Confirm(object sender, RoutedEventArgs e)
@@ -258,7 +257,7 @@ namespace PL
                 timeCharge.Visibility = Visibility.Collapsed;
                 timeOfCharge.Visibility = Visibility.Collapsed;
                 confirm.Visibility = Visibility.Collapsed;
-                
+                updateList();
 
                 DataContext = bl.GetDrone(drone.Id);
             }
@@ -276,6 +275,7 @@ namespace PL
                 bl.AssingParcelToDrone(drone.Id);
                 MessageBox.Show("The drone was successfully shipped");
                 DataContext = bl.GetDrone(drone.Id);
+                updateList();
             }
             catch (KeyNotFoundException ex)
             {
@@ -284,7 +284,6 @@ namespace PL
             catch (InvalidEnumArgumentException ex)
             {
                 MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
-                //MessageBox.Show(" The drone is not aviable so it is not possible to assign it a parcel");
             }
         }
 
@@ -296,6 +295,7 @@ namespace PL
                 bl.ParcelCollectionByDrone(drone.Id);
                 MessageBox.Show("The parcel was successfully collected");
                 DataContext = bl.GetDrone(drone.Id);
+                updateList();
             }
             catch (KeyNotFoundException ex)
             {
@@ -306,13 +306,10 @@ namespace PL
             {
                 MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
 
-                //MessageBox.Show("No parcel has been associated yet");
             }
             catch (InvalidEnumArgumentException ex)
             {
                 MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
-
-                // MessageBox.Show("The drone is not in delivery");
             }
         }
 
@@ -324,6 +321,7 @@ namespace PL
                 bl.DeliveryParcelByDrone(drone.Id);
                 MessageBox.Show("The drone was successfully shipped");
                 DataContext = bl.GetDrone(drone.Id);
+                updateList();
             }
             catch (KeyNotFoundException ex)
             {
@@ -332,7 +330,6 @@ namespace PL
             catch (InvalidEnumArgumentException ex)
             {
                 MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
-                // MessageBox.Show(" The drone is not aviable so it is not possible to assign it a parcel");
             }
         }
 

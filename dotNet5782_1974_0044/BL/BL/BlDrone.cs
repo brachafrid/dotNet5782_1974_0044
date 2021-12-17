@@ -208,6 +208,7 @@ namespace IBL
                 Location senderLocation = new() { Longitude = customer.Longitude, Latitude = customer.Latitude };
                 droneToList.BatteryState -= Distance(droneToList.CurrentLocation, senderLocation) * available;
                 droneToList.CurrentLocation = senderLocation;
+                
             }
             catch (KeyNotFoundException ex)
             {
@@ -220,7 +221,7 @@ namespace IBL
             finally
             {
                 drones.Add(droneToList);
-                if(parcel.Equals(default(IDAL.DO.Parcel)))
+                if(!parcel.Equals(default(IDAL.DO.Parcel)))
                     ParcelcollectionDrone(parcel.Id);
             }
 

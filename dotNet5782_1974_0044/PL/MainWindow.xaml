@@ -27,8 +27,8 @@
             </ToolBar>
         </ToolBarTray>
         <TabControl x:Name="tab" DockPanel.Dock="Top">
-            <TabItem x:Name="DroneToListTab" Header="DroneToList"  Visibility="Collapsed">
-                <local:DroneToListWindow x:Name="contentDroneToListTab" Visibility="Collapsed"/>
+            <TabItem x:Name="DroneToListTab" Header="DroneToList"  Visibility="Collapsed" >
+                <ContentControl Content="{Binding}" Visibility="Collapsed"/>
             </TabItem>
         </TabControl>
     </DockPanel>
