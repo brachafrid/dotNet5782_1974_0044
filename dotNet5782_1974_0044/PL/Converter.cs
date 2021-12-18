@@ -1,45 +1,101 @@
-﻿using IBL.BO;
-using System;
+﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Data;
+using IBL.BO;
 
 namespace PL
 {
-    public partial class Drone : UserControl
+    public class ConverterDroneAviable : IValueConverter
     {
-        private Visibility ConverterAvailable(object sender, RoutedEventArgs e)
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
-            if (drone.DroneState == DroneState.AVAILABLE)
+            if (value.ToString() == DroneState.AVAILABLE.ToString())
             {
                 return Visibility.Visible;
             }
             else
                 return Visibility.Collapsed;
         }
-        private Visibility ConverterMaintenance(object sender, RoutedEventArgs e)
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
-            if (drone.DroneState == DroneState.MAINTENANCE)
-            {
-                return Visibility.Visible;
-            }
-            else
-                return Visibility.Collapsed;
-        }
-        private Visibility ConverterDelivery(object sender, RoutedEventArgs e)
-        {
-            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
-            if (drone.DroneState == DroneState.DELIVERY)
-            {
-                return Visibility.Visible;
-            }
-            else
-                return Visibility.Collapsed;
+            return Visibility.Hidden;
         }
     }
+    public class ConverterDroneMaintenance : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value.ToString() == DroneState.MAINTENANCE.ToString())
+            {
+                return Visibility.Visible;
+            }
+            else
+                return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Visibility.Hidden;
+        }
+    }
+    public class ConverterDroneDelivery : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value.ToString() == DroneState.DELIVERY.ToString())
+            {
+                return Visibility.Visible;
+            }
+            else
+                return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Visibility.Hidden;
+        }
+    }
+
+    public class ConverterParcelColection : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value.ToString()!="True")
+            {
+                return Visibility.Visible;
+            }
+            else
+                return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Visibility.Hidden;
+        }
+    }
+
+    public class ConverterParcelDelivery : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value.ToString() == "True")
+            {
+                return Visibility.Visible;
+            }
+            else
+                return Visibility.Collapsed;
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Visibility.Hidden;
+        }
+    }
+
 }

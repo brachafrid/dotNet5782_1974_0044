@@ -79,8 +79,7 @@ namespace IBL
         /// <param name="name">The new name</param>
         public void UpdateDrone(int id, string name)
         {
-            if (name.Equals(string.Empty))
-                throw new ArgumentNullException("For updating the name must be initialized ");
+          
             DroneToList droneToList = default;
             try
             {
@@ -90,8 +89,10 @@ namespace IBL
                 droneToList = drones.First(item => item.Id == id);
                 drones.Remove(droneToList);
                 droneToList.DroneModel = name;
-
+                if (name.Equals(string.Empty))
+                    throw new ArgumentNullException("For updating the name must be initialized ");
             }
+          
             catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException( ex.Message);
@@ -207,6 +208,7 @@ namespace IBL
                 Location senderLocation = new() { Longitude = customer.Longitude, Latitude = customer.Latitude };
                 droneToList.BatteryState -= Distance(droneToList.CurrentLocation, senderLocation) * available;
                 droneToList.CurrentLocation = senderLocation;
+                
             }
             catch (KeyNotFoundException ex)
             {
@@ -219,7 +221,7 @@ namespace IBL
             finally
             {
                 drones.Add(droneToList);
-                if(parcel.Equals(default(IDAL.DO.Parcel)))
+                if(!parcel.Equals(default(IDAL.DO.Parcel)))
                     ParcelcollectionDrone(parcel.Id);
             }
 
@@ -278,15 +280,6 @@ namespace IBL
         /// <returns>A list of drones to print</returns>
         public IEnumerable<DroneToList> GetDrones() => drones;
 
-        /// <summary>
-        /// Retrieves the list of drones from BL screenn out in according to  the predicate
-        /// </summary>
-        /// <returns>A list of drones to print</returns>
-        public IEnumerable<DroneToList> GetDronesScreenOut<T>(Predicate<T> screenOut)
-        {
-            return drones.Where(item => screenOut((T)item.GetType().GetProperties().First(itm => itm.PropertyType.Name.Equals(typeof(T).Name)).GetValue(item)));
-        }
-
         private List<DroneInCharging> CreatListDroneInCharging(int id)
         {
             List<int> list = dal.GetDronechargingInStation((int stationIdOfDrone)=> stationIdOfDrone == id);
@@ -324,7 +317,7 @@ namespace IBL
                 DroneState = droneToList.DroneState,
                 BattaryMode = droneToList.BatteryState,
                 CurrentLocation = droneToList.CurrentLocation,
-                Parcel = droneToList.ParcelId != null ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
+                Parcel = droneToList.ParcelId != 0 ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
             };
         }
 

@@ -24,17 +24,21 @@ namespace PL
     {
         public IBL.IBL ibal;
         private List<string> option = new() { "DroneToList"};
+
         public MainWindow()
         {
+          
             InitializeComponent();
             ibal = Singletone<IBL.BL>.Instance;
             DataContext = option;
+            DroneToListTab.DataContext = new DroneToListWindow(this);
         }
 
         public void Add_tag_click(object sender, RoutedEventArgs e)
         {
             DroneToListTab.Visibility = Visibility.Visible;
-            contentDroneToListTab.Visibility = Visibility.Visible;
+            (DroneToListTab.Content as FrameworkElement).Visibility = Visibility.Visible;
+
         }
         public void Close_tab(object sender, RoutedEventArgs e)
         {
@@ -46,5 +50,6 @@ namespace PL
             TabItem tabItem = (TabItem)tmp;
             tab.Items.Remove(tabItem);
         }
+
     }
 }
