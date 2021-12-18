@@ -46,7 +46,7 @@
 
             <StackPanel x:Name="maintenance" Visibility="{Binding Path=DroneState,Converter={StaticResource ConverterDroneMaintenance}}">
                 <Button x:Name="releaseDroneFromCharging" Content="release drone from charging" Click="ReleaseDroneFromCharging"/>
-                <Label x:Name="timeCharge" Content="enter time Of Charging in minutes" Visibility="Collapsed"/>
+                <Label x:Name="timeCharge" Content="enter time of charging in minutes" Visibility="Collapsed"/>
                 <TextBox x:Name="timeOfCharge" Visibility="Collapsed"></TextBox>
                 <Button x:Name="confirm" Content="confirm" Click="Confirm" Visibility="Collapsed" Width="50"></Button>
             </StackPanel>

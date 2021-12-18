@@ -214,6 +214,10 @@ namespace PL
                     MessageBox.Show("The drone has been successfully updated");
                     updateList();
                 }
+                else
+                {
+                    MessageBox.Show("Model name not updated");
+                }
             }
             catch (ArgumentNullException ex)
             {
@@ -242,6 +246,7 @@ namespace PL
         {
             timeCharge.Visibility = Visibility.Visible;
             timeOfCharge.Visibility = Visibility.Visible;
+            timeOfCharge.Text = "";
             confirm.Visibility = Visibility.Visible;
         }
 
@@ -260,6 +265,10 @@ namespace PL
                 updateList();
 
                 DataContext = bl.GetDrone(drone.Id);
+            }
+            catch (FormatException)
+            {
+                MessageBox.Show("enter minutes of charging");
             }
             catch (ArgumentNullException)
             {
