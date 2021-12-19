@@ -26,7 +26,7 @@ namespace PL
         private List<string> option = new() { "DroneToList"};
 
         public MainWindow()
-        {
+        { 
           
             InitializeComponent();
             ibal = Singletone<IBL.BL>.Instance;
@@ -38,7 +38,6 @@ namespace PL
         {
             DroneToListTab.Visibility = Visibility.Visible;
             (DroneToListTab.Content as FrameworkElement).Visibility = Visibility.Visible;
-
         }
         public void Close_tab(object sender, RoutedEventArgs e)
         {
@@ -47,8 +46,7 @@ namespace PL
             {
                 tmp = ((FrameworkElement)tmp).Parent;
             }
-            TabItem tabItem = (TabItem)tmp;
-            tab.Items.Remove(tabItem);
+            tab.Items.Remove(tmp as TabItem);
         }
 
     }

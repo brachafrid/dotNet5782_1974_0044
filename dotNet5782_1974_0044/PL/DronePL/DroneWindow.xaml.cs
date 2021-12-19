@@ -286,10 +286,21 @@ namespace PL
             IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
-                bl.ParcelCollectionByDrone(drone.Id);
-                MessageBox.Show("The parcel was successfully collected");
-                DataContext = bl.GetDrone(drone.Id);
-                updateList();
+                if(!drone.Parcel.ParcelState)
+                {
+                    bl.ParcelCollectionByDrone(drone.Id);
+                    MessageBox.Show("The parcel was successfully collected");
+                    DataContext = bl.GetDrone(drone.Id);
+                    updateList();
+                }
+                else
+                {
+                    bl.DeliveryParcelByDrone(drone.Id);
+                    MessageBox.Show("The drone was successfully shipped");
+                    DataContext = bl.GetDrone(drone.Id);
+                    updateList();
+                }
+
             }
             catch (KeyNotFoundException ex)
             {

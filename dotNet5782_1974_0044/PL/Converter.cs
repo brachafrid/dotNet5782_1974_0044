@@ -115,5 +115,24 @@ namespace PL
             return Visibility.Hidden;
         }
     }
+    public class parcelTreatedByDRone : IMultiValueConverter
+    {
 
+
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (values[1].ToString() == "True" && values[0].ToString()==DroneState.DELIVERY.ToString())
+            {
+                return "Parcel delivery";
+            }
+            else
+                return "Parcel collection";
+        }
+
+
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

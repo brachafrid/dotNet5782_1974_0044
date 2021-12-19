@@ -33,7 +33,8 @@ namespace IBL
                     Weight = droneBl.WeightCategory,
                     BatteryState = rand.NextDouble() + rand.Next(MIN_BATTERY, MAX_BATTERY),
                     DroneState = DroneState.MAINTENANCE,
-                    CurrentLocation = new Location() { Latitude = station.Latitude, Longitude = station.Longitude }
+                    CurrentLocation = new Location() { Latitude = station.Latitude, Longitude = station.Longitude },
+                    ParcelId = 0
                 };
                 drones.Add(droneToList);
             }
@@ -317,7 +318,7 @@ namespace IBL
                 DroneState = droneToList.DroneState,
                 BattaryMode = droneToList.BatteryState,
                 CurrentLocation = droneToList.CurrentLocation,
-                Parcel = droneToList.ParcelId != 0 ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
+                Parcel = droneToList.ParcelId !=0 ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
             };
         }
         //InvalidOperationException
