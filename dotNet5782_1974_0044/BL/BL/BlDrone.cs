@@ -308,7 +308,7 @@ namespace IBL
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
             if (droneToList == default)
-                throw new ArgumentNullException("Map drone:There is not drone with same id in the data");
+                throw new ArgumentNullException("Map drone: There is not drone with same id in the data");
             return new Drone()
             {
                 Id = droneToList.Id,
@@ -320,6 +320,7 @@ namespace IBL
                 Parcel = droneToList.ParcelId != 0 ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
             };
         }
+        //InvalidOperationException
 
         /// <summary>
         /// Find the best parcel to assigning to thev drone
