@@ -33,10 +33,12 @@
                 <ComboBox Grid.Column="2" x:Name="ChooseState" ItemsSource="{Binding}" Visibility="Collapsed" SelectionChanged="select_screen_out_parameter" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="state" />
             </Grid>
         </StackPanel>
-        <Button Content="to cansel screen out"  Click="Cancel_screen_out" />
-        <Button Click="Add_tab_click" Content="Add Drone"/>
-        <Button Click="Close_tab_click" Content="Close Drone To List"/>
-        <ListView x:Name="droneToListListView" ItemsSource="{Binding }"  SelectionMode="Single" DockPanel.Dock="Top"  MouseDoubleClick="double_click" >
+        <DockPanel>
+        <Button Content="to cansel screen out"  Click="Cancel_screen_out"   Style="{StaticResource MaterialDesignFlatMidBgButton}" Margin="2"/>
+        <Button Click="Add_tab_click" Content="Add Drone"   Style="{StaticResource MaterialDesignFlatMidBgButton}" Margin="2"/>
+         <Button Click="Close_tab_click" Content="Close Drone To List"   Style="{StaticResource MaterialDesignFlatMidBgButton}" Margin="2"/>
+        </DockPanel>
+        <ListView x:Name="droneToListListView" ItemsSource="{Binding }"  SelectionMode="Single" DockPanel.Dock="Top"  MouseDoubleClick="double_click" Margin="2">
 
         </ListView>
     </StackPanel>
