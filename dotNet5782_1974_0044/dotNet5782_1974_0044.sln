@@ -18,9 +18,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL\BL.csproj", "{CD91
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleUI_BL", "ConsoleUI_BL\ConsoleUI_BL.csproj", "{5A0DD31F-B96A-48D1-B93F-C42DA10C828F}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Utilities", "ClassLibrary1\Utilities.csproj", "{A02D2FD4-CD2B-4089-B617-0BE67F5C8CE0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CrossCating", "ClassLibrary1\CrossCating.csproj", "{A02D2FD4-CD2B-4089-B617-0BE67F5C8CE0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PL", "PL\PL.csproj", "{E55023DB-7FEA-4DF5-903F-AEE4FBD78A61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PL", "PL\PL.csproj", "{E55023DB-7FEA-4DF5-903F-AEE4FBD78A61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
