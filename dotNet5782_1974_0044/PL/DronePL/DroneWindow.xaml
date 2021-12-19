@@ -21,6 +21,7 @@
             <local:ConverterParcelDelivery x:Key="ConverterParcelDelivery" />
             <local:ConverterDroneMaintenance x:Key="ConverterDroneMaintenance" />
             <local:ConverterDroneDelivery x:Key="ConverterDroneDelivery" />
+            <local:parcelTreatedByDRone x:Key="parcelTreatedByDRone" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Dictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -62,10 +63,15 @@
                 <TextBox x:Name="timeOfCharge" Visibility="Collapsed"></TextBox>
                 <Button x:Name="confirm" Content="confirm" Click="Confirm" Visibility="Collapsed" Width="50"></Button>
             </StackPanel>
-
-            <StackPanel x:Name="delivery" Visibility="{Binding Path=DroneState,Converter={StaticResource ConverterDroneDelivery}}">
-                <Button x:Name="parcelCollectionByDrone"  Content="Parcel collection" Click="ParcelCollectionByDrone" Visibility="{Binding Path=Parcel.ParcelState,Converter={StaticResource ConverterParcelColection}}"/>
-                <Button x:Name="deliveryParcelByDrone"  Content="Parcel delivery" Click="DeliveryParcelByDrone" Visibility="{Binding Path=Parcel.ParcelState,Converter={StaticResource ConverterParcelDelivery}}"/>
+            <StackPanel>
+                <Button x:Name="parcelTreatedByDRone"   Click="ParcelCollectionByDrone" Visibility="{Binding Path=DroneState,Converter={StaticResource ConverterDroneDelivery}}">
+                    <Button.Content>
+                        <MultiBinding Converter="{StaticResource parcelTreatedByDRone}">
+                            <Binding Path="DroneState" />
+                            <Binding Path="Parcel.ParcelState" />
+                        </MultiBinding>
+                    </Button.Content>
+                </Button>
             </StackPanel>
         </StackPanel>
     </Grid>

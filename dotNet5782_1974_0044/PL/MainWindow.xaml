@@ -6,7 +6,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Title="MainWindow"  Height="450" Width="800"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
      TextElement.FontWeight="Regular"
      TextElement.FontSize="13"
@@ -21,6 +21,7 @@
             </ListBox.ItemTemplate>
         </ListBox>
         <TabControl x:Name="tab" DockPanel.Dock="Top">
+
             <TabItem x:Name="DroneToListTab" Header="DroneToList"  Visibility="Collapsed" >
                 <ContentControl Content="{Binding}" Visibility="Collapsed"/>
             </TabItem>
