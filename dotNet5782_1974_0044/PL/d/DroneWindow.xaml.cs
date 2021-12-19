@@ -45,13 +45,13 @@ namespace PL
             MainWindow = mainWindow;
         }
 
-        private void ValidDetails(object sender, RoutedEventArgs e)
-        {
-            Valid_Id_Drone(sender, e);
-            Valid_Model_Drone(sender, e);
-            Valid_Weight_Drone(sender, e);
-            Valid_Station_Drone(sender, e);
-        }
+        //private void ValidDetails(object sender, RoutedEventArgs e)
+        //{
+        //    Valid_Id_Drone(sender, e);
+        //    Valid_Model_Drone(sender, e);
+        //    Valid_Weight_Drone(sender, e);
+        //    Valid_Station_Drone(sender, e);
+        //}
 
         private void Valid_Id_Drone(object sender, RoutedEventArgs e)
         {
@@ -62,6 +62,8 @@ namespace PL
                 id.Background = Brushes.OrangeRed;
                 MessageBox.Show("enter id");
             }
+            else
+                id.Background = Brushes.YellowGreen;
         }
         private void Valid_Model_Drone(object sender, RoutedEventArgs e)
         {
@@ -71,6 +73,8 @@ namespace PL
                 model.Background = Brushes.OrangeRed;
                 MessageBox.Show("enter model");
             }
+            else
+                model.Background = Brushes.YellowGreen;
         }
         private void Valid_Weight_Drone(object sender, RoutedEventArgs e)
         {
@@ -80,6 +84,8 @@ namespace PL
                 weigth.Background = Brushes.OrangeRed;
                 MessageBox.Show("choose max weigth");
             }
+            else
+                weigth.Background = Brushes.YellowGreen;
         }
         private void Valid_Station_Drone(object sender, RoutedEventArgs e)
         {
@@ -88,11 +94,14 @@ namespace PL
                 station.Background = Brushes.OrangeRed;
                 MessageBox.Show("choose station");
             }
+            else
+                station.Background = Brushes.YellowGreen;
         }
 
         private void AddDrone_click(object sender, RoutedEventArgs e)
         {
             bool valid = true;
+           // bool validId, validModel, validStation, validWeight = true;
             int stationId = 0;
             WeightCategories maxWeight = (WeightCategories)weigth.SelectedIndex;
             string droneModel = model.Text;
@@ -103,6 +112,7 @@ namespace PL
                 MessageBox.Show("enter model");
                 valid = false;
             }
+
             if (id.Text == string.Empty)
             {
                 id.Background = Brushes.OrangeRed;
@@ -115,6 +125,9 @@ namespace PL
                 valid = false;
                 MessageBox.Show("choose max weigth");
             }
+            else
+                weigth.Background = Brushes.OrangeRed;
+
             if (station.SelectedIndex == -1)
             {
                 station.Background = Brushes.OrangeRed;
@@ -122,6 +135,9 @@ namespace PL
                 MessageBox.Show("choose station");
 
             }
+            else
+                station.Background = Brushes.OrangeRed;
+
             if (station.SelectedValue == null)
                 valid = false;
             else

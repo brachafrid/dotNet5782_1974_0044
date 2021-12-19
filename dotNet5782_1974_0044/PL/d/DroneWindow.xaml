@@ -34,11 +34,11 @@
         <StackPanel x:Name="add" Grid.Column="0">
             <Label Content="enter drone's id"/>
 
-            <TextBox TextChanged="is_num" x:Name="id" />
+            <TextBox TextChanged="Valid_Id_Drone" x:Name="id" />
             <Label Content="model"/>
-            <TextBox x:Name="model" ></TextBox>
+            <TextBox x:Name="model"  TextChanged="Valid_Model_Drone"></TextBox>
             <Label Content="max weigth" />
-            <ComboBox  ItemsSource="{Binding}" x:Name="weigth"  Style="{StaticResource MaterialDesignFilledComboBox}"/>
+            <ComboBox  ItemsSource="{Binding}" x:Name="weigth"   Style="{StaticResource MaterialDesignFilledComboBox}"/>
 
             <Label Content="station" />
             <ComboBox ItemsSource="{Binding}" x:Name="station"  Style="{StaticResource MaterialDesignFilledComboBox}"/>
