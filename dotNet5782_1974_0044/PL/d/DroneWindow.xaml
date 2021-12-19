@@ -43,8 +43,8 @@
             <Label Content="station" />
             <ComboBox ItemsSource="{Binding}" x:Name="station"  Style="{StaticResource MaterialDesignFilledComboBox}"/>
             <!--DataContextChanged="Valid_Station_Drone"/>-->
-            <Button Content="Add" Click="AddDrone_click" Style="{StaticResource MaterialDesignOutlinedDarkButton}" Margin="2"/>
-            <Button Content="cancel" Click="Close" Style="{StaticResource MaterialDesignOutlinedDarkButton}" Margin="2"/>
+            <Button Content="Add" Click="AddDrone_click" Style="{StaticResource MaterialDesignPaperButton}" Margin="2"/>
+            <Button Content="cancel" Click="Close" Style="{StaticResource MaterialDesignPaperButton}" Margin="2"/>
         </StackPanel>
         <StackPanel x:Name="details" >
             <ContentPresenter Content="{Binding}" TextBoxBase.TextChanged="model_changed"/>

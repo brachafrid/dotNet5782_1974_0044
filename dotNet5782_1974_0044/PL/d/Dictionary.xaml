@@ -33,8 +33,9 @@
             <StackPanel>
                 <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
                 <DockPanel>
-                <Label Content="model"/>
-                <TextBox  Text="{Binding Mode=OneWay, Path= Model, StringFormat=0:d}" /></DockPanel>
+                    <Label Content="model"/>
+                    <TextBox  Text="{Binding Mode=OneWay, Path= Model, StringFormat=0:d}" />
+                </DockPanel>
                 <TextBlock Text="{Binding Path=WeightCategory, StringFormat=maxWeigth :{0}}"/>
                 <Expander Header="CurrentLocation">
                     <ContentPresenter Content="{Binding Path=CurrentLocation}" />

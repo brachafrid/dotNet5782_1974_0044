@@ -34,9 +34,9 @@
             </Grid>
         </StackPanel>
         <DockPanel>
-        <Button Content="to cansel screen out"  Click="Cancel_screen_out"   Style="{StaticResource MaterialDesignFlatMidBgButton}" Margin="2"/>
-        <Button Click="Add_tab_click" Content="Add Drone"   Style="{StaticResource MaterialDesignFlatMidBgButton}" Margin="2"/>
-         <Button Click="Close_tab_click" Content="Close Drone To List"   Style="{StaticResource MaterialDesignFlatMidBgButton}" Margin="2"/>
+            <Button Content="to cansel screen out"  Click="Cancel_screen_out"     Style="{StaticResource MaterialDesignRaisedButton}" Margin="2"/>
+            <Button Click="Add_tab_click" Content="Add Drone"     Style="{StaticResource MaterialDesignRaisedButton}" Margin="2"/>
+            <Button Click="Close_tab_click" Content="Close Drone To List"     Style="{StaticResource MaterialDesignRaisedButton}" Margin="2"/>
         </DockPanel>
         <ListView x:Name="droneToListListView" ItemsSource="{Binding }"  SelectionMode="Single" DockPanel.Dock="Top"  MouseDoubleClick="double_click" Margin="2">
 
