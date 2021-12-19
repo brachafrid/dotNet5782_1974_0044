@@ -13,19 +13,13 @@
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto">
     <DockPanel>
-        <ToolBarTray DockPanel.Dock="Left">
-            <ToolBar x:Name="menue">
-                <ListBox x:Name="menu" ItemsSource="{Binding}">
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <Button x:Name="click" Content="{Binding}" Click="Add_tag_click"/>
-                            <!--<Button
-                                IsEnabled="True" Click="Button_Click"   Content="_LIGHT" />-->
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
-                </ListBox>
-            </ToolBar>
-        </ToolBarTray>
+        <ListBox x:Name="menu" ItemsSource="{Binding}">
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <Button x:Name="click" Content="{Binding}" Click="Add_tag_click"/>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
         <TabControl x:Name="tab" DockPanel.Dock="Top">
             <TabItem x:Name="DroneToListTab" Header="DroneToList"  Visibility="Collapsed" >
                 <ContentControl Content="{Binding}" Visibility="Collapsed"/>
