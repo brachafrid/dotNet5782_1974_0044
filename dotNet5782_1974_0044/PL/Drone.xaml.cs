@@ -20,7 +20,20 @@ namespace PL
     /// </summary>
     public partial class Drone : UserControl
     {
+        /// <summary>
+        /// add drone
+        /// </summary>
         public Drone()
+        {
+            InitializeComponent();
+            
+        }
+
+        /// <summary>
+        /// input drone
+        /// </summary>
+        /// <param name="droneToList"></param>
+        public Drone(DroneToList droneToList)
         {
             InitializeComponent();
         }
