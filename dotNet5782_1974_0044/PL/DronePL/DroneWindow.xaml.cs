@@ -52,7 +52,6 @@ namespace PL
             if (id.Text == string.Empty)
             {
                 id.Background = Brushes.OrangeRed;
-                MessageBox.Show("enter id");
             }
             else
                 id.Background = Brushes.YellowGreen;
