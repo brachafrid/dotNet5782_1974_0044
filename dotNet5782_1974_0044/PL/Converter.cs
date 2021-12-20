@@ -48,7 +48,7 @@ namespace PL
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value.ToString() == DroneState.DELIVERY.ToString())
+            if (value.ToString() != DroneState.MAINTENANCE.ToString())
             {
                 return Visibility.Visible;
             }
@@ -66,7 +66,7 @@ namespace PL
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value.ToString()!="True")
+            if (value.ToString() != "True")
             {
                 return Visibility.Visible;
             }
@@ -117,18 +117,21 @@ namespace PL
     }
     public class parcelTreatedByDRone : IMultiValueConverter
     {
-
-
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[1].ToString() == "True" && values[0].ToString()==DroneState.DELIVERY.ToString())
+            if (values[0].ToString() == DroneState.DELIVERY.ToString())
             {
-                return "Parcel delivery";
+                if (values[1].ToString() == "True")
+                {
+                    return "Parcel delivery";
+                }
+                else
+                    return "Parcel collection";
             }
-            else
-                return "Parcel collection";
-        }
+            else 
+                return "Sending the drone for delivery";
 
+        }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {

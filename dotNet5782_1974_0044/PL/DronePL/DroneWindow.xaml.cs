@@ -95,6 +95,7 @@ namespace PL
             bool valid = true;
            // bool validId, validModel, validStation, validWeight = true;
 
+            // bool validId, validModel, validStation, validWeight = true;
             int stationId = 0;
             WeightCategories maxWeight = (WeightCategories)weigth.SelectedIndex;
             string droneModel = model.Text;
@@ -256,46 +257,36 @@ namespace PL
                 MessageBox.Show("For updating the name must be initialized ");
             }
         }
-        private void AssingParcelToDrone(object sender, RoutedEventArgs e)
-        {
-            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
-            try
-            {
-                bl.AssingParcelToDrone(drone.Id);
-                MessageBox.Show("The drone was successfully shipped");
-                DataContext = bl.GetDrone(drone.Id);
-                updateList();
-            }
-            catch (KeyNotFoundException ex)
-            {
-                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
-            }
-            catch (InvalidEnumArgumentException ex)
-            {
-                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
-            }
-        }
 
-        private void ParcelCollectionByDrone(object sender, RoutedEventArgs e)
+        private void ParcelTreatedByDrone(object sender, RoutedEventArgs e)
         {
             IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
-                if(!drone.Parcel.ParcelState)
+                if (drone.DroneState == DroneState.DELIVERY)
                 {
-                    bl.ParcelCollectionByDrone(drone.Id);
-                    MessageBox.Show("The parcel was successfully collected");
-                    DataContext = bl.GetDrone(drone.Id);
-                    updateList();
+                    if (!drone.Parcel.ParcelState)
+                    {
+                        bl.ParcelCollectionByDrone(drone.Id);
+                        MessageBox.Show("The parcel was successfully collected");
+                        DataContext = bl.GetDrone(drone.Id);
+                        updateList();
+                    }
+                    else
+                    {
+                        bl.DeliveryParcelByDrone(drone.Id);
+                        MessageBox.Show("The drone was successfully shipped");
+                        DataContext = bl.GetDrone(drone.Id);
+                        updateList();
+                    }
                 }
                 else
                 {
-                    bl.DeliveryParcelByDrone(drone.Id);
+                    bl.AssingParcelToDrone(drone.Id);
                     MessageBox.Show("The drone was successfully shipped");
                     DataContext = bl.GetDrone(drone.Id);
                     updateList();
                 }
-
             }
             catch (KeyNotFoundException ex)
             {
@@ -306,25 +297,6 @@ namespace PL
             {
                 MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
 
-            }
-            catch (InvalidEnumArgumentException ex)
-            {
-                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
-            }
-        }
-        private void DeliveryParcelByDrone(object sender, RoutedEventArgs e)
-        {
-            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
-            try
-            {
-                bl.DeliveryParcelByDrone(drone.Id);
-                MessageBox.Show("The drone was successfully shipped");
-                DataContext = bl.GetDrone(drone.Id);
-                updateList();
-            }
-            catch (KeyNotFoundException ex)
-            {
-                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
             }
             catch (InvalidEnumArgumentException ex)
             {
