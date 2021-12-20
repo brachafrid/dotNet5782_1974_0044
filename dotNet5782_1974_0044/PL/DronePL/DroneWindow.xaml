@@ -43,18 +43,15 @@
 
             <Label Content="station" />
             <ComboBox ItemsSource="{Binding}" x:Name="station"  Style="{StaticResource MaterialDesignFilledComboBox}"/>
-            <!--DataContextChanged="Valid_Station_Drone"/>-->
             <Button Content="Add" Click="AddDrone_click" Style="{StaticResource MaterialDesignPaperButton}" Margin="2"/>
             <Button Content="cancel" Click="Close" Style="{StaticResource MaterialDesignPaperButton}" Margin="2"/>
         </StackPanel>
         <StackPanel x:Name="details" >
             <ContentPresenter Content="{Binding}" TextBoxBase.TextChanged="model_changed"/>
-            <!--<Button Content="update options" Click="Buttons"/>-->
             <Button Content="close drone" Click="Close"/>
             <Button Content="update drone's model" Click="UpdateDrone" />
             <StackPanel x:Name="available"  Visibility="{Binding Path=DroneState,Converter={StaticResource ConverterDroneAviable}}">
                 <Button x:Name="sendToCharging" Content="send drone to charging" Click="SendToCharging" />
-                <Button x:Name="assingParcelToDrone"  Content="Sending the drone for delivery" Click="AssingParcelToDrone"/>
             </StackPanel>
 
             <StackPanel x:Name="maintenance" Visibility="{Binding Path=DroneState,Converter={StaticResource ConverterDroneMaintenance}}">
@@ -64,7 +61,7 @@
                 <Button x:Name="confirm" Content="confirm" Click="Confirm" Visibility="Collapsed" Width="50"></Button>
             </StackPanel>
             <StackPanel>
-                <Button x:Name="parcelTreatedByDRone"   Click="ParcelCollectionByDrone" Visibility="{Binding Path=DroneState,Converter={StaticResource ConverterDroneDelivery}}">
+                <Button x:Name="parcelTreatedByDRone"   Click="ParcelTreatedByDrone" Visibility="{Binding Path=DroneState,Converter={StaticResource ConverterDroneDelivery}}">
                     <Button.Content>
                         <MultiBinding Converter="{StaticResource parcelTreatedByDRone}">
                             <Binding Path="DroneState" />

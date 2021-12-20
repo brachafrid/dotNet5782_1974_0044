@@ -37,15 +37,14 @@ namespace IBL
                     ParcelId = 0
                 };
                 drones.Add(droneToList);
+                dal.AddDRoneCharge(droneBl.Id, stationId);
             }
             catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
             catch (KeyNotFoundException ex)
             {
-
                 throw new KeyNotFoundException(ex.Message);
             }
 
