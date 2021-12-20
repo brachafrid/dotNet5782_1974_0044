@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 
 
-namespace IDAL
+namespace DLApi
 {
     namespace DO
     {

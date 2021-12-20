@@ -14,7 +14,7 @@ namespace IBL
         /// </summary>
         /// <param name="parcel">The customer to convert</param>
         /// <returns>The converted customer</returns>
-        private CustomerToList MapCustomerToList(IDAL.DO.Customer customer)
+        private CustomerToList MapCustomerToList(DLApi.DO.Customer customer)
         {
             return new CustomerToList()
             {
@@ -35,7 +35,7 @@ namespace IBL
         /// </summary>
         /// <param name="parcel">The customer to convert</param>
         /// <returns>The converted customer</returns>
-        private CustomerInParcel MapCustomerInParcel(IDAL.DO.Customer customer)
+        private CustomerInParcel MapCustomerInParcel(DLApi.DO.Customer customer)
         {
             return new CustomerInParcel()
             {

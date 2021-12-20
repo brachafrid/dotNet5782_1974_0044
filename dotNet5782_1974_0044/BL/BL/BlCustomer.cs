@@ -19,7 +19,7 @@ namespace IBL
             {
                 dal.AddCustomer(customerBL.Id, customerBL.Phone, customerBL.Name, customerBL.Location.Longitude, customerBL.Location.Latitude);
             }
-            catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
 
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
@@ -54,7 +54,7 @@ namespace IBL
         {
             if (name.Equals(string.Empty) && phone.Equals(string.Empty))
                 throw new ArgumentNullException("There is not field to update");
-            IDAL.DO.Customer customer ;
+            DLApi.DO.Customer customer ;
             try
             {
                 customer = dal.GetCustomer(id);
@@ -66,7 +66,7 @@ namespace IBL
                 dal.AddCustomer(id, phone, name, customer.Longitude, customer.Latitude);
 
             }
-            catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
@@ -94,7 +94,7 @@ namespace IBL
         /// </summary>
         /// <param name="parcel">The customer to convert</param>
         /// <returns>The converted customer</returns>
-        private Customer MapCustomer(IDAL.DO.Customer customer)
+        private Customer MapCustomer(DLApi.DO.Customer customer)
         {
             return new Customer()
             {

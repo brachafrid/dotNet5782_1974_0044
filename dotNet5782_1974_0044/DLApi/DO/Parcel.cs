@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace IDAL
+namespace DLApi
 {
     namespace DO
     {

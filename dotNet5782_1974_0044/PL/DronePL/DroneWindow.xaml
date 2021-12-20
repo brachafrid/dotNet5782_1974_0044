@@ -60,7 +60,7 @@
                 <Button x:Name="sendToCharging" Content="{Binding Path=DroneState,Converter={StaticResource ConvertDroneChargingContent}}" Click="TreatDroneCharging" Visibility="{Binding Path=DroneState,Converter={StaticResource ConvertDroneChargingVisibility}}"/>
                 <Label x:Name="timeCharge" Content="enter time of charging in minutes" Visibility="Collapsed"/>
                 <TextBox x:Name="timeOfCharge" Visibility="Collapsed"></TextBox>
-                <Button x:Name="confirm" Content="confirm" Click="Confirm" Visibility="Collapsed" Width="50"></Button>
+                <Button x:Name="confirm" Content="confirm" Click="Confirm" Visibility="Collapsed" Width="80"></Button>
             </StackPanel>
             <StackPanel>
                 <Button x:Name="parcelTreatedByDRone"   Click="ParcelTreatedByDrone" Visibility="{Binding Path=DroneState,Converter={StaticResource parcelTreatedByDroneVisibility}}">

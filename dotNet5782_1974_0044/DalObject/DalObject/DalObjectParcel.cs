@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 
-using IDAL.DO;
+using DLApi.DO;
 
-namespace DalObject
+namespace Dal
 {
     public partial class DalObject
     {

@@ -62,7 +62,6 @@ namespace PL
             if (id.Text == string.Empty)
             {
                 id.Background = Brushes.OrangeRed;
-                MessageBox.Show("enter id");
             }
             else
                 id.Background = Brushes.YellowGreen;
@@ -126,18 +125,13 @@ namespace PL
                 valid = false;
                 MessageBox.Show("choose max weigth");
             }
-            else
-                weigth.Background = Brushes.YellowGreen;
 
             if (station.SelectedIndex == -1)
             {
                 station.Background = Brushes.OrangeRed;
                 valid = false;
                 MessageBox.Show("choose station");
-
             }
-            else
-                station.Background = Brushes.YellowGreen;
 
             if (station.SelectedValue == null)
                 valid = false;
@@ -163,7 +157,6 @@ namespace PL
                 }
                 catch (ThereIsAnObjectWithTheSameKeyInTheListException)
                 {
-                    valid = false;
                     id.Background = Brushes.OrangeRed;
                     MessageBox.Show("id is already exist");
                 }

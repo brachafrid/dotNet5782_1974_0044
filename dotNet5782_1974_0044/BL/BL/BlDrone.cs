@@ -24,8 +24,8 @@ namespace IBL
         {
             try
             {
-                dal.AddDrone(droneBl.Id, droneBl.Model, (IDAL.DO.WeightCategories)droneBl.WeightCategory);
-                IDAL.DO.Station station = dal.GetStation(stationId);
+                dal.AddDrone(droneBl.Id, droneBl.Model, (DLApi.DO.WeightCategories)droneBl.WeightCategory);
+                DLApi.DO.Station station = dal.GetStation(stationId);
                 DroneToList droneToList = new()
                 {
                     Id = droneBl.Id,
@@ -39,7 +39,7 @@ namespace IBL
                 drones.Add(droneToList);
                 dal.AddDRoneCharge(droneBl.Id, stationId);
             }
-            catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
@@ -83,7 +83,7 @@ namespace IBL
             DroneToList droneToList = default;
             try
             {
-                IDAL.DO.Drone droneDl = dal.GetDrone(id);
+                DLApi.DO.Drone droneDl = dal.GetDrone(id);
                 dal.RemoveDrone(droneDl);
                 dal.AddDrone(id, name, droneDl.MaxWeight);
                 droneToList = drones.First(item => item.Id == id);
@@ -93,7 +93,7 @@ namespace IBL
                     throw new ArgumentNullException("For updating the name must be initialized ");
             }
           
-            catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException( ex.Message);
             }
@@ -119,8 +119,8 @@ namespace IBL
                 throw new ArgumentNullException(" There is no a drone with the same id in data");
             if (droneToList.DroneState != DroneState.AVAILABLE)
                 throw new InvalidEnumArgumentException("The drone is not available so it is not possible to send it for charging ");
-            IDAL.DO.Station station = ClosetStationPossible(dal.GetStations(), droneToList.CurrentLocation, droneToList.BatteryState, out double minDistance);
-            if (station.Equals(default(IDAL.DO.Station)))
+            DLApi.DO.Station station = ClosetStationPossible(dal.GetStations(), droneToList.CurrentLocation, droneToList.BatteryState, out double minDistance);
+            if (station.Equals(default(DLApi.DO.Station)))
                 throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();
             drones.Remove(droneToList);
             droneToList.DroneState = DroneState.MAINTENANCE;
@@ -198,13 +198,13 @@ namespace IBL
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
             drones.Remove(droneToList);
-            IDAL.DO.Parcel parcel = default;
+            DLApi.DO.Parcel parcel = default;
             try
             {
                  parcel= dal.GetParcel((int)droneToList.ParcelId);
                 if (parcel.PickedUp!= null)
                     throw new ArgumentNullException("The package has already been collected");
-                IDAL.DO.Customer customer = dal.GetCustomer(parcel.SenderId);
+                DLApi.DO.Customer customer = dal.GetCustomer(parcel.SenderId);
                 Location senderLocation = new() { Longitude = customer.Longitude, Latitude = customer.Latitude };
                 droneToList.BatteryState -= Distance(droneToList.CurrentLocation, senderLocation) * available;
                 droneToList.CurrentLocation = senderLocation;
@@ -221,7 +221,7 @@ namespace IBL
             finally
             {
                 drones.Add(droneToList);
-                if(!parcel.Equals(default(IDAL.DO.Parcel)))
+                if(!parcel.Equals(default(DLApi.DO.Parcel)))
                     ParcelcollectionDrone(parcel.Id);
             }
 
@@ -238,13 +238,13 @@ namespace IBL
                 throw new ArgumentNullException("There is no a drone with the same id in data");
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
-            IDAL.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
+            DLApi.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
             if (parcel.Delivered!=null)
                 throw new ArgumentNullException("The package has already been deliverd");
             drones.Remove(droneToList);
             try
             {
-                IDAL.DO.Customer customer = dal.GetCustomer(parcel.TargetId);
+                DLApi.DO.Customer customer = dal.GetCustomer(parcel.TargetId);
                 Location receiverLocation = new() { Longitude = customer.Longitude, Latitude = customer.Latitude };
                 droneToList.BatteryState -= Distance(droneToList.CurrentLocation, receiverLocation) * (WeightCategories)parcel.Weigth switch
                 {

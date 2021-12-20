@@ -51,9 +51,9 @@ namespace IBL
         private ParcelInTransfer CreateParcelInTransfer(int id)
         {
 
-            IDAL.DO.Parcel parcel = dal.GetParcel(id);
-            IDAL.DO.Customer sender = dal.GetCustomer(parcel.SenderId);
-            IDAL.DO.Customer target = dal.GetCustomer(parcel.TargetId);
+            DLApi.DO.Parcel parcel = dal.GetParcel(id);
+            DLApi.DO.Customer sender = dal.GetCustomer(parcel.SenderId);
+            DLApi.DO.Customer target = dal.GetCustomer(parcel.TargetId);
             return new ParcelInTransfer
             {
                 Id = id,
@@ -73,7 +73,7 @@ namespace IBL
         /// </summary>
         /// <param name="parcel">The parcel to convert</param>
         /// <returns>The converted parcel</returns>
-        private ParcelToList MapParcelToList(IDAL.DO.Parcel parcel)
+        private ParcelToList MapParcelToList(DLApi.DO.Parcel parcel)
         {
             PackageModes PackageMode;
             if (parcel.Delivered!=null)
