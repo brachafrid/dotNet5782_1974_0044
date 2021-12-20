@@ -22,7 +22,7 @@ namespace IBL
                 WeightCategories.MEDIUM => mediumWeightBearing,
                 WeightCategories.HEAVY => carriesHeavyWeight
             };
-            IDAL.DO.Station station;
+            DLApi.DO.Station station;
             electricity = Distance(aviableDroneLocation, CustomerSender) * available +
                         Distance(CustomerSender, CustomerReceives) * e;
             station =batteryStatus!=null? ClosetStationPossible(dal.GetStations(), aviableDroneLocation,(double)batteryStatus-electricity, out _ ):ClosetStation(dal.GetStations(),aviableDroneLocation);

@@ -21,9 +21,9 @@ namespace IBL
                 throw new KeyNotFoundException("Target not exist");
             try
             {
-                dal.AddParcel(parcelBl.CustomerSender.Id, parcelBl.CustomerReceives.Id, (IDAL.DO.WeightCategories)parcelBl.Weight, (IDAL.DO.Priorities)parcelBl.Priority);
+                dal.AddParcel(parcelBl.CustomerSender.Id, parcelBl.CustomerReceives.Id, (DLApi.DO.WeightCategories)parcelBl.Weight, (DLApi.DO.Priorities)parcelBl.Priority);
             }
-            catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
 
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
@@ -90,7 +90,7 @@ namespace IBL
         {
             try
             {
-                IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
+                DLApi.DO.Parcel parcel = dal.GetParcel(parcelId);
                 dal.RemoveParcel(parcel);
                 parcel.DorneId = droneId;
                 parcel.Sceduled = DateTime.Now;
@@ -100,7 +100,7 @@ namespace IBL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-            catch(IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch(DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
             }
@@ -115,7 +115,7 @@ namespace IBL
         {
             try
             {
-                IDAL.DO.Parcel parcel = dal.GetParcel(parcelId);
+                DLApi.DO.Parcel parcel = dal.GetParcel(parcelId);
                 dal.RemoveParcel(parcel);
                 parcel.PickedUp = DateTime.Now;
                 dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id,parcel.DorneId, parcel.Requested, parcel.Sceduled, parcel.PickedUp, parcel.Delivered);
@@ -124,7 +124,7 @@ namespace IBL
             {
                 throw new KeyNotFoundException(ex.Message );
             }
-            catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
             }
@@ -137,7 +137,7 @@ namespace IBL
         /// <param name="parcelId">The parcel to update</param>
         private void ParcelDeliveredDrone(int parcelId)
         {
-            IDAL.DO.Parcel parcel;
+            DLApi.DO.Parcel parcel;
             try
             {
                parcel  = dal.GetParcel(parcelId);
@@ -150,7 +150,7 @@ namespace IBL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-            catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
@@ -163,7 +163,7 @@ namespace IBL
         /// </summary>
         /// <param name="parcel">The parcel to convert</param>
         /// <returns>The converted parcel</returns>
-        private Parcel MapParcel(IDAL.DO.Parcel parcel)
+        private Parcel MapParcel(DLApi.DO.Parcel parcel)
         {
             var tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
             return new Parcel()

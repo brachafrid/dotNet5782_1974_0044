@@ -4,13 +4,14 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using IBL.BO;
 using Utilities;
+using DLApi;
 
 
 namespace IBL
 {
     public sealed partial class BL : Singletone<BL>, IBL
     {
-        DalApi.IDal dal { get; } = DalApi.FactoryDL.GetDL();
+        IDal dal { get; } = DLFactory.GetDL();
         private const int DRONESTATUSESLENGTH = 2;
         public const int MAXINITBATTARY = 20;
         public const int MININITBATTARY = 0;
@@ -141,7 +142,7 @@ namespace IBL
         /// <param name="drone">drone</param>
         /// <param name="parcel">drone's parcel</param>
         /// <returns>drone location</returns>
-        private Location FindLocationDroneWithParcel(IDAL.DO.Parcel parcel)
+        private Location FindLocationDroneWithParcel(DLApi.DO.Parcel parcel)
         {
             //get sender location
             Location locaiton = GetCustomer(parcel.SenderId).Location;
@@ -162,7 +163,7 @@ namespace IBL
         /// <param name="drone">drone</param>
         /// <param name="canTakeParcel">ref boolian</param>
         /// <returns> min electricity</returns>
-        private double MinBattary(IDAL.DO.Parcel parcel, ref bool canTakeParcel)
+        private double MinBattary(DLApi.DO.Parcel parcel, ref bool canTakeParcel)
         {
             var customerSender = dal.GetCustomer(parcel.SenderId);
             var customerReciver = dal.GetCustomer(parcel.TargetId);

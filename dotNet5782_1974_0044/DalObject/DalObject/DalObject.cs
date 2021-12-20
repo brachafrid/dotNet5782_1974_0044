@@ -4,9 +4,9 @@ using System.Linq;
 using Utilities;
 
 
-namespace DalObject
+namespace Dal
 {
-    public sealed partial class DalObject:Singletone<DalObject>, IDAL.IDal
+    public sealed partial class DalObject:Singletone<DalObject>, DLApi.IDal
     {
         /// <summary>
         /// Call to quick initialization function
