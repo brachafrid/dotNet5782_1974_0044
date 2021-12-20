@@ -45,14 +45,6 @@ namespace PL
             MainWindow = mainWindow;
         }
 
-        //private void ValidDetails(object sender, RoutedEventArgs e)
-        //{
-        //    Valid_Id_Drone(sender, e);
-        //    Valid_Model_Drone(sender, e);
-        //    Valid_Weight_Drone(sender, e);
-        //    Valid_Station_Drone(sender, e);
-        //}
-
         private void Valid_Id_Drone(object sender, RoutedEventArgs e)
         {
             is_num(sender, (TextChangedEventArgs)e);
@@ -102,6 +94,7 @@ namespace PL
         {
             bool valid = true;
            // bool validId, validModel, validStation, validWeight = true;
+
             int stationId = 0;
             WeightCategories maxWeight = (WeightCategories)weigth.SelectedIndex;
             string droneModel = model.Text;
@@ -126,7 +119,7 @@ namespace PL
                 MessageBox.Show("choose max weigth");
             }
             else
-                weigth.Background = Brushes.OrangeRed;
+                weigth.Background = Brushes.YellowGreen;
 
             if (station.SelectedIndex == -1)
             {
@@ -136,7 +129,7 @@ namespace PL
 
             }
             else
-                station.Background = Brushes.OrangeRed;
+                station.Background = Brushes.YellowGreen;
 
             if (station.SelectedValue == null)
                 valid = false;
@@ -162,6 +155,8 @@ namespace PL
                 }
                 catch (ThereIsAnObjectWithTheSameKeyInTheListException)
                 {
+                    valid = false;
+                    id.Background = Brushes.OrangeRed;
                     MessageBox.Show("id is already exist");
                 }
                 catch (NullReferenceException)
