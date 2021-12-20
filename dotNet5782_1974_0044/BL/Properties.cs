@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 
 
-namespace IBL
+namespace BL
 {
     static class Properties
     {

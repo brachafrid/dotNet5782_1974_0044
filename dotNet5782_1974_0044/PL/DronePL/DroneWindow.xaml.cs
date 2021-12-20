@@ -4,8 +4,8 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using IBL.BO;
-using IBL;
+using BL.BO;
+using BL;
 using Utilities;
 using System.ComponentModel;
 
@@ -18,7 +18,7 @@ namespace PL
 
     public partial class DroneWindow : UserControl
     {
-        IBL.IBL bl = Singletone<BL>.Instance;
+        BL.BLApi.IBL bl = Singletone<BL.BL>.Instance;
         //private string modelNew;
         private Action updateList;
         private MainWindow MainWindow;
@@ -44,7 +44,7 @@ namespace PL
             MainWindow = mainWindow;
         }
 
-        public DroneWindow(IBL.BO.DroneToList droneToList, Action updateListNew, MainWindow mainWindow)
+        public DroneWindow(BL.BO.DroneToList droneToList, Action updateListNew, MainWindow mainWindow)
         {
             InitializeComponent();
             add.Visibility = Visibility.Collapsed;
@@ -145,7 +145,7 @@ namespace PL
                 station.Background = Brushes.GreenYellow;
                 try
                 {
-                    bl.AddDrone(new IBL.BO.Drone()
+                    bl.AddDrone(new BL.BO.Drone()
                     {
                         Id = int.Parse(id.Text),
                         Model = droneModel,
@@ -191,7 +191,7 @@ namespace PL
         private void UpdateDrone(object sender, RoutedEventArgs e)
         {
 
-            Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            Drone drone = (BL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
                 if (modelNew != drone.Model)
@@ -214,7 +214,7 @@ namespace PL
         }
         private void TreatDroneCharging(object sender, RoutedEventArgs e)
         {
-            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            BL.BO.Drone drone = (BL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
                 if (drone.DroneState == DroneState.AVAILABLE)
@@ -240,7 +240,7 @@ namespace PL
         }
         private void Confirm(object sender, RoutedEventArgs e)
         {
-            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            BL.BO.Drone drone = (BL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
                 float timeCrg = float.Parse(timeOfCharge.Text);
@@ -265,7 +265,7 @@ namespace PL
 
         private void ParcelTreatedByDrone(object sender, RoutedEventArgs e)
         {
-            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            BL.BO.Drone drone = (BL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
                 if (drone.DroneState == DroneState.DELIVERY)

@@ -1,6 +1,6 @@
-﻿using IBL.BO;
+﻿using BL.BO;
 
-namespace IBL
+namespace BL
 {
     public partial class BL
     {

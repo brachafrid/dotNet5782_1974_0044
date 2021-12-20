@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using IBL.BO;
+using BL.BO;
 using System.ComponentModel;
 using Utilities;
 
@@ -18,7 +18,7 @@ namespace ConsoleUI_BL
 
         static void Main()
         {
-            IBL.IBL bal = Singletone<IBL.BL>.Instance;
+            BL.IBL bal = Singletone<BL.BL>.Instance;
             Menu option;
             do
             {

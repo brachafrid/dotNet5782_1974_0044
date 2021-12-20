@@ -2,7 +2,7 @@
 
 
 
-namespace IBL
+namespace BL
 {
     namespace BO
     {

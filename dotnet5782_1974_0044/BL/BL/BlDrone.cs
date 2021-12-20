@@ -1,11 +1,12 @@
-﻿using IBL.BO;
+﻿using BL.BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel;
+using BL.BLApi;
 
 
-namespace IBL
+namespace BL
 {
     
     public partial class BL : IBlDrone

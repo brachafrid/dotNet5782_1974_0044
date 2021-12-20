@@ -1,4 +1,4 @@
-﻿using IBL.BO;
+﻿using BL.BO;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -13,7 +13,7 @@ namespace ConsoleUI_BL
         /// Receives input from the user what type of organ to print as well as ID number and calls to the appropriate printing method
         /// </summary>
         /// <param name="dalObject"></param>
-        public static void SwitchDisplay(ref IBL.IBL bl)
+        public static void SwitchDisplay(ref BL.BLApi.IBL bl)
         {
             if (!Enum.TryParse(Console.ReadLine(), out Display option))
             {
@@ -60,7 +60,7 @@ namespace ConsoleUI_BL
         /// Receives input from the user and calls the printing method accordingly 
         /// </summary>
         /// <param name="dalObject"></param>
-        public static void SwitchDisplayList(ref IBL.IBL bl)
+        public static void SwitchDisplayList(ref BL.BLApi.IBL bl)
         {
             if (!Enum.TryParse(Console.ReadLine(), out DisplayList option))
             {

@@ -1,9 +1,13 @@
 ﻿
 
-namespace IBL
+namespace BL
 {
-   public interface IBL:IBlDrone, IBlStations,IBlParcel,IBlCustomer
-   {
-        
-   }
+    namespace BLApi
+    {
+        public interface IBL : IBlDrone, IBlStations, IBlParcel, IBlCustomer
+        {
+
+        }
+    }
 }
+

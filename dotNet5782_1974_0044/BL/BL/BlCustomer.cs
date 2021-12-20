@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using IBL.BO;
+using BL.BO;
+using BL.BLApi;
 
 
-namespace IBL
+namespace BL
 {
     public partial class BL : IBlCustomer
     {

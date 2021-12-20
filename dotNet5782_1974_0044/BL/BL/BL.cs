@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using IBL.BO;
+using BL.BO;
 using Utilities;
 using DLApi;
+using BL.BLApi;
 
-
-namespace IBL
+namespace BL
 {
     public sealed partial class BL : Singletone<BL>, IBL
     {
