@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="PL.DroneToListWindow"
+               xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+     TextElement.Foreground="{DynamicResource MaterialDesignBody}"
+     TextElement.FontWeight="Regular"
+     TextElement.FontSize="13"
+     TextOptions.TextFormattingMode="Ideal"
+     TextOptions.TextRenderingMode="Auto"
+     Background="{DynamicResource MaterialDesignPaper}"
+     FontFamily="{DynamicResource MaterialDesignFont}"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PL"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary Source="Dictionary.xaml"
+                            />
+    </UserControl.Resources>
+    
+    <StackPanel DataContext="{Binding}" CanVerticallyScroll="True">
+        <StackPanel>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <ComboBox Grid.Column="0" x:Name="selectCategory" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="screen out"   SelectionChanged="select_screen_out">
+                    <ComboBoxItem Content="weight" />
+                    <ComboBoxItem Content="state" />
+                </ComboBox>
+                <ComboBox Grid.Column="1" x:Name="ChooseWeight"  ItemsSource="{Binding}" Visibility="Collapsed" SelectionChanged="select_screen_out_parameter" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="weight"  />
+                <ComboBox Grid.Column="2" x:Name="ChooseState" ItemsSource="{Binding}" Visibility="Collapsed" SelectionChanged="select_screen_out_parameter" Style="{StaticResource MaterialDesignOutlinedComboBox}" materialDesign:HintAssist.Hint="state" />
+            </Grid>
+        </StackPanel>
+        <DockPanel>
+            <Button Content="to cansel screen out"  Click="Cancel_screen_out"     Style="{StaticResource MaterialDesignRaisedButton}" Margin="2"/>
+            <Button Click="Add_tab_click" Content="Add Drone"     Style="{StaticResource MaterialDesignRaisedButton}" Margin="2"/>
+            <Button Click="Close_tab_click" Content="Close Drone To List"     Style="{StaticResource MaterialDesignRaisedButton}" Margin="2"/>
+        </DockPanel>
+        <ListView x:Name="droneToListListView" ItemsSource="{Binding }"  SelectionMode="Single" DockPanel.Dock="Top"  MouseDoubleClick="double_click" Margin="2">
+
+        </ListView>
+    </StackPanel>
+</UserControl>

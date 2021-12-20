@@ -15,7 +15,7 @@ namespace IBL
         public const int MININITBATTARY = 0;
         public const int FULLBATTRY = 100;
         private static readonly Random rand = new();
-        private readonly ObservableCollection<DroneToList> drones;
+        private readonly List<DroneToList> drones;
         private readonly IDAL.IDal dal;
         private readonly double available;
         private readonly double lightWeightCarrier;
@@ -26,7 +26,7 @@ namespace IBL
         {
             dal = Singletone<DalObject.DalObject>.Instance;
             // set electricty variablses
-            drones = new ObservableCollection<DroneToList>();
+            drones = new List<DroneToList>();
             (
                 available,
                 lightWeightCarrier,
