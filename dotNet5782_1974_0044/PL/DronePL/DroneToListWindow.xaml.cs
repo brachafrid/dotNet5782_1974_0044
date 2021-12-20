@@ -28,6 +28,10 @@ namespace PL
         public ListCollectionView Drones { get; set; }
         private Action updateList;
         private MainWindow MainWindow;
+        /// <summary>
+        /// Constructor 
+        /// </summary>
+        /// <param name="mainWindow"></param>
         public DroneToListWindow(MainWindow mainWindow)
         {
             InitializeComponent();
@@ -41,7 +45,9 @@ namespace PL
             updateList = UpdateNewList;
             MainWindow = mainWindow;
         }
-
+        /// <summary>
+        /// Update the list of the drones
+        /// </summary>
         private void UpdateNewList()
         {
 
@@ -51,6 +57,13 @@ namespace PL
             DataContext = Drones;
         }
 
+        /// <summary>
+        /// Filter the list of drones. 
+        /// return if the drone with weight or/and status 
+        /// according to the user's choice
+        /// </summary>
+        /// <param name="obj">The drone</param>
+        /// <returns>return if drone with the selected weight or/and the selected status</returns>
         private bool FilterDrones(object obj)
         {
             if (obj is IBL.BO.DroneToList droneList)
@@ -69,12 +82,22 @@ namespace PL
             return true;
         }
 
+        /// <summary>
+        /// Close the tab of the drone
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void Close_tab_click(object sender, RoutedEventArgs e)
         {
             MainWindow.DroneToListTab.Visibility = Visibility.Collapsed;
             (MainWindow.DroneToListTab.Content as FrameworkElement).Visibility = Visibility.Collapsed;
         }
 
+        /// <summary>
+        /// Add drone tab in insert mode
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void Add_tab_click(object sender, RoutedEventArgs e)
         {
             TabItem tabItem = new TabItem();
@@ -83,6 +106,12 @@ namespace PL
             MainWindow.tab.Items.Add(tabItem);
         }
 
+        /// <summary>
+        /// Adds the drone tab in update mode
+        /// when double-clicking a skimmer in the skimmer list
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void double_click(object sender, MouseButtonEventArgs e)
         {
             if (((FrameworkElement)e.OriginalSource).DataContext is IBL.BO.DroneToList)
@@ -94,6 +123,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Adds selection boxes for filtering the drones by weight and by condition
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void select_screen_out(object sender, SelectionChangedEventArgs e)
         {
             if ((e.OriginalSource as ComboBox).SelectedItem != null)
@@ -107,22 +141,26 @@ namespace PL
 
         }
 
+        /// <summary>
+        /// Filter the list of drones according to the user's choice. 
+        /// per selected status or/and selected weight
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void select_screen_out_parameter(object sender, SelectionChangedEventArgs e)
         {
                 Drones.Filter = FilterDrones;
         }
 
+        /// <summary>
+        /// Closes the selection boxes for filtering the drones
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void Cancel_screen_out(object sender, RoutedEventArgs e)
         {
             ChooseWeight.Visibility = ChooseState.Visibility = Visibility.Collapsed;
             selectCategory.SelectedItem = ChooseWeight.SelectedItem = ChooseState.SelectedItem = null;
         }
-
-        public ObservableCollection<IBL.BO.DroneToList> ConvertDroneToList(IEnumerable<DroneToList> IbalDroneToLists)
-        {
-            ObservableCollection<IBL.BO.DroneToList> droneToLists = new ObservableCollection<DroneToList>(IbalDroneToLists);
-            return droneToLists;
-        }
     }
-
 }

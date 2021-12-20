@@ -24,21 +24,33 @@ namespace PL
     {
         public IBL.IBL ibal;
         private List<string> option = new() { "DroneToList"};
-
+        /// <summary>
+        /// Constructor 
+        /// </summary>
         public MainWindow()
         { 
-          
             InitializeComponent();
             ibal = Singletone<IBL.BL>.Instance;
             DataContext = option;
             DroneToListTab.DataContext = new DroneToListWindow(this);
         }
 
+        /// <summary>
+        /// Displays the list of drones
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         public void Add_tag_click(object sender, RoutedEventArgs e)
         {
             DroneToListTab.Visibility = Visibility.Visible;
             (DroneToListTab.Content as FrameworkElement).Visibility = Visibility.Visible;
         }
+
+        /// <summary>
+        /// Close tab
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         public void Close_tab(object sender, RoutedEventArgs e)
         {
             object tmp = sender;
