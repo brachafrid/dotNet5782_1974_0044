@@ -1,8 +1,8 @@
-﻿using BL.BO;
+﻿using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BL.BLApi;
+using BLApi;
 
 namespace BL
 {
@@ -19,7 +19,7 @@ namespace BL
             {
                 dal.AddStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);
             }
-            catch (DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
@@ -39,7 +39,7 @@ namespace BL
                 throw new ArgumentNullException("For updating at least one parameter must be initialized ");
             try
             {
-                DLApi.DO.Station satationDl = dal.GetStation(id);
+                DO.Station satationDl = dal.GetStation(id);
                 if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(satationDl.Id))
                     throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
                 dal.RemoveStation(satationDl);
@@ -49,7 +49,7 @@ namespace BL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-            catch(DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch(DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
             }
@@ -64,7 +64,7 @@ namespace BL
         /// <returns>A list of statin to print</returns>
         public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
-            IEnumerable<DLApi.DO.Station> list = dal.GetSationsWithEmptyChargeSlots(exsitEmpty);
+            IEnumerable<DO.Station> list = dal.GetSationsWithEmptyChargeSlots(exsitEmpty);
             List<StationToList> stations = new ();
             foreach (var item in list)
             {
@@ -107,7 +107,7 @@ namespace BL
         /// </summary>
         /// <param name="station">The sation to convert</param>
         /// <returns>The converted station</returns>
-        private BO.Station MapStation(DLApi.DO.Station station)
+        private BO.Station MapStation(DO.Station station)
         {
             return new Station() {
                 Id = station.Id,
@@ -126,11 +126,11 @@ namespace BL
         /// <param name="droneToList">The drone</param>
         /// <param name="minDistance">The distance the drone need to travel</param>
         /// <returns></returns>
-        private DLApi.DO.Station ClosetStationPossible(IEnumerable<DLApi.DO.Station> stations, Location droneToListLocation,double BatteryStatus, out double minDistance)
+        private DO.Station ClosetStationPossible(IEnumerable<DO.Station> stations, Location droneToListLocation,double BatteryStatus, out double minDistance)
         {
-            DLApi.DO.Station station = ClosetStation(stations, droneToListLocation);
+            DO.Station station = ClosetStation(stations, droneToListLocation);
             minDistance = Distance( droneToListLocation, new Location() { Longitude = station.Longitude, Latitude = station.Latitude });
-            return minDistance * available <= BatteryStatus ? station : default(DLApi.DO.Station);
+            return minDistance * available <= BatteryStatus ? station : default(DO.Station);
         }
 
         /// <summary>
@@ -139,11 +139,11 @@ namespace BL
         /// <param name="stations">The all stations</param>
         /// <param name="location">The  particular location</param>
         /// <returns>The station</returns>
-        private DLApi.DO.Station ClosetStation(IEnumerable<DLApi.DO.Station> stations, Location location)
+        private DO.Station ClosetStation(IEnumerable<DO.Station> stations, Location location)
         {
             double minDistance = double.MaxValue;
             double curDistance;
-            DLApi.DO.Station station = default;
+            DO.Station station = default;
             foreach (var item in stations)
             {
                 curDistance = Distance(location,
