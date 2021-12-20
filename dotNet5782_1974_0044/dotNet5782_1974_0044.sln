@@ -12,7 +12,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleUI", "ConsoleUI\ConsoleUI.csproj", "{E9AAB01F-8C1D-4FAE-84BA-BE03A56E0113}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DAL", "DAL\DAL.csproj", "{4010B421-2E60-476F-BA7D-673B73AC947F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalObject", "DAL\DalObject.csproj", "{4010B421-2E60-476F-BA7D-673B73AC947F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BL", "BL\BL.csproj", "{CD91EA3A-3224-4179-BFED-A797E38AE9FE}"
 EndProject
@@ -21,6 +21,8 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Singelton", "ClassLibrary1\Singelton.csproj", "{A02D2FD4-CD2B-4089-B617-0BE67F5C8CE0}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PL", "PL\PL.csproj", "{E55023DB-7FEA-4DF5-903F-AEE4FBD78A61}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DLApi", "DLApi\DLApi.csproj", "{DC3773E7-615E-4D2D-8BC7-D2960329E19D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -56,6 +58,10 @@ Global
 		{E55023DB-7FEA-4DF5-903F-AEE4FBD78A61}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E55023DB-7FEA-4DF5-903F-AEE4FBD78A61}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E55023DB-7FEA-4DF5-903F-AEE4FBD78A61}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DC3773E7-615E-4D2D-8BC7-D2960329E19D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DC3773E7-615E-4D2D-8BC7-D2960329E19D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DC3773E7-615E-4D2D-8BC7-D2960329E19D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DC3773E7-615E-4D2D-8BC7-D2960329E19D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
