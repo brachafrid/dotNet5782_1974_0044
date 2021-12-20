@@ -1,8 +1,7 @@
 ﻿using System;
 
 
-namespace BL
-{
+
     namespace BO
     {
         public class Location 
@@ -37,4 +36,3 @@ namespace BL
             }
         }
     }
-}

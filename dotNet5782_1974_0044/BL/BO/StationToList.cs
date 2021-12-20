@@ -1,6 +1,5 @@
 ﻿
-namespace BL
-{
+
     namespace BO
     {
        public class StationToList
@@ -17,5 +16,5 @@ namespace BL
         }
 
     }
-}
+
 

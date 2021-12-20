@@ -1,8 +1,8 @@
-﻿using BL.BO;
+﻿using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BL.BLApi;
+using BLApi;
 
 namespace BL
 {
@@ -21,9 +21,9 @@ namespace BL
                 throw new KeyNotFoundException("Target not exist");
             try
             {
-                dal.AddParcel(parcelBl.CustomerSender.Id, parcelBl.CustomerReceives.Id, (DLApi.DO.WeightCategories)parcelBl.Weight, (DLApi.DO.Priorities)parcelBl.Priority);
+                dal.AddParcel(parcelBl.CustomerSender.Id, parcelBl.CustomerReceives.Id, (DO.WeightCategories)parcelBl.Weight, (DO.Priorities)parcelBl.Priority);
             }
-            catch (DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
 
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
@@ -90,7 +90,7 @@ namespace BL
         {
             try
             {
-                DLApi.DO.Parcel parcel = dal.GetParcel(parcelId);
+                DO.Parcel parcel = dal.GetParcel(parcelId);
                 dal.RemoveParcel(parcel);
                 parcel.DorneId = droneId;
                 parcel.Sceduled = DateTime.Now;
@@ -100,7 +100,7 @@ namespace BL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-            catch(DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch(DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
             }
@@ -115,7 +115,7 @@ namespace BL
         {
             try
             {
-                DLApi.DO.Parcel parcel = dal.GetParcel(parcelId);
+                DO.Parcel parcel = dal.GetParcel(parcelId);
                 dal.RemoveParcel(parcel);
                 parcel.PickedUp = DateTime.Now;
                 dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id,parcel.DorneId, parcel.Requested, parcel.Sceduled, parcel.PickedUp, parcel.Delivered);
@@ -124,7 +124,7 @@ namespace BL
             {
                 throw new KeyNotFoundException(ex.Message );
             }
-            catch (DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
             }
@@ -137,7 +137,7 @@ namespace BL
         /// <param name="parcelId">The parcel to update</param>
         private void ParcelDeliveredDrone(int parcelId)
         {
-            DLApi.DO.Parcel parcel;
+            DO.Parcel parcel;
             try
             {
                parcel  = dal.GetParcel(parcelId);
@@ -150,7 +150,7 @@ namespace BL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-            catch (DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
@@ -163,7 +163,7 @@ namespace BL
         /// </summary>
         /// <param name="parcel">The parcel to convert</param>
         /// <returns>The converted parcel</returns>
-        private Parcel MapParcel(DLApi.DO.Parcel parcel)
+        private Parcel MapParcel(DO.Parcel parcel)
         {
             var tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
             return new Parcel()

@@ -1,7 +1,5 @@
 ﻿
 
-namespace DLApi
-{
     namespace DO
     {
         public struct DroneCharge
@@ -14,4 +12,4 @@ namespace DLApi
             }
         }
     }
-}
+

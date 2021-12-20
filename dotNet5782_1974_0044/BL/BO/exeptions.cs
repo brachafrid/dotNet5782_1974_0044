@@ -2,8 +2,7 @@
 using System.Runtime.Serialization;
 
 
-namespace BL
-{
+
     namespace BO
     {
         [Serializable]
@@ -38,4 +37,4 @@ namespace BL
 
     }
 
-}
+

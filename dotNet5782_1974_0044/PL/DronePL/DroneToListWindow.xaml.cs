@@ -13,7 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using Utilities;
-using BL.BO;
+using BO;
+using BLApi;
 using System.Collections.ObjectModel;
 using System.Collections;
 
@@ -24,14 +25,14 @@ namespace PL
     /// </summary>
     public partial class DroneToListWindow : UserControl
     {
-        public BL.BLApi.IBL ibal;
+        public BLApi.IBL ibal;
         public ListCollectionView Drones { get; set; }
         private Action updateList;
         private MainWindow MainWindow;
         public DroneToListWindow(MainWindow mainWindow)
         {
             InitializeComponent();
-            ibal = Singletone<BL.BL>.Instance;
+            ibal = BLFactory.GetBL();
             Drones = new ListCollectionView(ibal.GetDrones() as IList);
             Drones.Filter += FilterDrones;
             Drones.IsLiveFiltering = true;
@@ -53,7 +54,7 @@ namespace PL
 
         private bool FilterDrones(object obj)
         {
-            if (obj is BL.BO.DroneToList droneList)
+            if (obj is BO.DroneToList droneList)
             {
                 if (ChooseWeight.SelectedItem != null && ChooseState.SelectedItem != null)
                     return droneList.Weight == (ChooseWeight.SelectedItem as WeightCategories?) && droneList.DroneState == (ChooseState.SelectedItem as DroneState?);
@@ -85,10 +86,10 @@ namespace PL
 
         private void double_click(object sender, MouseButtonEventArgs e)
         {
-            if (((FrameworkElement)e.OriginalSource).DataContext is BL.BO.DroneToList)
+            if (((FrameworkElement)e.OriginalSource).DataContext is BO.DroneToList)
             {
                 TabItem tabItem = new TabItem();
-                tabItem.Content = new DroneWindow((e.OriginalSource as FrameworkElement).DataContext as BL.BO.DroneToList, updateList, MainWindow);
+                tabItem.Content = new DroneWindow((e.OriginalSource as FrameworkElement).DataContext as BO.DroneToList, updateList, MainWindow);
                 tabItem.Header = "Drone";
                 MainWindow.tab.Items.Add(tabItem);
             }
@@ -118,9 +119,9 @@ namespace PL
             selectCategory.SelectedItem = ChooseWeight.SelectedItem = ChooseState.SelectedItem = null;
         }
 
-        public ObservableCollection<BL.BO.DroneToList> ConvertDroneToList(IEnumerable<DroneToList> IbalDroneToLists)
+        public ObservableCollection<BO.DroneToList> ConvertDroneToList(IEnumerable<DroneToList> IbalDroneToLists)
         {
-            ObservableCollection<BL.BO.DroneToList> droneToLists = new ObservableCollection<DroneToList>(IbalDroneToLists);
+            ObservableCollection<BO.DroneToList> droneToLists = new ObservableCollection<DroneToList>(IbalDroneToLists);
             return droneToLists;
         }
     }

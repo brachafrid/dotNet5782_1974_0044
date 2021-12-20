@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using BL.BO;
-using BL.BLApi;
+using BO;
+using BLApi;
 
 
 namespace BL
@@ -20,7 +20,7 @@ namespace BL
             {
                 dal.AddCustomer(customerBL.Id, customerBL.Phone, customerBL.Name, customerBL.Location.Longitude, customerBL.Location.Latitude);
             }
-            catch (DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
 
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
@@ -55,7 +55,7 @@ namespace BL
         {
             if (name.Equals(string.Empty) && phone.Equals(string.Empty))
                 throw new ArgumentNullException("There is not field to update");
-            DLApi.DO.Customer customer ;
+            DO.Customer customer ;
             try
             {
                 customer = dal.GetCustomer(id);
@@ -67,7 +67,7 @@ namespace BL
                 dal.AddCustomer(id, phone, name, customer.Longitude, customer.Latitude);
 
             }
-            catch (DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
@@ -95,7 +95,7 @@ namespace BL
         /// </summary>
         /// <param name="parcel">The customer to convert</param>
         /// <returns>The converted customer</returns>
-        private Customer MapCustomer(DLApi.DO.Customer customer)
+        private Customer MapCustomer(DO.Customer customer)
         {
             return new Customer()
             {

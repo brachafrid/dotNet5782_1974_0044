@@ -2,10 +2,10 @@
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using BL.BO;
+using BO;
 using Utilities;
 using DLApi;
-using BL.BLApi;
+using BLApi;
 
 namespace BL
 {
@@ -142,7 +142,7 @@ namespace BL
         /// <param name="drone">drone</param>
         /// <param name="parcel">drone's parcel</param>
         /// <returns>drone location</returns>
-        private Location FindLocationDroneWithParcel(DLApi.DO.Parcel parcel)
+        private Location FindLocationDroneWithParcel(DO.Parcel parcel)
         {
             //get sender location
             Location locaiton = GetCustomer(parcel.SenderId).Location;
@@ -163,7 +163,7 @@ namespace BL
         /// <param name="drone">drone</param>
         /// <param name="canTakeParcel">ref boolian</param>
         /// <returns> min electricity</returns>
-        private double MinBattary(DLApi.DO.Parcel parcel, ref bool canTakeParcel)
+        private double MinBattary(DO.Parcel parcel, ref bool canTakeParcel)
         {
             var customerSender = dal.GetCustomer(parcel.SenderId);
             var customerReciver = dal.GetCustomer(parcel.TargetId);
@@ -171,7 +171,7 @@ namespace BL
             Location targetLocation = new() { Latitude = customerReciver.Latitude, Longitude = customerReciver.Longitude };
             // find drone's location 
             var location = FindLocationDroneWithParcel(parcel);
-            double electrity = CalculateElectricity(location, null, senderLocation, targetLocation, (BO.WeightCategories)parcel.Weigth, out _);
+            double electrity = CalculateElectricity(location, null, senderLocation, targetLocation, (WeightCategories)parcel.Weigth, out _);
             // if the drone need more electricity 
             if (electrity > FULLBATTRY)
             {

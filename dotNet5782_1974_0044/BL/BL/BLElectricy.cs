@@ -1,4 +1,4 @@
-﻿using BL.BO;
+﻿using BO;
 
 namespace BL
 {
@@ -22,7 +22,7 @@ namespace BL
                 WeightCategories.MEDIUM => mediumWeightBearing,
                 WeightCategories.HEAVY => carriesHeavyWeight
             };
-            DLApi.DO.Station station;
+            DO.Station station;
             electricity = Distance(aviableDroneLocation, CustomerSender) * available +
                         Distance(CustomerSender, CustomerReceives) * e;
             station =batteryStatus!=null? ClosetStationPossible(dal.GetStations(), aviableDroneLocation,(double)batteryStatus-electricity, out _ ):ClosetStation(dal.GetStations(),aviableDroneLocation);
