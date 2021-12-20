@@ -30,19 +30,19 @@
         </StackPanel>
         <StackPanel x:Name="details" >
             <TextBlock Text="{Binding}"/>
-            <Button Content="update options" Click="Buttons"/>
-            <Button Content="close drone" Click="Close"/>
+            <!--<Button Content="update options" Click="Buttons" Width="150"/>-->
+            <Button Content="close drone" Click="Close" Width="600"/>
 
-            <Button Content="update drone's model" Click="UpdateDrone"/>
+            <Button Content="update drone's model" Click="UpdateDrone" Width="150" />
             <StackPanel x:Name="available" >
                 <!--Visibility="ConverterAvailable">-->
-                <Button x:Name="sendToCharging" Content="send drone to charging" Click="SendToCharging" />
-                <Button x:Name="assingParcelToDrone"  Content="Sending the drone for delivery" Click="AssingParcelToDrone"/>
+                <Button x:Name="sendToCharging" Content="send drone to charging" Click="SendToCharging"  Width="150"/>
+                <Button x:Name="assingParcelToDrone"  Content="Sending the drone for delivery" Click="AssingParcelToDrone" Width="150"/>
             </StackPanel>
 
             <StackPanel x:Name="maintenance" >
                 <!--Visibility="ConverterMaintenance">-->
-                <Button x:Name="releaseDroneFromCharging" Content="release drone from charging" Click="ReleaseDroneFromCharging"/>
+                <Button x:Name="releaseDroneFromCharging" Content="release drone from charging" Click="ReleaseDroneFromCharging" Width="150"/>
             </StackPanel>
             
             <!--<Label  Content="enter drone's id" Visibility="Collapsed"/>
@@ -50,8 +50,8 @@
 
             <StackPanel x:Name="delivery" >
                 <!--Visibility="ConverterDelivery">-->
-                <Button x:Name="parcelCollectionByDrone"  Content="Parcel collection" Click="ParcelCollectionByDrone"/>
-                <Button x:Name="deliveryParcelByDrone"  Content="Parcel delivery" Click="DeliveryParcelByDrone"/>
+                <Button x:Name="parcelCollectionByDrone"  Content="Parcel collection" Click="ParcelCollectionByDrone" Width="150"/>
+                <Button x:Name="deliveryParcelByDrone"  Content="Parcel delivery" Click="DeliveryParcelByDrone" Width="150"/>
             </StackPanel>
         </StackPanel>
     </Grid>
