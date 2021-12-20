@@ -10,13 +10,13 @@ namespace IBL
 {
     public sealed partial class BL : Singletone<BL>, IBL
     {
+        DalApi.IDal dal { get; } = DalApi.FactoryDL.GetDL();
         private const int DRONESTATUSESLENGTH = 2;
         public const int MAXINITBATTARY = 20;
         public const int MININITBATTARY = 0;
         public const int FULLBATTRY = 100;
         private static readonly Random rand = new();
         private readonly List<DroneToList> drones;
-        private readonly IDAL.IDal dal;
         private readonly double available;
         private readonly double lightWeightCarrier;
         private readonly double mediumWeightBearing;
@@ -24,7 +24,7 @@ namespace IBL
         private readonly double droneLoadingRate;
         BL()
         {
-            dal = Singletone<DalObject.DalObject>.Instance;
+            
             // set electricty variablses
             drones = new List<DroneToList>();
             (
