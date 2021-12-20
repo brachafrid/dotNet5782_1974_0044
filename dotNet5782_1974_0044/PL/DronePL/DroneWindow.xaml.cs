@@ -19,10 +19,20 @@ namespace PL
     public partial class DroneWindow : UserControl
     {
         IBL.IBL bl = Singletone<BL>.Instance;
-        private string modelNew;
+        //private string modelNew;
         private Action updateList;
         private MainWindow MainWindow;
-        //private Visibility collapsed = Visibility.Collapsed;
+        public string modelNew
+        {
+            get { return (string)GetValue(modelNewProperty); }
+            set { SetValue(modelNewProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for modelNew.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty modelNewProperty =
+            DependencyProperty.Register("modelNew", typeof(string), typeof(DroneWindow), new PropertyMetadata(string.Empty));
+
+
         //add new drone
         public DroneWindow(Action updateListNew, MainWindow mainWindow)
         {
@@ -93,9 +103,6 @@ namespace PL
         private void AddDrone_click(object sender, RoutedEventArgs e)
         {
             bool valid = true;
-           // bool validId, validModel, validStation, validWeight = true;
-
-            // bool validId, validModel, validStation, validWeight = true;
             int stationId = 0;
             WeightCategories maxWeight = (WeightCategories)weigth.SelectedIndex;
             string droneModel = model.Text;
@@ -187,6 +194,7 @@ namespace PL
         {
             modelNew = (e.OriginalSource as TextBox).Text;
         }
+
         private void UpdateDrone(object sender, RoutedEventArgs e)
         {
 
@@ -197,6 +205,7 @@ namespace PL
                 {
                     bl.UpdateDrone(drone.Id, modelNew);
                     MessageBox.Show("The drone has been successfully updated");
+                    modelNew = drone.Model;
                     updateList();
                 }
                 else
@@ -210,32 +219,35 @@ namespace PL
                 MessageBox.Show("For updating the name must be initialized ");
             }
         }
-        private void SendToCharging(object sender, RoutedEventArgs e)
+        private void TreatDroneCharging(object sender, RoutedEventArgs e)
         {
             IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
-                bl.SendDroneForCharg(drone.Id);
-                DataContext = bl.GetDrone(drone.Id);
-                MessageBox.Show("The drone was sent for loading successfully");
-                updateList();
+                if (drone.DroneState == DroneState.AVAILABLE)
+                {
+                    bl.SendDroneForCharg(drone.Id);
+                    DataContext = bl.GetDrone(drone.Id);
+                    MessageBox.Show("The drone was sent for loading successfully");
+                    updateList();
+                }
+                else
+                {
+                    timeCharge.Visibility = Visibility.Visible;
+                    timeOfCharge.Visibility = Visibility.Visible;
+                    timeOfCharge.Text = "";
+                    confirm.Visibility = Visibility.Visible;
+                }
+
             }
             catch (InvalidEnumArgumentException ex)
             {
                 MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
             }
         }
-        private void ReleaseDroneFromCharging(object sender, RoutedEventArgs e)
-        {
-            timeCharge.Visibility = Visibility.Visible;
-            timeOfCharge.Visibility = Visibility.Visible;
-            timeOfCharge.Text = "";
-            confirm.Visibility = Visibility.Visible;
-        }
         private void Confirm(object sender, RoutedEventArgs e)
         {
             IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
-
             try
             {
                 float timeCrg = float.Parse(timeOfCharge.Text);

@@ -22,7 +22,7 @@
                     <ContentPresenter Content="{Binding Path=CurrentLocation}" />
                 </Expander>
                 <TextBlock Text="{Binding Path=DroneState, StringFormat= state :{0}}"/>
-                <TextBlock Text="{Binding Path=BatteryState, StringFormat= batteryState :{0:p}}" />
+                <TextBlock Text="{Binding Path=BatteryState, StringFormat= batteryState :{0}%}" />
                 <TextBlock Text="{Binding Path=ParcelId, StringFormat= parcel :{0:d}}" />
             </StackPanel>
         </Expander>
@@ -34,14 +34,14 @@
                 <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
                 <DockPanel>
                     <Label Content="model"/>
-                    <TextBox  Text="{Binding Mode=OneWay, Path= Model, StringFormat=0:d}" />
+                    <TextBox Text="{Binding Mode=OneWay, Path= Model, StringFormat=0:d}" />
                 </DockPanel>
                 <TextBlock Text="{Binding Path=WeightCategory, StringFormat=maxWeigth :{0}}"/>
                 <Expander Header="CurrentLocation">
                     <ContentPresenter Content="{Binding Path=CurrentLocation}" />
                 </Expander>
                 <TextBlock Text="{Binding Path = DroneState, StringFormat=state :{0}}" />
-                <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0:p}}" />
+                <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />
                 <ContentPresenter Content="{Binding Path=Parcel}" />
             </StackPanel>
         </StackPanel>
