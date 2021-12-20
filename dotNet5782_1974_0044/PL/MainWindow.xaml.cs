@@ -25,7 +25,8 @@ namespace PL
         public BLApi.IBL ibal;
         private List<string> option = new() { "DroneToList"};
         /// <summary>
-        /// Constructor 
+        /// Constructor MainWindow
+        /// Initializes necessary things
         /// </summary>
         public MainWindow()
         { 
@@ -47,7 +48,7 @@ namespace PL
         }
 
         /// <summary>
-        /// Close tab
+        /// Close tab 
         /// </summary>
         /// <param name="sender">Event operator</param>
         /// <param name="e">The arguments of the event</param>

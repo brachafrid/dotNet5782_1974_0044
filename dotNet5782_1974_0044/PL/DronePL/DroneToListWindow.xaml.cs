@@ -30,9 +30,10 @@ namespace PL
         private Action updateList;
         private MainWindow MainWindow;
         /// <summary>
-        /// Constructor 
+        /// Constructor DroneToList Window.
+        /// Initializes necessary things
         /// </summary>
-        /// <param name="mainWindow"></param>
+        /// <param name="mainWindow">Main window</param>
         public DroneToListWindow(MainWindow mainWindow)
         {
             InitializeComponent();
@@ -46,6 +47,7 @@ namespace PL
             updateList = UpdateNewList;
             MainWindow = mainWindow;
         }
+
         /// <summary>
         /// Update the list of the drones
         /// </summary>

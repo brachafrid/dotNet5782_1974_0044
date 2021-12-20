@@ -6,6 +6,7 @@ using Utilities;
 
 namespace Dal
 {
+    //singelton pattern step #1 - recommend using "sealed" class to avoid derivated violation
     public sealed partial class DalObject:Singletone<DalObject>, DLApi.IDal
     {
         /// <summary>

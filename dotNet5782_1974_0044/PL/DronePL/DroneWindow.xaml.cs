@@ -22,11 +22,6 @@ namespace PL
         //private string modelNew;
         private Action updateList;
         private MainWindow MainWindow;
-        ///// <summary>
-        ///// Constructor for displaying and updating a drone
-        ///// </summary>
-        ///// <param name="updateListNew">Action - update list new</param>
-        ///// <param name="mainWindow">The main window</param>
         public string modelNew
         {
             get { return (string)GetValue(modelNewProperty); }
@@ -52,13 +47,13 @@ namespace PL
             updateList = updateListNew;
             MainWindow = mainWindow;
         }
+
         /// <summary>
         /// Constructor for adding a new skimmer
         /// </summary>
         /// <param name="droneToList">The drone for add</param>
         /// <param name="updateListNew">Action - update list new</param>
         /// <param name="mainWindow">The main window</param>
-
         public DroneWindow(BO.DroneToList droneToList, Action updateListNew, MainWindow mainWindow)
         {
             InitializeComponent();
@@ -86,6 +81,7 @@ namespace PL
             else
                 id.Background = Brushes.GreenYellow;
         }
+
         /// <summary>
         /// Checking the correctness of the model with the addition of a new drone
         /// </summary>
@@ -102,6 +98,7 @@ namespace PL
             else
                 model.Background = Brushes.GreenYellow;
         }
+
         /// <summary>
         /// Checking the correctness of the weight with the addition of a new drone
         /// </summary>
@@ -118,6 +115,7 @@ namespace PL
             else
                 weigth.Background = Brushes.GreenYellow;
         }
+
         /// <summary>
         /// Checking the correctness of the station with the addition of a new drone
         /// </summary>
@@ -133,6 +131,7 @@ namespace PL
             else
                 station.Background = Brushes.GreenYellow;
         }
+
         /// <summary>
         /// Adding a new drone.
         /// Checks if all data is valid, and add the new drone
@@ -207,6 +206,7 @@ namespace PL
                 }
             }
         }
+
         /// <summary>
         /// Checks if only digits are entered
         /// </summary>
@@ -224,8 +224,9 @@ namespace PL
                 }
             id.Background = default;
         }
+
         /// <summary>
-        /// Closes the tab
+        /// Closes the tab 
         /// </summary>
         /// <param name="sender">Event operator</param>
         /// <param name="e">The arguments of the event</param>
@@ -249,7 +250,6 @@ namespace PL
         /// </summary>
         /// <param name="sender">Event operator</param>
         /// <param name="e">The arguments of the event</param>
-
         private void UpdateDrone(object sender, RoutedEventArgs e)
         {
 
@@ -275,8 +275,11 @@ namespace PL
             }
         }
 
-
-       
+        /// <summary>
+        /// Handles the loading of the drone
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void TreatDroneCharging(object sender, RoutedEventArgs e)
         {
             BO.Drone drone = (BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
@@ -303,19 +306,11 @@ namespace PL
             }
         }
 
-        ///// <summary>
-        ///// Releases the drone from charging -
-        ///// Allows the user to enter the amount of loading minutes
-        ///// </summary>
-        ///// <param name="sender">Event operator</param>
-        ///// <param name="e">The arguments of the event</param>
-    
-        ///// <summary>
-        ///// Updates the loading minutes that the user has entered and releases from loading
-        ///// </summary>
-        ///// <param name="sender">Event operator</param>
-        ///// <param name="e">The arguments of the event</param>
-     
+        /// <summary>
+        /// Saves the few minutes of charging and releases the drone from charging
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void Confirm(object sender, RoutedEventArgs e)
         {
             BO.Drone drone = (BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
