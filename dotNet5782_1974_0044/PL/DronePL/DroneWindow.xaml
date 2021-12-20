@@ -40,10 +40,8 @@
             <TextBox x:Name="model"  TextChanged="Valid_Model_Drone"></TextBox>
             <Label Content="max weigth" />
             <ComboBox  ItemsSource="{Binding}" x:Name="weigth" SelectionChanged="Valid_Weight_Drone"  Style="{StaticResource MaterialDesignFilledComboBox}"/>
-            <!--Background="OrangeRed"-->
             <Label Content="station" />
             <ComboBox ItemsSource="{Binding}" x:Name="station"  SelectionChanged="Valid_Station_Drone" Style="{StaticResource MaterialDesignFilledComboBox}"/>
-            <!--DataContextChanged="Valid_Station_Drone"/>-->
             <Button Content="Add" Click="AddDrone_click" Style="{StaticResource MaterialDesignPaperButton}" Margin="2"/>
             <Button Content="cancel" Click="Close" Style="{StaticResource MaterialDesignPaperButton}" Margin="2"/>
         </StackPanel>
@@ -59,7 +57,7 @@
                 <Button x:Name="releaseDroneFromCharging" Content="release drone from charging" Click="ReleaseDroneFromCharging"/>
                 <Label x:Name="timeCharge" Content="enter time of charging in minutes" Visibility="Collapsed"/>
                 <TextBox x:Name="timeOfCharge" Visibility="Collapsed"></TextBox>
-                <Button x:Name="confirm" Content="confirm" Click="Confirm" Visibility="Collapsed" Width="50"></Button>
+                <Button x:Name="confirm" Content="confirm" Click="Confirm" Visibility="Collapsed" Width="80"></Button>
             </StackPanel>
             <StackPanel>
                 <Button x:Name="parcelTreatedByDRone"   Click="ParcelTreatedByDrone" Visibility="{Binding Path=DroneState,Converter={StaticResource ConverterDroneDelivery}}">
