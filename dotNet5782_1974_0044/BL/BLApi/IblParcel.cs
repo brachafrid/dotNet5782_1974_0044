@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System;
 
 
-namespace IBL
+
+namespace BLApi
 {
     public interface IBlParcel
     {
@@ -13,3 +14,5 @@ namespace IBL
         public IEnumerable<BO.ParcelToList> GetParcelsNotAssignedToDrone(Predicate<int> notAssign);
     }
 }
+
+

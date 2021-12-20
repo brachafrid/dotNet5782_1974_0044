@@ -1,11 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using IBL.BO;
+﻿using BO;
 
-namespace IBL
+namespace BL
 {
     public partial class BL
     {
@@ -14,7 +9,7 @@ namespace IBL
         /// </summary>
         /// <param name="station">The sation to convert</param>
         /// <returns>The converted station</returns>
-        private BO.StationToList MapStationToList(IDAL.DO.Station station)
+        private BO.StationToList MapStationToList(DO.Station station)
         {
             return new StationToList()
             {

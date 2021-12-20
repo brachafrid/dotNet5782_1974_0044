@@ -1,7 +1,7 @@
 ﻿
 
-namespace IBL
-{
+
+
     namespace BO
     {
          public enum WeightCategories { LIGHT, MEDIUM, HEAVY }
@@ -9,4 +9,4 @@ namespace IBL
         public enum DroneState { AVAILABLE, MAINTENANCE, DELIVERY }
         public enum PackageModes { DEFINED,ASSOCIATED,COLLECTED,PROVIDED}
     }
-}
+

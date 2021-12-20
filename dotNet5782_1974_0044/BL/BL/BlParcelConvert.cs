@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
-using System;
-using IBL.BO;
+using BO;
 
-namespace IBL
+namespace BL
 {
     public partial class BL
     {
@@ -51,9 +50,9 @@ namespace IBL
         private ParcelInTransfer CreateParcelInTransfer(int id)
         {
 
-            IDAL.DO.Parcel parcel = dal.GetParcel(id);
-            IDAL.DO.Customer sender = dal.GetCustomer(parcel.SenderId);
-            IDAL.DO.Customer target = dal.GetCustomer(parcel.TargetId);
+            DO.Parcel parcel = dal.GetParcel(id);
+            DO.Customer sender = dal.GetCustomer(parcel.SenderId);
+            DO.Customer target = dal.GetCustomer(parcel.TargetId);
             return new ParcelInTransfer
             {
                 Id = id,
@@ -73,7 +72,7 @@ namespace IBL
         /// </summary>
         /// <param name="parcel">The parcel to convert</param>
         /// <returns>The converted parcel</returns>
-        private ParcelToList MapParcelToList(IDAL.DO.Parcel parcel)
+        private ParcelToList MapParcelToList(DO.Parcel parcel)
         {
             PackageModes PackageMode;
             if (parcel.Delivered!=null)

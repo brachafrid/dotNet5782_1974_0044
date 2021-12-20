@@ -1,8 +1,7 @@
 ﻿using System;
 
 
-namespace IDAL
-{
+
     namespace DO
     {
         public struct Customer
@@ -46,4 +45,4 @@ namespace IDAL
 
         }
     }
-}
+

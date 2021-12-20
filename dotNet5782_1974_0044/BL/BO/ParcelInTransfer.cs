@@ -1,5 +1,4 @@
-﻿namespace IBL
-{
+﻿
     namespace BO
     {
       public class ParcelInTransfer
@@ -21,4 +20,4 @@
         }
     }
 
-}
+

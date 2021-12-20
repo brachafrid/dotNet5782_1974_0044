@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using IBL.BO;
+﻿using System.Linq;
+using BO;
 
-namespace IBL
+namespace BL
 {
     public partial class BL
     {
@@ -14,7 +10,7 @@ namespace IBL
         /// </summary>
         /// <param name="parcel">The customer to convert</param>
         /// <returns>The converted customer</returns>
-        private CustomerToList MapCustomerToList(IDAL.DO.Customer customer)
+        private CustomerToList MapCustomerToList(DO.Customer customer)
         {
             return new CustomerToList()
             {
@@ -35,7 +31,7 @@ namespace IBL
         /// </summary>
         /// <param name="parcel">The customer to convert</param>
         /// <returns>The converted customer</returns>
-        private CustomerInParcel MapCustomerInParcel(IDAL.DO.Customer customer)
+        private CustomerInParcel MapCustomerInParcel(DO.Customer customer)
         {
             return new CustomerInParcel()
             {

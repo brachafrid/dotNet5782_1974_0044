@@ -1,8 +1,9 @@
 ﻿
 using System.Collections.Generic;
 using System;
-using IBL.BO;
-namespace IBL
+using BO;
+
+namespace BLApi
 {
     public interface IBlStations
     {
@@ -13,3 +14,4 @@ namespace IBL
         public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots(Predicate<int> exsitEmpty);
     }
 }
+

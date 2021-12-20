@@ -2,8 +2,7 @@
 
 
 
-namespace IBL
-{
+
     namespace BO
     {
         public class Station
@@ -20,4 +19,3 @@ namespace IBL
         }
     }
 
-}

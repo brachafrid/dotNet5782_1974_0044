@@ -1,9 +1,10 @@
-﻿using IBL.BO;
+﻿using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BLApi;
 
-namespace IBL
+namespace BL
 {
     public partial class BL:IBlStations
     {
@@ -18,7 +19,7 @@ namespace IBL
             {
                 dal.AddStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);
             }
-            catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
@@ -38,7 +39,7 @@ namespace IBL
                 throw new ArgumentNullException("For updating at least one parameter must be initialized ");
             try
             {
-                IDAL.DO.Station satationDl = dal.GetStation(id);
+                DO.Station satationDl = dal.GetStation(id);
                 if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(satationDl.Id))
                     throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
                 dal.RemoveStation(satationDl);
@@ -48,7 +49,7 @@ namespace IBL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-            catch(IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch(DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
             }
@@ -63,7 +64,7 @@ namespace IBL
         /// <returns>A list of statin to print</returns>
         public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
-            IEnumerable<IDAL.DO.Station> list = dal.GetSationsWithEmptyChargeSlots(exsitEmpty);
+            IEnumerable<DO.Station> list = dal.GetSationsWithEmptyChargeSlots(exsitEmpty);
             List<StationToList> stations = new ();
             foreach (var item in list)
             {
@@ -106,7 +107,7 @@ namespace IBL
         /// </summary>
         /// <param name="station">The sation to convert</param>
         /// <returns>The converted station</returns>
-        private BO.Station MapStation(IDAL.DO.Station station)
+        private BO.Station MapStation(DO.Station station)
         {
             return new Station() {
                 Id = station.Id,
@@ -125,11 +126,11 @@ namespace IBL
         /// <param name="droneToList">The drone</param>
         /// <param name="minDistance">The distance the drone need to travel</param>
         /// <returns></returns>
-        private IDAL.DO.Station ClosetStationPossible(IEnumerable<IDAL.DO.Station> stations, Location droneToListLocation,double BatteryStatus, out double minDistance)
+        private DO.Station ClosetStationPossible(IEnumerable<DO.Station> stations, Location droneToListLocation,double BatteryStatus, out double minDistance)
         {
-            IDAL.DO.Station station = ClosetStation(stations, droneToListLocation);
+            DO.Station station = ClosetStation(stations, droneToListLocation);
             minDistance = Distance( droneToListLocation, new Location() { Longitude = station.Longitude, Latitude = station.Latitude });
-            return minDistance * available <= BatteryStatus ? station : default(IDAL.DO.Station);
+            return minDistance * available <= BatteryStatus ? station : default(DO.Station);
         }
 
         /// <summary>
@@ -138,11 +139,11 @@ namespace IBL
         /// <param name="stations">The all stations</param>
         /// <param name="location">The  particular location</param>
         /// <returns>The station</returns>
-        private IDAL.DO.Station ClosetStation(IEnumerable<IDAL.DO.Station> stations, Location location)
+        private DO.Station ClosetStation(IEnumerable<DO.Station> stations, Location location)
         {
             double minDistance = double.MaxValue;
             double curDistance;
-            IDAL.DO.Station station = default;
+            DO.Station station = default;
             foreach (var item in stations)
             {
                 curDistance = Distance(location,

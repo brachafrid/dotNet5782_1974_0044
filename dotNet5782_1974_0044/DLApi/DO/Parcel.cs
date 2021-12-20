@@ -1,8 +1,7 @@
 ﻿using System;
 
 
-namespace IDAL
-{
+
     namespace DO
     {
        public struct Parcel
@@ -26,4 +25,4 @@ namespace IDAL
     }
 
 
-}
+

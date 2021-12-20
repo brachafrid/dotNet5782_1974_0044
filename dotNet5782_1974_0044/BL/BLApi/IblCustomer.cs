@@ -1,8 +1,9 @@
 ﻿
 using System.Collections.Generic;
 
-using IBL.BO;
-namespace IBL
+using BO;
+
+namespace BLApi
 {
     public interface IBlCustomer
     {
@@ -12,3 +13,4 @@ namespace IBL
         public void UpdateCustomer(int id, string name, string phone);
     }
 }
+

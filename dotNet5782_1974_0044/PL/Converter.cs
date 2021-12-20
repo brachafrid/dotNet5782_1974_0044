@@ -6,45 +6,11 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using IBL.BO;
+using BO;
 
 namespace PL
 {
-    public class ConverterDroneAviable : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value.ToString() == DroneState.AVAILABLE.ToString())
-            {
-                return Visibility.Visible;
-            }
-            else
-                return Visibility.Collapsed;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return Visibility.Hidden;
-        }
-    }
-    public class ConverterDroneMaintenance : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value.ToString() == DroneState.MAINTENANCE.ToString())
-            {
-                return Visibility.Visible;
-            }
-            else
-                return Visibility.Collapsed;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return Visibility.Hidden;
-        }
-    }
-    public class ConverterDroneDelivery : IValueConverter
+    public class parcelTreatedByDroneVisibility : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
@@ -62,11 +28,11 @@ namespace PL
         }
     }
 
-    public class ConverterParcelColection : IValueConverter
+    public class ConverterUpdateModel : IMultiValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value.ToString() != "True")
+            if (values[0] as string !=values[1] as string)
             {
                 return Visibility.Visible;
             }
@@ -74,48 +40,12 @@ namespace PL
                 return Visibility.Collapsed;
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
-            return Visibility.Hidden;
+            throw new NotImplementedException();
         }
     }
-
-    public class ConverterParcelDelivery : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value.ToString() == "True")
-            {
-                return Visibility.Visible;
-            }
-            else
-                return Visibility.Collapsed;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return Visibility.Hidden;
-        }
-    }
-
-    public class ConverterUpdateModel : IValueConverter
-    {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (value.ToString() == "True")
-            {
-                return Visibility.Visible;
-            }
-            else
-                return Visibility.Collapsed;
-        }
-
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            return Visibility.Hidden;
-        }
-    }
-    public class parcelTreatedByDRone : IMultiValueConverter
+    public class parcelTreatedByDroneContent : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
@@ -128,7 +58,7 @@ namespace PL
                 else
                     return "Parcel collection";
             }
-            else 
+            else
                 return "Sending the drone for delivery";
 
         }
@@ -137,5 +67,39 @@ namespace PL
         {
             throw new NotImplementedException();
         }
+    }
+
+    public class ConvertDroneChargingContent : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value.ToString() == DroneState.MAINTENANCE.ToString())
+                return "Realse drone from charge";
+            else
+                return "Send drone to charge";
+
+        }
+
+        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+    public class ConvertDroneChargingVisibility : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value.ToString() != DroneState.DELIVERY.ToString())
+                return Visibility.Visible;
+            else
+                return Visibility.Collapsed;
+
+        }
+
+        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

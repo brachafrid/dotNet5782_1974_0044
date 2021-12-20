@@ -5,8 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-namespace IBL
-{
+
     namespace BO
     {
        public class CustomerToList
@@ -24,4 +23,4 @@ namespace IBL
             }
         }
     }
-}
+

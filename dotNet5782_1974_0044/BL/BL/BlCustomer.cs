@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using IBL.BO;
+using BO;
+using BLApi;
 
 
-namespace IBL
+namespace BL
 {
     public partial class BL : IBlCustomer
     {
@@ -19,7 +20,7 @@ namespace IBL
             {
                 dal.AddCustomer(customerBL.Id, customerBL.Phone, customerBL.Name, customerBL.Location.Longitude, customerBL.Location.Latitude);
             }
-            catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
 
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
@@ -54,7 +55,7 @@ namespace IBL
         {
             if (name.Equals(string.Empty) && phone.Equals(string.Empty))
                 throw new ArgumentNullException("There is not field to update");
-            IDAL.DO.Customer customer ;
+            DO.Customer customer ;
             try
             {
                 customer = dal.GetCustomer(id);
@@ -66,7 +67,7 @@ namespace IBL
                 dal.AddCustomer(id, phone, name, customer.Longitude, customer.Latitude);
 
             }
-            catch (IDAL.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
@@ -94,7 +95,7 @@ namespace IBL
         /// </summary>
         /// <param name="parcel">The customer to convert</param>
         /// <returns>The converted customer</returns>
-        private Customer MapCustomer(IDAL.DO.Customer customer)
+        private Customer MapCustomer(DO.Customer customer)
         {
             return new Customer()
             {

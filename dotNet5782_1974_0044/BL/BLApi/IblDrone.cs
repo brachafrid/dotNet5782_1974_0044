@@ -4,7 +4,8 @@ using System;
 
 
 
-namespace IBL
+
+namespace BLApi
 {
     public interface IBlDrone
     {
@@ -19,3 +20,5 @@ namespace IBL
         public void DeliveryParcelByDrone(int droneId);
     }
 }
+
+

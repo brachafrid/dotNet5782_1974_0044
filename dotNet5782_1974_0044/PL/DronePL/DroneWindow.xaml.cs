@@ -4,10 +4,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using IBL.BO;
-using IBL;
+using BO;
+using BL;
 using Utilities;
 using System.ComponentModel;
+using BLApi;
 
 
 namespace PL
@@ -17,12 +18,28 @@ namespace PL
     /// </summary>
     public partial class DroneWindow : UserControl
     {
-        IBL.IBL bl = Singletone<BL>.Instance;
-        private string modelNew;
+        BLApi.IBL bl = BLFactory.GetBL();
+        //private string modelNew;
         private Action updateList;
         private MainWindow MainWindow;
+        ///// <summary>
+        ///// Constructor for displaying and updating a drone
+        ///// </summary>
+        ///// <param name="updateListNew">Action - update list new</param>
+        ///// <param name="mainWindow">The main window</param>
+        public string modelNew
+        {
+            get { return (string)GetValue(modelNewProperty); }
+            set { SetValue(modelNewProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for modelNew.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty modelNewProperty =
+            DependencyProperty.Register("modelNew", typeof(string), typeof(DroneWindow), new PropertyMetadata(string.Empty));
+
+
         /// <summary>
-        /// Constructor for displaying a drone
+        /// Constructor for displaying and updating a drone
         /// </summary>
         /// <param name="updateListNew">Action - update list new</param>
         /// <param name="mainWindow">The main window</param>
@@ -41,8 +58,9 @@ namespace PL
         /// <param name="droneToList">The drone for add</param>
         /// <param name="updateListNew">Action - update list new</param>
         /// <param name="mainWindow">The main window</param>
-        public DroneWindow(IBL.BO.DroneToList droneToList, Action updateListNew, MainWindow mainWindow)
-        { 
+
+        public DroneWindow(BO.DroneToList droneToList, Action updateListNew, MainWindow mainWindow)
+        {
             InitializeComponent();
             add.Visibility = Visibility.Collapsed;
             var drone = bl.GetDrone(droneToList.Id);
@@ -51,6 +69,7 @@ namespace PL
             updateList = updateListNew;
             MainWindow = mainWindow;
         }
+
         /// <summary>
         /// Checking the correctness of the id with the addition of a new drone
         /// </summary>
@@ -63,7 +82,6 @@ namespace PL
             if (id.Text == string.Empty)
             {
                 id.Background = Brushes.OrangeRed;
-                MessageBox.Show("enter id");
             }
             else
                 id.Background = Brushes.GreenYellow;
@@ -168,7 +186,7 @@ namespace PL
                 station.Background = Brushes.GreenYellow;
                 try
                 {
-                    bl.AddDrone(new IBL.BO.Drone()
+                    bl.AddDrone(new BO.Drone()
                     {
                         Id = int.Parse(id.Text),
                         Model = droneModel,
@@ -231,16 +249,18 @@ namespace PL
         /// </summary>
         /// <param name="sender">Event operator</param>
         /// <param name="e">The arguments of the event</param>
+
         private void UpdateDrone(object sender, RoutedEventArgs e)
         {
 
-            Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            Drone drone = (BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
                 if (modelNew != drone.Model)
                 {
                     bl.UpdateDrone(drone.Id, modelNew);
                     MessageBox.Show("The drone has been successfully updated");
+                    modelNew = drone.Model;
                     updateList();
                 }
                 else
@@ -255,20 +275,27 @@ namespace PL
             }
         }
 
-        /// <summary>
-        /// Sends the drone for charging
-        /// </summary>
-        /// <param name="sender">Event operator</param>
-        /// <param name="e">The arguments of the event</param>
-        private void SendToCharging(object sender, RoutedEventArgs e)
+
+       
+        private void TreatDroneCharging(object sender, RoutedEventArgs e)
         {
-            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            BO.Drone drone = (BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
-                bl.SendDroneForCharg(drone.Id);
-                DataContext = bl.GetDrone(drone.Id);
-                MessageBox.Show("The drone was sent for loading successfully");
-                updateList();
+                if(drone.DroneState == DroneState.AVAILABLE) 
+                { 
+                    bl.SendDroneForCharg(drone.Id);
+                    DataContext = bl.GetDrone(drone.Id);
+                    MessageBox.Show("The drone was sent for loading successfully");
+                    updateList();
+                }
+                else
+                {
+                    timeCharge.Visibility = Visibility.Visible;
+                    timeOfCharge.Visibility = Visibility.Visible;
+                    timeOfCharge.Text = "";
+                    confirm.Visibility = Visibility.Visible;
+                }
             }
             catch (InvalidEnumArgumentException ex)
             {
@@ -276,28 +303,22 @@ namespace PL
             }
         }
 
-        /// <summary>
-        /// Releases the drone from charging -
-        /// Allows the user to enter the amount of loading minutes
-        /// </summary>
-        /// <param name="sender">Event operator</param>
-        /// <param name="e">The arguments of the event</param>
-        private void ReleaseDroneFromCharging(object sender, RoutedEventArgs e)
-        {
-            timeCharge.Visibility = Visibility.Visible;
-            timeOfCharge.Visibility = Visibility.Visible;
-            timeOfCharge.Text = "";
-            confirm.Visibility = Visibility.Visible;
-        }
-        /// <summary>
-        /// Updates the loading minutes that the user has entered and releases from loading
-        /// </summary>
-        /// <param name="sender">Event operator</param>
-        /// <param name="e">The arguments of the event</param>
+        ///// <summary>
+        ///// Releases the drone from charging -
+        ///// Allows the user to enter the amount of loading minutes
+        ///// </summary>
+        ///// <param name="sender">Event operator</param>
+        ///// <param name="e">The arguments of the event</param>
+    
+        ///// <summary>
+        ///// Updates the loading minutes that the user has entered and releases from loading
+        ///// </summary>
+        ///// <param name="sender">Event operator</param>
+        ///// <param name="e">The arguments of the event</param>
+     
         private void Confirm(object sender, RoutedEventArgs e)
         {
-            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
-
+            BO.Drone drone = (BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
                 float timeCrg = float.Parse(timeOfCharge.Text);
@@ -327,7 +348,7 @@ namespace PL
         /// <param name="e">The arguments of the event</param>
         private void ParcelTreatedByDrone(object sender, RoutedEventArgs e)
         {
-            IBL.BO.Drone drone = (IBL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            BO.Drone drone = (BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
                 if (drone.DroneState == DroneState.DELIVERY)

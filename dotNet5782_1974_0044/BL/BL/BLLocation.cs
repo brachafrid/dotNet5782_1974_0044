@@ -1,8 +1,8 @@
 ﻿using System;
-using IBL.BO;
+using BO;
 
 
-namespace IBL
+namespace BL
 {
     public partial class BL
     {

@@ -1,8 +1,7 @@
 ﻿using System;
 
 
-namespace IDAL
-{
+
     namespace DO
     {
         public struct Station
@@ -58,4 +57,4 @@ namespace IDAL
             }
         }
     }
-}
+
