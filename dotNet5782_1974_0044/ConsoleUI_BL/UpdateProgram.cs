@@ -10,7 +10,7 @@ namespace ConsoleUI_BL
         /// Receives input from the user what type of organ to print as well as ID number and calls to the appropriate updating method
         /// </summary>
         /// <param name="dalObject"></param>
-        public static void SwitchUpdate(ref IBL.IBL bl)
+        public static void SwitchUpdate(ref BL.IBL bl)
         {
             if (!Enum.TryParse(Console.ReadLine(), out Update option))
             {

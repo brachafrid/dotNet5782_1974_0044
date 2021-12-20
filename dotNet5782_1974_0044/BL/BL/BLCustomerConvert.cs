@@ -1,11 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using IBL.BO;
+﻿using System.Linq;
+using BL.BO;
 
-namespace IBL
+namespace BL
 {
     public partial class BL
     {

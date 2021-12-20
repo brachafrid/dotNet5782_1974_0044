@@ -1,7 +1,7 @@
 ﻿using System;
 
 
-namespace IBL
+namespace BL
 {
     namespace BO
     {

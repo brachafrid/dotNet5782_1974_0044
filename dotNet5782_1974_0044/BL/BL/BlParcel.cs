@@ -1,10 +1,10 @@
-﻿using IBL.BO;
+﻿using BL.BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using BL.BLApi;
 
-
-namespace IBL
+namespace BL
 {
     public partial class BL : IBlParcel
     {

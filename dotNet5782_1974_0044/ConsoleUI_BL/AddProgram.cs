@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
-using IBL.BO;
+using BL.BO;
 
 namespace ConsoleUI_BL
 {
@@ -16,7 +16,7 @@ namespace ConsoleUI_BL
         /// Receives input from the user what type of organ to print as well as ID number and calls to the appropriate adding method
         /// </summary>
         /// <param name="dalObject"></param>
-        public static void SwitchAdd(ref IBL.IBL bl)
+        public static void SwitchAdd(ref BL.IBL bl)
         {
             if (!Enum.TryParse(Console.ReadLine(), out Add option))
             {

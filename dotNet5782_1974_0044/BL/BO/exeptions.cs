@@ -2,7 +2,7 @@
 using System.Runtime.Serialization;
 
 
-namespace IBL
+namespace BL
 {
     namespace BO
     {

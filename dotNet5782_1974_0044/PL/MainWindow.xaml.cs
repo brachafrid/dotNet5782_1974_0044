@@ -12,7 +12,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using IBL;
+using BL;
 using Utilities;
 
 namespace PL
@@ -22,14 +22,14 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        public IBL.IBL ibal;
+        public BL.BLApi.IBL ibal;
         private List<string> option = new() { "DroneToList"};
 
         public MainWindow()
         { 
           
             InitializeComponent();
-            ibal = Singletone<IBL.BL>.Instance;
+            ibal = Singletone<BL.BL>.Instance;
             DataContext = option;
             DroneToListTab.DataContext = new DroneToListWindow(this);
         }
