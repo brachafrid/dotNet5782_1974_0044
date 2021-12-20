@@ -93,9 +93,6 @@ namespace PL
         private void AddDrone_click(object sender, RoutedEventArgs e)
         {
             bool valid = true;
-           // bool validId, validModel, validStation, validWeight = true;
-
-            // bool validId, validModel, validStation, validWeight = true;
             int stationId = 0;
             WeightCategories maxWeight = (WeightCategories)weigth.SelectedIndex;
             string droneModel = model.Text;
@@ -119,18 +116,13 @@ namespace PL
                 valid = false;
                 MessageBox.Show("choose max weigth");
             }
-            else
-                weigth.Background = Brushes.YellowGreen;
 
             if (station.SelectedIndex == -1)
             {
                 station.Background = Brushes.OrangeRed;
                 valid = false;
                 MessageBox.Show("choose station");
-
             }
-            else
-                station.Background = Brushes.YellowGreen;
 
             if (station.SelectedValue == null)
                 valid = false;
@@ -156,7 +148,6 @@ namespace PL
                 }
                 catch (ThereIsAnObjectWithTheSameKeyInTheListException)
                 {
-                    valid = false;
                     id.Background = Brushes.OrangeRed;
                     MessageBox.Show("id is already exist");
                 }
