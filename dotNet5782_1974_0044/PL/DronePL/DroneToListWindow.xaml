@@ -18,8 +18,7 @@
         <ResourceDictionary Source="Dictionary.xaml"
                             />
     </UserControl.Resources>
-    
-    <StackPanel DataContext="{Binding}" CanVerticallyScroll="True">
+    <StackPanel DataContext="{Binding}">
         <StackPanel>
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -40,8 +39,8 @@
             <Button Click="Add_tab_click" Content="Add Drone"     Style="{StaticResource MaterialDesignRaisedButton}" Margin="2"/>
             <Button Click="Close_tab_click" Content="Close Drone To List"     Style="{StaticResource MaterialDesignRaisedButton}" Margin="2"/>
         </DockPanel>
-        <ListView x:Name="droneToListListView" ItemsSource="{Binding }"  SelectionMode="Single" DockPanel.Dock="Top"  MouseDoubleClick="double_click" Margin="2">
-
-        </ListView>
+        <ScrollViewer VerticalScrollBarVisibility="Visible">
+            <ListView x:Name="droneToListListView" ItemsSource="{Binding }"  SelectionMode="Single" DockPanel.Dock="Top"  MouseDoubleClick="double_click" Margin="2" />
+        </ScrollViewer>
     </StackPanel>
 </UserControl>

@@ -98,6 +98,8 @@ namespace IBL
                     ParcelId = parcel.DorneId == 0 ? 0 : parcel.Id,
                     BatteryState = BatteryStatus
                 });
+                if(state==DroneState.MAINTENANCE)
+                    dal.AddDRoneCharge(drone.Id,dal.GetStations().FirstOrDefault(station=>(station.Latitude==Location.Latitude && station.Longitude==Location.Longitude)).Id);
 
             }
         }
