@@ -20,7 +20,7 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <TabControl x:Name="tab" DockPanel.Dock="Top">
+        <TabControl x:Name="tab" DockPanel.Dock="Top" >
 
             <TabItem x:Name="DroneToListTab" Header="DroneToList"  Visibility="Collapsed" >
                 <ContentControl Content="{Binding}" Visibility="Collapsed"/>

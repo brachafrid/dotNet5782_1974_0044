@@ -81,6 +81,7 @@ namespace PL
             tabItem.Content = new DroneWindow(updateList,MainWindow);
             tabItem.Header = (sender as Button).Content.ToString();
             MainWindow.tab.Items.Add(tabItem);
+            MainWindow.tab.SelectedItem = tabItem;
         }
 
         private void double_click(object sender, MouseButtonEventArgs e)
@@ -91,6 +92,7 @@ namespace PL
                 tabItem.Content = new DroneWindow((e.OriginalSource as FrameworkElement).DataContext as IBL.BO.DroneToList, updateList, MainWindow);
                 tabItem.Header = "Drone";
                 MainWindow.tab.Items.Add(tabItem);
+                MainWindow.tab.SelectedItem = tabItem;
             }
         }
 
