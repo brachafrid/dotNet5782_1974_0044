@@ -18,6 +18,13 @@
 
   <ItemGroup>
     <Folder Include="Model\" />
+    <Folder Include="View\StationPL\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="View\Dictionary.xaml">
+      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
+    </Page>
   </ItemGroup>
 
 </Project>
