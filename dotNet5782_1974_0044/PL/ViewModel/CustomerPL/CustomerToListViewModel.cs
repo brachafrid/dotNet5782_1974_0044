@@ -20,7 +20,7 @@ using System.Collections;
 
 namespace PL
 {
-    class CustomerToListViewModel
+    public class CustomerToListViewModel
     {
         public ObservableCollection<CustomerToList> Customers { get; set; }
         public BLApi.IBL ibal;

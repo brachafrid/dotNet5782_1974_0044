@@ -22,8 +22,10 @@
         <TabControl x:Name="tab" DockPanel.Dock="Top" >
 
             <TabItem x:Name="DroneToListTab" Header="Drones"  Visibility="Collapsed" >
+                <
             </TabItem>
             <TabItem x:Name="CustomerToListTab" Header="Customers"  Visibility="Collapsed" >
+                <local:CustomerToListWindow x:Name="CustomerToListControl" Loaded="CustomerViewControl_Loaded"/>
             </TabItem>
             <TabItem x:Name="ParcelsToListTab" Header="Parcels"  Visibility="Collapsed" >
             </TabItem>

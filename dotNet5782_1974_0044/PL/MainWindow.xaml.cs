@@ -69,5 +69,12 @@ namespace PL
             stationToListView.LoadStations();
             StationToListControl.DataContext = stationToListView;
         }
+
+        private void CustomerViewControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            CustomerToListViewModel customerToListViewModel = new CustomerToListViewModel(this);
+            customerToListViewModel.LoadCustomers();
+            CustomerToListControl.DataContext = customerToListViewModel;
+        }
     }
 }
