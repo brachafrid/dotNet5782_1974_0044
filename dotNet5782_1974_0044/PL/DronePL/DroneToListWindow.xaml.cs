@@ -94,6 +94,7 @@ namespace PL
         {
             MainWindow.DroneToListTab.Visibility = Visibility.Collapsed;
             (MainWindow.DroneToListTab.Content as FrameworkElement).Visibility = Visibility.Collapsed;
+            
         }
 
         /// <summary>
@@ -154,7 +155,7 @@ namespace PL
         /// <param name="e">The arguments of the event</param>
         private void select_screen_out_parameter(object sender, SelectionChangedEventArgs e)
         {
-                Drones.Filter = FilterDrones;
+              Drones.Filter = FilterDrones;
         }
 
         /// <summary>
