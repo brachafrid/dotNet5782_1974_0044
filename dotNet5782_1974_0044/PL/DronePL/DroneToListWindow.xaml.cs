@@ -73,6 +73,7 @@ namespace PL
         {
             MainWindow.DroneToListTab.Visibility = Visibility.Collapsed;
             (MainWindow.DroneToListTab.Content as FrameworkElement).Visibility = Visibility.Collapsed;
+            
         }
 
         private void Add_tab_click(object sender, RoutedEventArgs e)
@@ -111,7 +112,7 @@ namespace PL
 
         private void select_screen_out_parameter(object sender, SelectionChangedEventArgs e)
         {
-                Drones.Filter = FilterDrones;
+              Drones.Filter = FilterDrones;
         }
 
         private void Cancel_screen_out(object sender, RoutedEventArgs e)
