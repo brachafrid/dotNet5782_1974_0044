@@ -1,9 +1,9 @@
-﻿using BL.BO;
+﻿using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.ComponentModel;
-using BL.BLApi;
+using BLApi;
 
 
 namespace BL
@@ -25,8 +25,8 @@ namespace BL
         {
             try
             {
-                dal.AddDrone(droneBl.Id, droneBl.Model, (DLApi.DO.WeightCategories)droneBl.WeightCategory);
-                DLApi.DO.Station station = dal.GetStation(stationId);
+                dal.AddDrone(droneBl.Id, droneBl.Model, (DO.WeightCategories)droneBl.WeightCategory);
+                DO.Station station = dal.GetStation(stationId);
                 DroneToList droneToList = new()
                 {
                     Id = droneBl.Id,
@@ -40,7 +40,7 @@ namespace BL
                 drones.Add(droneToList);
                 dal.AddDRoneCharge(droneBl.Id, stationId);
             }
-            catch (DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
@@ -84,7 +84,7 @@ namespace BL
             DroneToList droneToList = default;
             try
             {
-                DLApi.DO.Drone droneDl = dal.GetDrone(id);
+               DO.Drone droneDl = dal.GetDrone(id);
                 dal.RemoveDrone(droneDl);
                 dal.AddDrone(id, name, droneDl.MaxWeight);
                 droneToList = drones.First(item => item.Id == id);
@@ -94,7 +94,7 @@ namespace BL
                     throw new ArgumentNullException("For updating the name must be initialized ");
             }
           
-            catch (DLApi.DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException( ex.Message);
             }
@@ -120,8 +120,8 @@ namespace BL
                 throw new ArgumentNullException(" There is no a drone with the same id in data");
             if (droneToList.DroneState != DroneState.AVAILABLE)
                 throw new InvalidEnumArgumentException("The drone is not available so it is not possible to send it for charging ");
-            DLApi.DO.Station station = ClosetStationPossible(dal.GetStations(), droneToList.CurrentLocation, droneToList.BatteryState, out double minDistance);
-            if (station.Equals(default(DLApi.DO.Station)))
+            DO.Station station = ClosetStationPossible(dal.GetStations(), droneToList.CurrentLocation, droneToList.BatteryState, out double minDistance);
+            if (station.Equals(default(DO.Station)))
                 throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();
             drones.Remove(droneToList);
             droneToList.DroneState = DroneState.MAINTENANCE;
@@ -199,13 +199,13 @@ namespace BL
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
             drones.Remove(droneToList);
-            DLApi.DO.Parcel parcel = default;
+            DO.Parcel parcel = default;
             try
             {
                  parcel= dal.GetParcel((int)droneToList.ParcelId);
                 if (parcel.PickedUp!= null)
                     throw new ArgumentNullException("The package has already been collected");
-                DLApi.DO.Customer customer = dal.GetCustomer(parcel.SenderId);
+                DO.Customer customer = dal.GetCustomer(parcel.SenderId);
                 Location senderLocation = new() { Longitude = customer.Longitude, Latitude = customer.Latitude };
                 droneToList.BatteryState -= Distance(droneToList.CurrentLocation, senderLocation) * available;
                 droneToList.CurrentLocation = senderLocation;
@@ -222,7 +222,7 @@ namespace BL
             finally
             {
                 drones.Add(droneToList);
-                if(!parcel.Equals(default(DLApi.DO.Parcel)))
+                if(!parcel.Equals(default(DO.Parcel)))
                     ParcelcollectionDrone(parcel.Id);
             }
 
@@ -239,13 +239,13 @@ namespace BL
                 throw new ArgumentNullException("There is no a drone with the same id in data");
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
-            DLApi.DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
+            DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
             if (parcel.Delivered!=null)
                 throw new ArgumentNullException("The package has already been deliverd");
             drones.Remove(droneToList);
             try
             {
-                DLApi.DO.Customer customer = dal.GetCustomer(parcel.TargetId);
+               DO.Customer customer = dal.GetCustomer(parcel.TargetId);
                 Location receiverLocation = new() { Longitude = customer.Longitude, Latitude = customer.Latitude };
                 droneToList.BatteryState -= Distance(droneToList.CurrentLocation, receiverLocation) * (WeightCategories)parcel.Weigth switch
                 {

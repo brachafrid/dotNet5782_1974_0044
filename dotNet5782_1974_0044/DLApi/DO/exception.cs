@@ -2,8 +2,6 @@
 using System.Runtime.Serialization;
 
 
-namespace DLApi
-{
     namespace DO
     {
 
@@ -24,4 +22,4 @@ namespace DLApi
 
     }
 
-}
+

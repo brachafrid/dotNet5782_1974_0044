@@ -2,8 +2,7 @@
 
 
 
-namespace BL
-{
+
     namespace BO
     {
         public class Station
@@ -20,4 +19,3 @@ namespace BL
         }
     }
 
-}

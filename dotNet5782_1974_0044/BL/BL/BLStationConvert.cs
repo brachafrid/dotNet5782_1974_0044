@@ -1,4 +1,4 @@
-﻿using BL.BO;
+﻿using BO;
 
 namespace BL
 {
@@ -9,7 +9,7 @@ namespace BL
         /// </summary>
         /// <param name="station">The sation to convert</param>
         /// <returns>The converted station</returns>
-        private BO.StationToList MapStationToList(DLApi.DO.Station station)
+        private BO.StationToList MapStationToList(DO.Station station)
         {
             return new StationToList()
             {

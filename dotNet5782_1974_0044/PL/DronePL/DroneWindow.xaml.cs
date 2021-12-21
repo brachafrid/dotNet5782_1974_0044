@@ -4,10 +4,11 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using BL.BO;
+using BO;
 using BL;
 using Utilities;
 using System.ComponentModel;
+using BLApi;
 
 
 namespace PL
@@ -15,10 +16,9 @@ namespace PL
     /// <summary>
     /// Interaction logic for Drone.xaml
     /// </summary>
-
     public partial class DroneWindow : UserControl
     {
-        BL.BLApi.IBL bl = Singletone<BL.BL>.Instance;
+        BLApi.IBL bl = BLFactory.GetBL();
         //private string modelNew;
         private Action updateList;
         private MainWindow MainWindow;
@@ -33,7 +33,11 @@ namespace PL
             DependencyProperty.Register("modelNew", typeof(string), typeof(DroneWindow), new PropertyMetadata(string.Empty));
 
 
-        //add new drone
+        /// <summary>
+        /// Constructor for displaying and updating a drone
+        /// </summary>
+        /// <param name="updateListNew">Action - update list new</param>
+        /// <param name="mainWindow">The main window</param>
         public DroneWindow(Action updateListNew, MainWindow mainWindow)
         {
             InitializeComponent();
@@ -44,7 +48,13 @@ namespace PL
             MainWindow = mainWindow;
         }
 
-        public DroneWindow(BL.BO.DroneToList droneToList, Action updateListNew, MainWindow mainWindow)
+        /// <summary>
+        /// Constructor for adding a new skimmer
+        /// </summary>
+        /// <param name="droneToList">The drone for add</param>
+        /// <param name="updateListNew">Action - update list new</param>
+        /// <param name="mainWindow">The main window</param>
+        public DroneWindow(BO.DroneToList droneToList, Action updateListNew, MainWindow mainWindow)
         {
             InitializeComponent();
             add.Visibility = Visibility.Collapsed;
@@ -55,6 +65,11 @@ namespace PL
             MainWindow = mainWindow;
         }
 
+        /// <summary>
+        /// Checking the correctness of the id with the addition of a new drone
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void Valid_Id_Drone(object sender, RoutedEventArgs e)
         {
             is_num(sender, (TextChangedEventArgs)e);
@@ -64,8 +79,14 @@ namespace PL
                 id.Background = Brushes.OrangeRed;
             }
             else
-                id.Background = Brushes.YellowGreen;
+                id.Background = Brushes.GreenYellow;
         }
+
+        /// <summary>
+        /// Checking the correctness of the model with the addition of a new drone
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void Valid_Model_Drone(object sender, RoutedEventArgs e)
         {
             string droneModel = model.Text;
@@ -75,8 +96,14 @@ namespace PL
                 MessageBox.Show("enter model");
             }
             else
-                model.Background = Brushes.YellowGreen;
+                model.Background = Brushes.GreenYellow;
         }
+
+        /// <summary>
+        /// Checking the correctness of the weight with the addition of a new drone
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void Valid_Weight_Drone(object sender, RoutedEventArgs e)
         {
             WeightCategories maxWeight = (WeightCategories)weigth.SelectedIndex;
@@ -86,8 +113,14 @@ namespace PL
                 MessageBox.Show("choose max weigth");
             }
             else
-                weigth.Background = Brushes.YellowGreen;
+                weigth.Background = Brushes.GreenYellow;
         }
+
+        /// <summary>
+        /// Checking the correctness of the station with the addition of a new drone
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void Valid_Station_Drone(object sender, RoutedEventArgs e)
         {
             if (station.SelectedIndex == -1)
@@ -96,15 +129,28 @@ namespace PL
                 MessageBox.Show("choose station");
             }
             else
-                station.Background = Brushes.YellowGreen;
+                station.Background = Brushes.GreenYellow;
         }
 
+        /// <summary>
+        /// Adding a new drone.
+        /// Checks if all data is valid, and add the new drone
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void AddDrone_click(object sender, RoutedEventArgs e)
         {
             bool valid = true;
             int stationId = 0;
             WeightCategories maxWeight = (WeightCategories)weigth.SelectedIndex;
             string droneModel = model.Text;
+
+            if (id.Text == string.Empty)
+            {
+                id.Background = Brushes.OrangeRed;
+                MessageBox.Show("enter id");
+                valid = false;
+            }
 
             if (droneModel == string.Empty)
             {
@@ -113,12 +159,6 @@ namespace PL
                 valid = false;
             }
 
-            if (id.Text == string.Empty)
-            {
-                id.Background = Brushes.OrangeRed;
-                MessageBox.Show("enter id");
-                valid = false;
-            }
             if ((int)maxWeight == -1)
             {
                 weigth.Background = Brushes.OrangeRed;
@@ -145,7 +185,7 @@ namespace PL
                 station.Background = Brushes.GreenYellow;
                 try
                 {
-                    bl.AddDrone(new BL.BO.Drone()
+                    bl.AddDrone(new BO.Drone()
                     {
                         Id = int.Parse(id.Text),
                         Model = droneModel,
@@ -166,6 +206,12 @@ namespace PL
                 }
             }
         }
+
+        /// <summary>
+        /// Checks if only digits are entered
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void is_num(object sender, TextChangedEventArgs e)
         {
             foreach (var item in id.Text)
@@ -178,20 +224,36 @@ namespace PL
                 }
             id.Background = default;
         }
+
+        /// <summary>
+        /// Closes the tab 
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void Close(object sender, RoutedEventArgs e)
         {
             MainWindow.Close_tab(sender, e);
         }
 
+        /// <summary>
+        /// Renames the model
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void model_changed(object sender, RoutedEventArgs e)
         {
             modelNew = (e.OriginalSource as TextBox).Text;
         }
 
+        /// <summary>
+        /// Updates the model name to the new name entered
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void UpdateDrone(object sender, RoutedEventArgs e)
         {
 
-            Drone drone = (BL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            Drone drone = (BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
                 if (modelNew != drone.Model)
@@ -212,13 +274,19 @@ namespace PL
                 MessageBox.Show("For updating the name must be initialized ");
             }
         }
+
+        /// <summary>
+        /// Handles the loading of the drone
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void TreatDroneCharging(object sender, RoutedEventArgs e)
         {
-            BL.BO.Drone drone = (BL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            BO.Drone drone = (BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
-                if (drone.DroneState == DroneState.AVAILABLE)
-                {
+                if(drone.DroneState == DroneState.AVAILABLE) 
+                { 
                     bl.SendDroneForCharg(drone.Id);
                     DataContext = bl.GetDrone(drone.Id);
                     MessageBox.Show("The drone was sent for loading successfully");
@@ -231,16 +299,21 @@ namespace PL
                     timeOfCharge.Text = "";
                     confirm.Visibility = Visibility.Visible;
                 }
-
             }
             catch (InvalidEnumArgumentException ex)
             {
                 MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
             }
         }
+
+        /// <summary>
+        /// Saves the few minutes of charging and releases the drone from charging
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void Confirm(object sender, RoutedEventArgs e)
         {
-            BL.BO.Drone drone = (BL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            BO.Drone drone = (BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
                 float timeCrg = float.Parse(timeOfCharge.Text);
@@ -263,9 +336,14 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Handling a package by a drone
+        /// </summary>
+        /// <param name="sender">Event operator</param>
+        /// <param name="e">The arguments of the event</param>
         private void ParcelTreatedByDrone(object sender, RoutedEventArgs e)
         {
-            BL.BO.Drone drone = (BL.BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
+            BO.Drone drone = (BO.Drone)((FrameworkElement)e.OriginalSource).DataContext;
             try
             {
                 if (drone.DroneState == DroneState.DELIVERY)

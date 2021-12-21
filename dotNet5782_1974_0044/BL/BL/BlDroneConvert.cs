@@ -1,4 +1,4 @@
-﻿using BL.BO;
+﻿using BO;
 
 
 namespace BL

@@ -5,14 +5,19 @@ namespace Utilities
 {
     public abstract class Singletone<T> where T : Singletone<T>
     {
+        //singelton pattern step #2 - make the static and protected constructor
         static Singletone() { }
         protected Singletone() { }
         class Nested
         {
+            //singelton step #3 - _instance is initialized no null
             internal static volatile T _instance = null;
             internal static readonly object _lock = new object();
             static Nested() { }
         }
+        /// <summary>
+        /// singelton step #4 - separate property ensures Lazy class instatiation, no setter, getter only
+        /// </summary>
         public static T Instance
         {
             get

@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using BL.BO;
+using BO;
 using System.ComponentModel;
 using Utilities;
 

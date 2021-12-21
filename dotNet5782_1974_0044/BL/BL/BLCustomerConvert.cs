@@ -1,5 +1,5 @@
 ﻿using System.Linq;
-using BL.BO;
+using BO;
 
 namespace BL
 {
@@ -10,7 +10,7 @@ namespace BL
         /// </summary>
         /// <param name="parcel">The customer to convert</param>
         /// <returns>The converted customer</returns>
-        private CustomerToList MapCustomerToList(DLApi.DO.Customer customer)
+        private CustomerToList MapCustomerToList(DO.Customer customer)
         {
             return new CustomerToList()
             {
@@ -31,7 +31,7 @@ namespace BL
         /// </summary>
         /// <param name="parcel">The customer to convert</param>
         /// <returns>The converted customer</returns>
-        private CustomerInParcel MapCustomerInParcel(DLApi.DO.Customer customer)
+        private CustomerInParcel MapCustomerInParcel(DO.Customer customer)
         {
             return new CustomerInParcel()
             {
