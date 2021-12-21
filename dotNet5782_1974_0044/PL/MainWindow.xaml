@@ -25,6 +25,15 @@
             <TabItem x:Name="DroneToListTab" Header="DroneToList"  Visibility="Collapsed" >
                 <ContentControl Content="{Binding}" Visibility="Collapsed"/>
             </TabItem>
+            <TabItem x:Name="CustomerToListTab" Header="DroneToList"  Visibility="Collapsed" >
+                <ContentControl Content="{Binding}" Visibility="Collapsed"/>
+            </TabItem>
+            <TabItem x:Name="ParcelsToListTab" Header="DroneToList"  Visibility="Collapsed" >
+                <ContentControl Content="{Binding}" Visibility="Collapsed"/>
+            </TabItem>
+            <TabItem x:Name="StationToListTab" Header="DroneToList"  Visibility="Collapsed" >
+                <ContentControl Content="{Binding}" Visibility="Collapsed"/>
+            </TabItem>
         </TabControl>
     </DockPanel>
 </Window>

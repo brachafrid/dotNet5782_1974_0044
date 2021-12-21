@@ -19,7 +19,7 @@ namespace PL
     public partial class MainWindow : Window
     {
         public BLApi.IBL ibal;
-        private List<string> option = new() { "DroneToList"};
+        private List<string> option = new() { "Drones","Customers","Stations","Parcels"};
         /// <summary>
         /// Constructor MainWindow
         /// Initializes necessary things
@@ -30,6 +30,9 @@ namespace PL
             ibal = BLFactory.GetBL();
             DataContext = option;
             DroneToListTab.DataContext = new DroneToListWindow(this);
+            ParcelsToListTab.DataContext = new DroneToListWindow(this);
+            CustomerToListTab.DataContext = new DroneToListWindow(this);
+            StationToListTab.DataContext = new DroneToListWindow(this);
         }
 
         /// <summary>
@@ -39,8 +42,15 @@ namespace PL
         /// <param name="e">The arguments of the event</param>
         public void Add_tag_click(object sender, RoutedEventArgs e)
         {
-            DroneToListTab.Visibility = Visibility.Visible;
-            (DroneToListTab.Content as FrameworkElement).Visibility = Visibility.Visible;
+            TabItem currentTab = (sender as Button).Content switch
+            {
+                "Drones"=>DroneToListTab,
+                "Parcels"=>ParcelsToListTab,
+                "Stations"=>StationToListTab,
+                "Customers"=>CustomerToListTab
+            };
+            currentTab.Visibility = Visibility.Visible;
+            (currentTab.Content as FrameworkElement).Visibility = Visibility.Visible;
         }
 
         /// <summary>
