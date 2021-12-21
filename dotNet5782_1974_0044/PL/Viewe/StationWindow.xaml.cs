@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PL.Viewe.StationPL
+namespace PL
 {
     /// <summary>
-    /// Interaction logic for StationToListWindow.xaml
+    /// Interaction logic for StationWindow.xaml
     /// </summary>
-    public partial class StationToListWindow : UserControl
+    public partial class StationWindow : UserControl
     {
-        public StationToListWindow()
+        public StationWindow()
         {
             InitializeComponent();
         }

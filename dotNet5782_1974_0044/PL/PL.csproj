@@ -18,14 +18,6 @@
 
   <ItemGroup>
     <Folder Include="Model\" />
-    <Folder Include="ModelViewe\" />
-    <Folder Include="Viewe\CustomerPL\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="Viewe\Dictionary.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
   </ItemGroup>
 
 </Project>

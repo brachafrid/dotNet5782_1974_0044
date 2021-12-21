@@ -29,10 +29,6 @@ namespace PL
             InitializeComponent();
             ibal = BLFactory.GetBL();
             DataContext = option;
-            DroneToListTab.DataContext = new DroneToListWindow(this);
-            ParcelsToListTab.DataContext = new DroneToListWindow(this);
-            CustomerToListTab.DataContext = new DroneToListWindow(this);
-            StationToListTab.DataContext = new DroneToListWindow(this);
         }
 
         /// <summary>
@@ -50,7 +46,6 @@ namespace PL
                 "Customers"=>CustomerToListTab
             };
             currentTab.Visibility = Visibility.Visible;
-            (currentTab.Content as FrameworkElement).Visibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -66,6 +61,13 @@ namespace PL
                 tmp = ((FrameworkElement)tmp).Parent;
             }
             tab.Items.Remove(tmp as TabItem);
+        }
+
+        private void StationViewControl_Loaded(object sender,RoutedEventArgs e)
+        {
+            StationToListView stationToListView = new StationToListView(this);
+            stationToListView.LoadStations();
+            StationToListControl.DataContext = stationToListView;
         }
     }
 }
