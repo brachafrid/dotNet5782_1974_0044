@@ -46,6 +46,8 @@ namespace PL
                 "Customers"=>CustomerToListTab
             };
             currentTab.Visibility = Visibility.Visible;
+            if (currentTab == DroneToListTab)
+                (DroneToListTab.Content as FrameworkElement).Visibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -68,6 +70,13 @@ namespace PL
             StationToListView stationToListView = new StationToListView(this);
             stationToListView.LoadStations();
             StationToListControl.DataContext = stationToListView;
+        }
+
+        private void CustomerViewControl_Loaded(object sender, RoutedEventArgs e)
+        {
+            CustomerToListViewModel customerToListViewModel = new CustomerToListViewModel(this);
+            customerToListViewModel.LoadCustomers();
+            CustomerToListControl.DataContext = customerToListViewModel;
         }
     }
 }

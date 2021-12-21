@@ -8,8 +8,7 @@
              d:DesignHeight="450" d:DesignWidth="800"
              >
     <UserControl.Resources>
-        <ResourceDictionary Source="Dictionary.xaml"
-                            />
+        <ResourceDictionary Source="Dictionary.xaml"/>
     </UserControl.Resources>
     <Grid>
     <DockPanel>

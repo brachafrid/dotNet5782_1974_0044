@@ -88,9 +88,8 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type bo:CustomerToList}">
-        <Expander Header="CustomerToList">
+        <Expander Header="{Binding Path=Id}">
             <StackPanel>
-                <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
                 <TextBlock Text="{Binding Path=Name, StringFormat=Name :{0}}"/>
                 <TextBlock Text="{Binding Path=Phone, StringFormat=Phone :{0}}"/>
                 <TextBlock Text="{Binding Path=NumParcelSentDelivered, StringFormat=NumParcelSentDelivered :{0:d}}"/>
