@@ -27,7 +27,7 @@ namespace PL
         private MainWindow MainWindow;
 
         /// <summary>
-        /// Constructor DroneToList Window.
+        /// Constructor CustomerToList Window.
         /// Initializes necessary things
         /// </summary>
         /// <param name="mainWindow">Main window</param>
