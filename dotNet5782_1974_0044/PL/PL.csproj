@@ -19,7 +19,7 @@
   <ItemGroup>
     <Folder Include="Model\" />
     <Folder Include="ModelViewe\" />
-    <Folder Include="Viewe\StationPL\" />
+    <Folder Include="Viewe\CustomerPL\" />
   </ItemGroup>
 
   <ItemGroup>
