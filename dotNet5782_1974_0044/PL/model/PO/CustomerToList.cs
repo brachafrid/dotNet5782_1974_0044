@@ -20,6 +20,13 @@ using System.Threading.Tasks;
             public int NumParcelWayToCustomer { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        private void onPropertyChanged(string properyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
+
+        }
+
 
         public override string ToString()
             {

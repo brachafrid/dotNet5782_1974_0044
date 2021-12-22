@@ -17,11 +17,16 @@ namespace PL.PO
         public List<ParcelAtCustomer> FromCustomer { get; set; }
         public List<ParcelAtCustomer> ToCustomer { get; set; }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-
         public override string ToString()
         {
             return this.ToStringProperties();
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void onPropertyChanged(string properyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
+
         }
     }
 }

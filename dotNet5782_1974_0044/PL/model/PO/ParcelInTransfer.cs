@@ -16,6 +16,12 @@ namespace PL.PO
             public CustomerInParcel CustomerReceives { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        private void onPropertyChanged(string properyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
+
+        }
 
         public override string ToString()
             {
