@@ -56,6 +56,8 @@ namespace PL
             MessageBox.Show("fffffffffffff");
         }
     }
+
+
     public class  CommandHandler : ICommand
     {
         private Action<object> _action;
