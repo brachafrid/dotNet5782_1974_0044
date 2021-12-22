@@ -10,7 +10,7 @@ using System.Threading.Tasks;
     {
     public class CustomerInParcel : INotifyPropertyChanged
     {
-           private int id;
+        private int id;
         public int Id
         {
             get => id;

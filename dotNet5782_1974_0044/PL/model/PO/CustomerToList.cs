@@ -69,7 +69,7 @@ using System.Threading.Tasks;
             get => numParcelReceived;
             set
             {
-                numParcelSentNotDelivered = value;
+                numParcelReceived = value;
                 onPropertyChanged("NumParcelReceived");
             }
         }
