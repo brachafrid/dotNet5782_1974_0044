@@ -42,22 +42,36 @@ namespace PL
         }
 
         private ICommand _clickCommand;
+        private ICommand _doubleClickCommand;
         public ICommand ClickCommand
         {
             get
             {
-                return _clickCommand ?? (_clickCommand = new CommandHandler((obj) => MyAction(obj), true));
+                return _clickCommand ?? (_clickCommand = new CommandHandler((obj) => CloseTab(obj), true));
             }
         }
 
-        public void MyAction(object obj)
+        public ICommand DoubleClickCommand
         {
-            object mainWindow = Window.GetWindow((obj as StationToListWindowxaml));
+            get
+            {
+                return _doubleClickCommand ?? (_doubleClickCommand = new CommandHandler((obj) => OpenTab(obj), true));
+            }
+        }
+
+        public void CloseTab(object obj)
+        {
+            object mainWindow = Window.GetWindow(obj as StationToListWindowxaml);
             if (mainWindow is MainWindow)
             {
                 (mainWindow as MainWindow).StationToListTab.Visibility = Visibility.Collapsed;
                 (mainWindow as MainWindow).StationToListControl.Visibility = Visibility.Collapsed;
             }
+        }
+
+        public void OpenTab(object obj)
+        {
+            MessageBox.Show("dddddddd");
         }
     }
 }
