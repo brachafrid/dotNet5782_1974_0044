@@ -32,19 +32,19 @@ namespace PL.Hundlers
         }
         public IEnumerable<BO.DroneToList> GetDrones()
         {
-
+            return ibal.GetDrones().Select(item => ConverterStationToList(item));
         }
         public void AssingParcelToDrone(int droneId)
         {
-
+            ibal.AssingParcelToDrone(droneId);
         }
-        public void ParcelCollectionByDrone(int DroneId)
+        public void ParcelCollectionByDrone(int droneId)
         {
-
+            ibal.ParcelCollectionByDrone(droneId);
         }
         public void DeliveryParcelByDrone(int droneId)
         {
-
+            ibal.DeliveryParcelByDrone(droneId);
         }
     }
 }
