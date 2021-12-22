@@ -14,44 +14,73 @@ namespace PL.Hundlers
 
         public void AddCustomer(Customer customer)
         {
-            ibal.AddCustomer(ConvertCustomer(customer));
+            ibal.AddCustomer(ConvertBackCustomer(customer));
         }
         public Customer GetCustomer(int id)
         {
             //BO.Customer customerBL = ibal.GetCustomer(id);
-            return ConvertBackCustomer(ibal.GetCustomer(id));
+            return ConvertCustomer(ibal.GetCustomer(id));
         }
         public IEnumerable<CustomerToList> GetCustomers()
         {
-           return ibal.GetCustomers();
+            return ibal.GetCustomers().Select(customer => ConvertCustomerToList(customer));
         }
         public void UpdateCustomer(int id, string name, string phone)
         {
             ibal.UpdateCustomer(id, name, phone);
         }
-        public BO.Customer ConvertCustomer(PO.Customer customer)
+        public PO.Customer ConvertCustomer(BO.Customer customer)
+        {
+            return new PO.Customer
+            {
+                Id = customer.Id,
+                Name = customer.Name,
+                Phone = customer.Phone, 
+
+                //Location = new BO.Location { Latitude = customer.Location.Latitude, Longitude = customer.Location.Longitude},
+                //FromCustomer = customer.FromCustomer,
+                //ToCustomer = customer.ToCustomer
+
+            };
+        }
+        public BO.Customer ConvertBackCustomer(PO.Customer customer)
         {
             return new BO.Customer
             {
                 Id = customer.Id,
                 Name = customer.Name,
                 Phone = customer.Phone,
-                Location = new BO.Location { Latitude = customer.Location.Latitude, Longitude = customer.Location.Longitude},
-                FromCustomer = customer.FromCustomer,
-                ToCustomer = customer.ToCustomer
+                //Location = new PO.Location { Latitude = customer.Location.Latitude, Longitude = customer.Location.Longitude },
+                //FromCustomer = customer.FromCustomer,
+                //ToCustomer = customer.ToCustomer
 
             };
         }
-        public PO.Customer ConvertBackCustomer(BO.Customer customer)
+
+        public PO.CustomerToList ConvertCustomerToList(BO.CustomerToList customerToList)
         {
-            return new PL.PO.Customer
+            return new PO.CustomerToList
             {
-                Id = customer.Id,
-                Name = customer.Name,
-                Phone = customer.Phone,
-                Location = new PO.Location { Latitude = customer.Location.Latitude, Longitude = customer.Location.Longitude },
-                FromCustomer = customer.FromCustomer,
-                ToCustomer = customer.ToCustomer
+                Id = customerToList.Id,
+                Name = customerToList.Name,
+                Phone = customerToList.Phone,
+
+                //Location = new BO.Location { Latitude = customer.Location.Latitude, Longitude = customer.Location.Longitude},
+                //FromCustomer = customer.FromCustomer,
+                //ToCustomer = customer.ToCustomer
+
+            };
+        }
+        public BO.CustomerToList ConvertBackCustomerToList(PO.CustomerToList customerToList)
+        {
+            return new BO.CustomerToList
+            {
+                Id = customerToList.Id,
+                Name = customerToList.Name,
+                Phone = customerToList.Phone,
+                //Location = new PO.Location { Latitude = customerToList.Location.Latitude, Longitude = customerToList.Location.Longitude },
+                //FromCustomer = customer.FromCustomer,
+                //ToCustomer = customer.ToCustomer
 
             };
         }
