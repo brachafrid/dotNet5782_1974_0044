@@ -52,11 +52,11 @@ namespace PL
 
         public void MyAction(object obj)
         {
-            (obj as MainWindow).StationToListTab.Visibility = Visibility.Collapsed;
-            MessageBox.Show("fffffffffffff");
+            //(obj as MainWindow).StationToListTab.Visibility = Visibility.Collapsed;
+            MessageBox.Show(obj.GetType().ToString());
         }
     }
-    public class CommandHandler : ICommand
+    public class  CommandHandler : ICommand
     {
         private Action<object> _action;
         private bool _canExecute;
