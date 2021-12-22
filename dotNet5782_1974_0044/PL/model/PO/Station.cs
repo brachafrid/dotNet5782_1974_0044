@@ -2,14 +2,14 @@
 using System.ComponentModel;
 
 namespace PL.PO
+{
+    public class Station : INotifyPropertyChanged
     {
-        public class Station : INotifyPropertyChanged
-    {
-            public int Id { get; init; }
-            public string Name { get; set; }
-            public Location Location { get; set; }
-            public int AvailableChargingPorts { get; set; }
-            public List<DroneInCharging> DroneInChargings { get; set; }
+        public int Id { get; init; }
+        public string Name { get; set; }
+        public Location Location { get; set; }
+        public int AvailableChargingPorts { get; set; }
+        public List<DroneInCharging> DroneInChargings { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
@@ -21,9 +21,9 @@ namespace PL.PO
 
 
         public override string ToString()
-            {
-                return this.ToStringProperties();
-            }
+        {
+            return this.ToStringProperties();
         }
     }
+}
 
