@@ -6,9 +6,17 @@ using System.Threading.Tasks;
 
 namespace PL.Hundlers
 {
-    class CustomerInParcelHandler
-    {
-        public static BO.CustomerInParcel ConvertCustomerInParcel(PO.CustomerInParcel customerInParcel)
+   public static class CustomerInParcelHandler
+   {
+        public static PO.CustomerInParcel ConvertCustomerInParcel(BO.CustomerInParcel customerInParcel)
+        {
+            return new PO.CustomerInParcel()
+            {
+                Id = customerInParcel.Id,
+                Name = customerInParcel.Name
+            };
+        }
+        public static BO.CustomerInParcel ConvertBackCustomerInParcel(PO.CustomerInParcel customerInParcel)
         {
             return new BO.CustomerInParcel()
             {
@@ -17,13 +25,6 @@ namespace PL.Hundlers
             };
         }
 
-        public static PO.CustomerInParcel ConvertBackCustomerInParcel(BO.CustomerInParcel customerInParcel)
-        {
-            return new PO.CustomerInParcel()
-            {
-                Id = customerInParcel.Id,
-                Name = customerInParcel.Name
-            };
-        }
+     
     }
 }

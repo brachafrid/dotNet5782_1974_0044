@@ -16,19 +16,22 @@ namespace PL.Hundlers
         {
             ibal.AddCustomer(ConvertBackCustomer(customer));
         }
+
         public Customer GetCustomer(int id)
         {
-            //BO.Customer customerBL = ibal.GetCustomer(id);
             return ConvertCustomer(ibal.GetCustomer(id));
         }
+
         public IEnumerable<CustomerToList> GetCustomers()
         {
             return ibal.GetCustomers().Select(customer => ConvertCustomerToList(customer));
         }
+
         public void UpdateCustomer(int id, string name, string phone)
         {
             ibal.UpdateCustomer(id, name, phone);
         }
+
         public PO.Customer ConvertCustomer(BO.Customer customer)
         {
             return new PO.Customer
@@ -37,9 +40,8 @@ namespace PL.Hundlers
                 Name = customer.Name,
                 Phone = customer.Phone,
                 Location = HundlerEntity.ConvertLocation(customer.Location),
-                //FromCustomer = customer.FromCustomer,
-                //ToCustomer = customer.ToCustomer
-
+                FromCustomer = customer.FromCustomer.Select(item => ParcelAtCustomerHandler.ConvertParcelAtCustomer(item)).ToList(),
+                ToCustomer = customer.ToCustomer.Select(item => ParcelAtCustomerHandler.ConvertParcelAtCustomer(item)).ToList()
             };
         }
         public BO.Customer ConvertBackCustomer(PO.Customer customer)
@@ -50,11 +52,8 @@ namespace PL.Hundlers
                 Name = customer.Name,
                 Phone = customer.Phone,
                 Location = HundlerEntity.ConvertBackLocation(customer.Location),
-                FromCustomer = customer.FromCustomer.Select(item => DroneChargingHandler.ConvertBackDroneCharging(item)).ToList()
-
-                //FromCustomer = customer.FromCustomer,
-                //ToCustomer = customer.ToCustomer
-
+                FromCustomer = customer.FromCustomer.Select(item => ParcelAtCustomerHandler.ConvertBackParcelAtCustomer(item)).ToList(),
+                ToCustomer = customer.ToCustomer.Select(item => ParcelAtCustomerHandler.ConvertBackParcelAtCustomer(item)).ToList()
             };
         }
 
@@ -65,13 +64,13 @@ namespace PL.Hundlers
                 Id = customerToList.Id,
                 Name = customerToList.Name,
                 Phone = customerToList.Phone,
-
-                //Location = new BO.Location { Latitude = customer.Location.Latitude, Longitude = customer.Location.Longitude},
-                //FromCustomer = customer.FromCustomer,
-                //ToCustomer = customer.ToCustomer
-
+                NumParcelSentDelivered = customerToList.NumParcelSentDelivered,
+                NumParcelSentNotDelivered = customerToList.NumParcelSentNotDelivered,
+                NumParcelReceived = customerToList.NumParcelReceived,
+                NumParcelWayToCustomer = customerToList.NumParcelWayToCustomer
             };
         }
+
         public BO.CustomerToList ConvertBackCustomerToList(PO.CustomerToList customerToList)
         {
             return new BO.CustomerToList
@@ -79,10 +78,10 @@ namespace PL.Hundlers
                 Id = customerToList.Id,
                 Name = customerToList.Name,
                 Phone = customerToList.Phone,
-                //Location = new PO.Location { Latitude = customerToList.Location.Latitude, Longitude = customerToList.Location.Longitude },
-                //FromCustomer = customer.FromCustomer,
-                //ToCustomer = customer.ToCustomer
-
+                NumParcelSentDelivered = customerToList.NumParcelSentDelivered,
+                NumParcelSentNotDelivered = customerToList.NumParcelSentNotDelivered,
+                NumParcelReceived = customerToList.NumParcelReceived,
+                NumParcelWayToCustomer = customerToList.NumParcelWayToCustomer
             };
         }
     }

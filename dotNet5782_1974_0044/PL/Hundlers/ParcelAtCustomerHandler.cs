@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BLApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace PL.Hundlers
 {
-    class ParcelAtCustomerHandler
+    public static class ParcelAtCustomerHandler
     {
-        public static BO.ParcelAtCustomer ConvertBackDroneCharging(PO.ParcelAtCustomer parcelAtCustomer)
+        public static BO.ParcelAtCustomer ConvertBackParcelAtCustomer(PO.ParcelAtCustomer parcelAtCustomer)
         {
             return new BO.ParcelAtCustomer()
             {
@@ -16,13 +17,11 @@ namespace PL.Hundlers
                 WeightCategory = (BO.WeightCategories)parcelAtCustomer.Weight,
                 Priority = (BO.Priorities)parcelAtCustomer.Piority,
                 State = (BO.PackageModes)parcelAtCustomer.PackageMode,
-                Customer = parcelAtCustomer.Customer
-
-
+                Customer = CustomerInParcelHandler.ConvertBackCustomerInParcel(parcelAtCustomer.Customer)
             };
         }
 
-        public static PO.ParcelAtCustomer ConvertDroneCharging(BO.ParcelAtCustomer parcelAtCustomer)
+        public static PO.ParcelAtCustomer ConvertParcelAtCustomer(BO.ParcelAtCustomer parcelAtCustomer)
         {
             return new PO.ParcelAtCustomer()
             {
@@ -30,8 +29,8 @@ namespace PL.Hundlers
                 Weight = (PO.WeightCategories)parcelAtCustomer.WeightCategory,
                 Piority = (PO.Priorities)parcelAtCustomer.Priority,
                 PackageMode = (PO.PackageModes)parcelAtCustomer.State,
-                Customer = parcelAtCustomer.Customer
-            }
+                Customer = CustomerInParcelHandler.ConvertCustomerInParcel(parcelAtCustomer.Customer)
+            };
         }
     }
 }
