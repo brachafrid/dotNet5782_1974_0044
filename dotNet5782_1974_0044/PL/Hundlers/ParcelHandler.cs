@@ -42,5 +42,15 @@ namespace PL.Hundlers
                 Drone = DroneWithParcelHandler.ConvertBackDroneWithParcel(parcel.Drone)
             };
         }
+        ParcelToList ConvertParcelToList(BO.ParcelToList parcel)
+        {
+            return new()
+            {
+                Id = parcel.Id,
+                CustomerReceives = CustomerInParcelHandler.ConvertCustomerInParcel(parcel.CustomerReceives),
+                CustomerSender = CustomerInParcelHandler.ConvertCustomerInParcel(parcel.CustomerSender),
+
+            };
+        }
     }
 }
