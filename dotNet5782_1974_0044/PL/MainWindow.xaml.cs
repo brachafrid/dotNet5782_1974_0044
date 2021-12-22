@@ -20,8 +20,6 @@ namespace PL
     {
         public BLApi.IBL ibal;
         private List<string> option = new() { "Drones","Customers","Stations","Parcels"};
-        /// <summary>
-        /// Constructor MainWindow
         /// Initializes necessary things
         /// </summary>
         public MainWindow()
@@ -70,7 +68,7 @@ namespace PL
         {
             StationToListView stationToListView = new StationToListView();
             stationToListView.LoadStations();
-            StationToListControl.DataContext = stationToListView;
+            //StationToListControl.DataContext = stationToListView;
         }
 
         private void CustomerViewControl_Loaded(object sender, RoutedEventArgs e)

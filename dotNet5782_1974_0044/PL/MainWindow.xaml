@@ -1,5 +1,5 @@
 ﻿<Window x:Class="PL.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"       
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
@@ -11,26 +11,26 @@
      TextElement.FontSize="13"
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto">
-    <DockPanel>
-        <ListBox x:Name="menu" ItemsSource="{Binding}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Button x:Name="click" Content="{Binding}" Click="Add_tag_click"/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <TabControl x:Name="tab" DockPanel.Dock="Top" >
+<DockPanel>
+    <ListBox x:Name="menu" ItemsSource="{Binding}">
+        <ListBox.ItemTemplate>
+            <DataTemplate>
+                <Button x:Name="click" Content="{Binding}" Click="Add_tag_click"/>
+            </DataTemplate>
+        </ListBox.ItemTemplate>
+    </ListBox>
+    <TabControl x:Name="tab" DockPanel.Dock="Top" >
 
-            <TabItem x:Name="DroneToListTab" Header="Drones"  Visibility="Collapsed" >
-                <ContentControl Content="{Binding}" Visibility="Collapsed"/>
-            </TabItem>
-            <TabItem x:Name="CustomerToListTab" Header="Customers"  Visibility="Collapsed" >
-                <local:CustomerToListWindow x:Name="CustomerToListControl" Loaded="CustomerViewControl_Loaded"/>
-            </TabItem>
-            <TabItem x:Name="ParcelsToListTab" Header="Parcels"  Visibility="Collapsed" >
-            </TabItem>
-            <TabItem x:Name="StationToListTab" Header="Stations"  Visibility="Collapsed" >
-                <local:StationToListWindow x:Name="StationToListControl" Loaded="StationViewControl_Loaded"/>
+        <TabItem x:Name="DroneToListTab" Header="Drones"  Visibility="Collapsed" >
+            <ContentControl Content="{Binding}" Visibility="Collapsed"/>
+        </TabItem>
+        <TabItem x:Name="CustomerToListTab" Header="Customers"  Visibility="Collapsed" >
+            <local:CustomerToListWindow x:Name="CustomerToListControl" Loaded="CustomerViewControl_Loaded"/>
+        </TabItem>
+        <TabItem x:Name="ParcelsToListTab" Header="Parcels"  Visibility="Collapsed" >
+        </TabItem>
+        <TabItem x:Name="StationToListTab" Header="Stations"  Visibility="Collapsed" >
+                <local:StationToListWindow   x:Name="StationToListControl" Loaded="StationViewControl_Loaded" />
             </TabItem>
         </TabControl>
     </DockPanel>

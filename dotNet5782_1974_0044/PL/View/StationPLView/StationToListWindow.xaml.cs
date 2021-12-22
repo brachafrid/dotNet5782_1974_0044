@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
@@ -25,7 +26,7 @@ namespace PL
         public StationToListWindow()
         {
             InitializeComponent();
-            mainWindow = Window.GetWindow(this) as MainWindow;
+            mainWindow = MainWindow.GetWindow(this) as MainWindow;
         }
 
     }
