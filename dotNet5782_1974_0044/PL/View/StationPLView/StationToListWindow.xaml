@@ -6,16 +6,13 @@
              xmlns:local="clr-namespace:PL"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
-             >
+             x:Name="_this">
     <UserControl.Resources>
-        <ResourceDictionary Source="Dictionary.xaml"/>
+        <ResourceDictionary Source="../Dictionary.xaml"/>
     </UserControl.Resources>
     <Grid>
-    <DockPanel>
-        <!--<Button Click="Add_tab_click" Content="Add Drone"     Style="{StaticResource MaterialDesignRaisedButton}" Margin="2"/>
-            <Button Click="Close_tab_click" Content="Close Drone To List"     Style="{StaticResource MaterialDesignRaisedButton}" Margin="2"/>-->
-    </DockPanel>
-    <ListView x:Name="StationToListView" ItemsSource="{Binding Path=Stations}"  SelectionMode="Single"  Margin="2" />
-</Grid>
+        <Button Content="close this tab"  Command="{Binding ClickCommand}" CommandParameter="{Binding ElementName=_this,Path=mainWindow}"  />
+        <!--<ListView x:Name="StationToList" ItemsSource="{Binding Path=Stations}"/>-->
+    </Grid>
 </UserControl>
 

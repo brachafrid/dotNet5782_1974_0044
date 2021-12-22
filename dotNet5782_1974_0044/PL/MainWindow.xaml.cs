@@ -29,6 +29,7 @@ namespace PL
             InitializeComponent();
             ibal = BLFactory.GetBL();
             DataContext = option;
+            DroneToListTab.DataContext = new DroneToListWindow(this);
         }
 
         /// <summary>
@@ -65,9 +66,9 @@ namespace PL
             tab.Items.Remove(tmp as TabItem);
         }
 
-        private void StationViewControl_Loaded(object sender,RoutedEventArgs e)
+        private void StationViewControl_Loaded(object sender, RoutedEventArgs e)
         {
-            StationToListView stationToListView = new StationToListView(this);
+            StationToListView stationToListView = new StationToListView();
             stationToListView.LoadStations();
             StationToListControl.DataContext = stationToListView;
         }

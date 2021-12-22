@@ -23,7 +23,7 @@
             <local:ConvertDroneChargingVisibility x:Key="ConvertDroneChargingVisibility" />
             <local:ConvertDroneChargingContent x:Key="ConvertDroneChargingContent" />
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="Dictionary.xaml" />
+                <ResourceDictionary Source="../view/Dictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>

@@ -21,9 +21,12 @@ namespace PL
     /// </summary>
     public partial class StationToListWindow : UserControl
     {
+        private MainWindow mainWindow;
         public StationToListWindow()
         {
             InitializeComponent();
+            mainWindow = Window.GetWindow(this) as MainWindow;
         }
+
     }
 }

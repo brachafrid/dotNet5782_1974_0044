@@ -15,7 +15,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <ResourceDictionary Source="Dictionary.xaml"
+        <ResourceDictionary Source="../view/Dictionary.xaml"
                             />
     </UserControl.Resources>
     <ScrollViewer>

@@ -30,10 +30,10 @@ namespace PL
         /// Initializes necessary things
         /// </summary>
         /// <param name="mainWindow">Main window</param>
-        public StationToListView(MainWindow mainWindow)
+        public StationToListView()
         {
             ibal = BLFactory.GetBL();
-            MainWindow = mainWindow;
+            //MainWindow = mainWindow;
         }
 
         public void LoadStations()
@@ -41,51 +41,44 @@ namespace PL
             Stations = new ObservableCollection<StationToList>(ibal.GetStations());
         }
 
-        ///// <summary>
-        ///// Close the tab of the drone
-        ///// </summary>
-        ///// <param name="sender">Event operator</param>
-        ///// <param name="e">The arguments of the event</param>
-        //private void Close_tab_click(object sender, RoutedEventArgs e)
-        //{
-        //    MainWindow.DroneToListTab.Visibility = Visibility.Collapsed;
-        //    (MainWindow.DroneToListTab.Content as FrameworkElement).Visibility = Visibility.Collapsed;
+        private ICommand _clickCommand;
+        public ICommand ClickCommand
+        {
+            get
+            {
+                return _clickCommand ?? (_clickCommand = new CommandHandler((obj) => MyAction(obj), true));
+            }
+        }
 
-        //}
-
-        ///// <summary>
-        ///// Add drone tab in insert mode
-        ///// </summary>
-        ///// <param name="sender">Event operator</param>
-        ///// <param name="e">The arguments of the event</param>
-        //private void Add_tab_click(object sender, RoutedEventArgs e)
-        //{
-        //    TabItem tabItem = new TabItem();
-        //    tabItem.Content = new StationWindow();
-        //    tabItem.Header = (sender as Button).Content.ToString();
-        //    MainWindow.tab.Items.Add(tabItem);
-        //    MainWindow.tab.SelectedItem = tabItem;
-        //}
-
-        ///// <summary>
-        ///// Adds the drone tab in update mode
-        ///// when double-clicking a skimmer in the skimmer list
-        ///// </summary>
-        ///// <param name="sender">Event operator</param>
-        ///// <param name="e">The arguments of the event</param>
-        //private void double_click(object sender, MouseButtonEventArgs e)
-        //{
-        //    if (((FrameworkElement)e.OriginalSource).DataContext is BO.DroneToList)
-        //    {
-        //        TabItem tabItem = new TabItem();
-        //        tabItem.Content = new DroneWindow((e.OriginalSource as FrameworkElement).DataContext as BO.DroneToList, updateList, MainWindow);
-        //        tabItem.Header = "Drone";
-        //        MainWindow.tab.Items.Add(tabItem);
-        //        MainWindow.tab.SelectedItem = tabItem;
-        //    }
-        //}
-
+        public void MyAction(object obj)
+        {
+            (obj as MainWindow).StationToListTab.Visibility = Visibility.Collapsed;
+            MessageBox.Show("fffffffffffff");
+        }
     }
+    public class CommandHandler : ICommand
+    {
+        private Action<object> _action;
+        private bool _canExecute;
+        public CommandHandler(Action<object> action, bool canExecute)
+        {
+            _action = action;
+            _canExecute = canExecute;
+        }
+
+        public bool CanExecute(object parameter)
+        {
+            return _canExecute;
+        }
+
+        public event EventHandler CanExecuteChanged;
+
+        public void Execute(object parameter)
+        {
+            _action(parameter);
+        }
+    }
+
 }
 
 
