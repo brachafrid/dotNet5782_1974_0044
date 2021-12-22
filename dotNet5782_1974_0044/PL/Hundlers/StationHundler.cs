@@ -13,22 +13,57 @@ namespace PL
         IBL ibal=BLFactory.GetBL();
         public void AddStation(Station station)
         {
-            
+            ibal.AddStation(ConverterBackStation(station));
         }
-        public void UpdateStation(int id, string name, int chargeSlots);
-        public Station GetStation(int id);
-        public IEnumerable<StationToList> GetStations();
-        public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots(Predicate<int> exsitEmpty);
+        public void UpdateStation(int id, string name, int chargeSlots)
+        {
+            ibal.UpdateStation(id, name, chargeSlots);
+        }
+        public Station GetStation(int id)
+        {
+            return ConverterStation(ibal.GetStation(id));
+        }
+        public IEnumerable<StationToList> GetStations()
+        {
+            return ibal.GetStations().Select(item => ConverterStationToList(item));
+        }
+        public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots()
+        {
+            return ibal.GetStaionsWithEmptyChargeSlots((int chargeSlots)=>chargeSlots>0).Select(item => ConverterStationToList(item));
+        }
 
-        public BO.Station ConvertStation(Station station)
+        public BO.Station ConverterBackStation(Station station)
         {
             return new BO.Station()
             {
                 Id = station.Id,
                 Name = station.Name,
-                Location = HundlerEntity.ConvertLocation(station.Location),
+                Location = HundlerEntity.ConvertBackLocation(station.Location),
                 AvailableChargingPorts = station.EmptyChargeSlots,
-                DroneInChargings = station.DroneInChargings;
+                DroneInChargings = station.DroneInChargings.Select(item=> DroneChargingHandler.ConvertBackDroneCharging(item)).ToList()
+            };
+        }
+
+        public Station ConverterStation( BO.Station station)
+        {
+            return new Station()
+            {
+                Id = station.Id,
+                Name = station.Name,
+                Location = HundlerEntity.ConvertLocation(station.Location),
+                EmptyChargeSlots = station.AvailableChargingPorts,
+                DroneInChargings = station.DroneInChargings.Select(item => DroneChargingHandler.ConvertDroneCharging(item)).ToList()
+            };
+        }
+
+        public StationToList ConverterStationToList(BO.StationToList station)
+        {
+            return new StationToList()
+            {
+                Id = station.Id,
+                Name = station.Name,
+                FullChargeSlots = station.FullChargeSlots,
+                EmptyChargeSlots = station.EmptyChargeSlots,
             };
         }
     }
