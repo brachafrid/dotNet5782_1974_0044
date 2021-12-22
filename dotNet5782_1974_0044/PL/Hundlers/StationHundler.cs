@@ -24,9 +24,12 @@ namespace PL
         {
             return new BO.Station()
             {
-                Id = station.Id
-
-            }
+                Id = station.Id,
+                Name = station.Name,
+                Location = HundlerEntity.ConvertLocation(station.Location),
+                AvailableChargingPorts = station.EmptyChargeSlots,
+                DroneInChargings = station.DroneInChargings;
+            };
         }
     }
 }
