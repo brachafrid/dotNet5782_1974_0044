@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace PL.Hundlers
 {
-    class ParcelAtCustomerHandler
+   public static class ParcelAtCustomerHandler
     {
         public static BO.ParcelAtCustomer ConvertBackDroneCharging(PO.ParcelAtCustomer parcelAtCustomer)
         {
