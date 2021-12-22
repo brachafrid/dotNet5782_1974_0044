@@ -6,12 +6,12 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-    namespace PL.PO
+namespace PL.PO
+{
+    public class DroneInCharging : INotifyPropertyChanged
     {
-        public class DroneInCharging : INotifyPropertyChanged
-    {
-            public int Id { get; init; }
-            public double ChargingMode { get; set; }
+        public int Id { get; init; }
+        public double ChargingMode { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
@@ -23,10 +23,10 @@ using System.Threading.Tasks;
 
 
         public override string ToString()
-            {
-                return this.ToStringProperties();
-            }
+        {
+            return this.ToStringProperties();
         }
     }
+}
 
 

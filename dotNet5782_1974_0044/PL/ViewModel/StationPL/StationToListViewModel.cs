@@ -47,7 +47,7 @@ namespace PL
         {
             get
             {
-                return _clickCommand ?? (_clickCommand = new CommandHandler((obj) => CloseTab(obj), true));
+                return _clickCommand ?? (_clickCommand = new CommandHandler((obj) => CloseTab(obj),(object obj)=> true));
             }
         }
 
@@ -55,7 +55,7 @@ namespace PL
         {
             get
             {
-                return _doubleClickCommand ?? (_doubleClickCommand = new CommandHandler((obj) => OpenTab(obj), true));
+                return _doubleClickCommand ?? (_doubleClickCommand = new CommandHandler((obj) => OpenTab(obj), (object obj) => true));
             }
         }
 

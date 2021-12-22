@@ -6,13 +6,42 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-    namespace PL.PO
+namespace PL.PO
+{
+    public class DroneWithParcel : INotifyPropertyChanged
     {
-       public class DroneWithParcel : INotifyPropertyChanged
-    {
-            public int Id { get; init; }
-            public double ChargingMode { get; set; }
-            public Location CurrentLocation { get; set; }
+        private int id;
+        public int Id
+        {
+            get => id;
+            init
+            {
+                id = value;
+                onPropertyChanged("Id");
+            }
+        }
+        private string chargingMode;
+
+        public string ChargingMode
+        {
+            get => chargingMode;
+            set
+            {
+                chargingMode = value;
+                onPropertyChanged("ChargingMode");
+            }
+        }
+        private Location currentLocation;
+        public Location CurrentLocation
+        {
+            get => currentLocation;
+            set
+            {
+                currentLocation = value;
+                onPropertyChanged("CurrentLocation");
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
@@ -24,10 +53,10 @@ using System.Threading.Tasks;
 
 
         public override string ToString()
-            {
-                return this.ToStringProperties();
-            }
-
+        {
+            return this.ToStringProperties();
         }
+
     }
-    
+}
+
