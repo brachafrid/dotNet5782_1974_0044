@@ -10,11 +10,46 @@ using System.Threading.Tasks;
     {
         public class ParcelAtCustomer : INotifyPropertyChanged
     {
-           public int Id { get; set; }
-           public WeightCategories WeightCategory { get; set; }
-           public Priorities Priority { get; set; }
-           public PackageModes State { get; set; }
-           public CustomerInParcel Customer { get; set; }
+        private int id;
+        public int Id
+        {
+            get => id;
+            init
+            {
+                id = value;
+                onPropertyChanged("Id");
+            }
+        }
+        private WeightCategories weight;
+        public WeightCategories Weight
+        {
+            get => weight;
+            set
+            {
+                weight = value;
+                onPropertyChanged("Weight");
+            }
+        }
+        private Priorities piority;
+        public Priorities Piority
+        {
+            get => piority;
+            set
+            {
+                piority = value;
+                onPropertyChanged("Piority");
+            }
+        }
+        private PackageModes packageMode;
+        public PackageModes PackageMode
+        {
+            get => packageMode;
+            set
+            {
+                packageMode = value;
+                onPropertyChanged("PackageMode");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
@@ -23,8 +58,16 @@ using System.Threading.Tasks;
                 PropertyChanged(this, new PropertyChangedEventArgs(properyName));
 
         }
-
-
+        private CustomerInParcel customer;
+        public CustomerInParcel Customer
+        {
+            get => customer;
+            set
+            {
+                customer = value;
+                onPropertyChanged("Customer");
+            }
+        }
         public override string ToString()
             {
                 return this.ToStringProperties();

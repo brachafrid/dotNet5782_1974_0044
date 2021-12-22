@@ -2,18 +2,97 @@
 using System.ComponentModel;
 
 namespace PL.PO
+{
+    public class ParcelInTransfer : INotifyPropertyChanged
     {
-      public class ParcelInTransfer : INotifyPropertyChanged
-    {
-            public int Id { get; init; }
-            public WeightCategories WeightCategory { get; set; }
-            public Priorities Priority { get; set; }
-            public bool ParcelState { get; set; }
-            public Location CollectionPoint { get; set; }
-            public Location DeliveryDestination { get; set; }
-            public double TransportDistance { get; set; }
-            public CustomerInParcel CustomerSender { get; set; }
-            public CustomerInParcel CustomerReceives { get; set; }
+        private int id;
+        public int Id
+        {
+            get => id;
+            init
+            {
+                id = value;
+                onPropertyChanged("Id");
+            }
+        }
+        private WeightCategories weight;
+        public WeightCategories Weight
+        {
+            get => weight;
+            set
+            {
+                weight = value;
+                onPropertyChanged("Weight");
+            }
+        }
+        private Priorities piority;
+        public Priorities Piority
+        {
+            get => piority;
+            set
+            {
+                piority = value;
+                onPropertyChanged("Piority");
+            }
+        }
+        private bool parcelState;
+        public bool ParcelState {
+            get => parcelState;
+            set
+            {
+                parcelState = value;
+                onPropertyChanged("ParcelState");
+            }
+        }
+        private Location collectionPoint;
+        public Location CollectionPoint
+        {
+            get => collectionPoint;
+            set
+            {
+                collectionPoint = value;
+                onPropertyChanged("CollectionPoint");
+            }
+        }
+        private Location deliveryDestination;
+        public Location DeliveryDestination
+        {
+            get => deliveryDestination;
+            set
+            {
+                deliveryDestination = value;
+                onPropertyChanged("DeliveryDestination");
+            }
+        }
+        private double transportDistance;
+        public double TransportDistance {
+            get => transportDistance;
+            set
+            {
+                transportDistance = value;
+                onPropertyChanged("TransportDistance");
+            }
+        }
+        private CustomerInParcel customerSender;
+        public CustomerInParcel CustomerSender 
+        {
+            get => customerSender;
+            set
+            {
+                customerSender = value;
+                onPropertyChanged("CustomerSender");
+            } 
+        }
+        private CustomerInParcel customerReceives;
+        public CustomerInParcel CustomerReceives
+        {
+            get => customerReceives;
+            set
+            {
+                customerReceives = value;
+                onPropertyChanged("CustomerReceives");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
@@ -24,11 +103,11 @@ namespace PL.PO
         }
 
         public override string ToString()
-            {
-                return this.ToStringProperties();
-            }
-
+        {
+            return this.ToStringProperties();
         }
+
     }
+}
 
 
