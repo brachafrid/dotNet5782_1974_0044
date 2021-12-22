@@ -20,9 +20,12 @@ namespace PL
     /// </summary>
     public partial class CustomerToListWindow : UserControl
     {
+        private MainWindow mainWindow;
+
         public CustomerToListWindow()
         {
             InitializeComponent();
+            mainWindow = Window.GetWindow(this) as MainWindow;
         }
     }
 }

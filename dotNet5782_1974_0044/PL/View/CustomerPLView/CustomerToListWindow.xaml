@@ -11,7 +11,6 @@
     </UserControl.Resources>
     <Grid>
         <ListView x:Name="CustomerToListView" ItemsSource="{Binding Path=Customers}"/>
-
-
+        <Button Content="close this tab"  Command="{Binding ClickCommand}" CommandParameter="{Binding ElementName=_this,Path=mainWindow}"  />
     </Grid>
 </UserControl>
