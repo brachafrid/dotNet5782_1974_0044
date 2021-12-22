@@ -2,8 +2,8 @@
 using System.ComponentModel;
 
 namespace PL.PO
-    {
-        public class Station : INotifyPropertyChanged
+{
+    public class Station : INotifyPropertyChanged
     {
         private int id;
         public int Id
@@ -68,9 +68,9 @@ namespace PL.PO
         }
 
         public override string ToString()
-            {
-                return this.ToStringProperties();
-            }
+        {
+            return this.ToStringProperties();
         }
     }
+}
 
