@@ -10,8 +10,26 @@ using System.Threading.Tasks;
     {
         public class DroneInCharging : INotifyPropertyChanged
     {
-            public int Id { get; init; }
-            public double ChargingMode { get; set; }
+        private int id;
+        public int Id
+        {
+            get => id;
+            init
+            {
+                id = value;
+                onPropertyChanged("Id");
+            }
+        }
+        private double chargingMode;
+        public double ChargingMode 
+        { 
+            get=>chargingMode; 
+            set
+            {
+                chargingMode = value;
+                onPropertyChanged("ChargingMode");
+            } 
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
@@ -20,8 +38,6 @@ using System.Threading.Tasks;
                 PropertyChanged(this, new PropertyChangedEventArgs(properyName));
 
         }
-
-
         public override string ToString()
             {
                 return this.ToStringProperties();
