@@ -59,11 +59,37 @@ namespace PL
 
         public void MyAction(object obj)
         {
-            (obj as MainWindow).CustomerToListTab.Visibility = Visibility.Collapsed;
-            MessageBox.Show("fffffffffffff");
+            object mainWindow = Window.GetWindow((obj as CustomerToListWindow));
+            if (mainWindow is MainWindow)
+            {
+                (mainWindow as MainWindow).CustomerToListTab.Visibility = Visibility.Collapsed;
+                (mainWindow as MainWindow).CustomerToListControl.Visibility = Visibility.Collapsed;
+            }
         }
 
+        private ICommand mUpdater;
+        public ICommand UpdateCommand
+        {
+            get
+            {
+                if (mUpdater == null)
+                    mUpdater = new Updater((obj) => UpdateCustomer(obj), true);
+                return mUpdater;
+            }
+            set
+            {
+                mUpdater = value;
+            }
+        }
+        public void UpdateCustomer(object obj)
+        {
+            MessageBox.Show("update customer");
+        }
+
+        
     }
+
+}
 
 
     ///// <summary>
@@ -109,5 +135,4 @@ namespace PL
     //        MainWindow.tab.SelectedItem = tabItem;
     //    }
     //}
-}
 
