@@ -29,5 +29,9 @@ namespace PL
             mainWindow = MainWindow.GetWindow(this) as MainWindow;
         }
 
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }

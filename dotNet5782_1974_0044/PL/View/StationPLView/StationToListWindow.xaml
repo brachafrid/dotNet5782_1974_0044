@@ -11,7 +11,7 @@
         <ResourceDictionary Source="../Dictionary.xaml"/>
     </UserControl.Resources>
     <Grid>
-        <Button Content="close this tab"  Command="{Binding ClickCommand}" CommandParameter="{Binding ElementName=_this,Path=mainWindow}"  />
+        <Button Content="close this tab"  Command="{Binding ClickCommand}" CommandParameter="{Binding ElementName=_this,Path=mainWindow}" Click="Button_Click"  />
         <!--<ListView x:Name="StationToList" ItemsSource="{Binding Path=Stations}"/>-->
     </Grid>
 </UserControl>
