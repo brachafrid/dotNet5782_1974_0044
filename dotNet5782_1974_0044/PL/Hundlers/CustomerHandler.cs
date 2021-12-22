@@ -39,7 +39,7 @@ namespace PL.Hundlers
                 Id = customer.Id,
                 Name = customer.Name,
                 Phone = customer.Phone,
-                Location = HundlerEntity.ConvertLocation(customer.Location),
+                Location = LocationHandler.ConvertLocation(customer.Location),
                 FromCustomer = customer.FromCustomer.Select(item => ParcelAtCustomerHandler.ConvertParcelAtCustomer(item)).ToList(),
                 ToCustomer = customer.ToCustomer.Select(item => ParcelAtCustomerHandler.ConvertParcelAtCustomer(item)).ToList()
             };
@@ -51,7 +51,7 @@ namespace PL.Hundlers
                 Id = customer.Id,
                 Name = customer.Name,
                 Phone = customer.Phone,
-                Location = HundlerEntity.ConvertBackLocation(customer.Location),
+                Location = LocationHandler.ConvertBackLocation(customer.Location),
                 FromCustomer = customer.FromCustomer.Select(item => ParcelAtCustomerHandler.ConvertBackParcelAtCustomer(item)).ToList(),
                 ToCustomer = customer.ToCustomer.Select(item => ParcelAtCustomerHandler.ConvertBackParcelAtCustomer(item)).ToList()
             };
