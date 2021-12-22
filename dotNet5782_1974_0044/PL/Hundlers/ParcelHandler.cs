@@ -23,8 +23,24 @@ namespace PL.Hundlers
                 CreationTime = parcel.CreationTime,
                 CustomerReceives = CustomerInParcelHandler.ConvertCustomerInParcel(parcel.CustomerReceives),
                 CustomerSender = CustomerInParcelHandler.ConvertCustomerInParcel(parcel.CustomerSender),
-                Drone = 
-            }
+                Drone = DroneWithParcelHandler.ConvertDroneWithParcel(parcel.Drone),
+            };
+        }
+        public BO.Parcel ConvertBackParcel(Parcel parcel)
+        {
+            return new()
+            {
+                Id = parcel.Id,
+                Weight = (BO.WeightCategories)parcel.Weight,
+                Priority = (BO.Priorities)parcel.Piority,
+                DeliveryTime = parcel.DeliveryTime,
+                AssignmentTime = parcel.AssignmentTime,
+                CollectionTime = parcel.CollectionTime,
+                CreationTime = parcel.CreationTime,
+                CustomerReceives = CustomerInParcelHandler.ConvertBackCustomerInParcel(parcel.CustomerReceives),
+                CustomerSender = CustomerInParcelHandler.ConvertBackCustomerInParcel(parcel.CustomerSender),
+                Drone = DroneWithParcelHandler.ConvertBackDroneWithParcel(parcel.Drone)
+            };
         }
     }
 }

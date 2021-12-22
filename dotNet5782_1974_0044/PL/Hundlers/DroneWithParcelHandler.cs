@@ -7,9 +7,9 @@ using PL.PO;
 
 namespace PL.Hundlers
 {
-    class DroneWithParcelHandler
+    public static class DroneWithParcelHandler
     {
-        DroneWithParcel ConvertDroneWithParcel(BO.DroneWithParcel drone)
+        public static DroneWithParcel ConvertDroneWithParcel(BO.DroneWithParcel drone)
         {
             return new DroneWithParcel()
             {
@@ -18,14 +18,14 @@ namespace PL.Hundlers
                 CurrentLocation = LocationHandler.ConvertLocation(drone.CurrentLocation)
             };
         }
-        BO.DroneWithParcel ConvertBackDroneWithParcel(DroneWithParcel drone)
+        public static BO.DroneWithParcel ConvertBackDroneWithParcel(DroneWithParcel drone)
         {
             return new()
             {
                 Id = drone.Id,
                 ChargingMode = drone.ChargingMode,
-                CurrentLocation = LocationHandler.ConvertBackLocation(drone.CurrentLocation);
-            }
+                CurrentLocation = LocationHandler.ConvertBackLocation(drone.CurrentLocation)
+            };
         }
     }
 }
