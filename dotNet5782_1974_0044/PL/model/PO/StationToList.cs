@@ -3,13 +3,49 @@
 using System.ComponentModel;
 
 namespace PL.PO
+{
+    public class StationToList : INotifyPropertyChanged
     {
-       public class StationToList : INotifyPropertyChanged
-    {
-            public int Id { get; init; }
-            public string Name { get; set; }
-            public int FullChargeSlots { get; set; }
-            public int EmptyChargeSlots { get; set; }
+        private int id;
+        public int Id
+        {
+            get => id;
+            init
+            {
+                id = value;
+                onPropertyChanged("Id");
+            }
+        }
+        private string name;
+
+        public string Name
+        {
+            get => name;
+            set
+            {
+                name = value;
+                onPropertyChanged("Name");
+            }
+        }
+        private int fullChargeSlots;
+        public int FullChargeSlots {
+            get => fullChargeSlots;
+            set
+            {
+                fullChargeSlots = value;
+                onPropertyChanged("FullChargeSlots");
+            } 
+        }
+        private int emptyChargeSlots;
+        public int EmptyChargeSlots
+        {
+            get => emptyChargeSlots;
+            set
+            {
+                emptyChargeSlots = value;
+                onPropertyChanged("EmptyChargeSlots");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
@@ -21,11 +57,11 @@ namespace PL.PO
 
 
         public override string ToString()
-            {
-                return this.ToStringProperties();
-            }
+        {
+            return this.ToStringProperties();
         }
-
     }
+
+}
 
 
