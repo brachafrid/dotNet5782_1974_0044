@@ -47,6 +47,7 @@ namespace PL
                 "Customers"=>CustomerToListTab
             };
             currentTab.Visibility = Visibility.Visible;
+            tab.SelectedItem = currentTab;
             if (currentTab == DroneToListTab)
                 (DroneToListTab.Content as FrameworkElement).Visibility = Visibility.Visible;
         }
