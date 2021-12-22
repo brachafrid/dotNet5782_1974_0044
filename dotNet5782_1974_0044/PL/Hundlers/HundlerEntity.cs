@@ -11,7 +11,7 @@ namespace PL
     public static class HundlerEntity
     {
         static IBL ibal = BLFactory.GetBL();
-        public static BO.Location ConvertLocation(Location location)
+        public static BO.Location ConvertBackLocation(Location location)
         {
             return new BO.Location()
             {
@@ -20,13 +20,14 @@ namespace PL
             };
         }
 
-        public static BO.DroneInCharging ConvertLocation(DroneInCharging droneInCharging)
+        public static Location ConvertLocation(BO.Location location)
         {
-            return new BO.DroneInCharging()
+            return new Location()
             {
-                Id = droneInCharging.Id,
-                ChargingMode = droneInCharging.ChargingMode
+                Longitude = location.Longitude,
+                Latitude = location.Latitude
             };
         }
+
     }
 }
