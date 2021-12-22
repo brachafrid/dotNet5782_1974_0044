@@ -19,5 +19,14 @@ namespace PL
                Latitude=location.Latitude
             };
         }
+
+        public static BO.DroneInCharging ConvertLocation(DroneInCharging droneInCharging)
+        {
+            return new BO.DroneInCharging()
+            {
+                Id = droneInCharging.Id,
+                ChargingMode = droneInCharging.ChargingMode
+            };
+        }
     }
 }

@@ -27,7 +27,8 @@ namespace PL
                 Id = station.Id,
                 Name = station.Name,
                 Location = HundlerEntity.ConvertLocation(station.Location),
-                AvailableChargingPorts = station.EmptyChargeSlots
+                AvailableChargingPorts = station.EmptyChargeSlots,
+                DroneInChargings = station.DroneInChargings;
             };
         }
     }
