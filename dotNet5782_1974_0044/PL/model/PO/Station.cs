@@ -37,9 +37,28 @@ namespace PL.PO
             }
         }
 
-        public Location Location { get; set; }
-            
-            public List<DroneInCharging> DroneInChargings { get; set; }
+        private Location location;
+        public Location Location
+        {
+            get => location;
+            set
+            {
+                location = value;
+                onPropertyChanged("Location");
+            }
+        }
+
+        private List<DroneInCharging> droneInChargings;
+
+        public List<DroneInCharging> DroneInChargings
+        {
+            get => droneInChargings; 
+            set {
+                droneInChargings = value;
+                onPropertyChanged("DroneInChargings");
+            }
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
