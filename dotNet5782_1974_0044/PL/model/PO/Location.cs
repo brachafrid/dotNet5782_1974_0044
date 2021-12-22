@@ -29,7 +29,10 @@ namespace PL.PO
                         throw new ArgumentOutOfRangeException("invalid latitude");
                 }
             }
-            public override string ToString()
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        public override string ToString()
             {
                 return this.ToStringProperties();
             }

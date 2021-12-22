@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace PL.PO
 {
-    static class Properties : INotifyPropertyChanged
+    static class Properties 
     {
         public static string ToStringProperties<T>(this T obj)
         {
