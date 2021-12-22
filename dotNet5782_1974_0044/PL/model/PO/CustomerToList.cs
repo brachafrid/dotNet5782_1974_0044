@@ -9,15 +9,81 @@ using System.Threading.Tasks;
 
     namespace PL.PO
     {
-       public class CustomerToList : INotifyPropertyChanged
+    public class CustomerToList : INotifyPropertyChanged
     {
-            public int Id { get; init; }
-            public string Name { get; set; }
-            public string Phone { get; set; }
-            public int NumParcelSentDelivered { get; set; }
-            public int NumParcelSentNotDelivered { get; set; }
-            public int NumParcelReceived { get; set; }
-            public int NumParcelWayToCustomer { get; set; }
+        private int id;
+        public int Id
+        {
+            get => id;
+            init
+            {
+                id = value;
+                onPropertyChanged("Id");
+            }
+        }
+        private string name;
+
+        public string Name
+        {
+            get => name;
+            set
+            {
+                name = value;
+                onPropertyChanged("Name");
+            }
+        }
+        private string phone;
+        public string Phone
+        {
+            get => phone;
+            set
+            {
+                phone = value;
+                onPropertyChanged("Phone");
+            }
+        }
+        private int numParcelSentDelivered;
+        public int NumParcelSentDelivered 
+        { 
+            get => numParcelSentDelivered;
+            set 
+            {
+                numParcelSentDelivered = value;
+                onPropertyChanged("NumParcelSentDelivered");
+            } 
+        }
+        private int numParcelSentNotDelivered;
+        public int NumParcelSentNotDelivered
+        {
+            get => numParcelSentNotDelivered;
+            set
+            {
+                numParcelSentNotDelivered = value;
+                onPropertyChanged("NumParcelSentNotDelivered");
+            }
+        }
+
+        private int numParcelReceived;
+        public int NumParcelReceived
+        {
+            get => numParcelReceived;
+            set
+            {
+                numParcelSentNotDelivered = value;
+                onPropertyChanged("NumParcelReceived");
+            }
+        }
+
+        private int numParcelWayToCustomer;
+        public int NumParcelWayToCustomer
+        {
+            get => numParcelWayToCustomer;
+            set
+            {
+                numParcelWayToCustomer = value;
+                onPropertyChanged("NumParcelWayToCustomer");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
