@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-    namespace PL.PO
-    {
-       public class Drone : INotifyPropertyChanged
+namespace PL.PO
+{
+    public class Drone : INotifyPropertyChanged
     {
         private int id;
         public int Id
@@ -31,11 +31,56 @@ using System.Threading.Tasks;
                 onPropertyChanged("Model");
             }
         }
-            public WeightCategories WeightCategory { get; set; }
-            public DroneState DroneState { get; set; }
-            public double BattaryMode { get; set; }
-            public Location CurrentLocation { get; set; }
-            public ParcelInTransfer Parcel { get; set; }
+        private WeightCategories weight;
+        public WeightCategories Weight
+        {
+            get => weight;
+            set
+            {
+                weight = value;
+                onPropertyChanged("Weight");
+            }
+        }
+        private DroneState droneState;
+        public DroneState DroneState
+        {
+            get => droneState;
+            set
+            {
+                droneState = value;
+                onPropertyChanged("DroneState");
+            }
+        }
+        private double battaryMode;
+        public double BattaryMode
+        {
+            get => battaryMode;
+            set
+            {
+                battaryMode = value;
+                onPropertyChanged("BattaryMode");
+            }
+        }
+        private Location location;
+        public Location Location
+        {
+            get => location;
+            set
+            {
+                location = value;
+                onPropertyChanged("Location");
+            }
+        }
+        private ParcelInTransfer parcel;
+        public ParcelInTransfer Parcel 
+        {
+            get=>parcel;
+            set
+            {
+                parcel = value;
+                onPropertyChanged("Parcel");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
@@ -47,10 +92,10 @@ using System.Threading.Tasks;
 
 
         public override string ToString()
-            {
-                return this.ToStringProperties();
-            }
+        {
+            return this.ToStringProperties();
         }
     }
+}
 
 
