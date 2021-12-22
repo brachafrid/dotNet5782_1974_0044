@@ -22,6 +22,13 @@ using System.Threading.Tasks;
             public DateTime?  DeliveryTime { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
+        private void onPropertyChanged(string properyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
+
+        }
+
 
         public override string ToString()
             {
