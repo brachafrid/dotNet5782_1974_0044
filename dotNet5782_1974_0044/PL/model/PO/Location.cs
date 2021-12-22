@@ -2,33 +2,39 @@
 using System.ComponentModel;
 
 namespace PL.PO
+{
+    public class Location : INotifyPropertyChanged
     {
-        public class Location : INotifyPropertyChanged
-    {
-            private double longitude;
-            private double latitude;
-            public double Longitude
+        private double longitude;
+        private double latitude;
+        public double Longitude
+        {
+            get => longitude;
+            set
             {
-                get => longitude;
-                set
+                if (value >= 0 && value <= 90)
                 {
-                    if (value >= 0 && value <= 90)
-                        longitude = value;
-                    else
-                        throw new ArgumentOutOfRangeException("invalid longitude");
+                    longitude = value;
+                    onPropertyChanged("Longitude");
                 }
+                else
+                    throw new ArgumentOutOfRangeException("invalid longitude");
             }
-            public double Latitude
+        }
+        public double Latitude
+        {
+            get => latitude;
+            set
             {
-                get => latitude;
-                set
+                if (value > -90 && value <= 90)
                 {
-                    if (value > -90 && value <= 90)
-                        latitude = value;
-                    else
-                        throw new ArgumentOutOfRangeException("invalid latitude");
-                }
+                    latitude = value;
+                    onPropertyChanged("Latitude");
+                } 
+                else
+                    throw new ArgumentOutOfRangeException("invalid latitude");
             }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
@@ -40,8 +46,8 @@ namespace PL.PO
 
 
         public override string ToString()
-            {
-                return this.ToStringProperties();
-            }
+        {
+            return this.ToStringProperties();
         }
     }
+}

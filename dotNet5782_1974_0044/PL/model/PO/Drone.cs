@@ -10,8 +10,27 @@ using System.Threading.Tasks;
     {
        public class Drone : INotifyPropertyChanged
     {
-            public int Id { get; init; }
-            public string Model { get; set; }
+        private int id;
+        public int Id
+        {
+            get => id;
+            init
+            {
+                id = value;
+                onPropertyChanged("Id");
+            }
+        }
+        private string model;
+
+        public string Model
+        {
+            get => model;
+            set
+            {
+                model = value;
+                onPropertyChanged("Model");
+            }
+        }
             public WeightCategories WeightCategory { get; set; }
             public DroneState DroneState { get; set; }
             public double BattaryMode { get; set; }

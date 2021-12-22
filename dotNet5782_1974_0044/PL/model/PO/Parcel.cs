@@ -6,20 +6,109 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-    namespace PL.PO
+namespace PL.PO
+{
+    public class Parcel : INotifyPropertyChanged
     {
-      public class Parcel : INotifyPropertyChanged
-    {
-            public int Id { get; init; }
-            public CustomerInParcel CustomerSender { get; set; }
-            public CustomerInParcel CustomerReceives { get; set; }
-            public WeightCategories Weight { get; set; }
-            public Priorities Priority { get; set; }
-            public DroneWithParcel Drone { get; set; }
-            public DateTime?  CreationTime { get; set; }
-            public DateTime?  AssignmentTime { get; set; }
-            public DateTime?  CollectionTime { get; set; }
-            public DateTime?  DeliveryTime { get; set; }
+        private int id;
+        public int Id
+        {
+            get => id;
+            init
+            {
+                id = value;
+                onPropertyChanged("Id");
+            }
+        }
+        private CustomerInParcel customerSender;
+        public CustomerInParcel CustomerSender
+        {
+            get => customerSender;
+            set
+            {
+                customerSender = value;
+                onPropertyChanged("CustomerSender");
+            }
+        }
+        private CustomerInParcel customerReceives;
+        public CustomerInParcel CustomerReceives
+        {
+            get => customerReceives;
+            set
+            {
+                customerReceives = value;
+                onPropertyChanged("CustomerReceives");
+            }
+        }
+        private WeightCategories weight;
+        public WeightCategories Weight
+        {
+            get => weight;
+            set
+            {
+                weight = value;
+                onPropertyChanged("Weight");
+            }
+        }
+        private Priorities piority;
+        public Priorities Piority
+        {
+            get => piority;
+            set
+            {
+                piority = value;
+                onPropertyChanged("Piority");
+            }
+        }
+        private DroneWithParcel drone;
+        public DroneWithParcel Drone {
+            get => drone;
+            set
+            {
+                drone = value;
+                onPropertyChanged("Drone");
+            } 
+        }
+        private DateTime? creationTime;
+        public DateTime? CreationTime 
+        { 
+            get =>creationTime;
+            set
+            {
+                creationTime = value;
+                onPropertyChanged("CreationTime");
+            } 
+        }
+        private DateTime? assignmentTime;
+        public DateTime? AssignmentTime
+        {
+            get => assignmentTime;
+            set
+            {
+                assignmentTime = value;
+                onPropertyChanged("AssignmentTime");
+            }
+        }
+        private DateTime? collectionTime;
+        public DateTime? CollectionTime
+        {
+            get => collectionTime;
+            set
+            {
+                collectionTime = value;
+                onPropertyChanged("CollectionTime");
+            }
+        }
+        private DateTime? deliveryTime;
+        public DateTime? DeliveryTime
+        {
+            get => deliveryTime;
+            set
+            {
+                deliveryTime = value;
+                onPropertyChanged("DeliveryTime");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
@@ -31,11 +120,11 @@ using System.Threading.Tasks;
 
 
         public override string ToString()
-            {
-                return this.ToStringProperties();
-            }
-
+        {
+            return this.ToStringProperties();
         }
+
     }
+}
 
 
