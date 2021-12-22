@@ -13,19 +13,16 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PL
+namespace PL.View.StationPLVIew
 {
     /// <summary>
-    /// Interaction logic for UserControl1.xaml
+    /// Interaction logic for Station.xaml
     /// </summary>
-    public partial class CustomerToListWindow : UserControl
+    public partial class Station : UserControl
     {
-        private MainWindow mainWindow;
-
-        public CustomerToListWindow()
+        public Station()
         {
             InitializeComponent();
-           
         }
     }
 }
