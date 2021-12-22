@@ -10,12 +10,68 @@ namespace PL.PO
 {
     public class Customer : INotifyPropertyChanged
     {
-        public int Id { get; init; }
-        public string Name { get; set; }
-        public string Phone { get; set; }
-        public Location Location { get; set; }
-        public List<ParcelAtCustomer> FromCustomer { get; set; }
-        public List<ParcelAtCustomer> ToCustomer { get; set; }
+        private int id;
+        public int Id
+        {
+            get => id;
+            init
+            {
+                id = value;
+                onPropertyChanged("Id");
+            }
+        }
+        private string name;
+
+        public string Name
+        {
+            get => name;
+            set
+            {
+                name = value;
+                onPropertyChanged("Name");
+            }
+        }
+        private string phone;
+        public string Phone 
+        { 
+            get => phone;
+            set 
+            {
+                phone = value;
+                onPropertyChanged("Phone");
+            }
+        }
+
+        private Location location;
+        public Location Location
+        {
+            get => location;
+            set
+            {
+                location = value;
+                onPropertyChanged("CollectionPoint");
+            }
+        }
+        private List<ParcelAtCustomer> fromCustomer;
+        public List<ParcelAtCustomer> FromCustomer 
+        {
+            get => fromCustomer;
+            set 
+            {
+                fromCustomer = value;
+                onPropertyChanged("FromCustomer");
+            } 
+        }
+        private List<ParcelAtCustomer> toCustomer;
+        public List<ParcelAtCustomer> ToCustomer 
+        { 
+            get => toCustomer;
+            set 
+            {
+                toCustomer = value;
+                onPropertyChanged("ToCustomer");
+            } 
+        }
 
         public override string ToString()
         {
