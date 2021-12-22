@@ -53,7 +53,7 @@ namespace PL
         {
             get
             {
-                return _clickCommand ?? (_clickCommand = new CommandHandler((obj) => MyAction(obj), true));
+                return _clickCommand ?? (_clickCommand = new CommandHandler((obj) => MyAction(obj), (object obj) => true));
             }
         }
 
@@ -66,27 +66,7 @@ namespace PL
                 (mainWindow as MainWindow).CustomerToListControl.Visibility = Visibility.Collapsed;
             }
         }
-
-        private ICommand mUpdater;
-        public ICommand UpdateCommand
-        {
-            get
-            {
-                if (mUpdater == null)
-                    mUpdater = new Updater((obj) => UpdateCustomer(obj), true);
-                return mUpdater;
-            }
-            set
-            {
-                mUpdater = value;
-            }
-        }
-        public void UpdateCustomer(object obj)
-        {
-            MessageBox.Show("update customer");
-        }
-
-        
+          
     }
 
 }
