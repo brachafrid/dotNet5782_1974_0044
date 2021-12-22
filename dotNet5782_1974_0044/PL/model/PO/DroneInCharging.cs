@@ -6,9 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-    namespace PL.PO
-    {
-        public class DroneInCharging : INotifyPropertyChanged
+namespace PL.PO
+{
+    public class DroneInCharging : INotifyPropertyChanged
     {
         private int id;
         public int Id
@@ -39,10 +39,10 @@ using System.Threading.Tasks;
 
         }
         public override string ToString()
-            {
-                return this.ToStringProperties();
-            }
+        {
+            return this.ToStringProperties();
         }
     }
+}
 
 

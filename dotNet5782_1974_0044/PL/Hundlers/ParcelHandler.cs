@@ -15,15 +15,15 @@ namespace PL.Hundlers
             return new Parcel()
             {
                 Id = parcel.Id,
-                Weight =(PO.WeightCategories)parcel.Weight ,
-                Piority =(PO.Priorities) parcel.Priority,
+                Weight = (PO.WeightCategories)parcel.Weight,
+                Piority = (PO.Priorities)parcel.Priority,
                 DeliveryTime = parcel.DeliveryTime,
                 AssignmentTime = parcel.AssignmentTime,
                 CollectionTime = parcel.CollectionTime,
                 CreationTime = parcel.CreationTime,
+                CustomerReceives = CustomerInParcelHandler.ConvertCustomerInParcel(parcel.CustomerReceives),
+                CustomerSender = CustomerInParcelHandler.ConvertCustomerInParcel(parcel.CustomerSender),
                 Drone = 
-
-
             }
         }
     }
