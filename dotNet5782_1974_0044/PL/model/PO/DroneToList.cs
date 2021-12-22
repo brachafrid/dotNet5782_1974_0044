@@ -85,7 +85,6 @@ namespace PL.PO
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
         }
         public override string ToString()
         {

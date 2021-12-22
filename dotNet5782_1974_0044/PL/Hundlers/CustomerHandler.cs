@@ -35,9 +35,8 @@ namespace PL.Hundlers
             {
                 Id = customer.Id,
                 Name = customer.Name,
-                Phone = customer.Phone, 
-
-                //Location = new BO.Location { Latitude = customer.Location.Latitude, Longitude = customer.Location.Longitude},
+                Phone = customer.Phone,
+                Location = HundlerEntity.ConvertLocation(customer.Location),
                 //FromCustomer = customer.FromCustomer,
                 //ToCustomer = customer.ToCustomer
 
@@ -50,7 +49,9 @@ namespace PL.Hundlers
                 Id = customer.Id,
                 Name = customer.Name,
                 Phone = customer.Phone,
-                //Location = new PO.Location { Latitude = customer.Location.Latitude, Longitude = customer.Location.Longitude },
+                Location = HundlerEntity.ConvertBackLocation(customer.Location),
+                FromCustomer = customer.FromCustomer.Select(item => DroneChargingHandler.ConvertBackDroneCharging(item)).ToList()
+
                 //FromCustomer = customer.FromCustomer,
                 //ToCustomer = customer.ToCustomer
 
