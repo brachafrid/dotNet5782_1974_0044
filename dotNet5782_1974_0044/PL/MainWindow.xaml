@@ -30,7 +30,7 @@
         <TabItem x:Name="ParcelsToListTab" Header="Parcels"  Visibility="Collapsed" >
         </TabItem>
         <TabItem x:Name="StationToListTab" Header="Stations"  Visibility="Collapsed" >
-                <local:StationToListWindow   x:Name="StationToListControl" Loaded="StationViewControl_Loaded" />
+                <local:StationToListWindowxaml   x:Name="StationToListControl" Loaded="StationViewControl_Loaded" Visibility="Collapsed"/>
             </TabItem>
         </TabControl>
     </DockPanel>
