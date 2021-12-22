@@ -8,10 +8,29 @@ using System.Threading.Tasks;
 
     namespace PL.PO
     {
-      public class CustomerInParcel : INotifyPropertyChanged
+    public class CustomerInParcel : INotifyPropertyChanged
     {
-            public int Id { get; init; }
-            public string Name { get; set; }
+        private int id;
+        public int Id
+        {
+            get => id;
+            init
+            {
+                id = value;
+                onPropertyChanged("Id");
+            }
+        }
+        private string name;
+
+        public string Name
+        {
+            get => name;
+            set
+            {
+                name = value;
+                onPropertyChanged("Name");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
