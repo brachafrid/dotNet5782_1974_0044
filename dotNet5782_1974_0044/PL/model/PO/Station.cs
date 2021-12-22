@@ -5,10 +5,40 @@ namespace PL.PO
     {
         public class Station : INotifyPropertyChanged
     {
-            public int Id { get; init; }
-            public string Name { get; set; }
-            public Location Location { get; set; }
-            public int AvailableChargingPorts { get; set; }
+        private int id;
+        public int Id
+        {
+            get => id;
+            init
+            {
+                id = value;
+                onPropertyChanged("Id");
+            }
+        }
+        private string name;
+
+        public string Name
+        {
+            get => name;
+            set
+            {
+                name = value;
+                onPropertyChanged("Name");
+            }
+        }
+        private int emptyChargeSlots;
+        public int EmptyChargeSlots
+        {
+            get => emptyChargeSlots;
+            set
+            {
+                emptyChargeSlots = value;
+                onPropertyChanged("EmptyChargeSlots");
+            }
+        }
+
+        public Location Location { get; set; }
+            
             public List<DroneInCharging> DroneInChargings { get; set; }
 
         public event PropertyChangedEventHandler PropertyChanged;
@@ -16,9 +46,7 @@ namespace PL.PO
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
         }
-
 
         public override string ToString()
             {
