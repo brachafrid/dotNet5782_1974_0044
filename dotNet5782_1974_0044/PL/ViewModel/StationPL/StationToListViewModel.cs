@@ -20,9 +20,9 @@ using System.Collections;
 
 namespace PL
 {
-   public class StationToListViewModel
+    public class StationToListViewModel
     {
-        public ObservableCollection<StationToList>  Stations{ get; set; }
+        public ObservableCollection<StationToList> Stations { get; set; }
         public BLApi.IBL ibal;
         private MainWindow MainWindow;
 
@@ -47,7 +47,7 @@ namespace PL
         {
             get
             {
-                return _clickCommand ?? (_clickCommand = new CommandHandler((obj) => CloseTab(obj),(object obj)=> true));
+                return _clickCommand ?? (_clickCommand = new CommandHandler((obj) => CloseTab(obj), (object obj) => true));
             }
         }
 
