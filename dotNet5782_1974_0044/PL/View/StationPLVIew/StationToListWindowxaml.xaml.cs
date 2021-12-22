@@ -16,11 +16,12 @@ using System.Windows.Shapes;
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for StationWindow.xaml
+    /// Interaction logic for StationToListWindowxaml.xaml
     /// </summary>
-    public partial class StationWindow : UserControl
+    
+    public partial class StationToListWindowxaml : UserControl
     {
-        public StationWindow()
+        public StationToListWindowxaml()
         {
             InitializeComponent();
         }

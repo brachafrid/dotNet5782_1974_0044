@@ -20,20 +20,20 @@ using System.Collections;
 
 namespace PL
 {
-    public class StationToListView
+   public class StationToListViewModel
     {
+        public ObservableCollection<StationToList>  Stations{ get; set; }
         public BLApi.IBL ibal;
-        public ObservableCollection<StationToList> Stations { get; set; }
         private MainWindow MainWindow;
+
         /// <summary>
-        /// Constructor DroneToList Window.
+        /// Constructor CustomerToList Window.
         /// Initializes necessary things
         /// </summary>
         /// <param name="mainWindow">Main window</param>
-        public StationToListView()
+        public StationToListViewModel()
         {
             ibal = BLFactory.GetBL();
-            //MainWindow = mainWindow;
         }
 
         public void LoadStations()
@@ -52,35 +52,12 @@ namespace PL
 
         public void MyAction(object obj)
         {
-            (obj as MainWindow).StationToListTab.Visibility = Visibility.Collapsed;
-            MessageBox.Show("fffffffffffff");
+            object mainWindow = Window.GetWindow((obj as StationToListWindowxaml));
+            if (mainWindow is MainWindow)
+            {
+                (mainWindow as MainWindow).StationToListTab.Visibility = Visibility.Collapsed;
+                (mainWindow as MainWindow).StationToListControl.Visibility = Visibility.Collapsed;
+            }
         }
     }
-
-
-    public class  CommandHandler : ICommand
-    {
-        private Action<object> _action;
-        private bool _canExecute;
-        public CommandHandler(Action<object> action, bool canExecute)
-        {
-            _action = action;
-            _canExecute = canExecute;
-        }
-
-        public bool CanExecute(object parameter)
-        {
-            return _canExecute;
-        }
-
-        public event EventHandler CanExecuteChanged;
-
-        public void Execute(object parameter)
-        {
-            _action(parameter);
-        }
-    }
-
 }
-
-

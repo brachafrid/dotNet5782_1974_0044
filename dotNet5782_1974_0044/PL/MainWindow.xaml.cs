@@ -20,8 +20,6 @@ namespace PL
     {
         public BLApi.IBL ibal;
         private List<string> option = new() { "Drones","Customers","Stations","Parcels"};
-        /// <summary>
-        /// Constructor MainWindow
         /// Initializes necessary things
         /// </summary>
         public MainWindow()
@@ -47,6 +45,7 @@ namespace PL
                 "Customers"=>CustomerToListTab
             };
             currentTab.Visibility = Visibility.Visible;
+           (currentTab.Content as FrameworkElement).Visibility = Visibility.Visible;
             tab.SelectedItem = currentTab;
             if (currentTab == DroneToListTab)
                 (DroneToListTab.Content as FrameworkElement).Visibility = Visibility.Visible;
@@ -69,7 +68,7 @@ namespace PL
 
         private void StationViewControl_Loaded(object sender, RoutedEventArgs e)
         {
-            StationToListView stationToListView = new StationToListView();
+            StationToListViewModel stationToListView = new StationToListViewModel();
             stationToListView.LoadStations();
             StationToListControl.DataContext = stationToListView;
         }

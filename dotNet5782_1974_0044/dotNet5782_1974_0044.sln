@@ -7,6 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Targil0", "Targil0\Targil0.
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C6713399-8D0E-4DCD-898D-66343CFF48A2}"
 	ProjectSection(SolutionItems) = preProject
+		config.xml = config.xml
 		..\README.md = ..\README.md
 	EndProjectSection
 EndProject
@@ -22,7 +23,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PL", "PL\PL.csproj", "{E550
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DLApi", "DLApi\DLApi.csproj", "{DC3773E7-615E-4D2D-8BC7-D2960329E19D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DalObject", "DalObject\DalObject.csproj", "{48284DCF-FC02-4103-AFE2-50E95F585A19}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DalObject", "DalObject\DalObject.csproj", "{48284DCF-FC02-4103-AFE2-50E95F585A19}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
