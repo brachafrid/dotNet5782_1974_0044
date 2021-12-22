@@ -50,8 +50,6 @@ namespace PL.PO
                 PropertyChanged(this, new PropertyChangedEventArgs(properyName));
 
         }
-
-
         public override string ToString()
         {
             return this.ToStringProperties();
