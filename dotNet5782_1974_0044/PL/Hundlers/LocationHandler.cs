@@ -8,7 +8,7 @@ using BLApi;
 
 namespace PL
 {
-    public static class HundlerEntity
+    public static class LocationHandler
     {
         static IBL ibal = BLFactory.GetBL();
         public static BO.Location ConvertBackLocation(Location location)

@@ -20,9 +20,9 @@ namespace PL.PO
                 onPropertyChanged("Id");
             }
         }
-        private string chargingMode;
+        private double chargingMode;
 
-        public string ChargingMode
+        public double ChargingMode
         {
             get => chargingMode;
             set

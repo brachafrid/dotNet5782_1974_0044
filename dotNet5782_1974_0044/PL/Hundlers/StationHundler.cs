@@ -38,7 +38,7 @@ namespace PL
             {
                 Id = station.Id,
                 Name = station.Name,
-                Location = HundlerEntity.ConvertBackLocation(station.Location),
+                Location = LocationHandler.ConvertBackLocation(station.Location),
                 AvailableChargingPorts = station.EmptyChargeSlots,
                 DroneInChargings = station.DroneInChargings.Select(item=> DroneChargingHandler.ConvertBackDroneCharging(item)).ToList()
             };
@@ -50,7 +50,7 @@ namespace PL
             {
                 Id = station.Id,
                 Name = station.Name,
-                Location = HundlerEntity.ConvertLocation(station.Location),
+                Location = LocationHandler.ConvertLocation(station.Location),
                 EmptyChargeSlots = station.AvailableChargingPorts,
                 DroneInChargings = station.DroneInChargings.Select(item => DroneChargingHandler.ConvertDroneCharging(item)).ToList()
             };
