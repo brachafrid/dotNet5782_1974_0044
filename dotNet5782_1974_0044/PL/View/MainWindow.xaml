@@ -12,6 +12,6 @@
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto">
     <Grid>
-        <local:Window1/>
+        
     </Grid>
 </Window>
