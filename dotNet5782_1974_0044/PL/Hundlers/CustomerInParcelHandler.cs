@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PL.Hundlers
+namespace PL
 {
    public static class CustomerInParcelHandler
    {

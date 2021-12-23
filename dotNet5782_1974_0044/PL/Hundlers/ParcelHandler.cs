@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using BLApi;
 using PL.PO;
 
-namespace PL.Hundlers
+namespace PL
 {
     public class ParcelHandler
     {

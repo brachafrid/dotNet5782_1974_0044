@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PL.Hundlers
+namespace PL
 {
     class CustomerHandler
     {

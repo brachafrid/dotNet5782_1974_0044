@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using PL.PO;
 
-namespace PL.Hundlers
+namespace PL
 {
     public static class DroneWithParcelHandler
     {

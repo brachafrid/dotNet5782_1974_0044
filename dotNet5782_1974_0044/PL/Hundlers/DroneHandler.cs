@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PL.PO;
 
-namespace PL.Hundlers
+namespace PL
 {
     public class DroneHandler
     {
         private static IBL ibal = BLFactory.GetBL();
-        public void AddDrone(BO.Drone drone, int stationId)
+        public void AddDrone(Drone drone, int stationId)
         {
-            ibal.AddDrone(drone, stationId);
+            ibal.AddDrone(ConvertBackDrone(drone), stationId);
         }
         public void UpdateDrone(int id, string model)
         {
@@ -26,13 +27,13 @@ namespace PL.Hundlers
         {
             ibal.ReleaseDroneFromCharging(id, timeOfCharg);
         }
-        public BO.Drone GetDrone(int id)
+        public Drone GetDrone(int id)
         {
-           return ibal.GetDrone(id);
+           return ConvertDrone(ibal.GetDrone(id));
         }
-        public IEnumerable<BO.DroneToList> GetDrones()
+        public IEnumerable<DroneToList> GetDrones()
         {
-            return ibal.GetDrones().Select(item => ConverterStationToList(item));
+            return ibal.GetDrones().Select(item => ConvertDroneToList(item));
         }
         public void AssingParcelToDrone(int droneId)
         {
@@ -45,6 +46,47 @@ namespace PL.Hundlers
         public void DeliveryParcelByDrone(int droneId)
         {
             ibal.DeliveryParcelByDrone(droneId);
+        }
+
+        public Drone ConvertDrone(BO.Drone drone)
+        {
+            return new Drone
+            {
+                Id = drone.Id,
+                Model = drone.Model,
+                BattaryMode=drone.BattaryMode,
+                DroneState=(DroneState)drone.DroneState,
+                Weight=(WeightCategories)drone.WeightCategory,
+                Location=LocationHandler.ConvertLocation(drone.CurrentLocation),
+                Parcel=drone.Parcel
+            };
+        }
+        public BO.Drone ConvertBackDrone(Drone drone)
+        {
+            return new BO.Drone
+            {
+                Id = drone.Id,
+                Model = drone.Model,
+                BattaryMode = drone.BattaryMode,
+                DroneState = (BO.DroneState)drone.DroneState,
+                WeightCategory = (BO.WeightCategories)drone.Weight,
+                CurrentLocation = LocationHandler.ConvertBackLocation(drone.Location),
+                Parcel = drone.Parcel
+            };
+        }
+
+        public DroneToList ConvertDroneToList(BO.DroneToList drone)
+        {
+            return new DroneToList
+            {
+                Id = drone.Id,
+                DroneModel = drone.DroneModel,
+                BatteryState = drone.BatteryState,
+                DroneState = (DroneState)drone.DroneState,
+                Weight = (WeightCategories)drone.Weight,
+                CurrentLocation = LocationHandler.ConvertLocation(drone.CurrentLocation),
+                ParcelId = drone.ParcelId
+            };
         }
     }
 }
