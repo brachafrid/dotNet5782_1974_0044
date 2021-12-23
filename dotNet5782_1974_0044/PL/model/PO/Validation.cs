@@ -12,16 +12,20 @@ namespace PL.PO
         static Dictionary<string, Predicate<object>> functions = new();
         static Validation()
         {
-            functions.Add(key: "longitude", value: LongitudeValid);
-            functions.Add(key: "latitude", value: LatitudeValid);
+            functions.Add(key: "Longitude", value: LongitudeValid);
+            functions.Add(key: "Latitude", value: LatitudeValid);
+            functions.Add(key: "string", value: StringValid);
+            functions.Add(key: "int", value: IntValid);
+            functions.Add(key: "Location", value: LocationValid);            
         }
         public static bool LongitudeValid(object longitude) => (double)longitude>= 0 &&(double) longitude <= 90;
         public static bool LatitudeValid(object latitude) => (double)latitude > -90 && (double)latitude <= 90;
-        public static bool IntValid(object num) =>(int) num > 0;
-        public static bool StringValid(string str) => str != string.Empty;
-        public static bool LocationValid(Location location) => LongitudeValid(location.Latitude) && LatitudeValid(location.Longitude);
-        public static bool PhoneValid(string phone)=>Regex.Match(phone, @"^(\+[0-9]{9})$").Success || Regex.Match(phone, @"^[1-9]\d{10}$").Success|| Regex.Match(phone, @"^[1-9]\d{9}$").Success;
-        
+
+        public static bool IntValid(object id) =>(int) id > 0;
+        public static bool StringValid(object str) =>(string) str != string.Empty;
+        public static bool LocationValid(object location) => LongitudeValid((location as Location).Latitude) && LatitudeValid((location as Location).Longitude);
+        public static bool PhoneValid(object phone) => Regex.Match((string)phone, @"^(\+[0-9]{9})$").Success || Regex.Match((string)phone, @"^[1-9]\d{10}$").Success || Regex.Match((string)phone, @"^[1-9]\d{9}$").Success;
+
 
     }
 }
