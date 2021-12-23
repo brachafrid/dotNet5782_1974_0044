@@ -38,7 +38,7 @@ namespace PL
         /// </summary>
         /// <param name="updateListNew">Action - update list new</param>
         /// <param name="mainWindow">The main window</param>
-        public DroneWindow(Action updateListNew, MainWindow mainWindow)
+        public DroneWindow(Action updateListNew, Window1 mainWindow)
         {
             InitializeComponent();
             details.Visibility = Visibility.Collapsed;

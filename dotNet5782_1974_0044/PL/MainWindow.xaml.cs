@@ -18,66 +18,9 @@ namespace PL
     /// </summary>
     public partial class MainWindow : Window
     {
-        public BLApi.IBL ibal;
-        private List<string> option = new() { "Drones","Customers","Stations","Parcels"};
-        /// Initializes necessary things
-        /// </summary>
         public MainWindow()
-        { 
+        {
             InitializeComponent();
-            ibal = BLFactory.GetBL();
-            DataContext = option;
-            DroneToListTab.DataContext = new DroneToListWindow(this);
-        }
-
-        /// <summary>
-        /// Displays the list of drones
-        /// </summary>
-        /// <param name="sender">Event operator</param>
-        /// <param name="e">The arguments of the event</param>
-        public void Add_tag_click(object sender, RoutedEventArgs e)
-        {
-            TabItem currentTab = (sender as Button).Content switch
-            {
-                "Drones"=>DroneToListTab,
-                "Parcels"=>ParcelsToListTab,
-                "Stations"=>StationToListTab,
-                "Customers"=>CustomerToListTab
-            };
-            currentTab.Visibility = Visibility.Visible;
-           (currentTab.Content as FrameworkElement).Visibility = Visibility.Visible;
-            tab.SelectedItem = currentTab;
-            if (currentTab == DroneToListTab)
-                (DroneToListTab.Content as FrameworkElement).Visibility = Visibility.Visible;
-        }
-
-        /// <summary>
-        /// Close tab 
-        /// </summary>
-        /// <param name="sender">Event operator</param>
-        /// <param name="e">The arguments of the event</param>
-        public void Close_tab(object sender, RoutedEventArgs e)
-        {
-            object tmp = sender;
-            while (tmp.GetType() != typeof(TabItem))
-            {
-                tmp = ((FrameworkElement)tmp).Parent;
-            }
-            tab.Items.Remove(tmp as TabItem);
-        }
-
-        private void StationViewControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            StationToListViewModel stationToListView = new StationToListViewModel();
-            stationToListView.LoadStations();
-            StationToListControl.DataContext = stationToListView;
-        }
-
-        private void CustomerViewControl_Loaded(object sender, RoutedEventArgs e)
-        {
-            CustomerToListViewModel customerToListViewModel = new CustomerToListViewModel(this);
-            customerToListViewModel.LoadCustomers();
-            CustomerToListControl.DataContext = customerToListViewModel;
         }
     }
 }

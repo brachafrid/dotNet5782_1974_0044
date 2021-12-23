@@ -28,13 +28,13 @@ namespace PL
         public BLApi.IBL ibal;
         public ListCollectionView Drones { get; set; }
         private Action updateList;
-        private MainWindow MainWindow;
+        private Window1 MainWindow;
         /// <summary>
         /// Constructor DroneToList Window.
         /// Initializes necessary things
         /// </summary>
         /// <param name="mainWindow">Main window</param>
-        public DroneToListWindow(MainWindow mainWindow)
+        public DroneToListWindow(Window mainWindow)
         {
             InitializeComponent();
             ibal = BLFactory.GetBL();
@@ -45,7 +45,7 @@ namespace PL
             ChooseWeight.DataContext = Enum.GetValues(typeof(WeightCategories));
             ChooseState.DataContext = Enum.GetValues(typeof(DroneState));
             updateList = UpdateNewList;
-            MainWindow = mainWindow;
+            MainWindow = mainWindow as Window1;
         }
 
         /// <summary>

@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Page Update="View\Dictionary.xaml">
+    <Page Update="shmonzes\View\Dictionary.xaml">
       <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
     </Page>
   </ItemGroup>

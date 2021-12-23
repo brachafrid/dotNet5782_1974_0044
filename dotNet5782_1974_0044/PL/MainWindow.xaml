@@ -11,27 +11,7 @@
      TextElement.FontSize="13"
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto">
-<DockPanel>
-    <ListBox x:Name="menu" ItemsSource="{Binding}">
-        <ListBox.ItemTemplate>
-            <DataTemplate>
-                <Button x:Name="click" Content="{Binding}" Click="Add_tag_click"/>
-            </DataTemplate>
-        </ListBox.ItemTemplate>
-    </ListBox>
-    <TabControl x:Name="tab" DockPanel.Dock="Top" >
-
-        <TabItem x:Name="DroneToListTab" Header="Drones"  Visibility="Collapsed" >
-            <ContentControl Content="{Binding}" Visibility="Collapsed"/>
-        </TabItem>
-        <TabItem x:Name="CustomerToListTab" Header="Customers"  Visibility="Collapsed" >
-            <local:CustomerToListWindow x:Name="CustomerToListControl" Loaded="CustomerViewControl_Loaded"/>
-        </TabItem>
-        <TabItem x:Name="ParcelsToListTab" Header="Parcels"  Visibility="Collapsed" >
-        </TabItem>
-        <TabItem x:Name="StationToListTab" Header="Stations"  Visibility="Collapsed" >
-                <local:StationToListWindowxaml   x:Name="StationToListControl" Loaded="StationViewControl_Loaded" Visibility="Collapsed"/>
-            </TabItem>
-        </TabControl>
-    </DockPanel>
+    <Grid>
+        <local:Window1/>
+    </Grid>
 </Window>
