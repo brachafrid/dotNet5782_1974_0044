@@ -74,10 +74,7 @@ namespace PL.PO
             } 
         }
 
-        public override string ToString()
-        {
-            return this.ToStringProperties();
-        }
+        public override string ToString()=>this.ToStringProperties();
         public event PropertyChangedEventHandler PropertyChanged;
 
         private void onPropertyChanged(string properyName)
