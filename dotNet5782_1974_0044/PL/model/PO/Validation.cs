@@ -10,6 +10,5 @@ namespace PL.PO
     {
         public static bool LongitudeValid(double longitude) => longitude >= 0 && longitude <= 90;
         public static bool LatitudeValid(double latitude) => latitude > -90 && latitude <= 90;
-
     }
 }
