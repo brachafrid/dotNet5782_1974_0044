@@ -15,8 +15,8 @@ namespace PL.Hundlers
             return new Parcel()
             {
                 Id = parcel.Id,
-                Weight = (PO.WeightCategories)parcel.Weight,
-                Piority = (PO.Priorities)parcel.Priority,
+                Weight = (WeightCategories)parcel.Weight,
+                Piority = (Priorities)parcel.Priority,
                 DeliveryTime = parcel.DeliveryTime,
                 AssignmentTime = parcel.AssignmentTime,
                 CollectionTime = parcel.CollectionTime,
@@ -47,8 +47,7 @@ namespace PL.Hundlers
             return new()
             {
                 Id = parcel.Id,
-                CustomerReceives = CustomerInParcelHandler.ConvertCustomerInParcel(parcel.CustomerReceives),
-                CustomerSender = CustomerInParcelHandler.ConvertCustomerInParcel(parcel.CustomerSender),
+     
 
             };
         }

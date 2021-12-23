@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -78,6 +79,7 @@ namespace PL.PO
             return this.ToStringProperties();
         }
         public event PropertyChangedEventHandler PropertyChanged;
+
         private void onPropertyChanged(string properyName)
         {
             if (PropertyChanged != null)

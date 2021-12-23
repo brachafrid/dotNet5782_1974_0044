@@ -1,9 +1,10 @@
 ﻿using System;
 using System.ComponentModel;
+using PL;
 
 namespace PL.PO
 {
-    public class Location : INotifyPropertyChanged
+    public class Location : INotifyPropertyChanged, IDataErrorInfo
     {
         private double longitude;
         private double latitude;
@@ -12,27 +13,29 @@ namespace PL.PO
             get => longitude;
             set
             {
-                if (value >= 0 && value <= 90)
-                {
-                    longitude = value;
-                    onPropertyChanged("Longitude");
-                }
-                else
-                    throw new ArgumentOutOfRangeException("invalid longitude");
+                longitude = value;
+                onPropertyChanged("Longitude");
+
             }
         }
+        
         public double Latitude
         {
             get => latitude;
             set
             {
-                if (value > -90 && value <= 90)
-                {
-                    latitude = value;
-                    onPropertyChanged("Latitude");
-                } 
-                else
-                    throw new ArgumentOutOfRangeException("invalid latitude");
+                latitude = value;
+                onPropertyChanged("Latitude");
+            }
+        }
+
+        public string Error => "Location data erorr";
+
+        public string this[string columnName]
+        {
+            get
+            {
+
             }
         }
 
@@ -43,8 +46,6 @@ namespace PL.PO
                 PropertyChanged(this, new PropertyChangedEventArgs(properyName));
 
         }
-
-
         public override string ToString()
         {
             return this.ToStringProperties();
