@@ -9,8 +9,15 @@ namespace PL.PO
 {
     public static class Validation
     {
-        public static bool LongitudeValid(double longitude) => longitude >= 0 && longitude <= 90;
-        public static bool LatitudeValid(double latitude) => latitude > -90 && latitude <= 90;
+        static Dictionary<string, Predicate<object>> functions = new();
+        static Validation()
+        {
+            functions.Add(key: "longitude", value: LongitudeValid);
+            functions.Add(key: "latitude", value: LatitudeValid);
+        }
+        public static bool LongitudeValid(object longitude) => (double)longitude>= 0 &&(double) longitude <= 90;
+        public static bool LatitudeValid(object latitude) => (double)latitude > -90 && (double)latitude <= 90;
+
         public static bool IdValid(int id) => id > 0;
         public static bool StringValid(string str) => str != string.Empty;
         public static bool LocationValid(Location location) => LongitudeValid(location.Latitude) && LatitudeValid(location.Longitude);
