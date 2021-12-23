@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 
 namespace PL.PO
 {
-    public class Drone : INotifyPropertyChanged,IDataErrorInfo
+    public class StationAdd : INotifyPropertyChanged, IDataErrorInfo
     {
         private int id;
         public int Id
@@ -20,47 +16,28 @@ namespace PL.PO
                 onPropertyChanged("Id");
             }
         }
-        private string model;
+        private string name;
 
-        public string Model
+        public string Name
         {
-            get => model;
+            get => name;
             set
             {
-                model = value;
-                onPropertyChanged("Model");
+                name = value;
+                onPropertyChanged("Name");
             }
         }
-        private WeightCategories weight;
-        public WeightCategories Weight
+        private int emptyChargeSlots;
+        public int EmptyChargeSlots
         {
-            get => weight;
+            get => emptyChargeSlots;
             set
             {
-                weight = value;
-                onPropertyChanged("Weight");
+                emptyChargeSlots = value;
+                onPropertyChanged("EmptyChargeSlots");
             }
         }
-        private DroneState droneState;
-        public DroneState DroneState
-        {
-            get => droneState;
-            set
-            {
-                droneState = value;
-                onPropertyChanged("DroneState");
-            }
-        }
-        private double battaryMode;
-        public double BattaryMode
-        {
-            get => battaryMode;
-            set
-            {
-                battaryMode = value;
-                onPropertyChanged("BattaryMode");
-            }
-        }
+
         private Location location;
         public Location Location
         {
@@ -69,16 +46,6 @@ namespace PL.PO
             {
                 location = value;
                 onPropertyChanged("Location");
-            }
-        }
-        private ParcelInTransfer parcel;
-        public ParcelInTransfer Parcel 
-        {
-            get=>parcel;
-            set
-            {
-                parcel = value;
-                onPropertyChanged("Parcel");
             }
         }
 
@@ -92,11 +59,11 @@ namespace PL.PO
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(properyName));
         }
+
         public override string ToString()
         {
             return this.ToStringProperties();
         }
     }
 }
-
 

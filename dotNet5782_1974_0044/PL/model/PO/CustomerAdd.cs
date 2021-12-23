@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PL.PO
 {
-    public class Customer : INotifyPropertyChanged,IDataErrorInfo
+    public class CustomerAdd : INotifyPropertyChanged, IDataErrorInfo
     {
         private int id;
         public int Id
@@ -33,10 +33,10 @@ namespace PL.PO
             }
         }
         private string phone;
-        public string Phone 
-        { 
+        public string Phone
+        {
             get => phone;
-            set 
+            set
             {
                 phone = value;
                 onPropertyChanged("Phone");
@@ -53,30 +53,9 @@ namespace PL.PO
                 onPropertyChanged("CollectionPoint");
             }
         }
-        private List<ParcelAtCustomer> fromCustomer;
-        public List<ParcelAtCustomer> FromCustomer 
-        {
-            get => fromCustomer;
-            set 
-            {
-                fromCustomer = value;
-                onPropertyChanged("FromCustomer");
-            } 
-        }
-        private List<ParcelAtCustomer> toCustomer;
-        public List<ParcelAtCustomer> ToCustomer 
-        { 
-            get => toCustomer;
-            set 
-            {
-                toCustomer = value;
-                onPropertyChanged("ToCustomer");
-            } 
-        }
-
         public string Error => "invalid parameter";
 
-        public string this[string columnName] => Validation.functions.FirstOrDefault(func=>func.Key==columnName.GetType()).Value(this.GetType().GetProperty(columnName).GetValue(this))?null:"invalid "+columnName;
+        public string this[string columnName] => Validation.functions.FirstOrDefault(func => func.Key == columnName.GetType()).Value(this.GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName;
 
         public override string ToString()
         {

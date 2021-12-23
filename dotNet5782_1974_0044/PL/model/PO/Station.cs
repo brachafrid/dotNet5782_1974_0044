@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace PL.PO
 {
-    public class Station : INotifyPropertyChanged
+    public class Station : INotifyPropertyChanged,IDataErrorInfo
     {
         private int id;
         public int Id
@@ -59,6 +60,9 @@ namespace PL.PO
             }
         }
 
+        public string Error => "invalid parameter";
+
+        public string this[string columnName] => Validation.functions.FirstOrDefault(func => func.Key == columnName.GetType()).Value(this.GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName;
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)

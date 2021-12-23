@@ -8,18 +8,9 @@ using System.Threading.Tasks;
 
 namespace PL.PO
 {
-    public class Parcel : INotifyPropertyChanged,IDataErrorInfo
+    public class ParcelAdd : INotifyPropertyChanged, IDataErrorInfo
     {
-        private int id;
-        public int Id
-        {
-            get => id;
-            init
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
-        }
+
         private CustomerInParcel customerSender;
         public CustomerInParcel CustomerSender
         {
@@ -58,55 +49,6 @@ namespace PL.PO
             {
                 piority = value;
                 onPropertyChanged("Piority");
-            }
-        }
-        private DroneWithParcel drone;
-        public DroneWithParcel Drone {
-            get => drone;
-            set
-            {
-                drone = value;
-                onPropertyChanged("Drone");
-            } 
-        }
-        private DateTime? creationTime;
-        public DateTime? CreationTime 
-        { 
-            get =>creationTime;
-            set
-            {
-                creationTime = value;
-                onPropertyChanged("CreationTime");
-            } 
-        }
-        private DateTime? assignmentTime;
-        public DateTime? AssignmentTime
-        {
-            get => assignmentTime;
-            set
-            {
-                assignmentTime = value;
-                onPropertyChanged("AssignmentTime");
-            }
-        }
-        private DateTime? collectionTime;
-        public DateTime? CollectionTime
-        {
-            get => collectionTime;
-            set
-            {
-                collectionTime = value;
-                onPropertyChanged("CollectionTime");
-            }
-        }
-        private DateTime? deliveryTime;
-        public DateTime? DeliveryTime
-        {
-            get => deliveryTime;
-            set
-            {
-                deliveryTime = value;
-                onPropertyChanged("DeliveryTime");
             }
         }
         public string Error => "invalid parameter";
