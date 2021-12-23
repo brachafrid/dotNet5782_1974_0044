@@ -12,6 +12,14 @@
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto">
     <Grid>
-        
+        <ToolBarTray>
+            <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False">
+                <Button ToolTip="login as administor" Content="{materialDesign:PackIcon Kind=AccountWrench}" />
+                <Button  ToolTip="login" Content="{materialDesign:PackIcon Kind=AccountArrowLeft}" />
+                <Separator />g
+                <Button ToolTip="sign in" ToolBar.OverflowMode="AsNeeded" Content="{materialDesign:PackIcon Kind=AccountMultiplePlus}" />
+                
+            </ToolBar>
+        </ToolBarTray>
     </Grid>
 </Window>

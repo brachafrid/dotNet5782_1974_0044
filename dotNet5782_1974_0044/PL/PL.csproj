@@ -7,6 +7,17 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DronePL\**" />
+    <Compile Remove="shmonzes\**" />
+    <EmbeddedResource Remove="DronePL\**" />
+    <EmbeddedResource Remove="shmonzes\**" />
+    <None Remove="DronePL\**" />
+    <None Remove="shmonzes\**" />
+    <Page Remove="DronePL\**" />
+    <Page Remove="shmonzes\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="MaterialDesignColors" Version="2.0.4" />
     <PackageReference Include="MaterialDesignThemes" Version="4.3.0" />
     <PackageReference Include="MaterialDesignThemes.MahApps" Version="0.2.0" />
@@ -15,12 +26,6 @@
   <ItemGroup>
     <ProjectReference Include="..\BL\BL.csproj" />
     <ProjectReference Include="..\ClassLibrary1\Singelton.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Page Update="shmonzes\View\Dictionary.xaml">
-      <XamlRuntime>$(DefaultXamlRuntime)</XamlRuntime>
-    </Page>
   </ItemGroup>
 
   <ItemGroup>
