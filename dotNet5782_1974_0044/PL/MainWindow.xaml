@@ -12,14 +12,17 @@
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto">
     <Grid>
-        <ToolBarTray>
-            <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False">
-                <Button ToolTip="login as administor" Content="{materialDesign:PackIcon Kind=AccountWrench}" />
-                <Button  ToolTip="login" Content="{materialDesign:PackIcon Kind=AccountArrowLeft}" />
-                <Separator />g
-                <Button ToolTip="sign in" ToolBar.OverflowMode="AsNeeded" Content="{materialDesign:PackIcon Kind=AccountMultiplePlus}" />
-                
-            </ToolBar>
-        </ToolBarTray>
+        <StackPanel>
+            <ToolBarTray>
+                <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False">
+                    <Button ToolTip="login as administor" Content="{materialDesign:PackIcon Kind=AccountWrench}" />
+                    <Separator />
+                    <Button  ToolTip="login" Content="{materialDesign:PackIcon Kind=AccountArrowLeft}" />
+                    <Separator />
+                    <Button ToolTip="sign in" ToolBar.OverflowMode="AsNeeded" Content="{materialDesign:PackIcon Kind=AccountMultiplePlus}" />
+
+                </ToolBar>
+            </ToolBarTray>
+        </StackPanel>
     </Grid>
 </Window>
