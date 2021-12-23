@@ -12,6 +12,15 @@
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto">
     <Grid>
-        <local:Window1/>
+        <ToolBarTray>
+            <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False">
+                <Button ToolTip="Follow me on Twitter" Content="{materialDesign:PackIcon Kind=Twitter}" />
+                <Button  ToolTip="Save" Content="{materialDesign:PackIcon Kind=ContentSave}" />
+                <Separator />
+                <Button ToolTip="Cut" ToolBar.OverflowMode="AsNeeded" Content="{materialDesign:PackIcon Kind=ContentCut}" />
+                <Button ToolTip="Copy that stuff" ToolBar.OverflowMode="AsNeeded" Content="{materialDesign:PackIcon Kind=ContentCopy}" />
+                <ToggleButton />
+            </ToolBar>
+        </ToolBarTray>
     </Grid>
 </Window>
