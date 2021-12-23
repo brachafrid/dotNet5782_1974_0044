@@ -35,8 +35,8 @@ namespace PL.PO
         {
             get
             {
-
-            }
+                
+            } 
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
