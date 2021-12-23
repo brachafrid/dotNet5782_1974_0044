@@ -10,6 +10,7 @@ namespace PL.Hundlers
 {
     public class ParcelHandler
     {
+        private IBL ibal = BLFactory.GetBL();
         public Parcel ConvertParcel(BO.Parcel parcel)
         {
             return new Parcel()
@@ -47,9 +48,22 @@ namespace PL.Hundlers
             return new()
             {
                 Id = parcel.Id,
-     
-
+                PackageMode =(PackageModes) parcel.PackageMode,
+                Piority = (Priorities)parcel.Piority,
+                Weight = (WeightCategories)parcel.Weight,
+                CustomerReceives = new CustomerHandler().ConvertCustomer(parcel.CustomerReceives),
+                CustomerSender = new CustomerHandler().ConvertCustomer(parcel.CustomerSender)
             };
         }
+        public void AddParcel(Parcel parcel)
+        {
+            ibal.AddParcel(ConvertBackParcel(parcel));
+        }
+        public Parcel GetParcel(int id) => ConvertParcel(ibal.GetParcel(id));
+        public IEnumerable<ParcelToList> GetParcels => ibal.GetParcels().Select(parcel => ConvertParcelToList(parcel));
+        public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone=>ibal.GetParcelsNotAssignedToDrone((int num)=> num == 0).Select(parcel => ConvertParcelToList(parcel));
+
+
+
     }
 }
