@@ -31,13 +31,7 @@ namespace PL.PO
 
         public string Error => "Location data erorr";
 
-        public string this[string columnName]
-        {
-            get
-            {
-
-            }
-        }
+        public string this[string columnName] => throw new NotImplementedException();
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
