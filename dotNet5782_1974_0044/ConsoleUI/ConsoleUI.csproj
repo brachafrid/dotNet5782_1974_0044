@@ -9,8 +9,4 @@
     <OutputPath>../bin/</OutputPath>
   </PropertyGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\DAL\DalObject.csproj" />
-  </ItemGroup>
-
 </Project>
