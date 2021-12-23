@@ -17,5 +17,10 @@ namespace PL.PO
         public static bool LongitudeValid(object longitude) => (double)longitude>= 0 &&(double) longitude <= 90;
         public static bool LatitudeValid(object latitude) => (double)latitude > -90 && (double)latitude <= 90;
 
+        public static bool IdValid(int id) => id > 0;
+        public static bool StringValid(string str) => str != string.Empty;
+        public static bool LocationValid(Location location) => LongitudeValid(location.Latitude) && LatitudeValid(location.Longitude);
+
+
     }
 }
