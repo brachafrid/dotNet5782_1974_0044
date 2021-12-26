@@ -9,8 +9,8 @@ namespace PL.PO
 {
     public static class Validation
     {
-         private static bool LongitudeValid(object longitude) => (double)longitude>= 0 &&(double) longitude <= 90;
-         private static bool LatitudeValid(object latitude) => (double)latitude > -90 && (double)latitude <= 90;
+        private static bool LongitudeValid(object longitude) => (double)longitude>= 0 &&(double) longitude <= 90;
+        private static bool LatitudeValid(object latitude) => (double)latitude > -90 && (double)latitude <= 90;
         public static bool Valid(this int num) => num > 0;
         public static bool Valid(this string str) => str != string.Empty;
         public static bool Valid(this Location location) => LongitudeValid(location.Latitude) && LatitudeValid(location.Longitude);
