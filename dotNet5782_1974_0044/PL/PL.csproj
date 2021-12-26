@@ -28,8 +28,4 @@
     <ProjectReference Include="..\ClassLibrary1\Singelton.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="ViewModel\" />
-  </ItemGroup>
-
 </Project>
