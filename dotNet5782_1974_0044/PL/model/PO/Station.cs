@@ -60,7 +60,18 @@ namespace PL.PO
             }
         }
 
-        public string Error => "invalid parameter";
+        public string Error
+        {
+            get
+            {
+                foreach (var propertyInfo in GetType().GetProperties())
+                {
+                    if (!Validation.functions.FirstOrDefault(func => func.Key == propertyInfo.GetType()).Value(GetType().GetProperty(propertyInfo.Name).GetValue(this)))
+                        return "invalid" + propertyInfo.Name;
+                }
+                return null;
+            }
+        }
 
         public string this[string columnName] => Validation.functions.FirstOrDefault(func => func.Key == columnName.GetType()).Value(this.GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName;
 
