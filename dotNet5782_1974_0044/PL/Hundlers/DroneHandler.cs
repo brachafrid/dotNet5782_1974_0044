@@ -15,30 +15,37 @@ namespace PL
         {
             ibal.AddDrone(ConvertBackDroneToAdd(drone), stationId);
         }
+
         public void UpdateDrone(int id, string model)
         {
             ibal.UpdateDrone(id, model);
         }
+
         public void SendDroneForCharg(int id)
         {
             ibal.SendDroneForCharg(id);
         }
+
         public void ReleaseDroneFromCharging(int id, float timeOfCharg)
         {
             ibal.ReleaseDroneFromCharging(id, timeOfCharg);
         }
+
         public Drone GetDrone(int id)
         {
            return ConvertDrone(ibal.GetDrone(id));
         }
+
         public IEnumerable<DroneToList> GetDrones()
         {
             return ibal.GetDrones().Select(item => ConvertDroneToList(item));
         }
+
         public void AssingParcelToDrone(int droneId)
         {
             ibal.AssingParcelToDrone(droneId);
         }
+
         public void ParcelCollectionByDrone(int droneId)
         {
             ibal.ParcelCollectionByDrone(droneId);
@@ -61,6 +68,7 @@ namespace PL
                 Parcel=ParcelInTransferHandler.ConvertParcelInTransfer(drone.Parcel)
             };
         }
+
         public BO.Drone ConvertBackDrone(Drone drone)
         {
             return new BO.Drone
