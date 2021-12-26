@@ -17,7 +17,7 @@
                 <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False">
                     <Button ToolTip="login as administor" Content="{materialDesign:PackIcon Kind=AccountWrench}" />
                     <Separator />
-                    <Button  ToolTip="login" Content="{materialDesign:PackIcon Kind=AccountArrowLeft}" />
+                    <Button  ToolTip="login" Content="{materialDesign:PackIcon Kind=AccountArrowLeft}" Click="Button_Click" />
                     <Separator />
                     <Button ToolTip="sign in" ToolBar.OverflowMode="AsNeeded" Content="{materialDesign:PackIcon Kind=AccountMultiplePlus}" />
                 </ToolBar>
