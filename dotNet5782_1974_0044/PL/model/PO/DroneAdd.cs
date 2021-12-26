@@ -10,8 +10,8 @@ namespace PL.PO
 {
     public class DroneAdd : INotifyPropertyChanged, IDataErrorInfo
     {
-        private int id;
-        public int Id
+        private int? id;
+        public int? Id
         {
             get => id;
             init
@@ -38,8 +38,8 @@ namespace PL.PO
                 onPropertyChanged("Model");
             }
         }
-        private WeightCategories weight;
-        public WeightCategories Weight
+        private WeightCategories? weight;
+        public WeightCategories? Weight
         {
             get => weight;
             set
@@ -63,16 +63,26 @@ namespace PL.PO
         {
             get
             {
-                foreach (var propertyInfo in GetType().GetProperties())
+                foreach (var item in GetType().GetProperties())
                 {
-                    if (!Validation.functions.FirstOrDefault(func => func.Key == propertyInfo.GetType()).Value(GetType().GetProperty(propertyInfo.Name).GetValue(this)))
-                        return "invalid" + propertyInfo.Name;
+                    if(this[nameof(item)] != null)
+                        return "invalid" + item.Name;
                 }
-                return null;
+                return 
+                    null;
             }
         }
 
-        public string this[string columnName] =>null; /*Validation.FirstOrDefault(func => func.Key == columnName.GetType()).Value(this.GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName;*/
+        public string this[string columnName] {
+            get
+            {
+                var func = Validation.functions.FirstOrDefault(func => func.Key == GetType().GetProperty(columnName).GetType());
+                if(!func.Equals(default))
+                   return func.Value(GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName;
+                return null;
+
+            }
+        } 
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)

@@ -28,6 +28,8 @@
                     <Button ToolTip="sign in" ToolBar.OverflowMode="AsNeeded" Content="{materialDesign:PackIcon Kind=AccountMultiplePlus}" />
                 </ToolBar>
             </ToolBarTray>
+            <local:AddDroneVeiw/>
         </StackPanel>
+        
     </Grid>
 </Window>
