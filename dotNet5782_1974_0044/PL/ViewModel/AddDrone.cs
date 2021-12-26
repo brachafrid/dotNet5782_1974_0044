@@ -14,7 +14,6 @@ namespace PL
         public List<int> StationsId { get; set; }
         public Array Weight = Enum.GetValues(typeof(PO.WeightCategories));
         public RelayCommand AddDroneCommand { get; set; }
-
         public AddDrone()
         {
             StationsId = (new StationHundler()).GetStaionsWithEmptyChargeSlots().Select(station => station.Id).ToList();
