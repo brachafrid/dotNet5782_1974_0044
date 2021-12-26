@@ -21,6 +21,13 @@ namespace PL.PO
             }
         }
         private string model;
+        private int stationId;
+
+        public int StationId
+        {
+            get { return stationId; }
+            set { stationId = value; }
+        }
 
         public string Model
         {

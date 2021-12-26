@@ -6,16 +6,16 @@ using System.Threading.Tasks;
 
 namespace PL
 {
-    public class MainWindowVM
-    {
-        public RelayCommand CommandAdministration { get; set; }
-        public MainWindowVM()
-        {
-            CommandAdministration = new RelayCommand( ,null)
-        }
-        public void AdminiustratorEnter()
-        {
+    //public class MainWindowVM
+    //{
+    //    public RelayCommand CommandAdministration { get; set; }
+    //    public MainWindowVM()
+    //    {
+    //        CommandAdministration = new RelayCommand( ,null)
+    //    }
+    //    public void AdminiustratorEnter()
+    //    {
 
-        }
-    }
+    //    }
+    //}
 }
