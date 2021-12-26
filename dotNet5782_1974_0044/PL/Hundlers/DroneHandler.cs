@@ -100,7 +100,7 @@ namespace PL
         {
             return new()
             {
-                Id = drone.Id,
+                Id = drone.Id != null ? (int)drone.Id : 0,
                 Model = drone.Model,
                 WeightCategory = (BO.WeightCategories)drone.Weight,
                 DroneState = (BO.DroneState)drone.DroneState,

@@ -20,7 +20,7 @@ namespace PL.PO
         static Validation()
         {
             functions.Add(key: typeof(string), value: StringValid);
-            functions.Add(key: typeof(int), value: IntValid);
+            functions.Add(key: typeof(int?), value: IntValid);
             functions.Add(key: typeof(Location), value: LocationValid);
             functions.Add(key: typeof(Enum), value: EnumValid);           //need to check 
         }

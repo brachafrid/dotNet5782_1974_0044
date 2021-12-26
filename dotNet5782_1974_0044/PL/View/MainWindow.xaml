@@ -35,6 +35,8 @@
                 <Label Content="Enter the phone"/>
                 <TextBox Text="{Binding Phone}" />
             </StackPanel>
+            <local:AddDroneVeiw/>
         </StackPanel>
+        
     </Grid>
 </Window>

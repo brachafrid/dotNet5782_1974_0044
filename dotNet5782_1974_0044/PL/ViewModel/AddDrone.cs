@@ -7,16 +7,17 @@ using System.Threading.Tasks;
 
 namespace PL
 {
-    public class AddDroneView
+    public class AddDroneVM
     {
         public DroneAdd drone { get; set; } = new();
         public List<int> StationsId { get; set; }
-        public Array Weight = Enum.GetValues(typeof(PO.WeightCategories));
+        public Array Weight { get; set; }
         public RelayCommand AddDroneCommand { get; set; }
-        public AddDroneView()
+        public AddDroneVM()
         {
             StationsId = new StationHundler().GetStaionsWithEmptyChargeSlots().Select(station => station.Id).ToList();
             AddDroneCommand = new(Add, param => drone.Error == null);
+            Weight = Enum.GetValues(typeof(WeightCategories));
         }
         public void Add(object param)
         {
