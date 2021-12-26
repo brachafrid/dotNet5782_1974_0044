@@ -21,6 +21,13 @@ namespace PL.PO
             }
         }
         private string model;
+        private int stationId;
+
+        public int StationId
+        {
+            get { return stationId; }
+            set { stationId = value; }
+        }
 
         public string Model
         {
@@ -65,7 +72,7 @@ namespace PL.PO
             }
         }
 
-        public string this[string columnName] => Validation.functions.FirstOrDefault(func => func.Key == columnName.GetType()).Value(this.GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName;
+        public string this[string columnName] => Validation.FirstOrDefault(func => func.Key == columnName.GetType()).Value(this.GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName;
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
@@ -77,6 +84,7 @@ namespace PL.PO
         {
             return this.ToStringProperties();
         }
+        
     }
 }
 

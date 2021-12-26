@@ -11,9 +11,9 @@ namespace PL
     public class DroneHandler
     {
         private static IBL ibal = BLFactory.GetBL();
-        public void AddDrone(Drone drone, int stationId)
+        public void AddDrone(DroneAdd drone)
         {
-            ibal.AddDrone(ConvertBackDrone(drone), stationId);
+            ibal.AddDrone(ConvertBackDroneToAdd(drone), drone.StationId);
         }
 
         public void UpdateDrone(int id, string model)
@@ -94,6 +94,17 @@ namespace PL
                 Weight = (WeightCategories)drone.Weight,
                 CurrentLocation = LocationHandler.ConvertLocation(drone.CurrentLocation),
                 ParcelId = drone.ParcelId
+            };
+        }
+        public BO.Drone ConvertBackDroneToAdd(DroneAdd drone)
+        {
+            return new()
+            {
+                Id = drone.Id,
+                Model = drone.Model,
+                WeightCategory = (BO.WeightCategories)drone.Weight,
+                DroneState = (BO.DroneState)drone.DroneState,
+
             };
         }
     }
