@@ -31,7 +31,7 @@ namespace PL
 
         public void Execute(object parameter)
         {
-            this.execute(parameter);
+           execute(parameter);
         }
     }
 }

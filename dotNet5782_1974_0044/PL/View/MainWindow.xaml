@@ -18,16 +18,23 @@
         <StackPanel>
             <ToolBarTray>
                 <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False">
-                    <Button ToolTip="login as administor" Content="{materialDesign:PackIcon Kind=AccountWrench}" Command="{Binding CommandAdminisrator}" />
-                    <StackPanel>
-                        <PasswordBox />
-                    </StackPanel>
+                    <Button ToolTip="login as administor" Content="{materialDesign:PackIcon Kind=AccountWrench}" Command="{Binding ShowCommandAdministrator}" />
                     <Separator />
-                    <Button  ToolTip="login" Content="{materialDesign:PackIcon Kind=AccountArrowLeft}"  />
+                    <Button  ToolTip="login" Content="{materialDesign:PackIcon Kind=AccountArrowLeft}"  Command="{Binding ShowCommandCustomer}"/>
                     <Separator />
                     <Button ToolTip="sign in" ToolBar.OverflowMode="AsNeeded" Content="{materialDesign:PackIcon Kind=AccountMultiplePlus}" />
                 </ToolBar>
             </ToolBarTray>
+            <StackPanel Visibility="{Binding VisibilityAdministratorLogin}">
+                <Label Content="Enter the password"/>
+                <PasswordBox PasswordChar="{Binding Password}" />
+            </StackPanel>
+            <StackPanel Visibility="{Binding VisibilityCustomerLogin}">
+                <Label Content="Enter the Id"/>
+                <TextBox Text="{Binding Id}" />
+                <Label Content="Enter the phone"/>
+                <TextBox Text="{Binding Phone}" />
+            </StackPanel>
         </StackPanel>
     </Grid>
 </Window>
