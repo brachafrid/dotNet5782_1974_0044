@@ -42,7 +42,8 @@ namespace Dal
         /// <returns>A customer for display</returns>
         public Customer GetCustomer(int id)
         {
-            Customer customer=DataSorce.Customers.FirstOrDefault(item => item.Id == id);
+
+            Customer customer=DataSorce.Customers.FirstOrDefault(item => item.Id == id );
             if (customer.Equals(default(Customer)))
                 throw new KeyNotFoundException("There is no suitable customer in data");
             return customer;

@@ -40,7 +40,7 @@ namespace PL.PO
         public static bool IntValid(object num) =>  num != null && (int)num > 0;
         public static bool StringValid(object str) => (string)str != string.Empty && str != default(string);
         public static bool LocationValid(object location) => LongitudeValid((location as Location).Latitude) && LatitudeValid((location as Location).Longitude);
-        public static bool PhoneValid(object phone) => Regex.Match((string)phone, @"^(\+[0-9]{9})$").Success || Regex.Match((string)phone, @"^[1-9]\d{10}$").Success || Regex.Match((string)phone, @"^[1-9]\d{9}$").Success;
+        public static bool PhoneValid(object phone) => phone!=null && (Regex.Match((string)phone, @"^(\+[0-9]{9})$").Success || Regex.Match((string)phone, @"^[1-9]\d{10}$").Success || Regex.Match((string)phone, @"^[1-9]\d{9}$").Success);
         public static bool EnumValid(object parameter) => parameter != null;
 
 

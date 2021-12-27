@@ -9,27 +9,17 @@ namespace PL.PO
 {
   public  class CustomerLogin:INotifyPropertyChanged,IDataErrorInfo
     {
-        private int id;
-        public int Id
+        private int? id;
+        public int? Id
         {
             get => id;
-            init
+            set
             {
                 id = value;
                 onPropertyChanged("Id");
             }
         }
       
-        private string phone;
-        public string Phone
-        {
-            get => phone;
-            set
-            {
-                phone = value;
-                onPropertyChanged("Phone");
-            }
-        }
         public string Error
         {
             get
