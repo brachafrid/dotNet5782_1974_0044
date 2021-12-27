@@ -32,15 +32,18 @@ namespace PL.PO
             functions.Add(key: "Weight", value: EnumValid);
             functions.Add(key: "DroneState", value: EnumValid);
             functions.Add(key: "StationId", value: IntValid);
+            functions.Add(key: "Name", value: StringValid);
+            functions.Add(key: "Longitude", value: LongitudeValid);
+            functions.Add(key: "Latitude", value: LatitudeValid);
             functions.Add(key: "Phone", value: PhoneValid);
 
         }
-        public static bool LongitudeValid(object longitude) => (double)longitude >= 0 && (double)longitude <= 90;
-        public static bool LatitudeValid(object latitude) => (double)latitude > -90 && (double)latitude <= 90;
+        public static bool LongitudeValid(object longitude) =>longitude != null&& (double)longitude >= 0 && (double)longitude <= 90;
+        public static bool LatitudeValid(object latitude) =>latitude != null&& (double)latitude > -90 && (double)latitude <= 90;
         public static bool IntValid(object num) =>  num != null && (int)num > 0;
         public static bool StringValid(object str) => (string)str != string.Empty && str != default(string);
-        public static bool LocationValid(object location) => LongitudeValid((location as Location).Latitude) && LatitudeValid((location as Location).Longitude);
-        public static bool PhoneValid(object phone) => phone!=null && (Regex.Match((string)phone, @"^(\+[0-9]{9})$").Success || Regex.Match((string)phone, @"^[1-9]\d{10}$").Success || Regex.Match((string)phone, @"^[1-9]\d{9}$").Success);
+        public static bool LocationValid(object location) => LongitudeValid((location as Location).Longitude) && LatitudeValid((location as Location).Latitude);
+        public static bool PhoneValid(object phone) =>phone != null&&( Regex.Match((string)phone, @"^(\+[0-9]{9})$").Success || Regex.Match((string)phone, @"^0[0-9]\d{7}$").Success || Regex.Match((string)phone, @"^05[0-9]\d{7}$").Success);
         public static bool EnumValid(object parameter) => parameter != null;
 
 

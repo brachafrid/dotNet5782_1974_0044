@@ -12,9 +12,9 @@ namespace PL
     {
         private IBL ibal  = BLFactory.GetBL();
 
-        public void AddCustomer(Customer customer)
+        public void AddCustomer(CustomerAdd customer)
         {
-            ibal.AddCustomer(ConvertBackCustomer(customer));
+            ibal.AddCustomer(ConvertAddCustomer(customer));
         }
 
         public Customer GetCustomer(int id)
@@ -82,6 +82,16 @@ namespace PL
                 NumParcelSentNotDelivered = customerToList.NumParcelSentNotDelivered,
                 NumParcelReceived = customerToList.NumParcelReceived,
                 NumParcelWayToCustomer = customerToList.NumParcelWayToCustomer
+            };
+        }
+        public BO.Customer ConvertAddCustomer(PO.CustomerAdd customer)
+        {
+            return new()
+            {
+                Id = (int)customer.Id,
+                Location = LocationHandler.ConvertBackLocation(customer.Location),
+                Name = customer.Name,
+                Phone = customer.Phone,
             };
         }
     }

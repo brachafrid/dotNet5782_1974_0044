@@ -11,9 +11,9 @@ namespace PL
    public class StationHundler
    {
         IBL ibal=BLFactory.GetBL();
-        public void AddStation(Station station)
+        public void AddStation(StationAdd station)
         {
-            ibal.AddStation(ConverterBackStation(station));
+            ibal.AddStation(ConverBackStationAdd(station));
         }
         public void UpdateStation(int id, string name, int chargeSlots)
         {
@@ -64,6 +64,17 @@ namespace PL
                 Name = station.Name,
                 FullChargeSlots = station.FullChargeSlots,
                 EmptyChargeSlots = station.EmptyChargeSlots,
+            };
+        }
+        public BO.Station ConverBackStationAdd(PO.StationAdd station)
+        {
+            return new()
+            {
+                Id = (int)station.Id,
+                Name = station.Name,
+                AvailableChargingPorts = station.EmptyChargeSlots,
+                Location = LocationHandler.ConvertBackLocation(station.Location)
+
             };
         }
     }

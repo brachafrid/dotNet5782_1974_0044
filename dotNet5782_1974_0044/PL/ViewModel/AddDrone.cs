@@ -18,7 +18,6 @@ namespace PL
         {
             StationsId = new StationHundler().GetStaionsWithEmptyChargeSlots().Select(station => station.Id).ToList();
             drone = new();
-            //drone.Model = "";
             AddDroneCommand = new(Add, param => drone.Error == null);
             Weight = Enum.GetValues(typeof(WeightCategories));
         }
@@ -34,7 +33,6 @@ namespace PL
                 MessageBox.Show("id has already exist");
                 drone.Id = null;
             }
-            
 
         }
     }

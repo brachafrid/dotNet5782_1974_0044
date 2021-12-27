@@ -65,7 +65,7 @@ namespace PL
                 DroneState=(DroneState)drone.DroneState,
                 Weight=(WeightCategories)drone.WeightCategory,
                 Location=LocationHandler.ConvertLocation(drone.CurrentLocation),
-                Parcel=ParcelInTransferHandler.ConvertParcelInTransfer(drone.Parcel)
+                Parcel= drone.Parcel == null ? null : ParcelInTransferHandler.ConvertParcelInTransfer(drone.Parcel)
             };
         }
 
@@ -79,7 +79,7 @@ namespace PL
                 DroneState = (BO.DroneState)drone.DroneState,
                 WeightCategory = (BO.WeightCategories)drone.Weight,
                 CurrentLocation = LocationHandler.ConvertBackLocation(drone.Location),
-                Parcel =ParcelInTransferHandler.ConvertBackParcelInTransfer(drone.Parcel)
+                Parcel =drone.Parcel==null?null:ParcelInTransferHandler.ConvertBackParcelInTransfer(drone.Parcel)
             };
         }
 
