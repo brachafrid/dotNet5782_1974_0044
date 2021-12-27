@@ -18,10 +18,6 @@
                     HorizontalAlignment="Center"
                     Content="Update drone"
                     Command="{Binding UpdateDroneCommand}" CommandParameter="{Binding DroneModel}"/>
-            <Button Style="{StaticResource MaterialDesignFlatButton}"
-                    HorizontalAlignment="Center"
-                    Content="Close drone"
-                    Command="{Binding CloseDroneCommand}" />
         </StackPanel>
     </Grid>
 </UserControl>
