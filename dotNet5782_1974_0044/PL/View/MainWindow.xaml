@@ -11,17 +11,25 @@
      TextElement.FontSize="13"
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto">
+    <Window.DataContext>
+        <local:MainWindowVM/>
+    </Window.DataContext>
     <Grid>
         <StackPanel>
             <ToolBarTray>
                 <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False">
-                    <Button ToolTip="login as administor" Content="{materialDesign:PackIcon Kind=AccountWrench}" comm />
+                    <Button ToolTip="login as administor" Content="{materialDesign:PackIcon Kind=AccountWrench}" Command="{Binding CommandAdminisrator}" />
+                    <StackPanel>
+                        <PasswordBox />
+                    </StackPanel>
                     <Separator />
                     <Button  ToolTip="login" Content="{materialDesign:PackIcon Kind=AccountArrowLeft}"  />
                     <Separator />
                     <Button ToolTip="sign in" ToolBar.OverflowMode="AsNeeded" Content="{materialDesign:PackIcon Kind=AccountMultiplePlus}" />
                 </ToolBar>
             </ToolBarTray>
+            <local:AddDroneVeiw/>
         </StackPanel>
+        
     </Grid>
 </Window>

@@ -10,14 +10,8 @@ namespace PL.PO
 {
     public class DroneAdd : INotifyPropertyChanged, IDataErrorInfo
     {
-        Dictionary<string, Func<object,bool>> _validationColumns;
-        public DroneAdd()
-        {
-            _validationColumns = new Dictionary<string, Func<object, bool>>();
-            _validationColumns.Add(nameof(Id),(input)=> Validation.NumberValid((int)input));
-        }
-        private int id;
-        public int Id
+        private int? id;
+        public int? Id
         {
             get => id;
             init
@@ -27,6 +21,13 @@ namespace PL.PO
             }
         }
         private string model;
+        private int stationId;
+
+        public int StationId
+        {
+            get { return stationId; }
+            set { stationId = value; }
+        }
 
         public string Model
         {
@@ -37,8 +38,8 @@ namespace PL.PO
                 onPropertyChanged("Model");
             }
         }
-        private WeightCategories weight;
-        public WeightCategories Weight
+        private WeightCategories? weight;
+        public WeightCategories? Weight
         {
             get => weight;
             set
@@ -58,9 +59,30 @@ namespace PL.PO
             }
         }
         
-        public string Error => "invalid parameter";
+        public string Error
+        {
+            get
+            {
+                foreach (var item in GetType().GetProperties())
+                {
+                    if(this[nameof(item)] != null)
+                        return "invalid" + item.Name;
+                }
+                return 
+                    null;
+            }
+        }
 
-        public string this[string columnName] => Validation.functions.FirstOrDefault(func => func.Key == columnName.GetType()).Value(this.GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName;
+        public string this[string columnName] {
+            get
+            {
+                var func = Validation.functions.FirstOrDefault(func => func.Key == GetType().GetProperty(columnName).GetType());
+                if(!func.Equals(default))
+                   return func.Value(GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName;
+                return null;
+
+            }
+        } 
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
@@ -72,6 +94,7 @@ namespace PL.PO
         {
             return this.ToStringProperties();
         }
+        
     }
 }
 
