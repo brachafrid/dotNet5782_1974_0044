@@ -77,8 +77,8 @@ namespace PL.PO
             get
             {
                 var func = Validation.functions.FirstOrDefault(func => func.Key == GetType().GetProperty(columnName).GetType());
-                if(!func.Equals(default))
-                   return func.Value(GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName;
+                if (!func.Equals(default))
+                    return func.Value(GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName;
                 return null;
 
             }
