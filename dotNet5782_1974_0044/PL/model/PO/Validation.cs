@@ -37,6 +37,9 @@ namespace PL.PO
             functions.Add(key: "Longitude", value: LongitudeValid);
             functions.Add(key: "Latitude", value: LatitudeValid);
             functions.Add(key: "Phone", value: PhoneValid);
+            functions.Add(key: "Piority", value: EnumValid);
+            functions.Add(key: "CustomerSender", value: IntValid);
+            functions.Add(key: "CustomerReceives", value: IntValid);
 
 
         }

@@ -36,7 +36,7 @@
                 <Label Content="Enter the phone"/>
                 <TextBox Text="{Binding Phone}" />
             </StackPanel>-->
-            <local:AddStationView/>
+            <local:AddParcelView/>
         </StackPanel>
         
     </Grid>

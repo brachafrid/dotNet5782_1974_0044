@@ -55,15 +55,22 @@ namespace PL
                 CustomerSender = new CustomerHandler().ConvertCustomer(parcel.CustomerSender)
             };
         }
-        public void AddParcel(Parcel parcel)
+        public void AddParcel(ParcelAdd parcel)
         {
-            ibal.AddParcel(ConvertBackParcel(parcel));
+            ibal.AddParcel(ConvertBackParcelAdd(parcel));
         }
         public Parcel GetParcel(int id) => ConvertParcel(ibal.GetParcel(id));
         public IEnumerable<ParcelToList> GetParcels => ibal.GetParcels().Select(parcel => ConvertParcelToList(parcel));
         public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone=>ibal.GetParcelsNotAssignedToDrone((int num)=> num == 0).Select(parcel => ConvertParcelToList(parcel));
-
-
-
+        public BO.Parcel ConvertBackParcelAdd(ParcelAdd parcel)
+        {
+            return new()
+            {
+                Priority = (BO.Priorities)parcel.Piority,
+                Weight = (BO.WeightCategories)parcel.Weight,
+                CustomerReceives = CustomerInParcelHandler.ConvertBackCustomerInParcel(new() { Id = parcel.CustomerReceives}),
+                CustomerSender = CustomerInParcelHandler.ConvertBackCustomerInParcel(new() { Id = parcel.CustomerSender })
+            };
+        }
     }
 }

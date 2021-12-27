@@ -11,7 +11,7 @@ namespace PL.PO
         public int? Id
         {
             get => id;
-            init
+            set
             {
                 id = value;
                 onPropertyChanged("Id");
