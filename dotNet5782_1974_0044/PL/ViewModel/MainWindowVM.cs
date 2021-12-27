@@ -12,50 +12,57 @@ using System.Threading.Tasks;
 
 namespace PL
 {
-    public class MainWindowVM:DependencyObject
+    public class MainWindowVM : DependencyObject
     {
-        public RelayCommand CommandAdministrator { get; set; }
-        public RelayCommand ShowCommandAdministrator { get; set; }
-        public RelayCommand ShowCommandCustomer { get; set; }
-
-        //public Visibility VisibilityAdministratorLogin { get; set; } = Visibility.Collapsed;
-        //public Visibility VisibilityCustomerLogin { get; set; } = Visibility.Collapsed;
-
+        public RelayCommand AdministratorLoginCommand { get; set; }
+        public RelayCommand CustomerLoginCommand { get; set; }
+        public RelayCommand ShowAdministratorLoginCommand { get; set; }
+        public RelayCommand ShowCustomerLoginCommand { get; set; }
+        public string Password { get; set; }
         public Visibility VisibilityAdministratorLogin
         {
             get { return (Visibility)GetValue(VisibilityAdministratorLoginProperty); }
             set { SetValue(VisibilityAdministratorLoginProperty, value); }
         }
-
         // Using a DependencyProperty as the backing store for VisibilityAdministratorLogin.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VisibilityAdministratorLoginProperty =
-            DependencyProperty.Register("VisibilityAdministratorLogin", typeof(Visibility), typeof(MainWindowVM), new PropertyMetadata(Visibility.Collapsed));
-                 
+            DependencyProperty.Register("VisibilityAdministratorLogin", typeof(Visibility), typeof(MainWindowVM), new PropertyMetadata(null));
+
         public Visibility VisibilityCustomerLogin
         {
             get { return (Visibility)GetValue(VisibilityCustomerLoginProperty); }
             set { SetValue(VisibilityCustomerLoginProperty, value); }
         }
-
-        // Using a DependencyProperty as the backing store for VisibilityAdministratorLogin.  This enables animation, styling, binding, etc...
+        // Using a DependencyProperty as the backing store for VisibilityCustomerLogin.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VisibilityCustomerLoginProperty =
-            DependencyProperty.Register("VisibilityAdministratorLogin", typeof(Visibility), typeof(MainWindowVM), new PropertyMetadata(Visibility.Collapsed));
+            DependencyProperty.Register("VisibilityCustomerLogin", typeof(Visibility), typeof(MainWindowVM), new PropertyMetadata(null));
 
-        public string Password { get; set; }
         public MainWindowVM()
         {
-            ShowCommandAdministrator = new RelayCommand(ShowAdministratorLogin, null);
-            ShowCommandCustomer = new RelayCommand(ShowCustomerLogin, null);
+            ShowAdministratorLoginCommand = new RelayCommand(ShowAdministratorLogin, null);
+            ShowCustomerLoginCommand = new RelayCommand(ShowCustomerLogin, null);
+            AdministratorLoginCommand = new RelayCommand(AdministratorLogin, null);
             VisibilityAdministratorLogin = Visibility.Collapsed;
             VisibilityCustomerLogin = Visibility.Collapsed;
         }
         public void ShowAdministratorLogin(object param)
         {
             VisibilityAdministratorLogin = Visibility.Visible;
+            VisibilityCustomerLogin = Visibility.Collapsed;
         }
         public void ShowCustomerLogin(object param)
         {
             VisibilityCustomerLogin = Visibility.Visible;
+            VisibilityAdministratorLogin = Visibility.Collapsed;
         }
+
+        public void AdministratorLogin(object param)
+        {
+            if (Password == "1234")
+                MessageBox.Show("welcome");
+            else
+                MessageBox.Show("Administrator password is not correct");
+        }
+
     }
 }
