@@ -13,16 +13,17 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PL.View
+namespace PL
 {
     /// <summary>
     /// Interaction logic for UserControl1.xaml
     /// </summary>
-    public partial class UserControl1 : UserControl
+    public partial class UpdateDroneView : UserControl
     {
-        public UserControl1()
+        public UpdateDroneView()
         {
             InitializeComponent();
         }
+
     }
 }
