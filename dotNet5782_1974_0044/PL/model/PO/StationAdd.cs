@@ -7,8 +7,8 @@ namespace PL.PO
 {
     public class StationAdd : INotifyPropertyChanged, IDataErrorInfo
     {
-        private int id;
-        public int Id
+        private int? id;
+        public int? Id
         {
             get => id;
             init
@@ -28,8 +28,8 @@ namespace PL.PO
                 onPropertyChanged("Name");
             }
         }
-        private int emptyChargeSlots;
-        public int EmptyChargeSlots
+        private int? emptyChargeSlots;
+        public int? EmptyChargeSlots
         {
             get => emptyChargeSlots;
             set
@@ -39,7 +39,7 @@ namespace PL.PO
             }
         }
 
-        private Location location;
+        private Location location = new();
         public Location Location
         {
             get => location;
