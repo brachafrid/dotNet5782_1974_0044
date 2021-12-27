@@ -10,7 +10,6 @@ namespace PL.PO
 {
     public class DroneAdd : INotifyPropertyChanged, IDataErrorInfo
     {
-        static int count = 0;
         private int? id;
         public int? Id
         {
@@ -39,8 +38,8 @@ namespace PL.PO
                 onPropertyChanged("Model");
             }
         }
-        private WeightCategories weight;
-        public WeightCategories Weight
+        private WeightCategories? weight;
+        public WeightCategories? Weight
         {
             get => weight;
             set

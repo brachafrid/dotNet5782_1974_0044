@@ -15,8 +15,8 @@ namespace PL
         {
             return new BO.Location()
             {
-               Longitude=location.Longitude,
-               Latitude=location.Latitude
+               Longitude=(double)location.Longitude,
+               Latitude=(double)location.Latitude
             };
         }
 
@@ -24,8 +24,8 @@ namespace PL
         {
             return new Location()
             {
-                Longitude = location.Longitude,
-                Latitude = location.Latitude
+                Longitude = (double)location.Longitude,
+                Latitude = (double)location.Latitude
             };
         }
 

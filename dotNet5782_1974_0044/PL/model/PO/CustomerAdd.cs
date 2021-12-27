@@ -11,11 +11,11 @@ namespace PL.PO
 {
     public class CustomerAdd : INotifyPropertyChanged, IDataErrorInfo
     {
-        private int id;
-        public int Id
+        private int? id;
+        public int? Id
         {
             get => id;
-            init
+            set
             {
                 id = value;
                 onPropertyChanged("Id");
@@ -43,7 +43,7 @@ namespace PL.PO
             }
         }
 
-        private Location location;
+        private Location location = new();
         public Location Location
         {
             get => location;
@@ -57,17 +57,28 @@ namespace PL.PO
         {
             get
             {
-                //foreach (var propertyInfo in GetType().GetProperties())
-                //{
-                //    if (!Validation.functions.FirstOrDefault(func => func.Key == propertyInfo.GetType()).Value(GetType().GetProperty(propertyInfo.Name).GetValue(this)))
-                //        return "invalid" + propertyInfo.Name;
-                //}
-                return null;
+                foreach (var item in GetType().GetProperties())
+                {
+                    if (this[item.Name] != null)
+                        return "invalid" + item.Name;
+                }
+                return
+                    null;
             }
         }
 
-        public string this[string columnName] =>null; /*Validation.functions.FirstOrDefault(func => func.Key == columnName.GetType()).Value(this.GetType().GetProperty(column*//*Name).GetValue(this)) ? null : "invalid " + columnName;*/
+        public string this[string columnName]
+        {
 
+            get
+            {
+                if (Validation.functions.FirstOrDefault(func => func.Key == columnName).Value == default(Predicate<object>))
+                    return null;
+                var func = Validation.functions[columnName];
+                return !func.Equals(default) ? func(GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName : null;
+
+            }
+        }
         public override string ToString()
         {
             return this.ToStringProperties();
