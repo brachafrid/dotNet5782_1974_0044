@@ -30,7 +30,7 @@ namespace PL
         // Using a DependencyProperty as the backing store for VisibilityAdministratorLogin.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VisibilityAdministratorLoginProperty =
             DependencyProperty.Register("VisibilityAdministratorLogin", typeof(Visibility), typeof(MainWindowVM), new PropertyMetadata(Visibility.Collapsed));
-
+                 
         public Visibility VisibilityCustomerLogin
         {
             get { return (Visibility)GetValue(VisibilityCustomerLoginProperty); }
