@@ -10,6 +10,12 @@ namespace PL.PO
 {
     public class DroneAdd : INotifyPropertyChanged, IDataErrorInfo
     {
+        Dictionary<string, Func<object,bool>> _validationColumns;
+        public DroneAdd()
+        {
+            _validationColumns = new Dictionary<string, Func<object, bool>>();
+            _validationColumns.Add(nameof(Id),(input)=> Validation.NumberValid((int)input));
+        }
         private int id;
         public int Id
         {
