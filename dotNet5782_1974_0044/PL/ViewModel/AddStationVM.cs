@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using PL.PO;
 
-namespace PL.View
+namespace PL
 {
   public  class AddStationVM
     {
@@ -15,6 +15,7 @@ namespace PL.View
         public AddStationVM()
         {
             station = new();
+            station.Location = new();
             AddStationCommand = new(Add, param => station.Error == null);
         }
         public void Add(object param)

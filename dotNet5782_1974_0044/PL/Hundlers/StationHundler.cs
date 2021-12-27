@@ -72,7 +72,7 @@ namespace PL
             {
                 Id = (int)station.Id,
                 Name = station.Name,
-                AvailableChargingPorts = station.EmptyChargeSlots,
+                AvailableChargingPorts = (int)station.EmptyChargeSlots,
                 Location = LocationHandler.ConvertBackLocation(station.Location)
 
             };
