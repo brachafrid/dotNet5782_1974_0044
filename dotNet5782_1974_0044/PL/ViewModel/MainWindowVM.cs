@@ -26,7 +26,7 @@ namespace PL
         }
         // Using a DependencyProperty as the backing store for VisibilityAdministratorLogin.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VisibilityAdministratorLoginProperty =
-            DependencyProperty.Register("VisibilityAdministratorLogin", typeof(Visibility), typeof(MainWindowVM), new PropertyMetadata(null));
+            DependencyProperty.Register("VisibilityAdministratorLogin", typeof(Visibility), typeof(MainWindowVM), new PropertyMetadata(Visibility.Collapsed));
 
         public Visibility VisibilityCustomerLogin
         {
@@ -35,16 +35,16 @@ namespace PL
         }
         // Using a DependencyProperty as the backing store for VisibilityCustomerLogin.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VisibilityCustomerLoginProperty =
-            DependencyProperty.Register("VisibilityCustomerLogin", typeof(Visibility), typeof(MainWindowVM), new PropertyMetadata(null));
+            DependencyProperty.Register("VisibilityCustomerLogin", typeof(Visibility), typeof(MainWindowVM), new PropertyMetadata(Visibility.Collapsed));
 
         public MainWindowVM()
         {
             ShowAdministratorLoginCommand = new RelayCommand(ShowAdministratorLogin, null);
             ShowCustomerLoginCommand = new RelayCommand(ShowCustomerLogin, null);
             AdministratorLoginCommand = new RelayCommand(AdministratorLogin, null);
-            CustomerLoginCommand = new RelayCommand(AdministratorLogin, null);
-            VisibilityAdministratorLogin = Visibility.Collapsed;
-            VisibilityCustomerLogin = Visibility.Collapsed;
+            //CustomerLoginCommand = new RelayCommand(AdministratorLogin, null);
+            //VisibilityAdministratorLogin = Visibility.Collapsed;
+            //VisibilityCustomerLogin = Visibility.Collapsed;
         }
         public void ShowAdministratorLogin(object param)
         {

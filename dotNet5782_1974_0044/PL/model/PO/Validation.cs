@@ -32,6 +32,7 @@ namespace PL.PO
             functions.Add(key: "Weight", value: EnumValid);
             functions.Add(key: "DroneState", value: EnumValid);
             functions.Add(key: "StationId", value: IntValid);
+            functions.Add(key: "Phone", value: PhoneValid);
 
         }
         public static bool LongitudeValid(object longitude) => (double)longitude >= 0 && (double)longitude <= 90;

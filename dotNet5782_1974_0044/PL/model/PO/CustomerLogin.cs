@@ -34,28 +34,34 @@ namespace PL.PO
         {
             get
             {
-                foreach (var propertyInfo in GetType().GetProperties())
+                foreach (var item in GetType().GetProperties())
                 {
-                    if (!Validation.functions.FirstOrDefault(func => func.Key == propertyInfo.GetType()).Value(GetType().GetProperty(propertyInfo.Name).GetValue(this)))
-                        return "invalid" + propertyInfo.Name;
+                    if (this[item.Name] != null)
+                        return "invalid" + item.Name;
                 }
-                return null;
+                return
+                    null;
             }
         }
 
-        public string this[string columnName] => Validation.functions.FirstOrDefault(func => func.Key == columnName.GetType()).Value(this.GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName;
-
-        public override string ToString()
+        public string this[string columnName]
         {
-            return this.ToStringProperties();
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
 
+            get
+            {
+                if (Validation.functions.FirstOrDefault(func => func.Key == columnName).Value == default(Predicate<object>))
+                    return null;
+                var func = Validation.functions[columnName];
+                return !func.Equals(default) ? func(GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName : null;
+
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
         }
     }
 }
