@@ -18,7 +18,7 @@ namespace PL
         public RelayCommand CustomerLoginCommand { get; set; }
         public RelayCommand ShowAdministratorLoginCommand { get; set; }
         public RelayCommand ShowCustomerLoginCommand { get; set; }
-        public string Password { get; set; }
+
         public Visibility VisibilityAdministratorLogin
         {
             get { return (Visibility)GetValue(VisibilityAdministratorLoginProperty); }
@@ -42,6 +42,7 @@ namespace PL
             ShowAdministratorLoginCommand = new RelayCommand(ShowAdministratorLogin, null);
             ShowCustomerLoginCommand = new RelayCommand(ShowCustomerLogin, null);
             AdministratorLoginCommand = new RelayCommand(AdministratorLogin, null);
+            CustomerLoginCommand = new RelayCommand(AdministratorLogin, null);
             VisibilityAdministratorLogin = Visibility.Collapsed;
             VisibilityCustomerLogin = Visibility.Collapsed;
         }
@@ -58,8 +59,20 @@ namespace PL
 
         public void AdministratorLogin(object param)
         {
-            if (Password == "1234")
-                MessageBox.Show("welcome");
+            if (param is PasswordBox && (param as PasswordBox).Password == "1234")
+            {
+                MessageBox.Show("wwelcome!!!!!!!!!!!!!");
+            }
+            else
+                MessageBox.Show("Administrator password is not correct");
+        }
+
+        public void CustomerLogin(object param)
+        {
+            if (param is PasswordBox && (param as PasswordBox).Password == "1234")
+            {
+                MessageBox.Show("wwelcome!!!!!!!!!!!!!");
+            }
             else
                 MessageBox.Show("Administrator password is not correct");
         }
