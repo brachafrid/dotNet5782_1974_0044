@@ -16,7 +16,7 @@
     </Window.DataContext>
     <Grid>
         <StackPanel>
-            <ToolBarTray>
+            <!--<ToolBarTray>
                 <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False">
                     <Button ToolTip="login as administor" Content="{materialDesign:PackIcon Kind=AccountWrench}" Command="{Binding ShowAdministratorLoginCommand}" />
                     <Separator />
@@ -35,7 +35,8 @@
                 <TextBox Text="{Binding Id}" />
                 <Label Content="Enter the phone"/>
                 <TextBox Text="{Binding Phone}" />
-            </StackPanel>
+            </StackPanel>-->
+            <local:UpdateDroneView/>
         </StackPanel>
         
     </Grid>
