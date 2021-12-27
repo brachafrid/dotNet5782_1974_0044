@@ -10,11 +10,12 @@ namespace PL.PO
 {
     public class DroneAdd : INotifyPropertyChanged, IDataErrorInfo
     {
+        static int count = 0;
         private int? id;
         public int? Id
         {
             get => id;
-            init
+            set
             {
                 id = value;
                 onPropertyChanged("Id");
@@ -38,8 +39,8 @@ namespace PL.PO
                 onPropertyChanged("Model");
             }
         }
-        private WeightCategories? weight;
-        public WeightCategories? Weight
+        private WeightCategories weight;
+        public WeightCategories Weight
         {
             get => weight;
             set
@@ -65,7 +66,7 @@ namespace PL.PO
             {
                 foreach (var item in GetType().GetProperties())
                 {
-                    if(this[nameof(item)] != null)
+                    if(this[item.Name] != null)
                         return "invalid" + item.Name;
                 }
                 return 
@@ -74,12 +75,13 @@ namespace PL.PO
         }
 
         public string this[string columnName] {
+
             get
             {
-                var func = Validation.functions.FirstOrDefault(func => func.Key == GetType().GetProperty(columnName).GetType());
-                if(!func.Equals(default))
-                   return func.Value(GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName;
-                return null;
+               if(Validation.functions.FirstOrDefault(func=> func.Key == columnName).Value==default(Predicate<object>))
+                    return null;
+                var func = Validation.functions[columnName];
+                return !func.Equals(default) ? func(GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName : null;
 
             }
         } 
