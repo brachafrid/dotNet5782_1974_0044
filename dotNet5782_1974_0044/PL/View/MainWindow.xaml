@@ -27,8 +27,8 @@
             </ToolBarTray>
             <StackPanel Visibility="{Binding VisibilityAdministratorLogin}">
                 <Label Content="Enter the password"/>
-                <PasswordBox />
-                <Button Content="Login" Command="{Binding AdministratorLoginCommand}"/>
+                <PasswordBox x:Name="pwd" />
+                <Button Content="Login" Command="{Binding AdministratorLoginCommand}" CommandParameter="{Binding ElementName=pwd}"/>
             </StackPanel>
             <StackPanel Visibility="{Binding VisibilityCustomerLogin}">
                 <Label Content="Enter the Id"/>

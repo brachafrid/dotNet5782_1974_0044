@@ -18,7 +18,7 @@ namespace PL
         public RelayCommand CustomerLoginCommand { get; set; }
         public RelayCommand ShowAdministratorLoginCommand { get; set; }
         public RelayCommand ShowCustomerLoginCommand { get; set; }
-        public string Password { get; set; }
+
         public Visibility VisibilityAdministratorLogin
         {
             get { return (Visibility)GetValue(VisibilityAdministratorLoginProperty); }
@@ -26,7 +26,7 @@ namespace PL
         }
         // Using a DependencyProperty as the backing store for VisibilityAdministratorLogin.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VisibilityAdministratorLoginProperty =
-            DependencyProperty.Register("VisibilityAdministratorLogin", typeof(Visibility), typeof(MainWindowVM), new PropertyMetadata(null));
+            DependencyProperty.Register("VisibilityAdministratorLogin", typeof(Visibility), typeof(MainWindowVM), new PropertyMetadata(Visibility.Collapsed));
 
         public Visibility VisibilityCustomerLogin
         {
@@ -35,15 +35,16 @@ namespace PL
         }
         // Using a DependencyProperty as the backing store for VisibilityCustomerLogin.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty VisibilityCustomerLoginProperty =
-            DependencyProperty.Register("VisibilityCustomerLogin", typeof(Visibility), typeof(MainWindowVM), new PropertyMetadata(null));
+            DependencyProperty.Register("VisibilityCustomerLogin", typeof(Visibility), typeof(MainWindowVM), new PropertyMetadata(Visibility.Collapsed));
 
         public MainWindowVM()
         {
             ShowAdministratorLoginCommand = new RelayCommand(ShowAdministratorLogin, null);
             ShowCustomerLoginCommand = new RelayCommand(ShowCustomerLogin, null);
             AdministratorLoginCommand = new RelayCommand(AdministratorLogin, null);
-            VisibilityAdministratorLogin = Visibility.Collapsed;
-            VisibilityCustomerLogin = Visibility.Collapsed;
+            //CustomerLoginCommand = new RelayCommand(AdministratorLogin, null);
+            //VisibilityAdministratorLogin = Visibility.Collapsed;
+            //VisibilityCustomerLogin = Visibility.Collapsed;
         }
         public void ShowAdministratorLogin(object param)
         {
@@ -58,8 +59,20 @@ namespace PL
 
         public void AdministratorLogin(object param)
         {
-            if (Password == "1234")
-                MessageBox.Show("welcome");
+            if (param is PasswordBox && (param as PasswordBox).Password == "1234")
+            {
+                MessageBox.Show("wwelcome!!!!!!!!!!!!!");
+            }
+            else
+                MessageBox.Show("Administrator password is not correct");
+        }
+
+        public void CustomerLogin(object param)
+        {
+            if (param is PasswordBox && (param as PasswordBox).Password == "1234")
+            {
+                MessageBox.Show("wwelcome!!!!!!!!!!!!!");
+            }
             else
                 MessageBox.Show("Administrator password is not correct");
         }

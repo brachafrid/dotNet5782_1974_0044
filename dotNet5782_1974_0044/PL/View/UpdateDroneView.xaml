@@ -4,24 +4,46 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PL" xmlns:local1="clr-namespace:PL.ViewModel"
+             xmlns:local2="clr-namespace:PL.ViewModel" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.DataContext>
-        <local1:UpdateDroneVM />
+        <local:UpdateDroneVM />
     </UserControl.DataContext>
     <Grid>
         <StackPanel Margin="0,10,34,118">
-            <ContentPresenter Content="{Binding}" x:Name="Drone"/>
-            <TextBlock x:Name="Details" Text ="{Binding drone, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" Height="43"/>
+
+            <TextBlock x:Name="Id" Text ="{Binding drone.Id, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" Height="43"/>
             <TextBox x:Name="DroneModel"   Text ="{Binding drone.Model, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" Height="35"/>
+            <TextBlock  Text ="{Binding drone.DroneState, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" Height="43"/>
+            <TextBlock  Text ="{Binding drone.BattaryMode, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" Height="43"/>
+            <TextBlock  Text ="{Binding drone.Weight, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" Height="43"/>
+            
             <Button Style="{StaticResource MaterialDesignFlatButton}"
                     HorizontalAlignment="Center"
                     Content="Update drone"
                     Command="{Binding UpdateDroneCommand}" CommandParameter="{Binding DroneModel}"/>
-            <Button Style="{StaticResource MaterialDesignFlatButton}"
+            <!--<Button Style="{StaticResource MaterialDesignFlatButton}"
                     HorizontalAlignment="Center"
-                    Content="Close drone"
-                    Command="{Binding CloseDroneCommand}" />
+                    Content="Send To Charging"
+                    Command="{Binding SendChargingDroneCommand}"/>-->
+            <!--<StackPanel x:Name="droneCharge">
+                <Button x:Name="sendToCharging" Content="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingContent}}"  Visibility="{Binding Path=DroneState,Converter={StaticResource ConvertDroneChargingVisibility}}"/>
+                <Label x:Name="timeCharge" Content="enter time of charging in minutes" Visibility="Collapsed"/>
+                <TextBox x:Name="timeOfCharge" Visibility="Collapsed"></TextBox>
+                <Button x:Name="confirm" Content="confirm" Visibility="Collapsed" Width="80"></Button>
+            </StackPanel>
+            <StackPanel>
+                <Button x:Name="parcelTreatedByDRone"  Visibility="{Binding Path=drone.DroneState ,Converter={StaticResource parcelTreatedByDroneVisibility}}">
+                    <Button.Content>
+                        <MultiBinding Converter="{StaticResource parcelTreatedByDroneContent}">
+                            <Binding Path="DroneState" />
+                            <Binding Path="Parcel.ParcelState" />
+                        </MultiBinding>
+                    </Button.Content>
+                </Button>
+            </StackPanel>-->
+
         </StackPanel>
     </Grid>
 </UserControl>
