@@ -7,9 +7,9 @@
              xmlns:local="clr-namespace:PL"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.DataContext>
+    <!--<UserControl.DataContext>
         <local:AddDroneVM />
-    </UserControl.DataContext>
+    </UserControl.DataContext>-->
     <Grid>
         <StackPanel>
         <TextBox Text="{Binding drone.Id, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Id" Margin="3"/>
