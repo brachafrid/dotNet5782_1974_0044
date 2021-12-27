@@ -26,9 +26,9 @@ namespace PL
             ibal.SendDroneForCharg(id);
         }
 
-        public void ReleaseDroneFromCharging(int id, float timeOfCharg)
+        public void ReleaseDroneFromCharging(int id)
         {
-            ibal.ReleaseDroneFromCharging(id, timeOfCharg);
+            ibal.ReleaseDroneFromCharging(id);
         }
 
         public Drone GetDrone(int id)
