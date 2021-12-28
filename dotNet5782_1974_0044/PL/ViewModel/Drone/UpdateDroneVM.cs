@@ -12,9 +12,6 @@ namespace PL
 {
     public class UpdateDroneVM: DependencyObject
     {
-        public string droneModel;
-
-
         public Drone drone
         {
             get { return (Drone)GetValue(droneProperty); }
@@ -23,15 +20,14 @@ namespace PL
 
         public static readonly DependencyProperty droneProperty =
             DependencyProperty.Register("drone", typeof(Drone), typeof(UpdateDroneVM), new PropertyMetadata(new Drone()));
-        public string modelNew
+        public string droneModel
         {
-            get { return (string)GetValue(modelNewProperty); }
-            set { SetValue(modelNewProperty, value); }
+            get { return (string)GetValue(droneModelProperty); }
+            set { SetValue(droneModelProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for modelNew.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty modelNewProperty =
-            DependencyProperty.Register("modelNew", typeof(string), typeof(UpdateDroneVM), new PropertyMetadata(string.Empty));
+        public static readonly DependencyProperty droneModelProperty =
+            DependencyProperty.Register("droneModel", typeof(string), typeof(UpdateDroneVM), new PropertyMetadata(string.Empty));
 
 
         public RelayCommand UpdateDroneCommand { get; set; }
@@ -46,7 +42,6 @@ namespace PL
             UpdateDroneCommand = new(UpdateModel, param => drone.Error == null);
             ChargingDroneCommand = new(sendToCharging, param => drone.Error == null);
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => drone.Error == null);
-            //droneModel = drone.Model;
             DelegateVM.Drone += init; 
         }
         public void init()
@@ -59,10 +54,10 @@ namespace PL
             {
                 if (droneModel != drone.Model)
                 {
-                    droneModel = drone.Model;
-                    new DroneHandler().UpdateDrone(drone.Id, droneModel);
+                    new DroneHandler().UpdateDrone(drone.Id, drone.Model);
                     MessageBox.Show("The drone has been successfully updated");
-                    
+                    droneModel = drone.Model;
+
                 }
                 else
                 {

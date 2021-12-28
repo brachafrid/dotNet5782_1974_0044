@@ -12,7 +12,7 @@
     </UserControl.DataContext>
     <UserControl.Resources>
         <ResourceDictionary>
-            <local:TabItemContentConverter x:Key="TabItemContentConverter" />
+            <!--<local:TabItemContentConverter x:Key="TabItemContentConverter" />-->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../DictionaryTab.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -31,7 +31,9 @@
                     <Button ToolTip="Stations" ToolBar.OverflowMode="AsNeeded" Content="{materialDesign:PackIcon Kind=GasStation}" />
                 </ToolBar>
             </ToolBarTray>
-            <TabControl ItemsSource="{Binding TabItems}" />
+            <local:UpdateDroneView/>
+            <!--<TabControl ItemsSource="{Binding TabItems}" />-->
         </DockPanel>
+       
     </Grid>
 </UserControl>
