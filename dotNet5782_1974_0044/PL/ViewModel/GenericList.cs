@@ -61,9 +61,12 @@ namespace PL
         {
             OptionVisibility = Visibility.Visible;
         }
-        void chooseOption(object param)
+        void ChooseOption(object param)
         {
-             
+             if(typeof(T).GetProperty(selectedSort).PropertyType.IsEnum)
+            {
+
+            }
         }
 
 
