@@ -41,5 +41,6 @@
                 </TabControl.ContentTemplate>
             </TabControl>
         </DockPanel>
+       
     </Grid>
 </UserControl>
