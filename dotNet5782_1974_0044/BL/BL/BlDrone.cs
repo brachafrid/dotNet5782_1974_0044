@@ -119,7 +119,7 @@ namespace BL
             if (droneToList == default)
                 throw new ArgumentNullException(" There is no a drone with the same id in data");
             if (droneToList.DroneState != DroneState.AVAILABLE)
-                throw new InvalidEnumArgumentException("The drone is not available so it is not possible to send it for charging ");
+                throw new InvalidEnumArgumentException($"The drone is {droneToList.DroneState} so it is not possible to send it for charging ");
             DO.Station station = ClosetStationPossible(dal.GetStations(), droneToList.CurrentLocation, droneToList.BatteryState, out double minDistance);
             if (station.Equals(default(DO.Station)))
                 throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();
@@ -133,7 +133,7 @@ namespace BL
         }
 
         /// <summary>
-        /// REalse the drone from charging
+        /// Realse the drone from charging
         /// </summary>
         /// <param name="id">The drone to realsing</param>
         /// <param name="timeOfCharg">The time of charging</param>
@@ -155,7 +155,7 @@ namespace BL
         /// <summary>
         /// Assign parcel to drone in according to weight and distance (call to help function)
         /// </summary>
-        /// <param name="droneId">The dreone to assign it a parcel</param>
+        /// <param name="droneId">The drone to assign it a parcel</param>
         public void AssingParcelToDrone(int droneId)
         {
             DroneToList aviableDrone = drones.FirstOrDefault(item => item.Id == droneId);
