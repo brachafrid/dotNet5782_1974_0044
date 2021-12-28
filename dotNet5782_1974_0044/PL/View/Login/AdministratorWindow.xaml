@@ -42,7 +42,6 @@
                     </StackPanel>
                 </TabItem.Header>
             </TabItem>-->
-            <local:UpdateDroneView/>
         </TabControl>
     </Grid>
 </UserControl>

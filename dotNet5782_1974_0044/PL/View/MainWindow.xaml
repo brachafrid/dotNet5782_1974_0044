@@ -4,6 +4,7 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:PL"
+        xmlns:PO="clr-namespace:PL.PO"
         mc:Ignorable="d"
         Title="MainWindow"  Height="450" Width="800"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
@@ -14,29 +15,12 @@
     <Window.DataContext>
         <local:MainWindowVM/>
     </Window.DataContext>
-    <Grid>
-        <StackPanel Visibility="{Binding VisibilityLogin}">
-            <ToolBarTray>
-                <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False">
-                    <Button ToolTip="login as administor" Content="{materialDesign:PackIcon Kind=AccountWrench}" Command="{Binding ShowAdministratorLoginCommand}" />
-                    <Separator />
-                    <Button  ToolTip="login" Content="{materialDesign:PackIcon Kind=AccountArrowLeft}"  Command="{Binding ShowCustomerLoginCommand}"/>
-                    <Separator />
-                    <Button ToolTip="sign in" ToolBar.OverflowMode="AsNeeded" Content="{materialDesign:PackIcon Kind=AccountMultiplePlus}" />
-                </ToolBar>
-            </ToolBarTray>
-            <StackPanel Visibility="{Binding VisibilityAdministratorLogin}">
-                <Label Content="Enter the password"/>
-                <PasswordBox x:Name="pwd" />
-                <Button Content="Login" Command="{Binding AdministratorLoginCommand}" CommandParameter="{Binding ElementName=pwd}"/>
-            </StackPanel>
-            <StackPanel Visibility="{Binding VisibilityCustomerLogin}">
-                <Label Content="Enter the Id"/>
-                <TextBox Text="{Binding Id}" />
-                <Label Content="Enter the phone"/>
-                <TextBox Text="{Binding Phone}" />
-            </StackPanel>
-
-        </StackPanel>
+    <Window.Resources>
+        <ResourceDictionary>
+            <local:UserControlConverter x:Key="UserControlConverter" />
+        </ResourceDictionary>
+    </Window.Resources>
+    <Grid >
+        <ContentControl Content="{Binding Path=(PO:LoginScreen.MyScreen),Converter={StaticResource UserControlConverter}}"/>
     </Grid>
 </Window>
