@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace PL
 {
-
     public static class DelegateVM
     {
         public static Action Drone { set; get; }
