@@ -16,10 +16,15 @@ namespace PL
         public RelayCommand AddDroneCommand { get; set; }
         public AddDroneVM()
         {
-            StationsId = new StationHundler().GetStaionsWithEmptyChargeSlots().Select(station => station.Id).ToList();
+            update();
+            DelegateVM.Station += update;
             drone = new();
             AddDroneCommand = new(Add, param => drone.Error == null);
             Weight = Enum.GetValues(typeof(WeightCategories));
+        }
+        void update()
+        {
+            StationsId = new StationHundler().GetStaionsWithEmptyChargeSlots().Select(station => station.Id).ToList();
         }
         public void Add(object param)
         {
@@ -27,6 +32,8 @@ namespace PL
             {
                 new DroneHandler().AddDrone(drone);
                 MessageBox.Show("success");
+                DelegateVM.Drone();
+                DelegateVM.Station();
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {

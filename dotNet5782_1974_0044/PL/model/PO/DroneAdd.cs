@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,6 +12,8 @@ namespace PL.PO
     public class DroneAdd : INotifyPropertyChanged, IDataErrorInfo
     {
         private int? id;
+        [Required(ErrorMessage = "required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Only positive number allowed")]
         public int? Id
         {
             get => id;
@@ -20,15 +23,17 @@ namespace PL.PO
                 onPropertyChanged("Id");
             }
         }
-        private string model;
-        private int stationId;
 
+        private int stationId;
+        [Required(ErrorMessage = "required")]
         public int StationId
         {
             get { return stationId; }
             set { stationId = value; }
         }
 
+        private string model;
+        [Required(ErrorMessage = "required")]
         public string Model
         {
             get => model;
@@ -38,7 +43,9 @@ namespace PL.PO
                 onPropertyChanged("Model");
             }
         }
+
         private WeightCategories? weight;
+        [Required(ErrorMessage = "required")]
         public WeightCategories? Weight
         {
             get => weight;
@@ -48,7 +55,9 @@ namespace PL.PO
                 onPropertyChanged("Weight");
             }
         }
+
         private DroneState droneState;
+        [Required(ErrorMessage = "required")]
         public DroneState DroneState
         {
             get => droneState;
@@ -58,33 +67,8 @@ namespace PL.PO
                 onPropertyChanged("DroneState");
             }
         }
-        
-        public string Error
-        {
-            get
-            {
-                foreach (var item in GetType().GetProperties())
-                {
-                    if(this[item.Name] != null)
-                        return "invalid" + item.Name;
-                }
-                return 
-                    null;
-            }
-        }
-
-        public string this[string columnName] {
-
-            get
-            {
-               if(Validation.functions.FirstOrDefault(func=> func.Key == columnName).Value==default(Predicate<object>))
-                    return null;
-                var func = Validation.functions[columnName];
-                return !func.Equals(default) ? func(GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName : null;
-
-            }
-        } 
-
+        public string Error => Validation.ErorrCheck(this);
+        public string this[string columnName] => Validation.PropError(columnName, this);
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
         {
@@ -95,7 +79,6 @@ namespace PL.PO
         {
             return this.ToStringProperties();
         }
-        
     }
 }
 
