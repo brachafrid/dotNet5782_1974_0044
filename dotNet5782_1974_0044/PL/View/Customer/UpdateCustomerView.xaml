@@ -10,16 +10,16 @@
         <local:UpdateCustomerVM/>
     </UserControl.DataContext>
     <UserControl.Resources>
-        <!--<ResourceDictionary>
-            <local:parcelTreatedByDroneVisibility x:Key="parcelTreatedByDroneVisibility" />
-            <local:ConverterUpdateModel x:Key="ConverterUpdateModel" />
+        <ResourceDictionary>
+            <local:ConverterUpdateCustomer x:Key="ConverterUpdateCustomer" />
+            <!--<local:ConverterUpdateModel x:Key="ConverterUpdateModel" />
             <local:parcelTreatedByDroneContent x:Key="parcelTreatedByDroneContent" />
             <local:ConvertDroneChargingVisibility x:Key="ConvertDroneChargingVisibility" />
-            <local:ConvertDroneChargingContent x:Key="ConvertDroneChargingContent" />
-        </ResourceDictionary>-->
+            <local:ConvertDroneChargingContent x:Key="ConvertDroneChargingContent" />-->
+        </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <StackPanel x:Name="details" >
+        <StackPanel x:Name="customer" >
             <TextBlock Text="Id: "/>
             <TextBox x:Name="Id" Text ="{Binding customer.Id, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
             <TextBlock Text="Name: "/>
@@ -32,7 +32,18 @@
             <TextBlock Text="Longitude: "/>
             <TextBlock  Text ="{Binding customer.Location.Longitude, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
             <Button Content="close customer"/>
-            <Button Content="update customer" Command="{Binding UpdateCustomerCommand}"/>
+            <Button Content="update customer" Command="{Binding UpdateCustomerCommand}">
+                <Button.Visibility>
+                    <MultiBinding Converter="{StaticResource ConverterUpdateCustomer}">
+                        <Binding Path="customer.Id" />
+                        <Binding Path="customerId" />
+                        <!--<Binding Path="customer.Name" />
+                        <Binding Path="customerName" />
+                        <Binding Path="customer.Phone" />
+                        <Binding Path="customerPhone" />-->
+                    </MultiBinding>
+                </Button.Visibility>
+            </Button>
             <!--<Button Content="update drone's model" Command="{Binding UpdateDroneCommand}">
                 <Button.Visibility>
                     <MultiBinding Converter="{StaticResource ConverterUpdateModel}">
@@ -40,20 +51,8 @@
                         <Binding Path="droneModel" />
                     </MultiBinding>
                 </Button.Visibility>
-            </Button>
-            <StackPanel x:Name="droneCharge">
-                <Button x:Name="sendToCharging" Content="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingContent}}"  Visibility="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingVisibility}}" Command="{Binding ChargingDroneCommand}"/>
-            </StackPanel>
-            <StackPanel>
-                <Button x:Name="parcelTreatedByDRone"   Visibility="{Binding Path=drone.DroneState,Converter={StaticResource parcelTreatedByDroneVisibility}}" Command="{Binding ParcelTreatedByDrone}">
-                    <Button.Content>
-                        <MultiBinding Converter="{StaticResource parcelTreatedByDroneContent}">
-                            <Binding Path="drone.DroneState" />
-                            <Binding Path="drone.Parcel.ParcelState" />
-                        </MultiBinding>
-                    </Button.Content>
-                </Button>
-            </StackPanel>-->
+            </Button>-->
+            
         </StackPanel>
     </Grid>
 </UserControl>

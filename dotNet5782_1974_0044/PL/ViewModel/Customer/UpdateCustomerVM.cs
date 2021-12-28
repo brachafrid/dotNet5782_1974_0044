@@ -10,7 +10,9 @@ namespace PL
 {
     class UpdateCustomerVM : DependencyObject
     {
-
+        public int customerId;
+        public string customerName;
+        public string customerPhone;
 
         public Customer customer
         {
@@ -27,6 +29,10 @@ namespace PL
         public UpdateCustomerVM()
         {
             init();
+            customerId = customer.Id;
+            customerName = customer.Name;
+            customerPhone = customer.Phone;
+
             UpdateCustomerCommand = new(UpdateCustomer, param => customer.Error == null);
             DelegateVM.Customer += init;
         }
