@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PL.View.Station
+namespace PL
 {
     /// <summary>
     /// Interaction logic for StationToListWindow.xaml
