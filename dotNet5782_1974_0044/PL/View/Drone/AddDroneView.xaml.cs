@@ -12,16 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using PL.PO;
 
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for AdministratorWindow.xaml
+    /// Interaction logic for AddDroneVeiw.xaml
     /// </summary>
-    public partial class AdministratorWindow : UserControl
+    public partial class AddDroneView : UserControl
     {
-        public AdministratorWindow()
+        public AddDroneView()
         {
             InitializeComponent();
         }

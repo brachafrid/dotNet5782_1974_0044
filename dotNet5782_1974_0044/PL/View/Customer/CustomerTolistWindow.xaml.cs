@@ -13,14 +13,14 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PL
+namespace PL.View.Customer
 {
     /// <summary>
-    /// Interaction logic for AddDroneVeiw.xaml
+    /// Interaction logic for CustomerTolistWindow.xaml
     /// </summary>
-    public partial class AddDroneVeiw : UserControl
+    public partial class CustomerTolistWindow : UserControl
     {
-        public AddDroneVeiw()
+        public CustomerTolistWindow()
         {
             InitializeComponent();
         }

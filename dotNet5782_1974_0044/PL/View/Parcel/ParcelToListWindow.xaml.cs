@@ -12,16 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using PL.PO;
 
-namespace PL
+namespace PL.View.Parcel
 {
     /// <summary>
-    /// Interaction logic for AdministratorWindow.xaml
+    /// Interaction logic for ParcelToListWindow.xaml
     /// </summary>
-    public partial class AdministratorWindow : UserControl
+    public partial class ParcelToListWindow : UserControl
     {
-        public AdministratorWindow()
+        public ParcelToListWindow()
         {
             InitializeComponent();
         }

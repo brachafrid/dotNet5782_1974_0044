@@ -12,16 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using PL.PO;
 
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for AdministratorWindow.xaml
+    /// Interaction logic for SortInput.xaml
     /// </summary>
-    public partial class AdministratorWindow : UserControl
+    public partial class SortInput : UserControl
     {
-        public AdministratorWindow()
+        public SortInput()
         {
             InitializeComponent();
         }

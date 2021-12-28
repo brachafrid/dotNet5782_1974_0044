@@ -12,16 +12,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using PL.PO;
 
-namespace PL
+namespace PL.View.Station
 {
     /// <summary>
-    /// Interaction logic for AdministratorWindow.xaml
+    /// Interaction logic for StationToListWindow.xaml
     /// </summary>
-    public partial class AdministratorWindow : UserControl
+    public partial class StationToListWindow : UserControl
     {
-        public AdministratorWindow()
+        public StationToListWindow()
         {
             InitializeComponent();
         }
