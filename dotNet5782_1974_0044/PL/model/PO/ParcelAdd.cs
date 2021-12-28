@@ -11,9 +11,8 @@ namespace PL.PO
 {
     public class ParcelAdd : INotifyPropertyChanged, IDataErrorInfo
     {
-
-        private CustomerInParcel customerSender;
-        public CustomerInParcel CustomerSender
+        private int customerSender;
+        public int CustomerSender
         {
             get => customerSender;
             set
@@ -22,9 +21,9 @@ namespace PL.PO
                 onPropertyChanged("CustomerSender");
             }
         }
-        private CustomerInParcel customerReceives;
+        private int customerReceives;
         [Required(ErrorMessage = "required")]
-        public CustomerInParcel CustomerReceives
+        public int CustomerReceives
         {
             get => customerReceives;
             set
@@ -33,9 +32,9 @@ namespace PL.PO
                 onPropertyChanged("CustomerReceives");
             }
         }
-        private WeightCategories weight;
+        private WeightCategories? weight;
         [Required(ErrorMessage = "required")]
-        public WeightCategories Weight
+        public WeightCategories? Weight
         {
             get => weight;
             set
@@ -44,9 +43,9 @@ namespace PL.PO
                 onPropertyChanged("Weight");
             }
         }
-        private Priorities piority;
+        private Priorities? piority;
         [Required(ErrorMessage = "required")]
-        public Priorities Piority
+        public Priorities? Piority
         {
             get => piority;
             set
@@ -59,16 +58,28 @@ namespace PL.PO
         {
             get
             {
-                //foreach (var propertyInfo in GetType().GetProperties())
-                //{
-                //    if (!Validation.functions.FirstOrDefault(func => func.Key == propertyInfo.GetType()).Value(GetType().GetProperty(propertyInfo.Name).GetValue(this)))
-                //        return "invalid" + propertyInfo.Name;
-                //}
-                return null;
+                foreach (var item in GetType().GetProperties())
+                {
+                    if (this[item.Name] != null)
+                        return "invalid" + item.Name;
+                }
+                return
+                    null;
             }
         }
 
-        public string this[string columnName] =>null; /*Validation.functions.FirstOrDefault(func => func.Key == columnName.GetType()).Value(this.GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName;*/
+        public string this[string columnName]
+        {
+
+            get
+            {
+                if (Validation.functions.FirstOrDefault(func => func.Key == columnName).Value == default(Predicate<object>))
+                    return null;
+                var func = Validation.functions[columnName];
+                return !func.Equals(default) ? func(GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName : null;
+
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)

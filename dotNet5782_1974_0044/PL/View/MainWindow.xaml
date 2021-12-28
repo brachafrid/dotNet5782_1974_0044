@@ -32,18 +32,11 @@
             </StackPanel>
             <StackPanel Visibility="{Binding VisibilityCustomerLogin}">
                 <Label Content="Enter the Id"/>
-                <TextBox Text="{Binding customerLogin.Id, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Id" />
-                <Button Style="{StaticResource MaterialDesignFlatButton}"
-                    HorizontalAlignment="Center"
-                    Content="Login"
-                    Command="{Binding CustomerLoginCommand}"/>
-            </StackPanel>
-        </StackPanel>
-        <StackPanel Visibility="{Binding VisibilityAdministrator}">
-            <local:AdministratorWindow/>
-        </StackPanel>
-        <StackPanel Visibility="{Binding VisibilityCustomer}">
-            <local:CustomerWindow />
+                <TextBox Text="{Binding Id}" />
+                <Label Content="Enter the phone"/>
+                <TextBox Text="{Binding Phone}" />
+            </StackPanel>-->
+            <local:AddParcelView/>
         </StackPanel>
     </Grid>
 </Window>

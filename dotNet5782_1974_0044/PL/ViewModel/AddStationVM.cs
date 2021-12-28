@@ -15,7 +15,6 @@ namespace PL
         public AddStationVM()
         {
             station = new();
-            station.Location = new();
             AddStationCommand = new(Add, param => station.Error == null);
         }
         public void Add(object param)
@@ -28,6 +27,7 @@ namespace PL
             catch(BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {
                 MessageBox.Show("Id has already exsist");
+                station.Id = null;
             }
         }
 
