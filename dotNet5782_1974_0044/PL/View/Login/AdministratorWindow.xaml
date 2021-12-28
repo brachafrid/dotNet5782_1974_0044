@@ -13,9 +13,6 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <local:TabItemContentConverter x:Key="TabItemContentConverter" />
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="../DictionaryTab.xaml" />
-            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -31,7 +28,18 @@
                     <Button ToolTip="Stations" Content="{materialDesign:PackIcon Kind=GasStation}" Command="{Binding AddStationToListWindowCommand}"/>
                 </ToolBar>
             </ToolBarTray>
-            <TabControl ItemsSource="{Binding TabItems}" SelectedIndex="{Binding SelectedTab}" />
+            <TabControl ItemsSource="{Binding TabItems}" SelectedIndex="{Binding SelectedTab}" >
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
+                        <TextBlock Text="{Binding Path=Text}"/>
+                    </DataTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
+                    <DataTemplate>
+                        <ContentControl Content="{Binding Path=TabContent ,Converter={StaticResource TabItemContentConverter}}"/>
+                    </DataTemplate>
+                </TabControl.ContentTemplate>
+            </TabControl>
         </DockPanel>
     </Grid>
 </UserControl>
