@@ -30,6 +30,8 @@ namespace PL
         public void Update(object param)
         {
             new DroneHandler().UpdateDrone(drone.Id, droneModel);
+            drone = new DroneHandler().GetDrone(2);
+
             MessageBox.Show(drone.Model);
         }
         public void sendToCharging(object param)
@@ -37,11 +39,15 @@ namespace PL
             if(drone.DroneState == DroneState.AVAILABLE)
             {
                 new DroneHandler().SendDroneForCharg(drone.Id);
+                drone = new DroneHandler().GetDrone(2);
+
                 MessageBox.Show($"{drone.DroneState}");
             }
             if(drone.DroneState == DroneState.MAINTENANCE)
             {
                 new DroneHandler().ReleaseDroneFromCharging(drone.Id);
+                drone = new DroneHandler().GetDrone(2);
+
             }
         }
         public void parcelTreatedByDrone(object param)
@@ -51,12 +57,22 @@ namespace PL
                 if (drone.Parcel.ParcelState == true)
                 {
                     new DroneHandler().DeliveryParcelByDrone(drone.Id);
+                    drone = new DroneHandler().GetDrone(2);
+
                 }
                 else
+                {
                     new DroneHandler().ParcelCollectionByDrone(drone.Id);
+                    drone = new DroneHandler().GetDrone(2);
+                }
+
             }
             else
+            {
                 new DroneHandler().AssingParcelToDrone(drone.Id);
+                drone = new DroneHandler().GetDrone(2);
+            }
+
         }
     }
 }
