@@ -8,9 +8,9 @@ using BLApi;
 
 namespace PL
 {
-   public class StationHundler
+   public class StationHandler
    {
-        IBL ibal=BLFactory.GetBL();
+        IBL ibal = BLFactory.GetBL();
         public void AddStation(StationAdd station)
         {
             ibal.AddStation(ConverBackStationAdd(station));
