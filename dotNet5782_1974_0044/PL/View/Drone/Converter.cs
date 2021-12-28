@@ -221,4 +221,25 @@ namespace PL
             throw new NotImplementedException();
         }
     }
+
+    public class TabItemContentConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value switch
+            {
+                "AddDroneView" => new AddDroneView(),
+                "DroneToListWindow" => new AdministratorWindow(),
+                "UpdateDroneView" => new UpdateDroneView(),
+                "AddCustomerView" => new AddCustomerView(),
+                "AddStationView" => new AddStationView(),
+                "AddParcelView" => new AddParcelView(),
+            };
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

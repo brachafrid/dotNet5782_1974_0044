@@ -18,9 +18,9 @@ namespace PL
     /// <summary>
     /// Interaction logic for AddDroneVeiw.xaml
     /// </summary>
-    public partial class AddDroneVeiw : UserControl
+    public partial class AddDroneView : UserControl
     {
-        public AddDroneVeiw()
+        public AddDroneView()
         {
             InitializeComponent();
         }

@@ -7,6 +7,9 @@
              xmlns:local="clr-namespace:PL"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <local:AdministratorVM/>
+    </UserControl.DataContext>
     <Grid>
         <TabControl Style="{StaticResource MaterialDesignNavigatilRailTabControl}" materialDesign:ColorZoneAssist.Mode="Standard" materialDesign:ShadowAssist.ShadowDepth="Depth0">
             <!--<TabItem>
