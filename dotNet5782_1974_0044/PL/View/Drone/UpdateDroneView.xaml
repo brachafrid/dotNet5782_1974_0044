@@ -21,9 +21,9 @@
     <Grid>
         <StackPanel x:Name="details" >
             <TextBlock Text="Id: "/>
-            <TextBlock x:Name="Id" Text ="{Binding drone.Id, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}"/>
+            <TextBlock x:Name="Id" Text ="{Binding drone.Id, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
             <TextBlock Text="Model: "/>
-            <TextBox x:Name="DroneModel"   Text ="{Binding drone.Model, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}"/>
+            <TextBox x:Name="DroneModel"   Text ="{Binding drone.Model, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
             <TextBlock Text="Status: "/>
             <TextBlock  Text ="{Binding drone.DroneState, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
             <TextBlock Text="Battery: "/>
@@ -35,7 +35,7 @@
             <Button Content="update drone's model" Command="{Binding UpdateDroneCommand}">
                 <Button.Visibility>
                     <MultiBinding Converter="{StaticResource ConverterUpdateModel}">
-                        <Binding Path="Model" />
+                        <Binding Path="drone.Model" />
                         <Binding ElementName="_this" Path="modelNew" />
                     </MultiBinding>
                 </Button.Visibility>
@@ -44,7 +44,7 @@
                 <Button x:Name="sendToCharging" Content="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingContent}}"  Visibility="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingVisibility}}" Command="{Binding ChargingDroneCommand}"/>
             </StackPanel>
             <StackPanel>
-                <Button x:Name="parcelTreatedByDRone"   Visibility="{Binding Path=drone.DroneState,Converter={StaticResource parcelTreatedByDroneVisibility}}" Command="{Binding parcelTreatedByDrone}">
+                <Button x:Name="parcelTreatedByDRone"   Visibility="{Binding Path=drone.DroneState,Converter={StaticResource parcelTreatedByDroneVisibility}}" Command="{Binding ParcelTreatedByDrone}">
                     <Button.Content>
                         <MultiBinding Converter="{StaticResource parcelTreatedByDroneContent}">
                             <Binding Path="drone.DroneState" />

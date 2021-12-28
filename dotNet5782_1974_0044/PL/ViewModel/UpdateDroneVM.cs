@@ -10,10 +10,30 @@ using System.Windows;
 
 namespace PL
 {
-    public class UpdateDroneVM
+    public class UpdateDroneVM: DependencyObject
     {
         public string droneModel;
-        public Drone drone { get; set; }  
+
+
+        public Drone drone
+        {
+            get { return (Drone)GetValue(droneProperty); }
+            set { SetValue(droneProperty, value); }
+        }
+
+        public static readonly DependencyProperty droneProperty =
+            DependencyProperty.Register("drone", typeof(Drone), typeof(UpdateDroneVM), new PropertyMetadata(new Drone()));
+        public string modelNew
+        {
+            get { return (string)GetValue(modelNewProperty); }
+            set { SetValue(modelNewProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for modelNew.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty modelNewProperty =
+            DependencyProperty.Register("modelNew", typeof(string), typeof(UpdateDroneVM), new PropertyMetadata(string.Empty));
+
+
         public RelayCommand UpdateDroneCommand { get; set; }
         public RelayCommand CloseDroneCommand { get; set; }
         public RelayCommand ChargingDroneCommand { get; set; }
@@ -21,58 +41,94 @@ namespace PL
         
         public UpdateDroneVM()
         {
-            drone = new DroneHandler().GetDrone(2);
-            UpdateDroneCommand = new(Update, param => drone.Error == null);
+            init();
+            UpdateDroneCommand = new(UpdateModel, param => drone.Error == null);
             ChargingDroneCommand = new(sendToCharging, param => drone.Error == null);
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => drone.Error == null);
-            droneModel = drone.Model;
+            modelNew = drone.Model;
+            //droneModel = drone.Model;
+            DelegateVM.Drone += init; 
         }
-        public void Update(object param)
+        public void init()
         {
-            new DroneHandler().UpdateDrone(drone.Id, droneModel);
             drone = new DroneHandler().GetDrone(2);
-
-            MessageBox.Show(drone.Model);
         }
+        public void UpdateModel(object param)
+        {
+            try
+            {
+                if (modelNew != drone.Model)
+                {
+                    new DroneHandler().UpdateDrone(drone.Id, drone.Model);
+                    MessageBox.Show("The drone has been successfully updated");
+                    modelNew = drone.Model;
+                }
+                else
+                {
+                    MessageBox.Show("Model name not updated");
+                }
+            }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
+                MessageBox.Show("For updating the name must be initialized ");
+            }
+            //new DroneHandler().UpdateDrone(drone.Id, droneModel);
+            DelegateVM.Drone();
+            //MessageBox.Show(drone.Model);
+        }
+
         public void sendToCharging(object param)
         {
-            if(drone.DroneState == DroneState.AVAILABLE)
+            if (drone.DroneState == DroneState.AVAILABLE)
             {
                 new DroneHandler().SendDroneForCharg(drone.Id);
-                drone = new DroneHandler().GetDrone(2);
+                DelegateVM.Drone();
+
 
                 MessageBox.Show($"{drone.DroneState}");
             }
-            if(drone.DroneState == DroneState.MAINTENANCE)
+            else if (drone.DroneState == DroneState.MAINTENANCE)
             {
                 new DroneHandler().ReleaseDroneFromCharging(drone.Id);
-                drone = new DroneHandler().GetDrone(2);
+                DelegateVM.Drone();
+
+                MessageBox.Show($"{drone.DroneState}");
 
             }
         }
+
+
         public void parcelTreatedByDrone(object param)
         {
-            if (drone.DroneState == DroneState.DELIVERY)
-            {
-                if (drone.Parcel.ParcelState == true)
+            try { 
+                if (drone.DroneState == DroneState.DELIVERY)
                 {
-                    new DroneHandler().DeliveryParcelByDrone(drone.Id);
-                    drone = new DroneHandler().GetDrone(2);
+                    if (drone.Parcel.ParcelState == true)
+                    {
+                        new DroneHandler().DeliveryParcelByDrone(drone.Id);
+                        DelegateVM.Drone();
+
+                    }
+                    else
+                    {
+                        new DroneHandler().ParcelCollectionByDrone(drone.Id);
+                        DelegateVM.Drone();
+
+                    }
 
                 }
                 else
                 {
-                    new DroneHandler().ParcelCollectionByDrone(drone.Id);
-                    drone = new DroneHandler().GetDrone(2);
+                    new DroneHandler().AssingParcelToDrone(drone.Id);
+                    DelegateVM.Drone();
+
                 }
-
             }
-            else
+            catch (KeyNotFoundException ex)
             {
-                new DroneHandler().AssingParcelToDrone(drone.Id);
-                drone = new DroneHandler().GetDrone(2);
+                MessageBox.Show($"{ex.Message}");
             }
-
         }
     }
 }

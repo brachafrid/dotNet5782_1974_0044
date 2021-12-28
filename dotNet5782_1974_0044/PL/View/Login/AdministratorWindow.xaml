@@ -43,5 +43,6 @@
                 </TabItem.Header>
             </TabItem>-->
         </TabControl>
+        <local:UpdateDroneView/>
     </Grid>
 </UserControl>
