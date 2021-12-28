@@ -39,11 +39,11 @@ namespace PL.PO
 
             get
             {
-                if (Validation.functions.FirstOrDefault(func => func.Key == columnName).Value == default(Predicate<object>))
-                    return null;
-                var func = Validation.functions[columnName];
-                return !func.Equals(default) ? func(GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName : null;
-
+                //if (Validation.functions.FirstOrDefault(func => func.Key == columnName).Value == default(Predicate<object>))
+                //    return null;
+                //var func = Validation.functions[columnName];
+                //return !func.Equals(default) ? func(GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName : null;
+                return null;
             }
         }
 

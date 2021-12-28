@@ -12,6 +12,8 @@ namespace PL.PO
     public class ParcelAdd : INotifyPropertyChanged, IDataErrorInfo
     {
         private int customerSender;
+        [Required(ErrorMessage = "required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Only positive number allowed")]
         public int CustomerSender
         {
             get => customerSender;
@@ -23,6 +25,7 @@ namespace PL.PO
         }
         private int customerReceives;
         [Required(ErrorMessage = "required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Only positive number allowed")]
         public int CustomerReceives
         {
             get => customerReceives;
@@ -54,32 +57,8 @@ namespace PL.PO
                 onPropertyChanged("Piority");
             }
         }
-        public string Error
-        {
-            get
-            {
-                foreach (var item in GetType().GetProperties())
-                {
-                    if (this[item.Name] != null)
-                        return "invalid" + item.Name;
-                }
-                return
-                    null;
-            }
-        }
-
-        public string this[string columnName]
-        {
-
-            get
-            {
-                if (Validation.functions.FirstOrDefault(func => func.Key == columnName).Value == default(Predicate<object>))
-                    return null;
-                var func = Validation.functions[columnName];
-                return !func.Equals(default) ? func(GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName : null;
-
-            }
-        }
+        public string Error => Validation.ErorrCheck(this);
+        public string this[string columnName] => Validation.PropError(columnName, this);
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)

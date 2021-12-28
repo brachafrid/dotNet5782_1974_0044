@@ -35,8 +35,8 @@
                 <TextBox Text="{Binding Id}" />
                 <Label Content="Enter the phone"/>
                 <TextBox Text="{Binding Phone}" />
-            </StackPanel>-->
-            <local:AddParcelView/>
+            </StackPanel>
+
         </StackPanel>
     </Grid>
 </Window>

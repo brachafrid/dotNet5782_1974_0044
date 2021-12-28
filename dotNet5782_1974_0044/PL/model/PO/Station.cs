@@ -59,21 +59,8 @@ namespace PL.PO
                 onPropertyChanged("DroneInChargings");
             }
         }
-
-        public string Error
-        {
-            get
-            {
-                //foreach (var propertyInfo in GetType().GetProperties())
-                //{
-                //    if (!Validation.functions.FirstOrDefault(func => func.Key == propertyInfo.GetType()).Value(GetType().GetProperty(propertyInfo.Name).GetValue(this)))
-                //        return "invalid" + propertyInfo.Name;
-                //}
-                return null;
-            }
-        }
-
-        public string this[string columnName] =>null;// Validation.functions.FirstOrDefault(func => func.Key == columnName.GetType()).Value(this.GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName;
+        public string Error => Validation.ErorrCheck(this);
+        public string this[string columnName] => Validation.PropError(columnName, this);
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)

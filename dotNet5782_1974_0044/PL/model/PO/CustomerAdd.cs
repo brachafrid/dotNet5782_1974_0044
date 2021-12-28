@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,8 @@ namespace PL.PO
     public class CustomerAdd : INotifyPropertyChanged, IDataErrorInfo
     {
         private int? id;
+        [Required(ErrorMessage = "required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Only positive number allowed")]
         public int? Id
         {
             get => id;
@@ -22,7 +25,7 @@ namespace PL.PO
             }
         }
         private string name;
-
+        [Required(ErrorMessage = "required")]
         public string Name
         {
             get => name;
@@ -33,6 +36,8 @@ namespace PL.PO
             }
         }
         private string phone;
+        [Required(ErrorMessage = "required")]
+        [RegularExpression("^(?!0+$)(\\+\\d{1,3}[- ]?)?(?!0+$)\\d{10,15}$", ErrorMessage = "Please enter valid phone no.")]
         public string Phone
         {
             get => phone;
@@ -44,6 +49,7 @@ namespace PL.PO
         }
 
         private Location location = new();
+        [Required(ErrorMessage = "required")]
         public Location Location
         {
             get => location;
@@ -53,32 +59,8 @@ namespace PL.PO
                 onPropertyChanged("CollectionPoint");
             }
         }
-        public string Error
-        {
-            get
-            {
-                foreach (var item in GetType().GetProperties())
-                {
-                    if (this[item.Name] != null)
-                        return "invalid" + item.Name;
-                }
-                return
-                    null;
-            }
-        }
-
-        public string this[string columnName]
-        {
-
-            get
-            {
-                if (Validation.functions.FirstOrDefault(func => func.Key == columnName).Value == default(Predicate<object>))
-                    return null;
-                var func = Validation.functions[columnName];
-                return !func.Equals(default) ? func(GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName : null;
-
-            }
-        }
+        public string Error => Validation.ErorrCheck(this);
+        public string this[string columnName] => Validation.PropError(columnName, this);
         public override string ToString()
         {
             return this.ToStringProperties();
@@ -89,7 +71,6 @@ namespace PL.PO
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
         }
     }
 }
