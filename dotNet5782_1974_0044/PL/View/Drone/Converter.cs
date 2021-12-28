@@ -204,4 +204,21 @@ namespace PL
         }
 
     }
+    public class UserControlConverter : IValueConverter
+    {
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return value switch
+            {
+                "LoginWindow" => new LoginWindow(),
+                "AdministratorWindow" => new AdministratorWindow(),
+                "CustomerWindow" => new CustomerWindow()
+            };
+        }
+
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }
