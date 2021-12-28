@@ -27,6 +27,8 @@ namespace PL
             {
                 new DroneHandler().AddDrone(drone);
                 MessageBox.Show("success");
+                DelegateVM.Drone();
+                DelegateVM.Station();
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {

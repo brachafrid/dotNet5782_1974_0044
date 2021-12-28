@@ -23,6 +23,7 @@ namespace PL
             {
                 new StationHundler().AddStation(station);
                 MessageBox.Show("seccess");
+                DelegateVM.Station();
             }
             catch(BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {

@@ -30,6 +30,8 @@ namespace PL
             {
                 new ParcelHandler().AddParcel(parcel);
                 MessageBox.Show("succses");
+                DelegateVM.Parcel();
+                DelegateVM.Customer();
             }
             catch(KeyNotFoundException)
             {
