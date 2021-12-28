@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -22,6 +23,7 @@ namespace PL.PO
             }
         }
         private CustomerInParcel customerReceives;
+        [Required(ErrorMessage = "required")]
         public CustomerInParcel CustomerReceives
         {
             get => customerReceives;
@@ -32,6 +34,7 @@ namespace PL.PO
             }
         }
         private WeightCategories weight;
+        [Required(ErrorMessage = "required")]
         public WeightCategories Weight
         {
             get => weight;
@@ -42,6 +45,7 @@ namespace PL.PO
             }
         }
         private Priorities piority;
+        [Required(ErrorMessage = "required")]
         public Priorities Piority
         {
             get => piority;
@@ -73,8 +77,6 @@ namespace PL.PO
                 PropertyChanged(this, new PropertyChangedEventArgs(properyName));
 
         }
-
-
         public override string ToString()
         {
             return this.ToStringProperties();
