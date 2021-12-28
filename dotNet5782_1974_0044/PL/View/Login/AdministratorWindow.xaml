@@ -32,6 +32,7 @@
                 </ToolBar>
             </ToolBarTray>
             <TabControl ItemsSource="{Binding TabItems}" SelectedIndex="{Binding SelectedTab}" />
+            <local:UpdateCustomerView/>
         </DockPanel>
        
     </Grid>
