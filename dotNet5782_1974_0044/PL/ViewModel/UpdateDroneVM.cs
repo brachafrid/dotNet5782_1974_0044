@@ -42,10 +42,10 @@ namespace PL
         public UpdateDroneVM()
         {
             init();
+            droneModel = drone.Model;
             UpdateDroneCommand = new(UpdateModel, param => drone.Error == null);
             ChargingDroneCommand = new(sendToCharging, param => drone.Error == null);
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => drone.Error == null);
-            modelNew = drone.Model;
             //droneModel = drone.Model;
             DelegateVM.Drone += init; 
         }
@@ -57,11 +57,12 @@ namespace PL
         {
             try
             {
-                if (modelNew != drone.Model)
+                if (droneModel != drone.Model)
                 {
-                    new DroneHandler().UpdateDrone(drone.Id, drone.Model);
+                    droneModel = drone.Model;
+                    new DroneHandler().UpdateDrone(drone.Id, droneModel);
                     MessageBox.Show("The drone has been successfully updated");
-                    modelNew = drone.Model;
+                    
                 }
                 else
                 {
@@ -73,9 +74,7 @@ namespace PL
                 MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
                 MessageBox.Show("For updating the name must be initialized ");
             }
-            //new DroneHandler().UpdateDrone(drone.Id, droneModel);
             DelegateVM.Drone();
-            //MessageBox.Show(drone.Model);
         }
 
         public void sendToCharging(object param)
