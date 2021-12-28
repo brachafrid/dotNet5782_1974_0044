@@ -27,6 +27,7 @@ namespace DLApi
         public void RemoveDrone(Drone drone);
         public void AddDRoneCharge(int droneId, int stationId);
         public void RemoveDroneCharge(int droneId);
+        public DateTime GetTimeStartOfCharge(int droneId);
         (double, double, double, double, double) GetElectricity();
         public void RemoveParcel(Parcel parcel);
 

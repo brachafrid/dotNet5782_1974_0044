@@ -32,16 +32,16 @@ namespace Dal
         /// <returns>A list of DroneCarge</returns>
         public List<int> GetDronechargingInStation(Predicate<int> inTheStation)
         {
-            return DataSorce.DroneCharges.FindAll(item => inTheStation(item.Stationld)).Select(item=>item.Droneld).ToList();
+            return DataSorce.DroneCharges.FindAll(item => inTheStation(item.Stationld)).Select(item => item.Droneld).ToList();
         }
         /// <summary>
         /// Gets parameters and create new DroneCharge 
         /// </summary>
         /// <param name="droneId">The drone to add</param>
         /// <param name="stationId">The station to add the drone</param>
-        public void AddDRoneCharge(int droneId,int stationId)
+        public void AddDRoneCharge(int droneId, int stationId)
         {
-            DataSorce.DroneCharges.Add(new DroneCharge() { Droneld = droneId, Stationld = stationId });
+            DataSorce.DroneCharges.Add(new DroneCharge() { Droneld = droneId, Stationld = stationId, StartCharging = DateTime.Now });
         }
         /// <summary>
         /// Remove DroneCharge object from the list
@@ -49,7 +49,16 @@ namespace Dal
         /// <param name="droneId">The drone to remove</param>
         public void RemoveDroneCharge(int droneId)
         {
-            DataSorce.DroneCharges.RemoveAll(item=>item.Droneld==droneId);
+            DataSorce.DroneCharges.RemoveAll(drone=>drone.Droneld==droneId);
+        }
+
+        /// <summary>
+        /// Get the time of start charging
+        /// </summary>
+        /// <param name="droneId">The drone in charging</param>
+        public DateTime GetTimeStartOfCharge(int droneId)
+        {
+            return DataSorce.DroneCharges.FirstOrDefault(drone => drone.Droneld == droneId).StartCharging;
         }
     }
 }

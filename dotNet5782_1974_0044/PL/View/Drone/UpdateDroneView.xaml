@@ -9,6 +9,15 @@
     <UserControl.DataContext>
         <local:UpdateDroneVM />
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <local:parcelTreatedByDroneVisibility x:Key="parcelTreatedByDroneVisibility" />
+            <local:ConverterUpdateModel x:Key="ConverterUpdateModel" />
+            <local:parcelTreatedByDroneContent x:Key="parcelTreatedByDroneContent" />
+            <local:ConvertDroneChargingVisibility x:Key="ConvertDroneChargingVisibility" />
+            <local:ConvertDroneChargingContent x:Key="ConvertDroneChargingContent" />
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <StackPanel Margin="0,10,34,118">
 
@@ -26,22 +35,19 @@
                     HorizontalAlignment="Center"
                     Content="Send To Charging"
                     Command="{Binding SendChargingDroneCommand}"/>-->
-            <!--<StackPanel x:Name="droneCharge">
-                <Button x:Name="sendToCharging" Content="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingContent}}"  Visibility="{Binding Path=DroneState,Converter={StaticResource ConvertDroneChargingVisibility}}"/>
-                <Label x:Name="timeCharge" Content="enter time of charging in minutes" Visibility="Collapsed"/>
-                <TextBox x:Name="timeOfCharge" Visibility="Collapsed"></TextBox>
-                <Button x:Name="confirm" Content="confirm" Visibility="Collapsed" Width="80"></Button>
+            <StackPanel x:Name="droneCharge">
+                <Button x:Name="sendToCharging" Content="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingContent}}"  Visibility="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingVisibility}}"  Command="{Binding SendChargingDroneCommand}"/>
             </StackPanel>
             <StackPanel>
                 <Button x:Name="parcelTreatedByDRone"  Visibility="{Binding Path=drone.DroneState ,Converter={StaticResource parcelTreatedByDroneVisibility}}">
                     <Button.Content>
                         <MultiBinding Converter="{StaticResource parcelTreatedByDroneContent}">
-                            <Binding Path="DroneState" />
-                            <Binding Path="Parcel.ParcelState" />
+                            <Binding Path="drone.DroneState" />
+                            <Binding Path="drone.Parcel.ParcelState" />
                         </MultiBinding>
                     </Button.Content>
                 </Button>
-            </StackPanel>-->
+            </StackPanel>
 
         </StackPanel>
     </Grid>

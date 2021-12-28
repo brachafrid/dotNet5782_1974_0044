@@ -15,8 +15,8 @@
         <local:MainWindowVM/>
     </Window.DataContext>
     <Grid>
-        <StackPanel>
-            <!--<ToolBarTray>
+        <StackPanel Visibility="{Binding VisibilityLogin}">
+            <ToolBarTray>
                 <ToolBar Style="{DynamicResource MaterialDesignToolBar}" ClipToBounds="False">
                     <Button ToolTip="login as administor" Content="{materialDesign:PackIcon Kind=AccountWrench}" Command="{Binding ShowAdministratorLoginCommand}" />
                     <Separator />
@@ -38,6 +38,5 @@
             </StackPanel>-->
             <local:AddParcelView/>
         </StackPanel>
-        
     </Grid>
 </Window>

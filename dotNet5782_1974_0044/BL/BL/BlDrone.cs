@@ -137,7 +137,7 @@ namespace BL
         /// </summary>
         /// <param name="id">The drone to realsing</param>
         /// <param name="timeOfCharg">The time of charging</param>
-        public void ReleaseDroneFromCharging(int id, float timeOfCharg)
+        public void ReleaseDroneFromCharging(int id)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
             if (droneToList == default)
@@ -146,7 +146,7 @@ namespace BL
                 throw new InvalidEnumArgumentException(" The drone is not maintenace so it is not possible to release it form charging ");
             drones.Remove(droneToList);
             droneToList.DroneState = DroneState.AVAILABLE;
-            droneToList.BatteryState += timeOfCharg / NUM_OF_MINUTE_IN_HOUR * droneLoadingRate;
+            droneToList.BatteryState +=(DateTime.Now-dal.GetTimeStartOfCharge(id)).TotalMinutes/ NUM_OF_MINUTE_IN_HOUR * droneLoadingRate;
             //No charging position was adding because there is no point in changing a variable that is not saved after the end of the function
             dal.RemoveDroneCharge(id);
             drones.Add(droneToList);
