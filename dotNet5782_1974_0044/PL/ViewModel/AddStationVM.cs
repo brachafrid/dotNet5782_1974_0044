@@ -15,7 +15,6 @@ namespace PL
         public AddStationVM()
         {
             station = new();
-            station.Location = new();
             AddStationCommand = new(Add, param => station.Error == null);
         }
         public void Add(object param)
@@ -24,10 +23,12 @@ namespace PL
             {
                 new StationHundler().AddStation(station);
                 MessageBox.Show("seccess");
+                DelegateVM.Station();
             }
             catch(BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {
                 MessageBox.Show("Id has already exsist");
+                station.Id = null;
             }
         }
 

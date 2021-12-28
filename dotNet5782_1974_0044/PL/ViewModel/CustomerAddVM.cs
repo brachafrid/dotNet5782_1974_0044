@@ -17,7 +17,7 @@ namespace PL
         {
             customer = new();
             AddCustomerCommand = new(Add, param => customer.Error == null);
-
+            DelegateVM.Customer();
         }
         void Add(object param)
         {

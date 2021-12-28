@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,9 +11,10 @@ namespace PL.PO
 {
     public class ParcelAdd : INotifyPropertyChanged, IDataErrorInfo
     {
-
-        private CustomerInParcel customerSender;
-        public CustomerInParcel CustomerSender
+        private int customerSender;
+        [Required(ErrorMessage = "required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Only positive number allowed")]
+        public int CustomerSender
         {
             get => customerSender;
             set
@@ -21,8 +23,10 @@ namespace PL.PO
                 onPropertyChanged("CustomerSender");
             }
         }
-        private CustomerInParcel customerReceives;
-        public CustomerInParcel CustomerReceives
+        private int customerReceives;
+        [Required(ErrorMessage = "required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Only positive number allowed")]
+        public int CustomerReceives
         {
             get => customerReceives;
             set
@@ -31,8 +35,9 @@ namespace PL.PO
                 onPropertyChanged("CustomerReceives");
             }
         }
-        private WeightCategories weight;
-        public WeightCategories Weight
+        private WeightCategories? weight;
+        [Required(ErrorMessage = "required")]
+        public WeightCategories? Weight
         {
             get => weight;
             set
@@ -41,8 +46,9 @@ namespace PL.PO
                 onPropertyChanged("Weight");
             }
         }
-        private Priorities piority;
-        public Priorities Piority
+        private Priorities? piority;
+        [Required(ErrorMessage = "required")]
+        public Priorities? Piority
         {
             get => piority;
             set
@@ -51,20 +57,8 @@ namespace PL.PO
                 onPropertyChanged("Piority");
             }
         }
-        public string Error
-        {
-            get
-            {
-                //foreach (var propertyInfo in GetType().GetProperties())
-                //{
-                //    if (!Validation.functions.FirstOrDefault(func => func.Key == propertyInfo.GetType()).Value(GetType().GetProperty(propertyInfo.Name).GetValue(this)))
-                //        return "invalid" + propertyInfo.Name;
-                //}
-                return null;
-            }
-        }
-
-        public string this[string columnName] =>null; /*Validation.functions.FirstOrDefault(func => func.Key == columnName.GetType()).Value(this.GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName;*/
+        public string Error => Validation.ErorrCheck(this);
+        public string this[string columnName] => Validation.PropError(columnName, this);
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
@@ -73,8 +67,6 @@ namespace PL.PO
                 PropertyChanged(this, new PropertyChangedEventArgs(properyName));
 
         }
-
-
         public override string ToString()
         {
             return this.ToStringProperties();
