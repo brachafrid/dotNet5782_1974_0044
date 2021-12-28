@@ -10,7 +10,6 @@ namespace PL.PO
 {
     public class ParcelAdd : INotifyPropertyChanged, IDataErrorInfo
     {
-
         private int customerSender;
         public int CustomerSender
         {
