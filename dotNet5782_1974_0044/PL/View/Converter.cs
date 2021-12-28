@@ -228,7 +228,7 @@ namespace PL
         {
             return value switch
             {
-                "AddDroneView" => new AddDroneView(),
+                "AddDroneView" =>new AddDroneView(),
                 "DroneToListWindow" => new DroneToListWindow(),
                 "ParcelToListWindow" => new ParcelToListWindow(),
                 "StationToListWindow" => new StationToListWindow(),
