@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PL.View.Parcel
+namespace PL
 {
     /// <summary>
     /// Interaction logic for ParcelToListWindow.xaml

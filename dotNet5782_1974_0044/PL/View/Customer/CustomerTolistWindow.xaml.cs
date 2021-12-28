@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace PL.View.Customer
+namespace PL
 {
     /// <summary>
     /// Interaction logic for CustomerTolistWindow.xaml

@@ -12,7 +12,7 @@
     </UserControl.DataContext>
     <UserControl.Resources>
         <ResourceDictionary>
-            <local:TabItemContentConverter x:Key="TabItemContentConverter" />
+            <!--<local:TabItemContentConverter x:Key="TabItemContentConverter" />-->
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../DictionaryTab.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -22,16 +22,17 @@
         <DockPanel>
             <ToolBarTray Orientation="Vertical">
                 <ToolBar  ClipToBounds="False" Style="{DynamicResource MaterialDesignToolBar}">
-                    <Button ToolTip="Drones" Content="{materialDesign:PackIcon Kind=Drone}" />
+                    <Button ToolTip="Drones" Content="{materialDesign:PackIcon Kind=Drone}" Command="{Binding AddDroneToListWindowCommand}"/>
                     <Separator />
-                    <Button  ToolTip="Parcels" Content="{materialDesign:PackIcon Kind=PackageVariant}" />
+                    <Button  ToolTip="Parcels" Content="{materialDesign:PackIcon Kind=PackageVariant}" Command="{Binding AddParcelToListWindowCommand}"/>
                     <Separator />
-                    <Button ToolTip="Customers" ToolBar.OverflowMode="AsNeeded" Content="{materialDesign:PackIcon Kind=AccountMultiple}" />
+                    <Button ToolTip="Customers" Content="{materialDesign:PackIcon Kind=AccountMultiple}" Command="{Binding AddCustomerToListWindowCommand}"/>
                     <Separator />
-                    <Button ToolTip="Stations" ToolBar.OverflowMode="AsNeeded" Content="{materialDesign:PackIcon Kind=GasStation}" />
+                    <Button ToolTip="Stations" Content="{materialDesign:PackIcon Kind=GasStation}" Command="{Binding AddStationToListWindowCommand}"/>
                 </ToolBar>
             </ToolBarTray>
-            <TabControl ItemsSource="{Binding TabItems}" />
+            <TabControl ItemsSource="{Binding TabItems}" SelectedIndex="{Binding SelectedTab}" />
         </DockPanel>
+       
     </Grid>
 </UserControl>
