@@ -10,9 +10,6 @@ namespace PL
 {
     class UpdateCustomerVM : DependencyObject
     {
-        public int customerId;
-        public string customerName;
-        public string customerPhone;
 
         public Customer customer
         {
@@ -24,12 +21,34 @@ namespace PL
         public static readonly DependencyProperty customerProperty =
             DependencyProperty.Register("customer", typeof(Customer), typeof(UpdateCustomerVM), new PropertyMetadata(new Customer()));
 
+        public string customerName
+        {
+            get { return (string)GetValue(customerNameProperty); }
+            set { SetValue(customerNameProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for customerName.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty customerNameProperty =
+            DependencyProperty.Register("customerName", typeof(string), typeof(UpdateCustomerVM), new PropertyMetadata(""));
+
+
+
+        public string customerPhone
+        {
+            get { return (string)GetValue(customerPhoneProperty); }
+            set { SetValue(customerPhoneProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for customerPhone.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty customerPhoneProperty =
+            DependencyProperty.Register("customerPhone", typeof(string), typeof(UpdateCustomerVM), new PropertyMetadata(""));
+
+
         public RelayCommand UpdateCustomerCommand { get; set; }
 
         public UpdateCustomerVM()
         {
             init();
-            customerId = customer.Id;
             customerName = customer.Name;
             customerPhone = customer.Phone;
 
@@ -42,7 +61,13 @@ namespace PL
         }
         public void UpdateCustomer(object param)
         {
-            new CustomerHandler().UpdateCustomer(customer.Id, customer.Name, customer.Phone);
+            if(customerName != customer.Name || customerPhone != customer.Phone)
+            {
+                new CustomerHandler().UpdateCustomer(customer.Id, customer.Name, customer.Phone);
+                customerName = customer.Name;
+                customerPhone = customer.Phone;
+            }
+
         }
 
     }
