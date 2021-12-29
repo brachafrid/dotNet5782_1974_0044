@@ -24,7 +24,7 @@ namespace PL
         }
         void update()
         {
-            StationsId = new StationHundler().GetStaionsWithEmptyChargeSlots().Select(station => station.Id).ToList();
+            StationsId = new StationHandler().GetStaionsWithEmptyChargeSlots().Select(station => station.Id).ToList();
         }
         public void Add(object param)
         {
@@ -32,8 +32,8 @@ namespace PL
             {
                 new DroneHandler().AddDrone(drone);
                 MessageBox.Show("success");
-                DelegateVM.Drone();
-                DelegateVM.Station();
+                DelegateVM.Drone?.Invoke();
+                DelegateVM.Station?.Invoke();
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {
