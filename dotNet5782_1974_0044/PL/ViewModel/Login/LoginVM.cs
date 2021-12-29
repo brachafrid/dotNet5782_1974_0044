@@ -54,7 +54,7 @@ namespace PL
 
         public void AdministratorLogin(object param)
         {
-            if ((param as PasswordBox).Password == "1234")
+            if ((param as PasswordBox).Password == string.Empty)
             {
                 LoginScreen.MyScreen = "AdministratorWindow";
             }

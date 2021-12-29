@@ -11,11 +11,8 @@
         <local:AddDroneVM />
     </UserControl.DataContext>
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="107*"/>
-            <RowDefinition Height="343*"/>
-        </Grid.RowDefinitions>
-        <StackPanel Margin="0,0,-8787,-4734" Grid.RowSpan="2">
+    
+        <StackPanel >
             <TextBox Text="{Binding drone.Id, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Id" Margin="5"/>
             <TextBox Text="{Binding drone.Model, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Model" Margin="5"/>
             <ComboBox SelectedItem="{Binding drone.StationId, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding StationsId}" materialDesign:HintAssist.Hint="Base station Id" Margin="5"/>
