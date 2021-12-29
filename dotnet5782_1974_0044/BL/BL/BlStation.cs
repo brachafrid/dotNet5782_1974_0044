@@ -35,15 +35,15 @@ namespace BL
         /// <param name="chargeSlots">A nwe number for charging slots</param>
         public void UpdateStation(int id, string name, int chargeSlots)
         {
-            if (name.Equals(string.Empty) && chargeSlots ==0)
+            if (name.Equals(string.Empty) && chargeSlots == 0)
                 throw new ArgumentNullException("For updating at least one parameter must be initialized ");
             try
             {
-                DO.Station satationDl = dal.GetStation(id);
-                if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(satationDl.Id))
+                DO.Station stationDl = dal.GetStation(id);
+                if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(stationDl.Id))
                     throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
-                dal.RemoveStation(satationDl);
-                dal.AddStation(id, name.Equals(string.Empty) ? satationDl.Name : name, satationDl.Longitude, satationDl.Latitude, chargeSlots==0 ? satationDl.ChargeSlots : chargeSlots);
+                dal.RemoveStation(stationDl);
+                dal.AddStation(id, name.Equals(string.Empty) ? stationDl.Name : name, stationDl.Longitude, stationDl.Latitude, chargeSlots==0 ? stationDl.ChargeSlots : chargeSlots);
             }
             catch (KeyNotFoundException ex)
             {
