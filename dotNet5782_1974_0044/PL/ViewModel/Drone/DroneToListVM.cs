@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace PL
 {
-   public class DroneToListVM:GenericList<Drone>
+   public class DroneToListVM:GenericList<DroneToList>
     {
         public DroneToListVM()
         {            

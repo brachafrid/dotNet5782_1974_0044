@@ -21,6 +21,6 @@
         <DockPanel>
             <ComboBox ItemsSource="{Binding Path=SortOption}"/>
         </DockPanel>
-        <!--<local:SortInput />--> 
+        <local:SortInput /> 
     </StackPanel>
 </UserControl>

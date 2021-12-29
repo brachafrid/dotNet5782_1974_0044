@@ -24,8 +24,10 @@ namespace PL
         }
         void UpdateSortOptions()
         {
-            SortOption = new ObservableCollection<string>(typeof(T).GetProperties().Where(prop => (prop.PropertyType.IsValueType||prop.PropertyType == typeof(string))&& prop.Name != "Error").Select(prop => prop.Name).ToList());
+            SortOption = new ObservableCollection<string>(typeof(T).GetProperties().Where(prop =>prop.PropertyType.IsValueType||prop.PropertyType == typeof(string)).Select(prop => prop.Name).ToList());
+
         }
 
+      
     }
 }
