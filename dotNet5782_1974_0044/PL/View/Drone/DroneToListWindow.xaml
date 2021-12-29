@@ -6,6 +6,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PL"
              mc:Ignorable="d" 
+             xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              d:DesignHeight="450" d:DesignWidth="800" x:Name="p">
     <UserControl.Resources>
         <ResourceDictionary Source="../Dictionary.xaml" />
@@ -19,7 +20,13 @@
             <ListView ItemsSource="{Binding Path=list}"/>
         </StackPanel>
         <DockPanel>
-            <ComboBox ItemsSource="{Binding Path=SortOption}"/>
+            <ComboBox  ItemsSource="{Binding Path=SortOption}" x:Name="sort" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding ShowKindOfSortCommand}" CommandParameter="{Binding ElementName=sort}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
         </DockPanel>
         <local:SortInput /> 
     </StackPanel>

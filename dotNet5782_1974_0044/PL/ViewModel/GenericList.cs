@@ -7,11 +7,12 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Collections.ObjectModel;
+using System.Windows.Controls;
 
 
 namespace PL
 {
-    public class GenericList<T> 
+    public class GenericList<T>
     {
         public RelayCommand ShowKindOfSortCommand { get; set; }
         public ListCollectionView list { set; get; }
@@ -22,13 +23,24 @@ namespace PL
         {
             UpdateSortOptions();
             input = new();
-            ShowKindOfSortCommand = new(input.ShowKindOfSort, null);
+            ShowKindOfSortCommand = new(ShowKindOfSort, null);
         }
         void UpdateSortOptions()
         {
-            SortOption = new ObservableCollection<string>(typeof(T).GetProperties().Where(prop =>prop.PropertyType.IsValueType||prop.PropertyType == typeof(string)).Select(prop => prop.Name).ToList());
+            SortOption = new ObservableCollection<string>(typeof(T).GetProperties().Where(prop => prop.PropertyType.IsValueType || prop.PropertyType == typeof(string)).Select(prop => prop.Name).ToList());
         }
 
-      
+        public void ShowKindOfSort(object param)
+        {
+            input.SelectedKind = (param as ComboBox).SelectedValue.ToString();
+            if (!typeof(T).GetProperty(input.SelectedKind).PropertyType.Name.Equals(typeof(string).Name))
+            {
+                input.VisibilityKindOfSort.visibility = Visibility.Visible;
+            }
+            else
+            {
+
+            }
+        }
     }
 }
