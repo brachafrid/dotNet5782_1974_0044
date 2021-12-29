@@ -258,7 +258,7 @@ namespace PL
         /// <returns>Returns visibility: visible or collapsed</returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] as string != values[1] as string 
+            if (values[0] as string!= values[1] as string ||  values[2] as string != values[3] as string
                 //||
                 //values[2] as string != values[3] as string ||
                 //values[4] as string != values[5] as string

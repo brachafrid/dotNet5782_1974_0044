@@ -21,7 +21,7 @@ namespace PL
         {
             try
             {
-                new StationHundler().AddStation(station);
+                new StationHandler().AddStation(station);
                 MessageBox.Show("seccess");
                 DelegateVM.Station();
             }
