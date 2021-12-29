@@ -40,7 +40,6 @@
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>
-            <local:UpdateStationView/>
         </DockPanel>
        
     </Grid>

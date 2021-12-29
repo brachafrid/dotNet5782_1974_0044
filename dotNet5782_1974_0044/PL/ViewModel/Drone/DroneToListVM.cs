@@ -12,12 +12,9 @@ namespace PL
 {
    public class DroneToListVM:GenericList<Drone>
     {
-        //public ListCollectionView list { set; get; }
-        //public ObservableCollection<string> SortOption { set; get; }
         public DroneToListVM()
-        {
-            //SortOption = new ObservableCollection<string>(typeof(DroneToList).GetProperties().Where(prop => prop.PropertyType.IsEnum).Select(prop => prop.Name).ToList());
-            //list = new ListCollectionView(new DroneHandler().GetDrones().ToList());
+        {            
+            list = new ListCollectionView(new DroneHandler().GetDrones().ToList());
         }
     }
 }
