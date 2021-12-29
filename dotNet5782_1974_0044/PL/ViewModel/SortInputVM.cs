@@ -43,6 +43,7 @@ namespace PL
         public void ShowKindOfSort(object param)
         {
             VisibilityKindOfSort = Visibility.Visible;
+            MessageBox.Show("gggggggggggggggg");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
