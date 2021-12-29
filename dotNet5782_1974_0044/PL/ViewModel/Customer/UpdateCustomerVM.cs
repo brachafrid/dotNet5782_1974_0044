@@ -76,7 +76,7 @@ namespace PL
 
         public void DeleteCustomer(object param)
         {
-           
+              new CustomerHandler().DeleteCustomer(customer.Id);
         }
 
         //public void TryCommandFunc(object param)

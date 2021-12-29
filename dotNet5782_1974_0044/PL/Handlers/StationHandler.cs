@@ -23,6 +23,10 @@ namespace PL
         {
             return ConverterStation(ibal.GetStation(id));
         }
+        public void DeleteStation(int id)
+        {
+            ibal.DeleteStation(id);
+        }
         public IEnumerable<StationToList> GetStations()
         {
             return ibal.GetStations().Select(item => ConverterStationToList(item));

@@ -31,6 +31,10 @@ namespace PL
         {
             ibal.UpdateCustomer(id, name, phone);
         }
+        public void DeleteCustomer(int id)
+        {
+            ibal.DeleteCustomer(id);
+        }
 
         public PO.Customer ConvertCustomer(BO.Customer customer)
         {

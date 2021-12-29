@@ -10,9 +10,6 @@ namespace PL
 {
     class UpdateStationVM : DependencyObject
     {
-
-
-
         public Station station
         {
             get { return (Station)GetValue(stationProperty); }
@@ -49,6 +46,7 @@ namespace PL
 
 
         public RelayCommand UpdateStationCommand { get; set; }
+        public RelayCommand DeleteStationCommand { get; set; }
 
         public UpdateStationVM()
         {
@@ -56,6 +54,7 @@ namespace PL
             stationName = station.Name;
             stationEmptyChargeSlots = station.EmptyChargeSlots;
             UpdateStationCommand = new(UpdateStation, param => station.Error == null);
+            DeleteStationCommand = new(DeleteStation, param => station.Error == null);
             DelegateVM.Station += init;
         }
         public void init()
@@ -81,6 +80,11 @@ namespace PL
                 MessageBox.Show($"{ex.Message}");
             }
         }
+        public void DeleteStation(object param)
+        {
+             new StationHandler().DeleteStation(station.Id);
+        }
+
 
     }
 }

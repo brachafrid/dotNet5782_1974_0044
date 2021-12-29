@@ -31,6 +31,11 @@ namespace PL
             ibal.ReleaseDroneFromCharging(id);
         }
 
+        public void DeleteDrone(int id)
+        {
+            ibal.DeleteDrone(id);
+        }
+
         public Drone GetDrone(int id)
         {
            return ConvertDrone(ibal.GetDrone(id));

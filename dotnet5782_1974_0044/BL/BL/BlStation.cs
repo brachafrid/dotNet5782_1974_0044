@@ -56,6 +56,11 @@ namespace BL
            
         }
 
+        public void DeleteStation(int id)
+        {
+            dal.DeleteStation(id);
+        }
+
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
         /// <summary>
         /// Retrieves the list of stations with empty charge slots  from the data and converts it to station to list
@@ -156,5 +161,7 @@ namespace BL
             }
             return station;
         }
+
+   
     }
 }
