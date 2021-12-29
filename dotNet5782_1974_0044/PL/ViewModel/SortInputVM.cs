@@ -18,7 +18,7 @@ namespace PL
             get => selectedKind;
             set
             {
-                VisibilityKindOfSort = Visibility.Visible;
+             
                 selectedKind = value;
                
             }
