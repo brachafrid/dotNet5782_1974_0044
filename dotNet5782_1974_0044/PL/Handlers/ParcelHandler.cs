@@ -60,28 +60,6 @@ namespace PL
             ibal.AddParcel(ConvertBackParcelAdd(parcel));
         }
 
-        public void AssigningDroneToParcel(Drone drone)
-        {
-            ibal.AssingParcelToDrone(drone.Id);
-        }
-
-        public void ParcelcollectionDrone(Drone drone)
-        {
-            ibal.ParcelCollectionByDrone(drone.Id);
-        }
-
-        public void ParcelDeliveredDrone(Drone drone)
-        {
-            ibal.DeliveryParcelByDrone(drone.Id);
-        }
-
-        //internal void UpdateParcel(int id, object name, object phone)
-        //{
-        //    ibal.AssingParcelToDrone(id);
-        //    ibal.AssingParcelToDrone(id);
-        //    throw new NotImplementedException();
-        //}
-
         public Parcel GetParcel(int id) => ConvertParcel(ibal.GetParcel(id));
         public IEnumerable<ParcelToList> GetParcels => ibal.GetParcels().Select(parcel => ConvertParcelToList(parcel));
         public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone=>ibal.GetParcelsNotAssignedToDrone((int num)=> num == 0).Select(parcel => ConvertParcelToList(parcel));
