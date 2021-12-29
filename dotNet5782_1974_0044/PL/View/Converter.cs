@@ -228,15 +228,16 @@ namespace PL
         {
             return value switch
             {
-                "AddDroneView" =>new AddDroneView(),
                 "DroneToListWindow" => new DroneToListWindow(),
                 "ParcelToListWindow" => new ParcelToListWindow(),
                 "StationToListWindow" => new StationToListWindow(),
                 "CustomerTolistWindow" => new CustomerTolistWindow(),
-                "UpdateDroneView" => new UpdateDroneView(),
+                "AddDroneView" => new AddDroneView(),
                 "AddCustomerView" => new AddCustomerView(),
                 "AddStationView" => new AddStationView(),
                 "AddParcelView" => new AddParcelView(),
+                "UpdateDroneView" => new UpdateDroneView(),
+                "UpdateCustomerView" => new UpdateCustomerView(),
             };
         }
 
