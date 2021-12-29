@@ -9,7 +9,7 @@ using System.ComponentModel;
 
 namespace PL
 {
-    public class SortInputVM:DependencyObject, INotifyPropertyChanged
+    public class SortInputVM:DependencyObject
     {
        
         public List<string> KindOfSort { get; set; } = new() { "Range", "single" };
@@ -22,8 +22,6 @@ namespace PL
             {
                 VisibilityKindOfSort = Visibility.Visible;
                 selectedKind = value;
-                onPropertyChanged("SelectedKind");
-               
             }
         }
         public SortInputVM()
@@ -43,15 +41,7 @@ namespace PL
         public void ShowKindOfSort(object param)
         {
             VisibilityKindOfSort = Visibility.Visible;
-            MessageBox.Show("gggggggggggggggg");
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
-        }
     }
 }
