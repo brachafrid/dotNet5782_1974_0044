@@ -13,7 +13,7 @@
     <Grid>
         <!--<DatePicker Width="140" materialDesign:HintAssist.Hint="Pick Date" Style="{StaticResource MaterialDesignFilledDatePicker}" materialDesign:CalendarAssist.Orientation="Horizontal"/>-->
         <!--<TextBlock Text="{Binding Path = Parent.DataContext.input.te, RelativeSource = {RelativeSource Self} }"/>-->
-        <ComboBox  ItemsSource="{Binding Path=Parent.DataContext.input.KindOfSort,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisibilityKindOfSort,RelativeSource = {RelativeSource Self}}" SelectedValue="{Binding Path=Parent.DataContext.input.SelectedKind,RelativeSource = {RelativeSource Self}}" >
+        <ComboBox  ItemsSource="{Binding Path=Parent.DataContext.input.KindOfSort,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisibilityKindOfSort,RelativeSource = {RelativeSource Self}}" SelectedItem="{Binding Path=Parent.DataContext.input.SelectedKind,RelativeSource = {RelativeSource Self},UpdateSourceTrigger=PropertyChanged}" >
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
                     <i:InvokeCommandAction Command="{Binding ShowKindOfSortCommand}" />
