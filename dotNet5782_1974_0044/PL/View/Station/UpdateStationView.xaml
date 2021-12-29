@@ -11,11 +11,7 @@
     </UserControl.DataContext>
     <UserControl.Resources>
         <ResourceDictionary>
-            <local:ConverterUpdateCustomer x:Key="ConverterUpdateCustomer" />
-            <!--<local:ConverterUpdateModel x:Key="ConverterUpdateModel" />
-            <local:parcelTreatedByDroneContent x:Key="parcelTreatedByDroneContent" />
-            <local:ConvertDroneChargingVisibility x:Key="ConvertDroneChargingVisibility" />
-            <local:ConvertDroneChargingContent x:Key="ConvertDroneChargingContent" />-->
+            <local:ConverterUpdateStation x:Key="ConverterUpdateStation" />
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
@@ -34,7 +30,7 @@
             <Button Content="close station"/>
             <Button Content="update station" Command="{Binding UpdateStationCommand}">
                 <Button.Visibility>
-                    <MultiBinding Converter="{StaticResource ConverterUpdateCustomer}">
+                    <MultiBinding Converter="{StaticResource ConverterUpdateStation}">
                         <Binding Path="station.Name" />
                         <Binding Path="stationName" />
                         <Binding Path="station.EmptyChargeSlots" />
