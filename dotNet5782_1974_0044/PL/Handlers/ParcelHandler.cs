@@ -59,6 +59,7 @@ namespace PL
         {
             ibal.AddParcel(ConvertBackParcelAdd(parcel));
         }
+
         public Parcel GetParcel(int id) => ConvertParcel(ibal.GetParcel(id));
         public IEnumerable<ParcelToList> GetParcels => ibal.GetParcels().Select(parcel => ConvertParcelToList(parcel));
         public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone=>ibal.GetParcelsNotAssignedToDrone((int num)=> num == 0).Select(parcel => ConvertParcelToList(parcel));

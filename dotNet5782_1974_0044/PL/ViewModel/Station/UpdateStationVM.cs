@@ -33,7 +33,7 @@ namespace PL
 
         // Using a DependencyProperty as the backing store for customerName.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty stationNameProperty =
-            DependencyProperty.Register("stationName", typeof(string), typeof(UpdateCustomerVM), new PropertyMetadata(""));
+            DependencyProperty.Register("stationName", typeof(string), typeof(UpdateStationVM), new PropertyMetadata(""));
 
 
 
@@ -45,7 +45,7 @@ namespace PL
 
         // Using a DependencyProperty as the backing store for customerPhone.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty stationEmptyChargeSlotsProperty =
-            DependencyProperty.Register("stationEmptyChargeSlots", typeof(int), typeof(UpdateCustomerVM), new PropertyMetadata(0));
+            DependencyProperty.Register("stationEmptyChargeSlots", typeof(int), typeof(UpdateStationVM), new PropertyMetadata(0));
 
 
         public RelayCommand UpdateStationCommand { get; set; }
@@ -55,7 +55,6 @@ namespace PL
             init();
             stationName = station.Name;
             stationEmptyChargeSlots = station.EmptyChargeSlots;
-
             UpdateStationCommand = new(UpdateStation, param => station.Error == null);
             DelegateVM.Station += init;
         }
@@ -63,15 +62,17 @@ namespace PL
         {
             station = new StationHandler().GetStation(2);
         }
+
         public void UpdateStation(object param)
         {
             if (stationName != station.Name || stationEmptyChargeSlots != station.EmptyChargeSlots)
             {
                 new StationHandler().UpdateStation(station.Id, station.Name, station.EmptyChargeSlots);
+                DelegateVM.Station();
                 stationName = station.Name;
                 stationEmptyChargeSlots = station.EmptyChargeSlots;
+                
             }
-
         }
 
     }
