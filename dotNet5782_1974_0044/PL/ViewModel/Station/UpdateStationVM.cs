@@ -65,13 +65,20 @@ namespace PL
 
         public void UpdateStation(object param)
         {
-            if (stationName != station.Name || stationEmptyChargeSlots != station.EmptyChargeSlots)
+            try
             {
-                new StationHandler().UpdateStation(station.Id, station.Name, station.EmptyChargeSlots);
-                DelegateVM.Station();
-                stationName = station.Name;
-                stationEmptyChargeSlots = station.EmptyChargeSlots;
+                if (stationName != station.Name || stationEmptyChargeSlots != station.EmptyChargeSlots)
+                {
+                    new StationHandler().UpdateStation(station.Id, station.Name, station.EmptyChargeSlots);
+                    DelegateVM.Station();
+                    stationName = station.Name;
+                    stationEmptyChargeSlots = station.EmptyChargeSlots;
                 
+                }
+            }
+            catch (ArgumentOutOfRangeException ex)
+            {
+                MessageBox.Show($"{ex.Message}");
             }
         }
 
