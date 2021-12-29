@@ -18,6 +18,8 @@ namespace BLApi
         public void AssingParcelToDrone(int droneId);
         public void ParcelCollectionByDrone(int DroneId);
         public void DeliveryParcelByDrone(int droneId);
+        public void DeleteDrone(int id);
+
     }
 }
 

@@ -71,5 +71,11 @@ namespace Dal
         {
             DataSorce.Parcels.Remove(parcel);
         }
+
+        public void DeleteParcel(int id)
+        {
+            Parcel parcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == id);
+            parcel.IsDeleted = true;
+        }
     }
 }

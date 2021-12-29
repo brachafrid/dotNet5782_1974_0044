@@ -27,26 +27,16 @@ namespace PL.PO
                 onPropertyChanged("Name");
             }
         }
-        private int fullChargeSlots;
-        public int FullChargeSlots {
-            get => fullChargeSlots;
+        private int chargeSlots;
+        public int ChargeSlots {
+            get => chargeSlots;
             set
             {
-                fullChargeSlots = value;
-                onPropertyChanged("FullChargeSlots");
+                chargeSlots = value;
+                onPropertyChanged("ChargeSlots");
             } 
         }
-        private int emptyChargeSlots;
-        public int EmptyChargeSlots
-        {
-            get => emptyChargeSlots;
-            set
-            {
-                emptyChargeSlots = value;
-                onPropertyChanged("EmptyChargeSlots");
-            }
-        }
-
+     
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
         {

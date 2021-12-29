@@ -62,8 +62,7 @@ namespace PL
             {
                 Id = station.Id,
                 Name = station.Name,
-                FullChargeSlots = station.FullChargeSlots,
-                EmptyChargeSlots = station.EmptyChargeSlots,
+                ChargeSlots = station.EmptyChargeSlots + station.FullChargeSlots
             };
         }
         public BO.Station ConverBackStationAdd(PO.StationAdd station)

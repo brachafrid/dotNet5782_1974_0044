@@ -37,16 +37,17 @@ namespace PL.PO
                 onPropertyChanged("EmptyChargeSlots");
             }
         }
-        private int chargeSlots;
-        public int ChargeSlots
-        {
-            get => chargeSlots;
-            set
-            {
-                chargeSlots = value;
-                onPropertyChanged("ChargeSlots");
-            }
-        }
+
+        //private int chargeSlots;
+        //public int ChargeSlots
+        //{
+        //    get => chargeSlots;
+        //    set
+        //    {
+        //        chargeSlots = value;
+        //        onPropertyChanged("ChargeSlots");
+        //    }
+        //}
 
         private Location location;
         public Location Location

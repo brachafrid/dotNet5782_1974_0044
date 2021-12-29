@@ -50,11 +50,12 @@
                     chargeSlots = value;
                 }
             }
+            public bool IsDeleted { get; set; }
 
             public override string ToString()
-            {
-                return $"Station ID:{Id} Name:{Name} Latitude:{latitude} Longitude:{longitude} ";
+                {
+                    return $"Station ID:{Id} Name:{Name} Latitude:{latitude} Longitude:{longitude} ";
+                }
             }
-        }
     }
 

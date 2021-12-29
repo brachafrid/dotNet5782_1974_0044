@@ -12,6 +12,8 @@ namespace BLApi
         public Station GetStation(int id);
         public IEnumerable<StationToList> GetStations();
         public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots(Predicate<int> exsitEmpty);
+        public void DeleteStation(int id);
+
     }
 }
 

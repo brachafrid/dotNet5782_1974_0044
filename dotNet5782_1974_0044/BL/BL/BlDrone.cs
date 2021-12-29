@@ -272,7 +272,10 @@ namespace BL
             }
 
         }
-
+        public void DeleteDrone(int id)
+        {
+            dal.DeleteDrone(id);
+        }
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
         /// <summary>
@@ -337,5 +340,6 @@ namespace BL
             return suitableParcel;
         }
 
+      
     }
 }

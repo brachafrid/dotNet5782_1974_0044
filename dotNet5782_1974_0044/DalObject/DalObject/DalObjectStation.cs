@@ -27,6 +27,7 @@ namespace  Dal
             newStation.Latitude = latitude;
             newStation.Longitude = longitude;
             newStation.ChargeSlots = chargeSlots;
+            newStation.IsDeleted = false;
             DataSorce.Stations.Add(newStation);
         }
 
@@ -67,7 +68,10 @@ namespace  Dal
             DataSorce.Stations.Remove(station);
         }
 
-
-        
+        public void DeleteStation(int id)
+        {
+            Station station = DataSorce.Stations.FirstOrDefault(item => item.Id == id);
+            station.IsDeleted = true;
+        }
     }
 }
