@@ -13,6 +13,7 @@ namespace PL
 {
     public class GenericList<T> 
     {
+        public RelayCommand ShowKindOfSortCommand { get; set; }
         public ListCollectionView list { set; get; }
         public ObservableCollection<string> SortOption { set; get; }
         public SortInputVM input { get; set; }
@@ -21,11 +22,11 @@ namespace PL
         {
             UpdateSortOptions();
             input = new();
+            ShowKindOfSortCommand = new(input.ShowKindOfSort, null);
         }
         void UpdateSortOptions()
         {
             SortOption = new ObservableCollection<string>(typeof(T).GetProperties().Where(prop =>prop.PropertyType.IsValueType||prop.PropertyType == typeof(string)).Select(prop => prop.Name).ToList());
-
         }
 
       

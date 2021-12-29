@@ -10,6 +10,7 @@ namespace PL
 {
     public class SortInputVM:DependencyObject
     {
+       
         public List<string> KindOfSort { get; set; } = new() { "Range", "single" };
         private string selectedKind;
 
@@ -18,12 +19,14 @@ namespace PL
             get => selectedKind;
             set
             {
-                VisibilityKindOfSort = Visibility.Visible;
+                //VisibilityKindOfSort = Visibility.Visible;
                 selectedKind = value;
                
             }
         }
-
+        public SortInputVM()
+        {
+        }
         public Visibility VisibilityKindOfSort
         {
             get { return (Visibility)GetValue(VisibilityKindOfSortProperty); }
@@ -35,6 +38,9 @@ namespace PL
             DependencyProperty.Register("VisibilityKindOfSort", typeof(Visibility), typeof(SortInputVM), new PropertyMetadata(Visibility.Collapsed));
 
 
-
+        public void ShowKindOfSort(object param)
+        {
+            VisibilityKindOfSort = Visibility.Visible;
+        }
     }
 }
