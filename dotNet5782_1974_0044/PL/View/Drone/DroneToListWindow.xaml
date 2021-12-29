@@ -15,12 +15,12 @@
     </UserControl.DataContext>
 
     <StackPanel>
-        <!--<StackPanel>
+        <StackPanel>
             <ListView ItemsSource="{Binding Path=list}"/>
         </StackPanel>
         <DockPanel>
             <ComboBox ItemsSource="{Binding Path=SortOption}"/>
-        </DockPanel>-->
-        <local:SortInput DataContext="m"/> 
+        </DockPanel>
+        <!--<local:SortInput DataContext="m"/>--> 
     </StackPanel>
 </UserControl>
