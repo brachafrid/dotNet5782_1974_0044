@@ -17,23 +17,9 @@ namespace PL
         public RelayCommand ShowCustomerLoginCommand { get; set; }
         public CustomerLogin customerLogin { get; set; } = new();
 
-        public Visibility VisibilityAdministratorLogin
-        {
-            get { return (Visibility)GetValue(VisibilityAdministratorLoginProperty); }
-            set { SetValue(VisibilityAdministratorLoginProperty, value); }
-        }
-        // Using a DependencyProperty as the backing store for VisibilityAdministratorLogin.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty VisibilityAdministratorLoginProperty =
-            DependencyProperty.Register("VisibilityAdministratorLogin", typeof(Visibility), typeof(LoginVM), new PropertyMetadata(Visibility.Collapsed));
+        public Visble VisibilityAdministratorLogin { get; set; } = new();      
+        public Visble VisibilityCustomerLogin { get; set; } = new();      
 
-        public Visibility VisibilityCustomerLogin
-        {
-            get { return (Visibility)GetValue(VisibilityCustomerLoginProperty); }
-            set { SetValue(VisibilityCustomerLoginProperty, value); }
-        }
-        // Using a DependencyProperty as the backing store for VisibilityCustomerLogin.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty VisibilityCustomerLoginProperty =
-            DependencyProperty.Register("VisibilityCustomerLogin", typeof(Visibility), typeof(LoginVM), new PropertyMetadata(Visibility.Collapsed));
         public LoginVM()
         {
             ShowAdministratorLoginCommand = new RelayCommand(ShowAdministratorLogin, null);
@@ -43,13 +29,13 @@ namespace PL
         }
         public void ShowAdministratorLogin(object param)
         {
-            VisibilityAdministratorLogin = Visibility.Visible;
-            VisibilityCustomerLogin = Visibility.Collapsed;
+            VisibilityAdministratorLogin.visibility = Visibility.Visible;
+            VisibilityCustomerLogin.visibility = Visibility.Collapsed;
         }
         public void ShowCustomerLogin(object param)
         {
-            VisibilityCustomerLogin = Visibility.Visible;
-            VisibilityAdministratorLogin = Visibility.Collapsed;
+            VisibilityCustomerLogin.visibility = Visibility.Visible;
+            VisibilityAdministratorLogin.visibility = Visibility.Collapsed;
         }
 
         public void AdministratorLogin(object param)

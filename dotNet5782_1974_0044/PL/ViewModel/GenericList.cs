@@ -15,6 +15,7 @@ namespace PL
     public class GenericList<T>
     {
         public RelayCommand ShowKindOfSortCommand { get; set; }
+        public RelayCommand ValueTypeSortCommand { get; set; }
         public ListCollectionView list { set; get; }
         public ObservableCollection<string> SortOption { set; get; }
         public SortInputVM input { get; set; }
@@ -24,9 +25,22 @@ namespace PL
             UpdateSortOptions();
             input = new();
             ShowKindOfSortCommand = new(ShowKindOfSort, null);
+            ValueTypeSortCommand = new(input.ValueTypeSort, null);
+        }
+
+        bool FilterD(object obj)
+        {
+            if (obj is BO.DroneToList droneList)
+            {
+                if (input.ModelContain != string.Empty)
+                    return droneList.DroneModel.Contains( input.ModelContain) ;
+            }
+            return true;
+
         }
         void UpdateSortOptions()
         {
+            
             SortOption = new ObservableCollection<string>(typeof(T).GetProperties().Where(prop => prop.PropertyType.IsValueType || prop.PropertyType == typeof(string)).Select(prop => prop.Name).ToList());
         }
 
@@ -39,7 +53,7 @@ namespace PL
             }
             else
             {
-
+                input.StringSortVisibility.visibility = Visibility.Visible;
             }
         }
     }
