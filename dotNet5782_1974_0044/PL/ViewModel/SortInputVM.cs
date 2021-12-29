@@ -4,30 +4,37 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Collections.ObjectModel;
 
 namespace PL
 {
     public class SortInputVM:DependencyObject
     {
-        //public Visibility EnumOptionsVisbility
-        //{
-        //    get { return (Visibility)GetValue(IntOptionsVisbilityProperty); }
-        //    set { SetValue(IntOptionsVisbilityProperty, value); }
-        //}
+        public List<string> KindOfSort { get; set; } = new() { "Range", "single" };
+        private string selectedKind;
 
-        //// Using a DependencyProperty as the backing store for EnumOptionsVisbility.  This enables animation, styling, binding, etc...
-        //public static readonly DependencyProperty IntOptionsVisbilityProperty =
-        //    DependencyProperty.Register("EnumOptionsVisbility", typeof(Visibility), typeof(SortInputVM), new PropertyMetadata(Visibility.Collapsed));
-        //public Visibility OptionVisibility
-        //{
-        //    get { return (Visibility)GetValue(OptionVisibilityProperty); }
-        //    set { SetValue(OptionVisibilityProperty, value); }
-        //}
+        public string SelectedKind
+        {
+            get => selectedKind;
+            set
+            {
+                VisibilityKindOfSort = Visibility.Visible;
+                selectedKind = value;
+               
+            }
+        }
 
-        //// Using a DependencyProperty as the backing store for OptionVisibility.  This enables animation, styling, binding, etc...
-        //public static readonly DependencyProperty OptionVisibilityProperty =
-        //    DependencyProperty.Register("OptionVisibility", typeof(Visibility), typeof(SortInputVM), new PropertyMetadata(Visibility.Collapsed));
+        public Visibility VisibilityKindOfSort
+        {
+            get { return (Visibility)GetValue(VisibilityKindOfSortProperty); }
+            set { SetValue(VisibilityKindOfSortProperty, value); }
+        }
 
-       public string te;
+        // Using a DependencyProperty as the backing store for VisibilityKindOfSort.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty VisibilityKindOfSortProperty =
+            DependencyProperty.Register("VisibilityKindOfSort", typeof(Visibility), typeof(SortInputVM), new PropertyMetadata(Visibility.Collapsed));
+
+
+
     }
 }

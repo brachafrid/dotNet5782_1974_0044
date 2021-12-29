@@ -4,14 +4,13 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PL"
-             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:po="clr-namespace:PL.PO" d:DataContext="{d:DesignInstance Type=po:Drone}"
              mc:Ignorable="d" 
-             d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.DataContext>
-        <local:SortInputVM/>
-    </UserControl.DataContext>
+             d:DesignHeight="450" d:DesignWidth="800" >
+  
     <Grid>
         <!--<DatePicker Width="140" materialDesign:HintAssist.Hint="Pick Date" Style="{StaticResource MaterialDesignFilledDatePicker}" materialDesign:CalendarAssist.Orientation="Horizontal"/>-->
-        <TextBlock Text="{Binding te}"/>
+        <!--<TextBlock Text="{Binding Path = Parent.DataContext.input.te, RelativeSource = {RelativeSource Self} }"/>-->
+        <ComboBox ItemsSource="{Binding Path=Parent.DataContext.input.KindOfSort,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisibilityKindOfSort,RelativeSource = {RelativeSource Self}}" SelectedValue="{Binding Path=Parent.DataContext.input.SelectedKind,RelativeSource = {RelativeSource Self}}"/>
     </Grid>
 </UserControl>

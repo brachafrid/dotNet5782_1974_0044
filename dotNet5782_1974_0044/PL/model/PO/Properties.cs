@@ -12,7 +12,7 @@ namespace PL.PO
             string s = "";
             foreach (var item in t.GetProperties())
             {
-                if (item.GetValue(obj) != null && !(item.PropertyType.IsGenericType && (item.PropertyType.GetGenericTypeDefinition() == typeof(List<>))))
+                if (item.Name!= "Item" && item.GetValue(obj) != null && !(item.PropertyType.IsGenericType && (item.PropertyType.GetGenericTypeDefinition() == typeof(List<>))))
                 {
                     s += FormatString(item.Name) + $": {item.GetValue(obj)}" +
                                         '\n';
