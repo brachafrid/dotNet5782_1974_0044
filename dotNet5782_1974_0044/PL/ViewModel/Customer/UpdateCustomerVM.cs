@@ -45,14 +45,15 @@ namespace PL
 
 
         public RelayCommand UpdateCustomerCommand { get; set; }
+        public RelayCommand TryCommand { get; set; }
 
         public UpdateCustomerVM()
         {
             init();
             customerName = customer.Name;
             customerPhone = customer.Phone;
-
             UpdateCustomerCommand = new(UpdateCustomer, param => customer.Error == null);
+            TryCommand = new(TryCommandFunc, param => customer.Error == null);
             DelegateVM.Customer += init;
         }
         public void init()
@@ -67,7 +68,10 @@ namespace PL
                 customerName = customer.Name;
                 customerPhone = customer.Phone;
             }
-
+        }
+        public void TryCommandFunc(object param)
+        {
+            MessageBox.Show("double click");
         }
 
     }

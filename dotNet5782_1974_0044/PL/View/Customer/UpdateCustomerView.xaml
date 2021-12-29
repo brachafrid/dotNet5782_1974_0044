@@ -31,6 +31,11 @@
             <TextBlock  Text ="{Binding customer.Location.Latitude, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
             <TextBlock Text="Longitude: "/>
             <TextBlock  Text ="{Binding customer.Location.Longitude, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
+            <Button Content="double click">
+                <Button.InputBindings>
+                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding TryCommand}" />
+                </Button.InputBindings>
+            </Button> 
             <Button Content="close customer"/>
             <Button Content="update customer" Command="{Binding UpdateCustomerCommand}">
                 <Button.Visibility>
