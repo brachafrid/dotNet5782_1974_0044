@@ -23,8 +23,8 @@ namespace PL
         public Visble VisibilityPriorities { get; set; } = new();
         public Visble VisibilityDroneState { get; set; } = new();
         public Visble VisbleDouble { set; get; } = new();
-        public double doubleCange { get; set; }
-
+        public double doubleChange { 
+            3get; set; }
         private string modelContain;
         public string ModelContain
         {
@@ -65,7 +65,8 @@ namespace PL
         {
             switch (TypeOfSelectedParameter.Name)
             {
-                case "double":
+                case "Double":
+                    VisbleDouble.visibility = Visibility.Visible;
                     break;
                 case "WeightCategories":
                     VisibilityWeightCategories.visibility = Visibility.Visible;

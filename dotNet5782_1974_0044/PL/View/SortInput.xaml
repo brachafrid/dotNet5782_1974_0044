@@ -42,7 +42,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
-            <Slider  Minimum="0" Maximum="100" Value="{Binding Path=Parent.DataContext.input.doubleCange,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}"/>
+            <Slider  Minimum="0" Maximum="100" Value="{Binding Path=Parent.DataContext.input.doubleChange,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}"/>
         </StackPanel>
     </Grid>
 </UserControl>

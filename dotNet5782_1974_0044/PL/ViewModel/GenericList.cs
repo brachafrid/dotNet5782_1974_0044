@@ -10,7 +10,6 @@ using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using PL.PO;
 
-
 namespace PL
 {
     public class GenericList<T>
@@ -23,7 +22,6 @@ namespace PL
         public ListCollectionView list { set; get; }
         public ObservableCollection<string> SortOption { set; get; }
         public SortInputVM input { get; set; }
-
         public GenericList()
         {
             UpdateSortOptions();
@@ -34,7 +32,6 @@ namespace PL
             FilterPriorityCommand = new(input.FilterPriority, null);
             FilterStateCommand = new(input.FilterDroneState, null);
         }
-
         public bool FilterList(object obj)
         {
             if (obj is DroneToList droneList)
@@ -60,7 +57,6 @@ namespace PL
         {
             SortOption = new ObservableCollection<string>(typeof(T).GetProperties().Where(prop => !prop.Name.Contains("Id") && (prop.PropertyType.IsValueType || prop.PropertyType == typeof(string))).Select(prop => prop.Name).ToList());
         }
-
         private void ShowValueOfSort(object param)
         {
             input.TypeOfSelectedParameter = typeof(T).GetProperty(input.SelectedKind).PropertyType;
@@ -78,7 +74,10 @@ namespace PL
             input.StringSortVisibility.visibility = Visibility.Visible;
             input.VisibilityKindOfSort.visibility = Visibility.Collapsed;
         }
-
-
+        //public bool NomericSort() 
+        //{
+        //    var t = 
+            
+        //} 
     }
 }

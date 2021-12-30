@@ -113,16 +113,12 @@ namespace PL.PO
         {
             get
             {
-                //foreach (var propertyInfo in GetType().GetProperties())
-                //{
-                //    if (!Validation.functions.FirstOrDefault(func => func.Key == propertyInfo.GetType()).Value(GetType().GetProperty(propertyInfo.Name).GetValue(this)))
-                //        return "invalid" + propertyInfo.Name;
-                //}
+                
                 return null;
             }
         }
 
-        public string this[string columnName] =>null; /*Validation.functions.FirstOrDefault(func => func.Key == columnName.GetType()).Value(this.GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName;*/
+        public string this[string columnName] =>null; 
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
@@ -131,7 +127,6 @@ namespace PL.PO
                 PropertyChanged(this, new PropertyChangedEventArgs(properyName));
 
         }
-
 
         public override string ToString()
         {
