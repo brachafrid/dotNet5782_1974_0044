@@ -35,8 +35,10 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
-            <Slider x:Name="min" Minimum="0" Maximum="{Binding max.Value}" Value="{Binding Path=Parent.DataContext.input.DoubleFirstChange,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}"/>
-            <Slider x:Name="max" Minimum="{Binding min.Value}" Maximum="100" Value="{Binding Path=Parent.DataContext.input.DoubleLastChange,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}"/>
+            <Label Content="minimum" Visibility="{Binding Path=Parent.DataContext.input.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}"/>
+            <Slider x:Name="min" Minimum="0" Maximum="{Binding Value, ElementName=max}" Value="{Binding Path=Parent.DataContext.input.DoubleFirstChange,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}" Style="{StaticResource MaterialDesignDiscreteSlider}" TickPlacement="BottomRight"/>
+            <Label Content="maximum" Visibility="{Binding Path=Parent.DataContext.input.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}"/>
+            <Slider x:Name="max" Minimum="{Binding Value,ElementName=min}" Maximum="100" Value="{Binding Path=Parent.DataContext.input.DoubleLastChange,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}" Style="{StaticResource MaterialDesignDiscreteSlider}" TickPlacement="BottomRight"/>
         </StackPanel>
     </Grid>
 </UserControl>
