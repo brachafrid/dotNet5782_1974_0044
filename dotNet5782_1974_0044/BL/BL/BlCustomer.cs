@@ -4,7 +4,6 @@ using System.Linq;
 using BO;
 using BLApi;
 
-
 namespace BL
 {
     public partial class BL : IBlCustomer
@@ -80,7 +79,15 @@ namespace BL
         }
         public void DeleteCustomer(int id)
         {
-            dal.DeleteCustomer(id);
+            Customer customer = GetCustomer(id);
+            if (customer.ToCustomer.Any())
+            {
+                dal.DeleteCustomer(id);
+            }
+            else
+            {
+                throw new ThereAreAssociatedOrgansException("There are parcels on the way to the customer, cant delete.");
+            }
         }
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
