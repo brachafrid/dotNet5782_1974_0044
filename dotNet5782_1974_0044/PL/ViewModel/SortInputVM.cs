@@ -17,6 +17,7 @@ namespace PL
         private string selectedKind;
         public Visble StringSortVisibility { get; set; } = new();
         public Visble VisibilityKindOfSort { get; set; } = new();
+        public Visble VisbleDouble { set; get; } = new();
 
         private string modelContain;
         public string ModelContain
