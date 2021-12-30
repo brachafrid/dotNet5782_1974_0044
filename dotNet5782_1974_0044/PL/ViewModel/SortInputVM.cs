@@ -22,6 +22,7 @@ namespace PL
         public Visble VisibilityWeightCategories { get; set; } = new();
         public Visble VisibilityPriorities { get; set; } = new();
         public Visble VisibilityDroneState { get; set; } = new();
+        public Visble VisbleDouble { set; get; } = new();
 
         private string modelContain;
         public string ModelContain
