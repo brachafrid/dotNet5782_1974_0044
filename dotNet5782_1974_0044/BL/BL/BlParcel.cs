@@ -158,7 +158,16 @@ namespace BL
 
         public void DeleteParcel(int id)
         {
-            dal.DeleteParcel(id);
+            Parcel parcel = GetParcel(id);
+            if(parcel.Drone == null)
+            {
+                dal.DeleteParcel(id);
+            }
+            else
+            {
+                DeleteParcelFromDrone(parcel.Drone.Id);
+                dal.DeleteParcel(id);
+            }
         }
 
         //-----------------------------------------------Help function-----------------------------------------------------------------------------------
@@ -185,6 +194,14 @@ namespace BL
             };
         }
 
-      
+        private void DeleteParcelFromDrone(int id)
+        {
+            DroneToList drone = drones.FirstOrDefault(item => item.Id == id);
+            drones.Remove(drone);
+            drone.ParcelId = null;
+            drone.DroneState = DroneState.AVAILABLE;
+            drones.Add(drone);
+        }
+
     }
 }

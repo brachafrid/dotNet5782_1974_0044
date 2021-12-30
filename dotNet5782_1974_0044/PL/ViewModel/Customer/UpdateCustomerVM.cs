@@ -1,4 +1,5 @@
-﻿using PL.PO;
+﻿using BO;
+using PL.PO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,15 +12,15 @@ namespace PL
     class UpdateCustomerVM : DependencyObject
     {
 
-        public Customer customer
+        public PL.PO.Customer customer
         {
-            get { return (Customer)GetValue(customerProperty); }
+            get { return (PL.PO.Customer)GetValue(customerProperty); }
             set { SetValue(customerProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for customer.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty customerProperty =
-            DependencyProperty.Register("customer", typeof(Customer), typeof(UpdateCustomerVM), new PropertyMetadata(new Customer()));
+            DependencyProperty.Register("customer", typeof(PL.PO.Customer), typeof(UpdateCustomerVM), new PropertyMetadata(new PL.PO.Customer()));
 
         public string customerName
         {
@@ -76,10 +77,18 @@ namespace PL
 
         public void DeleteCustomer(object param)
         {
-            if (MessageBox.Show("You're sure you want to delete this customer?", "Delete Customer", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+            try
             {
-                new CustomerHandler().DeleteCustomer(customer.Id);
-                MessageBox.Show("The customer was successfully deleted");
+                 if (MessageBox.Show("You're sure you want to delete this customer?", "Delete Customer", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                 {
+                    new CustomerHandler().DeleteCustomer(customer.Id);
+                    MessageBox.Show("The customer was successfully deleted");
+                 }
+            }
+           
+            catch (ThereAreAssociatedOrgansException ex)
+            {
+                MessageBox.Show($"{ex.Message}");
             }
         }
 
