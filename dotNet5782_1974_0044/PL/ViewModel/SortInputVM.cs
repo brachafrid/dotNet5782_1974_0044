@@ -10,21 +10,25 @@ using System.Windows.Controls;
 
 namespace PL
 {
-    public class SortInputVM:DependencyObject,INotifyPropertyChanged
+    public class SortInputVM : DependencyObject, INotifyPropertyChanged
     {
-       
+
         public List<string> KindOfSort { get; set; } = new() { "Range", "single" };
         private string selectedKind;
         public Visble StringSortVisibility { get; set; } = new();
         public Visble VisibilityKindOfSort { get; set; } = new();
 
         private string modelContain;
-        public string ModelContain { 
-            get=>modelContain;
-            set {
+        public string ModelContain
+        {
+            get => modelContain;
+            set
+            {
                 modelContain = value;
+                FilTerNow();
                 onPropertyChanged("ModelContain");
-            }}
+            }
+        }
         public string SelectedKind
         {
             get => selectedKind;
@@ -33,9 +37,10 @@ namespace PL
                 selectedKind = value;
             }
         }
-        public SortInputVM()
+        public Action FilTerNow;
+        public SortInputVM(Action Filter)
         {
-           
+            FilTerNow = Filter;
         }
 
         public void ValueTypeSort(object param)
