@@ -82,9 +82,12 @@ namespace PL
         }
         public void DeleteStation(object param)
         {
-             new StationHandler().DeleteStation(station.Id);
+            if (MessageBox.Show("You're sure you want to delete this station?", "Delete Station", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+            {
+                new StationHandler().DeleteStation(station.Id);
+                MessageBox.Show("The station was successfully deleted");
+            }
         }
-
 
     }
 }
