@@ -1,4 +1,5 @@
-﻿using PL.PO;
+﻿using BO;
+using PL.PO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -12,14 +13,14 @@ namespace PL
 {
     public class UpdateDroneVM: DependencyObject
     {
-        public Drone drone
+        public PO.Drone drone
         {
-            get { return (Drone)GetValue(droneProperty); }
+            get { return (PO.Drone)GetValue(droneProperty); }
             set { SetValue(droneProperty, value); }
         }
 
         public static readonly DependencyProperty droneProperty =
-            DependencyProperty.Register("drone", typeof(Drone), typeof(UpdateDroneVM), new PropertyMetadata(new Drone()));
+            DependencyProperty.Register("drone", typeof(PO.Drone), typeof(UpdateDroneVM), new PropertyMetadata(new PO.Drone()));
         public string droneModel
         {
             get { return (string)GetValue(droneModelProperty); }
@@ -76,7 +77,7 @@ namespace PL
 
         public void sendToCharging(object param)
         {
-            if (drone.DroneState == DroneState.AVAILABLE)
+            if (drone.DroneState == PO.DroneState.AVAILABLE)
             {
                 new DroneHandler().SendDroneForCharg(drone.Id);
                 DelegateVM.Drone();
@@ -84,7 +85,7 @@ namespace PL
 
                 MessageBox.Show($"{drone.DroneState}");
             }
-            else if (drone.DroneState == DroneState.MAINTENANCE)
+            else if (drone.DroneState == PO.DroneState.MAINTENANCE)
             {
                 new DroneHandler().ReleaseDroneFromCharging(drone.Id);
                 DelegateVM.Drone();
@@ -98,7 +99,7 @@ namespace PL
         public void parcelTreatedByDrone(object param)
         {
             try { 
-                if (drone.DroneState == DroneState.DELIVERY)
+                if (drone.DroneState == PO.DroneState.DELIVERY)
                 {
                     if (drone.Parcel.ParcelState == true)
                     {
@@ -129,10 +130,18 @@ namespace PL
 
         public void DeleteDrone(object param)
         {
-            if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
-            {   
-               new DroneHandler().DeleteDrone(drone.Id);
-               MessageBox.Show("The drone was successfully deleted");
+            try
+            {
+               if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+               {   
+                   new DroneHandler().DeleteDrone(drone.Id);
+                   MessageBox.Show("The drone was successfully deleted");
+               }
+            }
+         
+            catch (ThereAreAssociatedOrgansException ex)
+            {
+                MessageBox.Show($"{ex.Message}");
             }
         }
     }

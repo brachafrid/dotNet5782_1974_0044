@@ -23,6 +23,7 @@ using System.Runtime.Serialization;
         [Serializable]
         public class ThereIsAnObjectWithTheSameKeyInTheListException : Exception
         {
+
             public ThereIsAnObjectWithTheSameKeyInTheListException() : base() { }
             public ThereIsAnObjectWithTheSameKeyInTheListException(string message) : base(message) { }
             public ThereIsAnObjectWithTheSameKeyInTheListException(string message, Exception inner) : base(message, inner) { }
@@ -34,7 +35,22 @@ using System.Runtime.Serialization;
             }
 
         }
+        public class ThereAreAssociatedOrgansException : Exception
+        {
 
-    }
+            public ThereAreAssociatedOrgansException() : base() { }
+            public ThereAreAssociatedOrgansException(string message) : base(message) { }
+            public ThereAreAssociatedOrgansException(string message, Exception inner) : base(message, inner) { }
+            protected ThereAreAssociatedOrgansException(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+            public override string ToString()
+            {
+                return Message + "There are associated organs, Cant delete";
+            }
+
+        }
+
+
+}
 
 
