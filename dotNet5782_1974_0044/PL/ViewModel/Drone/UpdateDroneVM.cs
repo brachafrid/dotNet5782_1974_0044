@@ -129,8 +129,11 @@ namespace PL
 
         public void DeleteDrone(object param)
         {
-            new DroneHandler().DeleteDrone(drone.Id);
+            if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+            {   
+               new DroneHandler().DeleteDrone(drone.Id);
+               MessageBox.Show("The drone was successfully deleted");
+            }
         }
-
     }
 }

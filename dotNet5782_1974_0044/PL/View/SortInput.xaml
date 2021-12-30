@@ -21,10 +21,10 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
-            <ComboBox x:Name="Wehigt" ItemsSource="{Binding Path=Parent.DataContext.input.WeightCategories,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisibilityWeightCategories.visibility,RelativeSource = {RelativeSource Self}}"  >
+            <ComboBox x:Name="weight" ItemsSource="{Binding Path=Parent.DataContext.input.WeightCategories,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisibilityWeightCategories.visibility,RelativeSource = {RelativeSource Self}}"  >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding FilterWheightommand}" CommandParameter="{Binding ElementName=Wehigt}" />
+                        <i:InvokeCommandAction Command="{Binding FilterWheightommand}" CommandParameter="{Binding ElementName=weight}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
