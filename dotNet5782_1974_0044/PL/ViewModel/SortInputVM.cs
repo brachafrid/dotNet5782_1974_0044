@@ -66,6 +66,7 @@ namespace PL
             switch (TypeOfSelectedParameter.Name)
             {
                 case "double":
+                    VisbleDouble.visibility = Visibility.Visible;
                     break;
                 case "WeightCategories":
                     VisibilityWeightCategories.visibility = Visibility.Visible;
