@@ -56,11 +56,11 @@ namespace PL
             if (!typeof(T).GetProperty(input.SelectedKind).PropertyType.Name.Equals(typeof(string).Name))
             {
                 input.VisibilityKindOfSort.visibility = Visibility.Visible;
+                input.StringSortVisibility.visibility = Visibility.Collapsed;
+                return;
             }
-            else
-            {
-                input.StringSortVisibility.visibility = Visibility.Visible;
-            }
+            input.StringSortVisibility.visibility = Visibility.Visible;
+            input.VisibilityKindOfSort.visibility = Visibility.Collapsed;
         }
     }
 }
