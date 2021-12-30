@@ -13,14 +13,14 @@ namespace PL
 {
     public class UpdateDroneVM: DependencyObject
     {
-        public Drone drone
+        public PO.Drone drone
         {
-            get { return (Drone)GetValue(droneProperty); }
+            get { return (PO.Drone)GetValue(droneProperty); }
             set { SetValue(droneProperty, value); }
         }
 
         public static readonly DependencyProperty droneProperty =
-            DependencyProperty.Register("drone", typeof(Drone), typeof(UpdateDroneVM), new PropertyMetadata(new Drone()));
+            DependencyProperty.Register("drone", typeof(PO.Drone), typeof(UpdateDroneVM), new PropertyMetadata(new PO.Drone()));
         public string droneModel
         {
             get { return (string)GetValue(droneModelProperty); }
@@ -77,7 +77,7 @@ namespace PL
 
         public void sendToCharging(object param)
         {
-            if (drone.DroneState == DroneState.AVAILABLE)
+            if (drone.DroneState == PO.DroneState.AVAILABLE)
             {
                 new DroneHandler().SendDroneForCharg(drone.Id);
                 DelegateVM.Drone();
@@ -85,7 +85,7 @@ namespace PL
 
                 MessageBox.Show($"{drone.DroneState}");
             }
-            else if (drone.DroneState == DroneState.MAINTENANCE)
+            else if (drone.DroneState == PO.DroneState.MAINTENANCE)
             {
                 new DroneHandler().ReleaseDroneFromCharging(drone.Id);
                 DelegateVM.Drone();
@@ -99,7 +99,7 @@ namespace PL
         public void parcelTreatedByDrone(object param)
         {
             try { 
-                if (drone.DroneState == DroneState.DELIVERY)
+                if (drone.DroneState == PO.DroneState.DELIVERY)
                 {
                     if (drone.Parcel.ParcelState == true)
                     {

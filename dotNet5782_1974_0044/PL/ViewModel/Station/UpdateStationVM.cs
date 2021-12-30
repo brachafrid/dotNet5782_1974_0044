@@ -1,4 +1,5 @@
-﻿using PL.PO;
+﻿using BO;
+using PL.PO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,15 +11,15 @@ namespace PL
 {
     class UpdateStationVM : DependencyObject
     {
-        public Station station
+        public PO.Station station
         {
-            get { return (Station)GetValue(stationProperty); }
+            get { return (PO.Station)GetValue(stationProperty); }
             set { SetValue(stationProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for station.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty stationProperty =
-            DependencyProperty.Register("station", typeof(Station), typeof(UpdateStationVM), new PropertyMetadata(new Station()));
+            DependencyProperty.Register("station", typeof(PO.Station), typeof(UpdateStationVM), new PropertyMetadata(new PO.Station()));
 
 
 
@@ -82,10 +83,17 @@ namespace PL
         }
         public void DeleteStation(object param)
         {
-            if (MessageBox.Show("You're sure you want to delete this station?", "Delete Station", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+            try { 
+
+                if (MessageBox.Show("You're sure you want to delete this station?", "Delete Station", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                    new StationHandler().DeleteStation(station.Id);
+                    MessageBox.Show("The station was successfully deleted");
+                }
+            }
+              catch (ThereAreAssociatedOrgansException ex)
             {
-                new StationHandler().DeleteStation(station.Id);
-                MessageBox.Show("The station was successfully deleted");
+                throw new ThereAreAssociatedOrgansException(ex.Message);
             }
         }
 

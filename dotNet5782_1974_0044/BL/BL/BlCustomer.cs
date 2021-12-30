@@ -80,7 +80,7 @@ namespace BL
         public void DeleteCustomer(int id)
         {
             Customer customer = GetCustomer(id);
-            if (customer.ToCustomer.Any())
+            if (!customer.ToCustomer.Any())
             {
                 dal.DeleteCustomer(id);
             }
