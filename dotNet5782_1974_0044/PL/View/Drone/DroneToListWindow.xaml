@@ -23,11 +23,11 @@
             <ComboBox  ItemsSource="{Binding Path=SortOption}" x:Name="sort" >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
-                        <i:InvokeCommandAction Command="{Binding ShowKindOfSortCommand}" CommandParameter="{Binding ElementName=sort}" />
+                        <i:InvokeCommandAction Command="{Binding ShowKindOfSortCommand}" CommandParameter="{Binding ElementName=sort}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
         </DockPanel>
-        <local:SortInput /> 
+        <local:SortInput />
     </StackPanel>
 </UserControl>

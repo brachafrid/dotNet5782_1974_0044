@@ -11,14 +11,38 @@
              d:DesignHeight="450" d:DesignWidth="800" >
 
     <Grid>
+        <StackPanel>
         <!--<DatePicker Width="140" materialDesign:HintAssist.Hint="Pick Date" Style="{StaticResource MaterialDesignFilledDatePicker}" materialDesign:CalendarAssist.Orientation="Horizontal"/>-->
         <TextBox Text="{Binding Path = Parent.DataContext.input.ModelContain, RelativeSource = {RelativeSource Self}, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path = Parent.DataContext.input.StringSortVisibility.visibility, RelativeSource = {RelativeSource Self} }" />
         <ComboBox x:Name="KindOf" ItemsSource="{Binding Path=Parent.DataContext.input.KindOfSort,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisibilityKindOfSort.visibility,RelativeSource = {RelativeSource Self}}"  >
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="SelectionChanged">
-                    <i:InvokeCommandAction Command="{Binding ValueTypeSortCommand}" CommandParameter="{Binding ElementName=KindOf}" />
+                    <i:InvokeCommandAction Command="{Binding ShowValueTypeSortCommand}" CommandParameter="{Binding ElementName=KindOf}" />
                 </i:EventTrigger>
             </i:Interaction.Triggers>
         </ComboBox>
+        <ComboBox x:Name="weight" ItemsSource="{Binding Path=Parent.DataContext.input.WeightCategories,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisibilityWeightCategories.visibility,RelativeSource = {RelativeSource Self}}"  >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding FilterWheightommand}" CommandParameter="{Binding ElementName=weight}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ComboBox>
+        <ComboBox x:Name="Piority" ItemsSource="{Binding Path=Parent.DataContext.input.PrioritiesArray,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisibilityPriorities.visibility,RelativeSource = {RelativeSource Self}}"  >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding FilterPriorityCommand}" CommandParameter="{Binding ElementName=Piority}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ComboBox>
+        <ComboBox x:Name="State" ItemsSource="{Binding Path=Parent.DataContext.input.DroneState,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisibilityDroneState.visibility,RelativeSource = {RelativeSource Self}}"  >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="SelectionChanged">
+                    <i:InvokeCommandAction Command="{Binding FilterStateCommand}" CommandParameter="{Binding ElementName=State}" />
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
+        </ComboBox>
+        <Slider Orientation="Vertical" Minimum="0" Maximum="100" Value="0" Visibility="{Binding Path=Parent.DataContext.input.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}"/>
+    </StackPanel>
     </Grid>
 </UserControl>
