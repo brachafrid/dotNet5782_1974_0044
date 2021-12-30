@@ -11,9 +11,12 @@
              d:DesignHeight="450" d:DesignWidth="800" >
 
     <Grid>
-        <!--<DatePicker Width="140" materialDesign:HintAssist.Hint="Pick Date" Style="{StaticResource MaterialDesignFilledDatePicker}" materialDesign:CalendarAssist.Orientation="Horizontal"/>-->
-        <!--<TextBox Text="{Binding Path = Parent.DataContext.input.ModelContain, RelativeSource = {RelativeSource Self} }" Visibility="{Binding }"/>-->
-        <ComboBox  ItemsSource="{Binding Path=Parent.DataContext.input.KindOfSort,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisibilityKindOfSort.visibility,RelativeSource = {RelativeSource Self}}"  >
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="3*"/>
+            <ColumnDefinition Width="397*"/>
+        </Grid.ColumnDefinitions>
+        
+        <ComboBox  ItemsSource="{Binding Path=Parent.DataContext.input.KindOfSort,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisibilityKindOfSort.visibility,RelativeSource = {RelativeSource Self}}" Grid.ColumnSpan="2"  >
 
         </ComboBox>
     </Grid>
