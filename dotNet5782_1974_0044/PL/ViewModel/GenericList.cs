@@ -33,14 +33,14 @@ namespace PL
             if (obj is BO.DroneToList droneList)
             {
                 if (input.ModelContain != string.Empty)
-                    return droneList.DroneModel.Contains( input.ModelContain) ;
+                    return droneList.DroneModel.Contains(input.ModelContain);
             }
             return true;
 
         }
         void UpdateSortOptions()
         {
-            
+
             SortOption = new ObservableCollection<string>(typeof(T).GetProperties().Where(prop => prop.PropertyType.IsValueType || prop.PropertyType == typeof(string)).Select(prop => prop.Name).ToList());
         }
 
@@ -50,11 +50,11 @@ namespace PL
             if (!typeof(T).GetProperty(input.SelectedKind).PropertyType.Name.Equals(typeof(string).Name))
             {
                 input.VisibilityKindOfSort.visibility = Visibility.Visible;
+                input.StringSortVisibility.visibility = Visibility.Collapsed;
+                return;
             }
-            else
-            {
-                input.StringSortVisibility.visibility = Visibility.Visible;
-            }
+            input.StringSortVisibility.visibility = Visibility.Visible;
+            input.VisibilityKindOfSort.visibility = Visibility.Collapsed;
         }
     }
 }
