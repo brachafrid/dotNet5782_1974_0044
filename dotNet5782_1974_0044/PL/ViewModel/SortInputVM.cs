@@ -18,6 +18,7 @@ namespace PL
         public Visble StringSortVisibility { get; set; } = new();
         public Visble VisibilityKindOfSort { get; set; } = new();
         public Visble VisbleDouble { set; get; } = new();
+        public double doubleCange { get; set; }
 
         private string modelContain;
         public string ModelContain
@@ -30,6 +31,7 @@ namespace PL
                 onPropertyChanged("ModelContain");
             }
         }
+
         public string SelectedKind
         {
             get => selectedKind;
@@ -38,6 +40,7 @@ namespace PL
                 selectedKind = value;
             }
         }
+
         public Action FilTerNow;
         public SortInputVM(Action Filter)
         {
