@@ -95,7 +95,8 @@ namespace PL
                     break;
                 case "DateTime":
                     break;
-                case "Int":
+                case "Int32":
+                    VisbleDouble.visibility = Visibility.Visible;
                     break;
                 default:
                     break;
@@ -152,7 +153,11 @@ namespace PL
 
         public bool FilterListBattery(object obj)
         {
-            return (double)obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "Double").GetValue(obj)>doubleFirstChange && (double)obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "Double").GetValue(obj) < doubleLastChange;    
+            if (obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "Double") != default)
+                return (double)obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "Double").GetValue(obj) > doubleFirstChange && (double)obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "Double").GetValue(obj) < doubleLastChange;
+            if(obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "Int32" && !prop.Name.Contains("Id"))!=default)
+                return  (int)obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "Int32" && !prop.Name.Contains("Id")).GetValue(obj) > doubleFirstChange && (int)obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "Int32" && !prop.Name.Contains("Id")).GetValue(obj) < doubleLastChange;
+            return true;
         }
 
 
