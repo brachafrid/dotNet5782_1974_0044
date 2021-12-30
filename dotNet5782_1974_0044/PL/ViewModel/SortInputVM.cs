@@ -23,8 +23,7 @@ namespace PL
         public Visble VisibilityPriorities { get; set; } = new();
         public Visble VisibilityDroneState { get; set; } = new();
         public Visble VisbleDouble { set; get; } = new();
-        public double doubleChange { 
-            3get; set; }
+        public double doubleChange {  get; set; }
         private string modelContain;
         public string ModelContain
         {
