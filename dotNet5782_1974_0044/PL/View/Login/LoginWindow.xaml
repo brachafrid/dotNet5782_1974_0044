@@ -22,12 +22,12 @@
                 </ToolBar>
             </ToolBarTray>
         </StackPanel>
-        <StackPanel Visibility="{Binding VisibilityAdministratorLogin}">
+        <StackPanel Visibility="{Binding VisibilityAdministratorLogin.visibility}">
             <Label Content="Enter the password"/>
             <PasswordBox x:Name="pwd" />
             <Button Content="Login" Command="{Binding AdministratorLoginCommand}" CommandParameter="{Binding ElementName=pwd}"/>
         </StackPanel>
-        <StackPanel Visibility="{Binding VisibilityCustomerLogin}">
+        <StackPanel Visibility="{Binding VisibilityCustomerLogin.visibility}">
             <Label Content="Enter the Id"/>
             <TextBox Text="{Binding customerLogin.Id, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Id" />
             <Button Style="{StaticResource MaterialDesignFlatButton}"

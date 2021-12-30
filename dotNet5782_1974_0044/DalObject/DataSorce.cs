@@ -67,6 +67,7 @@ namespace Dal
         {
             string model = $"Model_Drone_ {'a' + id}_{id * Rnd.Next()}";
             WeightCategories maxWeight = (WeightCategories)Rnd.Next(RANGE_ENUM);
+
             dal.AddDrone(id, model, maxWeight);
         }
         private static void RandomStation(DalObject dal, int id)
@@ -101,6 +102,7 @@ namespace Dal
             newParcel.PickedUp = default;
             newParcel.Delivered = default;
             newParcel.DorneId = 0;
+            newParcel.IsDeleted = false;
             int state = Rnd.Next(PARCELS_STATE);
             if (state!=0)
             {

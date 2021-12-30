@@ -18,11 +18,13 @@ namespace Dal
         {
             if (ExistsIDTaxCheck(DataSorce.Drones, id))
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException();
-            Drone newDrone = new ()
+            Drone newDrone = new()
             {
                 Id = id,
                 Model = model,
-                MaxWeight = MaxWeight
+                MaxWeight = MaxWeight,
+                IsDeleted = false
+                
             };
             DataSorce.Drones.Add(newDrone);
         }
@@ -59,7 +61,11 @@ namespace Dal
             DataSorce.Drones.Remove(drone);
         }
 
-
+        public void DeleteDrone(int id)
+        {
+            Drone drone = DataSorce.Drones.FirstOrDefault(item => item.Id == id);
+            drone.IsDeleted = true;
+        }
     }
 
 }

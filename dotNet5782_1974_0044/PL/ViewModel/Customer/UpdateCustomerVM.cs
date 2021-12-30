@@ -45,21 +45,25 @@ namespace PL
 
 
         public RelayCommand UpdateCustomerCommand { get; set; }
-        public RelayCommand TryCommand { get; set; }
+        public RelayCommand DeleteCustomerCommand { get; set; }
+        
+        //public RelayCommand TryCommand { get; set; }
 
         public UpdateCustomerVM()
         {
             init();
-            customerName = customer.Name;
+            customerName = customer.Name;                  
             customerPhone = customer.Phone;
             UpdateCustomerCommand = new(UpdateCustomer, param => customer.Error == null);
-            TryCommand = new(TryCommandFunc, param => customer.Error == null);
+            DeleteCustomerCommand = new(DeleteCustomer, param => customer.Error == null);
+            //TryCommand = new(TryCommandFunc, param => customer.Error == null);
             DelegateVM.Customer += init;
         }
         public void init()
         {
             customer = new CustomerHandler().GetCustomer(2);
         }
+        
         public void UpdateCustomer(object param)
         {
             if(customerName != customer.Name || customerPhone != customer.Phone)
@@ -69,10 +73,16 @@ namespace PL
                 customerPhone = customer.Phone;
             }
         }
-        public void TryCommandFunc(object param)
+
+        public void DeleteCustomer(object param)
         {
-            MessageBox.Show("double click");
+              new CustomerHandler().DeleteCustomer(customer.Id);
         }
+
+        //public void TryCommandFunc(object param)
+        //{
+        //    MessageBox.Show("double click");
+        //}
 
     }
 }

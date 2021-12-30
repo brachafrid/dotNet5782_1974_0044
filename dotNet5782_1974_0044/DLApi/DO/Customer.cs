@@ -38,7 +38,9 @@
                 }
             }
 
-            public override string ToString()
+        public bool IsDeleted { get; set; }
+
+        public override string ToString()
             {
                 return $"Cusomer ID:{Id} Name:{Name} Latitude:{Latitude} Longitude:{Longitude}";
             }

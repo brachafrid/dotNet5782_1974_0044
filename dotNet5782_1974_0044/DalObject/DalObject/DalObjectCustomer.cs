@@ -26,6 +26,7 @@ namespace Dal
             newCustomer.Phone = phone;
             newCustomer.Latitude = latitude;
             newCustomer.Longitude = longitude;
+            newCustomer.IsDeleted = false;
             DataSorce.Customers.Add(newCustomer);
         }
         //-----------------------------------------Display----------------------------------
@@ -52,6 +53,13 @@ namespace Dal
         {
             DataSorce.Customers.Remove(customer);
         }
+
+        public void DeleteCustomer(int id)
+        {
+            Customer customer = DataSorce.Customers.FirstOrDefault(item => item.Id == id);
+            customer.IsDeleted = true;
+        }
+
     }
 
 }

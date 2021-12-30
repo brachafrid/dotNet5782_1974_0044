@@ -78,6 +78,10 @@ namespace BL
 
 
         }
+        public void DeleteCustomer(int id)
+        {
+            dal.DeleteCustomer(id);
+        }
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
         /// <summary>
@@ -88,6 +92,9 @@ namespace BL
         {
             return dal.GetCustomers().Select(customer => MapCustomerToList(customer));
         }
+
+
+
 
         //-----------------------------------------------Help function-----------------------------------------------------------------------------------
         /// <summary>
@@ -111,6 +118,7 @@ namespace BL
                 ToCustomer = GetAllParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "Recive")).ToList()
             };
         }
+
        
     }
 }

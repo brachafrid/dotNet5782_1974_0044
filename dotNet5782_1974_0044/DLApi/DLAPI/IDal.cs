@@ -30,6 +30,9 @@ namespace DLApi
         public DateTime GetTimeStartOfCharge(int droneId);
         (double, double, double, double, double) GetElectricity();
         public void RemoveParcel(Parcel parcel);
-
+        public void DeleteCustomer(int id);
+        public void DeleteDrone(int id);
+        public void DeleteParcel(int id);
+        public void DeleteStation(int id);
     }
 }

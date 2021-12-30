@@ -11,6 +11,7 @@ namespace BLApi
         public Customer GetCustomer(int id);
         public IEnumerable<CustomerToList> GetCustomers();
         public void UpdateCustomer(int id, string name, string phone);
+        public void DeleteCustomer(int id);
     }
 }
 

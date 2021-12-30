@@ -10,13 +10,21 @@ using System.Windows.Controls;
 
 namespace PL
 {
-    public class SortInputVM:DependencyObject
+    public class SortInputVM:DependencyObject,INotifyPropertyChanged
     {
        
         public List<string> KindOfSort { get; set; } = new() { "Range", "single" };
         private string selectedKind;
+        public Visble StringSortVisibility { get; set; } = new();
+        public Visble VisibilityKindOfSort { get; set; } = new();
 
-        public string ModelContain { get; set; }
+        private string modelContain;
+        public string ModelContain { 
+            get=>modelContain;
+            set {
+                modelContain = value;
+                onPropertyChanged("ModelContain");
+            }}
         public string SelectedKind
         {
             get => selectedKind;
@@ -27,9 +35,20 @@ namespace PL
         }
         public SortInputVM()
         {
-            VisibilityKindOfSort = new();
+           
         }
-      public Visble VisibilityKindOfSort { get; set; }
 
+        public void ValueTypeSort(object param)
+        {
+            MessageBox.Show((param as ComboBox).SelectedValue.ToString());
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void onPropertyChanged(string properyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
+
+        }
     }
 }

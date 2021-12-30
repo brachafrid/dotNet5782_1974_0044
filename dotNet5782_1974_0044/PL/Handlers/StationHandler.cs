@@ -23,6 +23,10 @@ namespace PL
         {
             return ConverterStation(ibal.GetStation(id));
         }
+        public void DeleteStation(int id)
+        {
+            ibal.DeleteStation(id);
+        }
         public IEnumerable<StationToList> GetStations()
         {
             return ibal.GetStations().Select(item => ConverterStationToList(item));
@@ -62,8 +66,7 @@ namespace PL
             {
                 Id = station.Id,
                 Name = station.Name,
-                FullChargeSlots = station.FullChargeSlots,
-                EmptyChargeSlots = station.EmptyChargeSlots,
+                ChargeSlots = station.EmptyChargeSlots + station.FullChargeSlots
             };
         }
         public BO.Station ConverBackStationAdd(PO.StationAdd station)

@@ -34,6 +34,7 @@ namespace PL
         public RelayCommand CloseDroneCommand { get; set; }
         public RelayCommand ChargingDroneCommand { get; set; }
         public RelayCommand ParcelTreatedByDrone { get; set; }
+        public RelayCommand DeleteDroneCommand { get; set; }
         
         public UpdateDroneVM()
         {
@@ -42,6 +43,7 @@ namespace PL
             UpdateDroneCommand = new(UpdateModel, param => drone.Error == null);
             ChargingDroneCommand = new(sendToCharging, param => drone.Error == null);
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => drone.Error == null);
+            DeleteDroneCommand = new(DeleteDrone, param => drone.Error == null);
             DelegateVM.Drone += init; 
         }
         public void init()
@@ -124,5 +126,11 @@ namespace PL
                 MessageBox.Show($"{ex.Message}");
             }
         }
+
+        public void DeleteDrone(object param)
+        {
+            new DroneHandler().DeleteDrone(drone.Id);
+        }
+
     }
 }

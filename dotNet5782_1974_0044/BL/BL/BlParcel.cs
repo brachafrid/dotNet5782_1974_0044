@@ -156,6 +156,11 @@ namespace BL
 
         }
 
+        public void DeleteParcel(int id)
+        {
+            dal.DeleteParcel(id);
+        }
+
         //-----------------------------------------------Help function-----------------------------------------------------------------------------------
         /// <summary>
         /// Convert a DAL parcel to BL parcel
@@ -180,7 +185,6 @@ namespace BL
             };
         }
 
-        
-
+      
     }
 }
