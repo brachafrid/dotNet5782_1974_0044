@@ -275,14 +275,13 @@ namespace BL
         public void DeleteDrone(int id)
         {
             DroneToList drone = drones.FirstOrDefault(item => item.Id == id);
-
-            if(drone.ParcelId == null)
+            if(drone.ParcelId == 0)
             {
                 dal.DeleteDrone(id);
             }
             else
             {
-                throw new ThereAreAssociatedOrgansException("There is parcel in the drone, cant delete.");
+                throw new ThereAreAssociatedOrgansException("There is parcel in the drone, Cant delete.");
             }
         }
 
