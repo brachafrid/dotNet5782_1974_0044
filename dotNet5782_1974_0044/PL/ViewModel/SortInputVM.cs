@@ -23,8 +23,28 @@ namespace PL
         public Visble VisibilityPriorities { get; set; } = new();
         public Visble VisibilityDroneState { get; set; } = new();
         public Visble VisbleDouble { set; get; } = new();
-        public double doubleChange { 
-            3get; set; }
+        private double doubleFirstChange=0;
+        private double doubleLastChange=100;
+        public double DoubleFirstChange {
+            get => doubleFirstChange;
+            set {
+                doubleFirstChange = value;
+                RemoveFilter(FilterListBattery);
+                AddFilter(FilterListBattery);
+                FilterNow();
+            }
+        }
+        public double DoubleLastChange
+        {
+            get => doubleLastChange;
+            set
+            {
+                doubleLastChange = value;
+                RemoveFilter(FilterListBattery);
+                AddFilter(FilterListBattery);
+                FilterNow();
+            }
+        }
         private string modelContain;
         public string ModelContain
         {
@@ -39,9 +59,6 @@ namespace PL
             }
         }
         public string SelectedKind { get; set; }
-        //public string selectedValue { get; set; }
-
-
         public string selectedWeight { get; set; }
         public string selectedPiority { get; set; }
         public string selectedState { get; set; }
@@ -94,10 +111,8 @@ namespace PL
         }
         public bool FilterListWeight(object obj)
         {
-            //static string selectedParameter = SelectedKind;
-            string selectedValueParameter = selectedWeight;
-                if (selectedValueParameter != null && selectedValueParameter != string.Empty)
-                    return obj.GetType().GetProperties().FirstOrDefault(prop=>prop.PropertyType.Name== "WeightCategories").GetValue(obj).ToString() == selectedValueParameter;
+                if (selectedWeight != null && selectedWeight != string.Empty)
+                    return obj.GetType().GetProperties().FirstOrDefault(prop=>prop.PropertyType.Name== "WeightCategories").GetValue(obj).ToString() == selectedWeight;
             return true;
 
         }
@@ -110,10 +125,8 @@ namespace PL
         }
         public bool FilterListPiority(object obj)
         {
-            //static string selectedParameter = SelectedKind;
-            string selectedValueParameter = selectedPiority;
-                if (selectedValueParameter != null && selectedValueParameter != string.Empty)
-                    return obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "Priorities").GetValue(obj).ToString() == selectedValueParameter;
+                if (selectedPiority != null && selectedPiority != string.Empty)
+                    return obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "Priorities").GetValue(obj).ToString() == selectedPiority;
             return true;
         }
         public void FilterDroneState(object param)
@@ -125,21 +138,23 @@ namespace PL
         }
         public bool FilterListState(object obj)
         {
-            //static string selectedParameter = SelectedKind;
-            string selectedValueParameter = selectedState;
-                if (selectedValueParameter != null && selectedValueParameter != string.Empty)
-                    return obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "DroneState").GetValue(obj).ToString() == selectedValueParameter;
+                if (selectedState != null && selectedState != string.Empty)
+                    return obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "DroneState").GetValue(obj).ToString() == selectedState;
             return true;
 
         }
         public bool FilterListModel(object obj)
         {
-            //static string selectedParameter = SelectedKind;
-            string selectedValueParameter = ModelContain;
-                if (selectedValueParameter != null && selectedValueParameter != string.Empty)
-                    return obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "String").GetValue(obj).ToString().Contains(selectedValueParameter);
+                if (ModelContain != null && ModelContain != string.Empty)
+                    return obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "String").GetValue(obj).ToString().Contains(ModelContain);
             return true;
         }
+
+        public bool FilterListBattery(object obj)
+        {
+            return (double)obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "Double").GetValue(obj)>doubleFirstChange && (double)obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "Double").GetValue(obj) < doubleLastChange;    
+        }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
