@@ -11,15 +11,15 @@ namespace PL
 {
     public class AdministratorVM:DependencyObject
     {
-        public ObservableCollection<TabItemFormat> TabItems { get; set; } = new();
+        public static ObservableCollection<TabItemFormat> TabItems { get; set; } = new();
         public RelayCommand AddDroneToListWindowCommand { get; set; }
         public RelayCommand AddParcelToListWindowCommand { get; set; }
         public RelayCommand AddStationToListWindowCommand { get; set; }
         public RelayCommand AddCustomerToListWindowCommand { get; set; }
         public int SelectedTab
         {
-            get { return (int)GetValue(SelectedTabProperty); }
-            set { SetValue(SelectedTabProperty, value); }
+            get => (int)GetValue(SelectedTabProperty);
+            set =>SetValue(SelectedTabProperty, value); 
         }
 
         // Using a DependencyProperty as the backing store for SelectedTab.  This enables animation, styling, binding, etc...
