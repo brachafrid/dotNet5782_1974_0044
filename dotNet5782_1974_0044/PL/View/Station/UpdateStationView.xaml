@@ -29,7 +29,7 @@
             <TextBlock  Text ="{Binding station.Location.Longitude, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
             <Button Content="close station"/>
             <Button Content="update station" Command="{Binding UpdateStationCommand}">
-                <Button.Visibility>
+            <Button.Visibility>
                     <MultiBinding Converter="{StaticResource ConverterUpdateStation}">
                         <Binding Path="station.Name" />
                         <Binding Path="stationName" />
@@ -38,6 +38,8 @@
                     </MultiBinding>
                 </Button.Visibility>
             </Button>
+            <Button Content="delete station" Command="{Binding DeleteStationCommand}"/>
+
         </StackPanel>
     </Grid>
 </UserControl>

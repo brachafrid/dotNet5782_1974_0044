@@ -36,7 +36,11 @@ namespace PL
         }
         public void DeleteParcel(object param)
         {
-            new ParcelHandler().DeleteParcel(parcel.Id);
+            if (MessageBox.Show("You're sure you want to delete this parcel?", "Delete Parcel", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+            {
+                new ParcelHandler().DeleteParcel(parcel.Id);
+                MessageBox.Show("The parcel was successfully deleted");
+            }
         }
 
     }

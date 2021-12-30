@@ -51,6 +51,7 @@
                         </MultiBinding>
                     </Button.Content>
                 </Button>
+                <Button Content="delete drone" Command="{Binding DeleteDroneCommand}"/>
             </StackPanel>
         </StackPanel>
     </Grid>

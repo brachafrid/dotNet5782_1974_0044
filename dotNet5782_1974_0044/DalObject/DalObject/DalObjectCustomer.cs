@@ -34,7 +34,7 @@ namespace Dal
         /// Prepares the list of customer for display
         /// </summary>
         /// <returns>A list of customer</returns>
-        public IEnumerable<Customer> GetCustomers() => DataSorce.Customers;
+        public IEnumerable<Customer> GetCustomers() => DataSorce.Customers.Where(c => c.IsDeleted == false);
 
         /// <summary>
         /// Find a customer that has tha same id number as the parameter
@@ -43,9 +43,8 @@ namespace Dal
         /// <returns>A customer for display</returns>
         public Customer GetCustomer(int id)
         {
-
             Customer customer=DataSorce.Customers.FirstOrDefault(item => item.Id == id );
-            if (customer.Equals(default(Customer)))
+            if (customer.Equals(default(Customer)) || customer.IsDeleted == true)
                 throw new KeyNotFoundException("There is no suitable customer in data");
             return customer;
         }

@@ -76,7 +76,11 @@ namespace PL
 
         public void DeleteCustomer(object param)
         {
-              new CustomerHandler().DeleteCustomer(customer.Id);
+            if (MessageBox.Show("You're sure you want to delete this customer?", "Delete Customer", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+            {
+                new CustomerHandler().DeleteCustomer(customer.Id);
+                MessageBox.Show("The customer was successfully deleted");
+            }
         }
 
         //public void TryCommandFunc(object param)
