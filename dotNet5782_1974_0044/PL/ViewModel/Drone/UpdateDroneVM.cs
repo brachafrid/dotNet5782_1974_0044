@@ -1,4 +1,5 @@
-﻿using PL.PO;
+﻿using BO;
+using PL.PO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -129,10 +130,18 @@ namespace PL
 
         public void DeleteDrone(object param)
         {
-            if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
-            {   
-               new DroneHandler().DeleteDrone(drone.Id);
-               MessageBox.Show("The drone was successfully deleted");
+            try
+            {
+               if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+               {   
+                   new DroneHandler().DeleteDrone(drone.Id);
+                   MessageBox.Show("The drone was successfully deleted");
+               }
+            }
+         
+            catch (ThereAreAssociatedOrgansException ex)
+            {
+                throw new ThereAreAssociatedOrgansException(ex.Message);
             }
         }
     }
