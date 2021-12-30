@@ -23,8 +23,8 @@ namespace PL
         public Visble VisibilityPriorities { get; set; } = new();
         public Visble VisibilityDroneState { get; set; } = new();
         public Visble VisbleDouble { set; get; } = new();
-        public double doubleCange { get; set; }
-
+        public double doubleChange { 
+            3get; set; }
         private string modelContain;
         public string ModelContain
         {
@@ -32,40 +32,40 @@ namespace PL
             set
             {
                 modelContain = value;
-                FilTerNow();
+                RemoveFilter(FilterListModel);
+                AddFilter(FilterListModel);
+                FilterNow();
                 onPropertyChanged("ModelContain");
             }
         }
         public string SelectedKind { get; set; }
-        public string selectedValue { get; set; }
+        //public string selectedValue { get; set; }
+
+
         public string selectedWeight { get; set; }
         public string selectedPiority { get; set; }
         public string selectedState { get; set; }
         public Type TypeOfSelectedParameter { get; set; }
-
-        public Action FilTerNow;
-        public SortInputVM(Action Filter)
+        public Action<Predicate<object>> AddFilter;
+        public Action<Predicate<object>> RemoveFilter;
+        public Action FilterNow;
+        public SortInputVM(Action<Predicate<object>> Filter, Action InternalFilter, Action<Predicate<object>> RemoveAFilter)
         {
-            FilTerNow = Filter;
+            AddFilter = Filter;
+            FilterNow = InternalFilter;
+            RemoveFilter = RemoveAFilter;
         }
 
-        public void ShowValueOfSort(object param)
-        {
-            selectedValue = (param as ComboBox).SelectedValue.ToString();
-            if (selectedValue == "Range")
-            {
-                MessageBox.Show(selectedValue);
-                return;
-            }
-            ShowValueFilter();
 
-        }
-
-        private void ShowValueFilter()
+        public void ShowValueFilter()
         {
             switch (TypeOfSelectedParameter.Name)
             {
-                case "double":
+                case "String":
+                    StringSortVisibility.visibility = Visibility.Visible;
+                    break;
+                case "Double":
+                    VisbleDouble.visibility = Visibility.Visible;
                     break;
                 case "WeightCategories":
                     VisibilityWeightCategories.visibility = Visibility.Visible;
@@ -76,6 +76,10 @@ namespace PL
                 case "DroneState":
                     VisibilityDroneState.visibility = Visibility.Visible;
                     break;
+                case "DateTime":
+                    break;
+                case "Int":
+                    break;
                 default:
                     break;
             }
@@ -84,17 +88,57 @@ namespace PL
         public void FilterWeightCategories(object param)
         {
             selectedWeight = (param as ComboBox).SelectedValue.ToString();
-            FilTerNow();
+            RemoveFilter(FilterListWeight);
+            AddFilter(FilterListWeight);
+            FilterNow();
+        }
+        public bool FilterListWeight(object obj)
+        {
+            //static string selectedParameter = SelectedKind;
+            string selectedValueParameter = selectedWeight;
+                if (selectedValueParameter != null && selectedValueParameter != string.Empty)
+                    return obj.GetType().GetProperties().FirstOrDefault(prop=>prop.PropertyType.Name== "WeightCategories").GetValue(obj).ToString() == selectedValueParameter;
+            return true;
+
         }
         public void FilterPriority(object param)
         {
             selectedPiority = (param as ComboBox).SelectedValue.ToString();
-            FilTerNow();
+            RemoveFilter(FilterListPiority);
+            AddFilter(FilterListPiority);
+            FilterNow();
+        }
+        public bool FilterListPiority(object obj)
+        {
+            //static string selectedParameter = SelectedKind;
+            string selectedValueParameter = selectedPiority;
+                if (selectedValueParameter != null && selectedValueParameter != string.Empty)
+                    return obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "Priorities").GetValue(obj).ToString() == selectedValueParameter;
+            return true;
         }
         public void FilterDroneState(object param)
         {
             selectedState = (param as ComboBox).SelectedValue.ToString();
-            FilTerNow();
+            RemoveFilter(FilterListState);
+            AddFilter(FilterListState);
+            FilterNow();
+        }
+        public bool FilterListState(object obj)
+        {
+            //static string selectedParameter = SelectedKind;
+            string selectedValueParameter = selectedState;
+                if (selectedValueParameter != null && selectedValueParameter != string.Empty)
+                    return obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "DroneState").GetValue(obj).ToString() == selectedValueParameter;
+            return true;
+
+        }
+        public bool FilterListModel(object obj)
+        {
+            //static string selectedParameter = SelectedKind;
+            string selectedValueParameter = ModelContain;
+                if (selectedValueParameter != null && selectedValueParameter != string.Empty)
+                    return obj.GetType().GetProperties().FirstOrDefault(prop => prop.PropertyType.Name == "String").GetValue(obj).ToString().Contains(selectedValueParameter);
+            return true;
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
