@@ -10,7 +10,11 @@
         <local:CustomerWindowVM/>
     </UserControl.DataContext>
     <Grid>
-        <TextBlock Text="welcome customer"/>
+        <TextBlock Text="welcome customer" Height="30"/>
+        <TextBlock Text="My Parcels: " Height="30"/>
+        <StackPanel>
+            <ListView ItemsSource="{Binding Path=listParcels}"/>
+        </StackPanel>
         <Button Content="display my parcels" Command="{Binding DisplayParcelsCommand}"/>
     </Grid>
 </UserControl>

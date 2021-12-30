@@ -22,13 +22,14 @@ namespace PL
         public static readonly DependencyProperty customerProperty =
             DependencyProperty.Register("customer", typeof(Customer), typeof(CustomerWindowVM), new PropertyMetadata(new Customer()));
 
-
+        List<ParcelToList> listParcels;
         public RelayCommand DisplayParcelsCommand { get; set; }
 
         public CustomerWindowVM()
         {
             Init();
             DisplayParcelsCommand = new(DisplayParcels, param => customer.Error == null);
+            listParcels = new List<ParcelToList>();
             DelegateVM.Customer += Init;
         }
         public void Init()
@@ -37,7 +38,7 @@ namespace PL
         }
         public void DisplayParcels(object param)
         {
-            new CustomerHandler().GetCustomer(2);
+            //listParcels = (List<ParcelToList>)new ParcelHandler().GetParcels;
         }
     }
 }
