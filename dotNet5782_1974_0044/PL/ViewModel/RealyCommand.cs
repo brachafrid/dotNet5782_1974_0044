@@ -24,7 +24,7 @@ namespace PL
             this.canExecute = canExecute;
         }
 
-        public bool CanExecute(object parameter)
+        public bool CanExecute(object parameter = null)
         {
             return canExecute == null || canExecute(parameter);
         }
