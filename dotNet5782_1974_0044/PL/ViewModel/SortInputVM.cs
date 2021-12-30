@@ -24,7 +24,7 @@ namespace PL
         public Visble VisibilityDroneState { get; set; } = new();
         public Visble VisbleDouble { set; get; } = new();
         public double doubleChange { 
-            3get; set; }
+            get; set; }
         private string modelContain;
         public string ModelContain
         {
