@@ -40,7 +40,7 @@
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>
-            <local:UpdateCustomerView/>
+            <local:UpdateDroneView/>
         </DockPanel>
        
     </Grid>

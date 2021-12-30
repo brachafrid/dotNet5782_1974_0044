@@ -93,7 +93,7 @@ namespace PL
             }
               catch (ThereAreAssociatedOrgansException ex)
             {
-                throw new ThereAreAssociatedOrgansException(ex.Message);
+                MessageBox.Show($"{ex.Message}");
             }
         }
 

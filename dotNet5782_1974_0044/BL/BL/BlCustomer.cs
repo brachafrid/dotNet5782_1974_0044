@@ -86,7 +86,7 @@ namespace BL
             }
             else
             {
-                throw new ThereAreAssociatedOrgansException("There are parcels on the way to the customer, cant delete.");
+                throw new ThereAreAssociatedOrgansException("There are parcels on the way to the customer, Cant delete.");
             }
         }
 

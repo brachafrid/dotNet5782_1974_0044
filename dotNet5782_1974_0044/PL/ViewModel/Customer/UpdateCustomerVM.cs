@@ -88,7 +88,7 @@ namespace PL
            
             catch (ThereAreAssociatedOrgansException ex)
             {
-                MessageBox.Show(${""ex.Message);
+                MessageBox.Show($"{ex.Message}");
             }
         }
 

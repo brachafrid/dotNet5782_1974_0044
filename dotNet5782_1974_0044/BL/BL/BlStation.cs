@@ -65,7 +65,7 @@ namespace BL
             }
             else
             {
-                throw new ThereAreAssociatedOrgansException("There are drones at the station, cant delete.");
+                throw new ThereAreAssociatedOrgansException("There are drones at the station, Cant delete.");
             }
         }
 
