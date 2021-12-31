@@ -1,31 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using PL.PO;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using PL.PO;
 
 namespace PL
 {
-    public class AdministratorVM:DependencyObject
+    public  class AdministratorVM
     {
-        public static ObservableCollection<TabItemFormat> TabItems { get; set; } = new();
-        public RelayCommand AddDroneToListWindowCommand { get; set; }
-        public RelayCommand AddParcelToListWindowCommand { get; set; }
-        public RelayCommand AddStationToListWindowCommand { get; set; }
-        public RelayCommand AddCustomerToListWindowCommand { get; set; }
-        public int SelectedTab
-        {
-            get => (int)GetValue(SelectedTabProperty);
-            set =>SetValue(SelectedTabProperty, value); 
-        }
-
-        // Using a DependencyProperty as the backing store for SelectedTab.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty SelectedTabProperty =
-            DependencyProperty.Register("SelectedTab", typeof(int), typeof(AdministratorVM), new PropertyMetadata(null));
-
+        public  ObservableCollection<TabItemFormat> TabItems { get; set; } = new();
+        public  RelayCommand AddDroneToListWindowCommand { get; set; }
+        public  RelayCommand AddParcelToListWindowCommand { get; set; }
+        public  RelayCommand AddStationToListWindowCommand { get; set; }
+        public  RelayCommand AddCustomerToListWindowCommand { get; set; }
+        public  IntDependency SelectedTab { get; set; } = new();
 
         public AdministratorVM()
         {
@@ -35,10 +21,10 @@ namespace PL
             AddCustomerToListWindowCommand = new(AddCustomeroList, null);
         }
 
-        public void AddDroneToList(object param)
+        public  void AddDroneToList(object param)
         {
             var tabItem = TabItems.FirstOrDefault(tab => tab.TabContent == "DroneToListWindow");
-            if (tabItem==null)
+            if (tabItem == null)
             {
                 var newTabItem = new TabItemFormat()
                 {
@@ -46,14 +32,14 @@ namespace PL
                     TabContent = "DroneToListWindow"
                 };
                 TabItems.Add(newTabItem);
-                SelectedTab = TabItems.IndexOf(newTabItem);
+                SelectedTab.Instance = TabItems.IndexOf(newTabItem);
             }
             else
             {
-               SelectedTab= TabItems.IndexOf(tabItem);
+                SelectedTab.Instance = TabItems.IndexOf(tabItem);
             }
         }
-        public void AddParcelToList(object param)
+        public  void AddParcelToList(object param)
         {
             var tabItem = TabItems.FirstOrDefault(tab => tab.TabContent == "ParcelToListWindow");
             if (tabItem == null)
@@ -64,14 +50,14 @@ namespace PL
                     TabContent = "ParcelToListWindow"
                 };
                 TabItems.Add(newTabItem);
-                SelectedTab = TabItems.IndexOf(newTabItem);
+                SelectedTab.Instance = TabItems.IndexOf(newTabItem);
             }
             else
             {
-                SelectedTab = TabItems.IndexOf(tabItem);
+                SelectedTab.Instance = TabItems.IndexOf(tabItem);
             }
         }
-        public void AddStationToList(object param)
+        public  void AddStationToList(object param)
         {
             var tabItem = TabItems.FirstOrDefault(tab => tab.TabContent == "StationToListWindow");
             if (tabItem == null)
@@ -82,14 +68,14 @@ namespace PL
                     TabContent = "StationToListWindow"
                 };
                 TabItems.Add(newTabItem);
-                SelectedTab = TabItems.IndexOf(newTabItem);
+                SelectedTab.Instance = TabItems.IndexOf(newTabItem);
             }
             else
             {
-                SelectedTab = TabItems.IndexOf(tabItem);
+                SelectedTab.Instance = TabItems.IndexOf(tabItem);
             }
         }
-        public void AddCustomeroList(object param)
+        public  void AddCustomeroList(object param)
         {
             var tabItem = TabItems.FirstOrDefault(tab => tab.TabContent == "CustomerTolistWindow");
             if (tabItem == null)
@@ -100,11 +86,11 @@ namespace PL
                     TabContent = "CustomerTolistWindow"
                 };
                 TabItems.Add(newTabItem);
-                SelectedTab = TabItems.IndexOf(newTabItem);
+                SelectedTab.Instance = TabItems.IndexOf(newTabItem);
             }
             else
             {
-                SelectedTab = TabItems.IndexOf(tabItem);
+                SelectedTab.Instance = TabItems.IndexOf(tabItem);
             }
         }
     }
