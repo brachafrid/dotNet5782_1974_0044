@@ -24,6 +24,7 @@ namespace PL
         public AdministratorWindow()
         {
             InitializeComponent();
+            
         }
     }
 }
