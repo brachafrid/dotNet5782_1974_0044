@@ -13,32 +13,32 @@
     <Grid>
         <StackPanel>
             <!--<DatePicker Width="140" materialDesign:HintAssist.Hint="Pick Date" Style="{StaticResource MaterialDesignFilledDatePicker}" materialDesign:CalendarAssist.Orientation="Horizontal"/>-->
-            <TextBox Text="{Binding Path = Parent.DataContext.input.ModelContain, RelativeSource = {RelativeSource Self}, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path = Parent.DataContext.input.StringSortVisibility.visibility, RelativeSource = {RelativeSource Self} }"  />
-            <ComboBox x:Name="weight" ItemsSource="{Binding Path=Parent.DataContext.input.WeightCategories,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisibilityWeightCategories.visibility,RelativeSource = {RelativeSource Self}}"  >
+            <TextBox Text="{Binding Path = Parent.DataContext.ModelContain, RelativeSource = {RelativeSource Self}, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path = Parent.DataContext.StringSortVisibility.visibility, RelativeSource = {RelativeSource Self} }"  />
+            <ComboBox x:Name="weight" ItemsSource="{Binding Path=Parent.DataContext.input.WeightCategories,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.VisibilityWeightCategories.visibility,RelativeSource = {RelativeSource Self}}"  >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding FilterWheightommand}" CommandParameter="{Binding ElementName=weight}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
-            <ComboBox x:Name="Piority" ItemsSource="{Binding Path=Parent.DataContext.input.PrioritiesArray,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisibilityPriorities.visibility,RelativeSource = {RelativeSource Self}}"  >
+            <ComboBox x:Name="Piority" ItemsSource="{Binding Path=Parent.DataContext.PrioritiesArray,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.VisibilityPriorities.visibility,RelativeSource = {RelativeSource Self}}"  >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding FilterPriorityCommand}" CommandParameter="{Binding ElementName=Piority}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
-            <ComboBox x:Name="State" ItemsSource="{Binding Path=Parent.DataContext.input.DroneState,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisibilityDroneState.visibility,RelativeSource = {RelativeSource Self}}"  >
+            <ComboBox x:Name="State" ItemsSource="{Binding Path=Parent.DataContext.DroneState,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.VisibilityDroneState.visibility,RelativeSource = {RelativeSource Self}}"  >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding FilterStateCommand}" CommandParameter="{Binding ElementName=State}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
-            <Label Content="minimum" Visibility="{Binding Path=Parent.DataContext.input.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}"/>
-            <Slider x:Name="min" Minimum="0" Maximum="{Binding Value, ElementName=max}" Value="{Binding Path=Parent.DataContext.input.DoubleFirstChange,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}" Style="{StaticResource MaterialDesignDiscreteSlider}" TickPlacement="BottomRight"/>
-            <Label Content="maximum" Visibility="{Binding Path=Parent.DataContext.input.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}"/>
-            <Slider x:Name="max" Minimum="{Binding Value,ElementName=min}" Maximum="100" Value="{Binding Path=Parent.DataContext.input.DoubleLastChange,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.input.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}" Style="{StaticResource MaterialDesignDiscreteSlider}" TickPlacement="BottomRight"/>
+            <Label Content="minimum" Visibility="{Binding Path=Parent.DataContext.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}"/>
+            <Slider x:Name="min" Minimum="0" Maximum="{Binding Value, ElementName=max}" Value="{Binding Path=Parent.DataContext.DoubleFirstChange,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}" Style="{StaticResource MaterialDesignDiscreteSlider}" TickPlacement="BottomRight"/>
+            <Label Content="maximum" Visibility="{Binding Path=Parent.DataContext.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}"/>
+            <Slider x:Name="max" Minimum="{Binding Value,ElementName=min}" Maximum="100" Value="{Binding Path=Parent.DataContext.DoubleLastChange,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}" Style="{StaticResource MaterialDesignDiscreteSlider}" TickPlacement="BottomRight"/>
         </StackPanel>
     </Grid>
 </UserControl>
