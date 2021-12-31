@@ -6,7 +6,6 @@ namespace PL
 {
     public  class AdministratorVM
     {
-        public  ObservableCollection<TabItemFormat> TabItems { get; set; } = new();
         public  RelayCommand AddDroneToListWindowCommand { get; set; }
         public  RelayCommand AddParcelToListWindowCommand { get; set; }
         public  RelayCommand AddStationToListWindowCommand { get; set; }
@@ -23,7 +22,7 @@ namespace PL
 
         public  void AddDroneToList(object param)
         {
-            var tabItem = TabItems.FirstOrDefault(tab => tab.TabContent == "DroneToListWindow");
+            var tabItem = Tabs.TabItems.FirstOrDefault(tab => tab.TabContent == "DroneToListWindow");
             if (tabItem == null)
             {
                 var newTabItem = new TabItemFormat()
@@ -31,17 +30,17 @@ namespace PL
                     Text = "Drones",
                     TabContent = "DroneToListWindow"
                 };
-                TabItems.Add(newTabItem);
-                SelectedTab.Instance = TabItems.IndexOf(newTabItem);
+                Tabs.TabItems.Add(newTabItem);
+                SelectedTab.Instance = Tabs.TabItems.IndexOf(newTabItem);
             }
             else
             {
-                SelectedTab.Instance = TabItems.IndexOf(tabItem);
+                SelectedTab.Instance = Tabs.TabItems.IndexOf(tabItem);
             }
         }
         public  void AddParcelToList(object param)
         {
-            var tabItem = TabItems.FirstOrDefault(tab => tab.TabContent == "ParcelToListWindow");
+            var tabItem = Tabs.TabItems.FirstOrDefault(tab => tab.TabContent == "ParcelToListWindow");
             if (tabItem == null)
             {
                 var newTabItem = new TabItemFormat()
@@ -49,17 +48,17 @@ namespace PL
                     Text = "Parcels",
                     TabContent = "ParcelToListWindow"
                 };
-                TabItems.Add(newTabItem);
-                SelectedTab.Instance = TabItems.IndexOf(newTabItem);
+                Tabs.TabItems.Add(newTabItem);
+                SelectedTab.Instance = Tabs.TabItems.IndexOf(newTabItem);
             }
             else
             {
-                SelectedTab.Instance = TabItems.IndexOf(tabItem);
+                SelectedTab.Instance = Tabs.TabItems.IndexOf(tabItem);
             }
         }
         public  void AddStationToList(object param)
         {
-            var tabItem = TabItems.FirstOrDefault(tab => tab.TabContent == "StationToListWindow");
+            var tabItem = Tabs.TabItems.FirstOrDefault(tab => tab.TabContent == "StationToListWindow");
             if (tabItem == null)
             {
                 var newTabItem = new TabItemFormat()
@@ -67,17 +66,17 @@ namespace PL
                     Text = "Stations",
                     TabContent = "StationToListWindow"
                 };
-                TabItems.Add(newTabItem);
-                SelectedTab.Instance = TabItems.IndexOf(newTabItem);
+                Tabs.TabItems.Add(newTabItem);
+                SelectedTab.Instance = Tabs.TabItems.IndexOf(newTabItem);
             }
             else
             {
-                SelectedTab.Instance = TabItems.IndexOf(tabItem);
+                SelectedTab.Instance = Tabs.TabItems.IndexOf(tabItem);
             }
         }
         public  void AddCustomeroList(object param)
         {
-            var tabItem = TabItems.FirstOrDefault(tab => tab.TabContent == "CustomerTolistWindow");
+            var tabItem = Tabs.TabItems.FirstOrDefault(tab => tab.TabContent == "CustomerTolistWindow");
             if (tabItem == null)
             {
                 var newTabItem = new TabItemFormat()
@@ -85,12 +84,12 @@ namespace PL
                     Text = "Customers",
                     TabContent = "CustomerTolistWindow"
                 };
-                TabItems.Add(newTabItem);
-                SelectedTab.Instance = TabItems.IndexOf(newTabItem);
+                Tabs.TabItems.Add(newTabItem);
+                SelectedTab.Instance = Tabs.TabItems.IndexOf(newTabItem);
             }
             else
             {
-                SelectedTab.Instance = TabItems.IndexOf(tabItem);
+                SelectedTab.Instance = Tabs.TabItems.IndexOf(tabItem);
             }
         }
     }

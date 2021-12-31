@@ -12,9 +12,19 @@ namespace PL
 {
    public class CustomerToListVM:GenericList<CustomerToList>
     {
+       public RelayCommand DoubleClick { set; get; }
         public CustomerToListVM()
         {            
             list = new ListCollectionView(new CustomerHandler().GetCustomers().ToList());
+            DoubleClick = new(OpenDetails, null);
+        }
+      public  void OpenDetails(object id)
+        {
+            Tabs.TabItems.Add(new()
+            {
+                TabContent = "CustomerWindow",
+                Text = "customer " + id
+            }); 
         }
     }
 }

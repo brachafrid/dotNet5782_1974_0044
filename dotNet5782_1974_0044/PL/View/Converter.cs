@@ -222,11 +222,11 @@ namespace PL
         }
     }
 
-    public class TabItemContentConverter : IValueConverter
+    public class TabItemContentConverter : IMultiValueConverter
     {
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return value switch
+            return values[0] switch
             {
                 "DroneToListWindow" => new DroneToListWindow(),
                 "ParcelToListWindow" => new ParcelToListWindow(),
@@ -237,11 +237,11 @@ namespace PL
                 "AddStationView" => new AddStationView(),
                 "AddParcelView" => new AddParcelView(),
                 "UpdateDroneView" => new UpdateDroneView(),
-                "UpdateCustomerView" => new UpdateCustomerView(),
+                "UpdateCustomerView" => new UpdateCustomerView(values[1]),
             };
         }
 
-        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

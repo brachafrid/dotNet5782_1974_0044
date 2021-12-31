@@ -11,7 +11,7 @@ namespace PL
 {
     class UpdateCustomerVM : DependencyObject
     {
-
+        private int _id;
         public PL.PO.Customer customer
         {
             get { return (PL.PO.Customer)GetValue(customerProperty); }
@@ -50,8 +50,9 @@ namespace PL
         
         //public RelayCommand TryCommand { get; set; }
 
-        public UpdateCustomerVM()
+        public UpdateCustomerVM(int id)
         {
+            _id = id;
             init();
             customerName = customer.Name;                  
             customerPhone = customer.Phone;
@@ -62,7 +63,7 @@ namespace PL
         }
         public void init()
         {
-            customer = new CustomerHandler().GetCustomer(2);
+            customer = new CustomerHandler().GetCustomer(_id);
         }
         
         public void UpdateCustomer(object param)
@@ -92,10 +93,6 @@ namespace PL
             }
         }
 
-        //public void TryCommandFunc(object param)
-        //{
-        //    MessageBox.Show("double click");
-        //}
 
     }
 }

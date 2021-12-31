@@ -25,7 +25,7 @@
                     <Button ToolTip="Stations" Content="{materialDesign:PackIcon Kind=GasStation}" Command="{Binding AddStationToListWindowCommand}"/>
                 </ToolBar>
             </ToolBarTray>
-            <TabControl ItemsSource="{Binding TabItems}" SelectedIndex="{Binding SelectedTab.Instance}" >
+            <TabControl ItemsSource="{Binding Source={x:Static local:Tabs.TabItems}}" SelectedIndex="{Binding SelectedTab.Instance}" >
                 <TabControl.ItemTemplate>
                     <DataTemplate>
                         <TextBlock Text="{Binding Path=Text}"/>
@@ -33,7 +33,14 @@
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>
                     <DataTemplate>
-                        <ContentControl Content="{Binding Path=TabContent ,Converter={StaticResource TabItemContentConverter}}"/>
+                        <ContentControl >
+                            <ContentControl.Content>
+                                <MultiBinding Converter="{StaticResource TabItemContentConverter}">
+                                    <Binding Path="TabContent" />
+                                    <Binding Path="Id" />
+                                </MultiBinding>
+                            </ContentControl.Content>
+                        </ContentControl>
                     </DataTemplate>
                 </TabControl.ContentTemplate>
             </TabControl>

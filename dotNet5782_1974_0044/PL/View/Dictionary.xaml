@@ -12,9 +12,13 @@
         </StackPanel>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type po:DroneToList}">
+    <DataTemplate DataType="{x:Type po:DroneToList}" >
+        
         <Expander Header="{Binding Path=Id}">
             <StackPanel>
+                <StackPanel.InputBindings>
+                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DoubleClick}" CommandParameter="{Binding Id}"/>
+                </StackPanel.InputBindings>
                 <TextBlock Text="{Binding Path=DroneModel, StringFormat= model :{0:d}}" />
                 <TextBlock Text="{Binding Path=Weight, StringFormat= maxWeigth :{0}}"/>
                 <Expander Header="CurrentLocation">
@@ -27,7 +31,7 @@
         </Expander>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type po:Drone}">
+    <DataTemplate DataType="{x:Type po:Drone}" >
         <StackPanel>
             <StackPanel>
                 <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
@@ -77,9 +81,12 @@
         </Expander>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type po:StationToList}">
+    <DataTemplate DataType="{x:Type po:StationToList}" >
         <Expander  Header="{Binding Path=Id}">
             <StackPanel>
+                <StackPanel.InputBindings>
+                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding ShowDetailCommand}"/>
+                </StackPanel.InputBindings>
                 <TextBlock Text="{Binding Path=Name, StringFormat=Name :{0}}"/>
                 <TextBlock Text="{Binding Path=FullChargeSlots, StringFormat=FullChargeSlots :{0:d}}"/>
                 <TextBlock Text="{Binding Path=EmptyChargeSlots, StringFormat=EmptyChargeSlots :{0:d}}"/>
@@ -87,9 +94,12 @@
         </Expander>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type po:CustomerToList}">
+    <DataTemplate DataType="{x:Type po:CustomerToList}" >
         <Expander Header="{Binding Path=Id}">
             <StackPanel>
+                <StackPanel.InputBindings>
+                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DoubleClick}" CommandParameter="{Binding Id}"/>
+                </StackPanel.InputBindings>
                 <TextBlock Text="{Binding Path=Name, StringFormat=Name :{0}}"/>
                 <TextBlock Text="{Binding Path=Phone, StringFormat=Phone :{0}}"/>
                 <TextBlock Text="{Binding Path=NumParcelSentDelivered, StringFormat=NumParcelSentDelivered :{0:d}}"/>
@@ -177,6 +187,9 @@
     <DataTemplate DataType="{x:Type po:ParcelToList}">
         <Expander Header="CustomerToList">
             <StackPanel>
+                <StackPanel.InputBindings>
+                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding ShowDetailCommand}"/>
+                </StackPanel.InputBindings>
                 <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
                 <Expander Header="Customer Sender">
                     <ContentPresenter Content="{Binding Path=CustomerSender}" />

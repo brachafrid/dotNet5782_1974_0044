@@ -12,7 +12,7 @@
         <ResourceDictionary Source="../Dictionary.xaml" />
     </UserControl.Resources>
     <UserControl.DataContext>
-        <local:DroneToListVM/>
+        <local:DroneToListVM />
     </UserControl.DataContext>
 
     <StackPanel>
