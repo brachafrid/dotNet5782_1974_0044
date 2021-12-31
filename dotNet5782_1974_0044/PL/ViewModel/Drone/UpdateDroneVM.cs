@@ -81,17 +81,11 @@ namespace PL
             {
                 new DroneHandler().SendDroneForCharg(drone.Id);
                 DelegateVM.Drone();
-
-
-                MessageBox.Show($"{drone.DroneState}");
             }
             else if (drone.DroneState == PO.DroneState.MAINTENANCE)
             {
                 new DroneHandler().ReleaseDroneFromCharging(drone.Id);
                 DelegateVM.Drone();
-
-                MessageBox.Show($"{drone.DroneState}");
-
             }
         }
 

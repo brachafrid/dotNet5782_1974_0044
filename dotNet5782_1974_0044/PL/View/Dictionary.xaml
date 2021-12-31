@@ -150,4 +150,56 @@
             </StackPanel>
         </Expander>
     </DataTemplate>
+
+    <DataTemplate DataType="{x:Type po:Parcel}">
+        <Expander Header="CustomerToList">
+            <StackPanel>
+                <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
+                <Expander Header="Customer Sender">
+                    <ContentPresenter Content="{Binding Path=CustomerSender}" />
+                </Expander>
+                <Expander Header="Customer Receives">
+                    <ContentPresenter Content="{Binding Path=CustomerReceives}" />
+                </Expander>
+                <TextBlock Text="{Binding Path=Weight, StringFormat=Weight :{0}}"/>
+                <TextBlock Text="{Binding Path=Piority, StringFormat=Piority :{0}}"/>
+                <TextBlock Text="{Binding Path=CreationTime, StringFormat=CreationTime :{0}}"/>
+                <TextBlock Text="{Binding Path=AssignmentTime, StringFormat=AssignmentTime :{0}}"/>
+                <TextBlock Text="{Binding Path=CollectionTime, StringFormat=CollectionTime :{0}}"/>
+                <TextBlock Text="{Binding Path=DeliveryTime, StringFormat=DeliveryTime :{0}}"/>
+                <Expander Header="Drone">
+                    <ContentPresenter Content="{Binding Path=Drone}" />
+                </Expander>
+            </StackPanel>
+        </Expander>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type po:ParcelToList}">
+        <Expander Header="CustomerToList">
+            <StackPanel>
+                <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
+                <Expander Header="Customer Sender">
+                    <ContentPresenter Content="{Binding Path=CustomerSender}" />
+                </Expander>
+                <Expander Header="Customer Receives">
+                    <ContentPresenter Content="{Binding Path=CustomerReceives}" />
+                </Expander>
+                <TextBlock Text="{Binding Path=Weight, StringFormat=Weight :{0}}"/>
+                <TextBlock Text="{Binding Path=Piority, StringFormat=Piority :{0}}"/>
+                <TextBlock Text="{Binding Path=PackageMode, StringFormat=Package Mode :{0}}"/>
+            </StackPanel>
+        </Expander>
+    </DataTemplate>
+
+    <DataTemplate DataType="{x:Type po:DroneWithParcel}">
+        <Expander Header="{Binding Path=Id}">
+            <StackPanel>
+                <Expander Header="CurrentLocation">
+                    <ContentPresenter Content="{Binding Path=CurrentLocation}" />
+                </Expander>
+                <TextBlock Text="{Binding Path=ChargingMode, StringFormat= Charging Mode :{0}%}" />
+            </StackPanel>
+        </Expander>
+    </DataTemplate>
+
 </ResourceDictionary>
