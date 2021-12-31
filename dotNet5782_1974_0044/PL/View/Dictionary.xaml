@@ -58,7 +58,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type po:ParcelInTransfer}">
-        <Expander Header="ParcelInTransfer">
+        <Expander Header="Parcel In Transfer">
             <StackPanel>
                 <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
                 <TextBlock Text="{Binding Path=WeightCategory, StringFormat = maxWeigth:{0}}"/>
@@ -111,9 +111,8 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type po:Station}">
-        <Expander Header="CustomerToList">
+        <Expander Header="{Binding Path=Id, StringFormat = Id:{0:d}}">
             <StackPanel>
-                <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
                 <TextBlock Text="{Binding Path=Name, StringFormat=Name :{0}}"/>
                 <Expander Header="Location">
                     <ContentPresenter Content="{Binding Path=Location}" />
@@ -132,9 +131,8 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type po:Customer}">
-        <Expander Header="CustomerToList">
+        <Expander Header="{Binding Path=Id, StringFormat = Id:{0:d}}" >
             <StackPanel>
-                <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
                 <TextBlock Text="{Binding Path=Name, StringFormat=Name :{0}}"/>
                 <TextBlock Text="{Binding Path=Phone, StringFormat=Phone :{0}}"/>
                 <Expander Header="Location">
@@ -148,7 +146,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type po:ParcelAtCustomer}">
-        <Expander Header="CustomerToList">
+        <Expander Header="Parcel At Customer">
             <StackPanel>
                 <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
                 <TextBlock Text="{Binding Path=WeightCategory, StringFormat=WeightCategory :{0}}"/>
@@ -162,9 +160,8 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type po:Parcel}">
-        <Expander Header="CustomerToList">
+        <Expander Header="{Binding Path=Id, StringFormat = Id:{0:d}}">
             <StackPanel>
-                <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
                 <Expander Header="Customer Sender">
                     <ContentPresenter Content="{Binding Path=CustomerSender}" />
                 </Expander>
@@ -185,7 +182,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type po:ParcelToList}">
-        <Expander Header="CustomerToList">
+        <Expander Header="{Binding Path=Id, StringFormat = Id:{0:d}}">
             <StackPanel>
                 <StackPanel.InputBindings>
                     <MouseBinding Gesture="LeftDoubleClick" Command="{Binding ShowDetailCommand}"/>
@@ -205,7 +202,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type po:DroneWithParcel}">
-        <Expander Header="{Binding Path=Id}">
+        <Expander Header="Drone With Parcel}">
             <StackPanel>
                 <Expander Header="CurrentLocation">
                     <ContentPresenter Content="{Binding Path=CurrentLocation}" />
