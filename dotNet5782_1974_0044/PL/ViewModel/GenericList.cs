@@ -19,6 +19,7 @@ namespace PL
         public Array WeightCategories { get; set; } = Enum.GetValues(typeof(WeightCategories));
         public Array PrioritiesArray { get; set; } = Enum.GetValues(typeof(Priorities));
         public Array DroneState { get; set; } = Enum.GetValues(typeof(DroneState));
+        public Array PackageMode { get; set; } = Enum.GetValues(typeof(PackageModes));
         public ObservableCollection<string> SortOption { set; get; }
         public RelayCommand ShowKindOfSortCommand { get; set; }
         public RelayCommand FilterCommand { get; set; }
@@ -29,6 +30,7 @@ namespace PL
         public Visble VisibilityPriorities { get; set; } = new();
         public Visble VisibilityDroneState { get; set; } = new();
         public Visble VisbleDouble { set; get; } = new();
+        public Visble VisblePackegeMode { set; get; } = new();
         public List<SortEntities> Filters { get; set; } = new();
 
         private double doubleFirstChange = 0;
@@ -144,12 +146,13 @@ namespace PL
         }
         public void ShowKindOfSort(object param)
         {
-            SelectedKind = (param as ComboBox).SelectedValue.ToString();
+            SelectedKind = param.ToString();
             VisbleDouble.visibility = Visibility.Collapsed;
             VisibilityDroneState.visibility = Visibility.Collapsed;
             VisibilityPriorities.visibility = Visibility.Collapsed;
             VisibilityWeightCategories.visibility = Visibility.Collapsed;
             StringSortVisibility.visibility = Visibility.Collapsed;
+            VisblePackegeMode.visibility = Visibility.Collapsed;
             ShowValueFilter(typeof(T).GetProperty(SelectedKind).PropertyType);
         }
 
@@ -172,7 +175,8 @@ namespace PL
                 case "DroneState":
                     VisibilityDroneState.visibility = Visibility.Visible;
                     break;
-                case "DateTime":
+                case "PackageModes":
+                    VisblePackegeMode.visibility = Visibility.Visible;
                     break;
                 case "Int32":
                     VisbleDouble.visibility = Visibility.Visible;
@@ -184,7 +188,7 @@ namespace PL
 
         public void FilterEnum(object param)
         {
-            selectedValue = (param as ComboBox).SelectedValue.ToString();
+            selectedValue = param.ToString();
             SortEntities fiterEnum = Filters.FirstOrDefault(filter => filter.NameParameter == SelectedKind);
             if (fiterEnum == default)
                 Filters.Add(new SortEntities()
