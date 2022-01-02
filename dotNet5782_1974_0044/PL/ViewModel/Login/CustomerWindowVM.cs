@@ -5,40 +5,54 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
+using System.Windows.Documents;
 
 namespace PL
 {
-    public partial class CustomerWindowVM : DependencyObject
+    public partial class CustomerWindowVM : GenericList<ParcelAtCustomer>
     {
 
 
-        public Customer customer
-        {
-            get { return (Customer)GetValue(customerProperty); }
-            set { SetValue(customerProperty, value); }
-        }
+        //public List<ParcelAtCustomer> listParcels
+        //{
+        //    get { return (List<ParcelAtCustomer>)GetValue(listParcelsProperty); }
+        //    set { SetValue(listParcelsProperty, value); }
+        //}
 
-        // Using a DependencyProperty as the backing store for customer.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty customerProperty =
-            DependencyProperty.Register("customer", typeof(Customer), typeof(CustomerWindowVM), new PropertyMetadata(new Customer()));
+        //// Using a DependencyProperty as the backing store for listParcels.  This enables animation, styling, binding, etc...
+        //public static readonly DependencyProperty listParcelsProperty =
+        //    DependencyProperty.Register("listParcels", typeof(List<ParcelAtCustomer>), typeof(CustomerWindowVM), new PropertyMetadata(new List<ParcelAtCustomer>()));
 
-        List<ParcelToList> listParcels;
+
+        public Visble VisibilityCustomer { get; set; } = new();
+
+        public Customer customer = new Customer();
         public RelayCommand DisplayParcelsCommand { get; set; }
-
+        public RelayCommand sendParcel { get; set; }
+        public RelayCommand collectionParcel { get; set; }
+        public RelayCommand gettingParcel { get; set; }
+        
         public CustomerWindowVM()
         {
             Init();
-            DisplayParcelsCommand = new(DisplayParcels, param => customer.Error == null);
-            listParcels = new List<ParcelToList>();
+            DisplayParcelsCommand = new(DisplayParcels, null);
+            sendParcel = new(DisplayParcels, null);
+            collectionParcel = new(DisplayParcels, null);
+            gettingParcel = new(DisplayParcels, null);
+
+            list = new ListCollectionView(new ParcelHandler().GetParcels().ToList());
             DelegateVM.Customer += Init;
+            DelegateVM.Parcel += Init;
         }
         public void Init()
         {
-           customer = new CustomerHandler().GetCustomer(2);
+            customer = new CustomerHandler().GetCustomer(2);
         }
         public void DisplayParcels(object param)
         {
-            //listParcels = (List<ParcelToList>)new ParcelHandler().GetParcels;
+            VisibilityCustomer.visibility = Visibility.Visible;
+            //DelegateVM.Customer();
         }
     }
 }

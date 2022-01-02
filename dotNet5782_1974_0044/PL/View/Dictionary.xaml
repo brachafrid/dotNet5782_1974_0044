@@ -181,7 +181,7 @@
         </Expander>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type po:ParcelToList}">
+    <DataTemplate DataType="{x:Type po:ParcelAtCustomer}">
         <Expander Header="{Binding Path=Id, StringFormat = Id:{0:d}}">
             <StackPanel>
                 <StackPanel.InputBindings>
