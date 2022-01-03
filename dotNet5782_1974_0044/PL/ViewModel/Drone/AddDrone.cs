@@ -31,7 +31,6 @@ namespace PL
             try
             {
                 new DroneHandler().AddDrone(drone);
-                MessageBox.Show("success");
                 DelegateVM.Drone?.Invoke();                             
                 DelegateVM.Station?.Invoke();
                 Tabs.CloseTab("Drone");

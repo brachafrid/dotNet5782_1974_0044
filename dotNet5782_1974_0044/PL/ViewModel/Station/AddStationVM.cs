@@ -22,8 +22,8 @@ namespace PL
             try
             {
                 new StationHandler().AddStation(station);
-                MessageBox.Show("seccess");
-                DelegateVM.Station();
+                DelegateVM.Station?.Invoke();
+                Tabs.CloseTab("Station");
             }
             catch(BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {
