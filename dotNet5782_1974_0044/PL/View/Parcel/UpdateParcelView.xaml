@@ -13,9 +13,9 @@
         </ResourceDictionary>-->
         <ResourceDictionary Source="../Dictionary.xaml" />
     </UserControl.Resources>
-    <Grid>
-        
-            <Button Content="delete parcel" Command="{Binding DeleteParcelCommand}"/>
+    <StackPanel>
         <ContentPresenter Content="{Binding parcel}"/>
-    </Grid>
+        <Button Content="close parcel"/>
+        <Button Content="delete parcel" Command="{Binding DeleteParcelCommand}"/>
+    </StackPanel>
 </UserControl>
