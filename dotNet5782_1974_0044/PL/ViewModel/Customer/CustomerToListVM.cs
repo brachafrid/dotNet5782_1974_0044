@@ -13,13 +13,11 @@ namespace PL
     public class CustomerToListVM : GenericList<CustomerToList>
     {
 
-        public RelayCommand AddCustomerCommand { set; get; }
         public CustomerToListVM()
         {
             UpdateInitList();
             DelegateVM.Customer += UpdateInitList;
             DoubleClick = new(OpenDetails, null);
-            AddCustomerCommand = new(AddCustomer, null);
         }
         void UpdateInitList()
         {
@@ -36,9 +34,9 @@ namespace PL
 
             }); 
         }
-        public void AddCustomer(object param)
+        public override void AddEntity(object param)
         {
-            Tabs.TabItems.Add(new()
+            Tabs.AddTab(new()
             {
                 TabContent = "AddCustomerView",
                 Text = "Customer"

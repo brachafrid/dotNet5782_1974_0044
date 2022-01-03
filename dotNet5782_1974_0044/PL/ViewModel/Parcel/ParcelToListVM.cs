@@ -12,7 +12,6 @@ namespace PL
 {
     public class ParcelToListVM : GenericList<ParcelToList>
     {
-        public RelayCommand AddParcelCommand { get; set; }
         public ParcelToListVM()
         {
             UpdateInitList();
@@ -23,7 +22,6 @@ namespace PL
         {
 
             list = new ListCollectionView(new ParcelHandler().GetParcels().ToList());
-            AddParcelCommand=new(AddParcel, null);
         }
         public void OpenDetails(object param)
         {
@@ -37,9 +35,9 @@ namespace PL
                 });
         }
 
-        public void AddParcel(object param)
+        public override void AddEntity(object param)
         {
-            Tabs.TabItems.Add(new()
+            Tabs.AddTab(new()
             {
                 TabContent = "AddParcelView",
                 Text = "Parcel"
