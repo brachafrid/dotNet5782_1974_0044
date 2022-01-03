@@ -23,7 +23,7 @@ namespace PL
         public UpdateStationView(object Id)
         {
             InitializeComponent();
-            DataContext = new UpdateStationView((int)Id);
+            DataContext = new UpdateStationVM((int)Id);
         }
     }
 }
