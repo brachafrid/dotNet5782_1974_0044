@@ -21,6 +21,7 @@ namespace PL
         public Array DroneState { get; set; } = Enum.GetValues(typeof(DroneState));
         public Array PackageMode { get; set; } = Enum.GetValues(typeof(PackageModes));
         public ObservableCollection<string> SortOption { set; get; }
+        public RelayCommand DoubleClick { set; get; }
         public RelayCommand ShowKindOfSortCommand { get; set; }
         public RelayCommand FilterCommand { get; set; }
         public RelayCommand CancelFilterCommand { get; set; }

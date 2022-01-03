@@ -16,7 +16,7 @@
 
     <StackPanel>
         <StackPanel>
-            <ListView ItemsSource="{Binding Path=list }" x:Name="l">
+            <ListView ItemsSource="{Binding Path=list }">
                 <ListView.GroupStyle>
                     <GroupStyle ContainerStyle="{StaticResource ResourceKey=Group}"/>
 
