@@ -16,7 +16,12 @@
 
     <StackPanel>
         <StackPanel>
-            <ListView ItemsSource="{Binding Path=list}"/>
+            <ListView ItemsSource="{Binding Path=list}">
+                <ListView.GroupStyle>
+                    <GroupStyle ContainerStyle="{StaticResource ResourceKey=Group}"/>
+
+                </ListView.GroupStyle>
+            </ListView>
         </StackPanel>
         <local:SortInput />
     </StackPanel>

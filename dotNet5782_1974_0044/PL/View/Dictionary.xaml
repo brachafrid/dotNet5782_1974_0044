@@ -131,7 +131,6 @@
                 <Expander Header="Location">
                     <ContentPresenter Content="{Binding Path=Location}" />
                 </Expander>
-                <TextBlock Text="{Binding Path=AvailableChargingPorts, StringFormat=AvailableChargingPorts :{0:d}}"/>
                 <ListView ItemsSource="{Binding Path=FromCustomer}" />
                 <ListView ItemsSource="{Binding Path=ToCustomer}" />
             </StackPanel>
@@ -177,9 +176,9 @@
     <DataTemplate DataType="{x:Type po:ParcelToList}">
         <Expander Header="{Binding Path=Id, StringFormat = Id:{0:d}}">
             <StackPanel>
-                <StackPanel.InputBindings>
+                <!--<StackPanel.InputBindings>
                     <MouseBinding Gesture="LeftDoubleClick" Command="{Binding ShowDetailCommand}"/>
-                </StackPanel.InputBindings>
+                </StackPanel.InputBindings>-->
                 <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
                 <Expander Header="Customer Sender">
                     <ContentPresenter Content="{Binding Path=CustomerSender}" />
@@ -204,5 +203,20 @@
             </StackPanel>
         </Expander>
     </DataTemplate>
+
+    <Style TargetType="{x:Type GroupItem}" x:Key="Group">
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate>
+                    <Expander>
+                        <Expander.Header>
+                            <TextBlock Text="{Binding Name}"/>
+                        </Expander.Header>
+                        <ItemsPresenter />
+                    </Expander>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
 
 </ResourceDictionary>
