@@ -1,6 +1,7 @@
 ﻿using PL.PO;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Controls;
 
 namespace PL
 {
@@ -10,6 +11,7 @@ namespace PL
         public  RelayCommand AddParcelToListWindowCommand { get; set; }
         public  RelayCommand AddStationToListWindowCommand { get; set; }
         public  RelayCommand AddCustomerToListWindowCommand { get; set; }
+        public RelayCommand CloseCommand { get; set; }
 
         public static IntDependency SelectedTab { get; set; } = new();
 
@@ -20,8 +22,16 @@ namespace PL
             AddStationToListWindowCommand = new(AddStationToList, null);
             AddCustomerToListWindowCommand = new(AddCustomeroList, null);
             Tabs.changeSelectedTab += changeIndex;
+            CloseCommand = new(Close, null);
         }
 
+        public void Close(object param)
+        {
+            if (param is TabItem tabItem)
+            {
+                Tabs.CloseTab(tabItem.Header.ToString());
+            }
+        }
         public  void AddDroneToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()

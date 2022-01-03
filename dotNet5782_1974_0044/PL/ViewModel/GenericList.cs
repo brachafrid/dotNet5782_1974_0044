@@ -120,6 +120,7 @@ namespace PL
             CancelFilterCommand = new(CancelFilter, null);
             GroupCommand = new(Grouping, null);
             AddEntitiyCommand = new(AddEntity, null);
+
         }
 
         public void FilterNow()
@@ -129,6 +130,7 @@ namespace PL
         }
 
         public abstract void AddEntity(object param);
+
 
         void UpdateSortOptions()
         {

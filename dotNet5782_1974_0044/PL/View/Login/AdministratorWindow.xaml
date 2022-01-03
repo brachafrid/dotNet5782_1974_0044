@@ -28,7 +28,10 @@
             <TabControl ItemsSource="{Binding Source={x:Static local:Tabs.TabItems}}"  SelectedIndex="{Binding SelectedTab.Instance}" >
                 <TabControl.ItemTemplate>
                     <DataTemplate>
-                        <TextBlock Text="{Binding Path=Text}"/>
+                        <DockPanel>
+                            <TextBlock Text="{Binding Path=Text}"/>
+                            <Button Content="x"  Style="{StaticResource MaterialDesignOutlinedButton}" Command="{Binding Parent.DataContext.CloseCommand}"  CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
+                        </DockPanel>
                     </DataTemplate>
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>
