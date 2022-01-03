@@ -226,21 +226,24 @@ namespace PL
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return values[0] switch
+            if (values[0]!=DependencyProperty.UnsetValue)
             {
-                "DroneToListWindow" => new DroneToListWindow(),
-                "ParcelToListWindow" => new ParcelToListWindow(),
-                "StationToListWindow" => new StationToListWindow(),
-                "CustomerTolistWindow" => new CustomerTolistWindow(),
-                "AddDroneView" => new AddDroneView(),
-                "AddCustomerView" => new AddCustomerView(),
-                "AddStationView" => new AddStationView(),
-                "AddParcelView" => new AddParcelView(),
-                "UpdateDroneView" => new UpdateDroneView(values[1]),
-                "UpdateCustomerView" => new UpdateCustomerView(values[1]),
-                "UpdateParcelView" => new UpdateParcelView(values[1]),
-                "UpdateStationView" => new UpdateStationView(values[1]),
-            };
+                return values[0] switch
+                {
+                    "DroneToListWindow" => new DroneToListWindow(),
+                    "ParcelToListWindow" => new ParcelToListWindow(),
+                    "StationToListWindow" => new StationToListWindow(),
+                    "CustomerTolistWindow" => new CustomerTolistWindow(),
+                    "AddDroneView" => new AddDroneView(),
+                    "AddCustomerView" => new AddCustomerView(),
+                    "AddStationView" => new AddStationView(),
+                    "AddParcelView" => new AddParcelView(),
+                    "UpdateDroneView" => new UpdateDroneView(),
+                    "UpdateCustomerView" => new UpdateCustomerView(values[1]),
+                };
+            }
+            return "i love you";
+
         }
 
         public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture)
@@ -248,6 +251,8 @@ namespace PL
             throw new NotImplementedException();
         }
     }
+
+   
     public class ConverterUpdateCustomer : IMultiValueConverter
     {
         /// <summary>
@@ -337,17 +342,17 @@ namespace PL
             return true;
         }
 
-    /// <summary>
-    /// Convert Back to update model
-    /// </summary>
-    /// <param name="value"></param>
-    /// <param name="targetTypes"></param>
-    /// <param name="parameter"></param>
-    /// <param name="culture"></param>
-    /// <returns>Returns Exception</returns>
-    public object ConvertBack(object value, Type targetTypes, object parameter, CultureInfo culture)
-    {
-        throw new NotImplementedException();
+        /// <summary>
+        /// Convert Back to update model
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="targetTypes"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>Returns Exception</returns>
+        public object ConvertBack(object value, Type targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
     }
-}
 }
