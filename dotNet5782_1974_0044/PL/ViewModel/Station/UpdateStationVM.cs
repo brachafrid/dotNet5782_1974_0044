@@ -62,7 +62,7 @@ namespace PL
         }
         public void init()
         {
-            station = new StationHandler().GetStation(id);
+            station = PLService.GetStation(id);
         }
 
         public void UpdateStation(object param)
@@ -71,7 +71,7 @@ namespace PL
             {
                 if (stationName != station.Name || stationEmptyChargeSlots != station.EmptyChargeSlots)
                 {
-                    new StationHandler().UpdateStation(station.Id, station.Name, station.EmptyChargeSlots);
+                    PLService.UpdateStation(station.Id, station.Name, station.EmptyChargeSlots);
                     DelegateVM.Station();
                     stationName = station.Name;
                     stationEmptyChargeSlots = station.EmptyChargeSlots;
@@ -89,7 +89,7 @@ namespace PL
 
                 if (MessageBox.Show("You're sure you want to delete this station?", "Delete Station", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    new StationHandler().DeleteStation(station.Id);
+                    PLService.DeleteStation(station.Id);
                     MessageBox.Show("The station was successfully deleted");
                 }
             }

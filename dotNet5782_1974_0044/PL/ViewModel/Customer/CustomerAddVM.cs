@@ -23,7 +23,7 @@ namespace PL
         {
             try
             {
-                new CustomerHandler().AddCustomer(customer);
+                PLService.AddCustomer(customer);
                 Tabs.CloseTab("customer");
 
             }

@@ -24,13 +24,13 @@ namespace PL
         }
         void Init()
         {
-            StationsId = new StationHandler().GetStaionsWithEmptyChargeSlots().Select(station => station.Id).ToList();
+            StationsId = PLService.GetStaionsWithEmptyChargeSlots().Select(station => station.Id).ToList();
         }
         public void Add(object param)
         {
             try
             {
-                new DroneHandler().AddDrone(drone);
+                PLService.AddDrone(drone);
                 DelegateVM.Drone?.Invoke();                             
                 DelegateVM.Station?.Invoke();
                 Tabs.CloseTab("Drone");

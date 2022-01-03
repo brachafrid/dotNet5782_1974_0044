@@ -20,7 +20,7 @@ namespace PL
         }
         void UpdateInitList()
         {
-            list = new ListCollectionView(new StationHandler().GetStations().ToList());
+            list = new ListCollectionView(PLService.GetStations().ToList());
         }
         public override void AddEntity(object param)
         {

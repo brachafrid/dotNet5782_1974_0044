@@ -34,13 +34,13 @@ namespace PL
         }
         public void init()
         {
-            parcel = new ParcelHandler().GetParcel(id);
+            parcel = PLService.GetParcel(id);
         }
         public void DeleteParcel(object param)
         {
             if (MessageBox.Show("You're sure you want to delete this parcel?", "Delete Parcel", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
             {
-                new ParcelHandler().DeleteParcel(parcel.Id);
+                PLService.DeleteParcel(parcel.Id);
                 MessageBox.Show("The parcel was successfully deleted");
             }
         }

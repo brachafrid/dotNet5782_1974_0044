@@ -34,7 +34,7 @@ namespace PL
 
         void UpdateInitList()
         {
-            list = new ListCollectionView(new DroneHandler().GetDrones().ToList());
+            list = new ListCollectionView(PLService.GetDrones().ToList());
         }
         public override void AddEntity(object param)
         {
