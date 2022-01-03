@@ -16,13 +16,13 @@ namespace PL
         public RelayCommand AddDroneCommand { get; set; }
         public AddDroneVM()
         {
-            update();
-            DelegateVM.Station += update;
+            Init();
+            DelegateVM.Station += Init;
             drone = new();
             AddDroneCommand = new(Add, param => drone.Error == null);
             Weight = Enum.GetValues(typeof(WeightCategories));
         }
-        void update()
+        void Init()
         {
             StationsId = new StationHandler().GetStaionsWithEmptyChargeSlots().Select(station => station.Id).ToList();
         }

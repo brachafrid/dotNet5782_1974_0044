@@ -12,7 +12,7 @@ namespace PL
 {
     public class CustomerToListVM : GenericList<CustomerToList>
     {
-        public RelayCommand DoubleClick { set; get; }
+
         public RelayCommand AddCustomerCommand { set; get; }
         public CustomerToListVM()
         {
@@ -25,13 +25,16 @@ namespace PL
         {
             list = new ListCollectionView(new CustomerHandler().GetCustomers().ToList());
         }
-        public void OpenDetails(object id)
+      public void OpenDetails(object param)
         {
+            if(param != null)
             Tabs.TabItems.Add(new()
             {
                 TabContent = "UpdateCustomerView",
-                Text = "customer " + id
-            });
+                Text = "customer " + (param as CustomerToList).Id,
+                Id = (param as CustomerToList).Id
+
+            }); 
         }
         public void AddCustomer(object param)
         {

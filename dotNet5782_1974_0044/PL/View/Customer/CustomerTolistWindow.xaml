@@ -22,9 +22,10 @@
                     <GroupStyle ContainerStyle="{StaticResource ResourceKey=Group}"/>
 
                 </ListView.GroupStyle>
-                                <i:Interaction.Triggers>
+                <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
-                        <i:InvokeCommandAction Command="{Binding DoubleClick}" CommandParameter="{Binding }"/>
+                        <i:InvokeCommandAction Command="{Binding DoubleClick}"
+                                   CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ListView>
