@@ -42,7 +42,8 @@ namespace PL
             collectionParcel = new(CollectionParcel, null);
             gettingParcel = new(GettingParcel, null);
 
-            //list = new ListCollectionView(new ParcelHandler().GetParcels().ToList());
+            list = new ListCollectionView(new ParcelHandler().GetParcels().ToList());
+            list = customer.FromCustomer;
             DelegateVM.Customer += Init;
             DelegateVM.Parcel += Init;
         }
@@ -55,7 +56,7 @@ namespace PL
             customer = new CustomerHandler().GetCustomer(2);
 
             MessageBox.Show($"{customer.Name}");
-            MessageBox.Show($"{customer.FromCustomer}");
+            MessageBox.Show($"{customer.FromCustomer[0].Customer}");
             VisibilityCustomer.visibility = Visibility.Visible;
             //DelegateVM.Customer();
         }

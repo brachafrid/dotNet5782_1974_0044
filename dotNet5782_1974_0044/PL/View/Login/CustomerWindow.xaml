@@ -22,10 +22,12 @@
                 <Button Content="collection a parcel" Command="{Binding collectionParcel}"/>
                 <Button Content="getting a parcel" Command="{Binding gettingParcel}" Height="33"/>
             </StackPanel>
-            <StackPanel Visibility="{Binding VisibilityCustomer.visibility}">
+            <StackPanel>
+            <!--<StackPanel Visibility="{Binding VisibilityCustomer.visibility}">-->
                     <TextBlock Text="My Parcels: " Height="30"/>
-                <ListView x:Name="listParcelsFrom" ItemsSource="{Binding Path=customer.FromCustomer}"/>
-                <ListView x:Name="listParcelsTo" ItemsSource="{Binding Path=customer.ToCustomer}"/>
+                <!--<TextBlock x:Name="listParcelsFrom" Text="{Binding Path=customer.FromCustomer[0].Customer}"/>-->
+                <ListView x:Name="listParcelsFrom2" ItemsSource="{Binding Path=list}"/>
+                <!--<ListView x:Name="listParcelsTo" ItemsSource="{Binding Path=customer.ToCustomer}"/>-->
             </StackPanel>
         </DockPanel>
     </Grid>
