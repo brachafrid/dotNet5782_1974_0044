@@ -18,13 +18,15 @@ namespace PL
             list = new ListCollectionView(new CustomerHandler().GetCustomers().ToList());
             DoubleClick = new(OpenDetails, null);
         }
-      public void OpenDetails(object id)
+      public void OpenDetails(object param)
         {
             Tabs.TabItems.Add(new()
             {
                 TabContent = "UpdateCustomerView",
-                Text = "customer " + id
-            }); 
+                Text = "customer " + (param as CustomerToList).Id,
+                Id = (param as CustomerToList).Id
+
+            }) ; 
         }
     }
 }
