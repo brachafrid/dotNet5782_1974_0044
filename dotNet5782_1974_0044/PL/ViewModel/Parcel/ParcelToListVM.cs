@@ -22,7 +22,7 @@ namespace PL
         void UpdateInitList()
         {
 
-            list = new ListCollectionView(new ParcelHandler().GetParcels().ToList());
+            list = new ListCollectionView(PLService.GetParcels().ToList());
             AddParcelCommand=new(AddParcel, null);
         }
         public void OpenDetails(object param)

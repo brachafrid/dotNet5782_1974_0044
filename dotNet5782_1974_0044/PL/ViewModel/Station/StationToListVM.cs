@@ -22,7 +22,7 @@ namespace PL
         }
         void UpdateInitList()
         {
-            list = new ListCollectionView(new StationHandler().GetStations().ToList());
+            list = new ListCollectionView(PLService.GetStations().ToList());
         }
         public void AddStation(object param)
         {

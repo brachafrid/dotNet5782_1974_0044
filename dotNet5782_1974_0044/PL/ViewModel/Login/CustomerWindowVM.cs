@@ -55,7 +55,7 @@ namespace PL
         public CustomerWindowVM()
         {
             Init();
-            //customer = new CustomerHandler().GetCustomer(2);
+            //customer = PLService.GetCustomer(2);
             DisplayParcelsCommand = new(DisplayParcels, null);
             //ToCustomerCommand = new(ToCustomer, null);
             //FromCustomerCommand = new(FromCustomer, null);
@@ -63,7 +63,7 @@ namespace PL
             collectionParcel = new(CollectionParcel, null);
             gettingParcel = new(GettingParcel, null);
             //list = new ListCollectionView(null);
-            list = new ListCollectionView(new ParcelHandler().GetParcels().ToList());
+            list = new ListCollectionView(PLService.GetParcels().ToList());
             List<ParcelAtCustomer> fromCustomer = customer.FromCustomer;
             List<ParcelAtCustomer> toCustomer = customer.ToCustomer;
             //list = new ListCollectionView(toCustomer.ToList());
@@ -73,11 +73,11 @@ namespace PL
         }
         public void Init()
         {
-            customer = new CustomerHandler().GetCustomer(2);
+            customer = PLService.GetCustomer(2);
         }
         public void DisplayParcels(object param)
         {
-            customer = new CustomerHandler().GetCustomer(2);
+            customer = PLService.GetCustomer(2);
 
             VisibilityCustomer.visibility = Visibility.Visible;
             MessageBox.Show($"{customer.Name}");

@@ -23,7 +23,7 @@ namespace PL
         }
         void UpdateInitList()
         {
-            list = new ListCollectionView(new CustomerHandler().GetCustomers().ToList());
+            list = new ListCollectionView( PLService.GetCustomers().ToList());
         }
       public void OpenDetails(object param)
         {

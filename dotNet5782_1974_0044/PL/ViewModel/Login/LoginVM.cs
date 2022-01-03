@@ -56,7 +56,7 @@ namespace PL
         {
             try
             {
-                Customer customer = new CustomerHandler().GetCustomer((int)customerLogin.Id);
+                Customer customer = PLService.GetCustomer((int)customerLogin.Id);
                 LoginScreen.MyScreen = "CustomerWindow";
             }
             catch (KeyNotFoundException)

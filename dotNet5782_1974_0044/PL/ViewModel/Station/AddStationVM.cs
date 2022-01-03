@@ -21,7 +21,7 @@ namespace PL
         {
             try
             {
-                new StationHandler().AddStation(station);
+                PLService.AddStation(station);
                 DelegateVM.Station?.Invoke();
                 Tabs.CloseTab("Station");
             }

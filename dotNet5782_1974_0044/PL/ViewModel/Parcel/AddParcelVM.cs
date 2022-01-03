@@ -21,7 +21,7 @@ namespace PL
         public AddParcelVM()
         {
             parcel = new();
-            customers = new CustomerHandler().GetCustomers().Select(customer => customer.Id).ToList();
+            customers = PLService.GetCustomers().Select(customer => customer.Id).ToList();
             AddParcelCommand = new(Add, param => parcel.Error == null);
             VisibilityParcel = new(visibilityParcel, param => parcel.Error == null);
             piorities = Enum.GetValues(typeof(Priorities));
@@ -41,7 +41,7 @@ namespace PL
         {
             try
             {
-                new ParcelHandler().AddParcel(parcel);
+                PLService.AddParcel(parcel);
                 DelegateVM.Parcel?.Invoke();
                 DelegateVM.Customer?.Invoke();
                 Tabs.CloseTab("Parcel");

@@ -62,14 +62,14 @@ namespace PL
         }
         public void init()
         {
-            customer = new CustomerHandler().GetCustomer(id);
+            customer = PLService.GetCustomer(id);
         }
         
         public void UpdateCustomer(object param)
         {
             if(customerName != customer.Name || customerPhone != customer.Phone)
             {
-                new CustomerHandler().UpdateCustomer(customer.Id, customer.Name, customer.Phone);
+                PLService.UpdateCustomer(customer.Id, customer.Name, customer.Phone);
                 customerName = customer.Name;
                 customerPhone = customer.Phone;
             }
@@ -81,7 +81,7 @@ namespace PL
             {
                  if (MessageBox.Show("You're sure you want to delete this customer?", "Delete Customer", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                  {
-                    new CustomerHandler().DeleteCustomer(customer.Id);
+                    PLService.DeleteCustomer(customer.Id);
                     MessageBox.Show("The customer was successfully deleted");
                  }
             }

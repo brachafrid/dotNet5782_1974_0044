@@ -50,7 +50,7 @@ namespace PL
         }
         public void init()
         {
-            drone = new DroneHandler().GetDrone(id);
+            drone = PLService.GetDrone(id);
         }
         public void UpdateModel(object param)
         {
@@ -58,7 +58,7 @@ namespace PL
             {
                 if (droneModel != drone.Model)
                 {
-                    new DroneHandler().UpdateDrone(drone.Id, drone.Model);
+                    PLService.UpdateDrone(drone.Id, drone.Model);
                     MessageBox.Show("The drone has been successfully updated");
                     droneModel = drone.Model;
 
@@ -80,12 +80,12 @@ namespace PL
         {
             if (drone.DroneState == PO.DroneState.AVAILABLE)
             {
-                new DroneHandler().SendDroneForCharg(drone.Id);
+                PLService.SendDroneForCharg(drone.Id);
                 DelegateVM.Drone();
             }
             else if (drone.DroneState == PO.DroneState.MAINTENANCE)
             {
-                new DroneHandler().ReleaseDroneFromCharging(drone.Id);
+                PLService.ReleaseDroneFromCharging(drone.Id);
                 DelegateVM.Drone();
             }
         }
@@ -98,13 +98,13 @@ namespace PL
                 {
                     if (drone.Parcel.ParcelState == true)
                     {
-                        new DroneHandler().DeliveryParcelByDrone(drone.Id);
+                        PLService.DeliveryParcelByDrone(drone.Id);
                         DelegateVM.Drone();
 
                     }
                     else
                     {
-                        new DroneHandler().ParcelCollectionByDrone(drone.Id);
+                        PLService.ParcelCollectionByDrone(drone.Id);
                         DelegateVM.Drone();
 
                     }
@@ -112,7 +112,7 @@ namespace PL
                 }
                 else
                 {
-                    new DroneHandler().AssingParcelToDrone(drone.Id);
+                    PLService.AssingParcelToDrone(drone.Id);
                     DelegateVM.Drone();
 
                 }
@@ -128,8 +128,8 @@ namespace PL
             try
             {
                if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
-               {   
-                   new DroneHandler().DeleteDrone(drone.Id);
+               {
+                    PLService.DeleteDrone(drone.Id);
                    MessageBox.Show("The drone was successfully deleted");
                }
             }
