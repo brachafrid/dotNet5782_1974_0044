@@ -48,7 +48,7 @@
 
     <DataTemplate DataType="{x:Type po:CustomerInParcel}">
         <StackPanel>
-            <TextBlock Text="{Binding Path=Id, StringFormat=id :{n}}"/>
+            <TextBlock Text="{Binding Path=Id, StringFormat=id :{0:d}}"/>
             <TextBlock Text="{Binding Name, StringFormat=Name :{0}}"/>
         </StackPanel>
     </DataTemplate>
@@ -141,9 +141,9 @@
         <Expander Header="Parcel At Customer">
             <StackPanel>
                 <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
-                <TextBlock Text="{Binding Path=WeightCategory, StringFormat=WeightCategory :{0}}"/>
-                <TextBlock Text="{Binding Path=Priority, StringFormat=Priority :{0}}"/>
-                <TextBlock Text="{Binding Path=State, StringFormat=State :{0}}"/>
+                <TextBlock Text="{Binding Path=Weight, StringFormat=Weight :{0}}"/>
+                <TextBlock Text="{Binding Path=Piority, StringFormat=Piority :{0}}"/>
+                <TextBlock Text="{Binding Path=PackageMode, StringFormat=PackageMode :{0}}"/>
                 <Expander Header="Customer">
                     <ContentPresenter Content="{Binding Path=Customer}" />
                 </Expander>

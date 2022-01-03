@@ -5,28 +5,29 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace PL
 {
     public static class Tabs
     {
         public static ObservableCollection<TabItemFormat> TabItems { get; set; } = new();
-        public static IntDependency SelectedTab { get; set; } = new();
-        public static void CloseTab()
+        public static Action<int> changeSelectedTab;
+        public static void CloseTab(string Text)
         {
-
+            TabItems.RemoveAt(TabItems.IndexOf(TabItems.FirstOrDefault(tab => tab.Text == Text)));
         }
         public static void AddTab(TabItemFormat tabItemFormat)
         {
-            TabItemFormat tabItem = TabItems.FirstOrDefault(tab => tab == tabItemFormat);
+            TabItemFormat tabItem = TabItems.FirstOrDefault(tab => tab.Text == tabItemFormat.Text);
             if (tabItem == default)
             {
                 TabItems.Add(tabItemFormat);
-                SelectedTab.Instance = TabItems.IndexOf(tabItemFormat);
+                changeSelectedTab?.Invoke(TabItems.IndexOf(tabItemFormat));
             }
 
             else
-                SelectedTab.Instance = TabItems.IndexOf(tabItem);
+                changeSelectedTab?.Invoke(TabItems.IndexOf(tabItem));
         }
     }
 }
