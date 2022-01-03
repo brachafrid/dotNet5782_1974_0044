@@ -236,8 +236,10 @@ namespace PL
                 "AddCustomerView" => new AddCustomerView(),
                 "AddStationView" => new AddStationView(),
                 "AddParcelView" => new AddParcelView(),
-                "UpdateDroneView" => new UpdateDroneView(),
+                "UpdateDroneView" => new UpdateDroneView(values[1]),
                 "UpdateCustomerView" => new UpdateCustomerView(values[1]),
+                "UpdateParcelView" => new UpdateParcelView(values[1]),
+                "UpdateStationView" => new UpdateStationView(values[1]),
             };
         }
 
@@ -356,8 +358,8 @@ namespace PL
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((int)value > 0)
-                return Visibility.Visible;
-            return Visibility.Collapsed;
+                return true;
+            return true;
         }
 
     /// <summary>

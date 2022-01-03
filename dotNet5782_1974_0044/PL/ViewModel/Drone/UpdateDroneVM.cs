@@ -11,8 +11,10 @@ using System.Windows;
 
 namespace PL
 {
+    
     public class UpdateDroneVM: DependencyObject
     {
+        private int id;
         public PO.Drone drone
         {
             get { return (PO.Drone)GetValue(droneProperty); }
@@ -29,16 +31,15 @@ namespace PL
 
         public static readonly DependencyProperty droneModelProperty =
             DependencyProperty.Register("droneModel", typeof(string), typeof(UpdateDroneVM), new PropertyMetadata(string.Empty));
-
-
         public RelayCommand UpdateDroneCommand { get; set; }
         public RelayCommand CloseDroneCommand { get; set; }
         public RelayCommand ChargingDroneCommand { get; set; }
         public RelayCommand ParcelTreatedByDrone { get; set; }
         public RelayCommand DeleteDroneCommand { get; set; }
         
-        public UpdateDroneVM()
+        public UpdateDroneVM(int id)
         {
+            this.id = id;
             init();
             droneModel = drone.Model;
             UpdateDroneCommand = new(UpdateModel, param => drone.Error == null);
@@ -49,7 +50,7 @@ namespace PL
         }
         public void init()
         {
-            drone = new DroneHandler().GetDrone(2);
+            drone = new DroneHandler().GetDrone(id);
         }
         public void UpdateModel(object param)
         {

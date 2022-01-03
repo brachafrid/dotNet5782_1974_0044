@@ -6,9 +6,7 @@
              xmlns:local="clr-namespace:PL" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.DataContext>
-        <local:UpdateParcelVM/>
-    </UserControl.DataContext>
+   
     <UserControl.Resources>
         <!--<ResourceDictionary>
             <local:ConverterUpdateStation x:Key="ConverterUpdateStation" />

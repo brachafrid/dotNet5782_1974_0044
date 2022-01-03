@@ -11,6 +11,7 @@ namespace PL
 {
     class UpdateStationVM : DependencyObject
     {
+        private int id;
         public PO.Station station
         {
             get { return (PO.Station)GetValue(stationProperty); }
@@ -49,8 +50,9 @@ namespace PL
         public RelayCommand UpdateStationCommand { get; set; }
         public RelayCommand DeleteStationCommand { get; set; }
 
-        public UpdateStationVM()
+        public UpdateStationVM(int id)
         {
+            this.id = id;
             init();
             stationName = station.Name;
             stationEmptyChargeSlots = station.EmptyChargeSlots;
@@ -60,7 +62,7 @@ namespace PL
         }
         public void init()
         {
-            station = new StationHandler().GetStation(2);
+            station = new StationHandler().GetStation(id);
         }
 
         public void UpdateStation(object param)

@@ -20,9 +20,10 @@ namespace PL
     /// </summary>
     public partial class UpdateDroneView : UserControl
     {
-        public UpdateDroneView()
+        public UpdateDroneView(object Id)
         {
             InitializeComponent();
+            DataContext =new UpdateDroneVM((int)Id);
         }
 
     }

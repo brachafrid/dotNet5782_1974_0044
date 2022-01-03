@@ -11,7 +11,7 @@ namespace PL
 {
     class UpdateCustomerVM : DependencyObject
     {
-        private int _id;
+        private int id;
         public PL.PO.Customer customer
         {
             get { return (PL.PO.Customer)GetValue(customerProperty); }
@@ -52,7 +52,7 @@ namespace PL
 
         public UpdateCustomerVM(int id)
         {
-            _id = id;
+            this.id = id;
             init();
             customerName = customer.Name;                  
             customerPhone = customer.Phone;
@@ -63,7 +63,7 @@ namespace PL
         }
         public void init()
         {
-            customer = new CustomerHandler().GetCustomer(_id);
+            customer = new CustomerHandler().GetCustomer(id);
         }
         
         public void UpdateCustomer(object param)

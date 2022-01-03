@@ -10,7 +10,8 @@ namespace PL
         public  RelayCommand AddParcelToListWindowCommand { get; set; }
         public  RelayCommand AddStationToListWindowCommand { get; set; }
         public  RelayCommand AddCustomerToListWindowCommand { get; set; }
-        public  IntDependency SelectedTab { get; set; } = new();
+
+        public static IntDependency SelectedTab { get; set; } = new();
 
         public AdministratorVM()
         {
@@ -18,79 +19,49 @@ namespace PL
             AddParcelToListWindowCommand = new(AddParcelToList, null);
             AddStationToListWindowCommand = new(AddStationToList, null);
             AddCustomerToListWindowCommand = new(AddCustomeroList, null);
+            Tabs.changeSelectedTab += changeIndex;
         }
 
         public  void AddDroneToList(object param)
         {
-            var tabItem = Tabs.TabItems.FirstOrDefault(tab => tab.TabContent == "DroneToListWindow");
-            if (tabItem == null)
+            Tabs.AddTab(new TabItemFormat()
             {
-                var newTabItem = new TabItemFormat()
-                {
-                    Text = "Drones",
-                    TabContent = "DroneToListWindow"
-                };
-                Tabs.TabItems.Add(newTabItem);
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(newTabItem);
-            }
-            else
-            {
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(tabItem);
-            }
+                Text = "Drones",
+                TabContent = "DroneToListWindow"
+            });
+            
+        }
+
+        public void changeIndex(int index)
+        {
+            SelectedTab.Instance = index;
         }
         public  void AddParcelToList(object param)
         {
-            var tabItem = Tabs.TabItems.FirstOrDefault(tab => tab.TabContent == "ParcelToListWindow");
-            if (tabItem == null)
+            Tabs.AddTab(new TabItemFormat()
             {
-                var newTabItem = new TabItemFormat()
-                {
-                    Text = "Parcels",
-                    TabContent = "ParcelToListWindow"
-                };
-                Tabs.TabItems.Add(newTabItem);
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(newTabItem);
-            }
-            else
-            {
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(tabItem);
-            }
+                Text = "Parcels",
+                TabContent = "ParcelToListWindow"
+            });
+            
         }
         public  void AddStationToList(object param)
         {
-            var tabItem = Tabs.TabItems.FirstOrDefault(tab => tab.TabContent == "StationToListWindow");
-            if (tabItem == null)
+            Tabs.AddTab(new TabItemFormat()
             {
-                var newTabItem = new TabItemFormat()
-                {
-                    Text = "Stations",
-                    TabContent = "StationToListWindow"
-                };
-                Tabs.TabItems.Add(newTabItem);
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(newTabItem);
-            }
-            else
-            {
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(tabItem);
-            }
+                Text = "Stations",
+                TabContent = "StationToListWindow"
+            });
+           
         }
         public  void AddCustomeroList(object param)
         {
-            var tabItem = Tabs.TabItems.FirstOrDefault(tab => tab.TabContent == "CustomerTolistWindow");
-            if (tabItem == null)
+            Tabs.AddTab(new TabItemFormat()
             {
-                var newTabItem = new TabItemFormat()
-                {
-                    Text = "Customers",
-                    TabContent = "CustomerTolistWindow"
-                };
-                Tabs.TabItems.Add(newTabItem);
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(newTabItem);
-            }
-            else
-            {
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(tabItem);
-            }
+                Text = "Customers",
+                TabContent = "CustomerTolistWindow"
+            });
+           
         }
     }
 }

@@ -11,6 +11,7 @@ namespace PL
 {
     class UpdateParcelVM : DependencyObject
     {
+        private int id;
         public Parcel parcel
         {
             get { return (Parcel)GetValue(parcelProperty); }
@@ -23,8 +24,9 @@ namespace PL
 
         public RelayCommand DeleteParcelCommand { get; set; }
 
-        public UpdateParcelVM()
+        public UpdateParcelVM(int id)
         {
+            this.id = id;
             init();
             DeleteParcelCommand = new(DeleteParcel, param => parcel.Error == null);
 
@@ -32,7 +34,7 @@ namespace PL
         }
         public void init()
         {
-            parcel = new ParcelHandler().GetParcel(2);
+            parcel = new ParcelHandler().GetParcel(id);
         }
         public void DeleteParcel(object param)
         {

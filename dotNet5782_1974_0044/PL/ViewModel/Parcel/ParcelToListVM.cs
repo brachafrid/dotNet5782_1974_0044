@@ -12,9 +12,38 @@ namespace PL
 {
     public class ParcelToListVM : GenericList<ParcelToList>
     {
+        public RelayCommand AddParcelCommand { get; set; }
         public ParcelToListVM()
         {
+            UpdateInitList();
+            DelegateVM.Parcel += UpdateInitList;
+            DoubleClick = new(OpenDetails, null);
+        }
+        void UpdateInitList()
+        {
+
             list = new ListCollectionView(new ParcelHandler().GetParcels().ToList());
+            AddParcelCommand=new(AddParcel, null);
+        }
+        public void OpenDetails(object param)
+        {
+            if (param != null)
+                Tabs.AddTab(new()
+                {
+                    TabContent = "UpdateCustomerView",
+                    Text = "parcel " + (param as ParcelToList).Id,
+                    Id = (param as ParcelToList).Id
+
+                });
+        }
+
+        public void AddParcel(object param)
+        {
+            Tabs.TabItems.Add(new()
+            {
+                TabContent = "AddParcelView",
+                Text = "Parcel"
+            });
         }
     }
 }
