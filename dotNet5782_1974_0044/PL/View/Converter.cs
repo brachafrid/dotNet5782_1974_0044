@@ -295,9 +295,6 @@ namespace PL
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
             if (values[0] as string != values[1] as string || (int)values[2] != (int)values[3]
-                //||
-                //values[2] as string != values[3] as string ||
-                //values[4] as string != values[5] as string
                 )
             {
                 return Visibility.Visible;
