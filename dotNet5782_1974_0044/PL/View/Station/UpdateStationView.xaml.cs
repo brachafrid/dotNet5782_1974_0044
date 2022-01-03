@@ -20,9 +20,10 @@ namespace PL
     /// </summary>
     public partial class UpdateStationView : UserControl
     {
-        public UpdateStationView()
+        public UpdateStationView(object Id)
         {
             InitializeComponent();
+            DataContext = new UpdateStationView((int)Id);
         }
     }
 }

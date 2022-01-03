@@ -236,8 +236,10 @@ namespace PL
                 "AddCustomerView" => new AddCustomerView(),
                 "AddStationView" => new AddStationView(),
                 "AddParcelView" => new AddParcelView(),
-                "UpdateDroneView" => new UpdateDroneView(),
+                "UpdateDroneView" => new UpdateDroneView(values[1]),
                 "UpdateCustomerView" => new UpdateCustomerView(values[1]),
+                "UpdateParcelView" => new UpdateParcelView(values[1]),
+                "UpdateStationView" => new UpdateStationView(values[1]),
             };
         }
 
