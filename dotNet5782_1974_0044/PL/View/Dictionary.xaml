@@ -29,20 +29,15 @@
 
     <DataTemplate DataType="{x:Type po:Drone}" >
         <StackPanel>
-            <StackPanel>
-                <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
-                <DockPanel>
-                    <Label Content="model"/>
-                    <TextBox Text="{Binding Mode=OneWay, Path= Model, StringFormat=0:d}" />
-                </DockPanel>
-                <TextBlock Text="{Binding Path=WeightCategory, StringFormat=maxWeigth :{0}}"/>
-                <Expander Header="CurrentLocation">
-                    <ContentPresenter Content="{Binding Path=CurrentLocation}" />
-                </Expander>
-                <TextBlock Text="{Binding Path = DroneState, StringFormat=state :{0}}" />
-                <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />
-                <ContentPresenter Content="{Binding Path=Parcel}" />
-            </StackPanel>
+            <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
+            <TextBox Text="{Binding  Path= Model, StringFormat=model :{0},NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
+            <TextBlock Text="{Binding Path=WeightCategory, StringFormat=maxWeigth :{0}}"/>
+            <Expander Header="CurrentLocation">
+                <ContentPresenter Content="{Binding Path=CurrentLocation}" />
+            </Expander>
+            <TextBlock Text="{Binding Path = DroneState, StringFormat=state :{0}}" />
+            <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />
+            <ContentPresenter Content="{Binding Path=Parcel}" />
         </StackPanel>
     </DataTemplate>
 
@@ -120,23 +115,25 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type po:Customer}">
-        <Expander Header="{Binding Path=Id, StringFormat = Id:{0:d}}" >
-            <StackPanel>
-                <TextBlock Text="{Binding Path=Name, StringFormat=Name :{0}}"/>
-                <TextBlock Text="{Binding Path=Phone, StringFormat=Phone :{0}}"/>
-                <Expander Header="Location">
-                    <ContentPresenter Content="{Binding Path=Location}" />
-                </Expander>
+        <StackPanel>
+            <TextBlock  Text ="{Binding Id,StringFormat=Id :{0:d}}" />
+            <TextBox Text="{Binding Path=Name, StringFormat=Name :{0},NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}"/>
+            <TextBox Text="{Binding Path=Phone, StringFormat=Phone :{0},NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}"/>
+            <Expander Header="Location">
+                <ContentPresenter Content="{Binding Path=Location}" />
+            </Expander>
+            <Expander Header="Parcel From Customer">
                 <ListView ItemsSource="{Binding Path=FromCustomer}" />
+            </Expander>
+            <Expander Header="Parcel To Customer">
                 <ListView ItemsSource="{Binding Path=ToCustomer}" />
-            </StackPanel>
-        </Expander>
+            </Expander>
+        </StackPanel>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type po:ParcelAtCustomer}">
-        <Expander Header="Parcel At Customer">
+        <Expander  Header="{Binding Path=Id, StringFormat = Id:{0:d}}">
             <StackPanel>
-                <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
                 <TextBlock Text="{Binding Path=Weight, StringFormat=Weight :{0}}"/>
                 <TextBlock Text="{Binding Path=Piority, StringFormat=Piority :{0}}"/>
                 <TextBlock Text="{Binding Path=PackageMode, StringFormat=PackageMode :{0}}"/>

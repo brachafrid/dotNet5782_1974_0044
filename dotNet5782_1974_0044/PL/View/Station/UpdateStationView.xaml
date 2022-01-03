@@ -9,6 +9,9 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <local:ConverterUpdateStation x:Key="ConverterUpdateStation" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Dictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>

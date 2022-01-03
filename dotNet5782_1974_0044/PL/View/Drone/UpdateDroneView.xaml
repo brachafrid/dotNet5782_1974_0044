@@ -14,20 +14,14 @@
             <local:parcelTreatedByDroneContent x:Key="parcelTreatedByDroneContent" />
             <local:ConvertDroneChargingVisibility x:Key="ConvertDroneChargingVisibility" />
             <local:ConvertDroneChargingContent x:Key="ConvertDroneChargingContent" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Dictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
         <StackPanel x:Name="details" >
-            <TextBlock Text="Id: "/>
-            <TextBlock x:Name="Id" Text ="{Binding drone.Id, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Model: "/>
-            <TextBox x:Name="DroneModel" Text ="{Binding drone.Model, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Status: "/>
-            <TextBlock  Text ="{Binding drone.DroneState, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Battery: "/>
-            <TextBlock  Text ="{Binding drone.BattaryMode, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Max Weight: "/>
-            <TextBlock  Text ="{Binding drone.Weight, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
+            <ContentPresenter Content="{Binding drone}"  />
             <Button Content="close drone"/>
             <Button Content="update drone's model" Command="{Binding UpdateDroneCommand}">
                 <Button.Visibility>

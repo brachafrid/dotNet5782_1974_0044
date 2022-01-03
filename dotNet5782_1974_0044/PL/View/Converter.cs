@@ -238,7 +238,7 @@ namespace PL
                     "AddCustomerView" => new AddCustomerView(),
                     "AddStationView" => new AddStationView(),
                     "AddParcelView" => new AddParcelView(),
-                    "UpdateDroneView" => new UpdateDroneView(),
+                    "UpdateDroneView" => new UpdateDroneView(values[1]),
                     "UpdateCustomerView" => new UpdateCustomerView(values[1]),
                 };
             }
@@ -266,7 +266,7 @@ namespace PL
                 "AddCustomerView" => new AddCustomerView(),
                 "AddStationView" => new AddStationView(),
                 "AddParcelView" => new AddParcelView(),
-                "UpdateDroneView" => new UpdateDroneView(),
+                "UpdateDroneView" => new UpdateDroneView(values[1]),
                 "UpdateCustomerView" => new UpdateCustomerView(values[1]),
             };
         }

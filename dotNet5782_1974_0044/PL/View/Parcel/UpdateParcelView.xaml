@@ -11,6 +11,7 @@
         <!--<ResourceDictionary>
             <local:ConverterUpdateStation x:Key="ConverterUpdateStation" />
         </ResourceDictionary>-->
+        <ResourceDictionary Source="../Dictionary.xaml" />
     </UserControl.Resources>
     <Grid>
         <StackPanel x:Name="parcel" >

@@ -10,21 +10,14 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <local:ConverterUpdateCustomer x:Key="ConverterUpdateCustomer" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Dictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
         <StackPanel x:Name="customer" >
-            <TextBlock Text="Id: "/>
-            <TextBlock x:Name="Id" Text ="{Binding customer.Id, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Name: "/>
-            <TextBox x:Name="CustomerName" Text ="{Binding customer.Name, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Phone: "/>
-            <TextBox  Text ="{Binding customer.Phone, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Location: "/>
-            <TextBlock Text="Latitude: "/>
-            <TextBlock  Text ="{Binding customer.Location.Latitude, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Longitude: "/>
-            <TextBlock  Text ="{Binding customer.Location.Longitude, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
+            <ContentPresenter Content="{Binding customer}"  />
             <Button Content="close customer"/>
             <Button Content="update customer" Command="{Binding UpdateCustomerCommand}">
                 <Button.Visibility>
