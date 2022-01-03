@@ -28,7 +28,7 @@ namespace PL
       public void OpenDetails(object param)
         {
             if(param != null)
-            Tabs.TabItems.Add(new()
+            Tabs.AddTab(new()
             {
                 TabContent = "UpdateCustomerView",
                 Text = "customer " + (param as CustomerToList).Id,
