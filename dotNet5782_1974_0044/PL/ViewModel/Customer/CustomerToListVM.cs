@@ -27,7 +27,7 @@ namespace PL
         {
             Tabs.TabItems.Add(new()
             {
-                TabContent = "CustomerWindow",
+                TabContent = "UpdateCustomerView",
                 Text = "customer " + id
             });
         }
