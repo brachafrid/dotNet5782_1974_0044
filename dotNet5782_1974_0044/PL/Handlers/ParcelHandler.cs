@@ -43,16 +43,28 @@ namespace PL
                 Drone = DroneWithParcelHandler.ConvertBackDroneWithParcel(parcel.Drone)
             };
         }
-        ParcelToList ConvertParcelToList(BO.ParcelToList parcel)
+        //ParcelAtCustomer ConvertParcelParcelAtCustomer(BO.ParcelToList parcel)
+        //{
+        //    return new()
+        //    {
+        //        Id = parcel.Id,
+        //        PackageMode =(PackageModes) parcel.PackageMode,
+        //        Piority = (Priorities)parcel.Piority,
+        //        Weight = (WeightCategories)parcel.Weight,
+        //        //Customer = new CustomerHandler().ConvertCustomerInParcel(parcel.CustomerReceives),
+        //        //CustomerSender = new CustomerHandler().ConvertCustomer(parcel.CustomerSender)
+        //    };
+        //}
+        private ParcelToList ConvertParcelToList(BO.ParcelToList parcel)
         {
             return new()
             {
                 Id = parcel.Id,
-                PackageMode =(PackageModes) parcel.PackageMode,
+                PackageMode = (PackageModes)parcel.PackageMode,
                 Piority = (Priorities)parcel.Piority,
                 Weight = (WeightCategories)parcel.Weight,
                 CustomerReceives = new CustomerHandler().ConvertCustomer(parcel.CustomerReceives),
-                CustomerSender = new CustomerHandler().ConvertCustomer(parcel.CustomerSender)
+                CustomerSender = new CustomerHandler().ConvertCustomer(parcel.CustomerSender)     
             };
         }
         public void AddParcel(ParcelAdd parcel)
@@ -66,7 +78,9 @@ namespace PL
         }
 
         public Parcel GetParcel(int id) => ConvertParcel(ibal.GetParcel(id));
+        //public IEnumerable<ParcelAtCustomer> GetParcels() => ibal.GetParcels().Select(parcel => ConvertParcelParcelAtCustomer(parcel));
         public IEnumerable<ParcelToList> GetParcels() => ibal.GetParcels().Select(parcel => ConvertParcelToList(parcel));
+        //public IEnumerable<ParcelAtCustomer> GetParcelsNotAssignedToDrone=>ibal.GetParcelsNotAssignedToDrone((int num)=> num == 0).Select(parcel => ConvertParcelParcelAtCustomer(parcel));
         public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone=>ibal.GetParcelsNotAssignedToDrone((int num)=> num == 0).Select(parcel => ConvertParcelToList(parcel));
         public BO.Parcel ConvertBackParcelAdd(ParcelAdd parcel)
         {
