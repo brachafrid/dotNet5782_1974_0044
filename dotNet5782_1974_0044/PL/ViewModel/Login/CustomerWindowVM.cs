@@ -37,13 +37,8 @@ namespace PL
         //public RelayCommand ToCustomerCommand { get; set; }
         //public RelayCommand FromCustomerCommand { get; set; }
 
-        public RelayCommand CustomerCommand { get; set; }
-        public RelayCommand ParcelsFromCommand { get; set; }
-        public RelayCommand ParcelsToCommand { get; set; }
-        public RelayCommand AddParcelCommand { get; set; }
-        //public RelayCommand AddParcelCommand { get; set; }
+
         public ParcelAdd parcel { set; get; }
-        public IntDependency SelectedTab { get; set; } = new();
 
         public CustomerWindowVM()
         {
@@ -55,11 +50,6 @@ namespace PL
             sendParcel = new(SendParcel, null);
             collectionParcel = new(CollectionParcel, null);
             gettingParcel = new(GettingParcel, null);
-            CustomerCommand = new(CustomerDetails, null);
-            ParcelsFromCommand = new(ParcelsFrom, null);
-            ParcelsToCommand = new(ParcelsTo, null);
-            AddParcelCommand = new(AddParcel, null);
-            // AddParcelCommand = new(AddParcel, null);
             //list = new ListCollectionView(null);
             list = new ListCollectionView(new ParcelHandler().GetParcels().ToList());
             List<ParcelAtCustomer> fromCustomer = customer.FromCustomer;
@@ -96,7 +86,7 @@ namespace PL
         //}
         public void SendParcel(object param)
         {
-            new AddParcelVM(customer.Id);
+           new  AddParcelVM(customer.Id);
             //parcel = new(){ CustomerSender = customer.Id, CustomerReceives = 0, Piority = Priorities.REGULAR, Weight = PO.WeightCategories.MEDIUM };
             //new ParcelHandler().AddParcel(parcel);
             //customer.FromCustomer.Add(new ParcelHandler().ConvertParcelAddToParcelAtCustomer(parcel));
@@ -112,37 +102,6 @@ namespace PL
         public void GettingParcel(object param)
         {
 
-        }
-        public void CustomerDetails(object param)
-        {
-
-        }
-        public void ParcelsFrom(object param)
-        {
-
-        }
-        public void ParcelsTo(object param)
-        {
-
-        }
-        public void AddParcel(object param)
-        {
-            MessageBox.Show("ushs");
-            var tabItem = Tabs.TabItems.FirstOrDefault(tab => tab.TabContent == "AddParcelView");
-            if (tabItem == null)
-            {
-                var newTabItem = new TabItemFormat()
-                {
-                    Text = "Add Parcel",
-                    TabContent = "AddParcelView"
-                };
-                Tabs.TabItems.Add(newTabItem);
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(newTabItem);
-            }
-            else
-            {
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(tabItem);
-            }
         }
     }
 }
