@@ -42,9 +42,9 @@ namespace PL
             try
             {
                 new ParcelHandler().AddParcel(parcel);
-                MessageBox.Show("succses");
-                DelegateVM.Parcel();
-                DelegateVM.Customer();
+                DelegateVM.Parcel?.Invoke();
+                DelegateVM.Customer?.Invoke();
+                Tabs.CloseTab("Parcel");
             }
             catch(KeyNotFoundException)
             {

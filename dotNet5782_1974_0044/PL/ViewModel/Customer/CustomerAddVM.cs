@@ -24,7 +24,7 @@ namespace PL
             try
             {
                 new CustomerHandler().AddCustomer(customer);
-                MessageBox.Show("sucsses");
+                Tabs.CloseTab("customer");
 
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
