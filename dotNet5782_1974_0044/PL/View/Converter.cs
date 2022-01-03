@@ -319,4 +319,39 @@ namespace PL
             throw new NotImplementedException();
         }
     }
+
+    public class ConverterCancelFilterVisibility : IValueConverter
+    {
+        /// <summary>
+        /// Converts to visibility
+        /// If the model name has been updated, converts to visible. else, converts to collapsed.
+        /// </summary>
+        /// <param name="values">Names of: new drone model , original drone model</param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>Returns visibility: visible or collapsed</returns>
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if(value is List<SortEntities> filters)
+            {
+                if (filters.Count > 0)
+                    return Visibility.Visible;
+            }
+            return Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// Convert Back to update model
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="targetTypes"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>Returns Exception</returns>
+        public object ConvertBack(object value, Type targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
 }

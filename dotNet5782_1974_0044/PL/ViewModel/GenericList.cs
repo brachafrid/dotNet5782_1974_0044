@@ -13,7 +13,7 @@ using System.ComponentModel;
 
 namespace PL
 {
-    public class GenericList<T> : INotifyPropertyChanged
+    public class GenericList<T> : DependencyObject, INotifyPropertyChanged
     {
         public List<string> KindOfSort { get; set; } = new() { "Range", "Single" };
         public Array WeightCategories { get; set; } = Enum.GetValues(typeof(WeightCategories));
@@ -23,6 +23,8 @@ namespace PL
         public ObservableCollection<string> SortOption { set; get; }
         public RelayCommand ShowKindOfSortCommand { get; set; }
         public RelayCommand FilterCommand { get; set; }
+        public RelayCommand CancelFilterCommand { get; set; }
+        public RelayCommand GroupCommand { get; set; }
         public ListCollectionView list { set; get; }
         public Visble VisibilityKindOfSort { get; set; } = new();
         public Visble StringSortVisibility { get; set; } = new();
@@ -31,7 +33,19 @@ namespace PL
         public Visble VisibilityDroneState { get; set; } = new();
         public Visble VisbleDouble { set; get; } = new();
         public Visble VisblePackegeMode { set; get; } = new();
-        public List<SortEntities> Filters { get; set; } = new();
+
+        public List<SortEntities> Filters
+        {
+            get { return (List<SortEntities>)GetValue(MyPropertyProperty); }
+            set { SetValue(MyPropertyProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MyPropertyProperty =
+            DependencyProperty.Register("MyProperty", typeof(List<SortEntities>), typeof(GenericList<T>), new PropertyMetadata(new List<SortEntities>()));
+
+
+        //public List<SortEntities> Filters { get; set; } = new();
 
         private double doubleFirstChange = 0;
         private double doubleLastChange = 100;
@@ -92,6 +106,7 @@ namespace PL
             }
         }
         public string SelectedKind { get; set; }
+        public string SelectedGroup { get; set; }
         public string selectedValue { get; set; }
 
 
@@ -100,6 +115,8 @@ namespace PL
             UpdateSortOptions();
             ShowKindOfSortCommand = new(ShowKindOfSort, null);
             FilterCommand = new(FilterEnum, null);
+            GroupCommand = new(Grouping, null);
+            CancelFilterCommand = new(CancelFilter, null);
         }
 
         public void FilterNow()
@@ -154,6 +171,17 @@ namespace PL
             StringSortVisibility.visibility = Visibility.Collapsed;
             VisblePackegeMode.visibility = Visibility.Collapsed;
             ShowValueFilter(typeof(T).GetProperty(SelectedKind).PropertyType);
+        }
+
+        public void Grouping(object param)
+        {
+            SelectedGroup = param.ToString();
+            MessageBox.Show("group" + SelectedGroup);
+        }
+
+        public void CancelFilter(object param)
+        {
+            Filters.RemoveAll((SortEntities o)=>true);
         }
 
         public void ShowValueFilter(Type propertyType)
