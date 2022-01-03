@@ -14,6 +14,11 @@ namespace PL
     {
         public StationToListVM()
         {
+            UpdateInitList();
+            DelegateVM.Station += UpdateInitList;
+        }
+        void UpdateInitList()
+        {
             list = new ListCollectionView(new StationHandler().GetStations().ToList());
         }
     }

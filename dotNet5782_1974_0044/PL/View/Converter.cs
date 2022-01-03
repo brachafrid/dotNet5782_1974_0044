@@ -334,8 +334,8 @@ namespace PL
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             if ((int)value > 0)
-                return Visibility.Visible;
-            return Visibility.Collapsed;
+                return true;
+            return true;
         }
 
     /// <summary>

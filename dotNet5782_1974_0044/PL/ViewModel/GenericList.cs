@@ -115,8 +115,8 @@ namespace PL
             UpdateSortOptions();
             ShowKindOfSortCommand = new(ShowKindOfSort, null);
             FilterCommand = new(FilterEnum, null);
-            GroupCommand = new(Grouping, null);
             CancelFilterCommand = new(CancelFilter, null);
+            GroupCommand = new(Grouping, null);
         }
 
         public void FilterNow()
@@ -128,6 +128,16 @@ namespace PL
         void UpdateSortOptions()
         {
             SortOption = new ObservableCollection<string>(typeof(T).GetProperties().Where(prop => !prop.Name.Contains("Id") && (prop.PropertyType.IsValueType || prop.PropertyType == typeof(string))).Select(prop => prop.Name).ToList());
+        }
+        public void Grouping(object param)
+        {
+            SelectedGroup = param.ToString();
+            for (int i = 0; i < list.GroupDescriptions.Count; i++)
+            {
+                list.GroupDescriptions.RemoveAt(i);
+            }
+            list.GroupDescriptions.Add(new PropertyGroupDescription(SelectedGroup));
+            
         }
         public bool InternalFilter(object obj)
         {
@@ -173,15 +183,19 @@ namespace PL
             ShowValueFilter(typeof(T).GetProperty(SelectedKind).PropertyType);
         }
 
-        public void Grouping(object param)
-        {
-            SelectedGroup = param.ToString();
-            MessageBox.Show("group" + SelectedGroup);
-        }
+
 
         public void CancelFilter(object param)
         {
             Filters.RemoveAll((SortEntities o)=>true);
+            SelectedKind = string.Empty;
+            VisbleDouble.visibility = Visibility.Collapsed;
+            VisibilityDroneState.visibility = Visibility.Collapsed;
+            VisibilityPriorities.visibility = Visibility.Collapsed;
+            VisibilityWeightCategories.visibility = Visibility.Collapsed;
+            StringSortVisibility.visibility = Visibility.Collapsed;
+            VisblePackegeMode.visibility = Visibility.Collapsed;
+            FilterNow();
         }
 
         public void ShowValueFilter(Type propertyType)

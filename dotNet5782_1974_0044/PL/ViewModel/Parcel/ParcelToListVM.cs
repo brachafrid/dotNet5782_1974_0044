@@ -14,6 +14,11 @@ namespace PL
     {
         public ParcelToListVM()
         {
+            UpdateInitList();
+            DelegateVM.Parcel += UpdateInitList;
+        }
+        void UpdateInitList()
+        {
             list = new ListCollectionView(new ParcelHandler().GetParcels().ToList());
         }
     }
