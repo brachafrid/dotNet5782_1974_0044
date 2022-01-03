@@ -16,14 +16,14 @@
         <DockPanel>
             <StackPanel>
                 <TextBlock Text="Welcome " Height="30"/>
-                <TextBlock Text="{Binding customer.Name}"/>
+                <TextBlock Text="{Binding customer.Name}" Height="30"/>
                 <Button Content="display my parcels" Command="{Binding DisplayParcelsCommand}" />
                 <Button Content="send a parcel" Command="{Binding sendParcel}"/>
                 <Button Content="collection a parcel" Command="{Binding collectionParcel}"/>
                 <Button Content="getting a parcel" Command="{Binding gettingParcel}" Height="33"/>
             </StackPanel>
             <StackPanel Visibility="{Binding VisibilityCustomer.visibility}">
-                <TextBlock Text="My Parcels: " Height="30"/>
+                    <TextBlock Text="My Parcels: " Height="30"/>
                 <ListView x:Name="listParcelsFrom" ItemsSource="{Binding Path=customer.FromCustomer}"/>
                 <ListView x:Name="listParcelsTo" ItemsSource="{Binding Path=customer.ToCustomer}"/>
             </StackPanel>
