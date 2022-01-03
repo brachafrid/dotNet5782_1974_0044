@@ -32,8 +32,10 @@ namespace PL
             {
                 new DroneHandler().AddDrone(drone);
                 MessageBox.Show("success");
-                DelegateVM.Drone?.Invoke();
+                DelegateVM.Drone?.Invoke();             
+                Tabs.TabItems.RemoveAt(Tabs.TabItems.IndexOf(Tabs.TabItems.FirstOrDefault(tab => tab.Text == "Drone")));
                 DelegateVM.Station?.Invoke();
+
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {

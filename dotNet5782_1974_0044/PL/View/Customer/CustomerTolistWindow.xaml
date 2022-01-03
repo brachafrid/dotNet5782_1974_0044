@@ -16,6 +16,7 @@
 
     <StackPanel>
         <StackPanel>
+            <Button Content="Add Customer" Command="{Binding AddCustomerCommand}"/>
             <ListView ItemsSource="{Binding Path=list}">
                 <ListView.GroupStyle>
                     <GroupStyle ContainerStyle="{StaticResource ResourceKey=Group}"/>
