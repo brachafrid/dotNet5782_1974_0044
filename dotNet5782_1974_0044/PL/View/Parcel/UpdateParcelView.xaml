@@ -13,21 +13,8 @@
         </ResourceDictionary>-->
     </UserControl.Resources>
     <Grid>
-        <StackPanel x:Name="parcel" >
-            <TextBlock Text="Id: "/>
-            <TextBlock x:Name="Id" Text ="{Binding parcel.Id, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Piority: "/>
-            <TextBlock x:Name="Piority" Text ="{Binding parcel.Piority, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Weight: "/>
-            <TextBlock  Text ="{Binding parcel.Weight, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Customer Sender: "/>
-            <TextBlock  Text ="{Binding parcel.CustomerSender.Name, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Customer Receives: "/>
-            <TextBlock  Text ="{Binding parcel.CustomerReceives.Name, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <Button Content="close parcel"/>
         
             <Button Content="delete parcel" Command="{Binding DeleteParcelCommand}"/>
-
-        </StackPanel>
+        <ContentPresenter Content="{Binding parcel}"/>
     </Grid>
 </UserControl>

@@ -58,7 +58,6 @@ namespace PL
             customerPhone = customer.Phone;
             UpdateCustomerCommand = new(UpdateCustomer, param => customer.Error == null);
             DeleteCustomerCommand = new(DeleteCustomer, param => customer.Error == null);
-            //TryCommand = new(TryCommandFunc, param => customer.Error == null);
             DelegateVM.Customer += init;
         }
         public void init()

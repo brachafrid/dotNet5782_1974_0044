@@ -30,7 +30,7 @@ namespace PL
             if (param != null)
                 Tabs.AddTab(new()
                 {
-                    TabContent = "UpdateCustomerView",
+                    TabContent = "UpdateParcelView",
                     Text = "parcel " + (param as ParcelToList).Id,
                     Id = (param as ParcelToList).Id
 
