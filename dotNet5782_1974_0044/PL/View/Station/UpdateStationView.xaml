@@ -16,17 +16,7 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel x:Name="station" >
-            <TextBlock Text="Id: "/>
-            <TextBlock x:Name="Id" Text ="{Binding station.Id, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Name: "/>
-            <TextBox x:Name="StationName" Text ="{Binding station.Name, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Empty charge slots: "/>
-            <TextBox  Text ="{Binding station.EmptyChargeSlots, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Location: "/>
-            <TextBlock Text="Latitude: "/>
-            <TextBlock  Text ="{Binding station.Location.Latitude, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Longitude: "/>
-            <TextBlock  Text ="{Binding station.Location.Longitude, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
+            <ContentPresenter Content="{Binding station}"  />
             <Button Content="close station"/>
             <Button Content="update station" Command="{Binding UpdateStationCommand}">
             <Button.Visibility>
