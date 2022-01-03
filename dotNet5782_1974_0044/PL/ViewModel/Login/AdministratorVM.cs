@@ -11,6 +11,7 @@ namespace PL
         public  RelayCommand AddStationToListWindowCommand { get; set; }
         public  RelayCommand AddCustomerToListWindowCommand { get; set; }
 
+        public static IntDependency SelectedTab { get; set; } = new();
 
         public AdministratorVM()
         {
@@ -18,6 +19,7 @@ namespace PL
             AddParcelToListWindowCommand = new(AddParcelToList, null);
             AddStationToListWindowCommand = new(AddStationToList, null);
             AddCustomerToListWindowCommand = new(AddCustomeroList, null);
+            Tabs.changeSelectedTab += changeIndex;
         }
 
         public  void AddDroneToList(object param)
@@ -28,6 +30,11 @@ namespace PL
                 TabContent = "DroneToListWindow"
             });
             
+        }
+
+        public void changeIndex(int index)
+        {
+            SelectedTab.Instance = index;
         }
         public  void AddParcelToList(object param)
         {
