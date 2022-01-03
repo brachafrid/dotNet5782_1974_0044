@@ -9,7 +9,7 @@
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
         <ResourceDictionary>
-            <local:TabItemContentConverter x:Key="TabItemContentConverter" />
+            <local:TabItemContentConverter x:Key="TabItemContentConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>

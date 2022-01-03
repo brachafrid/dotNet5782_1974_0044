@@ -27,9 +27,21 @@ namespace PL
         //    DependencyProperty.Register("listParcels", typeof(List<ParcelAtCustomer>), typeof(CustomerWindowVM), new PropertyMetadata(new List<ParcelAtCustomer>()));
 
 
+        public Customer customer
+        {
+            get { return (Customer)GetValue(customerProperty); }
+            set { SetValue(customerProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for customer.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty customerProperty =
+            DependencyProperty.Register("customer", typeof(Customer), typeof(CustomerWindowVM), new PropertyMetadata(new Customer()));
+
+
+
         public Visble VisibilityCustomer { get; set; } = new();
 
-        public Customer customer = new Customer();
+        //public Customer customer = new Customer();
         public RelayCommand DisplayParcelsCommand { get; set; }
         public RelayCommand sendParcel { get; set; }
         public RelayCommand collectionParcel { get; set; }
@@ -43,7 +55,7 @@ namespace PL
         public CustomerWindowVM()
         {
             Init();
-            customer = new CustomerHandler().GetCustomer(2);
+            //customer = new CustomerHandler().GetCustomer(2);
             DisplayParcelsCommand = new(DisplayParcels, null);
             //ToCustomerCommand = new(ToCustomer, null);
             //FromCustomerCommand = new(FromCustomer, null);
@@ -67,9 +79,10 @@ namespace PL
         {
             customer = new CustomerHandler().GetCustomer(2);
 
-            MessageBox.Show($"{customer.Name}");
-            MessageBox.Show($"{customer.FromCustomer[0].Customer}");
             VisibilityCustomer.visibility = Visibility.Visible;
+            MessageBox.Show($"{customer.Name}");
+            //MessageBox.Show($"{customer.FromCustomer[0].Customer}");
+      
             //DelegateVM.Customer();
         }
         //public void ToCustomer(object param)

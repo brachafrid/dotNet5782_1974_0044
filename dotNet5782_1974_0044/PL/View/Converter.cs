@@ -252,30 +252,7 @@ namespace PL
         }
     }
 
-    public class TabItemContentCustomerConverter : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            return values[0] switch
-            {
-                "DroneToListWindow" => new DroneToListWindow(),
-                "ParcelToListWindow" => new ParcelToListWindow(),
-                "StationToListWindow" => new StationToListWindow(),
-                "CustomerTolistWindow" => new CustomerTolistWindow(),
-                "AddDroneView" => new AddDroneView(),
-                "AddCustomerView" => new AddCustomerView(),
-                "AddStationView" => new AddStationView(),
-                "AddParcelView" => new AddParcelView(),
-                "UpdateDroneView" => new UpdateDroneView(values[1]),
-                "UpdateCustomerView" => new UpdateCustomerView(values[1]),
-            };
-        }
-
-        public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
+   
     public class ConverterUpdateCustomer : IMultiValueConverter
     {
         /// <summary>
