@@ -15,9 +15,6 @@
     <DataTemplate DataType="{x:Type po:DroneToList}" >
         <Expander Header="{Binding Path=Id}">
             <StackPanel>
-                <StackPanel.InputBindings>
-                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DoubleClick}" CommandParameter="{Binding Id}"/>
-                </StackPanel.InputBindings>
                 <TextBlock Text="{Binding Path=DroneModel, StringFormat= model :{0:d}}" />
                 <TextBlock Text="{Binding Path=Weight, StringFormat= maxWeigth :{0}}"/>
                 <Expander Header="CurrentLocation">
@@ -96,9 +93,6 @@
     <DataTemplate DataType="{x:Type po:CustomerToList}" >
         <Expander Header="{Binding Path=Id}">
             <StackPanel>
-                <StackPanel.InputBindings>
-                    <MouseBinding Gesture="LeftDoubleClick" Command="{Binding DoubleClick}" CommandParameter="{Binding Id}"/>
-                </StackPanel.InputBindings>
                 <TextBlock Text="{Binding Path=Name, StringFormat=Name :{0}}"/>
                 <TextBlock Text="{Binding Path=Phone, StringFormat=Phone :{0}}"/>
                 <TextBlock Text="{Binding Path=NumParcelSentDelivered, StringFormat=NumParcelSentDelivered :{0:d}}"/>
@@ -180,7 +174,7 @@
         </Expander>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type po:ParcelAtCustomer}">
+    <DataTemplate DataType="{x:Type po:ParcelToList}">
         <Expander Header="{Binding Path=Id, StringFormat = Id:{0:d}}">
             <StackPanel>
                 <StackPanel.InputBindings>

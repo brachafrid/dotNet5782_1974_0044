@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace PL
 {
-    public class ParcelToListVM : GenericList<ParcelAtCustomer>
+    public class ParcelToListVM : GenericList<ParcelToList>
     {
         public ParcelToListVM()
         {

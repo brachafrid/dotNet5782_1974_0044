@@ -11,5 +11,6 @@ namespace PL.PO
     {
         public string Text { get; set; }
         public string TabContent { get; set; }
+        public int? Id { get; set; }
     }
 }
