@@ -17,7 +17,7 @@
 
     <StackPanel>
         <StackPanel>
-            <Button Content="Add Drone" Command="{Binding AddDroneCommand}"/>
+            <Button Content="Add Drone" Command="{Binding AddEntitiyCommand}"/>
             <ListView ItemsSource="{Binding Path=list}">
                 <ListView.GroupStyle>
                     <GroupStyle ContainerStyle="{StaticResource ResourceKey=Group}"/>

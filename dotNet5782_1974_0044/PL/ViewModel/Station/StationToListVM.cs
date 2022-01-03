@@ -12,21 +12,19 @@ namespace PL
 {
     public class StationToListVM : GenericList<StationToList>
     {
-        public RelayCommand AddStationCommand { get; set; }
         public StationToListVM()
         {
             UpdateInitList();
             DelegateVM.Station += UpdateInitList;
             DoubleClick = new(OpenDetails, null);
-            AddStationCommand = new(AddStation, null);
         }
         void UpdateInitList()
         {
             list = new ListCollectionView(PLService.GetStations().ToList());
         }
-        public void AddStation(object param)
+        public override void AddEntity(object param)
         {
-            Tabs.TabItems.Add(new()
+            Tabs.AddTab(new()
             {
                 TabContent = "AddStationView",
                 Text = "Station"
@@ -43,5 +41,6 @@ namespace PL
 
                 });
         }
+
     }
 }

@@ -13,7 +13,7 @@ using System.ComponentModel;
 
 namespace PL
 {
-    public class GenericList<T> : DependencyObject, INotifyPropertyChanged
+    public abstract class GenericList<T> : DependencyObject, INotifyPropertyChanged
     {
         public List<string> KindOfSort { get; set; } = new() { "Range", "Single" };
         public Array WeightCategories { get; set; } = Enum.GetValues(typeof(WeightCategories));
@@ -26,6 +26,7 @@ namespace PL
         public RelayCommand FilterCommand { get; set; }
         public RelayCommand CancelFilterCommand { get; set; }
         public RelayCommand GroupCommand { get; set; }
+        public RelayCommand AddEntitiyCommand { get; set; }
         public ListCollectionView list { set; get; }
         public Visble VisibilityKindOfSort { get; set; } = new();
         public Visble StringSortVisibility { get; set; } = new();
@@ -118,6 +119,7 @@ namespace PL
             FilterCommand = new(FilterEnum, null);
             CancelFilterCommand = new(CancelFilter, null);
             GroupCommand = new(Grouping, null);
+            AddEntitiyCommand = new(AddEntity, null);
         }
 
         public void FilterNow()
@@ -125,6 +127,8 @@ namespace PL
             list.Filter = InternalFilter;
             list.IsLiveFiltering = true;
         }
+
+        public abstract void AddEntity(object param);
 
         void UpdateSortOptions()
         {

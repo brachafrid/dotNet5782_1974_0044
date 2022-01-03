@@ -106,7 +106,7 @@ namespace PL
             DelegateVM.Customer();
             DelegateVM.Parcel();
         }
-
+        public override void AddEntity(object param) { }
         public void CollectionParcel(object param)
         { 
         

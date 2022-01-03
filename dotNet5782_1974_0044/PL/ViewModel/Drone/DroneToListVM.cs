@@ -13,13 +13,12 @@ namespace PL
 {
     public class DroneToListVM : GenericList<DroneToList>
     {
-        public RelayCommand AddDroneCommand { get; set; }
+
         public DroneToListVM()
         {
             UpdateInitList();
             DoubleClick = new(OpenDetails, null);
             DelegateVM.Drone += UpdateInitList;
-            AddDroneCommand = new(AddDrone, null);
         }
         public void OpenDetails(object param)
         {
@@ -37,7 +36,7 @@ namespace PL
         {
             list = new ListCollectionView(PLService.GetDrones().ToList());
         }
-        public void AddDrone(object param)
+        public override void AddEntity(object param)
         {
             Tabs.AddTab(new()
             {
