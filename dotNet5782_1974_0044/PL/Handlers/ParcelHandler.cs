@@ -92,5 +92,15 @@ namespace PL
                 CustomerSender = CustomerInParcelHandler.ConvertBackCustomerInParcel(new() { Id = parcel.CustomerSender })
             };
         }
+        public PO.ParcelAtCustomer ConvertParcelAddToParcelAtCustomer(PO.ParcelAdd parcelAdd)
+        {
+            return new PO.ParcelAtCustomer()
+            {
+                //Id = parcelAdd.
+                Weight = (PO.WeightCategories)parcelAdd.Weight,
+                Piority = (PO.Priorities)parcelAdd.Piority,
+                PackageMode = PO.PackageModes.ASSOCIATED,
+            };
+        }
     }
 }
