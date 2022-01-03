@@ -1,5 +1,6 @@
 ﻿using PL.PO;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -32,7 +33,7 @@ namespace PL
         public RelayCommand sendParcel { get; set; }
         public RelayCommand collectionParcel { get; set; }
         public RelayCommand gettingParcel { get; set; }
-        
+
         public CustomerWindowVM()
         {
             Init();
@@ -42,8 +43,13 @@ namespace PL
             collectionParcel = new(CollectionParcel, null);
             gettingParcel = new(GettingParcel, null);
 
-            list = new ListCollectionView(new ParcelHandler().GetParcels().ToList());
-            list = customer.FromCustomer;
+            //list = new ListCollectionView(new ParcelHandler().GetParcels().ToList());
+            List<ParcelAtCustomer> fromCustomer = customer.FromCustomer;
+            List<ParcelAtCustomer> toCustomer = customer.ToCustomer;
+            list = new ListCollectionView(toCustomer.ToList());
+
+            //list = new ListCollectionView(fromCustomer);
+            //list = new ListCollectionView(toCustomer);
             DelegateVM.Customer += Init;
             DelegateVM.Parcel += Init;
         }
