@@ -66,7 +66,7 @@
             <Slider x:Name="min" Minimum="0" Maximum="{Binding Value, ElementName=max}" Value="{Binding Path=Parent.DataContext.DoubleFirstChange,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}" Style="{StaticResource MaterialDesignDiscreteSlider}" TickPlacement="BottomRight"/>
             <Label Content="maximum" Visibility="{Binding Path=Parent.DataContext.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}"/>
             <Slider x:Name="max" Minimum="{Binding Value,ElementName=min}" Maximum="100" Value="{Binding Path=Parent.DataContext.DoubleLastChange,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}" Style="{StaticResource MaterialDesignDiscreteSlider}" TickPlacement="BottomRight"/>
-            <Button Content="Cancel Filters" Visibility="{Binding Path=Filters ,Converter={StaticResource ConverterCancelFilterVisibility}}" Command="{Binding CancelFilterCommand}"/>
+            <Button Content="Cancel Filters" Visibility="{Binding Path=Filters.Count ,Converter={StaticResource ConverterCancelFilterVisibility}}" Command="{Binding CancelFilterCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>
