@@ -10,8 +10,11 @@ namespace PL
 {
    public class AddParcelVM
     {
-       public ParcelAdd parcel { set; get; }
-       public RelayCommand AddParcelCommand { get; set; }
+        public ParcelAdd parcel { set; get; }
+        public RelayCommand AddParcelCommand { get; set; }
+        public RelayCommand VisibilityParcel { get; set; }
+        public Visble VisibleParcel { get; set; }
+
         public List<int> customers { get; set; }
         public Array piorities { get; set; }
         public Array Weight { get; set; }
@@ -20,9 +23,19 @@ namespace PL
             parcel = new();
             customers = new CustomerHandler().GetCustomers().Select(customer => customer.Id).ToList();
             AddParcelCommand = new(Add, param => parcel.Error == null);
+            VisibilityParcel = new(visibilityParcel, param => parcel.Error == null);
             piorities = Enum.GetValues(typeof(Priorities));
             Weight = Enum.GetValues(typeof(WeightCategories));
 
+        }
+        public AddParcelVM(int id)
+        {
+            parcel = new();
+            parcel.CustomerSender = id;
+        }
+        public void visibilityParcel(object param)
+        {
+            VisibleParcel.visibility = Visibility.Visible;
         }
         public void Add(object param)
         {
