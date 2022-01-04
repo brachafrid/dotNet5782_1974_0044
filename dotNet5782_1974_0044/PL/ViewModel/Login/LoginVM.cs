@@ -11,6 +11,7 @@ namespace PL
 {
     public class LoginVM : DependencyObject
     {
+
         public LoginVM()
         {
             ShowAdministratorLoginCommand = new RelayCommand(ShowAdministratorLogin, null);
@@ -62,16 +63,15 @@ namespace PL
         }
         public void CustomerLogin(object param)
         {
-           // try
+           try
             {
                 Customer customer = PLService.GetCustomer((int)customerLogin.Id);
                 LoginScreen.Id = customer.Id;
                 LoginScreen.MyScreen = "CustomerWindow";
             }
-           // catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException ex)
             {
                 MessageBox.Show("Incorrect Id");
-                //MessageBox.Show(ex.Message);
                 customerLogin.Id = null;
             }
         }

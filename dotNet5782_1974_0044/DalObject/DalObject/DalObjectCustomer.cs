@@ -45,7 +45,7 @@ namespace Dal
         {
             Customer customer=DataSorce.Customers.FirstOrDefault(item => item.Id == id );
             if (customer.Equals(default(Customer)) || customer.IsDeleted == true)
-                throw new KeyNotFoundException("There is no suitable customer in data");
+            { throw new KeyNotFoundException("There is no suitable customer in data"); }
             return customer;
         }
         public void RemoveCustomer(Customer customer)
