@@ -19,13 +19,15 @@
         <DockPanel>
             <ToolBarTray Orientation="Vertical">
                 <ToolBar  ClipToBounds="False" Style="{DynamicResource MaterialDesignToolBar}">
-                    <Button ToolTip="Drones" Content="{materialDesign:PackIcon Kind=Drone}"  Command="{Binding DisplayParcelsToCommand}" />
+                    <Button ToolTip="Customer" Content="{materialDesign:PackIcon Kind=Drone}"  Command="{Binding DisplayCustomerCommand}" />
                     <Separator />
-                    <Button  ToolTip="Parcels" Content="{materialDesign:PackIcon Kind=PackageVariant}" Command="{Binding DisplayParcelsFromCommand}"/>
+                    <Button ToolTip="Parcels To Customer" Content="{materialDesign:PackIcon Kind=Drone}"  Command="{Binding DisplayParcelsToCommand}" />
                     <Separator />
-                    <Button ToolTip="Customers"  Content="{materialDesign:PackIcon Kind=AccountMultiple}" Command="{Binding AddParcelCommand}"/>
+                    <Button  ToolTip="Parcels From Customers" Content="{materialDesign:PackIcon Kind=PackageVariant}" Command="{Binding DisplayParcelsFromCommand}"/>
                     <Separator />
-                    <Button ToolTip="Stations" Content="{materialDesign:PackIcon Kind=GasStation}"  Command="{Binding AddParcelCommand}"/>
+                    <Button ToolTip="Add Parcel" Content="{materialDesign:PackIcon Kind=AccountMultiple}" Command="{Binding AddParcelCommand}"/>
+                    <Separator />
+                    <Button ToolTip="Update Parcel" Content="{materialDesign:PackIcon Kind=GasStation}"  Command="{Binding AddParcelCommand}"/>
                 </ToolBar>
             </ToolBarTray>
      

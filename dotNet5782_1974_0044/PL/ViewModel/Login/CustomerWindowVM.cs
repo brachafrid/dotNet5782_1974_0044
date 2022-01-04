@@ -50,6 +50,7 @@ namespace PL
         public RelayCommand AddParcelCommand { get; set; }
         public RelayCommand DisplayParcelsFromCommand { get; set; }
         public RelayCommand DisplayParcelsToCommand { get; set; }
+        public RelayCommand DisplayCustomerCommand { get; set; }
         //public RelayCommand ToCustomerCommand { get; set; }
         //public RelayCommand FromCustomerCommand { get; set; }
 
@@ -62,16 +63,16 @@ namespace PL
             Tabs.changeSelectedTab += changeIndex;
 
             //customer = PLService.GetCustomer(2);
-            DisplayParcelsCommand = new(DisplayParcels, null);
+            //DisplayParcelsCommand = new(DisplayParcels, null);
             //ToCustomerCommand = new(ToCustomer, null);
             //FromCustomerCommand = new(FromCustomer, null);
-            sendParcel = new(SendParcel, null);
-            collectionParcel = new(CollectionParcel, null);
-            gettingParcel = new(GettingParcel, null);
+            //sendParcel = new(SendParcel, null);
+            //collectionParcel = new(CollectionParcel, null);
+            //gettingParcel = new(GettingParcel, null);
             AddParcelCommand = new(AddParcel, null);
             DisplayParcelsFromCommand = new(DisplayParcelsFrom, null);
             DisplayParcelsToCommand = new(DisplayParcelsTo, null);
-            //list = new ListCollectionView(null);
+            DisplayCustomerCommand = new(DisplayCustomer, null);
             list = new ListCollectionView(PLService.GetParcels().ToList());
             List<ParcelAtCustomer> fromCustomer = customer.FromCustomer;
             List<ParcelAtCustomer> toCustomer = customer.ToCustomer;
@@ -88,6 +89,15 @@ namespace PL
         public void changeIndex(int index)
         {
             SelectedTab.Instance = index;
+        }
+        public void DisplayCustomer(object param)
+        {
+            Tabs.AddTab(new TabItemFormat()
+            {
+                Id = customer.Id,
+                Text = "Customer",
+                TabContent = "Customer"
+            });
         }
         public void AddParcel(object param)
         {
@@ -114,16 +124,24 @@ namespace PL
                 TabContent = "ParcelsTo"
             });
         }
-        public void DisplayParcels(object param)
-        {
-            customer = PLService.GetCustomer(2);
-
-            VisibilityCustomer.visibility = Visibility.Visible;
-            MessageBox.Show($"{customer.Name}");
-            //MessageBox.Show($"{customer.FromCustomer[0].Customer}");
       
-            //DelegateVM.Customer();
+
+        public override void AddEntity(object param)
+        {
+            throw new NotImplementedException();
         }
+
+
+        //public void DisplayParcels(object param)
+        //{
+        //    customer = PLService.GetCustomer(2);
+
+        //    VisibilityCustomer.visibility = Visibility.Visible;
+        //    MessageBox.Show($"{customer.Name}");
+        //    //MessageBox.Show($"{customer.FromCustomer[0].Customer}");
+
+        //    //DelegateVM.Customer();
+        //}
         //public void ToCustomer(object param)
         //{
         //    List<ParcelAtCustomer> toCustomer = customer.ToCustomer;
@@ -136,21 +154,21 @@ namespace PL
         //    list = new ListCollectionView(fromCustomer.ToList());
         //    VisibilityCustomer.visibility = Visibility.Visible;
         //}
-        public void SendParcel(object param)
-        {
-           new  AddParcelVM(customer.Id);
-            DelegateVM.Customer();
-            DelegateVM.Parcel();
-        }
-        public override void AddEntity(object param) { }
-        public void CollectionParcel(object param)
-        { 
-        
-        }
+        //public void SendParcel(object param)
+        //{
+        //   new  AddParcelVM(customer.Id);
+        //    DelegateVM.Customer();
+        //    DelegateVM.Parcel();
+        //}
+        //public override void AddEntity(object param) { }
+        //public void CollectionParcel(object param)
+        //{ 
 
-        public void GettingParcel(object param)
-        {
+        //}
 
-        }
+        //public void GettingParcel(object param)
+        //{
+
+        //}
     }
 }

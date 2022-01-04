@@ -242,6 +242,8 @@ namespace PL
         public static Parcel GetParcel(int id) => ConvertParcel(ibal.GetParcel(id));
         //public IEnumerable<ParcelAtCustomer> GetParcels() => ibal.GetParcels().Select(parcel => ConvertParcelParcelAtCustomer(parcel));
         public static IEnumerable<ParcelToList> GetParcels() => ibal.GetParcels().Select(parcel => ConvertParcelToList(parcel));
+        public static IEnumerable<ParcelToList> GetParcelsFrom(int Id) => ibal.GetParcels().Select(parcel => ConvertParcelToList(parcel)).Where(p => p.CustomerSender.Id == (int)Id);
+        public static IEnumerable<ParcelToList> GetParcelsTo(int Id) => ibal.GetParcels().Select(parcel => ConvertParcelToList(parcel)).Where(p => p.CustomerReceives.Id == (int)Id);
         //public IEnumerable<ParcelAtCustomer> GetParcelsNotAssignedToDrone=>ibal.GetParcelsNotAssignedToDrone((int num)=> num == 0).Select(parcel => ConvertParcelParcelAtCustomer(parcel));
         public static IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone => ibal.GetParcelsNotAssignedToDrone((int num) => num == 0).Select(parcel => ConvertParcelToList(parcel));
         public static BO.Parcel ConvertBackParcelAdd(ParcelAdd parcel)

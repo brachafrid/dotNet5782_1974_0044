@@ -244,6 +244,7 @@ namespace PL
                     "UpdateParcelView"=>new UpdateParcelView(values[1]),
                     "ParcelsFrom" => new ParcelToListWindow(),
                     "ParcelsTo" => new ParcelToListWindow(),
+                    "Customer" => new UpdateCustomerView(values[1]),
                     //"AddParcelView" => new AddParcelView(values[1])
                 };
             }

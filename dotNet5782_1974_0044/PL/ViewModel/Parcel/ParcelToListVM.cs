@@ -18,10 +18,20 @@ namespace PL
             DelegateVM.Parcel += UpdateInitList;
             DoubleClick = new(OpenDetails, null);
         }
+        public ParcelToListVM(object Id)
+        {
+            UpdateInitListCustomer();
+            DelegateVM.Parcel += UpdateInitListCustomer;
+            DoubleClick = new(OpenDetails, null);
+        }
         void UpdateInitList()
         {
 
             list = new ListCollectionView(PLService.GetParcels().ToList());
+        }
+        void UpdateInitListCustomer()
+        {
+            //list = new ListCollectionView(PLService.GetParcels(Id: CustomerWindowVM.customer.Id).ToList());
         }
         public void OpenDetails(object param)
         {
