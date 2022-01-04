@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using PL.PO;
 
 namespace PL
@@ -44,7 +45,7 @@ namespace PL
                 PLService.AddParcel(parcel);
                 DelegateVM.Parcel?.Invoke();
                 DelegateVM.Customer?.Invoke();
-                Tabs.CloseTab("Parcel");
+                Tabs.CloseTab((param as TabItemFormat).Text);
             }
             catch(KeyNotFoundException)
             {

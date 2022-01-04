@@ -19,7 +19,8 @@
             <Button Style="{StaticResource MaterialDesignFlatButton}"
                     HorizontalAlignment="Center"
                     Content="ADD"
-                    Command="{Binding AddParcelCommand}" Margin="5"/>
+                    Command="{Binding AddParcelCommand}" Margin="5"
+                    CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
         </StackPanel>
     </Grid>
 </UserControl>

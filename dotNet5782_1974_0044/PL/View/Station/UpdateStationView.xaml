@@ -27,7 +27,7 @@
                     </MultiBinding>
                 </Button.Visibility>
             </Button>
-            <Button Content="delete station" Command="{Binding DeleteStationCommand}"/>
+            <Button Content="delete station" Command="{Binding DeleteStationCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
 
         </StackPanel>
     </Grid>

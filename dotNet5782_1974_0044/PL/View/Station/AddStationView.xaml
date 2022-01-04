@@ -17,7 +17,7 @@
         <TextBox Text="{Binding station.EmptyChargeSlots, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Empty charge slots" Margin="5"/>
         <TextBox Text="{Binding station.Location.Latitude, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Latitude" Margin="5"/>
         <TextBox Text="{Binding station.Location.Longitude, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Longitude" Margin="5"/>
-        <Button Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Center" Content="ADD" Command ="{Binding AddStationCommand}" />
+            <Button Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Center" Content="ADD" Command ="{Binding AddStationCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
         </StackPanel>
     </Grid>
 </UserControl>

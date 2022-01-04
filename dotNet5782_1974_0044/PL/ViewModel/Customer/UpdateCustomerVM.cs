@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace PL
 {
@@ -84,7 +85,8 @@ namespace PL
                  {
                     PLService.DeleteCustomer(customer.Id);
                     MessageBox.Show("The customer was successfully deleted");
-                 }
+                    Tabs.CloseTab((param as TabItemFormat).Text);
+                }
             }
            
             catch (BO.ThereAreAssociatedOrgansException ex)

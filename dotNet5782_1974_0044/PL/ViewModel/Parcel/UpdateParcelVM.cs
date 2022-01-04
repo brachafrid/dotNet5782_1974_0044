@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-
+using System.Windows.Controls;
 
 namespace PL
 {
@@ -45,6 +45,7 @@ namespace PL
             {
                 PLService.DeleteParcel(parcel.Id);
                 MessageBox.Show("The parcel was successfully deleted");
+                Tabs.CloseTab((param as TabItemFormat).Text);
             }
         }
         public void OpenCustomerDetails(object param)

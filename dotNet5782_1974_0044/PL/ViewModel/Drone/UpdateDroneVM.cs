@@ -7,6 +7,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace PL
 {
@@ -134,7 +135,8 @@ namespace PL
                {
                     PLService.DeleteDrone(drone.Id);
                    MessageBox.Show("The drone was successfully deleted");
-               }
+                    Tabs.CloseTab((param as TabItemFormat).Text);
+                }
             }
          
             catch (BO.ThereAreAssociatedOrgansException ex)

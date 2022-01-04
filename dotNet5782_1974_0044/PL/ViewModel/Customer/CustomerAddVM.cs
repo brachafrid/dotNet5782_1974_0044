@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using PL.PO;
 
 
@@ -24,7 +25,7 @@ namespace PL
             try
             {
                 PLService.AddCustomer(customer);
-                Tabs.CloseTab("customer");
+                Tabs.CloseTab((param as TabItemFormat).Text);
 
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
