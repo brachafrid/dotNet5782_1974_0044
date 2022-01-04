@@ -34,14 +34,14 @@ namespace BL
         /// <returns>A Bl customer to print</returns>
         public Customer GetCustomer(int id)
         {
-            try
-            {
+            //try
+            //{
                 return MapCustomer(dal.GetCustomer(id));
-            }
-            catch(KeyNotFoundException ex)
-            {
-                throw new KeyNotFoundException(ex.Message);   
-            }
+            //}
+            //catch(KeyNotFoundException ex)
+            //{
+            //    throw new KeyNotFoundException(ex.Message);   
+            //}
         }
         //-------------------------------------------------------Updating-----------------------------------------------------------------------------
         /// <summary>

@@ -41,7 +41,7 @@ namespace PL
             {
                 list = new ListCollectionView(PLService.GetCustomer(id).FromCustomer.ToList());
             }
-            else if()
+            //else if()
             DelegateVM.Customer?.Invoke();
             DelegateVM.Parcel?.Invoke();
 
