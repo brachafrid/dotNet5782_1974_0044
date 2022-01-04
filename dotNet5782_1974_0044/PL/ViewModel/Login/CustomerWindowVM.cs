@@ -15,6 +15,7 @@ namespace PL
     public partial class CustomerWindowVM : GenericList<ParcelAtCustomer>
     {
 
+        public static IntDependency SelectedTab { get; set; } = new();
 
         //public List<ParcelAtCustomer> listParcels
         //{
@@ -46,6 +47,10 @@ namespace PL
         public RelayCommand sendParcel { get; set; }
         public RelayCommand collectionParcel { get; set; }
         public RelayCommand gettingParcel { get; set; }
+        public RelayCommand AddParcelCommand { get; set; }
+        public RelayCommand DisplayParcelsFromCommand { get; set; }
+        public RelayCommand DisplayParcelsToCommand { get; set; }
+        public RelayCommand DisplayCustomerCommand { get; set; }
         //public RelayCommand ToCustomerCommand { get; set; }
         //public RelayCommand FromCustomerCommand { get; set; }
 
@@ -55,14 +60,19 @@ namespace PL
         public CustomerWindowVM()
         {
             Init();
+            Tabs.changeSelectedTab += changeIndex;
+
             //customer = PLService.GetCustomer(2);
-            DisplayParcelsCommand = new(DisplayParcels, null);
+            //DisplayParcelsCommand = new(DisplayParcels, null);
             //ToCustomerCommand = new(ToCustomer, null);
             //FromCustomerCommand = new(FromCustomer, null);
-            sendParcel = new(SendParcel, null);
-            collectionParcel = new(CollectionParcel, null);
-            gettingParcel = new(GettingParcel, null);
-            //list = new ListCollectionView(null);
+            //sendParcel = new(SendParcel, null);
+            //collectionParcel = new(CollectionParcel, null);
+            //gettingParcel = new(GettingParcel, null);
+            AddParcelCommand = new(AddParcel, null);
+            DisplayParcelsFromCommand = new(DisplayParcelsFrom, null);
+            DisplayParcelsToCommand = new(DisplayParcelsTo, null);
+            DisplayCustomerCommand = new(DisplayCustomer, null);
             list = new ListCollectionView(PLService.GetParcels().ToList());
             List<ParcelAtCustomer> fromCustomer = customer.FromCustomer;
             List<ParcelAtCustomer> toCustomer = customer.ToCustomer;
@@ -74,16 +84,63 @@ namespace PL
         {
             customer = PLService.GetCustomer(2);
         }
-        public void DisplayParcels(object param)
-        {
-            customer = PLService.GetCustomer(2);
 
-            VisibilityCustomer.visibility = Visibility.Visible;
-            MessageBox.Show($"{customer.Name}");
-            //MessageBox.Show($"{customer.FromCustomer[0].Customer}");
-      
-            //DelegateVM.Customer();
+        public void changeIndex(int index)
+        {
+            SelectedTab.Instance = index;
         }
+        public void DisplayCustomer(object param)
+        {
+            Tabs.AddTab(new TabItemFormat()
+            {
+                Id = customer.Id,
+                Text = "Customer",
+                TabContent = "Customer"
+            });
+        }
+        public void AddParcel(object param)
+        {
+            Tabs.AddTab(new TabItemFormat()
+            {
+                Text = "Add Parcel",
+                TabContent = "AddParcelView"
+            });
+
+        }
+        public void DisplayParcelsFrom(object param)
+        {
+            Tabs.AddTab(new TabItemFormat()
+            {
+                Text = "Parcels From Customer",
+                TabContent = "ParcelsFrom"
+            });
+        }
+        public void DisplayParcelsTo(object param)
+        {
+            Tabs.AddTab(new TabItemFormat()
+            {
+                Text = "Parcels To Customer",
+                TabContent = "ParcelsTo"
+            });
+        }
+      
+
+        public override void AddEntity(object param)
+        {
+            throw new NotImplementedException();
+        }
+
+
+        //public void DisplayParcels(object param)
+        //{
+        //    customer = PLService.GetCustomer(2);
+
+        //    VisibilityCustomer.visibility = Visibility.Visible;
+        //    MessageBox.Show($"{customer.Name}");
+        //    //MessageBox.Show($"{customer.FromCustomer[0].Customer}");
+
+        //    //DelegateVM.Customer();
+        //}
         //public void ToCustomer(object param)
         //{
         //    List<ParcelAtCustomer> toCustomer = customer.ToCustomer;
@@ -96,21 +153,21 @@ namespace PL
         //    list = new ListCollectionView(fromCustomer.ToList());
         //    VisibilityCustomer.visibility = Visibility.Visible;
         //}
-        public void SendParcel(object param)
-        {
-           new  AddParcelVM(customer.Id);
-            DelegateVM.Customer();
-            DelegateVM.Parcel();
-        }
-        public override void AddEntity(object param) { }
-        public void CollectionParcel(object param)
-        { 
-        
-        }
+        //public void SendParcel(object param)
+        //{
+        //   new  AddParcelVM(customer.Id);
+        //    DelegateVM.Customer();
+        //    DelegateVM.Parcel();
+        //}
+        //public override void AddEntity(object param) { }
+        //public void CollectionParcel(object param)
+        //{ 
 
-        public void GettingParcel(object param)
-        {
+        //}
 
-        }
+        //public void GettingParcel(object param)
+        //{
+
+        //}
     }
 }
