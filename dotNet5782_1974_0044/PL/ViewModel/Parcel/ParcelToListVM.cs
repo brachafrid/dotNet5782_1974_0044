@@ -12,14 +12,18 @@ namespace PL
 {
     public class ParcelToListVM : GenericList<ParcelToList>
     {
+        int id;
+        string state;
         public ParcelToListVM()
         {
             UpdateInitList();
             DelegateVM.Parcel += UpdateInitList;
             DoubleClick = new(OpenDetails, null);
         }
-        public ParcelToListVM(object Id)
+        public ParcelToListVM(object Id, object State)
         {
+            id = (int)Id;
+            state = (string)State;
             //object id = Id;
             // Customer customer = PLService.GetCustomer((int)Id);
             UpdateInitList();
@@ -33,7 +37,11 @@ namespace PL
 
         void UpdateInitList()
         {
-            list = new ListCollectionView(PLService.GetCustomer(7).FromCustomer.ToList());
+            if(state == "from")
+            {
+                list = new ListCollectionView(PLService.GetCustomer(id).FromCustomer.ToList());
+            }
+            else if()
             DelegateVM.Customer?.Invoke();
             DelegateVM.Parcel?.Invoke();
 

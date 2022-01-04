@@ -53,15 +53,15 @@ namespace PL
         public RelayCommand DisplayCustomerCommand { get; set; }
         //public RelayCommand ToCustomerCommand { get; set; }
         //public RelayCommand FromCustomerCommand { get; set; }
-
+        int id;
 
         public ParcelAdd parcel { set; get; }
 
-        public CustomerWindowVM(int id)
+        public CustomerWindowVM(int Id)
         {
             Init();
             Tabs.changeSelectedTab += changeIndex;
-
+            id = Id;
             //customer = PLService.GetCustomer(2);
             //DisplayParcelsCommand = new(DisplayParcels, null);
             //ToCustomerCommand = new(ToCustomer, null);
@@ -84,7 +84,7 @@ namespace PL
         }
         public void Init()
         {
-            customer = PLService.GetCustomer(7);
+            customer = PLService.GetCustomer(id);
         }
 
         public void changeIndex(int index)
