@@ -139,10 +139,7 @@ namespace PL
         public void Grouping(object param)
         {
             SelectedGroup = param.ToString();
-            for (int i = 0; i < list.GroupDescriptions.Count; i++)
-            {
-                list.GroupDescriptions.RemoveAt(i);
-            }
+            list.GroupDescriptions.Clear();
             list.GroupDescriptions.Add(new PropertyGroupDescription(SelectedGroup));
             
         }
