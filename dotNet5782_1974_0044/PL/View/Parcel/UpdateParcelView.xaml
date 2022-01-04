@@ -10,8 +10,10 @@
     <UserControl.Resources>
         <ResourceDictionary Source="../Dictionary.xaml" />
     </UserControl.Resources>
-    <StackPanel>
-        <ContentPresenter Content="{Binding parcel}"/>
-        <Button Content="delete parcel" Command="{Binding DeleteParcelCommand}"/>
-    </StackPanel>
+    <ScrollViewer>
+        <StackPanel>
+            <ContentPresenter Content="{Binding parcel}"/>
+            <Button Content="delete parcel" Command="{Binding DeleteParcelCommand}"/>
+        </StackPanel>
+    </ScrollViewer>
 </UserControl>

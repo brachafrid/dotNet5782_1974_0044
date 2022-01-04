@@ -13,7 +13,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <UserControl.DataContext>
-        <local:CustomerWindowVM/>
+        
     </UserControl.DataContext>
     <Grid>
         <DockPanel>

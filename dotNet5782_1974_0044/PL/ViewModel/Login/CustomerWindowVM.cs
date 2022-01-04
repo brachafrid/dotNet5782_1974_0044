@@ -57,7 +57,7 @@ namespace PL
 
         public ParcelAdd parcel { set; get; }
 
-        public CustomerWindowVM()
+        public CustomerWindowVM(int id)
         {
             Init();
             Tabs.changeSelectedTab += changeIndex;

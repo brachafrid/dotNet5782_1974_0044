@@ -212,7 +212,7 @@ namespace PL
             {
                 "LoginWindow" => new LoginWindow(),
                 "AdministratorWindow" => new AdministratorWindow(),
-                "CustomerWindow" => new CustomerWindow()
+                "CustomerWindow" => new CustomerWindow(PO.LoginScreen.Id)
             };
         }
 
