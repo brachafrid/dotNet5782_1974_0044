@@ -18,9 +18,9 @@ namespace Dal
         /// <param name="Priority"> The priority of send the parcel (regular - 0,fast - 1,emergency - 2)</param>
         public void AddParcel(int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority, int id = 0, int droneId = 0, DateTime? requested = default, DateTime? sceduled = default, DateTime? pickedUp = default, DateTime? delivered = default)
         {
-            if (!ExistsIDTaxCheck(GetCustomers(), SenderId))
+            if (!ExistsIDTaxCheckNotDelited(GetCustomers(), SenderId))
                 throw new KeyNotFoundException("Sender not exist");
-            if (!ExistsIDTaxCheck(GetCustomers(), TargetId))
+            if (!ExistsIDTaxCheckNotDelited(GetCustomers(), TargetId))
                 throw new KeyNotFoundException("Target not exist");
             Parcel newParcel = new();
             newParcel.Id = id == 0 ? ++DataSorce.Config.IdParcel : id;

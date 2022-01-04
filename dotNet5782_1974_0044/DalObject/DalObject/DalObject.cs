@@ -30,7 +30,13 @@ namespace Dal
             if (!lst.Any())
                 return false;
            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id);
-            
+            return !temp.Equals(default(T));
+        }
+        static bool ExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id)
+        {
+            if (!lst.Any())
+                return false;
+            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id&& !(bool)item.GetType().GetProperty("IsDeleted").GetValue(item));
             return !temp.Equals(default(T));
         }
         /// <summary>
