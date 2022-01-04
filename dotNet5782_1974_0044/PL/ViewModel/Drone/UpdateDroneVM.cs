@@ -42,17 +42,17 @@ namespace PL
         public UpdateDroneVM(int id)
         {
             this.id = id;
-            InitDrone();
+            InitThisDrone();
             droneModel = drone.Model;
             UpdateDroneCommand = new(UpdateModel, param => drone.Error == null);
             ChargingDroneCommand = new(sendToCharging, param => drone.Error == null);
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => drone.Error == null);
             DeleteDroneCommand = new(DeleteDrone, param => drone.Error == null);
-            DelegateVM.Drone += InitDrone;
+            DelegateVM.Drone += InitThisDrone;
             OpenParcelCommand = new(OpenParcelDetails, null);
             OpenCustomerCommand = new(OpenCustomerDetails, null);
         }
-        public void InitDrone()
+        public void InitThisDrone()
         {
             drone = PLService.GetDrone(id);
         }
@@ -137,7 +137,7 @@ namespace PL
                     PLService.DeleteDrone(drone.Id);
                     MessageBox.Show("The drone was successfully deleted");
                     Tabs.CloseTab((param as TabItemFormat).Text);
-                    DelegateVM.Drone -= InitDrone;
+                    DelegateVM.Drone -= InitThisDrone;
                     DelegateVM.Drone?.Invoke();
                 }
             }
