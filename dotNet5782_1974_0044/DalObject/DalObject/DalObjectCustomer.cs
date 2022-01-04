@@ -56,7 +56,9 @@ namespace Dal
         public void DeleteCustomer(int id)
         {
             Customer customer = DataSorce.Customers.FirstOrDefault(item => item.Id == id);
+            DataSorce.Customers.Remove(customer);
             customer.IsDeleted = true;
+            DataSorce.Customers.Add(customer);
         }
 
     }

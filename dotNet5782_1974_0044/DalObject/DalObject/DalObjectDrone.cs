@@ -64,7 +64,9 @@ namespace Dal
         public void DeleteDrone(int id)
         {
             Drone drone = DataSorce.Drones.FirstOrDefault(item => item.Id == id);
+            DataSorce.Drones.Remove(drone);
             drone.IsDeleted = true;
+            DataSorce.Drones.Add(drone);
         }
     }
 

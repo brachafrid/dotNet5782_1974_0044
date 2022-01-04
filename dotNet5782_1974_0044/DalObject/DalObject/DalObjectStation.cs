@@ -41,7 +41,7 @@ namespace  Dal
         {
             Station station = DataSorce.Stations.FirstOrDefault(item => item.Id == id);
             if (station.Equals(default(Station)) || station.IsDeleted == true)
-                throw new KeyNotFoundException("There is no suitable customer in data");
+                throw new KeyNotFoundException("There is no suitable station in data");
             return station;
         }
 
@@ -71,7 +71,9 @@ namespace  Dal
         public void DeleteStation(int id)
         {
             Station station = DataSorce.Stations.FirstOrDefault(item => item.Id == id);
+            DataSorce.Stations.Remove(station);
             station.IsDeleted = true;
+            DataSorce.Stations.Add(station);
         }
     }
 }

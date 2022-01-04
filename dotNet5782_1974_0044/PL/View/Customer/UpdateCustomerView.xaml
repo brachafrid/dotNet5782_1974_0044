@@ -29,7 +29,7 @@
                         </MultiBinding>
                     </Button.Visibility>
                 </Button>
-                <Button Content="delete customer" Command="{Binding DeleteCustomerCommand}"/>
+                <Button Content="delete customer" Command="{Binding DeleteCustomerCommand}"  CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>
