@@ -34,5 +34,6 @@ namespace DLApi
         public void DeleteDrone(int id);
         public void DeleteParcel(int id);
         public void DeleteStation(int id);
+        public string GetAdministorPasssword();
     }
 }

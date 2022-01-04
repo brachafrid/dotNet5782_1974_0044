@@ -194,5 +194,10 @@ namespace BL
             double electricity = Distance(location, new() { Latitude = station.Latitude, Longitude = station.Longitude }) * available;
             return electricity > FULLBATTRY ? MININITBATTARY : electricity;
         }
+
+        public string GetAdministorPasssword()
+        {
+          return  dal.GetAdministorPasssword();
+        }
     }
 }
