@@ -48,12 +48,14 @@ namespace PL
         }
         public void OpenDetails(object param)
         {
+            Type t = param.GetType();
+            int id = (param is ParcelToList) ? (param as ParcelToList).Id : (param as ParcelAtCustomer).Id;
             if (param != null)
                 Tabs.AddTab(new()
                 {
                     TabContent = "UpdateParcelView",
-                    Text = "parcel " + (param as ParcelToList).Id,
-                    Id = (param as ParcelToList).Id
+                    Text = "parcel " + id,
+                    Id = id
 
                 });
         }
