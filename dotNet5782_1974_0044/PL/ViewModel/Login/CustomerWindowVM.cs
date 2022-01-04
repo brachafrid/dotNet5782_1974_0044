@@ -59,9 +59,10 @@ namespace PL
 
         public CustomerWindowVM(int Id)
         {
+            id = Id;
             Init();
             Tabs.changeSelectedTab += changeIndex;
-            id = Id;
+           
             //customer = PLService.GetCustomer(2);
             //DisplayParcelsCommand = new(DisplayParcels, null);
             //ToCustomerCommand = new(ToCustomer, null);
