@@ -66,8 +66,7 @@ namespace PL
             list = new ListCollectionView(PLService.GetParcels().ToList());
             List<ParcelAtCustomer> fromCustomer = customer.FromCustomer;
             List<ParcelAtCustomer> toCustomer = customer.ToCustomer;
-            //list = new ListCollectionView(toCustomer.ToList());
-            list = new ListCollectionView(fromCustomer.ToList());
+            list = new ListCollectionView(fromCustomer);
             DelegateVM.Customer += Init;
             DelegateVM.Parcel += Init;
         }
