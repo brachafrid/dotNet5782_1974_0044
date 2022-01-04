@@ -51,7 +51,7 @@ namespace PL
             {
                 MessageBox.Show("Id has already exist");
                 customer.Id = null;
-                LoginScreen.MyScreen 
+                //LoginScreen.MyScreen; 
             }
         }
 

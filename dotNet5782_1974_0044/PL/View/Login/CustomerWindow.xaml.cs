@@ -23,7 +23,7 @@ namespace PL
         public CustomerWindow(int id)
         {
             InitializeComponent();
-            DataContext = CustomerWindowVM(id);
+            DataContext = new CustomerWindowVM(id);
         }
     }
 }
