@@ -12,9 +12,7 @@
             <local:TabItemContentConverter x:Key="TabItemContentConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
-    <UserControl.DataContext>
-        <local:CustomerWindowVM/>
-    </UserControl.DataContext>
+    
     <Grid>
         <DockPanel>
             <ToolBarTray Orientation="Vertical">
@@ -36,6 +34,7 @@
                 <DataTemplate>
                     <DockPanel>
                         <TextBlock Text="{Binding Path=Text}"/>
+                            <Button Content="x"  Style="{StaticResource MaterialDesignOutlinedButton}" Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabItem}}}"/>
                     </DockPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>

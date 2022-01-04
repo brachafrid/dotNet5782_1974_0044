@@ -11,6 +11,7 @@
         <local:AddStationVM/>
     </UserControl.DataContext>
     <Grid>
+        <ScrollViewer>
         <StackPanel>
         <TextBox Text="{Binding station.Id, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Id" Margin="5"/>
         <TextBox Text="{Binding station.Name, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Name" Margin="5"/>
@@ -19,5 +20,6 @@
         <TextBox Text="{Binding station.Location.Longitude, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Longitude" Margin="5"/>
             <Button Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Center" Content="ADD" Command ="{Binding AddStationCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
         </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

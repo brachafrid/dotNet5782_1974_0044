@@ -18,7 +18,7 @@
                     <Separator />
                     <Button  ToolTip="login" Content="{materialDesign:PackIcon Kind=AccountArrowLeft}"  Command="{Binding ShowCustomerLoginCommand}"/>
                     <Separator />
-                    <Button ToolTip="sign in" ToolBar.OverflowMode="AsNeeded" Content="{materialDesign:PackIcon Kind=AccountMultiplePlus}" />
+                    <Button ToolTip="sign in" ToolBar.OverflowMode="AsNeeded" Content="{materialDesign:PackIcon Kind=AccountMultiplePlus}" Command="{Binding ShowCustomerSigninCommand}"/>
                 </ToolBar>
             </ToolBarTray>
         </StackPanel>
@@ -34,6 +34,9 @@
                     HorizontalAlignment="Center"
                     Content="Login"
                     Command="{Binding CustomerLoginCommand}"/>
+        </StackPanel>
+        <StackPanel Visibility="{Binding VisibilityCustomerSignIn.visibility}">
+            <local:AddCustomerView />
         </StackPanel>
     </StackPanel>
 </UserControl>

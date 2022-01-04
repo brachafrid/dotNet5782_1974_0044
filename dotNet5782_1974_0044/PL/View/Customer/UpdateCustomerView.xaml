@@ -16,19 +16,21 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
-        <StackPanel x:Name="customer" >
-            <ContentPresenter Content="{Binding customer}"  />
-            <Button Content="update customer" Command="{Binding UpdateCustomerCommand}">
-                <Button.Visibility>
-                    <MultiBinding Converter="{StaticResource ConverterUpdateCustomer}">
-                        <Binding Path="customer.Name" />
-                        <Binding Path="customerName" />
-                        <Binding Path="customer.Phone" />
-                        <Binding Path="customerPhone" />
-                    </MultiBinding>
-                </Button.Visibility>
-            </Button>
-            <Button Content="delete customer" Command="{Binding DeleteCustomerCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
-        </StackPanel>
+        <ScrollViewer>
+            <StackPanel x:Name="customer" >
+                <ContentPresenter Content="{Binding customer}"  />
+                <Button Content="update customer" Command="{Binding UpdateCustomerCommand}">
+                    <Button.Visibility>
+                        <MultiBinding Converter="{StaticResource ConverterUpdateCustomer}">
+                            <Binding Path="customer.Name" />
+                            <Binding Path="customerName" />
+                            <Binding Path="customer.Phone" />
+                            <Binding Path="customerPhone" />
+                        </MultiBinding>
+                    </Button.Visibility>
+                </Button>
+                <Button Content="delete customer" Command="{Binding DeleteCustomerCommand}"/>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

@@ -57,7 +57,7 @@ namespace PL
 
         public ParcelAdd parcel { set; get; }
 
-        public CustomerWindowVM()
+        public CustomerWindowVM(int id)
         {
             Init();
             Tabs.changeSelectedTab += changeIndex;
@@ -69,20 +69,22 @@ namespace PL
             //sendParcel = new(SendParcel, null);
             //collectionParcel = new(CollectionParcel, null);
             //gettingParcel = new(GettingParcel, null);
+            //list = new ListCollectionView(PLService.GetParcels().ToList());
+            //list = new ListCollectionView(fromCustomer);
+            //List<ParcelAtCustomer> fromCustomer = customer.FromCustomer;
+            //List<ParcelAtCustomer> toCustomer = customer.ToCustomer;
+
             AddParcelCommand = new(AddParcel, null);
             DisplayParcelsFromCommand = new(DisplayParcelsFrom, null);
             DisplayParcelsToCommand = new(DisplayParcelsTo, null);
             DisplayCustomerCommand = new(DisplayCustomer, null);
-            list = new ListCollectionView(PLService.GetParcels().ToList());
-            List<ParcelAtCustomer> fromCustomer = customer.FromCustomer;
-            List<ParcelAtCustomer> toCustomer = customer.ToCustomer;
-            list = new ListCollectionView(fromCustomer);
+      
             DelegateVM.Customer += Init;
             DelegateVM.Parcel += Init;
         }
         public void Init()
         {
-            customer = PLService.GetCustomer(2);
+            customer = PLService.GetCustomer(7);
         }
 
         public void changeIndex(int index)

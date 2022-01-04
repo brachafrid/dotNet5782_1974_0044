@@ -20,6 +20,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
+        <ScrollViewer>
         <StackPanel x:Name="details" >
             <ContentPresenter Content="{Binding drone}" Height="100" Width="739"  />
             <Button Content="update drone's model" Command="{Binding UpdateDroneCommand}">
@@ -45,5 +46,6 @@
                 <Button Content="delete drone" Command="{Binding DeleteDroneCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
             </StackPanel>
         </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>

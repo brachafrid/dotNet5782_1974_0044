@@ -18,20 +18,40 @@ namespace PL
         {
             customer = new();
             AddCustomerCommand = new(Add, param => customer.Error == null);
-            DelegateVM.Customer();
+        }
+        public CustomerAddVM(object param)
+        {
+            customer = new();
+            AddCustomerCommand = new(AddSignIn, param => customer.Error == null);
+
         }
         void Add(object param)
         {
             try
             {
                 PLService.AddCustomer(customer);
-                Tabs.CloseTab((param as TabItemFormat).Text);
+                Tabs.CloseTab("customer");
+                DelegateVM.Customer?.Invoke();
+            }
+            catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
+            {
+                MessageBox.Show("Id has already exist");
+                customer.Id = null;
+            }
+        }
+        void AddSignIn(object param)
+        {
+            try
+            {
+                PLService.AddCustomer(customer);
+                DelegateVM.Customer?.Invoke();
 
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {
                 MessageBox.Show("Id has already exist");
                 customer.Id = null;
+                //LoginScreen.MyScreen; 
             }
         }
 

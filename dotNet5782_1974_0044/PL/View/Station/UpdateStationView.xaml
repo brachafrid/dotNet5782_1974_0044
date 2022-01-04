@@ -15,6 +15,7 @@
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
+        <ScrollViewer>
         <StackPanel x:Name="station" >
             <ContentPresenter Content="{Binding station}"  />
             <Button Content="update station" Command="{Binding UpdateStationCommand}">
@@ -29,6 +30,7 @@
             </Button>
             <Button Content="delete station" Command="{Binding DeleteStationCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
 
-        </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>
