@@ -205,10 +205,16 @@
             <StackPanel>
                 <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
                 <Expander Header="Customer Sender">
-                    <ContentPresenter Content="{Binding Path=CustomerSender}" />
+                    <StackPanel>
+                        <TextBlock Text="{Binding Path=CustomerSender.Id, StringFormat=Id :{0:d}}"/>
+                        <TextBlock Text="{Binding Path=CustomerSender.Name, StringFormat=Name :{0}}"/>
+                    </StackPanel>
                 </Expander>
                 <Expander Header="Customer Receives">
-                    <ContentPresenter Content="{Binding Path=CustomerReceives}" />
+                    <StackPanel>
+                        <TextBlock Text="{Binding Path=CustomerReceives.Id, StringFormat=Id :{0:d}}"/>
+                        <TextBlock Text="{Binding Path=CustomerReceives.Name, StringFormat=Name :{0}}"/>
+                    </StackPanel>
                 </Expander>
                 <TextBlock Text="{Binding Path=Weight, StringFormat=Weight :{0}}"/>
                 <TextBlock Text="{Binding Path=Piority, StringFormat=Piority :{0}}"/>
@@ -265,8 +271,8 @@
             </Expander>
         </StackPanel>
     </DataTemplate>
-    
-    
+
+
     <Style TargetType="{x:Type GroupItem}" x:Key="Group">
         <Setter Property="Template">
             <Setter.Value>
