@@ -26,6 +26,7 @@ namespace BL
             }
             
         }
+
         //--------------------------------------------------Return-----------------------------------------------------------------------------------
         /// <summary>
         /// Retrieves the requested customer from the data and converts it to BL customer

@@ -115,7 +115,8 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Text = "Parcels From Customer",
-                TabContent = "ParcelsFrom"
+                TabContent = "ParcelsFrom",
+                Id = customer.Id
             });
         }
         public void DisplayParcelsTo(object param)
@@ -123,7 +124,8 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Text = "Parcels To Customer",
-                TabContent = "ParcelsTo"
+                TabContent = "ParcelsTo",
+                Id = customer.Id
             });
         }
       
