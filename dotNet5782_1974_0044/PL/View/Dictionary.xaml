@@ -69,7 +69,7 @@
                 <Expander Header="DeliveryDestination">
                     <ContentPresenter Content="{Binding Path=DeliveryDestination}" />
                 </Expander>
-                <TextBlock Text="{Binding Path= TransportDistance, StringFormat= TransportDistance :{0:d}}" />
+                <TextBlock Text="{Binding Path= TransportDistance, StringFormat= TransportDistance :{0:n}}" />
                 <Expander Header="CustomerSender" >
                     <ContentPresenter Content="{Binding Path=CustomerSender}" />
                 </Expander>

@@ -121,8 +121,8 @@ namespace BL
                     Longitude = customer.Longitude,
                     Latitude = customer.Latitude
                 },
-                FromCustomer = GetAllParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "sender")).ToList(),
-                ToCustomer = GetAllParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "Recive")).ToList()
+                FromCustomer = GetAllParcels().Where(Parcel=> Parcel.CustomerSender.Id == customer.Id).Select(parcel => ParcelToParcelAtCustomer(parcel, "sender")).ToList(),
+                ToCustomer = GetAllParcels().Where(Parcel => Parcel.CustomerReceives.Id == customer.Id).Select(parcel => ParcelToParcelAtCustomer(parcel, "Recive")).ToList()
             };
         }
 

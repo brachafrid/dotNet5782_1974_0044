@@ -100,9 +100,6 @@ namespace PL
         public void SendParcel(object param)
         {
            new  AddParcelVM(customer.Id);
-            //parcel = new(){ CustomerSender = customer.Id, CustomerReceives = 0, Piority = Priorities.REGULAR, Weight = PO.WeightCategories.MEDIUM };
-            //new ParcelHandler().AddParcel(parcel);
-            //customer.FromCustomer.Add(new ParcelHandler().ConvertParcelAddToParcelAtCustomer(parcel));
             DelegateVM.Customer();
             DelegateVM.Parcel();
         }
