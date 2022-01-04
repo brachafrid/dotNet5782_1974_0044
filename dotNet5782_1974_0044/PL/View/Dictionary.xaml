@@ -16,7 +16,7 @@
     <DataTemplate DataType="{x:Type po:DroneToList}" >
         <Expander Header="{Binding Path=Id}">
             <StackPanel>
-                <TextBlock Text="{Binding Path=DroneModel, StringFormat= model :{0:d}}" />
+                <TextBlock Text="{Binding Path=DroneModel,  StringFormat= model :{0:d}}" />
                 <TextBlock Text="{Binding Path=Weight, StringFormat= maxWeigth :{0}}"/>
                 <Expander Header="CurrentLocation">
                     <ContentPresenter Content="{Binding Path=CurrentLocation}" />
