@@ -17,13 +17,12 @@ namespace PL
         public CustomerAddVM()
         {
             customer = new();
-            AddCustomerCommand = new(Add, param => customer.Error == null);
+            AddCustomerCommand = new(Add, param => customer.Error == null&&customer.Location.Error==null);
         }
-        public CustomerAddVM(object param)
+        public CustomerAddVM(bool IsSignIn)
         {
             customer = new();
             AddCustomerCommand = new(AddSignIn, param => customer.Error == null);
-
         }
         void Add(object param)
         {
@@ -45,13 +44,13 @@ namespace PL
             {
                 PLService.AddCustomer(customer);
                 DelegateVM.Customer?.Invoke();
-
+                LoginScreen.MyScreen = "CustomerWindow";
+                LoginScreen.Id = customer.Id;
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {
                 MessageBox.Show("Id has already exist");
                 customer.Id = null;
-                //LoginScreen.MyScreen; 
             }
         }
 
