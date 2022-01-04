@@ -29,7 +29,7 @@ namespace PL
         {
             if (param is TabItem tabItem)
             {
-                Tabs.CloseTab(tabItem.Header.ToString());
+                Tabs.CloseTab((tabItem.Header as TabItemFormat).Text);
             }
         }
         public  void AddDroneToList(object param)

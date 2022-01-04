@@ -30,7 +30,7 @@
                     <DataTemplate>
                         <DockPanel>
                             <TextBlock Text="{Binding Path=Text}"/>
-                            <Button Content="x"  Style="{StaticResource MaterialDesignOutlinedButton}" Command="{Binding Parent.DataContext.CloseCommand}"  CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
+                            <Button Content="x"  Style="{StaticResource MaterialDesignOutlinedButton}" Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabItem}}}"/>
                         </DockPanel>
                     </DataTemplate>
                 </TabControl.ItemTemplate>
@@ -48,6 +48,5 @@
                 </TabControl.ContentTemplate>
             </TabControl>
         </DockPanel>
-       
     </Grid>
 </UserControl>
