@@ -242,6 +242,9 @@ namespace PL
                     "UpdateCustomerView" => new UpdateCustomerView(values[1]),
                     "UpdateStationView" => new UpdateStationView(values[1]),
                     "UpdateParcelView"=>new UpdateParcelView(values[1]),
+                    "ParcelsFrom" => new ParcelToListWindow(),
+                    "ParcelsTo" => new ParcelToListWindow(),
+                    //"AddParcelView" => new AddParcelView(values[1])
                 };
             }
             return "i love you";

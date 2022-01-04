@@ -4,13 +4,55 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:PL"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <local:TabItemContentConverter x:Key="TabItemContentConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <UserControl.DataContext>
         <local:CustomerWindowVM/>
     </UserControl.DataContext>
     <Grid>
         <DockPanel>
+            <ToolBarTray Orientation="Vertical">
+                <ToolBar  ClipToBounds="False" Style="{DynamicResource MaterialDesignToolBar}">
+                    <Button ToolTip="Drones" Content="{materialDesign:PackIcon Kind=Drone}"  Command="{Binding DisplayParcelsToCommand}" />
+                    <Separator />
+                    <Button  ToolTip="Parcels" Content="{materialDesign:PackIcon Kind=PackageVariant}" Command="{Binding DisplayParcelsFromCommand}"/>
+                    <Separator />
+                    <Button ToolTip="Customers"  Content="{materialDesign:PackIcon Kind=AccountMultiple}" Command="{Binding AddParcelCommand}"/>
+                    <Separator />
+                    <Button ToolTip="Stations" Content="{materialDesign:PackIcon Kind=GasStation}"  Command="{Binding AddParcelCommand}"/>
+                </ToolBar>
+            </ToolBarTray>
+     
+        <TabControl ItemsSource="{Binding Source={x:Static local:Tabs.TabItems}}"  SelectedIndex="{Binding SelectedTab.Instance}" >
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <TextBlock Text="{Binding Path=Text}"/>
+                    </DockPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <ContentControl>
+                            <ContentControl.Content>
+                                <MultiBinding Converter="{StaticResource TabItemContentConverter}">
+                                    <Binding Path="TabContent" />
+                                    <Binding Path="Id" />
+                                </MultiBinding>
+                            </ContentControl.Content>
+                        </ContentControl>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+
+        </TabControl>
+        </DockPanel>
+        <!--<DockPanel>
             <StackPanel>
                 <TextBlock Text="Welcome " Height="30"/>
                 <TextBlock Text="{Binding customer.Name}" Height="30"/>
@@ -20,16 +62,16 @@
                 <Button Content="getting a parcel" Command="{Binding gettingParcel}" Height="33"/>
             </StackPanel>
             <StackPanel>
-            <!--<StackPanel Visibility="{Binding VisibilityCustomer.visibility}">-->
+            --><!--<StackPanel Visibility="{Binding VisibilityCustomer.visibility}">-->
                 <!--<Button Content="Parcels were sent from the customer" Command="{Binding ToCustomerCommand}"/>
-                <Button Content="Parcels sent to the customer"  Command="{Binding FromCustomerCommand}"/>-->
+                <Button Content="Parcels sent to the customer"  Command="{Binding FromCustomerCommand}"/>--><!--
                 <StackPanel  Visibility="{Binding VisibilityCustomer.visibility}">
                     <TextBlock Text="My Parcels: " Height="30"/>
                     <ListView x:Name="listParcelsFrom" ItemsSource="{Binding Path=list}"/>
                 </StackPanel>
-                <!--<ListView x:Name="listParcelsFrom2" ItemsSource="{Binding Path=list}"/>-->
-                <!--<ListView x:Name="listParcelsTo" ItemsSource="{Binding Path=customer.ToCustomer}"/>-->
+                --><!--<ListView x:Name="listParcelsFrom2" ItemsSource="{Binding Path=list}"/>-->
+                <!--<ListView x:Name="listParcelsTo" ItemsSource="{Binding Path=customer.ToCustomer}"/>--><!--
             </StackPanel>
-        </DockPanel>
+        </DockPanel>-->
     </Grid>
 </UserControl>

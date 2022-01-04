@@ -15,6 +15,7 @@ namespace PL
     public partial class CustomerWindowVM : GenericList<ParcelAtCustomer>
     {
 
+        public static IntDependency SelectedTab { get; set; } = new();
 
         //public List<ParcelAtCustomer> listParcels
         //{
@@ -46,6 +47,9 @@ namespace PL
         public RelayCommand sendParcel { get; set; }
         public RelayCommand collectionParcel { get; set; }
         public RelayCommand gettingParcel { get; set; }
+        public RelayCommand AddParcelCommand { get; set; }
+        public RelayCommand DisplayParcelsFromCommand { get; set; }
+        public RelayCommand DisplayParcelsToCommand { get; set; }
         //public RelayCommand ToCustomerCommand { get; set; }
         //public RelayCommand FromCustomerCommand { get; set; }
 
@@ -55,6 +59,8 @@ namespace PL
         public CustomerWindowVM()
         {
             Init();
+            Tabs.changeSelectedTab += changeIndex;
+
             //customer = PLService.GetCustomer(2);
             DisplayParcelsCommand = new(DisplayParcels, null);
             //ToCustomerCommand = new(ToCustomer, null);
@@ -62,6 +68,9 @@ namespace PL
             sendParcel = new(SendParcel, null);
             collectionParcel = new(CollectionParcel, null);
             gettingParcel = new(GettingParcel, null);
+            AddParcelCommand = new(AddParcel, null);
+            DisplayParcelsFromCommand = new(DisplayParcelsFrom, null);
+            DisplayParcelsToCommand = new(DisplayParcelsTo, null);
             //list = new ListCollectionView(null);
             list = new ListCollectionView(PLService.GetParcels().ToList());
             List<ParcelAtCustomer> fromCustomer = customer.FromCustomer;
@@ -74,6 +83,36 @@ namespace PL
         public void Init()
         {
             customer = PLService.GetCustomer(2);
+        }
+
+        public void changeIndex(int index)
+        {
+            SelectedTab.Instance = index;
+        }
+        public void AddParcel(object param)
+        {
+            Tabs.AddTab(new TabItemFormat()
+            {
+                Text = "Add Parcel",
+                TabContent = "AddParcelView"
+            });
+
+        }
+        public void DisplayParcelsFrom(object param)
+        {
+            Tabs.AddTab(new TabItemFormat()
+            {
+                Text = "Parcels From Customer",
+                TabContent = "ParcelsFrom"
+            });
+        }
+        public void DisplayParcelsTo(object param)
+        {
+            Tabs.AddTab(new TabItemFormat()
+            {
+                Text = "Parcels To Customer",
+                TabContent = "ParcelsTo"
+            });
         }
         public void DisplayParcels(object param)
         {
