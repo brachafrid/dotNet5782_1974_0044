@@ -96,7 +96,8 @@ namespace BL
                     DroneState = state,
                     CurrentLocation = Location,
                     ParcelId = parcel.DorneId == 0 ? 0 : parcel.Id,
-                    BatteryState = BatteryStatus
+                    BatteryState = BatteryStatus,
+                    IsDeleted=false
                 });
                 if (state == DroneState.MAINTENANCE)
                     dal.AddDRoneCharge(drone.Id, dal.GetStations().FirstOrDefault(station => (station.Latitude == Location.Latitude && station.Longitude == Location.Longitude)).Id);
