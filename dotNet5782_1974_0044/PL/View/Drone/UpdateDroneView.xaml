@@ -22,7 +22,6 @@
     <Grid>
         <StackPanel x:Name="details" >
             <ContentPresenter Content="{Binding drone}"  />
-            <Button Content="close drone"/>
             <Button Content="update drone's model" Command="{Binding UpdateDroneCommand}">
                 <Button.Visibility>
                     <MultiBinding Converter="{StaticResource ConverterUpdateModel}">

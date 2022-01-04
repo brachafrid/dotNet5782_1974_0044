@@ -18,7 +18,6 @@
     <Grid>
         <StackPanel x:Name="customer" >
             <ContentPresenter Content="{Binding customer}"  />
-            <Button Content="close customer"/>
             <Button Content="update customer" Command="{Binding UpdateCustomerCommand}">
                 <Button.Visibility>
                     <MultiBinding Converter="{StaticResource ConverterUpdateCustomer}">
