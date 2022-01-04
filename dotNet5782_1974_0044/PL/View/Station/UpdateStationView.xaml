@@ -17,7 +17,6 @@
     <Grid>
         <StackPanel x:Name="station" >
             <ContentPresenter Content="{Binding station}"  />
-            <Button Content="close station"/>
             <Button Content="update station" Command="{Binding UpdateStationCommand}">
             <Button.Visibility>
                     <MultiBinding Converter="{StaticResource ConverterUpdateStation}">

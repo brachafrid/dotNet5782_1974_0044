@@ -11,6 +11,10 @@ namespace PL
     public static class PLService
     {
         private static IBL ibal = BLFactory.GetBL();
+        public static string GetAdministorPasssword()
+        {
+            return ibal.GetAdministorPasssword();
+        }
         public static void AddCustomer(CustomerAdd customer)
         {
             ibal.AddCustomer(ConvertAddCustomer(customer));
@@ -39,8 +43,8 @@ namespace PL
                 Name = customer.Name,
                 Phone = customer.Phone,
                 Location = ConvertLocation(customer.Location),
-                FromCustomer = customer.FromCustomer.Select(item => ConvertParcelAtCustomer(item)).ToList(),
-                ToCustomer = customer.ToCustomer.Select(item =>ConvertParcelAtCustomer(item)).ToList()
+                FromCustomer =new( customer.FromCustomer.Select(item => ConvertParcelAtCustomer(item))),
+                ToCustomer =  new(customer.ToCustomer.Select(item =>ConvertParcelAtCustomer(item)))
             };
         }
         public static BO.Customer ConvertBackCustomer(PO.Customer customer)
@@ -51,8 +55,8 @@ namespace PL
                 Name = customer.Name,
                 Phone = customer.Phone,
                 Location = ConvertBackLocation(customer.Location),
-                FromCustomer = customer.FromCustomer.Select(item => ConvertBackParcelAtCustomer(item)).ToList(),
-                ToCustomer = customer.ToCustomer.Select(item => ConvertBackParcelAtCustomer(item)).ToList()
+                FromCustomer =new( customer.FromCustomer.Select(item => ConvertBackParcelAtCustomer(item))),
+                ToCustomer = new(customer.ToCustomer.Select(item => ConvertBackParcelAtCustomer(item)))
             };
         }
         public static PO.CustomerToList ConvertCustomerToList(BO.CustomerToList customerToList)

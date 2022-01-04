@@ -2,6 +2,8 @@
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                     xmlns:dxa="http://schemas.devexpress.com/winfx/2008/xaml/accordion" 
+                     xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+                     xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
                     xmlns:po ="clr-namespace:PL.PO"
                     xmlns:local="clr-namespace:PL">
 
@@ -15,7 +17,7 @@
     <DataTemplate DataType="{x:Type po:DroneToList}" >
         <Expander Header="{Binding Path=Id}">
             <StackPanel>
-                <TextBlock Text="{Binding Path=DroneModel, StringFormat= model :{0:d}}" />
+                <TextBlock Text="{Binding Path=DroneModel,  StringFormat= model :{0:d}}" />
                 <TextBlock Text="{Binding Path=Weight, StringFormat= maxWeigth :{0}}"/>
                 <Expander Header="CurrentLocation">
                     <ContentPresenter Content="{Binding Path=CurrentLocation}" />
@@ -53,6 +55,12 @@
 
     <DataTemplate DataType="{x:Type po:ParcelInTransfer}">
         <Expander >
+            <i:Interaction.Triggers>
+                <i:EventTrigger EventName="MouseDoubleClick">
+                    <i:InvokeCommandAction Command="{Binding DataContext.OpenParcelCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateDroneView}}}"
+                                   CommandParameter="{Binding Path=Id}"/>
+                </i:EventTrigger>
+            </i:Interaction.Triggers>
             <Expander.Header>
                 <DockPanel >
                     <TextBlock Text="Parcel In Transfer"/>
@@ -71,9 +79,21 @@
                 </Expander>
                 <TextBlock Text="{Binding Path= TransportDistance, StringFormat= TransportDistance :{0:n}}" />
                 <Expander Header="CustomerSender" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateDroneView}}}"
+                                   CommandParameter="{Binding  Path= CustomerSender.Id}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <ContentPresenter Content="{Binding Path=CustomerSender}" />
                 </Expander>
                 <Expander Header="CustomerReceives">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateDroneView}}}"
+                                   CommandParameter="{Binding  Path= CustomerReceives.Id}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
                     <ContentPresenter Content="{Binding Path=CustomerReceives}" />
                 </Expander>
             </StackPanel>
@@ -107,9 +127,9 @@
             <TextBlock Text="{Binding Path=Id, StringFormat=Id :{0:d}}"/>
             <DockPanel >
                 <TextBlock Text="Name"/>
-                <TextBox Text="{Binding  Path= Name,NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
+                <TextBox Text="{Binding Name,NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
             </DockPanel>
-            <Expander Header="Location">
+            <Expander Header="{materialDesign:PackIcon Kind =MapMarkerOutline }">
                 <ContentPresenter Content="{Binding Path=Location}" />
             </Expander>
             <TextBox Text ="{Binding EmptyChargeSlots, StringFormat=EmptyChargeSlots :{0:d}, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}"/>
@@ -120,6 +140,12 @@
                         <GridViewColumn DisplayMemberBinding="{Binding Path=ChargingMode}" Header="ChargingMode" />
                     </GridView>
                 </ListView.View>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding DataContext.OpenDroneChargeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateStationView}}}"
+                                   CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
             </ListView>
         </StackPanel>
     </DataTemplate>
@@ -139,10 +165,24 @@
                 <ContentPresenter Content="{Binding Path=Location}" />
             </Expander>
             <Expander Header="Parcel From Customer">
-                <ListView ItemsSource="{Binding Path=FromCustomer}" />
+                <ListView ItemsSource="{Binding Path=FromCustomer}" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding DataContext.OpenParcelCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateCustomerView}}}"
+                                   CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ListView>
             </Expander>
             <Expander Header="Parcel To Customer">
-                <ListView ItemsSource="{Binding Path=ToCustomer}" />
+                <ListView ItemsSource="{Binding Path=ToCustomer}" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding DataContext.OpenParcelCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateCustomerView}}}"
+                                   CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ListView>
             </Expander>
         </StackPanel>
     </DataTemplate>
@@ -184,15 +224,32 @@
             <TextBlock Text="{Binding Path=CollectionTime, StringFormat=Package CollectionTime :{0}}"/>
             <TextBlock Text="{Binding Path=DeliveryTime, StringFormat=DeliveryTime :{0}}"/>
             <Expander Header="Customer Sender">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateParcelView}}}"
+                                   CommandParameter="{Binding CustomerSender.Id }"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <ContentPresenter Content="{Binding Path=CustomerSender}" />
             </Expander>
             <Expander Header="Customer Receives">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateParcelView}}}"
+                                   CommandParameter="{Binding CustomerReceives.Id }"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <ContentPresenter Content="{Binding Path=CustomerReceives}" />
             </Expander>
             <Expander Header="Drone With Parcel">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding DataContext.OpenDroneCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateParcelView}}}"
+                                   CommandParameter="{Binding Drone.Id }"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
                 <ContentPresenter Content="{Binding Path=Drone}" />
             </Expander>
-
         </StackPanel>
     </DataTemplate>
 
@@ -205,6 +262,8 @@
             </Expander>
         </StackPanel>
     </DataTemplate>
+    
+    
     <Style TargetType="{x:Type GroupItem}" x:Key="Group">
         <Setter Property="Template">
             <Setter.Value>

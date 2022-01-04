@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
+﻿using BLApi;
 using BO;
-using Utilities;
 using DLApi;
-using BLApi;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using Utilities;
 
 namespace BL
 {
@@ -25,7 +24,7 @@ namespace BL
         private readonly double droneLoadingRate;
         BL()
         {
-            
+
             // set electricty variablses
             drones = new List<DroneToList>();
             (
@@ -47,8 +46,8 @@ namespace BL
             var tmpDrones = dal.GetDrones();
             var parcels = dal.GetParcels();
             // create list of stations' location
-            var locationOfStation = dal.GetStations().Select(Station => new Location() { Latitude = Station.Latitude, Longitude = Station.Longitude }).ToList();
-            var customersGotParcelLocation = GetLocationsCustomersGotParcels((int recivedparcels)=>recivedparcels>0);
+            var locationOfStation = dal.GetStations().Select(Station => new Location() { Latitude = Station.Latitude, Longitude = Station.Longitude });
+            var customersGotParcelLocation = GetLocationsCustomersGotParcels((int recivedparcels) => recivedparcels > 0);
             foreach (var drone in tmpDrones)
             {
                 bool canTakeParcel = true;
@@ -73,7 +72,7 @@ namespace BL
                 }
                 else if (state == default)
                 {
-                    if (customersGotParcelLocation.Count > 0)
+                    if (customersGotParcelLocation.Count() > 0)
                         state = (DroneState)rand.Next(0, DRONESTATUSESLENGTH);
                     else
                         state = DroneState.MAINTENANCE;
@@ -82,9 +81,9 @@ namespace BL
                 // set location and battery
                 (Location, BatteryStatus) = state switch
                 {
-                    DroneState.AVAILABLE => (tmpLocaiton = customersGotParcelLocation[rand.Next(0, customersGotParcelLocation.Count)], rand.Next((int)MinBatteryForAvailAble(tmpLocaiton) + 1, FULLBATTRY)
+                    DroneState.AVAILABLE => (tmpLocaiton = customersGotParcelLocation.ElementAt( rand.Next(0, customersGotParcelLocation.Count())), rand.Next((int)MinBatteryForAvailAble(tmpLocaiton) + 1, FULLBATTRY)
                     ),
-                    DroneState.MAINTENANCE => (locationOfStation[rand.Next(0, locationOfStation.Count)],
+                    DroneState.MAINTENANCE => (locationOfStation.ElementAt(rand.Next(0, locationOfStation.Count())),
                     rand.NextDouble() + rand.Next(MININITBATTARY, MAXINITBATTARY)),
                     DroneState.DELIVERY => (FindLocationDroneWithParcel(parcel), tmpBatteryStatus),
                 };
@@ -99,8 +98,8 @@ namespace BL
                     ParcelId = parcel.DorneId == 0 ? 0 : parcel.Id,
                     BatteryState = BatteryStatus
                 });
-                if(state==DroneState.MAINTENANCE)
-                    dal.AddDRoneCharge(drone.Id,dal.GetStations().FirstOrDefault(station=>(station.Latitude==Location.Latitude && station.Longitude==Location.Longitude)).Id);
+                if (state == DroneState.MAINTENANCE)
+                    dal.AddDRoneCharge(drone.Id, dal.GetStations().FirstOrDefault(station => (station.Latitude == Location.Latitude && station.Longitude == Location.Longitude)).Id);
 
             }
         }
@@ -126,15 +125,14 @@ namespace BL
         /// </summary>
         /// <param name="exsitParcelRecived">The predicate to screen out if the customer have recived parcels</param>
         /// <returns>list of locations</returns>
-        private List<Location> GetLocationsCustomersGotParcels(Predicate<int> exsitParcelRecived)
+        private IEnumerable<Location> GetLocationsCustomersGotParcels(Predicate<int> exsitParcelRecived)
         {
             return GetCustomers().Where(customer => exsitParcelRecived(customer.NumParcelReceived))
                      .Select(Customer => new Location()
                      {
                          Latitude = dal.GetCustomer(Customer.Id).Latitude,
                          Longitude = dal.GetCustomer(Customer.Id).Longitude
-                     })
-                     .ToList();
+                     });
         }
         /// <summary>
         /// find the location for drone that has parcel
@@ -193,6 +191,11 @@ namespace BL
             var station = ClosetStation(dal.GetStations(), location);
             double electricity = Distance(location, new() { Latitude = station.Latitude, Longitude = station.Longitude }) * available;
             return electricity > FULLBATTRY ? MININITBATTARY : electricity;
+        }
+
+        public string GetAdministorPasssword()
+        {
+          return  dal.GetAdministorPasssword();
         }
     }
 }
