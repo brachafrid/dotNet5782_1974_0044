@@ -14,15 +14,17 @@ namespace PL
 
         public LoginVM()
         {
+            Add = new(true);
             ShowAdministratorLoginCommand = new RelayCommand(ShowAdministratorLogin, null);
             ShowCustomerLoginCommand = new RelayCommand(ShowCustomerLogin, null);
             AdministratorLoginCommand = new RelayCommand(AdministratorLogin, null);
             CustomerLoginCommand = new RelayCommand(CustomerLogin, null);
             ShowCustomerSigninCommand = new(ShowCustomerSignin, null);
         }
+        public AddCustomerView Add { get; set; }
+
         public RelayCommand AdministratorLoginCommand { get; set; }
         public RelayCommand CustomerLoginCommand { get; set; }
-        public RelayCommand CustomerSigninCommand { get; set; }
         public RelayCommand ShowAdministratorLoginCommand { get; set; }
         public RelayCommand ShowCustomerLoginCommand { get; set; }
         public RelayCommand ShowCustomerSigninCommand { get; set; }
@@ -37,7 +39,7 @@ namespace PL
             VisibilityCustomerSignIn.visibility = Visibility.Collapsed;
         }
         public void ShowCustomerSignin(object param)
-        {
+        { 
             VisibilityAdministratorLogin.visibility = Visibility.Collapsed;
             VisibilityCustomerLogin.visibility = Visibility.Collapsed;
             VisibilityCustomerSignIn.visibility = Visibility.Visible;
@@ -65,19 +67,16 @@ namespace PL
         {
            try
             {
+                
                 Customer customer = PLService.GetCustomer((int)customerLogin.Id);
                 LoginScreen.Id = customer.Id;
                 LoginScreen.MyScreen = "CustomerWindow";
             }
-            catch (KeyNotFoundException ex)
+            catch (KeyNotFoundException )
             {
                 MessageBox.Show("Incorrect Id");
                 customerLogin.Id = null;
             }
-        }
-        public void SignIn(object param)
-        {
-
         }
     }
 }

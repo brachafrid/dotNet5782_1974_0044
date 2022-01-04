@@ -20,9 +20,10 @@ namespace PL
     /// </summary>
     public partial class AddCustomerView : UserControl
     {
-        public AddCustomerView()
+        public AddCustomerView(bool IsSignIn)
         {
             InitializeComponent();
+            DataContext = new CustomerAddVM(IsSignIn);
         }
     }
 }
