@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using PL.PO;
 
 
@@ -17,7 +18,12 @@ namespace PL
         {
             customer = new();
             AddCustomerCommand = new(Add, param => customer.Error == null);
-            DelegateVM.Customer();
+        }
+        public CustomerAddVM(object param)
+        {
+            customer = new();
+            AddCustomerCommand = new(AddSignIn, param => customer.Error == null);
+
         }
         void Add(object param)
         {
@@ -25,12 +31,27 @@ namespace PL
             {
                 PLService.AddCustomer(customer);
                 Tabs.CloseTab("customer");
+                DelegateVM.Customer?.Invoke();
+            }
+            catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
+            {
+                MessageBox.Show("Id has already exist");
+                customer.Id = null;
+            }
+        }
+        void AddSignIn(object param)
+        {
+            try
+            {
+                PLService.AddCustomer(customer);
+                DelegateVM.Customer?.Invoke();
 
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {
                 MessageBox.Show("Id has already exist");
                 customer.Id = null;
+                //LoginScreen.MyScreen; 
             }
         }
 

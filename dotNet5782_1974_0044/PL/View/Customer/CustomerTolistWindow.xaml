@@ -13,8 +13,8 @@
     <UserControl.DataContext>
         <local:CustomerToListVM/>
     </UserControl.DataContext>
-
-    <StackPanel>
+    <ScrollViewer>
+        <StackPanel>
         <StackPanel>
             <Button Content="Add Customer" Command="{Binding AddEntitiyCommand}"/>
             <ListView ItemsSource="{Binding Path=list}">
@@ -32,4 +32,5 @@
         </StackPanel>
         <local:SortInput />
     </StackPanel>
+        </ScrollViewer>
 </UserControl>

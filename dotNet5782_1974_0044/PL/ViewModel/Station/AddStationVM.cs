@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using PL.PO;
 
 namespace PL
@@ -23,7 +24,7 @@ namespace PL
             {
                 PLService.AddStation(station);
                 DelegateVM.Station?.Invoke();
-                Tabs.CloseTab("Station");
+                Tabs.CloseTab((param as TabItemFormat).Text);
             }
             catch(BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {

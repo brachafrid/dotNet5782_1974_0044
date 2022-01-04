@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 
 namespace PL.PO
@@ -17,7 +18,7 @@ namespace PL.PO
             }
         }
         private string name;
-
+        [Required(ErrorMessage = "required")]
         public string Name
         {
             get => name;
@@ -28,6 +29,8 @@ namespace PL.PO
             }
         }
         private int emptyChargeSlots;
+        [Required(ErrorMessage = "required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Only positive number allowed")]
         public int EmptyChargeSlots
         {
             get => emptyChargeSlots;
@@ -38,16 +41,6 @@ namespace PL.PO
             }
         }
 
-        //private int chargeSlots;
-        //public int ChargeSlots
-        //{
-        //    get => chargeSlots;
-        //    set
-        //    {
-        //        chargeSlots = value;
-        //        onPropertyChanged("ChargeSlots");
-        //    }
-        //}
 
         private Location location;
         public Location Location

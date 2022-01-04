@@ -14,22 +14,23 @@
     <UserControl.DataContext>
         <local:DroneToListVM />
     </UserControl.DataContext>
-
-    <StackPanel>
+    <ScrollViewer>
         <StackPanel>
-            <Button Content="Add Drone" Command="{Binding AddEntitiyCommand}"/>
-            <ListView ItemsSource="{Binding Path=list}">
-                <ListView.GroupStyle>
-                    <GroupStyle ContainerStyle="{StaticResource ResourceKey=Group}"/>
-                </ListView.GroupStyle>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <i:InvokeCommandAction Command="{Binding DoubleClick}"
+            <StackPanel>
+                <Button Content="Add Drone" Command="{Binding AddEntitiyCommand}"/>
+                <ListView ItemsSource="{Binding Path=list}">
+                    <ListView.GroupStyle>
+                        <GroupStyle ContainerStyle="{StaticResource ResourceKey=Group}"/>
+                    </ListView.GroupStyle>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding DoubleClick}"
                                    CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </ListView>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ListView>
+            </StackPanel>
+            <local:SortInput />
         </StackPanel>
-        <local:SortInput />
-    </StackPanel>
+    </ScrollViewer>
 </UserControl>

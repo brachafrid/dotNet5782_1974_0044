@@ -12,9 +12,7 @@
             <local:TabItemContentConverter x:Key="TabItemContentConverter"/>
         </ResourceDictionary>
     </UserControl.Resources>
-    <UserControl.DataContext>
-        <local:CustomerWindowVM/>
-    </UserControl.DataContext>
+    
     <Grid>
         <DockPanel>
             <ToolBarTray Orientation="Vertical">

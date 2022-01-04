@@ -10,8 +10,10 @@
     <UserControl.Resources>
         <ResourceDictionary Source="../Dictionary.xaml" />
     </UserControl.Resources>
+    <ScrollViewer>
     <StackPanel>
         <ContentPresenter Content="{Binding parcel}"/>
-        <Button Content="delete parcel" Command="{Binding DeleteParcelCommand}"/>
+        <Button Content="delete parcel" Command="{Binding DeleteParcelCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
     </StackPanel>
+    </ScrollViewer>
 </UserControl>

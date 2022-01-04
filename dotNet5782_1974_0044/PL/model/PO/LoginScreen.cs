@@ -21,6 +21,17 @@ namespace PL.PO
                 NotifyStaticPropertyChanged("MyScreen");
             }
         }
+        private static int? id;
+
+        public static int? Id
+        {
+            get { return id; }
+            set {
+                id = value;
+                NotifyStaticPropertyChanged("Id");
+            }
+        }
+
 
         static LoginScreen()
         {
