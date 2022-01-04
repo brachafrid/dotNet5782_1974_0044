@@ -12,17 +12,15 @@ namespace PL
 {
     public class CustomerAddVM
     {
-       public CustomerAdd customer { get; set; }
+        public CustomerAdd customer { get; set; }
         public RelayCommand AddCustomerCommand { get; set; }
-        public CustomerAddVM()
-        {
-            customer = new();
-            AddCustomerCommand = new(Add, param => customer.Error == null&&customer.Location.Error==null);
-        }
         public CustomerAddVM(bool IsSignIn)
         {
             customer = new();
-            AddCustomerCommand = new(AddSignIn, param => customer.Error == null);
+            if (IsSignIn)
+                AddCustomerCommand = new(AddSignIn, param => customer.Error == null && customer.Location.Error == null);
+            else
+                AddCustomerCommand = new(Add, param => customer.Error == null && customer.Location.Error == null);
         }
         void Add(object param)
         {
@@ -44,8 +42,8 @@ namespace PL
             {
                 PLService.AddCustomer(customer);
                 DelegateVM.Customer?.Invoke();
-                LoginScreen.MyScreen = "CustomerWindow";
                 LoginScreen.Id = customer.Id;
+                LoginScreen.MyScreen = "CustomerWindow";
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {

@@ -49,7 +49,7 @@ namespace  Dal
         ///  Prepares the list of Sations for display
         /// </summary>
         /// <returns>A list of stations</returns>
-        public IEnumerable<Station> GetStations() => DataSorce.Stations.Where(s => s.IsDeleted == false);
+        public IEnumerable<Station> GetStations() => DataSorce.Stations.Where(s => !s.IsDeleted);
 
         /// <summary>
         /// Find the satation that have empty charging slots

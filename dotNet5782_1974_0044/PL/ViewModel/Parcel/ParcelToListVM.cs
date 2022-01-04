@@ -12,33 +12,40 @@ namespace PL
 {
     public class ParcelToListVM : GenericList<ParcelToList>
     {
+        object id;
+        string state = "";
         public ParcelToListVM()
         {
             UpdateInitList();
             DelegateVM.Parcel += UpdateInitList;
+            DelegateVM.Customer += UpdateInitList;
             DoubleClick = new(OpenDetails, null);
         }
-        public ParcelToListVM(object Id)
+        public ParcelToListVM(object Id, object State)
         {
-            //    //object id = Id;
-            //    // Customer customer = PLService.GetCustomer((int)Id);
-            //    //UpdateInitListCustomer();
-            //    //DelegateVM.Parcel += UpdateInitListCustomer;
-            //    DoubleClick = new(OpenDetails, null);
-            //    //list = new ListCollectionView(customer.FromCustomer.ToList());
-            //    list = new ListCollectionView(PLService.GetCustomer((int)Id).FromCustomer.ToList());
-
+            id = Id;
+            state = (string)State;
+            UpdateInitList();
+            DelegateVM.Customer += UpdateInitList;
+            DelegateVM.Parcel += UpdateInitList;
+            DoubleClick = new(OpenDetails, null);
         }
-
         void UpdateInitList()
         {
-            list = new ListCollectionView(PLService.GetParcels().ToList());
-        }
-        //void UpdateInitListCustomer()
-        //{
+            if (state == "")
+            {
+                list = new ListCollectionView(PLService.GetParcels().ToList());
+            }
+            if (state == "From")
+            {
+                list = new ListCollectionView(PLService.GetCustomer((int)id).FromCustomer.ToList());
+            }
+            if (state == "To")
+            {
+                list = new ListCollectionView(PLService.GetCustomer((int)id).ToCustomer.ToList());
+            }
 
-        //    //list = new ListCollectionView(PLService.GetParcels(Id: CustomerWindowVM.customer.Id).ToList());
-        //}
+        }
         public void OpenDetails(object param)
         {
             if (param != null)

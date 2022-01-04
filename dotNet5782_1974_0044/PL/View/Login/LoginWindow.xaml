@@ -36,7 +36,7 @@
                     Command="{Binding CustomerLoginCommand}"/>
         </StackPanel>
         <StackPanel Visibility="{Binding VisibilityCustomerSignIn.visibility}">
-            <local:AddCustomerView />
+            <ContentControl Content="{Binding Add}"/>
         </StackPanel>
     </StackPanel>
 </UserControl>

@@ -204,7 +204,7 @@ namespace PL
                 CreationTime = parcel.CreationTime,
                 CustomerReceives = ConvertCustomerInParcel(parcel.CustomerReceives),
                 CustomerSender = ConvertCustomerInParcel(parcel.CustomerSender),
-                Drone =ConvertDroneWithParcel(parcel.Drone),
+                Drone = parcel.Drone == null?ConvertDroneWithParcel(parcel.Drone):null,
             };
         }
         public static BO.Parcel ConvertBackParcel(Parcel parcel)

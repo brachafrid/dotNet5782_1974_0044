@@ -21,7 +21,7 @@ namespace PL.PO
                 NotifyStaticPropertyChanged("MyScreen");
             }
         }
-        private static int? id;
+        private static int? id = null;
 
         public static int? Id
         {

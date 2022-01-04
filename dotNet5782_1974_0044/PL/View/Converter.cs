@@ -235,17 +235,16 @@ namespace PL
                     "StationToListWindow" => new StationToListWindow(),
                     "CustomerTolistWindow" => new CustomerTolistWindow(),
                     "AddDroneView" => new AddDroneView(),
-                    "AddCustomerView" => new AddCustomerView(),
+                    "AddCustomerView" => new AddCustomerView(false),
                     "AddStationView" => new AddStationView(),
                     "AddParcelView" => new AddParcelView(),
                     "UpdateDroneView" => new UpdateDroneView(values[1]),
                     "UpdateCustomerView" => new UpdateCustomerView(values[1]),
                     "UpdateStationView" => new UpdateStationView(values[1]),
                     "UpdateParcelView"=>new UpdateParcelView(values[1]),
-                    "ParcelsFrom" => new ParcelToListWindow(values[1]),
-                    "ParcelsTo" => new ParcelToListWindow(values[1]),
-                    "Customer" => new UpdateCustomerView(values[1]),
-                    //"AddParcelView" => new AddParcelView(values[1])
+                    "ParcelsFrom" => new ParcelToListWindow(values[1], "From"),
+                    "ParcelsTo" => new ParcelToListWindow(values[1], "To"),
+                    "Customer" => new UpdateCustomerView(values[1])
                 };
             }
             return "i love you";
