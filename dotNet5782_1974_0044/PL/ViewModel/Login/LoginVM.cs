@@ -40,7 +40,7 @@ namespace PL
 
         public void AdministratorLogin(object param)
         {
-            if ((param as PasswordBox).Password == string.Empty)
+            if ((param as PasswordBox).Password == PLService.GetAdministorPasssword())
             {
                 LoginScreen.MyScreen = "AdministratorWindow";
             }

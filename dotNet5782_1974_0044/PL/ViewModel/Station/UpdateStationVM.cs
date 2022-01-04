@@ -12,6 +12,7 @@ namespace PL
     class UpdateStationVM : DependencyObject
     {
         private int id;
+        public RelayCommand OpenDroneChargeCommand { get; set; }
         public PO.Station station
         {
             get { return (PO.Station)GetValue(stationProperty); }
@@ -59,6 +60,7 @@ namespace PL
             UpdateStationCommand = new(UpdateStation, param => station.Error == null);
             DeleteStationCommand = new(DeleteStation, param => station.Error == null);
             DelegateVM.Station += init;
+            OpenDroneChargeCommand = new(OpenDroneDetails, null);
         }
         public void init()
         {
@@ -97,6 +99,17 @@ namespace PL
             {
                 MessageBox.Show($"{ex.Message}");
             }
+        }
+
+        public void OpenDroneDetails(object param)
+        {
+            if (param != null && param is PL.PO.DroneInCharging droneCharge)
+                Tabs.AddTab(new()
+                {
+                    TabContent = "UpdateDroneView",
+                    Text = "drone " + droneCharge.Id,
+                    Id = droneCharge.Id
+                });
         }
 
     }

@@ -1,5 +1,4 @@
-﻿using BO;
-using PL.PO;
+﻿using PL.PO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,15 +11,16 @@ namespace PL
     class UpdateCustomerVM : DependencyObject
     {
         private int id;
-        public PL.PO.Customer customer
+        public RelayCommand OpenParcelCommand { get; set; }
+        public Customer customer
         {
-            get { return (PL.PO.Customer)GetValue(customerProperty); }
+            get { return (Customer)GetValue(customerProperty); }
             set { SetValue(customerProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for customer.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty customerProperty =
-            DependencyProperty.Register("customer", typeof(PL.PO.Customer), typeof(UpdateCustomerVM), new PropertyMetadata(new PL.PO.Customer()));
+            DependencyProperty.Register("customer", typeof(Customer), typeof(UpdateCustomerVM), new PropertyMetadata(new Customer()));
 
         public string customerName
         {
@@ -59,6 +59,7 @@ namespace PL
             UpdateCustomerCommand = new(UpdateCustomer, param => customer.Error == null);
             DeleteCustomerCommand = new(DeleteCustomer, param => customer.Error == null);
             DelegateVM.Customer += init;
+            OpenParcelCommand = new(OpenDetails, null);
         }
         public void init()
         {
@@ -86,12 +87,22 @@ namespace PL
                  }
             }
            
-            catch (ThereAreAssociatedOrgansException ex)
+            catch (BO.ThereAreAssociatedOrgansException ex)
             {
                 MessageBox.Show($"{ex.Message}");
             }
         }
 
+        public void OpenDetails(object param)
+        {
+            if (param != null)
+                Tabs.AddTab(new()
+                {
+                    TabContent = "UpdateParcelView",
+                    Text = "parcel " + (param as ParcelAtCustomer).Id,
+                    Id = (param as ParcelAtCustomer).Id
+                });
+        }
 
     }
 }

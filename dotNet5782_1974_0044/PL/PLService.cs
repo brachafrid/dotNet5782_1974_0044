@@ -11,6 +11,10 @@ namespace PL
     public static class PLService
     {
         private static IBL ibal = BLFactory.GetBL();
+        public static string GetAdministorPasssword()
+        {
+            return ibal.GetAdministorPasssword();
+        }
         public static void AddCustomer(CustomerAdd customer)
         {
             ibal.AddCustomer(ConvertAddCustomer(customer));

@@ -1,5 +1,4 @@
-﻿using BO;
-using PL.PO;
+﻿using PL.PO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -14,6 +13,8 @@ namespace PL
     
     public class UpdateDroneVM: DependencyObject
     {
+        public RelayCommand OpenParcelCommand { get; set; }
+        public RelayCommand OpenCustomerCommand { get; set; }
         private int id;
         public PO.Drone drone
         {
@@ -46,7 +47,9 @@ namespace PL
             ChargingDroneCommand = new(sendToCharging, param => drone.Error == null);
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => drone.Error == null);
             DeleteDroneCommand = new(DeleteDrone, param => drone.Error == null);
-            DelegateVM.Drone += init; 
+            DelegateVM.Drone += init;
+            OpenParcelCommand = new(OpenParcelDetails, null);
+            OpenCustomerCommand = new(OpenCustomerDetails, null);
         }
         public void init()
         {
@@ -134,10 +137,32 @@ namespace PL
                }
             }
          
-            catch (ThereAreAssociatedOrgansException ex)
+            catch (BO.ThereAreAssociatedOrgansException ex)
             {
                 MessageBox.Show($"{ex.Message}");
             }
+        }
+
+        public void OpenParcelDetails(object param)
+        {
+            if (param != null && param is int Id)
+                Tabs.AddTab(new()
+                {
+                    TabContent = "UpdateParcelView",
+                    Text = "parcel " + Id,
+                    Id = Id
+                });
+        }
+
+        public void OpenCustomerDetails(object param)
+        {
+            if (param != null && param is int Id)
+                Tabs.AddTab(new()
+                {
+                    TabContent = "UpdateCustomerView",
+                    Text = "customer " + Id,
+                    Id = Id
+                });
         }
     }
 }

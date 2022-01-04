@@ -41,6 +41,10 @@ namespace Dal
             return (DataSorce.Config.Available, DataSorce.Config.LightWeightCarrier, DataSorce.Config.MediumWeightBearing, DataSorce.Config.CarriesHeavyWeight, DataSorce.Config.DroneLoadingRate);
     
         }
+        public string GetAdministorPasssword()
+        {
+            return DataSorce.Administrator_Password;
+        }
 
     }
 
