@@ -19,7 +19,7 @@
                 <ToolBar  ClipToBounds="False" Style="{DynamicResource MaterialDesignToolBar}">
                     <Button ToolTip="Customer" Content="{materialDesign:PackIcon Kind=Drone}"  Command="{Binding DisplayCustomerCommand}" />
                     <Separator />
-                    <Button ToolTip="Parcels To Customer" Content="{materialDesign:PackIcon Kind=Drone}"  Command="{Binding DisplayParcelsToCommand}" />
+                    <Button ToolTip="Parcels To Customer" Content="{materialDesign:PackIcon Kind=PackageVariant}"  Command="{Binding DisplayParcelsToCommand}" />
                     <Separator />
                     <Button  ToolTip="Parcels From Customers" Content="{materialDesign:PackIcon Kind=PackageVariant}" Command="{Binding DisplayParcelsFromCommand}"/>
                     <Separator />

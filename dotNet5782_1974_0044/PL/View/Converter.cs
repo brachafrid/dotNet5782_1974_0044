@@ -204,6 +204,44 @@ namespace PL
         }
 
     }
+
+    /// <summary>
+    /// Convert Drone Charging Visibility
+    /// </summary>
+    public class ConvertButtonAddVisibility : IValueConverter
+    {
+        /// <summary>
+        /// Checks drone status.
+        /// Convert to visibility: if drone state is delivery - visible. else - collapsed
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>Returns visibility: visible or collapsed</returns>
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value.ToString() != DroneState.DELIVERY.ToString())
+                return Visibility.Visible;
+            else
+                return Visibility.Collapsed;
+
+        }
+
+        /// <summary>
+        /// Convert Back to Convert Drone Charging Visibility
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>Returns Exception</returns>
+        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+    }
     public class UserControlConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
