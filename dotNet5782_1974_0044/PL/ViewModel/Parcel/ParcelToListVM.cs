@@ -44,7 +44,6 @@ namespace PL
             {
                 list = new ListCollectionView(PLService.GetCustomer((int)id).ToCustomer.ToList());
             }
-
         }
         public void OpenDetails(object param)
         {
