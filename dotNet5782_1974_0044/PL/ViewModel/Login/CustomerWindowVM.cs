@@ -53,15 +53,15 @@ namespace PL
         public RelayCommand DisplayCustomerCommand { get; set; }
         //public RelayCommand ToCustomerCommand { get; set; }
         //public RelayCommand FromCustomerCommand { get; set; }
-
+        int id;
 
         public ParcelAdd parcel { set; get; }
 
-        public CustomerWindowVM(int id)
+        public CustomerWindowVM(int Id)
         {
             Init();
             Tabs.changeSelectedTab += changeIndex;
-
+            id = Id;
             //customer = PLService.GetCustomer(2);
             //DisplayParcelsCommand = new(DisplayParcels, null);
             //ToCustomerCommand = new(ToCustomer, null);
@@ -69,20 +69,22 @@ namespace PL
             //sendParcel = new(SendParcel, null);
             //collectionParcel = new(CollectionParcel, null);
             //gettingParcel = new(GettingParcel, null);
+            //list = new ListCollectionView(PLService.GetParcels().ToList());
+            //list = new ListCollectionView(fromCustomer);
+            //List<ParcelAtCustomer> fromCustomer = customer.FromCustomer;
+            //List<ParcelAtCustomer> toCustomer = customer.ToCustomer;
+
             AddParcelCommand = new(AddParcel, null);
             DisplayParcelsFromCommand = new(DisplayParcelsFrom, null);
             DisplayParcelsToCommand = new(DisplayParcelsTo, null);
             DisplayCustomerCommand = new(DisplayCustomer, null);
-            list = new ListCollectionView(PLService.GetParcels().ToList());
-            List<ParcelAtCustomer> fromCustomer = customer.FromCustomer;
-            List<ParcelAtCustomer> toCustomer = customer.ToCustomer;
-            list = new ListCollectionView(fromCustomer);
+      
             DelegateVM.Customer += Init;
             DelegateVM.Parcel += Init;
         }
         public void Init()
         {
-            customer = PLService.GetCustomer(2);
+            customer = PLService.GetCustomer(id);
         }
 
         public void changeIndex(int index)

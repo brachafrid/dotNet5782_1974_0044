@@ -27,7 +27,7 @@ namespace PL
         public ParcelToListWindow(object Id)
         {
             InitializeComponent();
-            DataContext = new ParcelToListVM((int)Id);
+            DataContext = new ParcelToListVM(Id);
         }
     }
 }
