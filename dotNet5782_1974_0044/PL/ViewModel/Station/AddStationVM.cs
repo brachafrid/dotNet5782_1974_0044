@@ -16,7 +16,7 @@ namespace PL
         public AddStationVM()
         {
             station = new();
-            AddStationCommand = new(Add, param => station.Error == null);
+            AddStationCommand = new(Add, param => station.Error == null&&station.Location.Error == null);
         }
         public void Add(object param)
         {
