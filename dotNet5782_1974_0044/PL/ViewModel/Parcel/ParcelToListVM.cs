@@ -44,7 +44,6 @@ namespace PL
             {
                 list = new ListCollectionView(PLService.GetCustomer((int)id).ToCustomer.ToList());
             }
-
         }
         public void OpenDetails(object param)
         {
@@ -54,7 +53,6 @@ namespace PL
                     TabContent = "UpdateParcelView",
                     Text = "parcel " + (param as ParcelToList).Id,
                     Id = (param as ParcelToList).Id
-
                 });
         }
 
