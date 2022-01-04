@@ -16,19 +16,19 @@
     </UserControl.Resources>
     <Grid>
         <ScrollViewer>
-            <StackPanel x:Name="station" >
-                <ContentPresenter Content="{Binding station}"  />
-                <Button Content="update station" Command="{Binding UpdateStationCommand}">
-                    <Button.Visibility>
-                        <MultiBinding Converter="{StaticResource ConverterUpdateStation}">
-                            <Binding Path="station.Name" />
-                            <Binding Path="stationName" />
-                            <Binding Path="station.EmptyChargeSlots" />
-                            <Binding Path="stationEmptyChargeSlots" />
-                        </MultiBinding>
-                    </Button.Visibility>
-                </Button>
-                <Button Content="delete station" Command="{Binding DeleteStationCommand}"/>
+        <StackPanel x:Name="station" >
+            <ContentPresenter Content="{Binding station}"  />
+            <Button Content="update station" Command="{Binding UpdateStationCommand}">
+            <Button.Visibility>
+                    <MultiBinding Converter="{StaticResource ConverterUpdateStation}">
+                        <Binding Path="station.Name" />
+                        <Binding Path="stationName" />
+                        <Binding Path="station.EmptyChargeSlots" />
+                        <Binding Path="stationEmptyChargeSlots" />
+                    </MultiBinding>
+                </Button.Visibility>
+            </Button>
+            <Button Content="delete station" Command="{Binding DeleteStationCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
 
             </StackPanel>
         </ScrollViewer>

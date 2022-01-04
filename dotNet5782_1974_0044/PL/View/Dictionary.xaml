@@ -132,7 +132,10 @@
             <Expander Header="{materialDesign:PackIcon Kind =MapMarkerOutline }">
                 <ContentPresenter Content="{Binding Path=Location}" />
             </Expander>
-            <TextBox Text ="{Binding EmptyChargeSlots, StringFormat=EmptyChargeSlots :{0:d}, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}"/>
+            <DockPanel >
+                <TextBlock Text="EmptyChargeSlots"/>
+                <TextBox Text ="{Binding EmptyChargeSlots, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}"/>
+            </DockPanel>
             <ListView ItemsSource="{Binding Path=DroneInChargings}">
                 <ListView.View>
                     <GridView>

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace PL
 {
@@ -93,6 +94,7 @@ namespace PL
                 {
                     PLService.DeleteStation(station.Id);
                     MessageBox.Show("The station was successfully deleted");
+                    Tabs.CloseTab((param as TabItemFormat).Text);
                 }
             }
               catch (ThereAreAssociatedOrgansException ex)

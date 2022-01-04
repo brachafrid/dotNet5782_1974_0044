@@ -20,8 +20,9 @@
                 <Button Style="{StaticResource MaterialDesignFlatButton}"
                     HorizontalAlignment="Center"
                     Content="ADD"
-                    Command="{Binding AddDroneCommand}" Margin="5"/>
-            </StackPanel>
-        </ScrollViewer>
+                    Command="{Binding AddDroneCommand}" Margin="5"
+                    CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
+        </StackPanel>
+            </ScrollViewer>
     </Grid>
 </UserControl>

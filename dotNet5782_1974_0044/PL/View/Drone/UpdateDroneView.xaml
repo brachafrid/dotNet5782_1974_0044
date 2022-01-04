@@ -21,31 +21,31 @@
     </UserControl.Resources>
     <Grid>
         <ScrollViewer>
-            <StackPanel x:Name="details" >
-                <ContentPresenter Content="{Binding drone}" Height="100" Width="739"  />
-                <Button Content="update drone's model" Command="{Binding UpdateDroneCommand}">
-                    <Button.Visibility>
-                        <MultiBinding Converter="{StaticResource ConverterUpdateModel}">
-                            <Binding Path="drone.Model" />
-                            <Binding Path="droneModel" />
-                        </MultiBinding>
-                    </Button.Visibility>
-                </Button>
-                <StackPanel x:Name="droneCharge">
-                    <Button x:Name="sendToCharging" Content="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingContent}}"  Visibility="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingVisibility}}" Command="{Binding ChargingDroneCommand}"/>
-                </StackPanel>
-                <StackPanel>
-                    <Button x:Name="parcelTreatedByDRone"   Visibility="{Binding Path=drone.DroneState,Converter={StaticResource parcelTreatedByDroneVisibility}}" Command="{Binding ParcelTreatedByDrone}">
-                        <Button.Content>
-                            <MultiBinding Converter="{StaticResource parcelTreatedByDroneContent}">
-                                <Binding Path="drone.DroneState" />
-                                <Binding Path="drone.Parcel.ParcelState" />
-                            </MultiBinding>
-                        </Button.Content>
-                    </Button>
-                    <Button Content="delete drone" Command="{Binding DeleteDroneCommand}"/>
-                </StackPanel>
+        <StackPanel x:Name="details" >
+            <ContentPresenter Content="{Binding drone}" Height="100" Width="739"  />
+            <Button Content="update drone's model" Command="{Binding UpdateDroneCommand}">
+                <Button.Visibility>
+                    <MultiBinding Converter="{StaticResource ConverterUpdateModel}">
+                        <Binding Path="drone.Model" />
+                        <Binding Path="droneModel" />
+                    </MultiBinding>
+                </Button.Visibility>
+            </Button>
+            <StackPanel x:Name="droneCharge">
+                <Button x:Name="sendToCharging" Content="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingContent}}"  Visibility="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingVisibility}}" Command="{Binding ChargingDroneCommand}"/>
             </StackPanel>
+            <StackPanel>
+                <Button x:Name="parcelTreatedByDRone"   Visibility="{Binding Path=drone.DroneState,Converter={StaticResource parcelTreatedByDroneVisibility}}" Command="{Binding ParcelTreatedByDrone}">
+                    <Button.Content>
+                        <MultiBinding Converter="{StaticResource parcelTreatedByDroneContent}">
+                            <Binding Path="drone.DroneState" />
+                            <Binding Path="drone.Parcel.ParcelState" />
+                        </MultiBinding>
+                    </Button.Content>
+                </Button>
+                <Button Content="delete drone" Command="{Binding DeleteDroneCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
+            </StackPanel>
+        </StackPanel>
         </ScrollViewer>
     </Grid>
 </UserControl>
