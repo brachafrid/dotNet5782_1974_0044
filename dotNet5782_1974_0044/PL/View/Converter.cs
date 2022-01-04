@@ -235,7 +235,7 @@ namespace PL
                     "StationToListWindow" => new StationToListWindow(),
                     "CustomerTolistWindow" => new CustomerTolistWindow(),
                     "AddDroneView" => new AddDroneView(),
-                    "AddCustomerView" => new AddCustomerView(),
+                    "AddCustomerView" => new AddCustomerView(false),
                     "AddStationView" => new AddStationView(),
                     "AddParcelView" => new AddParcelView(),
                     "UpdateDroneView" => new UpdateDroneView(values[1]),

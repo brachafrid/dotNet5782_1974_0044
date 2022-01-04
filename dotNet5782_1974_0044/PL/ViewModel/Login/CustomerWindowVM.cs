@@ -53,10 +53,8 @@ namespace PL
         public RelayCommand DisplayCustomerCommand { get; set; }
         //public RelayCommand ToCustomerCommand { get; set; }
         //public RelayCommand FromCustomerCommand { get; set; }
-        int id;
-
         public ParcelAdd parcel { set; get; }
-
+        int id;
         public CustomerWindowVM(int Id)
         {
             id = Id;
