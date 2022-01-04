@@ -20,23 +20,29 @@ namespace PL
         }
         public ParcelToListVM(object Id)
         {
-            object id = Id;
-            UpdateInitListCustomer();
-            DelegateVM.Parcel += UpdateInitListCustomer;
+            //object id = Id;
+            // Customer customer = PLService.GetCustomer((int)Id);
+            UpdateInitList();
+            DelegateVM.Parcel += UpdateInitList;
+            DelegateVM.Customer += UpdateInitList;
             DoubleClick = new(OpenDetails, null);
-            list = new ListCollectionView(PLService.GetParcelsFrom((int)Id).ToList());
-
+            //list = new ListCollectionView(customer.FromCustomer.ToList());
+            //list = new ListCollectionView(PLService.GetCustomer((int)Id).FromCustomer.ToList());
+            
         }
 
         void UpdateInitList()
         {
-            list = new ListCollectionView(PLService.GetParcels().ToList());
+            list = new ListCollectionView(PLService.GetCustomer(7).FromCustomer.ToList());
+            DelegateVM.Customer?.Invoke();
+            DelegateVM.Parcel?.Invoke();
+
         }
-        void UpdateInitListCustomer()
-        {
-            
-            //list = new ListCollectionView(PLService.GetParcels(Id: CustomerWindowVM.customer.Id).ToList());
-        }
+        //void UpdateInitListCustomer()
+        //{
+
+        //    //list = new ListCollectionView(PLService.GetParcels(Id: CustomerWindowVM.customer.Id).ToList());
+        //}
         public void OpenDetails(object param)
         {
             if (param != null)
