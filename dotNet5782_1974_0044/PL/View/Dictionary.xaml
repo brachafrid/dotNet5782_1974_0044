@@ -179,7 +179,6 @@
             <TextBlock  Text ="{Binding Id, StringFormat = Id:{0:d}}" />
             <TextBlock  Text ="{Binding Piority, StringFormat=Piority :{0}}" />
             <TextBlock  Text ="{Binding Weight, StringFormat=Weight :{0} }" />
-            <TextBlock Text="{Binding Path=PackageMode, StringFormat=Package Mode :{0}}"/>
             <TextBlock Text="{Binding Path=CreationTime, StringFormat=Package CreationTime :{0}}"/>
             <TextBlock Text="{Binding Path=AssignmentTime, StringFormat=Package AssignmentTime :{0}}"/>
             <TextBlock Text="{Binding Path=CollectionTime, StringFormat=Package CollectionTime :{0}}"/>
