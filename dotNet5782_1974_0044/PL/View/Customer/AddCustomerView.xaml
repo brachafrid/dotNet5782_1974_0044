@@ -18,7 +18,7 @@
                 <TextBox Text="{Binding customer.Phone, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Phone" Margin="5"/>
                 <TextBox Text="{Binding customer.Location.Latitude, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Latitude" Margin="5"/>
                 <TextBox Text="{Binding customer.Location.Longitude, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Longitude" Margin="5"/>
-                <Button Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Center" Content="ADD" Command ="{Binding AddCustomerCommand}" />
+                <Button Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Center" Content="ADD" Command ="{Binding AddCustomerCommand}"  CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
             </StackPanel>
         </ScrollViewer>
     </Grid>

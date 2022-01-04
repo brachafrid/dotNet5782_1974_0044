@@ -29,13 +29,13 @@ namespace PL
         public UpdateParcelVM(int id)
         {
             this.id = id;
-            init();
+            InitParcel();
             DeleteParcelCommand = new(DeleteParcel, param => parcel.Error == null);
             OpenCustomerCommand = new(OpenCustomerDetails, null);
             OpenDroneCommand = new(OpenDroneDetails, null);
-            DelegateVM.Parcel += init;
+            DelegateVM.Parcel += InitParcel;
         }
-        public void init()
+        public void InitParcel()
         {
             parcel = PLService.GetParcel(id);
         }
@@ -46,6 +46,8 @@ namespace PL
                 PLService.DeleteParcel(parcel.Id);
                 MessageBox.Show("The parcel was successfully deleted");
                 Tabs.CloseTab((param as TabItemFormat).Text);
+                DelegateVM.Parcel -= InitParcel;
+                DelegateVM.Parcel?.Invoke();
             }
         }
         public void OpenCustomerDetails(object param)

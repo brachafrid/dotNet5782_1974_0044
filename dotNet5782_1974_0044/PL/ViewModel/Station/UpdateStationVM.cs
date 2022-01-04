@@ -55,17 +55,25 @@ namespace PL
         public UpdateStationVM(int id)
         {
             this.id = id;
-            init();
+            initStation();
             stationName = station.Name;
             stationEmptyChargeSlots = station.EmptyChargeSlots;
             UpdateStationCommand = new(UpdateStation, param => station.Error == null);
             DeleteStationCommand = new(DeleteStation, param => station.Error == null);
-            DelegateVM.Station += init;
+            DelegateVM.Station += initStation;
             OpenDroneChargeCommand = new(OpenDroneDetails, null);
         }
-        public void init()
+        public void initStation()
         {
-            station = PLService.GetStation(id);
+            try
+            {
+                station = PLService.GetStation(id);
+            }
+            catch(KeyNotFoundException)
+            {
+
+            }
+
         }
 
         public void UpdateStation(object param)
@@ -75,10 +83,10 @@ namespace PL
                 if (stationName != station.Name || stationEmptyChargeSlots != station.EmptyChargeSlots)
                 {
                     PLService.UpdateStation(station.Id, station.Name, station.EmptyChargeSlots);
-                    DelegateVM.Station();
+                    DelegateVM.Station?.Invoke();
                     stationName = station.Name;
                     stationEmptyChargeSlots = station.EmptyChargeSlots;
-                
+
                 }
             }
             catch (ArgumentOutOfRangeException ex)
@@ -88,16 +96,20 @@ namespace PL
         }
         public void DeleteStation(object param)
         {
-            try { 
+            try
+            {
 
                 if (MessageBox.Show("You're sure you want to delete this station?", "Delete Station", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
                     PLService.DeleteStation(station.Id);
                     MessageBox.Show("The station was successfully deleted");
                     Tabs.CloseTab((param as TabItemFormat).Text);
+                    DelegateVM.Station -= initStation;
+                    DelegateVM.Station?.Invoke();
+                    
                 }
             }
-              catch (ThereAreAssociatedOrgansException ex)
+            catch (ThereAreAssociatedOrgansException ex)
             {
                 MessageBox.Show($"{ex.Message}");
             }

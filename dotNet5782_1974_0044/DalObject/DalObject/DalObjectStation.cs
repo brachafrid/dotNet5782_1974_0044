@@ -41,7 +41,7 @@ namespace  Dal
         {
             Station station = DataSorce.Stations.FirstOrDefault(item => item.Id == id);
             if (station.Equals(default(Station)) || station.IsDeleted == true)
-                throw new KeyNotFoundException("There is no suitable customer in data");
+                throw new KeyNotFoundException("There is no suitable station in data");
             return station;
         }
 
@@ -49,7 +49,7 @@ namespace  Dal
         ///  Prepares the list of Sations for display
         /// </summary>
         /// <returns>A list of stations</returns>
-        public IEnumerable<Station> GetStations() => DataSorce.Stations.Where(s => s.IsDeleted == false);
+        public IEnumerable<Station> GetStations() => DataSorce.Stations.Where(s => !s.IsDeleted);
 
         /// <summary>
         /// Find the satation that have empty charging slots
@@ -71,7 +71,9 @@ namespace  Dal
         public void DeleteStation(int id)
         {
             Station station = DataSorce.Stations.FirstOrDefault(item => item.Id == id);
+            DataSorce.Stations.Remove(station);
             station.IsDeleted = true;
+            DataSorce.Stations.Add(station);
         }
     }
 }

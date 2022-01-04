@@ -11,8 +11,8 @@ using System.Windows.Controls;
 
 namespace PL
 {
-    
-    public class UpdateDroneVM: DependencyObject
+
+    public class UpdateDroneVM : DependencyObject
     {
         public RelayCommand OpenParcelCommand { get; set; }
         public RelayCommand OpenCustomerCommand { get; set; }
@@ -38,21 +38,21 @@ namespace PL
         public RelayCommand ChargingDroneCommand { get; set; }
         public RelayCommand ParcelTreatedByDrone { get; set; }
         public RelayCommand DeleteDroneCommand { get; set; }
-        
+
         public UpdateDroneVM(int id)
         {
             this.id = id;
-            init();
+            InitDrone();
             droneModel = drone.Model;
             UpdateDroneCommand = new(UpdateModel, param => drone.Error == null);
             ChargingDroneCommand = new(sendToCharging, param => drone.Error == null);
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => drone.Error == null);
             DeleteDroneCommand = new(DeleteDrone, param => drone.Error == null);
-            DelegateVM.Drone += init;
+            DelegateVM.Drone += InitDrone;
             OpenParcelCommand = new(OpenParcelDetails, null);
             OpenCustomerCommand = new(OpenCustomerDetails, null);
         }
-        public void init()
+        public void InitDrone()
         {
             drone = PLService.GetDrone(id);
         }
@@ -77,7 +77,7 @@ namespace PL
                 MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
                 MessageBox.Show("For updating the name must be initialized ");
             }
-            DelegateVM.Drone();
+            DelegateVM.Drone?.Invoke();
         }
 
         public void sendToCharging(object param)
@@ -85,31 +85,32 @@ namespace PL
             if (drone.DroneState == PO.DroneState.AVAILABLE)
             {
                 PLService.SendDroneForCharg(drone.Id);
-                DelegateVM.Drone();
+                DelegateVM.Drone?.Invoke();
             }
             else if (drone.DroneState == PO.DroneState.MAINTENANCE)
             {
                 PLService.ReleaseDroneFromCharging(drone.Id);
-                DelegateVM.Drone();
+                DelegateVM.Drone?.Invoke();
             }
         }
 
 
         public void parcelTreatedByDrone(object param)
         {
-            try { 
+            try
+            {
                 if (drone.DroneState == PO.DroneState.DELIVERY)
                 {
                     if (drone.Parcel.ParcelState == true)
                     {
                         PLService.DeliveryParcelByDrone(drone.Id);
-                        DelegateVM.Drone();
+                        DelegateVM.Drone?.Invoke();
 
                     }
                     else
                     {
                         PLService.ParcelCollectionByDrone(drone.Id);
-                        DelegateVM.Drone();
+                        DelegateVM.Drone?.Invoke();
 
                     }
 
@@ -117,7 +118,7 @@ namespace PL
                 else
                 {
                     PLService.AssingParcelToDrone(drone.Id);
-                    DelegateVM.Drone();
+                    DelegateVM.Drone?.Invoke();
 
                 }
             }
@@ -131,14 +132,16 @@ namespace PL
         {
             try
             {
-               if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
-               {
+                if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
                     PLService.DeleteDrone(drone.Id);
-                   MessageBox.Show("The drone was successfully deleted");
+                    MessageBox.Show("The drone was successfully deleted");
                     Tabs.CloseTab((param as TabItemFormat).Text);
+                    DelegateVM.Drone -= InitDrone;
+                    DelegateVM.Drone?.Invoke();
                 }
             }
-         
+
             catch (BO.ThereAreAssociatedOrgansException ex)
             {
                 MessageBox.Show($"{ex.Message}");
