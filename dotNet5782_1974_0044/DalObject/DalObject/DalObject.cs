@@ -1,4 +1,6 @@
 ﻿
+using DLApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Utilities;
@@ -29,7 +31,7 @@ namespace Dal
                 return false;
            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id);
             
-            return !(temp.Equals(default(T)));
+            return !temp.Equals(default(T));
         }
         /// <summary>
         /// Takes from the DataSource the electricity use data of the drone
@@ -46,6 +48,8 @@ namespace Dal
             return DataSorce.Administrator_Password;
         }
 
+       
+        
     }
 
 }

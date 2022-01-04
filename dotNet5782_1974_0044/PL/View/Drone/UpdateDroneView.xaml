@@ -21,7 +21,7 @@
     </UserControl.Resources>
     <Grid>
         <StackPanel x:Name="details" >
-            <ContentPresenter Content="{Binding drone}"  />
+            <ContentPresenter Content="{Binding drone}" Height="100" Width="739"  />
             <Button Content="update drone's model" Command="{Binding UpdateDroneCommand}">
                 <Button.Visibility>
                     <MultiBinding Converter="{StaticResource ConverterUpdateModel}">

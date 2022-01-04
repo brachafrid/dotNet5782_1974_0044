@@ -294,8 +294,8 @@ namespace BL
 
         private List<DroneInCharging> CreatListDroneInCharging(int id)
         {
-            List<int> list = dal.GetDronechargingInStation((int stationIdOfDrone)=> stationIdOfDrone == id);
-            if (list.Count == 0)
+            IEnumerable<int> list = dal.GetDronechargingInStation((int stationIdOfDrone)=> stationIdOfDrone == id);
+            if (list.Count() == 0)
                 return new();
             List<DroneInCharging> droneInChargings = new();
             DroneToList droneToList;
