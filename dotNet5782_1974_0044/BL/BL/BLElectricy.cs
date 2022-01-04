@@ -33,7 +33,6 @@ namespace BL
                 Distance(CustomerReceives, new Location() { Latitude = station.Latitude, Longitude = station.Longitude });
             return electricity;
         }
-
     }
 }
 
