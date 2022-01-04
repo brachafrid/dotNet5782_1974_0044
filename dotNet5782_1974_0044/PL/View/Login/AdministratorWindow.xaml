@@ -36,7 +36,7 @@
                 </TabControl.ItemTemplate>
                 <TabControl.ContentTemplate>
                     <DataTemplate>
-                        <ContentControl >
+                        <ContentControl>
                             <ContentControl.Content>
                                 <MultiBinding Converter="{StaticResource TabItemContentConverter}">
                                     <Binding Path="TabContent" />
