@@ -38,9 +38,9 @@ namespace BL
             {
                 return MapCustomer(dal.GetCustomer(id));
             }
-            catch(KeyNotFoundException ex)
+            catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException(ex.Message);   
+                throw new KeyNotFoundException(ex.Message);
             }
         }
         //-------------------------------------------------------Updating-----------------------------------------------------------------------------

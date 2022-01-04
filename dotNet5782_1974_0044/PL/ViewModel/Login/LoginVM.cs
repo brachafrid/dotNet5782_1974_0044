@@ -62,15 +62,16 @@ namespace PL
         }
         public void CustomerLogin(object param)
         {
-            try
+           // try
             {
                 Customer customer = PLService.GetCustomer((int)customerLogin.Id);
                 LoginScreen.Id = customer.Id;
                 LoginScreen.MyScreen = "CustomerWindow";
             }
-            catch (KeyNotFoundException)
+           // catch (KeyNotFoundException ex)
             {
                 MessageBox.Show("Incorrect Id");
+                //MessageBox.Show(ex.Message);
                 customerLogin.Id = null;
             }
         }

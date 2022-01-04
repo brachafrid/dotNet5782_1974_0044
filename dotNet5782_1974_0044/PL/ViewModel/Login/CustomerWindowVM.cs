@@ -56,12 +56,12 @@ namespace PL
 
 
         public ParcelAdd parcel { set; get; }
-
-        public CustomerWindowVM(int id)
+        int id;
+        public CustomerWindowVM(int Id)
         {
+            id = Id;
             Init();
             Tabs.changeSelectedTab += changeIndex;
-
             //customer = PLService.GetCustomer(2);
             //DisplayParcelsCommand = new(DisplayParcels, null);
             //ToCustomerCommand = new(ToCustomer, null);
@@ -84,7 +84,7 @@ namespace PL
         }
         public void Init()
         {
-            customer = PLService.GetCustomer(7);
+            customer = PLService.GetCustomer(id);
         }
 
         public void changeIndex(int index)
