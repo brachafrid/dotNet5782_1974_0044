@@ -50,9 +50,10 @@ namespace PL
             Type t = param.GetType();
             int id = (param is ParcelToList) ? (param as ParcelToList).Id : (param as ParcelAtCustomer).Id;
             if (param != null)
-                Tabs.AddTab(new()
+         
+            Tabs.AddTab(new TabItemFormat()
                 {
-                    TabContent = "UpdateParcelView",
+                    //TabContent = "UpdateParcelView",
                     Text = "parcel " + id,
                     Id = id,
                     Content= new UpdateParcelVM(id)
@@ -62,9 +63,9 @@ namespace PL
 
         public override void AddEntity(object param)
         {
-            Tabs.AddTab(new()
+            Tabs.AddTab(new TabItemFormat()
             {
-                TabContent = "AddParcelView",
+                //TabContent = "AddParcelView",
                 Text = "Parcel",
                 Content = new AddParcelVM()
             }) ;

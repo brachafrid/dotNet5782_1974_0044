@@ -14,15 +14,14 @@ namespace PL
 
         public LoginVM()
         {
-            Add = new();
+            Add = new(true);
             ShowAdministratorLoginCommand = new RelayCommand(ShowAdministratorLogin, null);
             ShowCustomerLoginCommand = new RelayCommand(ShowCustomerLogin, null);
             AdministratorLoginCommand = new RelayCommand(AdministratorLogin, null);
             CustomerLoginCommand = new RelayCommand(CustomerLogin, null);
             ShowCustomerSigninCommand = new(ShowCustomerSignin, null);
         }
-        public AddCustomerView Add { get; set; }
-
+        public CustomerAddVM Add { get; set; }
         public RelayCommand AdministratorLoginCommand { get; set; }
         public RelayCommand CustomerLoginCommand { get; set; }
         public RelayCommand ShowAdministratorLoginCommand { get; set; }

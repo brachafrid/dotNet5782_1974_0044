@@ -20,7 +20,7 @@ namespace PL
             AddDroneToListWindowCommand = new(AddDroneToList, null);
             AddParcelToListWindowCommand = new(AddParcelToList, null);
             AddStationToListWindowCommand = new(AddStationToList, null);
-            AddCustomerToListWindowCommand = new(AddCustomeroList, null);
+            AddCustomerToListWindowCommand = new(AddCustomerToList, null);
             Tabs.changeSelectedTab += changeIndex;
             CloseCommand = new(Close, null);
         }
@@ -68,7 +68,7 @@ namespace PL
             });
            
         }
-        public  void AddCustomeroList(object param)
+        public  void AddCustomerToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             {

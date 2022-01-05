@@ -94,9 +94,9 @@ namespace PL
         {
             Tabs.AddTab(new TabItemFormat()
             {
-                Id = customer.Id,
+                //Id = customer.Id,
                 Text = "Customer",
-                TabContent = "Customer"
+                Content = new UpdateCustomerVM(id)
             });
         }
         public void AddParcel(object param)
@@ -104,8 +104,7 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Text = "Add Parcel",
-                TabContent = "AddParcelView",
-                Content = new AddParcelVM()
+                Content = new AddParcelVM(id)
 
             });
 
@@ -115,8 +114,8 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Text = "Parcels From Customer",
-                TabContent = "ParcelsFrom",
-                Id = customer.Id,
+                Content = new ParcelToListVM(id, "From"),
+                //Id = customer.Id,
                 
             });
         }
@@ -125,8 +124,8 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Text = "Parcels To Customer",
-                TabContent = "ParcelsTo",
-                Id = customer.Id
+                Content = new ParcelToListVM(id, "To"),
+                //Id = customer.Id
             });
         }
       

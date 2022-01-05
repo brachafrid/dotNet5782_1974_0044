@@ -24,17 +24,17 @@ namespace PL
         }
         public override void AddEntity(object param)
         {
-            Tabs.AddTab(new()
+            Tabs.AddTab(new TabItemFormat()
             {
                 TabContent = "AddStationView",
                 Text = "Station",
-               Content = new AddStationVM()
+                Content = new AddStationVM()
             });
         }
         public void OpenDetails(object param)
         {
             if (param != null)
-                Tabs.AddTab(new()
+                Tabs.AddTab(new TabItemFormat()
                 {
                     TabContent = "UpdateStationView",
                     Text = "station " + (param as StationToList).Id,
