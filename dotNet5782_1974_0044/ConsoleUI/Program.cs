@@ -189,7 +189,7 @@
 //                        double latitude, longitude;
 //                        if (int.TryParse(Console.ReadLine(), out id)&&double.TryParse(Console.ReadLine(), out latitude)&&double.TryParse(Console.ReadLine(), out longitude))
 //                        {
-                           
+
 //                            string name = Console.ReadLine();
 //                            string phone = Console.ReadLine();
 //                            dalObject.AddCustomer(id, name, phone, latitude, longitude);
