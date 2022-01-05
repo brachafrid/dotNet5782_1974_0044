@@ -61,7 +61,7 @@ namespace PL
             UpdateStationCommand = new(UpdateStation, param => station.Error == null);
             DeleteStationCommand = new(DeleteStation, param => station.Error == null);
             DelegateVM.Station += initStation;
-            OpenDroneChargeCommand = new(OpenDroneDetails, null);
+            OpenDroneChargeCommand = new(Tabs.OpenDroneDetails, null);
         }
         public void initStation()
         {
@@ -116,18 +116,7 @@ namespace PL
             }
         }
 
-        public void OpenDroneDetails(object param)
-        {
-            if (param != null && param is PL.PO.DroneInCharging droneCharge)
-                Tabs.AddTab(new()
-                {
-                    TabContent = "UpdateDroneView",
-                    Text = "drone " + droneCharge.Id,
-                    Id = droneCharge.Id,
-                    Content = new UpdateDroneVM(droneCharge.Id)
-                    
-                });
-        }
+      
 
     }
 }

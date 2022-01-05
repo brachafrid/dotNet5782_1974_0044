@@ -37,7 +37,6 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Text = "Drones",
-                TabContent = "DroneToListWindow",
                 Content = new DroneToListVM()
             });
         }
@@ -51,7 +50,6 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Text = "Parcels",
-                TabContent = "ParcelToListWindow",
                 Content = new ParcelToListVM()
             });
             
@@ -61,7 +59,6 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Text = "Stations",
-                TabContent = "StationToListWindow",
                 Content = new StationToListVM()
             });
            
@@ -71,7 +68,6 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Text = "Customers",
-                TabContent = "CustomerTolistWindow",
                 Content = new StationToListVM()
             });
            

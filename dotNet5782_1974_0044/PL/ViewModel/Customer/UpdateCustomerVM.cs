@@ -60,7 +60,7 @@ namespace PL
             UpdateCustomerCommand = new(UpdateCustomer, param => customer.Error == null);
             DeleteCustomerCommand = new(DeleteCustomer, param => customer.Error == null);
             DelegateVM.Customer += InitCustomer;
-            OpenParcelCommand = new(OpenDetails, null);
+            OpenParcelCommand = new(Tabs.OpenParcelDetails, null);
         }
         public void InitCustomer()
         {
@@ -96,17 +96,5 @@ namespace PL
                 MessageBox.Show($"{ex.Message}");
             }
         }
-
-        public void OpenDetails(object param)
-        {
-            if (param != null)
-                Tabs.AddTab(new()
-                {
-                    TabContent = "UpdateParcelView",
-                    Text = "parcel " + (param as ParcelAtCustomer).Id,
-                    Id = (param as ParcelAtCustomer).Id
-                });
-        }
-
     }
 }

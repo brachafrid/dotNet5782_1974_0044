@@ -49,8 +49,8 @@ namespace PL
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => drone.Error == null);
             DeleteDroneCommand = new(DeleteDrone, param => drone.Error == null);
             DelegateVM.Drone += InitThisDrone;
-            OpenParcelCommand = new(OpenParcelDetails, null);
-            OpenCustomerCommand = new(OpenCustomerDetails, null);
+            OpenParcelCommand = new(Tabs.OpenParcelDetails, null);
+            OpenCustomerCommand = new(Tabs.OpenCustomerDetails, null);
         }
         public void InitThisDrone()
         {
@@ -145,28 +145,6 @@ namespace PL
             {
                 MessageBox.Show($"{ex.Message}");
             }
-        }
-
-        public void OpenParcelDetails(object param)
-        {
-            if (param != null && param is int Id)
-                Tabs.AddTab(new()
-                {
-                    TabContent = "UpdateParcelView",
-                    Text = "parcel " + Id,
-                    Id = Id
-                });
-        }
-
-        public void OpenCustomerDetails(object param)
-        {
-            if (param != null && param is int Id)
-                Tabs.AddTab(new()
-                {
-                    TabContent = "UpdateCustomerView",
-                    Text = "customer " + Id,
-                    Id = Id
-                });
-        }
+        }      
     }
 }

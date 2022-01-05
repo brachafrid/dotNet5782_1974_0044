@@ -16,7 +16,7 @@ namespace PL
         {
             UpdateInitList();
             DelegateVM.Station += UpdateInitList;
-            DoubleClick = new(OpenDetails, null);
+            DoubleClick = new(Tabs.OpenStationDetails, null);
         }
         void UpdateInitList()
         {
@@ -26,22 +26,10 @@ namespace PL
         {
             Tabs.AddTab(new TabItemFormat()
             {
-                TabContent = "AddStationView",
                 Text = "Station",
                 Content = new AddStationVM()
             });
         }
-        public void OpenDetails(object param)
-        {
-            if (param != null)
-                Tabs.AddTab(new TabItemFormat()
-                {
-                    TabContent = "UpdateStationView",
-                    Text = "station " + (param as StationToList).Id,
-                    Id = (param as StationToList).Id,
-                    Content = new UpdateStationVM((param as StationToList).Id)
-
-                });
-        }
+     
     }
 }

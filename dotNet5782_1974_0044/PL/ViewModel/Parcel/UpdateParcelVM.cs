@@ -31,8 +31,8 @@ namespace PL
             this.id = id;
             InitParcel();
             DeleteParcelCommand = new(DeleteParcel, param => parcel.Error == null);
-            OpenCustomerCommand = new(OpenCustomerDetails, null);
-            OpenDroneCommand = new(OpenDroneDetails, null);
+            OpenCustomerCommand = new(Tabs.OpenCustomerDetails, null);
+            OpenDroneCommand = new(Tabs.OpenDroneDetails, null);
             DelegateVM.Parcel += InitParcel;
         }
         public void InitParcel()
@@ -50,27 +50,5 @@ namespace PL
                 DelegateVM.Parcel?.Invoke();
             }
         }
-        public void OpenCustomerDetails(object param)
-        {
-            if (param != null && param is int Id)
-                Tabs.AddTab(new()
-                {
-                    TabContent = "UpdateCustomerView",
-                    Text = "customer " + Id,
-                    Id = Id
-                });
-        }
-
-        public void OpenDroneDetails(object param)
-        {
-            if (param != null && param is int Id)
-                Tabs.AddTab(new()
-                {
-                    TabContent = "UpdateDroneView",
-                    Text = "drone " + Id,
-                    Id = Id
-                });
-        }
-
     }
 }
