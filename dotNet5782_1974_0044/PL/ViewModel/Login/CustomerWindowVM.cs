@@ -95,16 +95,19 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 //Id = customer.Id,
+                TabContent = "UpdateCustomerView",
                 Text = "Customer",
-                Content = new UpdateCustomerVM(id)
+                Content = new UpdateCustomerVM(id),
+
             });
         }
         public void AddParcel(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             {
+                TabContent = "ParcelToListWindow",
                 Text = "Add Parcel",
-                Content = new AddParcelVM(id)
+                Content = new AddParcelVM(id),
 
             });
 
@@ -113,18 +116,21 @@ namespace PL
         {
             Tabs.AddTab(new TabItemFormat()
             {
+                TabContent = "ParcelToListWindow",
                 Text = "Parcels From Customer",
                 Content = new ParcelToListVM(id, "From"),
                 //Id = customer.Id,
-                
+
             });
         }
         public void DisplayParcelsTo(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             {
+                TabContent = "ParcelToListWindow",
                 Text = "Parcels To Customer",
                 Content = new ParcelToListVM(id, "To"),
+
                 //Id = customer.Id
             });
         }

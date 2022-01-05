@@ -39,9 +39,7 @@ namespace PL
                 Text = "Drones",
                 TabContent = "DroneToListWindow",
                 Content = new DroneToListVM()
-
             });
-            
         }
 
         public void changeIndex(int index)

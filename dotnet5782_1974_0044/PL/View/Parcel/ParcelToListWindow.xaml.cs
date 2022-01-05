@@ -16,14 +16,18 @@ using System.Windows.Shapes;
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for CustomerWindow.xaml
+    /// Interaction logic for ParcelToListWindow.xaml
     /// </summary>
-    public partial class CustomerWindow : UserControl
+    public partial class ParcelToListWindow : UserControl
     {
-        public CustomerWindow(int id)
+        public ParcelToListWindow()
         {
             InitializeComponent();
-           
+        }
+        public ParcelToListWindow(object Id, object State)
+        {
+            InitializeComponent();
+            DataContext = new ParcelToListVM(Id, State);
         }
     }
 }
