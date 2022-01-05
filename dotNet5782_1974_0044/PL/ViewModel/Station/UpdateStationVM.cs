@@ -105,6 +105,7 @@ namespace PL
                     MessageBox.Show("The station was successfully deleted");
                     Tabs.CloseTab((param as TabItemFormat).Text);
                     DelegateVM.Station -= initStation;
+                    DelegateVM.Station = DelegateVM.Station- initStation;
                     DelegateVM.Station?.Invoke();
                     
                 }
