@@ -122,7 +122,9 @@ namespace PL
                 {
                     TabContent = "UpdateDroneView",
                     Text = "drone " + droneCharge.Id,
-                    Id = droneCharge.Id
+                    Id = droneCharge.Id,
+                    Content = new UpdateDroneVM(droneCharge.Id)
+                    
                 });
         }
 

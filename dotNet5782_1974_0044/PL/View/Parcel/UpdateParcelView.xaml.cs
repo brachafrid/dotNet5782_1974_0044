@@ -20,10 +20,10 @@ namespace PL
     /// </summary>
     public partial class UpdateParcelView : UserControl
     {
-        public UpdateParcelView(object Id)
+        public UpdateParcelView()
         {
             InitializeComponent();
-            DataContext = new UpdateParcelVM((int)Id);
+            //DataContext = new UpdateParcelVM((int)Id);
         }
     }
 }

@@ -27,7 +27,8 @@ namespace PL
             Tabs.AddTab(new()
             {
                 TabContent = "AddStationView",
-                Text = "Station"
+                Text = "Station",
+               Content = new AddStationVM()
             });
         }
         public void OpenDetails(object param)
@@ -37,7 +38,8 @@ namespace PL
                 {
                     TabContent = "UpdateStationView",
                     Text = "station " + (param as StationToList).Id,
-                    Id = (param as StationToList).Id
+                    Id = (param as StationToList).Id,
+                    Content = new UpdateStationVM((param as StationToList).Id)
 
                 });
         }

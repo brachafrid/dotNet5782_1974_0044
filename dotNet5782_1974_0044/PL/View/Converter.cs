@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BO;
+using System;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using BO;
 
 namespace PL
 {
@@ -250,7 +246,8 @@ namespace PL
             {
                 "LoginWindow" => new LoginWindow(),
                 "AdministratorWindow" => new AdministratorWindow(),
-                "CustomerWindow" => new CustomerWindow((int)PO.LoginScreen.Id)
+                //"CustomerWindow" => new CustomerWindow((int)PO.LoginScreen.Id)
+                "CustomerWindow" => new CustomerWindow()
             };
         }
 
@@ -264,7 +261,7 @@ namespace PL
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0]!=DependencyProperty.UnsetValue)
+            if (values[0] != DependencyProperty.UnsetValue)
             {
                 return values[0] switch
                 {
@@ -273,16 +270,18 @@ namespace PL
                     "StationToListWindow" => new StationToListWindow(),
                     "CustomerTolistWindow" => new CustomerTolistWindow(),
                     "AddDroneView" => new AddDroneView(),
-                    "AddCustomerView" => new AddCustomerView(false),
+                    "AddCustomerView" => new AddCustomerView(),
                     "AddStationView" => new AddStationView(),
                     "AddParcelView" => new AddParcelView(),
-                    "UpdateDroneView" => new UpdateDroneView(values[1]),
-                    "UpdateCustomerView" => new UpdateCustomerView(values[1]),
-                    "UpdateStationView" => new UpdateStationView(values[1]),
-                    "UpdateParcelView"=>new UpdateParcelView(values[1]),
-                    "ParcelsFrom" => new ParcelToListWindow(values[1], "From"),
-                    "ParcelsTo" => new ParcelToListWindow(values[1], "To"),
-                    "Customer" => new UpdateCustomerView(values[1])
+                    "UpdateDroneView" => new UpdateDroneView(),
+                    "UpdateCustomerView" => new UpdateCustomerView(),
+                    "UpdateStationView" => new UpdateStationView(),
+                    "UpdateParcelView" => new UpdateParcelView(),
+                    "ParcelsFrom" => new ParcelToListWindow(),
+                    //"ParcelsFrom" => new ParcelToListWindow(values[1], "From"),
+                    //"ParcelsTo" => new ParcelToListWindow(values[1], "To"),
+                    "ParcelsTo" => new ParcelToListWindow(),
+                    "Customer" => new UpdateCustomerView()
                 };
             }
             return "i love you";
@@ -295,7 +294,7 @@ namespace PL
         }
     }
 
-   
+
     public class ConverterUpdateCustomer : IMultiValueConverter
     {
         /// <summary>
@@ -344,8 +343,7 @@ namespace PL
         /// <returns>Returns visibility: visible or collapsed</returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] as string != values[1] as string || (int)values[2] != (int)values[3]
-                )
+            if (values[0] != values[1] || values[2] != values[3])
             {
                 return Visibility.Visible;
             }

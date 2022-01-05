@@ -86,15 +86,15 @@ namespace PL
             {
                 PLService.SendDroneForCharg(drone.Id);
                 DelegateVM.Drone?.Invoke();
+                DelegateVM.Station?.Invoke();
             }
             else if (drone.DroneState == PO.DroneState.MAINTENANCE)
             {
                 PLService.ReleaseDroneFromCharging(drone.Id);
                 DelegateVM.Drone?.Invoke();
+                DelegateVM.Station?.Invoke();
             }
         }
-
-
         public void parcelTreatedByDrone(object param)
         {
             try
@@ -113,7 +113,6 @@ namespace PL
                         DelegateVM.Drone?.Invoke();
 
                     }
-
                 }
                 else
                 {

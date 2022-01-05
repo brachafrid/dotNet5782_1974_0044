@@ -30,8 +30,8 @@ namespace PL
             {
                 TabContent = "UpdateCustomerView",
                 Text = "customer " + (param as CustomerToList).Id,
-                Id = (param as CustomerToList).Id
-
+                Id = (param as CustomerToList).Id,
+                Content = new UpdateCustomerVM((param as CustomerToList).Id)
             }); 
         }
         public override void AddEntity(object param)
@@ -39,7 +39,8 @@ namespace PL
             Tabs.AddTab(new()
             {
                 TabContent = "AddCustomerView",
-                Text = "Customer"
+                Text = "Customer",
+                Content = new CustomerAddVM(false)
             });
         }
     }

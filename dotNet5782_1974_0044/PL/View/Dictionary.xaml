@@ -7,13 +7,48 @@
                     xmlns:po ="clr-namespace:PL.PO"
                     xmlns:local="clr-namespace:PL">
 
+    <DataTemplate DataType="{x:Type local:AddDroneVM}">
+        <local:AddDroneView/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type local:CustomerAddVM}">
+        <local:AddCustomerView/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type local:AddParcelVM}">
+        <local:AddParcelView/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type local:AddStationVM}">
+        <local:AddStationView/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type local:DroneToListVM}">
+        <local:DroneToListWindow/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type local:ParcelToListVM}">
+        <local:ParcelToListWindow/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type local:StationToListVM}">
+        <local:StationToListWindow/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type local:CustomerToListVM}">
+        <local:CustomerTolistWindow/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type local:UpdateCustomerVM}">
+        <local:UpdateCustomerView/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type local:UpdateDroneVM}">
+        <local:UpdateDroneView/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type local:UpdateParcelVM}">
+        <local:UpdateParcelView/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type local:UpdateStationVM}">
+        <local:UpdateStationView/>
+    </DataTemplate>
     <DataTemplate DataType="{x:Type po:Location}">
         <StackPanel>
             <TextBlock Text="{Binding Path=Latitude, StringFormat = Latitude:{0:n}}" />
             <TextBlock Text="{Binding Path=Longitude, StringFormat = Longitude:{0:n}}" />
         </StackPanel>
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type po:DroneToList}" >
         <Expander Header="{Binding Path=Id}">
             <StackPanel>
@@ -28,7 +63,6 @@
             </StackPanel>
         </Expander>
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type po:Drone}" >
         <StackPanel>
             <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
@@ -45,14 +79,12 @@
             <ContentPresenter Content="{Binding Path=Parcel}" />
         </StackPanel>
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type po:CustomerInParcel}">
         <StackPanel>
             <TextBlock Text="{Binding Path=Id, StringFormat=id :{0:d}}"/>
             <TextBlock Text="{Binding Name, StringFormat=Name :{0}}"/>
         </StackPanel>
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type po:ParcelInTransfer}">
         <Expander >
             <i:Interaction.Triggers>
@@ -99,7 +131,6 @@
             </StackPanel>
         </Expander>
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type po:StationToList}" >
         <Expander  Header="{Binding Path=Id}">
             <StackPanel>
@@ -108,7 +139,6 @@
             </StackPanel>
         </Expander>
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type po:CustomerToList}" >
         <Expander Header="{Binding Path=Id}">
             <StackPanel>
@@ -121,7 +151,6 @@
             </StackPanel>
         </Expander>
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type po:Station}">
         <StackPanel>
             <TextBlock Text="{Binding Path=Id, StringFormat=Id :{0:d}}"/>
@@ -152,7 +181,6 @@
             </ListView>
         </StackPanel>
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type po:Customer}">
         <StackPanel>
             <TextBlock  Text ="{Binding Id,StringFormat=Id :{0:d}}" />
@@ -189,7 +217,6 @@
             </Expander>
         </StackPanel>
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type po:ParcelAtCustomer}">
         <Expander  Header="{Binding Path=Id, StringFormat = Id:{0:d}}">
             <StackPanel>
@@ -199,7 +226,6 @@
             </StackPanel>
         </Expander>
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type po:ParcelToList}">
         <Expander Header="{Binding Path=Id, StringFormat = Id:{0:d}}">
             <StackPanel>
@@ -222,7 +248,6 @@
             </StackPanel>
         </Expander>
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type po:Parcel}">
         <StackPanel x:Name="parcel" >
             <TextBlock  Text ="{Binding Id, StringFormat = Id:{0:d}}" />
@@ -261,7 +286,6 @@
             </Expander>
         </StackPanel>
     </DataTemplate>
-
     <DataTemplate DataType="{x:Type po:DroneWithParcel}">
         <StackPanel>
             <TextBlock Text="{Binding Path=Id, StringFormat= Charging Id :{0:d}}" />
@@ -271,8 +295,6 @@
             </Expander>
         </StackPanel>
     </DataTemplate>
-
-
     <Style TargetType="{x:Type GroupItem}" x:Key="Group">
         <Setter Property="Template">
             <Setter.Value>

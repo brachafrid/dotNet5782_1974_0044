@@ -22,6 +22,7 @@ namespace PL
     {
         public UpdateDroneView()
         {
+            InitializeComponent();
         }
 
         public UpdateDroneView(object Id)

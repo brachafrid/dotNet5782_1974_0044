@@ -54,7 +54,8 @@ namespace PL
                 {
                     TabContent = "UpdateParcelView",
                     Text = "parcel " + id,
-                    Id = id
+                    Id = id,
+                    Content= new UpdateParcelVM(id)
 
                 });
         }
@@ -64,8 +65,9 @@ namespace PL
             Tabs.AddTab(new()
             {
                 TabContent = "AddParcelView",
-                Text = "Parcel"
-            });
+                Text = "Parcel",
+                Content = new AddParcelVM()
+            }) ;
         }
     }
 }

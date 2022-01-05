@@ -104,7 +104,9 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Text = "Add Parcel",
-                TabContent = "AddParcelView"
+                TabContent = "AddParcelView",
+                Content = new AddParcelVM()
+
             });
 
         }
@@ -114,7 +116,8 @@ namespace PL
             {
                 Text = "Parcels From Customer",
                 TabContent = "ParcelsFrom",
-                Id = customer.Id
+                Id = customer.Id,
+                
             });
         }
         public void DisplayParcelsTo(object param)

@@ -27,11 +27,10 @@ namespace PL
                 {
                     TabContent = "UpdateDroneView",
                     Text = "Drone " + (param as DroneToList).Id,
-                    Id = (param as DroneToList).Id
-
+                    Id = (param as DroneToList).Id,
+                    Content = new UpdateDroneView((param as DroneToList).Id)
                 });
         }
-
         void UpdateInitList()
         {
             list = new ListCollectionView(PLService.GetDrones().ToList());
@@ -41,8 +40,9 @@ namespace PL
             Tabs.AddTab(new()
             {
                 TabContent = "AddDroneView",
-                Text="Drone"
-            });
+                Text = "Drone",
+                Content = new AddDroneVM()
+            }) ;
         }
     }
 }

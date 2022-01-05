@@ -20,10 +20,10 @@ namespace PL
     /// </summary>
     public partial class CustomerWindow : UserControl
     {
-        public CustomerWindow(int id)
+        public CustomerWindow()
         {
             InitializeComponent();
-            DataContext = new CustomerWindowVM(id);
+           
         }
     }
 }
