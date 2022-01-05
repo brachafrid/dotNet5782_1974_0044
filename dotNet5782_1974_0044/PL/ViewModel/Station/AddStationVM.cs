@@ -24,7 +24,7 @@ namespace PL
             {
                 PLService.AddStation(station);
                 DelegateVM.Station?.Invoke();
-                Tabs.CloseTab((param as TabItemFormat).Text);
+                Tabs.CloseTab((param as TabItemFormat).Header);
             }
             catch(BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {

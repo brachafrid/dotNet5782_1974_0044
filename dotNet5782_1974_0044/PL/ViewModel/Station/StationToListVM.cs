@@ -26,7 +26,7 @@ namespace PL
         {
             Tabs.AddTab(new TabItemFormat()
             {
-                Text = "Station",
+                Header = "Station",
                 Content = new AddStationVM()
             });
         }

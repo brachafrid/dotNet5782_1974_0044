@@ -28,7 +28,7 @@ namespace PL
         {
             Tabs.AddTab(new()
             {
-                Text = "Customer",
+                Header = "Customer",
                 Content = new CustomerAddVM(false)
             });
         }

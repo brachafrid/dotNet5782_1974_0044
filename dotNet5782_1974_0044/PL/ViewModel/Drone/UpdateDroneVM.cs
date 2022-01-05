@@ -135,7 +135,7 @@ namespace PL
                 {
                     PLService.DeleteDrone(drone.Id);
                     MessageBox.Show("The drone was successfully deleted");
-                    Tabs.CloseTab((param as TabItemFormat).Text);
+                    Tabs.CloseTab((param as TabItemFormat).Header);
                     DelegateVM.Drone -= InitThisDrone;
                     DelegateVM.Drone?.Invoke();
                 }

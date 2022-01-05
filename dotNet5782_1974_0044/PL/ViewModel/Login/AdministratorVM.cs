@@ -29,14 +29,14 @@ namespace PL
         {
             if (param is TabItem tabItem)
             {
-                Tabs.CloseTab((tabItem.Header as TabItemFormat).Text);
+                Tabs.CloseTab((tabItem.Header as TabItemFormat).Header);
             }
         }
         public  void AddDroneToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             {
-                Text = "Drones",
+                Header = "Drones",
                 Content = new DroneToListVM()
             });
         }
@@ -49,7 +49,7 @@ namespace PL
         {
             Tabs.AddTab(new TabItemFormat()
             {
-                Text = "Parcels",
+                Header = "Parcels",
                 Content = new ParcelToListVM()
             });
             
@@ -58,7 +58,7 @@ namespace PL
         {
             Tabs.AddTab(new TabItemFormat()
             {
-                Text = "Stations",
+                Header = "Stations",
                 Content = new StationToListVM()
             });
            
@@ -67,7 +67,7 @@ namespace PL
         {
             Tabs.AddTab(new TabItemFormat()
             {
-                Text = "Customers",
+                Header = "Customers",
                 Content = new StationToListVM()
             });
            

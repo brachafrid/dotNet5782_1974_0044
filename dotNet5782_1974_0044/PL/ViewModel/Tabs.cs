@@ -16,11 +16,11 @@ namespace PL
         public static Action<int> changeSelectedTab;
         public static void CloseTab(string Text)
         {
-            TabItems.Remove(TabItems.FirstOrDefault(tab => tab.Text == Text));
+            TabItems.Remove(TabItems.FirstOrDefault(tab => tab.Header == Text));
         }
         public static void AddTab(TabItemFormat tabItemFormat)
         {
-            TabItemFormat tabItem = TabItems.FirstOrDefault(tab => tab.Text == tabItemFormat.Text);
+            TabItemFormat tabItem = TabItems.FirstOrDefault(tab => tab.Header == tabItemFormat.Header);
             if (tabItem == default)
             {
                 TabItems.Add(tabItemFormat);
@@ -35,7 +35,7 @@ namespace PL
             if (param != null && param is int Id)
                 AddTab(new()
                 {
-                    Text = "customer " + Id,
+                    Header = "customer " + Id,
                     Content =new UpdateCustomerVM(Id)
                 });
         }
@@ -45,7 +45,7 @@ namespace PL
                 AddTab(new()
                 {
 
-                    Text = "parcel " + Id,
+                    Header = "parcel " + Id,
                     Content = new UpdateParcelVM(Id)
                 });
         }
@@ -54,7 +54,7 @@ namespace PL
             if (param != null && param is PL.PO.DroneInCharging droneCharge)
                AddTab(new()
                 {
-                    Text = "drone " + droneCharge.Id,
+                    Header = "drone " + droneCharge.Id,
                     Content = new UpdateDroneVM(droneCharge.Id)
                 });
         }
@@ -64,7 +64,7 @@ namespace PL
                 AddTab(new TabItemFormat()
                 {
 
-                    Text = "station " + (param as StationToList).Id,
+                    Header = "station " + (param as StationToList).Id,
                     Content = new UpdateStationVM((param as StationToList).Id)
 
                 });

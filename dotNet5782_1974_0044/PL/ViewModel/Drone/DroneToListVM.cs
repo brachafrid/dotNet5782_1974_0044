@@ -28,7 +28,7 @@ namespace PL
         {
             Tabs.AddTab(new()
             {
-                Text = "Drone",
+                Header = "Drone",
                 Content = new AddDroneVM()
             }) ;
         }

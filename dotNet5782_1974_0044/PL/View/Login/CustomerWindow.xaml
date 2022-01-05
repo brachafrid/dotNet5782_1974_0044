@@ -11,7 +11,9 @@
     <UserControl.Resources>
         <ResourceDictionary Source="../Dictionary.xaml" />
     </UserControl.Resources>
-    
+    <UserControl.DataContext>
+        <local:CustomerWindowVM/>
+    </UserControl.DataContext>
     <Grid>
         <DockPanel>
             <ToolBarTray Orientation="Vertical">
@@ -32,7 +34,7 @@
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <DockPanel>
-                        <TextBlock Text="{Binding Path=Text}"/>
+                        <TextBlock Text="{Binding Path=Header}"/>
                             <Button Content="x"  Style="{StaticResource MaterialDesignOutlinedButton}" Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabItem}}}"/>
                     </DockPanel>
                 </DataTemplate>
@@ -41,17 +43,7 @@
                     <DataTemplate>
                         <ContentControl Content="{Binding Content}"/>
                     </DataTemplate>
-                    <!--<DataTemplate>
-                    <ContentControl>
-                            --><!--<ContentControl.Content>
-                                <MultiBinding Converter="{StaticResource TabItemContentConverter}">
-                                    <Binding Path="TabContent" />
-                                    <Binding Path="Id" />
-                                </MultiBinding>
-                            </ContentControl.Content>--><!--
-                        </ContentControl>
-                </DataTemplate>-->
-            </TabControl.ContentTemplate>
+                </TabControl.ContentTemplate>
 
         </TabControl>
         </DockPanel>

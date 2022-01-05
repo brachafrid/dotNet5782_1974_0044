@@ -51,7 +51,7 @@ namespace PL
         {
             Tabs.AddTab(new TabItemFormat()
             {
-                Text = "Parcel",
+                Header = "Parcel",
                 Content = new AddParcelVM()
             }) ;
         }

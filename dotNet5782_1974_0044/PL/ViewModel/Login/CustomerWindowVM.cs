@@ -14,20 +14,7 @@ namespace PL
 {
     public partial class CustomerWindowVM : GenericList<ParcelAtCustomer>
     {
-
         public static IntDependency SelectedTab { get; set; } = new();
-
-        //public List<ParcelAtCustomer> listParcels
-        //{
-        //    get { return (List<ParcelAtCustomer>)GetValue(listParcelsProperty); }
-        //    set { SetValue(listParcelsProperty, value); }
-        //}
-
-        //// Using a DependencyProperty as the backing store for listParcels.  This enables animation, styling, binding, etc...
-        //public static readonly DependencyProperty listParcelsProperty =
-        //    DependencyProperty.Register("listParcels", typeof(List<ParcelAtCustomer>), typeof(CustomerWindowVM), new PropertyMetadata(new List<ParcelAtCustomer>()));
-
-
         public Customer customer
         {
             get { return (Customer)GetValue(customerProperty); }
@@ -37,9 +24,6 @@ namespace PL
         // Using a DependencyProperty as the backing store for customer.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty customerProperty =
             DependencyProperty.Register("customer", typeof(Customer), typeof(CustomerWindowVM), new PropertyMetadata(new Customer()));
-
-
-
         public Visble VisibilityCustomer { get; set; } = new();
 
         //public Customer customer = new Customer();
@@ -51,8 +35,6 @@ namespace PL
         public RelayCommand DisplayParcelsFromCommand { get; set; }
         public RelayCommand DisplayParcelsToCommand { get; set; }
         public RelayCommand DisplayCustomerCommand { get; set; }
-        //public RelayCommand ToCustomerCommand { get; set; }
-        //public RelayCommand FromCustomerCommand { get; set; }
         public ParcelAdd parcel { set; get; }
         int id;
         public CustomerWindowVM(int Id)
@@ -60,24 +42,10 @@ namespace PL
             id = Id;
             Init();
             Tabs.changeSelectedTab += changeIndex;
-           
-            //customer = PLService.GetCustomer(2);
-            //DisplayParcelsCommand = new(DisplayParcels, null);
-            //ToCustomerCommand = new(ToCustomer, null);
-            //FromCustomerCommand = new(FromCustomer, null);
-            //sendParcel = new(SendParcel, null);
-            //collectionParcel = new(CollectionParcel, null);
-            //gettingParcel = new(GettingParcel, null);
-            //list = new ListCollectionView(PLService.GetParcels().ToList());
-            //list = new ListCollectionView(fromCustomer);
-            //List<ParcelAtCustomer> fromCustomer = customer.FromCustomer;
-            //List<ParcelAtCustomer> toCustomer = customer.ToCustomer;
-
             AddParcelCommand = new(AddParcel, null);
             DisplayParcelsFromCommand = new(DisplayParcelsFrom, null);
             DisplayParcelsToCommand = new(DisplayParcelsTo, null);
             DisplayCustomerCommand = new(DisplayCustomer, null);
-      
             DelegateVM.Customer += Init;
             DelegateVM.Parcel += Init;
         }
@@ -93,44 +61,34 @@ namespace PL
         public void DisplayCustomer(object param)
         {
             Tabs.AddTab(new TabItemFormat()
-            {
-               
-                Text = "Customer",
+            { 
+                Header = "Customer",
                 Content = new UpdateCustomerVM(id),
-
             });
         }
         public void AddParcel(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             {
-                
-                Text = "Add Parcel",
+                Header = "Add Parcel",
                 Content = new AddParcelVM(id),
-
             });
 
         }
         public void DisplayParcelsFrom(object param)
         {
             Tabs.AddTab(new TabItemFormat()
-            {
-                
-                Text = "Parcels From Customer",
+            { 
+                Header = "Parcels From Customer",
                 Content = new ParcelToListVM(id, "From"),
-               
-
             });
         }
         public void DisplayParcelsTo(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             {
-               
-                Text = "Parcels To Customer",
+                Header = "Parcels To Customer",
                 Content = new ParcelToListVM(id, "To"),
-
-                //Id = customer.Id
             });
         }
       

@@ -85,7 +85,7 @@ namespace PL
                 {
                     PLService.DeleteCustomer(customer.Id);
                     MessageBox.Show("The customer was successfully deleted");
-                    Tabs.CloseTab((param as TabItemFormat).Text);
+                    Tabs.CloseTab((param as TabItemFormat).Header);
                     DelegateVM.Customer -= InitCustomer;
                     DelegateVM.Customer?.Invoke();
                 }
