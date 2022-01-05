@@ -11,7 +11,7 @@ namespace PL
 {
     class UpdateParcelVM : DependencyObject
     {
-        private int id;
+        private readonly int id;
         public RelayCommand OpenCustomerCommand { get; set; }
         public RelayCommand OpenDroneCommand { get; set; }
         public Parcel parcel

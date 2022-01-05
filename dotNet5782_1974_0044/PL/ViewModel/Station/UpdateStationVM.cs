@@ -12,7 +12,7 @@ namespace PL
 {
     class UpdateStationVM : DependencyObject
     {
-        private int id;
+        private readonly int id;
         public RelayCommand OpenDroneChargeCommand { get; set; }
         public PO.Station station
         {
@@ -105,7 +105,6 @@ namespace PL
                     MessageBox.Show("The station was successfully deleted");
                     Tabs.CloseTab((param as TabItemFormat).Text);
                     DelegateVM.Station -= initStation;
-                    DelegateVM.Station = DelegateVM.Station- initStation;
                     DelegateVM.Station?.Invoke();
                     
                 }
