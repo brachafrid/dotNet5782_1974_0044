@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using BO;
+using System;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using BO;
 
 namespace PL
 {
@@ -63,7 +59,7 @@ namespace PL
         /// <returns>Returns visibility: visible or collapsed</returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] as string !=values[1] as string)
+            if (values[0] as string != values[1] as string)
             {
                 return Visibility.Visible;
             }
@@ -204,6 +200,44 @@ namespace PL
         }
 
     }
+
+    /// <summary>
+    /// Convert Drone Charging Visibility
+    /// </summary>
+    public class ConvertButtonAddVisibility : IValueConverter
+    {
+        /// <summary>
+        /// Checks drone status.
+        /// Convert to visibility: if drone state is delivery - visible. else - collapsed
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>Returns visibility: visible or collapsed</returns>
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value.ToString() != DroneState.DELIVERY.ToString())
+                return Visibility.Visible;
+            else
+                return Visibility.Collapsed;
+
+        }
+
+        /// <summary>
+        /// Convert Back to Convert Drone Charging Visibility
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>Returns Exception</returns>
+        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+
+    }
     public class UserControlConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
@@ -212,7 +246,8 @@ namespace PL
             {
                 "LoginWindow" => new LoginWindow(),
                 "AdministratorWindow" => new AdministratorWindow(),
-                "CustomerWindow" => new CustomerWindow()
+                "CustomerWindow" => new CustomerWindow((int)PO.LoginScreen.Id),
+                //"CustomerWindow" => new CustomerWindow()
             };
         }
 
@@ -226,19 +261,31 @@ namespace PL
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return values[0] switch
+            if (values[0] != DependencyProperty.UnsetValue)
             {
-                "DroneToListWindow" => new DroneToListWindow(),
-                "ParcelToListWindow" => new ParcelToListWindow(),
-                "StationToListWindow" => new StationToListWindow(),
-                "CustomerTolistWindow" => new CustomerTolistWindow(),
-                "AddDroneView" => new AddDroneView(),
-                "AddCustomerView" => new AddCustomerView(),
-                "AddStationView" => new AddStationView(),
-                "AddParcelView" => new AddParcelView(),
-                "UpdateDroneView" => new UpdateDroneView(),
-                "UpdateCustomerView" => new UpdateCustomerView(values[1]),
-            };
+                return values[0] switch
+                {
+                    "DroneToListWindow" => new DroneToListWindow(),
+                    "ParcelToListWindow" => new ParcelToListWindow(),
+                    "StationToListWindow" => new StationToListWindow(),
+                    "CustomerTolistWindow" => new CustomerTolistWindow(),
+                    "AddDroneView" => new AddDroneView(),
+                    "AddCustomerView" => new AddCustomerView(),
+                    "AddStationView" => new AddStationView(),
+                    "AddParcelView" => new AddParcelView(),
+                    "UpdateDroneView" => new UpdateDroneView(),
+                    "UpdateCustomerView" => new UpdateCustomerView(),
+                    "UpdateStationView" => new UpdateStationView(),
+                    "UpdateParcelView" => new UpdateParcelView(),
+                    "ParcelsFrom" => new ParcelToListWindow(),
+                    //"ParcelsFrom" => new ParcelToListWindow(values[1], "From"),
+                    //"ParcelsTo" => new ParcelToListWindow(values[1], "To"),
+                    "ParcelsTo" => new ParcelToListWindow(),
+                    "Customer" => new UpdateCustomerView()
+                };
+            }
+            return "i love you";
+
         }
 
         public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture)
@@ -246,6 +293,8 @@ namespace PL
             throw new NotImplementedException();
         }
     }
+
+
     public class ConverterUpdateCustomer : IMultiValueConverter
     {
         /// <summary>
@@ -259,7 +308,7 @@ namespace PL
         /// <returns>Returns visibility: visible or collapsed</returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] as string!= values[1] as string ||  values[2] as string != values[3] as string)
+            if (values[0] as string != values[1] as string || values[2] as string != values[3] as string)
             {
                 return Visibility.Visible;
             }
@@ -294,11 +343,7 @@ namespace PL
         /// <returns>Returns visibility: visible or collapsed</returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] as string != values[1] as string || (int)values[2] != (int)values[3]
-                //||
-                //values[2] as string != values[3] as string ||
-                //values[4] as string != values[5] as string
-                )
+            if (values[0] != values[1] || values[2] != values[3])
             {
                 return Visibility.Visible;
             }
@@ -315,6 +360,38 @@ namespace PL
         /// <param name="culture"></param>
         /// <returns>Returns Exception</returns>
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+    public class ConverterCancelFilterVisibility : IValueConverter
+    {
+        /// <summary>
+        /// Converts to visibility
+        /// If the model name has been updated, converts to visible. else, converts to collapsed.
+        /// </summary>
+        /// <param name="values">Names of: new drone model , original drone model</param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>Returns visibility: visible or collapsed</returns>
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if ((int)value > 0)
+                return true;
+            return true;
+        }
+
+        /// <summary>
+        /// Convert Back to update model
+        /// </summary>
+        /// <param name="value"></param>
+        /// <param name="targetTypes"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>Returns Exception</returns>
+        public object ConvertBack(object value, Type targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }

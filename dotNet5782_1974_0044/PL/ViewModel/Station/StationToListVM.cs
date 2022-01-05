@@ -14,7 +14,34 @@ namespace PL
     {
         public StationToListVM()
         {
-            list = new ListCollectionView(new StationHandler().GetStations().ToList());
+            UpdateInitList();
+            DelegateVM.Station += UpdateInitList;
+            DoubleClick = new(OpenDetails, null);
+        }
+        void UpdateInitList()
+        {
+            list = new ListCollectionView(PLService.GetStations().ToList());
+        }
+        public override void AddEntity(object param)
+        {
+            Tabs.AddTab(new TabItemFormat()
+            {
+                TabContent = "AddStationView",
+                Text = "Station",
+                Content = new AddStationVM()
+            });
+        }
+        public void OpenDetails(object param)
+        {
+            if (param != null)
+                Tabs.AddTab(new TabItemFormat()
+                {
+                    TabContent = "UpdateStationView",
+                    Text = "station " + (param as StationToList).Id,
+                    Id = (param as StationToList).Id,
+                    Content = new UpdateStationVM((param as StationToList).Id)
+
+                });
         }
     }
 }

@@ -12,5 +12,7 @@ namespace PL
         public static Action Customer { set; get; }
         public static Action Station { set; get; }
         public static Action Parcel { set; get; }
+
+        //public static event EventHandler StationChangedEvent;
     }
 }

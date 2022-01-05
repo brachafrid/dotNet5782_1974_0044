@@ -13,7 +13,7 @@ using System.ComponentModel;
 
 namespace PL
 {
-    public class GenericList<T> : INotifyPropertyChanged
+    public abstract class GenericList<T> : DependencyObject, INotifyPropertyChanged
     {
         public List<string> KindOfSort { get; set; } = new() { "Range", "Single" };
         public Array WeightCategories { get; set; } = Enum.GetValues(typeof(WeightCategories));
@@ -21,8 +21,12 @@ namespace PL
         public Array DroneState { get; set; } = Enum.GetValues(typeof(DroneState));
         public Array PackageMode { get; set; } = Enum.GetValues(typeof(PackageModes));
         public ObservableCollection<string> SortOption { set; get; }
+        public RelayCommand DoubleClick { set; get; }
         public RelayCommand ShowKindOfSortCommand { get; set; }
         public RelayCommand FilterCommand { get; set; }
+        public RelayCommand CancelFilterCommand { get; set; }
+        public RelayCommand GroupCommand { get; set; }
+        public RelayCommand AddEntitiyCommand { get; set; }
         public ListCollectionView list { set; get; }
         public Visble VisibilityKindOfSort { get; set; } = new();
         public Visble StringSortVisibility { get; set; } = new();
@@ -31,7 +35,19 @@ namespace PL
         public Visble VisibilityDroneState { get; set; } = new();
         public Visble VisbleDouble { set; get; } = new();
         public Visble VisblePackegeMode { set; get; } = new();
-        public List<SortEntities> Filters { get; set; } = new();
+
+        public List<SortEntities> Filters
+        {
+            get { return (List<SortEntities>)GetValue(MyPropertyProperty); }
+            set { SetValue(MyPropertyProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MyPropertyProperty =
+            DependencyProperty.Register("MyProperty", typeof(List<SortEntities>), typeof(GenericList<T>), new PropertyMetadata(new List<SortEntities>()));
+
+
+        //public List<SortEntities> Filters { get; set; } = new();
 
         private double doubleFirstChange = 0;
         private double doubleLastChange = 100;
@@ -92,6 +108,7 @@ namespace PL
             }
         }
         public string SelectedKind { get; set; }
+        public string SelectedGroup { get; set; }
         public string selectedValue { get; set; }
 
 
@@ -100,6 +117,10 @@ namespace PL
             UpdateSortOptions();
             ShowKindOfSortCommand = new(ShowKindOfSort, null);
             FilterCommand = new(FilterEnum, null);
+            CancelFilterCommand = new(CancelFilter, null);
+            GroupCommand = new(Grouping, null);
+            AddEntitiyCommand = new(AddEntity, null);
+
         }
 
         public void FilterNow()
@@ -108,9 +129,19 @@ namespace PL
             list.IsLiveFiltering = true;
         }
 
+        public abstract void AddEntity(object param);
+
+
         void UpdateSortOptions()
         {
-            SortOption = new ObservableCollection<string>(typeof(T).GetProperties().Where(prop => !prop.Name.Contains("Id") && (prop.PropertyType.IsValueType || prop.PropertyType == typeof(string))).Select(prop => prop.Name).ToList());
+            SortOption = new ObservableCollection<string>(typeof(T).GetProperties().Where(prop => !prop.Name.Contains("Id") && (prop.PropertyType.IsValueType || prop.PropertyType == typeof(string))).Select(prop => prop.Name));
+        }
+        public void Grouping(object param)
+        {
+            SelectedGroup = param.ToString();
+            list.GroupDescriptions.Clear();
+            list.GroupDescriptions.Add(new PropertyGroupDescription(SelectedGroup));
+            
         }
         public bool InternalFilter(object obj)
         {
@@ -154,6 +185,21 @@ namespace PL
             StringSortVisibility.visibility = Visibility.Collapsed;
             VisblePackegeMode.visibility = Visibility.Collapsed;
             ShowValueFilter(typeof(T).GetProperty(SelectedKind).PropertyType);
+        }
+
+
+
+        public void CancelFilter(object param)
+        {
+            Filters.RemoveAll((SortEntities o)=>true);
+            SelectedKind = string.Empty;
+            VisbleDouble.visibility = Visibility.Collapsed;
+            VisibilityDroneState.visibility = Visibility.Collapsed;
+            VisibilityPriorities.visibility = Visibility.Collapsed;
+            VisibilityWeightCategories.visibility = Visibility.Collapsed;
+            StringSortVisibility.visibility = Visibility.Collapsed;
+            VisblePackegeMode.visibility = Visibility.Collapsed;
+            FilterNow();
         }
 
         public void ShowValueFilter(Type propertyType)

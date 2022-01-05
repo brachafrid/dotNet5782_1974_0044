@@ -9,10 +9,6 @@ namespace PL
 {
    public class IntDependency:DependencyObject
     {
-        public IntDependency(int def = 0)
-        {
-            Instance = def;
-        }
 
         public int Instance
         {
@@ -22,7 +18,7 @@ namespace PL
 
         // Using a DependencyProperty as the backing store for Instance.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty InstanceProperty =
-            DependencyProperty.Register("Instance", typeof(int), typeof(IntDependency), new PropertyMetadata(0));
+            DependencyProperty.Register("Instance", typeof(int), typeof(IntDependency), new PropertyMetadata(null));
 
 
     }

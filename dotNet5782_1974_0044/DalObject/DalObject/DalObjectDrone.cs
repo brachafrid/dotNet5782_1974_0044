@@ -39,7 +39,7 @@ namespace Dal
         public Drone GetDrone(int id)
         {
             Drone drone=DataSorce.Drones.FirstOrDefault(item => item.Id == id);
-            if (drone.Equals(default(Drone)) || drone.IsDeleted == true)
+            if (drone.Equals(default(Drone)) || drone.IsDeleted)
                 throw new KeyNotFoundException("There is not suitable drone in the data");
             return drone;
         }
@@ -48,7 +48,7 @@ namespace Dal
         /// Prepares the list of Drones for display
         /// </summary>
         /// <returns>A list of drones</returns>
-        public IEnumerable<Drone> GetDrones() => DataSorce.Drones.Where(d => d.IsDeleted == false);
+        public IEnumerable<Drone> GetDrones() => DataSorce.Drones.Where(d => !d.IsDeleted);
 
 
         //-------------------------------------------------Removing-------------------------------------------------------------
@@ -64,7 +64,9 @@ namespace Dal
         public void DeleteDrone(int id)
         {
             Drone drone = DataSorce.Drones.FirstOrDefault(item => item.Id == id);
+            DataSorce.Drones.Remove(drone);
             drone.IsDeleted = true;
+            DataSorce.Drones.Add(drone);
         }
     }
 

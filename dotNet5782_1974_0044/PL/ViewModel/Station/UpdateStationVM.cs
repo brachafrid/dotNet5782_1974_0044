@@ -6,11 +6,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace PL
 {
     class UpdateStationVM : DependencyObject
     {
+        private int id;
+        public RelayCommand OpenDroneChargeCommand { get; set; }
         public PO.Station station
         {
             get { return (PO.Station)GetValue(stationProperty); }
@@ -49,18 +52,28 @@ namespace PL
         public RelayCommand UpdateStationCommand { get; set; }
         public RelayCommand DeleteStationCommand { get; set; }
 
-        public UpdateStationVM()
+        public UpdateStationVM(int id)
         {
-            init();
+            this.id = id;
+            initStation();
             stationName = station.Name;
             stationEmptyChargeSlots = station.EmptyChargeSlots;
             UpdateStationCommand = new(UpdateStation, param => station.Error == null);
             DeleteStationCommand = new(DeleteStation, param => station.Error == null);
-            DelegateVM.Station += init;
+            DelegateVM.Station += initStation;
+            OpenDroneChargeCommand = new(OpenDroneDetails, null);
         }
-        public void init()
+        public void initStation()
         {
-            station = new StationHandler().GetStation(2);
+            try
+            {
+                station = PLService.GetStation(id);
+            }
+            catch(KeyNotFoundException)
+            {
+
+            }
+
         }
 
         public void UpdateStation(object param)
@@ -69,11 +82,11 @@ namespace PL
             {
                 if (stationName != station.Name || stationEmptyChargeSlots != station.EmptyChargeSlots)
                 {
-                    new StationHandler().UpdateStation(station.Id, station.Name, station.EmptyChargeSlots);
-                    DelegateVM.Station();
+                    PLService.UpdateStation(station.Id, station.Name, station.EmptyChargeSlots);
+                    DelegateVM.Station?.Invoke();
                     stationName = station.Name;
                     stationEmptyChargeSlots = station.EmptyChargeSlots;
-                
+
                 }
             }
             catch (ArgumentOutOfRangeException ex)
@@ -83,18 +96,37 @@ namespace PL
         }
         public void DeleteStation(object param)
         {
-            try { 
+            try
+            {
 
                 if (MessageBox.Show("You're sure you want to delete this station?", "Delete Station", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    new StationHandler().DeleteStation(station.Id);
+                    PLService.DeleteStation(station.Id);
                     MessageBox.Show("The station was successfully deleted");
+                    Tabs.CloseTab((param as TabItemFormat).Text);
+                    DelegateVM.Station -= initStation;
+                    DelegateVM.Station = DelegateVM.Station- initStation;
+                    DelegateVM.Station?.Invoke();
+                    
                 }
             }
-              catch (ThereAreAssociatedOrgansException ex)
+            catch (ThereAreAssociatedOrgansException ex)
             {
                 MessageBox.Show($"{ex.Message}");
             }
+        }
+
+        public void OpenDroneDetails(object param)
+        {
+            if (param != null && param is PL.PO.DroneInCharging droneCharge)
+                Tabs.AddTab(new()
+                {
+                    TabContent = "UpdateDroneView",
+                    Text = "drone " + droneCharge.Id,
+                    Id = droneCharge.Id,
+                    Content = new UpdateDroneVM(droneCharge.Id)
+                    
+                });
         }
 
     }

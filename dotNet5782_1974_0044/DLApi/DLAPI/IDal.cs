@@ -23,7 +23,7 @@ namespace DLApi
         public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty);
         public void RemoveStation(Station station);
         public int CountFullChargeSlots(int id);
-        public List<int> GetDronechargingInStation(Predicate<int> inTheStation);
+        public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation);
         public void RemoveDrone(Drone drone);
         public void AddDRoneCharge(int droneId, int stationId);
         public void RemoveDroneCharge(int droneId);
@@ -34,5 +34,6 @@ namespace DLApi
         public void DeleteDrone(int id);
         public void DeleteParcel(int id);
         public void DeleteStation(int id);
+        public string GetAdministorPasssword();
     }
 }

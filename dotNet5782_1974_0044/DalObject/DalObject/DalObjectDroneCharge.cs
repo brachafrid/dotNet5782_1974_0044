@@ -30,9 +30,9 @@ namespace Dal
         /// </summary>
         ///<param name="inTheStation">The predicate to screen out if the station id of the drone equal to a spesific station id </param>
         /// <returns>A list of DroneCarge</returns>
-        public List<int> GetDronechargingInStation(Predicate<int> inTheStation)
+        public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation)
         {
-            return DataSorce.DroneCharges.FindAll(item => inTheStation(item.Stationld)).Select(item => item.Droneld).ToList();
+            return DataSorce.DroneCharges.FindAll(item => inTheStation(item.Stationld)).Select(item => item.Droneld);
         }
         /// <summary>
         /// Gets parameters and create new DroneCharge 

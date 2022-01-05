@@ -22,7 +22,7 @@ namespace PL
     {
         public AddCustomerView()
         {
-            InitializeComponent();
+            InitializeComponent(); 
         }
     }
 }

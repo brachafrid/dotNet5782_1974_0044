@@ -11,36 +11,47 @@ namespace PL
 {
     public class LoginVM : DependencyObject
     {
-        public RelayCommand AdministratorLoginCommand { get; set; }
-        public RelayCommand CustomerLoginCommand { get; set; }
-        public RelayCommand ShowAdministratorLoginCommand { get; set; }
-        public RelayCommand ShowCustomerLoginCommand { get; set; }
-        public CustomerLogin customerLogin { get; set; } = new();
-
-        public Visble VisibilityAdministratorLogin { get; set; } = new();      
-        public Visble VisibilityCustomerLogin { get; set; } = new();      
 
         public LoginVM()
         {
+            Add = new(true);
             ShowAdministratorLoginCommand = new RelayCommand(ShowAdministratorLogin, null);
             ShowCustomerLoginCommand = new RelayCommand(ShowCustomerLogin, null);
             AdministratorLoginCommand = new RelayCommand(AdministratorLogin, null);
             CustomerLoginCommand = new RelayCommand(CustomerLogin, null);
+            ShowCustomerSigninCommand = new(ShowCustomerSignin, null);
         }
+        public CustomerAddVM Add { get; set; }
+        public RelayCommand AdministratorLoginCommand { get; set; }
+        public RelayCommand CustomerLoginCommand { get; set; }
+        public RelayCommand ShowAdministratorLoginCommand { get; set; }
+        public RelayCommand ShowCustomerLoginCommand { get; set; }
+        public RelayCommand ShowCustomerSigninCommand { get; set; }
+        public CustomerLogin customerLogin { get; set; } = new();
+        public Visble VisibilityAdministratorLogin { get; set; } = new();      
+        public Visble VisibilityCustomerLogin { get; set; } = new();  
+        public Visble VisibilityCustomerSignIn { get; set; } = new();  
         public void ShowAdministratorLogin(object param)
         {
             VisibilityAdministratorLogin.visibility = Visibility.Visible;
             VisibilityCustomerLogin.visibility = Visibility.Collapsed;
+            VisibilityCustomerSignIn.visibility = Visibility.Collapsed;
+        }
+        public void ShowCustomerSignin(object param)
+        { 
+            VisibilityAdministratorLogin.visibility = Visibility.Collapsed;
+            VisibilityCustomerLogin.visibility = Visibility.Collapsed;
+            VisibilityCustomerSignIn.visibility = Visibility.Visible;
         }
         public void ShowCustomerLogin(object param)
         {
             VisibilityCustomerLogin.visibility = Visibility.Visible;
             VisibilityAdministratorLogin.visibility = Visibility.Collapsed;
+            VisibilityCustomerSignIn.visibility = Visibility.Collapsed;
         }
-
         public void AdministratorLogin(object param)
         {
-            if ((param as PasswordBox).Password == string.Empty)
+            if ((param as PasswordBox).Password == PLService.GetAdministorPasssword())
             {
                 LoginScreen.MyScreen = "AdministratorWindow";
             }
@@ -51,21 +62,21 @@ namespace PL
             }
 
         }
-
         public void CustomerLogin(object param)
         {
-            try
+           try
             {
-                Customer customer = new CustomerHandler().GetCustomer((int)customerLogin.Id);
+                
+                Customer customer = PLService.GetCustomer((int)customerLogin.Id);
+                LoginScreen.Id = customer.Id;
                 LoginScreen.MyScreen = "CustomerWindow";
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException )
             {
                 MessageBox.Show("Incorrect Id");
                 customerLogin.Id = null;
             }
         }
-
     }
 }
 

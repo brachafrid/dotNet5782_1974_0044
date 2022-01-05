@@ -1,5 +1,4 @@
-﻿using BO;
-using PL.PO;
+﻿using PL.PO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -8,11 +7,16 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace PL
 {
-    public class UpdateDroneVM: DependencyObject
+
+    public class UpdateDroneVM : DependencyObject
     {
+        public RelayCommand OpenParcelCommand { get; set; }
+        public RelayCommand OpenCustomerCommand { get; set; }
+        private int id;
         public PO.Drone drone
         {
             get { return (PO.Drone)GetValue(droneProperty); }
@@ -29,27 +33,28 @@ namespace PL
 
         public static readonly DependencyProperty droneModelProperty =
             DependencyProperty.Register("droneModel", typeof(string), typeof(UpdateDroneVM), new PropertyMetadata(string.Empty));
-
-
         public RelayCommand UpdateDroneCommand { get; set; }
         public RelayCommand CloseDroneCommand { get; set; }
         public RelayCommand ChargingDroneCommand { get; set; }
         public RelayCommand ParcelTreatedByDrone { get; set; }
         public RelayCommand DeleteDroneCommand { get; set; }
-        
-        public UpdateDroneVM()
+
+        public UpdateDroneVM(int id)
         {
-            init();
+            this.id = id;
+            InitThisDrone();
             droneModel = drone.Model;
             UpdateDroneCommand = new(UpdateModel, param => drone.Error == null);
             ChargingDroneCommand = new(sendToCharging, param => drone.Error == null);
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => drone.Error == null);
             DeleteDroneCommand = new(DeleteDrone, param => drone.Error == null);
-            DelegateVM.Drone += init; 
+            DelegateVM.Drone += InitThisDrone;
+            OpenParcelCommand = new(OpenParcelDetails, null);
+            OpenCustomerCommand = new(OpenCustomerDetails, null);
         }
-        public void init()
+        public void InitThisDrone()
         {
-            drone = new DroneHandler().GetDrone(2);
+            drone = PLService.GetDrone(id);
         }
         public void UpdateModel(object param)
         {
@@ -57,7 +62,7 @@ namespace PL
             {
                 if (droneModel != drone.Model)
                 {
-                    new DroneHandler().UpdateDrone(drone.Id, drone.Model);
+                    PLService.UpdateDrone(drone.Id, drone.Model);
                     MessageBox.Show("The drone has been successfully updated");
                     droneModel = drone.Model;
 
@@ -72,47 +77,47 @@ namespace PL
                 MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
                 MessageBox.Show("For updating the name must be initialized ");
             }
-            DelegateVM.Drone();
+            DelegateVM.Drone?.Invoke();
         }
 
         public void sendToCharging(object param)
         {
             if (drone.DroneState == PO.DroneState.AVAILABLE)
             {
-                new DroneHandler().SendDroneForCharg(drone.Id);
-                DelegateVM.Drone();
+                PLService.SendDroneForCharg(drone.Id);
+                DelegateVM.Drone?.Invoke();
+                DelegateVM.Station?.Invoke();
             }
             else if (drone.DroneState == PO.DroneState.MAINTENANCE)
             {
-                new DroneHandler().ReleaseDroneFromCharging(drone.Id);
-                DelegateVM.Drone();
+                PLService.ReleaseDroneFromCharging(drone.Id);
+                DelegateVM.Drone?.Invoke();
+                DelegateVM.Station?.Invoke();
             }
         }
-
-
         public void parcelTreatedByDrone(object param)
         {
-            try { 
+            try
+            {
                 if (drone.DroneState == PO.DroneState.DELIVERY)
                 {
                     if (drone.Parcel.ParcelState == true)
                     {
-                        new DroneHandler().DeliveryParcelByDrone(drone.Id);
-                        DelegateVM.Drone();
+                        PLService.DeliveryParcelByDrone(drone.Id);
+                        DelegateVM.Drone?.Invoke();
 
                     }
                     else
                     {
-                        new DroneHandler().ParcelCollectionByDrone(drone.Id);
-                        DelegateVM.Drone();
+                        PLService.ParcelCollectionByDrone(drone.Id);
+                        DelegateVM.Drone?.Invoke();
 
                     }
-
                 }
                 else
                 {
-                    new DroneHandler().AssingParcelToDrone(drone.Id);
-                    DelegateVM.Drone();
+                    PLService.AssingParcelToDrone(drone.Id);
+                    DelegateVM.Drone?.Invoke();
 
                 }
             }
@@ -126,17 +131,42 @@ namespace PL
         {
             try
             {
-               if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
-               {   
-                   new DroneHandler().DeleteDrone(drone.Id);
-                   MessageBox.Show("The drone was successfully deleted");
-               }
+                if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                    PLService.DeleteDrone(drone.Id);
+                    MessageBox.Show("The drone was successfully deleted");
+                    Tabs.CloseTab((param as TabItemFormat).Text);
+                    DelegateVM.Drone -= InitThisDrone;
+                    DelegateVM.Drone?.Invoke();
+                }
             }
-         
-            catch (ThereAreAssociatedOrgansException ex)
+
+            catch (BO.ThereAreAssociatedOrgansException ex)
             {
                 MessageBox.Show($"{ex.Message}");
             }
+        }
+
+        public void OpenParcelDetails(object param)
+        {
+            if (param != null && param is int Id)
+                Tabs.AddTab(new()
+                {
+                    TabContent = "UpdateParcelView",
+                    Text = "parcel " + Id,
+                    Id = Id
+                });
+        }
+
+        public void OpenCustomerDetails(object param)
+        {
+            if (param != null && param is int Id)
+                Tabs.AddTab(new()
+                {
+                    TabContent = "UpdateCustomerView",
+                    Text = "customer " + Id,
+                    Id = Id
+                });
         }
     }
 }

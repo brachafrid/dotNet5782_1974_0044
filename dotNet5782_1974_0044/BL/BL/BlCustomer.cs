@@ -26,6 +26,7 @@ namespace BL
             }
             
         }
+
         //--------------------------------------------------Return-----------------------------------------------------------------------------------
         /// <summary>
         /// Retrieves the requested customer from the data and converts it to BL customer
@@ -38,9 +39,9 @@ namespace BL
             {
                 return MapCustomer(dal.GetCustomer(id));
             }
-            catch(KeyNotFoundException ex)
+            catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException(ex.Message);   
+                throw new KeyNotFoundException(ex.Message);
             }
         }
         //-------------------------------------------------------Updating-----------------------------------------------------------------------------
@@ -121,8 +122,8 @@ namespace BL
                     Longitude = customer.Longitude,
                     Latitude = customer.Latitude
                 },
-                FromCustomer = GetAllParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "sender")).ToList(),
-                ToCustomer = GetAllParcels().Select(parcel => ParcelToParcelAtCustomer(parcel, "Recive")).ToList()
+                FromCustomer = GetAllParcels().Where(Parcel=> Parcel.CustomerSender.Id == customer.Id).Select(parcel => ParcelToParcelAtCustomer(parcel, "sender")).ToList(),
+                ToCustomer = GetAllParcels().Where(Parcel => Parcel.CustomerReceives.Id == customer.Id).Select(parcel => ParcelToParcelAtCustomer(parcel, "Recive")).ToList()
             };
         }
 
