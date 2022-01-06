@@ -9,12 +9,18 @@
     <UserControl.DataContext>
         <local:CustomerWindowVM/>
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <ResourceDictionary Source="../Dictionary.xaml" />
+    </UserControl.Resources>
+   
     <Grid>
-        <TextBlock Text="welcome customer" Height="30"/>
-        <TextBlock Text="My Parcels: " Height="30"/>
-        <StackPanel>
-            <ListView ItemsSource="{Binding Path=listParcels}"/>
-        </StackPanel>
+        <TextBlock Text="welcome customer" Height="100"/>
+        <!--<TextBlock Text="My Parcels: " />-->
+
+        <!--<StackPanel Visibility="{Binding VisibilityParcelsList.visibility}">-->
+            <!--<ListView x:Name="listParcels1" ItemsSource="{Binding Path=list}" Margin="0,21,0,-21" />-->
+        <TextBlock x:Name="listParcels" Text="{Binding Path=list}"  />
         <Button Content="display my parcels" Command="{Binding DisplayParcelsCommand}"/>
+        <!--<Button Content="update" Command="{Binding DisplayParcelsCommand}"/>-->
     </Grid>
 </UserControl>

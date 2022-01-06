@@ -5,12 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 
 namespace PL
 {
     public partial class CustomerWindowVM : DependencyObject
     {
 
+        public List<ParcelToList> list { set; get; } 
+        public Visble VisibilityParcelsList { get; set; } = new();
 
         public Customer customer
         {
@@ -22,23 +25,32 @@ namespace PL
         public static readonly DependencyProperty customerProperty =
             DependencyProperty.Register("customer", typeof(Customer), typeof(CustomerWindowVM), new PropertyMetadata(new Customer()));
 
-        List<ParcelToList> listParcels;
+        //List<ParcelToList> listParcels;
         public RelayCommand DisplayParcelsCommand { get; set; }
 
         public CustomerWindowVM()
         {
             Init();
             DisplayParcelsCommand = new(DisplayParcels, param => customer.Error == null);
-            listParcels = new List<ParcelToList>();
+            list = new List<ParcelToList>();
+                //{ new Parcel() { Id = 77, Piority = Priorities.FAST, Weight = WeightCategories.HEAVY },
+            //new Parcel() { Id = 77, Piority = Priorities.FAST, Weight = WeightCategories.HEAVY }};// ListCollectionView();
+            //listParcels = new List<ParcelToList>();
             DelegateVM.Customer += Init;
         }
+
         public void Init()
         {
            customer = new CustomerHandler().GetCustomer(2);
         }
+
         public void DisplayParcels(object param)
         {
-            //listParcels = (List<ParcelToList>)new ParcelHandler().GetParcels;
+            list = new ParcelHandler().GetParcels().ToList();
+            VisibilityParcelsList.visibility = Visibility.Visible;
+            //public ListCollectionView list { set; get; }
+            MessageBox.Show($"{list}");
+            //listParcels = ParcelHandler().GetParcels;
         }
-    }
+}
 }
