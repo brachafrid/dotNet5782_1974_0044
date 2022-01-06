@@ -24,6 +24,8 @@ namespace Dal
         private const int PARCELS_STATE = 4;
 
 
+        public const string Administrator_Password = "";
+
         internal static List<Drone> Drones = new();
         internal static List<Station> Stations = new ();
         internal static List<Customer> Customers = new ();

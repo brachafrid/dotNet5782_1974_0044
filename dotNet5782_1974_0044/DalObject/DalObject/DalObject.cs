@@ -1,4 +1,6 @@
 ﻿
+using DLApi;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Utilities;
@@ -28,8 +30,14 @@ namespace Dal
             if (!lst.Any())
                 return false;
            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id);
-            
-            return !(temp.Equals(default(T)));
+            return !temp.Equals(default(T));
+        }
+        static bool ExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id)
+        {
+            if (!lst.Any())
+                return false;
+            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id&& !(bool)item.GetType().GetProperty("IsDeleted").GetValue(item));
+            return !temp.Equals(default(T));
         }
         /// <summary>
         /// Takes from the DataSource the electricity use data of the drone
@@ -41,7 +49,13 @@ namespace Dal
             return (DataSorce.Config.Available, DataSorce.Config.LightWeightCarrier, DataSorce.Config.MediumWeightBearing, DataSorce.Config.CarriesHeavyWeight, DataSorce.Config.DroneLoadingRate);
     
         }
+        public string GetAdministorPasssword()
+        {
+            return DataSorce.Administrator_Password;
+        }
 
+       
+        
     }
 
 }

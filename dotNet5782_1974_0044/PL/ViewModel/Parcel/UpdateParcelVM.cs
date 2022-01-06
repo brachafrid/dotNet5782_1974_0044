@@ -5,12 +5,15 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
-
+using System.Windows.Controls;
 
 namespace PL
 {
     class UpdateParcelVM : DependencyObject
     {
+        private readonly int id;
+        public RelayCommand OpenCustomerCommand { get; set; }
+        public RelayCommand OpenDroneCommand { get; set; }
         public Parcel parcel
         {
             get { return (Parcel)GetValue(parcelProperty); }
@@ -23,25 +26,29 @@ namespace PL
 
         public RelayCommand DeleteParcelCommand { get; set; }
 
-        public UpdateParcelVM()
+        public UpdateParcelVM(int id)
         {
-            init();
+            this.id = id;
+            InitParcel();
             DeleteParcelCommand = new(DeleteParcel, param => parcel.Error == null);
-
-            DelegateVM.Parcel += init;
+            OpenCustomerCommand = new(Tabs.OpenCustomerDetails, null);
+            OpenDroneCommand = new(Tabs.OpenDroneDetails, null);
+            DelegateVM.Parcel += InitParcel;
         }
-        public void init()
+        public void InitParcel()
         {
-            parcel = new ParcelHandler().GetParcel(2);
+            parcel = PLService.GetParcel(id);
         }
         public void DeleteParcel(object param)
         {
             if (MessageBox.Show("You're sure you want to delete this parcel?", "Delete Parcel", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
             {
-                new ParcelHandler().DeleteParcel(parcel.Id);
+                PLService.DeleteParcel(parcel.Id);
                 MessageBox.Show("The parcel was successfully deleted");
+                Tabs.CloseTab((param as TabItemFormat).Text);
+                DelegateVM.Parcel -= InitParcel;
+                DelegateVM.Parcel?.Invoke();
             }
         }
-
     }
 }

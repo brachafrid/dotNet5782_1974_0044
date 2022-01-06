@@ -1,6 +1,7 @@
 ﻿using PL.PO;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows.Controls;
 
 namespace PL
 {
@@ -10,87 +11,66 @@ namespace PL
         public  RelayCommand AddParcelToListWindowCommand { get; set; }
         public  RelayCommand AddStationToListWindowCommand { get; set; }
         public  RelayCommand AddCustomerToListWindowCommand { get; set; }
-        public  IntDependency SelectedTab { get; set; } = new();
+        public RelayCommand CloseCommand { get; set; }
+
+        public static IntDependency SelectedTab { get; set; } = new();
 
         public AdministratorVM()
         {
             AddDroneToListWindowCommand = new(AddDroneToList, null);
             AddParcelToListWindowCommand = new(AddParcelToList, null);
             AddStationToListWindowCommand = new(AddStationToList, null);
-            AddCustomerToListWindowCommand = new(AddCustomeroList, null);
+            AddCustomerToListWindowCommand = new(AddCustomerToList, null);
+            Tabs.changeSelectedTab += changeIndex;
+            CloseCommand = new(Close, null);
         }
 
+        public void Close(object param)
+        {
+            if (param is TabItem tabItem)
+            {
+                Tabs.CloseTab((tabItem.Header as TabItemFormat).Text);
+            }
+        }
         public  void AddDroneToList(object param)
         {
-            var tabItem = Tabs.TabItems.FirstOrDefault(tab => tab.TabContent == "DroneToListWindow");
-            if (tabItem == null)
+            Tabs.AddTab(new TabItemFormat()
             {
-                var newTabItem = new TabItemFormat()
-                {
-                    Text = "Drones",
-                    TabContent = "DroneToListWindow"
-                };
-                Tabs.TabItems.Add(newTabItem);
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(newTabItem);
-            }
-            else
-            {
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(tabItem);
-            }
+                Text = "Drones",
+                Content = new DroneToListVM()
+            });
+        }
+
+        public void changeIndex(int index)
+        {
+            SelectedTab.Instance = index;
         }
         public  void AddParcelToList(object param)
         {
-            var tabItem = Tabs.TabItems.FirstOrDefault(tab => tab.TabContent == "ParcelToListWindow");
-            if (tabItem == null)
+            Tabs.AddTab(new TabItemFormat()
             {
-                var newTabItem = new TabItemFormat()
-                {
-                    Text = "Parcels",
-                    TabContent = "ParcelToListWindow"
-                };
-                Tabs.TabItems.Add(newTabItem);
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(newTabItem);
-            }
-            else
-            {
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(tabItem);
-            }
+                Text = "Parcels",
+                Content = new ParcelToListVM()
+            });
+            
         }
         public  void AddStationToList(object param)
         {
-            var tabItem = Tabs.TabItems.FirstOrDefault(tab => tab.TabContent == "StationToListWindow");
-            if (tabItem == null)
+            Tabs.AddTab(new TabItemFormat()
             {
-                var newTabItem = new TabItemFormat()
-                {
-                    Text = "Stations",
-                    TabContent = "StationToListWindow"
-                };
-                Tabs.TabItems.Add(newTabItem);
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(newTabItem);
-            }
-            else
-            {
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(tabItem);
-            }
+                Text = "Stations",
+                Content = new StationToListVM()
+            });
+           
         }
-        public  void AddCustomeroList(object param)
+        public  void AddCustomerToList(object param)
         {
-            var tabItem = Tabs.TabItems.FirstOrDefault(tab => tab.TabContent == "CustomerTolistWindow");
-            if (tabItem == null)
+            Tabs.AddTab(new TabItemFormat()
             {
-                var newTabItem = new TabItemFormat()
-                {
-                    Text = "Customers",
-                    TabContent = "CustomerTolistWindow"
-                };
-                Tabs.TabItems.Add(newTabItem);
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(newTabItem);
-            }
-            else
-            {
-                SelectedTab.Instance = Tabs.TabItems.IndexOf(tabItem);
-            }
+                Text = "Customers",
+                Content = new StationToListVM()
+            });
+           
         }
     }
 }

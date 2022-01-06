@@ -35,7 +35,8 @@ namespace BL
                     BatteryState = rand.NextDouble() + rand.Next(MIN_BATTERY, MAX_BATTERY),
                     DroneState = DroneState.MAINTENANCE,
                     CurrentLocation = new Location() { Latitude = station.Latitude, Longitude = station.Longitude },
-                    ParcelId = 0
+                    ParcelId = 0,
+                    IsDeleted = false
                 };
                 drones.Add(droneToList);
                 dal.AddDRoneCharge(droneBl.Id, stationId);
@@ -116,7 +117,7 @@ namespace BL
         public void SendDroneForCharg(int id)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
-            if (droneToList == default)
+            if (droneToList == default || droneToList.IsDeleted)
                 throw new ArgumentNullException(" There is no a drone with the same id in data");
             if (droneToList.DroneState != DroneState.AVAILABLE)
                 throw new InvalidEnumArgumentException($"The drone is {droneToList.DroneState} so it is not possible to send it for charging ");
@@ -140,7 +141,7 @@ namespace BL
         public void ReleaseDroneFromCharging(int id)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
-            if (droneToList == default)
+            if (droneToList == default || droneToList.IsDeleted)
                 throw new ArgumentNullException("There is no a drone with the same id in charging");
             if (droneToList.DroneState != DroneState.MAINTENANCE)
                 throw new InvalidEnumArgumentException(" The drone is not maintenace so it is not possible to release it form charging ");
@@ -159,7 +160,7 @@ namespace BL
         public void AssingParcelToDrone(int droneId)
         {
             DroneToList aviableDrone = drones.FirstOrDefault(item => item.Id == droneId);
-            if (aviableDrone == default)
+            if (aviableDrone == default || aviableDrone.IsDeleted)
                 throw new ArgumentNullException(" There is no a drone with the same id in data");
             if (aviableDrone.DroneState != DroneState.AVAILABLE)
                 throw new InvalidEnumArgumentException(" The drone is not aviable so it is not possible to assign it a parcel");
@@ -194,7 +195,7 @@ namespace BL
         public void ParcelCollectionByDrone(int DroneId)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == DroneId);
-            if (droneToList == default)
+            if (droneToList == default || droneToList.IsDeleted)
                 throw new ArgumentNullException(" There is no a drone with the same id in data");
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
@@ -235,7 +236,7 @@ namespace BL
         public void DeliveryParcelByDrone(int droneId)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == droneId);
-            if (droneToList == default)
+            if (droneToList == default || droneToList.IsDeleted)
                 throw new ArgumentNullException("There is no a drone with the same id in data");
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
@@ -278,6 +279,7 @@ namespace BL
             if(drone.ParcelId == 0)
             {
                 dal.DeleteDrone(id);
+                drones[drones.IndexOf(drone)].IsDeleted = true;
             }
             else
             {
@@ -290,12 +292,12 @@ namespace BL
         /// Retrieves the list of drones from BL
         /// </summary>
         /// <returns>A list of drones to print</returns>
-        public IEnumerable<DroneToList> GetDrones() => drones;
+        public IEnumerable<DroneToList> GetDrones() => drones.Where(drone=>!drone.IsDeleted);
 
         private List<DroneInCharging> CreatListDroneInCharging(int id)
         {
-            List<int> list = dal.GetDronechargingInStation((int stationIdOfDrone)=> stationIdOfDrone == id);
-            if (list.Count == 0)
+            IEnumerable<int> list = dal.GetDronechargingInStation((int stationIdOfDrone)=> stationIdOfDrone == id);
+            if (list.Count() == 0)
                 return new();
             List<DroneInCharging> droneInChargings = new();
             DroneToList droneToList;
@@ -319,7 +321,7 @@ namespace BL
         private Drone MapDrone(int id)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
-            if (droneToList == default)
+            if (droneToList == default|| droneToList.IsDeleted)
                 throw new ArgumentNullException("Map drone: There is not drone with same id in the data");
             return new Drone()
             {

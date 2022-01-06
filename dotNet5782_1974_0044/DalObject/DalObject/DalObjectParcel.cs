@@ -18,9 +18,9 @@ namespace Dal
         /// <param name="Priority"> The priority of send the parcel (regular - 0,fast - 1,emergency - 2)</param>
         public void AddParcel(int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority, int id = 0, int droneId = 0, DateTime? requested = default, DateTime? sceduled = default, DateTime? pickedUp = default, DateTime? delivered = default)
         {
-            if (!ExistsIDTaxCheck(GetCustomers(), SenderId))
+            if (!ExistsIDTaxCheckNotDelited(GetCustomers(), SenderId))
                 throw new KeyNotFoundException("Sender not exist");
-            if (!ExistsIDTaxCheck(GetCustomers(), TargetId))
+            if (!ExistsIDTaxCheckNotDelited(GetCustomers(), TargetId))
                 throw new KeyNotFoundException("Target not exist");
             Parcel newParcel = new();
             newParcel.Id = id == 0 ? ++DataSorce.Config.IdParcel : id;
@@ -45,7 +45,7 @@ namespace Dal
         public Parcel GetParcel(int id)
         {
             Parcel parcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == id);
-            if (parcel.Equals(default(Parcel)) || parcel.IsDeleted == true)
+            if (parcel.Equals(default(Parcel)) || parcel.IsDeleted )
                 throw new KeyNotFoundException("There is not suitable parcel in data");
             return parcel;
         }
@@ -54,7 +54,7 @@ namespace Dal
         /// Prepares the list of Parcels for display
         /// </summary>
         /// <returns>A list of parcel</returns>
-        public IEnumerable<Parcel> GetParcels() => DataSorce.Parcels.Where(p => p.IsDeleted == false);
+        public IEnumerable<Parcel> GetParcels() => DataSorce.Parcels.Where(p => !p.IsDeleted);
 
         /// <summary>
         /// Find the Parcels that not assign to drone
@@ -75,7 +75,9 @@ namespace Dal
         public void DeleteParcel(int id)
         {
             Parcel parcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == id);
+            DataSorce.Parcels.Remove(parcel);
             parcel.IsDeleted = true;
+            DataSorce.Parcels.Add(parcel);
         }
     }
 }

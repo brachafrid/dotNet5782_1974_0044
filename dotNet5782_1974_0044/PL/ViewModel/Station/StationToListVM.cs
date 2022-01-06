@@ -14,7 +14,22 @@ namespace PL
     {
         public StationToListVM()
         {
-            list = new ListCollectionView(new StationHandler().GetStations().ToList());
+            UpdateInitList();
+            DelegateVM.Station += UpdateInitList;
+            DoubleClick = new(Tabs.OpenStationDetails, null);
         }
+        void UpdateInitList()
+        {
+            list = new ListCollectionView(PLService.GetStations().ToList());
+        }
+        public override void AddEntity(object param)
+        {
+            Tabs.AddTab(new TabItemFormat()
+            {
+                Text = "Station",
+                Content = new AddStationVM()
+            });
+        }
+     
     }
 }

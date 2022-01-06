@@ -23,6 +23,8 @@ namespace PL
         public UpdateStationView()
         {
             InitializeComponent();
+           
         }
+         
     }
 }

@@ -10,21 +10,27 @@ using System.Collections.ObjectModel;
 
 namespace PL
 {
-   public class CustomerToListVM:GenericList<CustomerToList>
+    public class CustomerToListVM : GenericList<CustomerToList>
     {
-       public RelayCommand DoubleClick { set; get; }
+
         public CustomerToListVM()
-        {            
-            list = new ListCollectionView(new CustomerHandler().GetCustomers().ToList());
-            DoubleClick = new(OpenDetails, null);
-        }
-      public  void OpenDetails(object id)
         {
-            Tabs.TabItems.Add(new()
+            UpdateInitList();
+            DelegateVM.Customer += UpdateInitList;
+            DoubleClick = new(Tabs.OpenCustomerDetails, null);
+        }
+        void UpdateInitList()
+        {
+            list = new ListCollectionView( PLService.GetCustomers().ToList());
+        }
+   
+        public override void AddEntity(object param)
+        {
+            Tabs.AddTab(new()
             {
-                TabContent = "CustomerWindow",
-                Text = "customer " + id
-            }); 
+                Text = "Customer",
+                Content = new CustomerAddVM(false)
+            });
         }
     }
 }

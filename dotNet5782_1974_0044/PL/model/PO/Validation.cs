@@ -27,7 +27,7 @@ namespace PL.PO
         {
             foreach (var prop in obj.GetType().GetProperties())
             {
-                if (prop.GetCustomAttributes(typeof(ValidationAttribute), false).Length == 0) continue;
+                if (prop.GetCustomAttributes(typeof(ValidationAttribute), true).Length == 0) continue;
 
                 if (obj[prop.Name] != null)
                     return "One or more of the properties are not correct";

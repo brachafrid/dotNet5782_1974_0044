@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 using PL.PO;
 
 namespace PL
@@ -15,15 +16,15 @@ namespace PL
         public AddStationVM()
         {
             station = new();
-            AddStationCommand = new(Add, param => station.Error == null);
+            AddStationCommand = new(Add, param => station.Error == null&&station.Location.Error == null);
         }
         public void Add(object param)
         {
             try
             {
-                new StationHandler().AddStation(station);
-                MessageBox.Show("seccess");
-                DelegateVM.Station();
+                PLService.AddStation(station);
+                DelegateVM.Station?.Invoke();
+                Tabs.CloseTab((param as TabItemFormat).Text);
             }
             catch(BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {

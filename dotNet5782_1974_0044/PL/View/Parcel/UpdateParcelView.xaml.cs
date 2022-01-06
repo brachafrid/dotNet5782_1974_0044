@@ -23,6 +23,7 @@ namespace PL
         public UpdateParcelView()
         {
             InitializeComponent();
+            //DataContext = new UpdateParcelVM((int)Id);
         }
     }
 }

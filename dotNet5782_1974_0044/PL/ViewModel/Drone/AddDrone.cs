@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
 
 namespace PL
 {
@@ -16,24 +17,25 @@ namespace PL
         public RelayCommand AddDroneCommand { get; set; }
         public AddDroneVM()
         {
-            update();
-            DelegateVM.Station += update;
+            InitDrone();
+            DelegateVM.Station += InitDrone;
             drone = new();
             AddDroneCommand = new(Add, param => drone.Error == null);
             Weight = Enum.GetValues(typeof(WeightCategories));
         }
-        void update()
+        void InitDrone()
         {
-            StationsId = new StationHandler().GetStaionsWithEmptyChargeSlots().Select(station => station.Id).ToList();
+            StationsId = PLService.GetStaionsWithEmptyChargeSlots().Select(station => station.Id).ToList();
         }
         public void Add(object param)
         {
             try
             {
-                new DroneHandler().AddDrone(drone);
-                MessageBox.Show("success");
-                DelegateVM.Drone?.Invoke();
+                PLService.AddDrone(drone);
+                DelegateVM.Drone?.Invoke();                             
                 DelegateVM.Station?.Invoke();
+                Tabs.CloseTab((param as TabItemFormat).Text);
+
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {

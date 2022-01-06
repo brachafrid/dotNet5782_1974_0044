@@ -9,11 +9,24 @@
              xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800" >
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <local:ConverterCancelFilterVisibility x:Key="ConverterCancelFilterVisibility" />
+        </ResourceDictionary>
+    </UserControl.Resources>
 
     <Grid>
         <StackPanel>
-           
-            <ComboBox  ItemsSource="{Binding Path=SortOption}" x:Name="sort" >
+            <Label Content="Group By:"/>
+            <ComboBox  ItemsSource="{Binding Path=SortOption}" x:Name="Group" >
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="SelectionChanged">
+                        <i:InvokeCommandAction Command="{Binding GroupCommand}" CommandParameter="{Binding Path=SelectedValue, ElementName=Group}"/>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ComboBox>
+            <Label Content="Filter By:"/>
+            <ComboBox  ItemsSource="{Binding Path=SortOption}" x:Name="sort">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding ShowKindOfSortCommand}" CommandParameter="{Binding Path=SelectedValue, ElementName=sort}"/>
@@ -53,6 +66,7 @@
             <Slider x:Name="min" Minimum="0" Maximum="{Binding Value, ElementName=max}" Value="{Binding Path=Parent.DataContext.DoubleFirstChange,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}" Style="{StaticResource MaterialDesignDiscreteSlider}" TickPlacement="BottomRight"/>
             <Label Content="maximum" Visibility="{Binding Path=Parent.DataContext.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}"/>
             <Slider x:Name="max" Minimum="{Binding Value,ElementName=min}" Maximum="100" Value="{Binding Path=Parent.DataContext.DoubleLastChange,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.VisbleDouble.visibility,RelativeSource = {RelativeSource Self}}" Style="{StaticResource MaterialDesignDiscreteSlider}" TickPlacement="BottomRight"/>
+            <Button Content="Cancel Filters" IsEnabled="{Binding Path=Filters.Count ,Converter={StaticResource ConverterCancelFilterVisibility}}" Command="{Binding CancelFilterCommand}"/>
         </StackPanel>
     </Grid>
 </UserControl>

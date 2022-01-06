@@ -6,28 +6,18 @@
              xmlns:local="clr-namespace:PL" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.DataContext>
-        <local:UpdateStationVM/>
-    </UserControl.DataContext>
     <UserControl.Resources>
         <ResourceDictionary>
             <local:ConverterUpdateStation x:Key="ConverterUpdateStation" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Dictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
     <Grid>
+        <ScrollViewer>
         <StackPanel x:Name="station" >
-            <TextBlock Text="Id: "/>
-            <TextBlock x:Name="Id" Text ="{Binding station.Id, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Name: "/>
-            <TextBox x:Name="StationName" Text ="{Binding station.Name, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Empty charge slots: "/>
-            <TextBox  Text ="{Binding station.EmptyChargeSlots, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Location: "/>
-            <TextBlock Text="Latitude: "/>
-            <TextBlock  Text ="{Binding station.Location.Latitude, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <TextBlock Text="Longitude: "/>
-            <TextBlock  Text ="{Binding station.Location.Longitude, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            <Button Content="close station"/>
+            <ContentPresenter Content="{Binding station}"  />
             <Button Content="update station" Command="{Binding UpdateStationCommand}">
             <Button.Visibility>
                     <MultiBinding Converter="{StaticResource ConverterUpdateStation}">
@@ -38,8 +28,9 @@
                     </MultiBinding>
                 </Button.Visibility>
             </Button>
-            <Button Content="delete station" Command="{Binding DeleteStationCommand}"/>
+            <Button Content="delete station" Command="{Binding DeleteStationCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
 
-        </StackPanel>
+            </StackPanel>
+        </ScrollViewer>
     </Grid>
 </UserControl>
