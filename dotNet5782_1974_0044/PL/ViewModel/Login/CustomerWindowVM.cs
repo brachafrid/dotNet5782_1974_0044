@@ -49,6 +49,7 @@ namespace PL
             DelegateVM.Customer += Init;
             DelegateVM.Parcel += Init;
         }
+
         public void Init()
         {
             customer = PLService.GetCustomer(id);
