@@ -55,10 +55,50 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type po:Location}">
-        <StackPanel>
+        <!--<StackPanel>
             <TextBlock Text="{Binding Latitude, StringFormat = Latitude:{0:n}}" />
             <TextBlock Text="{Binding Longitude, StringFormat = Longitude:{0:n}}" />
-        </StackPanel>
+        </StackPanel>-->
+        <materialDesign:Card Margin="25"
+ >
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition
+        Height="Auto" />
+                    <RowDefinition
+        Height="Auto" />
+                    <RowDefinition
+        Height="Auto" />
+                </Grid.RowDefinitions>
+                <StackPanel>
+                    <DockPanel Margin="20">
+                    <Label
+      Grid.Row="0"
+      Content="{materialDesign:PackIcon Kind=MapMarkerRadiusOutline}" />
+                        <TextBlock
+      Grid.Row="0"
+      HorizontalAlignment="Left"
+      Style="{StaticResource MaterialDesignBody2TextBlock}"
+      Text=" Location" />
+                    </DockPanel>
+                    <Separator Margin="3"/>
+                    <TextBlock
+      Grid.Row="2"
+      Margin="16 0 16 8"
+      
+      HorizontalAlignment="Left"
+      Style="{StaticResource MaterialDesignBody2TextBlock}"
+      Text="{Binding Latitude}" />
+      <TextBlock
+      Grid.Row="2"
+      Margin="16 0 16 8"
+      VerticalAlignment="Center"
+      HorizontalAlignment="Left"
+      Style="{StaticResource MaterialDesignBody2TextBlock}"
+      Text="{Binding Longitude}" />
+                </StackPanel>
+            </Grid>
+        </materialDesign:Card>
     </DataTemplate>
     
     <DataTemplate DataType="{x:Type po:DroneToList}" >
@@ -88,9 +128,9 @@
                 <TextBlock Text="{Binding Path=Weight, StringFormat=Weigth :{0}}"/>
                 <TextBlock Text="{Binding Path = DroneState, StringFormat=state :{0}}" />
                 <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />
-                <Expander Header="CurrentLocation">
+            
                     <ContentPresenter Content="{Binding Location}" />
-                </Expander>
+         
                 <ContentPresenter Content="{Binding Parcel}" />
             </ListBox>
         </StackPanel>
