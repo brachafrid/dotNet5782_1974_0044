@@ -31,6 +31,7 @@
                         </MultiBinding>
                     </Button.Visibility>
                 </Button>
+                <StackPanel   HorizontalAlignment="Stretch">
                 <StackPanel x:Name="droneCharge">
                     <Button x:Name="sendToCharging" Content="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingContent}}"  Visibility="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingVisibility}}" Command="{Binding ChargingDroneCommand}"/>
                 </StackPanel>
@@ -45,6 +46,7 @@
                     </Button>
                     <Button Content="delete drone" Command="{Binding DeleteDroneCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
                 </StackPanel>
+            </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Grid>

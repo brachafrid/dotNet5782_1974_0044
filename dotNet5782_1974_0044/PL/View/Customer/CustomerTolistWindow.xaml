@@ -10,9 +10,6 @@
     <UserControl.Resources>
         <ResourceDictionary Source="../Dictionary.xaml" />
     </UserControl.Resources>
-    <UserControl.DataContext>
-        <local:CustomerToListVM/>
-    </UserControl.DataContext>
     <ScrollViewer>
         <StackPanel>
         <StackPanel>

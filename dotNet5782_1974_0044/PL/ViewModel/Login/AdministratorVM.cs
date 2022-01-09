@@ -50,7 +50,7 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Header = "Parcels",
-                Content = new ParcelToListVM(null, "")
+                Content = new ParcelToListVM()
             });
 
         }
