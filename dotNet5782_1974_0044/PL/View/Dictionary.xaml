@@ -10,7 +10,7 @@
     <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignButtonTextBlock}">
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
-    
+
     <DataTemplate DataType="{x:Type local:AddDroneVM}">
         <local:AddDroneView/>
     </DataTemplate>
@@ -47,6 +47,13 @@
     <DataTemplate DataType="{x:Type local:UpdateStationVM}">
         <local:UpdateStationView/>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type local:CustomerWindowVM}">
+        <local:CustomerWindow/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type local:AdministratorVM}">
+        <local:AdministratorWindow/>
+    </DataTemplate>
+
     <DataTemplate DataType="{x:Type po:Location}">
 
         <materialDesign:Card Margin="25" >
@@ -97,31 +104,32 @@
             </Grid>
         </materialDesign:Card>
     </DataTemplate>
+    
     <DataTemplate DataType="{x:Type po:DroneToList}" >
         <Expander Header="{Binding Path=Id}">
             <StackPanel>
-                <TextBlock Text="{Binding Path=DroneModel,  StringFormat= model :{0:d}}" />
-                <TextBlock Text="{Binding Path=Weight, StringFormat= maxWeigth :{0}}"/>
-                <Expander Header="CurrentLocation">
-                    <ContentPresenter Content="{Binding Path=CurrentLocation}" />
-                </Expander>
-                <TextBlock Text="{Binding Path=DroneState, StringFormat= state :{0}}"/>
-                <TextBlock Text="{Binding Path=BatteryState, StringFormat= batteryState :{0}%}" />
-                <TextBlock Text="{Binding Path=ParcelId, StringFormat= parcel :{0:d}}" />
+                <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
+                    <TextBlock Text="{Binding Path=DroneModel,  StringFormat= model :{0:d}}" />
+                    <TextBlock Text="{Binding Path=Weight, StringFormat= maxWeigth :{0}}"/>
+                    <TextBlock Text="{Binding Path=DroneState, StringFormat= state :{0}}"/>
+                    <TextBlock Text="{Binding Path=BatteryState, StringFormat= batteryState :{0}%}" />
+                    <TextBlock Text="{Binding Path=ParcelId, StringFormat= parcel :{0:d}}" />
+                    <Expander Header="CurrentLocation">
+                        <ContentPresenter Content="{Binding Path=CurrentLocation}" />
+                    </Expander>
+                </ListBox>
             </StackPanel>
         </Expander>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type po:Drone}" >
         <StackPanel Margin="8">
-            <ListBox
-    materialDesign:ListBoxItemAssist.ShowSelection="False">
+            <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
                 <DockPanel>
                     <Label Content="Model:" />
                     <TextBox Text="{Binding  Path= Model,NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
                 </DockPanel>
-                <!--<Label Content="Weigth"  Style="{StaticResource MaterialDesignButtonTextBlock}"/>-->
-                <TextBlock Text="{Binding Path=Weight, StringFormat= :{0}}"/>
+                <TextBlock Text="{Binding Path=Weight, StringFormat=Weigth :{0}}"/>
                 <TextBlock Text="{Binding Path = DroneState, StringFormat=state :{0}}" />
                 <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />
             
@@ -132,21 +140,16 @@
         </StackPanel>
     </DataTemplate>
 
-
-
-
     <DataTemplate DataType="{x:Type po:CustomerInParcel}">
         <StackPanel>
-            <TextBlock Text="{Binding Path=Id, StringFormat=id :{0:d}}"/>
-            <TextBlock Text="{Binding Name, StringFormat=Name :{0}}"/>
+            <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
+                <TextBlock Text="{Binding Path=Id, StringFormat=id :{0:d}}"/>
+                <TextBlock Text="{Binding Name, StringFormat=Name :{0}}"/>
+            </ListBox>
         </StackPanel>
     </DataTemplate>
-    <DataTemplate DataType="{x:Type local:CustomerWindowVM}">
-        <local:CustomerWindow/>
-    </DataTemplate>
-    <DataTemplate DataType="{x:Type local:AdministratorVM}">
-        <local:AdministratorWindow/>
-    </DataTemplate>
+
+
     <DataTemplate DataType="{x:Type po:ParcelInTransfer}">
         <Expander >
             <i:Interaction.Triggers>
@@ -162,34 +165,36 @@
                 </DockPanel>
             </Expander.Header>
             <StackPanel>
-                <TextBlock Text="{Binding Path=Weight, StringFormat = Weigth:{0}}"/>
-                <TextBlock Text="{Binding Path=Piority, StringFormat = Priority:{0}}"/>
-                <TextBlock Text="{Binding Path = ParcelState, StringFormat= ParcelState :{0}}"/>
-                <Expander Header="CollectionPoint">
-                    <ContentPresenter Content="{Binding Path=CollectionPoint}" />
-                </Expander>
-                <Expander Header="DeliveryDestination">
-                    <ContentPresenter Content="{Binding Path=DeliveryDestination}" />
-                </Expander>
-                <TextBlock Text="{Binding Path= TransportDistance, StringFormat= TransportDistance :{0:n}}" />
-                <Expander Header="CustomerSender" >
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseDoubleClick">
-                            <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateDroneView}}}"
+                <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
+                    <TextBlock Text="{Binding Path=Weight, StringFormat = Weigth:{0}}"/>
+                    <TextBlock Text="{Binding Path=Piority, StringFormat = Priority:{0}}"/>
+                    <TextBlock Text="{Binding Path = ParcelState, StringFormat= ParcelState :{0}}"/>
+                    <Expander Header="CollectionPoint">
+                        <ContentPresenter Content="{Binding Path=CollectionPoint}" />
+                    </Expander>
+                    <Expander Header="DeliveryDestination">
+                        <ContentPresenter Content="{Binding Path=DeliveryDestination}" />
+                    </Expander>
+                    <TextBlock Text="{Binding Path= TransportDistance, StringFormat= TransportDistance :{0:n}}" />
+                    <Expander Header="CustomerSender" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateDroneView}}}"
                                    CommandParameter="{Binding  Path= CustomerSender}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    <ContentPresenter Content="{Binding Path=CustomerSender}" />
-                </Expander>
-                <Expander Header="CustomerReceives">
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseDoubleClick">
-                            <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateDroneView}}}"
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <ContentPresenter Content="{Binding Path=CustomerSender}" />
+                    </Expander>
+                    <Expander Header="CustomerReceives">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateDroneView}}}"
                                    CommandParameter="{Binding  Path= CustomerReceives}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                    <ContentPresenter Content="{Binding Path=CustomerReceives}" />
-                </Expander>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                        <ContentPresenter Content="{Binding Path=CustomerReceives}" />
+                    </Expander>
+                </ListBox>
             </StackPanel>
         </Expander>
     </DataTemplate>
@@ -197,8 +202,10 @@
     <DataTemplate DataType="{x:Type po:StationToList}" >
         <Expander  Header="{Binding Path=Id}">
             <StackPanel>
-                <TextBlock Text="{Binding Path=Name, StringFormat=Name :{0}}"/>
-                <TextBlock Text="{Binding Path=ChargeSlots, StringFormat=chargeSlots :{0:d}}"/>
+                <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
+                    <TextBlock Text="{Binding Path=Name, StringFormat=Name :{0}}"/>
+                    <TextBlock Text="{Binding Path=ChargeSlots, StringFormat=chargeSlots :{0:d}}"/>
+                </ListBox>
             </StackPanel>
         </Expander>
     </DataTemplate>
@@ -206,160 +213,180 @@
     <DataTemplate DataType="{x:Type po:CustomerToList}" >
         <Expander Header="{Binding Path=Id}">
             <StackPanel>
-                <TextBlock Text="{Binding Path=Name, StringFormat=Name :{0}}"/>
-                <TextBlock Text="{Binding Path=Phone, StringFormat=Phone :{0}}"/>
-                <TextBlock Text="{Binding Path=NumParcelSentDelivered, StringFormat=NumParcelSentDelivered :{0:d}}"/>
-                <TextBlock Text="{Binding Path=NumParcelSentNotDelivered, StringFormat=NumParcelSentNotDelivered :{0:d}}"/>
-                <TextBlock Text="{Binding Path=NumParcelReceived, StringFormat=NumParcelReceived :{0:d}}"/>
-                <TextBlock Text="{Binding Path=NumParcelWayToCustomer, StringFormat=NumParcelWayToCustomer :{0:d}}"/>
+                <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
+                    <TextBlock Text="{Binding Path=Name, StringFormat=Name :{0}}"/>
+                    <TextBlock Text="{Binding Path=Phone, StringFormat=Phone :{0}}"/>
+                    <TextBlock Text="{Binding Path=NumParcelSentDelivered, StringFormat=NumParcelSentDelivered :{0:d}}"/>
+                    <TextBlock Text="{Binding Path=NumParcelSentNotDelivered, StringFormat=NumParcelSentNotDelivered :{0:d}}"/>
+                    <TextBlock Text="{Binding Path=NumParcelReceived, StringFormat=NumParcelReceived :{0:d}}"/>
+                    <TextBlock Text="{Binding Path=NumParcelWayToCustomer, StringFormat=NumParcelWayToCustomer :{0:d}}"/>
+                </ListBox>
             </StackPanel>
         </Expander>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type po:Station}">
         <StackPanel>
-            <TextBlock Text="{Binding Path=Id, StringFormat=Id :{0:d}}"/>
-            <DockPanel >
-                <TextBlock Text="Name"/>
-                <TextBox Text="{Binding Name,NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            </DockPanel>
-            <Expander Header="{materialDesign:PackIcon Kind =MapMarkerOutline }">
-                <ContentPresenter Content="{Binding Path=Location}" />
-            </Expander>
-            <DockPanel >
-                <TextBlock Text="EmptyChargeSlots"/>
-                <TextBox Text ="{Binding EmptyChargeSlots, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}"/>
-            </DockPanel>
-            <ListView ItemsSource="{Binding Path=DroneInChargings}">
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=Id}" Header="Id" />
-                        <GridViewColumn DisplayMemberBinding="{Binding Path=ChargingMode}" Header="ChargingMode" />
-                    </GridView>
-                </ListView.View>
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <i:InvokeCommandAction Command="{Binding DataContext.OpenDroneChargeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateStationView}}}"
+            <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
+                <TextBlock Text="{Binding Path=Id, StringFormat=Id :{0:d}}"/>
+                <DockPanel >
+                    <Label Content="Name"/>
+                    <TextBox Text="{Binding Name,NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
+                </DockPanel>
+                <DockPanel >
+                    <Label Content="EmptyChargeSlots"/>
+                    <TextBox Text ="{Binding EmptyChargeSlots, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}"/>
+                </DockPanel>
+                <Expander Header="{materialDesign:PackIcon Kind =MapMarkerOutline }">
+                    <ContentPresenter Content="{Binding Path=Location}" />
+                </Expander>
+                <ListView ItemsSource="{Binding Path=DroneInChargings}">
+                    <ListView.View>
+                        <GridView>
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=Id}" Header="Id" />
+                            <GridViewColumn DisplayMemberBinding="{Binding Path=ChargingMode}" Header="ChargingMode" />
+                        </GridView>
+                    </ListView.View>
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding DataContext.OpenDroneChargeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateStationView}}}"
                                    CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-            </ListView>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ListView>
+            </ListBox>
         </StackPanel>
     </DataTemplate>
+    
     <DataTemplate DataType="{x:Type po:Customer}">
         <StackPanel>
-            <TextBlock  Text ="{Binding Id,StringFormat=Id :{0:d}}" />
-            <DockPanel >
-                <TextBlock Text="Name"/>
-                <TextBox Text="{Binding  Path= Name,NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            </DockPanel>
-            <DockPanel >
-                <TextBlock Text="Phone"/>
-                <TextBox Text="{Binding  Path= Phone,NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            </DockPanel>
-            <Expander Header="Location">
-                <ContentPresenter Content="{Binding Path=Location}" />
-            </Expander>
-            <Expander Header="Parcel From Customer">
-                <ListView ItemsSource="{Binding Path=FromCustomer}" >
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseDoubleClick">
-                            <i:InvokeCommandAction Command="{Binding DataContext.OpenParcelCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateCustomerView}}}"
+            <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
+                <TextBlock  Text ="{Binding Id,StringFormat=Id :{0:d}}" />
+                <DockPanel >
+                    <Label Content="Name"/>
+                    <TextBox Text="{Binding  Path= Name,NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
+                </DockPanel>
+                <DockPanel >
+                    <Label Content="Phone"/>
+                    <TextBox Text="{Binding  Path= Phone,NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
+                </DockPanel>
+                <Expander Header="Location">
+                    <ContentPresenter Content="{Binding Path=Location}" />
+                </Expander>
+                <Expander Header="Parcel From Customer">
+                    <ListView ItemsSource="{Binding Path=FromCustomer}" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding DataContext.OpenParcelCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateCustomerView}}}"
                                    CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ListView>
-            </Expander>
-            <Expander Header="Parcel To Customer">
-                <ListView ItemsSource="{Binding Path=ToCustomer}" >
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseDoubleClick">
-                            <i:InvokeCommandAction Command="{Binding DataContext.OpenParcelCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateCustomerView}}}"
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ListView>
+                </Expander>
+                <Expander Header="Parcel To Customer">
+                    <ListView ItemsSource="{Binding Path=ToCustomer}" >
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="MouseDoubleClick">
+                                <i:InvokeCommandAction Command="{Binding DataContext.OpenParcelCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateCustomerView}}}"
                                    CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ListView>
-            </Expander>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ListView>
+                </Expander>
+            </ListBox>
         </StackPanel>
     </DataTemplate>
+    
     <DataTemplate DataType="{x:Type po:ParcelAtCustomer}">
         <Expander  Header="{Binding Path=Id, StringFormat = Id:{0:d}}">
             <StackPanel>
-                <TextBlock Text="{Binding Path=Weight, StringFormat=Weight :{0}}"/>
-                <TextBlock Text="{Binding Path=Piority, StringFormat=Piority :{0}}"/>
-                <TextBlock Text="{Binding Path=PackageMode, StringFormat=PackageMode :{0}}"/>
+                <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
+                    <TextBlock Text="{Binding Path=Weight, StringFormat=Weight :{0}}"/>
+                    <TextBlock Text="{Binding Path=Piority, StringFormat=Piority :{0}}"/>
+                    <TextBlock Text="{Binding Path=PackageMode, StringFormat=PackageMode :{0}}"/>
+                </ListBox>
             </StackPanel>
         </Expander>
     </DataTemplate>
+    
     <DataTemplate DataType="{x:Type po:ParcelToList}">
         <Expander Header="{Binding Path=Id, StringFormat = Id:{0:d}}">
             <StackPanel>
-                <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
-                <Expander Header="Customer Sender">
-                    <StackPanel>
-                        <TextBlock Text="{Binding Path=CustomerSender.Id, StringFormat=Id :{0:d}}"/>
-                        <TextBlock Text="{Binding Path=CustomerSender.Name, StringFormat=Name :{0}}"/>
-                    </StackPanel>
-                </Expander>
-                <Expander Header="Customer Receives">
-                    <StackPanel>
-                        <TextBlock Text="{Binding Path=CustomerReceives.Id, StringFormat=Id :{0:d}}"/>
-                        <TextBlock Text="{Binding Path=CustomerReceives.Name, StringFormat=Name :{0}}"/>
-                    </StackPanel>
-                </Expander>
-                <TextBlock Text="{Binding Path=Weight, StringFormat=Weight :{0}}"/>
-                <TextBlock Text="{Binding Path=Piority, StringFormat=Piority :{0}}"/>
-                <TextBlock Text="{Binding Path=PackageMode, StringFormat=Package Mode :{0}}"/>
+                <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
+                    <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
+                    <Expander Header="Customer Sender">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Path=CustomerSender.Id, StringFormat=Id :{0:d}}"/>
+                            <TextBlock Text="{Binding Path=CustomerSender.Name, StringFormat=Name :{0}}"/>
+                        </StackPanel>
+                    </Expander>
+                    <Expander Header="Customer Receives">
+                        <StackPanel>
+                            <TextBlock Text="{Binding Path=CustomerReceives.Id, StringFormat=Id :{0:d}}"/>
+                            <TextBlock Text="{Binding Path=CustomerReceives.Name, StringFormat=Name :{0}}"/>
+                        </StackPanel>
+                    </Expander>
+                    <TextBlock Text="{Binding Path=Weight, StringFormat=Weight :{0}}"/>
+                    <TextBlock Text="{Binding Path=Piority, StringFormat=Piority :{0}}"/>
+                    <TextBlock Text="{Binding Path=PackageMode, StringFormat=Package Mode :{0}}"/>
+                </ListBox>
             </StackPanel>
         </Expander>
     </DataTemplate>
+    
     <DataTemplate DataType="{x:Type po:Parcel}">
         <StackPanel x:Name="parcel" >
-            <TextBlock  Text ="{Binding Id, StringFormat = Id:{0:d}}" />
-            <TextBlock  Text ="{Binding Piority, StringFormat=Piority :{0}}" />
-            <TextBlock  Text ="{Binding Weight, StringFormat=Weight :{0} }" />
-            <TextBlock Text="{Binding Path=CreationTime, StringFormat=Package CreationTime :{0}}"/>
-            <TextBlock Text="{Binding Path=AssignmentTime, StringFormat=Package AssignmentTime :{0}}"/>
-            <TextBlock Text="{Binding Path=CollectionTime, StringFormat=Package CollectionTime :{0}}"/>
-            <TextBlock Text="{Binding Path=DeliveryTime, StringFormat=DeliveryTime :{0}}"/>
-            <Expander Header="Customer Sender">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateParcelView}}}"
+            <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
+                <TextBlock  Text ="{Binding Id, StringFormat = Id:{0:d}}" />
+                <TextBlock  Text ="{Binding Piority, StringFormat=Piority :{0}}" />
+                <TextBlock  Text ="{Binding Weight, StringFormat=Weight :{0} }" />
+                <TextBlock Text="{Binding Path=CreationTime, StringFormat=Package CreationTime :{0}}"/>
+                <TextBlock Text="{Binding Path=AssignmentTime, StringFormat=Package AssignmentTime :{0}}"/>
+                <TextBlock Text="{Binding Path=CollectionTime, StringFormat=Package CollectionTime :{0}}"/>
+                <TextBlock Text="{Binding Path=DeliveryTime, StringFormat=DeliveryTime :{0}}"/>
+                <Expander Header="Customer Sender">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateParcelView}}}"
                                    CommandParameter="{Binding CustomerSender }"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <ContentPresenter Content="{Binding Path=CustomerSender}" />
-            </Expander>
-            <Expander Header="Customer Receives">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateParcelView}}}"
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ContentPresenter Content="{Binding Path=CustomerSender}" />
+                </Expander>
+                <Expander Header="Customer Receives">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateParcelView}}}"
                                    CommandParameter="{Binding CustomerReceives }"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <ContentPresenter Content="{Binding Path=CustomerReceives}" />
-            </Expander>
-            <Expander Header="Drone With Parcel">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <i:InvokeCommandAction Command="{Binding DataContext.OpenDroneCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateParcelView}}}"
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ContentPresenter Content="{Binding Path=CustomerReceives}" />
+                </Expander>
+                <Expander Header="Drone With Parcel">
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding DataContext.OpenDroneCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateParcelView}}}"
                                    CommandParameter="{Binding Drone }"/>
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <ContentPresenter Content="{Binding Path=Drone}" />
-            </Expander>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <ContentPresenter Content="{Binding Path=Drone}" />
+                </Expander>
+            </ListBox>
         </StackPanel>
     </DataTemplate>
+    
     <DataTemplate DataType="{x:Type po:DroneWithParcel}">
         <StackPanel>
-            <TextBlock Text="{Binding Path=Id, StringFormat= Charging Id :{0:d}}" />
-            <TextBlock Text="{Binding Path=ChargingMode, StringFormat= Charging Mode :{0}%}" />
-            <Expander Header="CurrentLocation">
-                <ContentPresenter Content="{Binding Path=CurrentLocation}" />
-            </Expander>
+            <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
+                <TextBlock Text="{Binding Path=Id, StringFormat= Charging Id :{0:d}}" />
+                <TextBlock Text="{Binding Path=ChargingMode, StringFormat= Charging Mode :{0}%}" />
+                <Expander Header="CurrentLocation">
+                    <ContentPresenter Content="{Binding Path=CurrentLocation}" />
+                </Expander>
+            </ListBox>
         </StackPanel>
     </DataTemplate>
+    
     <Style TargetType="{x:Type GroupItem}" x:Key="Group">
         <Setter Property="Template">
             <Setter.Value>
