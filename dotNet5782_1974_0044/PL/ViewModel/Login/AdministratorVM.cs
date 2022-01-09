@@ -20,7 +20,7 @@ namespace PL
             AddDroneToListWindowCommand = new(AddDroneToList, null);
             AddParcelToListWindowCommand = new(AddParcelToList, null);
             AddStationToListWindowCommand = new(AddStationToList, null);
-            AddCustomerToListWindowCommand = new(AddCustomeroList, null);
+            AddCustomerToListWindowCommand = new(AddCustomerToList, null);
             Tabs.changeSelectedTab += changeIndex;
             CloseCommand = new(Close, null);
         }
@@ -29,18 +29,16 @@ namespace PL
         {
             if (param is TabItem tabItem)
             {
-                Tabs.CloseTab((tabItem.Header as TabItemFormat).Text);
+                Tabs.CloseTab((tabItem.Header as TabItemFormat).Header);
             }
         }
         public  void AddDroneToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             {
-                Text = "Drones",
-                TabContent = "DroneToListWindow",
+                Header = "Drones",
                 Content = new DroneToListVM()
             });
-            
         }
 
         public void changeIndex(int index)
@@ -51,8 +49,7 @@ namespace PL
         {
             Tabs.AddTab(new TabItemFormat()
             {
-                Text = "Parcels",
-                TabContent = "ParcelToListWindow",
+                Header = "Parcels",
                 Content = new ParcelToListVM()
             });
             
@@ -61,18 +58,16 @@ namespace PL
         {
             Tabs.AddTab(new TabItemFormat()
             {
-                Text = "Stations",
-                TabContent = "StationToListWindow",
+                Header = "Stations",
                 Content = new StationToListVM()
             });
            
         }
-        public  void AddCustomeroList(object param)
+        public  void AddCustomerToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             {
-                Text = "Customers",
-                TabContent = "CustomerTolistWindow",
+                Header = "Customers",
                 Content = new StationToListVM()
             });
            

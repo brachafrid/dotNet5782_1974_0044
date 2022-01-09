@@ -21,8 +21,7 @@ namespace PL
             CustomerLoginCommand = new RelayCommand(CustomerLogin, null);
             ShowCustomerSigninCommand = new(ShowCustomerSignin, null);
         }
-        public AddCustomerView Add { get; set; }
-
+        public CustomerAddVM Add { get; set; }
         public RelayCommand AdministratorLoginCommand { get; set; }
         public RelayCommand CustomerLoginCommand { get; set; }
         public RelayCommand ShowAdministratorLoginCommand { get; set; }
@@ -67,7 +66,6 @@ namespace PL
         {
            try
             {
-                
                 Customer customer = PLService.GetCustomer((int)customerLogin.Id);
                 LoginScreen.Id = customer.Id;
                 LoginScreen.MyScreen = "CustomerWindow";

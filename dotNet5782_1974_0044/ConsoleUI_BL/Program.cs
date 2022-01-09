@@ -5,7 +5,6 @@
 //using Utilities;
 
 
-
 //namespace ConsoleUI_BL
 //{
 //    partial class Program

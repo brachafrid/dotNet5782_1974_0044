@@ -246,8 +246,7 @@ namespace PL
             {
                 "LoginWindow" => new LoginWindow(),
                 "AdministratorWindow" => new AdministratorWindow(),
-                //"CustomerWindow" => new CustomerWindow((int)PO.LoginScreen.Id)
-                "CustomerWindow" => new CustomerWindow()
+                "CustomerWindow" => new CustomerWindow((int)PO.LoginScreen.Id),
             };
         }
 
@@ -256,44 +255,6 @@ namespace PL
             throw new NotImplementedException();
         }
     }
-
-    public class TabItemContentConverter : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            if (values[0] != DependencyProperty.UnsetValue)
-            {
-                return values[0] switch
-                {
-                    "DroneToListWindow" => new DroneToListWindow(),
-                    "ParcelToListWindow" => new ParcelToListWindow(),
-                    "StationToListWindow" => new StationToListWindow(),
-                    "CustomerTolistWindow" => new CustomerTolistWindow(),
-                    "AddDroneView" => new AddDroneView(),
-                    "AddCustomerView" => new AddCustomerView(),
-                    "AddStationView" => new AddStationView(),
-                    "AddParcelView" => new AddParcelView(),
-                    "UpdateDroneView" => new UpdateDroneView(),
-                    "UpdateCustomerView" => new UpdateCustomerView(),
-                    "UpdateStationView" => new UpdateStationView(),
-                    "UpdateParcelView" => new UpdateParcelView(),
-                    "ParcelsFrom" => new ParcelToListWindow(),
-                    //"ParcelsFrom" => new ParcelToListWindow(values[1], "From"),
-                    //"ParcelsTo" => new ParcelToListWindow(values[1], "To"),
-                    "ParcelsTo" => new ParcelToListWindow(),
-                    "Customer" => new UpdateCustomerView()
-                };
-            }
-            return "i love you";
-
-        }
-
-        public object[] ConvertBack(object value, Type[] targetType, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
-
 
     public class ConverterUpdateCustomer : IMultiValueConverter
     {

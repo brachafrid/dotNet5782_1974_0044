@@ -28,7 +28,7 @@
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <DockPanel>
-                        <TextBlock Text="{Binding Path=Text}"/>
+                        <TextBlock Text="{Binding Path=Header}"/>
                         <Button Content="x"   Style="{StaticResource MaterialDesignIconForegroundButton}" Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabItem}}}"/>
                     </DockPanel>
                 </DataTemplate>

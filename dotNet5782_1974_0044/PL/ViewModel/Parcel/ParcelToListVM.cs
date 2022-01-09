@@ -19,7 +19,7 @@ namespace PL
             UpdateInitList();
             DelegateVM.Parcel += UpdateInitList;
             DelegateVM.Customer += UpdateInitList;
-            DoubleClick = new(OpenDetails, null);
+            DoubleClick = new(Tabs.OpenParcelDetails, null);
         }
         public ParcelToListVM(object Id, object State)
         {
@@ -28,7 +28,7 @@ namespace PL
             UpdateInitList();
             DelegateVM.Customer += UpdateInitList;
             DelegateVM.Parcel += UpdateInitList;
-            DoubleClick = new(OpenDetails, null);
+            DoubleClick = new(Tabs.OpenParcelDetails, null);
         }
         void UpdateInitList()
         {
@@ -45,27 +45,13 @@ namespace PL
                 list = new ListCollectionView(PLService.GetCustomer((int)id).ToCustomer.ToList());
             }
         }
-        public void OpenDetails(object param)
-        {
-            Type t = param.GetType();
-            int id = (param is ParcelToList) ? (param as ParcelToList).Id : (param as ParcelAtCustomer).Id;
-            if (param != null)
-                Tabs.AddTab(new()
-                {
-                    TabContent = "UpdateParcelView",
-                    Text = "parcel " + id,
-                    Id = id,
-                    Content= new UpdateParcelVM(id)
-
-                });
-        }
+     
 
         public override void AddEntity(object param)
         {
-            Tabs.AddTab(new()
+            Tabs.AddTab(new TabItemFormat()
             {
-                TabContent = "AddParcelView",
-                Text = "Parcel",
+                Header = "Parcel",
                 Content = new AddParcelVM()
             }) ;
         }
