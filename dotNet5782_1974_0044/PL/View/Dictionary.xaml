@@ -66,9 +66,10 @@
 
     <DataTemplate DataType="{x:Type po:Drone}" >
         <StackPanel Margin="8">
-            <GroupBox  Header="Model"  Style="{DynamicResource MaterialDesignGroupBox}"  Margin="16">
+            <DockPanel>
+                <Label Content="Model:" />
                 <TextBox Text="{Binding  Path= Model,NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            </GroupBox>
+            </DockPanel>
             <TextBlock Text="{Binding Path=Weight, StringFormat=Weigth :{0}}"/>
             <TextBlock Text="{Binding Path = DroneState, StringFormat=state :{0}}" />
             <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />
