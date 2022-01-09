@@ -14,7 +14,9 @@ namespace PL
         public ParcelAdd parcel { set; get; }
         public RelayCommand AddParcelCommand { get; set; }
         public RelayCommand VisibilityParcel { get; set; }
+        public RelayCommand VisibilitySender { get; set; }
         public Visble VisibleParcel { get; set; }
+        public Visble VisibleSender { get; set; }
 
         public IEnumerable<int> customers { get; set; }
         public Array piorities { get; set; }
@@ -25,6 +27,7 @@ namespace PL
             customers = PLService.GetCustomers().Select(customer => customer.Id);
             AddParcelCommand = new(Add, param => parcel.Error == null);
             VisibilityParcel = new(visibilityParcel, param => parcel.Error == null);
+            //VisibilitySender = new(visibilitySender, param => parcel.Error == null);
             piorities = Enum.GetValues(typeof(Priorities));
             Weight = Enum.GetValues(typeof(WeightCategories));
 
@@ -33,10 +36,20 @@ namespace PL
         {
             parcel = new();
             parcel.CustomerSender = id;
+            customers = PLService.GetCustomers().Select(customer => customer.Id);
+            AddParcelCommand = new(Add, param => parcel.Error == null);
+            VisibilityParcel = new(visibilityParcel, param => parcel.Error == null);
+            VisibilitySender = new(visibilitySender, param => parcel.Error == null);
+            piorities = Enum.GetValues(typeof(Priorities));
+            Weight = Enum.GetValues(typeof(WeightCategories));
         }
         public void visibilityParcel(object param)
         {
             VisibleParcel.visibility = Visibility.Visible;
+        }
+        public void visibilitySender(object param)
+        {
+            VisibleSender.visibility = Visibility.Collapsed;
         }
         public void Add(object param)
         {

@@ -15,7 +15,7 @@
             <StackPanel Visibility="{Binding VisibileParcel}">
                 <ComboBox SelectedItem="{Binding parcel.Piority, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding piorities}" materialDesign:HintAssist.Hint="Piority" Margin="5" />
                 <ComboBox SelectedItem="{Binding parcel.Weight, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Weight}" materialDesign:HintAssist.Hint="Weight Category" Margin="5"/>
-                <ComboBox SelectedItem="{Binding parcel.CustomerSender, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding customers}" materialDesign:HintAssist.Hint="sender Id" Margin="5"/>
+                <ComboBox SelectedItem="{Binding parcel.CustomerSender, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding VisibilitySender}" ItemsSource="{Binding customers}" materialDesign:HintAssist.Hint="sender Id" Margin="5"/>
                 <ComboBox SelectedItem="{Binding parcel.CustomerReceives, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding customers}" materialDesign:HintAssist.Hint="reciver Id" Margin="5"/>
                 <Button Style="{StaticResource MaterialDesignFlatButton}"
                     HorizontalAlignment="Center"

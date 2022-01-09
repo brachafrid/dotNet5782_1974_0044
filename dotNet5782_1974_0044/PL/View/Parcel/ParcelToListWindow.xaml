@@ -14,7 +14,7 @@
     <ScrollViewer>
         <StackPanel>
             <StackPanel>
-                <Button Content="Add Parcel" Command="{Binding AddEntitiyCommand}" /> <!--Visibility="{Binding Path=state,Converter={StaticResource ConvertButtonAddVisibility}}"/>-->
+                <Button Content="Add Parcel" Command="{Binding AddEntitiyCommand}" Visibility="{Binding Path=state,Converter={StaticResource ConvertButtonAddVisibility}}"/>
                 <ListView ItemsSource="{Binding Path=list}">
                     <ListView.GroupStyle>
                         <GroupStyle ContainerStyle="{StaticResource ResourceKey=Group}"/>
