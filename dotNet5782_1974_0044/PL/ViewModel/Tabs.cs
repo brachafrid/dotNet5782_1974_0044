@@ -39,26 +39,27 @@ namespace PL
                 AddTab(
                     t switch
                     {
-                        { } when t.Name.Contains("Drone") => new TabItemFormat()
+                        { } when t.Name.StartsWith("Drone") => new TabItemFormat()
                         {
                             Header = "Drone " + id,
                             Content = new UpdateDroneVM(id)
                         },
-                        { } when t.Name.Contains("Customer") => new TabItemFormat()
+                        { } when t.Name.StartsWith("Customer") => new TabItemFormat()
                         {
                             Header = "Customer " + id,
                             Content = new UpdateCustomerVM(id)
                         },
-                        { } when t.Name.Contains("Station") => new TabItemFormat()
+                        { } when t.Name.StartsWith("Station") => new TabItemFormat()
                         {
                             Header = "Station " + id,
                             Content = new UpdateStationVM(id)
                         },
-                        { } when t.Name.Contains("Parcel") => new TabItemFormat()
+                        { } when t.Name.StartsWith("Parcel") => new TabItemFormat()
                         {
                             Header = "Parcel " + id,
-                            Content = new  UpdateParcelVM(id)
+                            Content = new UpdateParcelVM(id)
                         },
+                        _ => throw new NotImplementedException(),
                     }
                     ) ;
             }
