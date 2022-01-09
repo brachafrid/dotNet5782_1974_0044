@@ -92,10 +92,10 @@ namespace Dal
         {
             Parcel newParcel = new ();
             newParcel.Id = id;
-            newParcel.SenderId = Customers[Rnd.Next(1, Customers.Count)].Id;
+            newParcel.SenderId = Customers[Rnd.Next(1, Customers.Count(customer => !customer.IsDeleted))].Id;
             do
             {
-                newParcel.TargetId = Customers[Rnd.Next(1, Customers.Count)].Id;
+                newParcel.TargetId = Customers[Rnd.Next(1, Customers.Count(customer => !customer.IsDeleted))].Id;
             } while (newParcel.TargetId == newParcel.SenderId);
             newParcel.Weigth = (WeightCategories)Rnd.Next(RANGE_ENUM);
             newParcel.Priority = (Priorities)Rnd.Next(RANGE_ENUM);
@@ -111,7 +111,7 @@ namespace Dal
                 newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);
                 if (newParcel.DorneId != 0)
                 {
-                    Parcel tmp = (Parcels.FirstOrDefault(parcel => parcel.DorneId == newParcel.DorneId && parcel.Delivered == null));
+                    Parcel tmp = Parcels.FirstOrDefault(parcel => parcel.DorneId == newParcel.DorneId && parcel.Delivered == null);
                     if (tmp.DorneId==0)
                     {
                         newParcel.Sceduled = DateTime.Now;

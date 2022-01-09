@@ -85,6 +85,12 @@
             <TextBlock Text="{Binding Name, StringFormat=Name :{0}}"/>
         </StackPanel>
     </DataTemplate>
+    <DataTemplate DataType="{x:Type local:CustomerWindowVM}">
+        <local:CustomerWindow/>
+    </DataTemplate>
+    <DataTemplate DataType="{x:Type local:AdministratorVM}">
+        <local:AdministratorWindow/>
+    </DataTemplate>
     <DataTemplate DataType="{x:Type po:ParcelInTransfer}">
         <Expander >
             <i:Interaction.Triggers>

@@ -245,8 +245,8 @@ namespace PL
             return value switch
             {
                 "LoginWindow" => new LoginWindow(),
-                "AdministratorWindow" => new AdministratorWindow(),
-                "CustomerWindow" => new CustomerWindow(),
+                "AdministratorWindow" => new AdministratorVM(),
+                "CustomerWindow" => new CustomerWindowVM((int)PO.LoginScreen.Id),
             };
         }
 
