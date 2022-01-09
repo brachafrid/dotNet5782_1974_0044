@@ -17,7 +17,7 @@ namespace PL
         public DroneToListVM()
         {
             UpdateInitList();
-            DoubleClick = new(Tabs.OpenDroneDetails, null);
+            DoubleClick = new(Tabs.OpenDetailes, null);
             DelegateVM.Drone += UpdateInitList;
         }
         void UpdateInitList()

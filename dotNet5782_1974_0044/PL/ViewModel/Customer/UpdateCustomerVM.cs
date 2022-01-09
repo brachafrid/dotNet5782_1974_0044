@@ -60,7 +60,7 @@ namespace PL
             UpdateCustomerCommand = new(UpdateCustomer, param => customer.Error == null);
             DeleteCustomerCommand = new(DeleteCustomer, param => customer.Error == null);
             DelegateVM.Customer += InitCustomer;
-            OpenParcelCommand = new(Tabs.OpenParcelDetails, null);
+            OpenParcelCommand = new(Tabs.OpenDetailes, null);
         }
         public void InitCustomer()
         {

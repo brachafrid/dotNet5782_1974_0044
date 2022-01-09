@@ -30,46 +30,40 @@ namespace PL
             else
                 changeSelectedTab?.Invoke(TabItems.IndexOf(tabItem));
         }
-        public static void OpenCustomerDetails(object param)
-        {
-            if (param != null && param is int Id)
-                AddTab(new()
-                {
-                    Header = "customer " + Id,
-                    Content =new UpdateCustomerVM(Id)
-                });
-        }
-        public static void OpenParcelDetails(object param)
-        {
-            if (param != null && param is int Id)
-                AddTab(new()
-                {
-
-                    Header = "parcel " + Id,
-                    Content = new UpdateParcelVM(Id)
-                });
-        }
-        public static void OpenDroneDetails(object param)
-        {
-            
-            if (param != null && param is PL.PO.DroneInCharging droneCharge)
-               AddTab(new()
-                {
-                    Header = "drone " + droneCharge.Id,
-                    Content = new UpdateDroneVM(droneCharge.Id)
-                });
-
-        }
-        public static void  OpenStationDetails(object param)
+        public static void OpenDetailes(object param)
         {
             if (param != null)
-                AddTab(new TabItemFormat()
-                {
+            {
+                Type t = param.GetType();
+                int id = (int)t.GetProperty("Id").GetValue(param);
+                AddTab(
+                    t switch
+                    {
+                        { } when t.Name.Contains("Drone") => new TabItemFormat()
+                        {
+                            Header = "Drone " + id,
+                            Content = new UpdateDroneVM(id)
+                        },
+                        { } when t.Name.Contains("Customer") => new TabItemFormat()
+                        {
+                            Header = "Customer " + id,
+                            Content = new UpdateCustomerVM(id)
+                        },
+                        { } when t.Name.Contains("Station") => new TabItemFormat()
+                        {
+                            Header = "Station " + id,
+                            Content = new UpdateStationVM(id)
+                        },
+                        { } when t.Name.Contains("Parcel") => new TabItemFormat()
+                        {
+                            Header = "Parcel " + id,
+                            Content = new  UpdateParcelVM(id)
+                        },
+                    }
+                    ) ;
+            }
+                
 
-                    Header = "station " + (param as StationToList).Id,
-                    Content = new UpdateStationVM((param as StationToList).Id)
-
-                });
         }
     }
 }

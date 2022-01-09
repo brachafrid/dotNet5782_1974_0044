@@ -49,8 +49,8 @@ namespace PL
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => drone.Error == null);
             DeleteDroneCommand = new(DeleteDrone, param => drone.Error == null);
             DelegateVM.Drone += InitThisDrone;
-            OpenParcelCommand = new(Tabs.OpenParcelDetails, null);
-            OpenCustomerCommand = new(Tabs.OpenCustomerDetails, null);
+            OpenParcelCommand = new(Tabs.OpenDetailes, null);
+            OpenCustomerCommand = new(Tabs.OpenDetailes, null);
         }
         public void InitThisDrone()
         {

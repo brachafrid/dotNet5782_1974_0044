@@ -61,7 +61,7 @@ namespace PL
             UpdateStationCommand = new(UpdateStation, param => station.Error == null);
             DeleteStationCommand = new(DeleteStation, param => station.Error == null);
             DelegateVM.Station += initStation;
-            OpenDroneChargeCommand = new(Tabs.OpenDroneDetails, null);
+            OpenDroneChargeCommand = new(Tabs.OpenDetailes, null);
         }
         public void initStation()
         {
