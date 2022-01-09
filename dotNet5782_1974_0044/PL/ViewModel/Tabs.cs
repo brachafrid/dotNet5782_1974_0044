@@ -11,7 +11,6 @@ namespace PL
 {
     public static class Tabs
     {
-       
         public static ObservableCollection<TabItemFormat> TabItems { get; set; } = new();
         public static Action<int> changeSelectedTab;
         public static void CloseTab(string Text)
