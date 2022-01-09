@@ -16,6 +16,7 @@ namespace PL
     {
         public RelayCommand OpenParcelCommand { get; set; }
         public RelayCommand OpenCustomerCommand { get; set; }
+
         private int id;
         public PO.Drone drone
         {
