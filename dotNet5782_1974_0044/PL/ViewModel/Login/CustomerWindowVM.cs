@@ -80,7 +80,7 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             { 
                 Header = "Parcels From Customer",
-                Content = new ParcelToListWindow(id, "From"),
+                Content = new ParcelToListVM(id, "From"),
             });
         }
         public void DisplayParcelsTo(object param)
@@ -88,7 +88,7 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Header = "Parcels To Customer",
-                Content = new ParcelToListWindow(id, "To"),
+                Content = new ParcelToListVM(id, "To"),
             });
         }
 
