@@ -5,12 +5,12 @@ using System.Windows.Controls;
 
 namespace PL
 {
-    public  class AdministratorVM
+    public class AdministratorVM
     {
-        public  RelayCommand AddDroneToListWindowCommand { get; set; }
-        public  RelayCommand AddParcelToListWindowCommand { get; set; }
-        public  RelayCommand AddStationToListWindowCommand { get; set; }
-        public  RelayCommand AddCustomerToListWindowCommand { get; set; }
+        public RelayCommand AddDroneToListWindowCommand { get; set; }
+        public RelayCommand AddParcelToListWindowCommand { get; set; }
+        public RelayCommand AddStationToListWindowCommand { get; set; }
+        public RelayCommand AddCustomerToListWindowCommand { get; set; }
         public RelayCommand CloseCommand { get; set; }
 
         public static IntDependency SelectedTab { get; set; } = new();
@@ -32,7 +32,7 @@ namespace PL
                 Tabs.CloseTab((tabItem.Header as TabItemFormat).Header);
             }
         }
-        public  void AddDroneToList(object param)
+        public void AddDroneToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             {
@@ -45,32 +45,32 @@ namespace PL
         {
             SelectedTab.Instance = index;
         }
-        public  void AddParcelToList(object param)
+        public void AddParcelToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             {
                 Header = "Parcels",
                 Content = new ParcelToListVM()
             });
-            
+
         }
-        public  void AddStationToList(object param)
+        public void AddStationToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             {
                 Header = "Stations",
                 Content = new StationToListVM()
             });
-           
+
         }
-        public  void AddCustomerToList(object param)
+        public void AddCustomerToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             {
                 Header = "Customers",
-                Content = new StationToListVM()
+                Content = new CustomerToListVM()
             });
-           
+
         }
     }
 }

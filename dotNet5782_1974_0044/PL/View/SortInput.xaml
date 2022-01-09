@@ -25,6 +25,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
+            <Button Content="Cancel Group by"  Command="{Binding CancelGroupCommand}"/>
             <Label Content="Filter By:"/>
             <ComboBox  ItemsSource="{Binding Path=SortOption}" x:Name="sort">
                 <i:Interaction.Triggers>

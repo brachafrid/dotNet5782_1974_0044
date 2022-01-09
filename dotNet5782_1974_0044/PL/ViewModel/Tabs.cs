@@ -51,6 +51,7 @@ namespace PL
         }
         public static void OpenDroneDetails(object param)
         {
+            
             if (param != null && param is PL.PO.DroneInCharging droneCharge)
                AddTab(new()
                 {

@@ -12,9 +12,6 @@
      TextElement.FontSize="13"
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto">
-    <Window.DataContext>
-        <local:AdministratorVM/>
-    </Window.DataContext>
     <Window.Resources>
         <ResourceDictionary>
             <local:UserControlConverter x:Key="UserControlConverter" />

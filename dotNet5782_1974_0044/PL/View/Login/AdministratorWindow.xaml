@@ -7,7 +7,9 @@
              xmlns:local="clr-namespace:PL" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-
+    <UserControl.DataContext>
+        <local:AdministratorVM/>
+    </UserControl.DataContext>
     <UserControl.Resources>
         <ResourceDictionary Source="../Dictionary.xaml" />
     </UserControl.Resources>
@@ -23,7 +25,7 @@
                 <Button ToolTip="Stations" Content="{materialDesign:PackIcon Kind=GasStation}" Command="{Binding AddStationToListWindowCommand}"/>
             </ToolBar>
         </ToolBarTray>
- 
+
         <TabControl ItemsSource="{Binding Source={x:Static local:Tabs.TabItems}}" SelectedIndex="{Binding SelectedTab.Instance}" >
 
             <TabControl.ItemTemplate>
