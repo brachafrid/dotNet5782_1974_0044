@@ -17,7 +17,7 @@ namespace PL
         {
             UpdateInitList();
             DelegateVM.Customer += UpdateInitList;
-            DoubleClick = new(Tabs.OpenCustomerDetails, null);
+            DoubleClick = new(Tabs.OpenDetailes, null);
         }
         void UpdateInitList()
         {

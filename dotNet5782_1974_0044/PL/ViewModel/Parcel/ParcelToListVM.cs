@@ -19,7 +19,7 @@ namespace PL
             UpdateInitList();
             DelegateVM.Parcel += UpdateInitList;
             DelegateVM.Customer += UpdateInitList;
-            DoubleClick = new(Tabs.OpenParcelDetails, null);
+            DoubleClick = new(Tabs.OpenDetailes, null);
         }
         public ParcelToListVM(object Id, object State)
         {
@@ -28,7 +28,7 @@ namespace PL
             UpdateInitList();
             DelegateVM.Customer += UpdateInitList;
             DelegateVM.Parcel += UpdateInitList;
-            DoubleClick = new(Tabs.OpenParcelDetails, null);
+            DoubleClick = new(Tabs.OpenDetailes, null);
         }
         void UpdateInitList()
         {

@@ -63,7 +63,7 @@ namespace PL
             });
            
         }
-        public  void AddCustomerToList(object param)
+        public void AddCustomerToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             {

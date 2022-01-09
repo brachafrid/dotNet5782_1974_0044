@@ -16,7 +16,7 @@ namespace PL
         {
             UpdateInitList();
             DelegateVM.Station += UpdateInitList;
-            DoubleClick = new(Tabs.OpenStationDetails, null);
+            DoubleClick = new(Tabs.OpenDetailes, null);
         }
         void UpdateInitList()
         {

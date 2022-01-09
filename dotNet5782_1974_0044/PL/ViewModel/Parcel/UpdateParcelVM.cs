@@ -31,8 +31,8 @@ namespace PL
             this.id = id;
             InitParcel();
             DeleteParcelCommand = new(DeleteParcel, param => parcel.Error == null);
-            OpenCustomerCommand = new(Tabs.OpenCustomerDetails, null);
-            OpenDroneCommand = new(Tabs.OpenDroneDetails, null);
+            OpenCustomerCommand = new(Tabs.OpenDetailes, null);
+            OpenDroneCommand = new(Tabs.OpenDetailes, null);
             DelegateVM.Parcel += InitParcel;
         }
         public void InitParcel()
