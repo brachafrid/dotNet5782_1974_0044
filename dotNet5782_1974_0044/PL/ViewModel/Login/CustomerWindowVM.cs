@@ -74,14 +74,13 @@ namespace PL
                 Header = "Add Parcel",
                 Content = new AddParcelVM(id),
             });
-
         }
         public void DisplayParcelsFrom(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             { 
                 Header = "Parcels From Customer",
-                Content = new ParcelToListVM(id, "From"),
+                Content = new ParcelToListWindow(id, "From"),
             });
         }
         public void DisplayParcelsTo(object param)
@@ -89,10 +88,9 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Header = "Parcels To Customer",
-                Content = new ParcelToListVM(id, "To"),
+                Content = new ParcelToListWindow(id, "To"),
             });
         }
-      
 
         public override void AddEntity(object param)
         {
