@@ -120,7 +120,7 @@
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">
                             <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateDroneView}}}"
-                                   CommandParameter="{Binding  Path= CustomerSender.Id}"/>
+                                   CommandParameter="{Binding  Path= CustomerSender}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <ContentPresenter Content="{Binding Path=CustomerSender}" />
@@ -129,7 +129,7 @@
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">
                             <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateDroneView}}}"
-                                   CommandParameter="{Binding  Path= CustomerReceives.Id}"/>
+                                   CommandParameter="{Binding  Path= CustomerReceives}"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <ContentPresenter Content="{Binding Path=CustomerReceives}" />
@@ -267,7 +267,7 @@
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
                         <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateParcelView}}}"
-                                   CommandParameter="{Binding CustomerSender.Id }"/>
+                                   CommandParameter="{Binding CustomerSender }"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ContentPresenter Content="{Binding Path=CustomerSender}" />
@@ -276,7 +276,7 @@
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
                         <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateParcelView}}}"
-                                   CommandParameter="{Binding CustomerReceives.Id }"/>
+                                   CommandParameter="{Binding CustomerReceives }"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ContentPresenter Content="{Binding Path=CustomerReceives}" />
@@ -285,7 +285,7 @@
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
                         <i:InvokeCommandAction Command="{Binding DataContext.OpenDroneCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateParcelView}}}"
-                                   CommandParameter="{Binding Drone.Id }"/>
+                                   CommandParameter="{Binding Drone }"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ContentPresenter Content="{Binding Path=Drone}" />
