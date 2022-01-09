@@ -14,7 +14,7 @@ namespace PL
 
         public LoginVM()
         {
-            Add = new();
+            Add = new(true);
             ShowAdministratorLoginCommand = new RelayCommand(ShowAdministratorLogin, null);
             ShowCustomerLoginCommand = new RelayCommand(ShowCustomerLogin, null);
             AdministratorLoginCommand = new RelayCommand(AdministratorLogin, null);
