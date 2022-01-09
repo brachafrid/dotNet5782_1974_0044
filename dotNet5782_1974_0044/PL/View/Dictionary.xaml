@@ -55,12 +55,8 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type po:Location}">
-        <!--<StackPanel>
-            <TextBlock Text="{Binding Latitude, StringFormat = Latitude:{0:n}}" />
-            <TextBlock Text="{Binding Longitude, StringFormat = Longitude:{0:n}}" />
-        </StackPanel>-->
-        <materialDesign:Card Margin="25"
- >
+
+        <materialDesign:Card Margin="25" >
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition
@@ -74,7 +70,8 @@
                     <DockPanel Margin="20">
                     <Label
       Grid.Row="0"
-      Content="{materialDesign:PackIcon Kind=MapMarkerRadiusOutline}" />
+      Content="{materialDesign:PackIcon Kind=MapMarkerRadiusOutline }" 
+                       />
                         <TextBlock
       Grid.Row="0"
       HorizontalAlignment="Left"
@@ -82,20 +79,27 @@
       Text=" Location" />
                     </DockPanel>
                     <Separator Margin="3"/>
-                    <TextBlock
+                    <DockPanel Margin="5">
+                        <Label
       Grid.Row="2"
-      Margin="16 0 16 8"
-      
+      Content="{materialDesign:PackIcon Kind=Latitude }" />
+                        <TextBlock
+      Grid.Row="2"
       HorizontalAlignment="Left"
       Style="{StaticResource MaterialDesignBody2TextBlock}"
       Text="{Binding Latitude}" />
-      <TextBlock
+                    </DockPanel>
+                    <DockPanel Margin="5">
+                    <Label
       Grid.Row="2"
-      Margin="16 0 16 8"
+      Content="{materialDesign:PackIcon Kind=Longitude }" />
+    <TextBlock
+      Grid.Row="2"
       VerticalAlignment="Center"
       HorizontalAlignment="Left"
       Style="{StaticResource MaterialDesignBody2TextBlock}"
       Text="{Binding Longitude}" />
+                    </DockPanel>
                 </StackPanel>
             </Grid>
         </materialDesign:Card>
