@@ -64,15 +64,6 @@
                 </Grid.RowDefinitions>
                 <StackPanel>
                     <DockPanel Margin="20">
-                        <Label
-      Grid.Row="0"
-      Content="{materialDesign:PackIcon Kind=MapMarkerRadiusOutline }" 
-                       />
-                        <TextBlock
-      Grid.Row="0"
-      HorizontalAlignment="Left"
-      Style="{StaticResource MaterialDesignBody2TextBlock}"
-      Text=" Location" />
                         <Label Grid.Row="0" Content="{materialDesign:PackIcon Kind=MapMarkerRadiusOutline }"/>
                         <TextBlock  Grid.Row="0"  HorizontalAlignment="Left"  Style="{StaticResource MaterialDesignBody2TextBlock}" Text=" Location" />
                     </DockPanel>
@@ -108,6 +99,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type po:Drone}" >
+        <DockPanel>
         <StackPanel Margin="8">
             <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
                 <DockPanel>
@@ -119,11 +111,8 @@
                 <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />
                 </ListBox>
             </StackPanel>
-                    <ContentPresenter Content="{Binding Location}" />
-         
-                <ContentPresenter Content="{Binding Parcel}" />
-            
-        
+        <ContentPresenter Content="{Binding Location}" />
+        <ContentPresenter Content="{Binding Parcel}" />
         </DockPanel>
     </DataTemplate>
 
