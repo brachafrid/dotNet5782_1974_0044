@@ -16,13 +16,13 @@ namespace PL
         public RelayCommand VisibilityParcel { get; set; }
         public Visble VisibleParcel { get; set; }
 
-        public List<int> customers { get; set; }
+        public IEnumerable<int> customers { get; set; }
         public Array piorities { get; set; }
         public Array Weight { get; set; }
         public AddParcelVM()
         {
             parcel = new();
-            customers = PLService.GetCustomers().Select(customer => customer.Id).ToList();
+            customers = PLService.GetCustomers().Select(customer => customer.Id);
             AddParcelCommand = new(Add, param => parcel.Error == null);
             VisibilityParcel = new(visibilityParcel, param => parcel.Error == null);
             piorities = Enum.GetValues(typeof(Priorities));
