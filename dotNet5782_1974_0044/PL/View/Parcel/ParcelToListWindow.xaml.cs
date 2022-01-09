@@ -23,6 +23,8 @@ namespace PL
         public ParcelToListWindow()
         {
             InitializeComponent();
+            DataContext = new ParcelToListVM();
+
         }
     }
 }
