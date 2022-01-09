@@ -63,6 +63,7 @@
             </StackPanel>
         </Expander>
     </DataTemplate>
+    
     <DataTemplate DataType="{x:Type po:Drone}" >
         <StackPanel>
             <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
@@ -71,14 +72,15 @@
                 <TextBox Text="{Binding  Path= Model,NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
             </DockPanel>
             <TextBlock Text="{Binding Path=Weight, StringFormat=Weigth :{0}}"/>
+            <TextBlock Text="{Binding Path = DroneState, StringFormat=state :{0}}" />
+            <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />
             <Expander Header="CurrentLocation">
                 <ContentPresenter Content="{Binding Path=Location}" />
             </Expander>
-            <TextBlock Text="{Binding Path = DroneState, StringFormat=state :{0}}" />
-            <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />
             <ContentPresenter Content="{Binding Path=Parcel}" />
         </StackPanel>
     </DataTemplate>
+    
     <DataTemplate DataType="{x:Type po:CustomerInParcel}">
         <StackPanel>
             <TextBlock Text="{Binding Path=Id, StringFormat=id :{0:d}}"/>
@@ -137,6 +139,7 @@
             </StackPanel>
         </Expander>
     </DataTemplate>
+    
     <DataTemplate DataType="{x:Type po:StationToList}" >
         <Expander  Header="{Binding Path=Id}">
             <StackPanel>
@@ -145,6 +148,7 @@
             </StackPanel>
         </Expander>
     </DataTemplate>
+    
     <DataTemplate DataType="{x:Type po:CustomerToList}" >
         <Expander Header="{Binding Path=Id}">
             <StackPanel>
@@ -157,6 +161,7 @@
             </StackPanel>
         </Expander>
     </DataTemplate>
+    
     <DataTemplate DataType="{x:Type po:Station}">
         <StackPanel>
             <TextBlock Text="{Binding Path=Id, StringFormat=Id :{0:d}}"/>
