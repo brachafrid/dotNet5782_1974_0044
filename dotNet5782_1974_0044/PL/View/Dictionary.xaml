@@ -7,6 +7,10 @@
                     xmlns:po ="clr-namespace:PL.PO"
                     xmlns:local="clr-namespace:PL">
 
+    <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignButtonTextBlock}">
+        <Setter Property="VerticalAlignment" Value="Center"/>
+    </Style>
+    
     <DataTemplate DataType="{x:Type local:AddDroneVM}">
         <local:AddDroneView/>
     </DataTemplate>
@@ -66,19 +70,26 @@
 
     <DataTemplate DataType="{x:Type po:Drone}" >
         <StackPanel Margin="8">
-            <DockPanel>
-                <Label Content="Model:" />
-                <TextBox Text="{Binding  Path= Model,NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-            </DockPanel>
-            <TextBlock Text="{Binding Path=Weight, StringFormat=Weigth :{0}}"/>
-            <TextBlock Text="{Binding Path = DroneState, StringFormat=state :{0}}" />
-            <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />
-            <Expander Header="CurrentLocation">
-                <ContentPresenter Content="{Binding Location}" />
-            </Expander>
-            <ContentPresenter Content="{Binding Parcel}" />
+            <ListBox
+    materialDesign:ListBoxItemAssist.ShowSelection="False">
+                <DockPanel>
+                    <Label Content="Model:" />
+                    <TextBox Text="{Binding  Path= Model,NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
+                </DockPanel>
+                <!--<Label Content="Weigth"  Style="{StaticResource MaterialDesignButtonTextBlock}"/>-->
+                <TextBlock Text="{Binding Path=Weight, StringFormat= :{0}}"/>
+                <TextBlock Text="{Binding Path = DroneState, StringFormat=state :{0}}" />
+                <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />
+                <Expander Header="CurrentLocation">
+                    <ContentPresenter Content="{Binding Location}" />
+                </Expander>
+                <ContentPresenter Content="{Binding Parcel}" />
+            </ListBox>
         </StackPanel>
     </DataTemplate>
+
+
+
 
     <DataTemplate DataType="{x:Type po:CustomerInParcel}">
         <StackPanel>
