@@ -47,17 +47,17 @@ namespace PL
                         { } when t.Name.Contains("Customer") => new TabItemFormat()
                         {
                             Header = "Customer " + id,
-                            Content = new UpdateDroneVM(id)
+                            Content = new UpdateCustomerVM(id)
                         },
                         { } when t.Name.Contains("Station") => new TabItemFormat()
                         {
                             Header = "Station " + id,
-                            Content = new UpdateDroneVM(id)
+                            Content = new UpdateStationVM(id)
                         },
                         { } when t.Name.Contains("Parcel") => new TabItemFormat()
                         {
                             Header = "Parcel " + id,
-                            Content = new UpdateDroneVM(id)
+                            Content = new  UpdateParcelVM(id)
                         },
                     }
                     ) ;
