@@ -139,7 +139,6 @@
     <DataTemplate DataType="{x:Type po:CustomerInParcel}">
         <StackPanel>
             <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
-                <TextBlock Text="{Binding Path=Id, StringFormat=id :{0:d}}"/>
                 <TextBlock Text="{Binding Name, StringFormat=Name :{0}}"/>
             </ListBox>
         </StackPanel>
@@ -309,19 +308,60 @@
         <Expander Header="{Binding Path=Id, StringFormat = Id:{0:d}}">
             <StackPanel>
                 <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
-                    <TextBlock Text="{Binding Path=Id, StringFormat = Id:{0:d}}" />
-                    <Expander Header="Customer Sender">
-                        <StackPanel>
-                            <TextBlock Text="{Binding Path=CustomerSender.Id, StringFormat=Id :{0:d}}"/>
-                            <TextBlock Text="{Binding Path=CustomerSender.Name, StringFormat=Name :{0}}"/>
-                        </StackPanel>
-                    </Expander>
-                    <Expander Header="Customer Receives">
-                        <StackPanel>
-                            <TextBlock Text="{Binding Path=CustomerReceives.Id, StringFormat=Id :{0:d}}"/>
-                            <TextBlock Text="{Binding Path=CustomerReceives.Name, StringFormat=Name :{0}}"/>
-                        </StackPanel>
-                    </Expander>
+                    <materialDesign:Card Margin="25" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition     Height="Auto" />
+                                <RowDefinition    Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <StackPanel>
+                                <DockPanel Margin="20">
+                                    <Label Grid.Row="0" Content="{materialDesign:PackIcon Kind=AccountArrowRight}" />
+                                    <TextBlock
+                                          Grid.Row="0"
+                                          HorizontalAlignment="Left"
+                                          Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                          Text=" Customer sender" />            
+                                </DockPanel>
+                                <Separator Margin="3"/>
+                                <TextBlock
+                                      Grid.Row="2"
+                                      Margin="16 0 16 8"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Left"
+                                      Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                      Text="{Binding CustomerSender.Name}" />
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Card>
+                    <materialDesign:Card Margin="25" >
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition     Height="Auto" />
+                                <RowDefinition    Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <StackPanel>
+                                <DockPanel Margin="20">
+                                    <Label Grid.Row="0" Content="{materialDesign:PackIcon Kind=AccountArrowLeft}" />
+                                    <TextBlock
+                                          Grid.Row="0"
+                                          HorizontalAlignment="Left"
+                                          Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                          Text=" Customer recives" />
+                                </DockPanel>
+                                <Separator Margin="3"/>
+                                <TextBlock
+                                      Grid.Row="2"
+                                      Margin="16 0 16 8"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Left"
+                                      Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                      Text="{Binding CustomerReceives.Name}" />
+                            </StackPanel>
+                        </Grid>
+                    </materialDesign:Card>
                     <TextBlock Text="{Binding Path=Weight, StringFormat=Weight :{0}}"/>
                     <TextBlock Text="{Binding Path=Piority, StringFormat=Piority :{0}}"/>
                     <TextBlock Text="{Binding Path=PackageMode, StringFormat=Package Mode :{0}}"/>
@@ -340,25 +380,61 @@
                 <TextBlock Text="{Binding Path=AssignmentTime, StringFormat=Package AssignmentTime :{0}}"/>
                 <TextBlock Text="{Binding Path=CollectionTime, StringFormat=Package CollectionTime :{0}}"/>
                 <TextBlock Text="{Binding Path=DeliveryTime, StringFormat=DeliveryTime :{0}}"/>
-                <Expander Header="Customer Sender">
+                <materialDesign:Card Margin="25" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">
                             <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateParcelView}}}"
                                    CommandParameter="{Binding CustomerSender }"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    <ContentPresenter Content="{Binding Path=CustomerSender}" />
-                </Expander>
-                <Expander Header="Customer Receives">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition     Height="Auto" />
+                            <RowDefinition    Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel>
+                            <DockPanel Margin="20">
+                                <Label Grid.Row="0" Content="{materialDesign:PackIcon Kind=AccountArrowRight}" />
+                                <TextBlock
+                                          Grid.Row="0"
+                                          HorizontalAlignment="Left"
+                                          Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                          Text=" Customer sender" />
+                            </DockPanel>
+                            <Separator Margin="3"/>
+                            <ContentPresenter Content="{Binding Path=CustomerSender}" />
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+                <materialDesign:Card Margin="25" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">
                             <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateParcelView}}}"
                                    CommandParameter="{Binding CustomerReceives }"/>
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
-                    <ContentPresenter Content="{Binding Path=CustomerReceives}" />
-                </Expander>
-                <Expander Header="Drone With Parcel">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition     Height="Auto" />
+                            <RowDefinition    Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel>
+                            <DockPanel Margin="20">
+                                <Label Grid.Row="0" Content="{materialDesign:PackIcon Kind=AccountArrowLeft}" />
+                                <TextBlock
+                                          Grid.Row="0"
+                                          HorizontalAlignment="Left"
+                                          Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                          Text=" Customer recives" />
+                            </DockPanel>
+                            <Separator Margin="3"/>
+                            <ContentPresenter Content="{Binding Path=CustomerReceives}" />
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
+                <!--<Expander Header="Drone With Parcel">
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">
                             <i:InvokeCommandAction Command="{Binding DataContext.OpenDroneCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateParcelView}}}"
@@ -366,7 +442,34 @@
                         </i:EventTrigger>
                     </i:Interaction.Triggers>
                     <ContentPresenter Content="{Binding Path=Drone}" />
-                </Expander>
+                </Expander>-->
+                <materialDesign:Card Margin="25" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding DataContext.OpenCustomerCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateParcelView}}}"
+                                   CommandParameter="{Binding Drone }"/>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto" />
+                            <RowDefinition     Height="Auto" />
+                            <RowDefinition    Height="Auto" />
+                        </Grid.RowDefinitions>
+                        <StackPanel>
+                            <DockPanel Margin="20">
+                                <Label Grid.Row="0" Content="{materialDesign:PackIcon Kind=Drone}" />
+                                <TextBlock
+                                          Grid.Row="0"
+                                          HorizontalAlignment="Left"
+                                          Style="{StaticResource MaterialDesignBody2TextBlock}"
+                                          Text="Drone with parcel" />
+                            </DockPanel>
+                            <Separator Margin="3"/>
+                            <ContentPresenter Content="{Binding Path=Drone}" />
+                        </StackPanel>
+                    </Grid>
+                </materialDesign:Card>
             </ListBox>
         </StackPanel>
     </DataTemplate>
@@ -374,11 +477,8 @@
     <DataTemplate DataType="{x:Type po:DroneWithParcel}">
         <StackPanel>
             <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
-                <TextBlock Text="{Binding Path=Id, StringFormat= Charging Id :{0:d}}" />
                 <TextBlock Text="{Binding Path=ChargingMode, StringFormat= Charging Mode :{0}%}" />
-                <Expander Header="CurrentLocation">
-                    <ContentPresenter Content="{Binding Path=CurrentLocation}" />
-                </Expander>
+                <ContentPresenter Content="{Binding Path=CurrentLocation}" />
             </ListBox>
         </StackPanel>
     </DataTemplate>
