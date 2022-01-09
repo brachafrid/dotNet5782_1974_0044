@@ -12,16 +12,16 @@
      TextElement.FontSize="13"
      TextOptions.TextFormattingMode="Ideal"
      TextOptions.TextRenderingMode="Auto">
-    <!--<Window.DataContext>
-        <local:AdministratorVM/>
-    </Window.DataContext>-->
+
     <Window.Resources>
         <ResourceDictionary>
             <local:UserControlConverter x:Key="UserControlConverter" />
-        </ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="./Dictionary.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
+      </ResourceDictionary>
     </Window.Resources>
     <Grid >
-
-        <ContentControl Content="{Binding  Path=(PO:LoginScreen.MyScreen),Converter={StaticResource UserControlConverter}}"/>
+        <ContentControl Content ="{Binding  Path=(PO:LoginScreen.MyScreen),Converter={StaticResource UserControlConverter}}"/>
     </Grid>
 </Window>

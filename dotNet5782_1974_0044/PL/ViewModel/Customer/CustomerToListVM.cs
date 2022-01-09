@@ -21,7 +21,7 @@ namespace PL
         }
         void UpdateInitList()
         {
-            list = new ListCollectionView( PLService.GetCustomers().ToList());
+            list = new ListCollectionView(PLService.GetCustomers().ToList());
         }
    
         public override void AddEntity(object param)

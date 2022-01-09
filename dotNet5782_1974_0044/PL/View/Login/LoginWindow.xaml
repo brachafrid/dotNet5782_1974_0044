@@ -10,6 +10,9 @@
     <UserControl.DataContext>
         <local:LoginVM/>
     </UserControl.DataContext>
+    <UserControl.Resources>
+        <ResourceDictionary Source="../Dictionary.xaml"/>
+    </UserControl.Resources>
     <StackPanel>
         <StackPanel>
             <ToolBarTray>
