@@ -3,7 +3,7 @@
 namespace PL
 {
     /// <summary>
-    /// Interaction logic for AddCustomerView.xaml
+    /// Interaction logic for AddCustomerView.xam
     /// </summary>
     public partial class AddCustomerView : UserControl
     {

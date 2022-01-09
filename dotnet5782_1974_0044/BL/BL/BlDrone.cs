@@ -172,7 +172,7 @@ namespace BL
                 aviableDrone.DroneState = DroneState.DELIVERY;
                 aviableDrone.ParcelId = parcel.Id;
                 AssigningDroneToParcel(parcel.Id, aviableDrone.Id);
-
+                drones.Add(aviableDrone);
             }
             catch (KeyNotFoundException ex)
             {
@@ -182,10 +182,7 @@ namespace BL
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
-            finally
-            {
-                drones.Add(aviableDrone);
-            }
+           
         }
 
         /// <summary>
