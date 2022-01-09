@@ -45,8 +45,8 @@
     </DataTemplate>
     <DataTemplate DataType="{x:Type po:Location}">
         <StackPanel>
-            <TextBlock Text="{Binding Path=Latitude, StringFormat = Latitude:{0:n}}" />
-            <TextBlock Text="{Binding Path=Longitude, StringFormat = Longitude:{0:n}}" />
+            <TextBlock Text="{Binding Latitude, StringFormat = Latitude:{0:n}}" />
+            <TextBlock Text="{Binding Longitude, StringFormat = Longitude:{0:n}}" />
         </StackPanel>
     </DataTemplate>
     <DataTemplate DataType="{x:Type po:DroneToList}" >
@@ -73,9 +73,9 @@
             <TextBlock Text="{Binding Path = DroneState, StringFormat=state :{0}}" />
             <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />
             <Expander Header="CurrentLocation">
-                <ContentPresenter Content="{Binding Path=Location}" />
+                <ContentPresenter Content="{Binding Location}" />
             </Expander>
-            <ContentPresenter Content="{Binding Path=Parcel}" />
+            <ContentPresenter Content="{Binding Parcel}" />
         </StackPanel>
     </DataTemplate>
 
