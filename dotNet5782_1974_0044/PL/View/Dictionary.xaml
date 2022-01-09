@@ -55,50 +55,26 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type po:Location}">
-
-        <materialDesign:Card Margin="25" >
+        <materialDesign:Card Margin="12"  >
             <Grid>
                 <Grid.RowDefinitions>
-                    <RowDefinition
-        Height="Auto" />
-                    <RowDefinition
-        Height="Auto" />
-                    <RowDefinition
-        Height="Auto" />
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition  Height="Auto" />
+                    <RowDefinition    Height="Auto" />
                 </Grid.RowDefinitions>
                 <StackPanel>
                     <DockPanel Margin="20">
-                    <Label
-      Grid.Row="0"
-      Content="{materialDesign:PackIcon Kind=MapMarkerRadiusOutline }" 
-                       />
-                        <TextBlock
-      Grid.Row="0"
-      HorizontalAlignment="Left"
-      Style="{StaticResource MaterialDesignBody2TextBlock}"
-      Text=" Location" />
+                        <Label Grid.Row="0" Content="{materialDesign:PackIcon Kind=MapMarkerRadiusOutline }"/>
+                        <TextBlock  Grid.Row="0"  HorizontalAlignment="Left"  Style="{StaticResource MaterialDesignBody2TextBlock}" Text=" Location" />
                     </DockPanel>
-                    <Separator Margin="3"/>
+                    <Separator Margin="3" Grid.Row="1"/>
                     <DockPanel Margin="5">
-                        <Label
-      Grid.Row="2"
-      Content="{materialDesign:PackIcon Kind=Latitude }" />
-                        <TextBlock
-      Grid.Row="2"
-      HorizontalAlignment="Left"
-      Style="{StaticResource MaterialDesignBody2TextBlock}"
-      Text="{Binding Latitude}" />
+                        <Label Grid.Row="2" Content="{materialDesign:PackIcon Kind=Latitude }" />
+                        <TextBlock Grid.Row="2"  HorizontalAlignment="Left"  Style="{StaticResource MaterialDesignBody2TextBlock}" Text="{Binding Latitude}" />
                     </DockPanel>
                     <DockPanel Margin="5">
-                    <Label
-      Grid.Row="2"
-      Content="{materialDesign:PackIcon Kind=Longitude }" />
-    <TextBlock
-      Grid.Row="2"
-      VerticalAlignment="Center"
-      HorizontalAlignment="Left"
-      Style="{StaticResource MaterialDesignBody2TextBlock}"
-      Text="{Binding Longitude}" />
+                        <Label  Grid.Row="2" Content="{materialDesign:PackIcon Kind=Longitude }" />
+                        <TextBlock   Grid.Row="2" VerticalAlignment="Center"  HorizontalAlignment="Left"  Style="{StaticResource MaterialDesignBody2TextBlock}" Text="{Binding Longitude}" />
                     </DockPanel>
                 </StackPanel>
             </Grid>
@@ -123,6 +99,7 @@
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type po:Drone}" >
+        <DockPanel>
         <StackPanel Margin="8">
             <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
                 <DockPanel>
@@ -132,12 +109,14 @@
                 <TextBlock Text="{Binding Path=Weight, StringFormat=Weigth :{0}}"/>
                 <TextBlock Text="{Binding Path = DroneState, StringFormat=state :{0}}" />
                 <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />
-            
+                </ListBox>
+            </StackPanel>
                     <ContentPresenter Content="{Binding Location}" />
          
                 <ContentPresenter Content="{Binding Parcel}" />
-            </ListBox>
-        </StackPanel>
+            
+        
+        </DockPanel>
     </DataTemplate>
 
     <DataTemplate DataType="{x:Type po:CustomerInParcel}">
