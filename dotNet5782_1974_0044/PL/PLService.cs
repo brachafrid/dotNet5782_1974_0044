@@ -204,7 +204,7 @@ namespace PL
                 CreationTime = parcel.CreationTime,
                 CustomerReceives = ConvertCustomerInParcel(parcel.CustomerReceives),
                 CustomerSender = ConvertCustomerInParcel(parcel.CustomerSender),
-                Drone = parcel.Drone == null?ConvertDroneWithParcel(parcel.Drone):null,
+                Drone = parcel.Drone != null?ConvertDroneWithParcel(parcel.Drone):null,
             };
         }
         public static BO.Parcel ConvertBackParcel(Parcel parcel)
@@ -244,7 +244,6 @@ namespace PL
             ibal.DeleteParcel(id);
         }
         public static Parcel GetParcel(int id) => ConvertParcel(ibal.GetParcel(id));
-        //public IEnumerable<ParcelAtCustomer> GetParcels() => ibal.GetParcels().Select(parcel => ConvertParcelParcelAtCustomer(parcel));
         public static IEnumerable<ParcelToList> GetParcels() => ibal.GetParcels().Select(parcel => ConvertParcelToList(parcel));
         //public static IEnumerable<ParcelToList> GetParcelsFrom(int Id) => ibal.GetParcels().Select(parcel => ConvertParcelToList(parcel)).Where(p => p.CustomerSender.Id == (int)Id);
         //public static IEnumerable<ParcelToList> GetParcelsTo(int Id) => ibal.GetParcels().Select(parcel => ConvertParcelToList(parcel)).Where(p => p.CustomerReceives.Id == (int)Id);
