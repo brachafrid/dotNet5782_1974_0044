@@ -58,6 +58,7 @@ namespace PL
                     Header = "drone " + droneCharge.Id,
                     Content = new UpdateDroneVM(droneCharge.Id)
                 });
+
         }
         public static void  OpenStationDetails(object param)
         {
