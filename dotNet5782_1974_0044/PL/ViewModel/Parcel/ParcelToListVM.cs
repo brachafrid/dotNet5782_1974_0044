@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using System.Windows;
 using PL.PO;
 using System.Collections.ObjectModel;
 
@@ -12,8 +13,8 @@ namespace PL
 {
     public class ParcelToListVM : GenericList<ParcelToList>
     {
-        object id;
-        string state = "";
+        int? id =null;
+        string state = string.Empty;
         public ParcelToListVM()
         {
             UpdateInitList();
@@ -23,16 +24,18 @@ namespace PL
         }
         public ParcelToListVM(object Id, object State)
         {
-            id = Id;
+            id = (int)Id;
             state = (string)State;
             UpdateInitList();
             DelegateVM.Customer += UpdateInitList;
             DelegateVM.Parcel += UpdateInitList;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
+
         void UpdateInitList()
         {
-            if (state == "")
+           
+            if (state == string.Empty)
             {
                 list = new ListCollectionView(PLService.GetParcels().ToList());
             }
