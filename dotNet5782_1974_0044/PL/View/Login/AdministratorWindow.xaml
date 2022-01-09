@@ -27,12 +27,11 @@
         </ToolBarTray>
 
         <TabControl ItemsSource="{Binding Source={x:Static local:Tabs.TabItems}}" SelectedIndex="{Binding SelectedTab.Instance}" >
-
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <DockPanel>
                         <TextBlock Text="{Binding Path=Header}"/>
-                        <Button Content="x"   Style="{StaticResource MaterialDesignIconForegroundButton}" Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabItem}}}"/>
+                        <Button Content="x"   Style="{StaticResource MaterialDesignIconForegroundButton}" Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdministratorWindow}}}" CommandParameter="{Binding  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabItem}}}"/>
                     </DockPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>
