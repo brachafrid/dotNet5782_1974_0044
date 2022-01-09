@@ -105,13 +105,11 @@ namespace PL
                     {
                         PLService.DeliveryParcelByDrone(drone.Id);
                         DelegateVM.Drone?.Invoke();
-
                     }
                     else
                     {
                         PLService.ParcelCollectionByDrone(drone.Id);
                         DelegateVM.Drone?.Invoke();
-
                     }
                 }
                 else
