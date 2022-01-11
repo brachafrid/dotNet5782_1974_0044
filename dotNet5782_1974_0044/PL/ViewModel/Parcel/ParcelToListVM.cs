@@ -15,8 +15,10 @@ namespace PL
     {
         int? id =null;
         string state = string.Empty;
+        public bool IsAdministor { get; set; }
         public ParcelToListVM()
         {
+            IsAdministor = true;
             UpdateInitList();
             DelegateVM.Parcel += UpdateInitList;
             DelegateVM.Customer += UpdateInitList;
@@ -25,6 +27,7 @@ namespace PL
         public ParcelToListVM(object Id, object State)
         {
             id = (int)Id;
+            IsAdministor = false;
             state = (string)State;
             UpdateInitList();
             DelegateVM.Customer += UpdateInitList;
