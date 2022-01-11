@@ -64,7 +64,7 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             { 
                 Header = "Customer",
-                Content = new UpdateCustomerVM(id),
+                Content = new UpdateCustomerVM(id,false),
             });
         }
         public void AddParcel(object param)

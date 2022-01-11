@@ -46,7 +46,7 @@ namespace PL
                         { } when t.Name.StartsWith("Customer") => new TabItemFormat()
                         {
                             Header = "Customer " + id,
-                            Content = new UpdateCustomerVM(id)
+                            Content = new UpdateCustomerVM(id,true)
                         },
                         { } when t.Name.StartsWith("Station") => new TabItemFormat()
                         {

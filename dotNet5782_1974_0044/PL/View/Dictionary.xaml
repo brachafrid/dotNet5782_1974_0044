@@ -100,19 +100,19 @@
 
     <DataTemplate DataType="{x:Type po:Drone}" >
         <DockPanel>
-        <StackPanel Margin="8">
-            <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
-                <DockPanel>
-                    <Label Content="Model:" />
-                    <TextBox Text="{Binding  Path= Model,NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
-                </DockPanel>
-                <TextBlock Text="{Binding Path=Weight, StringFormat=Weigth :{0}}"/>
-                <TextBlock Text="{Binding Path = DroneState, StringFormat=state :{0}}" />
-                <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />
+            <StackPanel Margin="8">
+                <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
+                    <DockPanel>
+                        <Label Content="Model:" />
+                        <TextBox Text="{Binding  Path= Model,NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged, ValidatesOnDataErrors=true}" />
+                    </DockPanel>
+                    <TextBlock Text="{Binding Path=Weight, StringFormat=Weigth :{0}}"/>
+                    <TextBlock Text="{Binding Path = DroneState, StringFormat=state :{0}}" />
+                    <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />
                 </ListBox>
             </StackPanel>
-        <ContentPresenter Content="{Binding Location}" />
-        <ContentPresenter Content="{Binding Parcel}" />
+            <ContentPresenter Content="{Binding Location}" />
+            <ContentPresenter Content="{Binding Parcel}" />
         </DockPanel>
     </DataTemplate>
 
@@ -180,19 +180,19 @@
             </ListBox>
             <ContentPresenter Content="{Binding Path=Location}" />
             <ListView ItemsSource="{Binding Path=DroneInChargings}">
-                    <ListView.View>
-                        <GridView>
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=Id}" Header="Id" />
-                            <GridViewColumn DisplayMemberBinding="{Binding Path=ChargingMode}" Header="ChargingMode" />
-                        </GridView>
-                    </ListView.View>
-                    <i:Interaction.Triggers>
-                        <i:EventTrigger EventName="MouseDoubleClick">
-                            <i:InvokeCommandAction Command="{Binding DataContext.OpenDroneChargeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateStationView}}}"
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=Id}" Header="Id" />
+                        <GridViewColumn DisplayMemberBinding="{Binding Path=ChargingMode}" Header="ChargingMode" />
+                    </GridView>
+                </ListView.View>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding DataContext.OpenDroneChargeCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateStationView}}}"
                                    CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"/>
-                        </i:EventTrigger>
-                    </i:Interaction.Triggers>
-                </ListView>
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+            </ListView>
         </DockPanel>
     </DataTemplate>
 
@@ -209,8 +209,8 @@
                 </DockPanel>
             </ListBox>
             <ContentPresenter Content="{Binding Path=Location}" />
-                <Expander Header="Parcel From Customer">
-                    <ListView ItemsSource="{Binding Path=FromCustomer}" >
+            <Expander Header="Parcel From Customer" Visibility="{Binding DataContext.ListsVisble.Visibility, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateCustomerView}}}">
+                    <ListView ItemsSource= "{Binding FromCustomer}" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseDoubleClick">
                                 <i:InvokeCommandAction Command="{Binding DataContext.OpenParcelCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateCustomerView}}}"
@@ -218,17 +218,17 @@
                             </i:EventTrigger>
                         </i:Interaction.Triggers>
                     </ListView>
-                </Expander>
-                <Expander Header="Parcel To Customer">
-                    <ListView ItemsSource="{Binding Path=ToCustomer}" >
-                        <i:Interaction.Triggers>
-                            <i:EventTrigger EventName="MouseDoubleClick">
-                                <i:InvokeCommandAction Command="{Binding DataContext.OpenParcelCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateCustomerView}}}"
+            </Expander>
+            <Expander Header="Parcel To Customer" Visibility="{Binding DataContext.ListsVisble.Visibility, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateCustomerView}}}">
+                <ListView ItemsSource="{Binding Path=ToCustomer}" >
+                    <i:Interaction.Triggers>
+                        <i:EventTrigger EventName="MouseDoubleClick">
+                            <i:InvokeCommandAction Command="{Binding DataContext.OpenParcelCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateCustomerView}}}"
                                    CommandParameter="{Binding SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type ListView}}}"/>
-                            </i:EventTrigger>
-                        </i:Interaction.Triggers>
-                    </ListView>
-                </Expander>
+                        </i:EventTrigger>
+                    </i:Interaction.Triggers>
+                </ListView>
+            </Expander>
         </DockPanel>
     </DataTemplate>
 
