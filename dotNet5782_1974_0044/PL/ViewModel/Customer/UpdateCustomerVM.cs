@@ -65,16 +65,7 @@ namespace PL
         }
         public void InitCustomer()
         {
-            try
-            {
-                customer = PLService.GetCustomer(id);
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-
+            customer = PLService.GetCustomer(id);
         }
 
         public void UpdateCustomer(object param)
@@ -107,7 +98,7 @@ namespace PL
                     }
                     else
                     {
-                        Tabs.CloseTab((param as TabItemFormat).Header);
+                        Tabs.CloseTab(param as TabItemFormat);
                         DelegateVM.Customer -= InitCustomer;
                         DelegateVM.Customer?.Invoke();
                     }

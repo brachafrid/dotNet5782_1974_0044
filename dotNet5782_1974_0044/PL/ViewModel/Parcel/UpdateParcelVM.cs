@@ -45,7 +45,7 @@ namespace PL
             {
                 PLService.DeleteParcel(parcel.Id);
                 MessageBox.Show("The parcel was successfully deleted");
-                Tabs.CloseTab((param as TabItemFormat).Header);
+                Tabs.CloseTab(param as TabItemFormat);
                 DelegateVM.Parcel -= InitParcel;
                 DelegateVM.Parcel?.Invoke();
             }

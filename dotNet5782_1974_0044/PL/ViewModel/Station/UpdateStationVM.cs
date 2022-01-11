@@ -103,7 +103,7 @@ namespace PL
                 {
                     PLService.DeleteStation(station.Id);
                     MessageBox.Show("The station was successfully deleted");
-                    Tabs.CloseTab((param as TabItemFormat).Header);
+                    Tabs.CloseTab(param as TabItemFormat);
                     DelegateVM.Station -= initStation;
                     DelegateVM.Station?.Invoke();
                     
