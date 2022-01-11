@@ -41,11 +41,11 @@ namespace PL
             }
             if (state == "From")
             {
-                list = new ListCollectionView(PLService.GetCustomer((int)id).FromCustomer.ToList());
+                list = new ListCollectionView(PLService.GetCustomer((int)id).FromCustomer.Select(parcel=>PLService.ConvertParcelAtCustomerToList(parcel)).ToList());
             }
             if (state == "To")
             {
-                list = new ListCollectionView(PLService.GetCustomer((int)id).ToCustomer.ToList());
+                list = new ListCollectionView(PLService.GetCustomer((int)id).ToCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)).ToList());
             }
         }
      

@@ -110,6 +110,10 @@ namespace PL
                 Weight = (WeightCategories)parcel.WeightCategory
             };
         }
+        public static ParcelToList ConvertParcelAtCustomerToList(ParcelAtCustomer parcel)
+        {
+            return GetParcels().FirstOrDefault(parcel => parcel.Id == parcel.Id);
+        }
         public static BO.ParcelInTransfer ConvertBackParcelInTransfer(ParcelInTransfer parcel)
         {
             return new()

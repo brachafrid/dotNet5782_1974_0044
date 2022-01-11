@@ -28,7 +28,7 @@ namespace PL
             {
                 PLService.AddCustomer(customer);
                 DelegateVM.Customer?.Invoke();
-                Tabs.CloseTab((param as TabItemFormat).Header);
+                Tabs.CloseTab(param as TabItemFormat);
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {

@@ -34,7 +34,7 @@ namespace PL
                 PLService.AddDrone(drone);
                 DelegateVM.Drone?.Invoke();                             
                 DelegateVM.Station?.Invoke();
-                Tabs.CloseTab((param as TabItemFormat).Header);
+                Tabs.CloseTab(param as TabItemFormat);
 
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
