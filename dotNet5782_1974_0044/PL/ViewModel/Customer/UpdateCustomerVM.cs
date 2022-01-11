@@ -32,8 +32,7 @@ namespace PL
         // Using a DependencyProperty as the backing store for customerName.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty customerNameProperty =
             DependencyProperty.Register("customerName", typeof(string), typeof(UpdateCustomerVM), new PropertyMetadata(""));
-        public Visble ListsVisble { get; set; }
-
+        //public Visble ListsVisble { get; set; }
         public bool IsAdministor { get; set; }
         public string customerPhone
         {
@@ -53,6 +52,7 @@ namespace PL
 
         public UpdateCustomerVM(int id, bool isAdministor)
         {
+            IsAdministor = isAdministor;
             this.id = id;
             InitCustomer();
             customerName = customer.Name;
@@ -65,7 +65,16 @@ namespace PL
         }
         public void InitCustomer()
         {
-            customer = PLService.GetCustomer(id);
+            try
+            {
+                customer = PLService.GetCustomer(id);
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+
         }
 
         public void UpdateCustomer(object param)
@@ -86,9 +95,23 @@ namespace PL
                 {
                     PLService.DeleteCustomer(customer.Id);
                     MessageBox.Show("The customer was successfully deleted");
-                    Tabs.CloseTab((param as TabItemFormat).Header);
-                    DelegateVM.Customer -= InitCustomer;
-                    DelegateVM.Customer?.Invoke();
+
+                    if (!IsAdministor)
+                    {
+                        LoginScreen.MyScreen = "LoginWindow";
+                        Tabs.TabItems.Clear();
+                        DelegateVM.Customer = null;
+                        DelegateVM.Drone = null;
+                        DelegateVM.Station = null;
+                        DelegateVM.Parcel = null;
+                    }
+                    else
+                    {
+                        Tabs.CloseTab((param as TabItemFormat).Header);
+                        DelegateVM.Customer -= InitCustomer;
+                        DelegateVM.Customer?.Invoke();
+                    }
+
                 }
             }
 

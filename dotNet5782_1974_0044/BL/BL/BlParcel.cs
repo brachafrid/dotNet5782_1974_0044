@@ -64,6 +64,7 @@ namespace BL
         /// Retrieves the requested parcel from the data and converts it to BL parcel
         /// </summary>
         /// <param name="id">The requested parcel id</param>
+        /// <param name="nullAble">enable null if the customer sender or reciver not found</param>
         /// <returns>A Bl parcel to print</returns>
         public Parcel GetParcel(int id)
         {
@@ -175,6 +176,7 @@ namespace BL
         /// Convert a DAL parcel to BL parcel
         /// </summary>
         /// <param name="parcel">The parcel to convert</param>
+        /// <param name="nullAble"></param>
         /// <returns>The converted parcel</returns>
         private Parcel MapParcel(DO.Parcel parcel)
         {

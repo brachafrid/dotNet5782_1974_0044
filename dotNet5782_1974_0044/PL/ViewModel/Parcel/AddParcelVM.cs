@@ -50,7 +50,7 @@ namespace PL
                 PLService.AddParcel(parcel);
                 DelegateVM.Parcel?.Invoke();
                 DelegateVM.Customer?.Invoke();
-                Tabs.CloseTab((param as TabItemFormat).Header);
+                Tabs.CloseTab(param as TabItemFormat);
             }
             catch(KeyNotFoundException)
             {
