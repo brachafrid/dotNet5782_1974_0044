@@ -12,10 +12,16 @@ namespace PL
     public static class Tabs
     {
         public static ObservableCollection<TabItemFormat> TabItems { get; set; } = new();
+        public static RelayCommand CloseCommandTab { get; set; }
         public static Action<int> changeSelectedTab;
-        public static void CloseTab(string Text)
+        static Tabs()
         {
-            TabItems.Remove(TabItems.FirstOrDefault(tab => tab.Header == Text));
+            CloseCommandTab = new(CloseTab, null);
+        }
+        public static void CloseTab(object param)
+        {
+            if(param is TabItemFormat tabItem)
+                TabItems.Remove(TabItems.FirstOrDefault(tab => tab.Header == tabItem.Header));
         }
         public static void AddTab(TabItemFormat tabItemFormat)
         {

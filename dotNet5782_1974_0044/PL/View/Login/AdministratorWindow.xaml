@@ -31,7 +31,7 @@
                 <DataTemplate>
                     <DockPanel>
                         <TextBlock Text="{Binding Path=Header}"/>
-                        <Button Content="x"   Style="{StaticResource MaterialDesignIconForegroundButton}" Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:AdministratorWindow}}}" CommandParameter="{Binding  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabItem}}}"/>
+                        <Button Content="x"   Style="{StaticResource MaterialDesignIconForegroundButton}" Command="{Binding Source={x:Static local:Tabs.CloseCommandTab}}" CommandParameter="{Binding}"/>
                     </DockPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>

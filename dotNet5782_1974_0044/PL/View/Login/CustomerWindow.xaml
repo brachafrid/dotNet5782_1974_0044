@@ -30,11 +30,11 @@
         <TabControl ItemsSource="{Binding Source={x:Static local:Tabs.TabItems}}"  SelectedIndex="{Binding SelectedTab.Instance}" >
             <TabControl.ItemTemplate>
                 <DataTemplate>
-                    <DockPanel>
-                        <TextBlock Text="{Binding Path=Header}"/>
-                            <Button Content="x"  Style="{StaticResource MaterialDesignOutlinedButton}" Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabItem}}}"/>
-                    </DockPanel>
-                </DataTemplate>
+                        <DockPanel>
+                            <TextBlock Text="{Binding Path=Header}"/>
+                            <Button Content="x"   Style="{StaticResource MaterialDesignIconForegroundButton}" Command="{Binding Source={x:Static local:Tabs.CloseCommandTab}}" CommandParameter="{Binding}"/>
+                        </DockPanel>
+                    </DataTemplate>
             </TabControl.ItemTemplate>
             <TabControl.ContentTemplate>
                     <DataTemplate>
