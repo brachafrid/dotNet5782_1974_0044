@@ -11,7 +11,6 @@ namespace PL
         public RelayCommand AddParcelToListWindowCommand { get; set; }
         public RelayCommand AddStationToListWindowCommand { get; set; }
         public RelayCommand AddCustomerToListWindowCommand { get; set; }
-        public RelayCommand CloseCommand { get; set; }
 
         public static IntDependency SelectedTab { get; set; } = new();
 
@@ -22,16 +21,9 @@ namespace PL
             AddStationToListWindowCommand = new(AddStationToList, null);
             AddCustomerToListWindowCommand = new(AddCustomerToList, null);
             Tabs.changeSelectedTab += changeIndex;
-            CloseCommand = new(Close, null);
         }
 
-        public void Close(object param)
-        {
-            if (param is TabItem tabItem)
-            {
-                Tabs.CloseTab((tabItem.Header as TabItemFormat).Header);
-            }
-        }
+
         public void AddDroneToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()
