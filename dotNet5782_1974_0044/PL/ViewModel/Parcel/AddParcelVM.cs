@@ -17,31 +17,23 @@ namespace PL
         public RelayCommand VisibilitySender { get; set; }
         public Visble VisibleParcel { get; set; }
         public Visble VisibleSender { get; set; }
-
         public IEnumerable<int> customers { get; set; }
         public Array piorities { get; set; }
         public Array Weight { get; set; }
-        public AddParcelVM()
+        public bool IsAdministor { get; set; }
+        public AddParcelVM(bool isAdministor, int id= 0)
         {
-            parcel = new();
+            parcel = new( );
             customers = PLService.GetCustomers().Select(customer => customer.Id);
             AddParcelCommand = new(Add, param => parcel.Error == null);
             VisibilityParcel = new(visibilityParcel, param => parcel.Error == null);
-            //VisibilitySender = new(visibilitySender, param => parcel.Error == null);
             piorities = Enum.GetValues(typeof(Priorities));
             Weight = Enum.GetValues(typeof(WeightCategories));
-
-        }
-        public AddParcelVM(int id)
-        {
-            parcel = new();
-            parcel.CustomerSender = id;
-            customers = PLService.GetCustomers().Select(customer => customer.Id);
-            AddParcelCommand = new(Add, param => parcel.Error == null);
-            VisibilityParcel = new(visibilityParcel, param => parcel.Error == null);
-            VisibilitySender = new(visibilitySender, param => parcel.Error == null);
-            piorities = Enum.GetValues(typeof(Priorities));
-            Weight = Enum.GetValues(typeof(WeightCategories));
+            if (!isAdministor)
+            {
+                parcel.CustomerSender = id;
+                VisibilitySender = new(visibilitySender, param => parcel.Error == null);
+            }
         }
         public void visibilityParcel(object param)
         {

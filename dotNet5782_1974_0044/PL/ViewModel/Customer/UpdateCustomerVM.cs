@@ -32,7 +32,7 @@ namespace PL
         // Using a DependencyProperty as the backing store for customerName.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty customerNameProperty =
             DependencyProperty.Register("customerName", typeof(string), typeof(UpdateCustomerVM), new PropertyMetadata(""));
-        //public Visble ListsVisble { get; set; }
+        public Visble ListsVisble { get; set; }
 
         public bool IsAdministor { get; set; }
         public string customerPhone
@@ -61,8 +61,7 @@ namespace PL
             DeleteCustomerCommand = new(DeleteCustomer, param => customer.Error == null);
             DelegateVM.Customer += InitCustomer;
             OpenParcelCommand = new(Tabs.OpenDetailes, null);
-            if (isAdministor)
-                ListsVisble.visibility = Visibility.Visible;
+            IsAdministor = isAdministor;
         }
         public void InitCustomer()
         {

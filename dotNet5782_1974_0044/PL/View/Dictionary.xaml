@@ -10,7 +10,7 @@
     <Style TargetType="TextBlock" BasedOn="{StaticResource MaterialDesignButtonTextBlock}">
         <Setter Property="VerticalAlignment" Value="Center"/>
     </Style>
-
+    <local:CustomerAdministorVisibilityConverter x:Key="CustomerAdministorVisibilityConverter"/>
     <DataTemplate DataType="{x:Type local:AddDroneVM}">
         <local:AddDroneView/>
     </DataTemplate>
@@ -209,7 +209,7 @@
                 </DockPanel>
             </ListBox>
             <ContentPresenter Content="{Binding Path=Location}" />
-            <Expander Header="Parcel From Customer" Visibility="{Binding DataContext.ListsVisble.Visibility, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateCustomerView}}}">
+            <Expander Header="Parcel From Customer" Visibility="{Binding DataContext.IsAdministor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateCustomerView}}, Converter={StaticResource CustomerAdministorVisibilityConverter}}">
                     <ListView ItemsSource= "{Binding FromCustomer}" >
                         <i:Interaction.Triggers>
                             <i:EventTrigger EventName="MouseDoubleClick">
@@ -219,7 +219,7 @@
                         </i:Interaction.Triggers>
                     </ListView>
             </Expander>
-            <Expander Header="Parcel To Customer" Visibility="{Binding DataContext.ListsVisble.Visibility, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateCustomerView}}}">
+            <Expander Header="Parcel To Customer" Visibility="{Binding DataContext.IsAdministor, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:UpdateCustomerView}}, Converter={StaticResource CustomerAdministorVisibilityConverter}}">
                 <ListView ItemsSource="{Binding Path=ToCustomer}" >
                     <i:Interaction.Triggers>
                         <i:EventTrigger EventName="MouseDoubleClick">

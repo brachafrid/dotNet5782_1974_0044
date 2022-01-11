@@ -72,7 +72,7 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Header = "Add Parcel",
-                Content = new AddParcelVM(id),
+                Content = new AddParcelVM(false,id),
             });
         }
         public void DisplayParcelsFrom(object param)
@@ -96,45 +96,5 @@ namespace PL
         {
             throw new NotImplementedException();
         }
-
-
-        //public void DisplayParcels(object param)
-        //{
-        //    customer = PLService.GetCustomer(2);
-
-        //    VisibilityCustomer.visibility = Visibility.Visible;
-        //    MessageBox.Show($"{customer.Name}");
-        //    //MessageBox.Show($"{customer.FromCustomer[0].Customer}");
-
-        //    //DelegateVM.Customer();
-        //}
-        //public void ToCustomer(object param)
-        //{
-        //    List<ParcelAtCustomer> toCustomer = customer.ToCustomer;
-        //    list = new ListCollectionView(toCustomer.ToList());
-        //    VisibilityCustomer.visibility = Visibility.Visible;
-        //}
-        //public void FromCustomer(object param)
-        //{ 
-        //    List<ParcelAtCustomer> fromCustomer = customer.FromCustomer;
-        //    list = new ListCollectionView(fromCustomer.ToList());
-        //    VisibilityCustomer.visibility = Visibility.Visible;
-        //}
-        //public void SendParcel(object param)
-        //{
-        //   new  AddParcelVM(customer.Id);
-        //    DelegateVM.Customer();
-        //    DelegateVM.Parcel();
-        //}
-        //public override void AddEntity(object param) { }
-        //public void CollectionParcel(object param)
-        //{ 
-
-        //}
-
-        //public void GettingParcel(object param)
-        //{
-
-        //}
     }
 }
