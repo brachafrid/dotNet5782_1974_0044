@@ -246,8 +246,8 @@ namespace PL
             {
                 "LoginWindow" => new LoginWindow(),
                 "AdministratorWindow" => new AdministratorWindow(),
-                "CustomerWindow" => new CustomerWindow((int)PO.LoginScreen.Id),
-                //"CustomerWindow" => new CustomerWindow()
+                //"CustomerWindow" => new CustomerWindow((int)PO.LoginScreen.Id),
+                "CustomerWindow" => new CustomerWindow()
             };
         }
 

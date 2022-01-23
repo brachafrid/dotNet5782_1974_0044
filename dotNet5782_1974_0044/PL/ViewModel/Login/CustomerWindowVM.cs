@@ -55,9 +55,12 @@ namespace PL
         //public RelayCommand FromCustomerCommand { get; set; }
         public ParcelAdd parcel { set; get; }
         int id;
-        public CustomerWindowVM(int Id)
+        public CustomerWindowVM(
+            //int Id
+            )
         {
-            id = Id;
+            id = 7;
+                //Id;
             Init();
             Tabs.changeSelectedTab += changeIndex;
            

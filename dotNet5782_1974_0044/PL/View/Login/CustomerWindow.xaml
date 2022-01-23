@@ -11,7 +11,9 @@
     <UserControl.Resources>
         <ResourceDictionary Source="../Dictionary.xaml" />
     </UserControl.Resources>
-    
+    <UserControl.DataContext>
+        <local:CustomerWindowVM/>
+    </UserControl.DataContext>
     <Grid>
         <DockPanel>
             <ToolBarTray Orientation="Vertical">
