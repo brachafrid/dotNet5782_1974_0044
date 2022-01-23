@@ -9,7 +9,7 @@ using System.IO;
 namespace Dal
 {
 
-    public class XMLTools
+    public static class XMLTools
     {
         static string dir = @"..\data";
         static XMLTools()
@@ -19,7 +19,7 @@ namespace Dal
         }
 
         #region SaveLoadWithXMLSerializer
-        public static void SaveListToXMLSerializer<T>(List<T> list, string filePath)
+        public static void SaveListToXMLSerializer<T>(IEnumerable<T> list, string filePath)
         {
             try
             {
