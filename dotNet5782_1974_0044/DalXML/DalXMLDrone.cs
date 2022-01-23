@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using DLApi;
 using DO;
 
-namespace DalXML
+namespace Dal
 {
     partial class DalXML
     {
