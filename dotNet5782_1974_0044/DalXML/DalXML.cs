@@ -11,19 +11,19 @@ using System.Xml.Serialization;
 
 namespace Dal
 {
-    public partial class DalXml : Singletone<DalXml>, IDal
+    public sealed partial class DalXml : Singletone<DalXml>, IDal
     {
-        public DalXml()
+        private DalXml()
         {
             Creation();
             Initilaztion();
         }
         private void Creation()
         {
-            if (!File.Exists(@"data\XMLDrone"))
+            if (!File.Exists(@"..\data\XMLDrone"))
                 try
                 {
-                    FileStream file = new FileStream(@"data\XMLDrone", FileMode.Create);
+                    FileStream file = new FileStream(@"..\data\XMLDrone", FileMode.Create);
                     file.Close();
                 }
                 catch (Exception ex)

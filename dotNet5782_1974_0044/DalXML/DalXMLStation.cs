@@ -7,7 +7,7 @@ using DO;
 
 namespace Dal
 {
-    public partial class DalXml
+    public sealed partial class DalXml
     {
         public void RemoveStation(Station station)
         {

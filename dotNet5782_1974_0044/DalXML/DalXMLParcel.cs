@@ -7,7 +7,7 @@ using DO;
 
 namespace Dal
 {
-    public partial class DalXml
+    public sealed partial class DalXml
     {
         public void AddParcel(int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority, int id = 0, int droneId = 0, DateTime? requested = null, DateTime? sceduled = null, DateTime? pickedUp = null, DateTime? delivered = null)
         {
