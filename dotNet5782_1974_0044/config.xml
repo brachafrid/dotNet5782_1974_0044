@@ -6,7 +6,7 @@
 			<namespace>Dal</namespace>
 		</data>
 		<xml>
-			<class-name>>DalXml</class-name>
+			<class-name>DalXml</class-name>
 			<namespace>Dal</namespace>
 		</xml>
 	</dal-packages>
