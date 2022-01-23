@@ -140,7 +140,7 @@ namespace PL
         }
         public void Grouping(object param)
         {
-            SelectedGroup = param.ToString();
+            SelectedGroup = param?.ToString();
             CancelGroup(param);
             list.GroupDescriptions.Add(new PropertyGroupDescription(SelectedGroup));
             
