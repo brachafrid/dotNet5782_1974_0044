@@ -13,7 +13,7 @@ namespace DLApi
     {
         public static IDal GetDL()
         {
-            Assembly.LoadFrom($@"{Directory.GetCurrentDirectory()}\..\..\..\..\bin\net5.0\{DalConfig.DalType}.dll");
+            Assembly.LoadFrom($@"{Directory.GetCurrentDirectory()}\..\net5.0\{DalConfig.DalType}.dll");
             Type type = Type.GetType($"{DalConfig.Namespace}.{DalConfig.DalType}, {DalConfig.DalType}");
             if (type == null)
                 throw new DalConfigException("Can't find such project");

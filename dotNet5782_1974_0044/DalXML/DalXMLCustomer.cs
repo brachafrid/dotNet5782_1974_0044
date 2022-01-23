@@ -7,7 +7,7 @@ using DO;
 
 namespace Dal
 {
-   partial class DalXML
+   partial class DalXml
     {
         public void AddCustomer(int id, string phone, string name, double longitude, double latitude)
         {

@@ -11,9 +11,9 @@ using System.Xml.Serialization;
 
 namespace Dal
 {
-    partial class DalXML : Singletone<DalXML>, IDal
+   public  sealed partial class DalXml : Singletone<DalXml>, IDal
     {
-        public DalXML()
+         DalXml()
         {
             Creation();
             Initilaztion();
