@@ -9,4 +9,8 @@
     <ProjectReference Include="..\DLApi\DLApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Data\" />
+  </ItemGroup>
+
 </Project>
