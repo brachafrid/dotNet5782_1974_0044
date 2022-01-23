@@ -9,7 +9,7 @@ using DO;
 
 namespace Dal
 {
-    partial class DalXml
+    public sealed partial class DalXml
     {
         public void AddDrone(int id, string model, WeightCategories MaxWeight)
         {
