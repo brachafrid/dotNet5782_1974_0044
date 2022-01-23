@@ -28,14 +28,14 @@ namespace PL
             {
                 PLService.AddCustomer(customer);
                 DelegateVM.Customer?.Invoke();
-                Tabs.CloseTab((param as TabItemFormat).Text);
+                Tabs.CloseTab(param as TabItemFormat);
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {
                 MessageBox.Show("Id has already exist");
                 customer.Id = null;
             }
-        }
+         }
         void AddSignIn(object param)
         {
             try

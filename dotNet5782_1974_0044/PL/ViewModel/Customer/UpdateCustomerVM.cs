@@ -32,9 +32,8 @@ namespace PL
         // Using a DependencyProperty as the backing store for customerName.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty customerNameProperty =
             DependencyProperty.Register("customerName", typeof(string), typeof(UpdateCustomerVM), new PropertyMetadata(""));
-
-
-
+        //public Visble ListsVisble { get; set; }
+        public bool IsAdministor { get; set; }
         public string customerPhone
         {
             get { return (string)GetValue(customerPhoneProperty); }
@@ -51,8 +50,9 @@ namespace PL
 
         //public RelayCommand TryCommand { get; set; }
 
-        public UpdateCustomerVM(int id)
+        public UpdateCustomerVM(int id, bool isAdministor)
         {
+            IsAdministor = isAdministor;
             this.id = id;
             InitCustomer();
             customerName = customer.Name;
@@ -60,7 +60,8 @@ namespace PL
             UpdateCustomerCommand = new(UpdateCustomer, param => customer.Error == null);
             DeleteCustomerCommand = new(DeleteCustomer, param => customer.Error == null);
             DelegateVM.Customer += InitCustomer;
-            OpenParcelCommand = new(OpenDetails, null);
+            OpenParcelCommand = new(Tabs.OpenDetailes, null);
+            IsAdministor = isAdministor;
         }
         public void InitCustomer()
         {
@@ -85,9 +86,23 @@ namespace PL
                 {
                     PLService.DeleteCustomer(customer.Id);
                     MessageBox.Show("The customer was successfully deleted");
-                    Tabs.CloseTab((param as TabItemFormat).Text);
-                    DelegateVM.Customer -= InitCustomer;
-                    DelegateVM.Customer?.Invoke();
+
+                    if (!IsAdministor)
+                    {
+                        LoginScreen.MyScreen = "LoginWindow";
+                        Tabs.TabItems.Clear();
+                        DelegateVM.Customer = null;
+                        DelegateVM.Drone = null;
+                        DelegateVM.Station = null;
+                        DelegateVM.Parcel = null;
+                    }
+                    else
+                    {
+                        Tabs.CloseTab(param as TabItemFormat);
+                        DelegateVM.Customer -= InitCustomer;
+                        DelegateVM.Customer?.Invoke();
+                    }
+
                 }
             }
 
@@ -96,17 +111,5 @@ namespace PL
                 MessageBox.Show($"{ex.Message}");
             }
         }
-
-        public void OpenDetails(object param)
-        {
-            if (param != null)
-                Tabs.AddTab(new()
-                {
-                    TabContent = "UpdateParcelView",
-                    Text = "parcel " + (param as ParcelAtCustomer).Id,
-                    Id = (param as ParcelAtCustomer).Id
-                });
-        }
-
     }
 }

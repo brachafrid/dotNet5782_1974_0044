@@ -25,11 +25,7 @@ namespace PL
             InitializeComponent();
         }
 
-        public UpdateDroneView(object Id)
-        {
-            InitializeComponent();
-            DataContext =new UpdateDroneVM((int)Id);
-        }
+
 
     }
 }

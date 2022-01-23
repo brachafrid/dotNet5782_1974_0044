@@ -11,7 +11,7 @@ namespace PL
 {
     class UpdateParcelVM : DependencyObject
     {
-        private int id;
+        private readonly int id;
         public RelayCommand OpenCustomerCommand { get; set; }
         public RelayCommand OpenDroneCommand { get; set; }
         public Parcel parcel
@@ -31,8 +31,8 @@ namespace PL
             this.id = id;
             InitParcel();
             DeleteParcelCommand = new(DeleteParcel, param => parcel.Error == null);
-            OpenCustomerCommand = new(OpenCustomerDetails, null);
-            OpenDroneCommand = new(OpenDroneDetails, null);
+            OpenCustomerCommand = new(Tabs.OpenDetailes, null);
+            OpenDroneCommand = new(Tabs.OpenDetailes, null);
             DelegateVM.Parcel += InitParcel;
         }
         public void InitParcel()
@@ -45,32 +45,10 @@ namespace PL
             {
                 PLService.DeleteParcel(parcel.Id);
                 MessageBox.Show("The parcel was successfully deleted");
-                Tabs.CloseTab((param as TabItemFormat).Text);
+                Tabs.CloseTab(param as TabItemFormat);
                 DelegateVM.Parcel -= InitParcel;
                 DelegateVM.Parcel?.Invoke();
             }
         }
-        public void OpenCustomerDetails(object param)
-        {
-            if (param != null && param is int Id)
-                Tabs.AddTab(new()
-                {
-                    TabContent = "UpdateCustomerView",
-                    Text = "customer " + Id,
-                    Id = Id
-                });
-        }
-
-        public void OpenDroneDetails(object param)
-        {
-            if (param != null && param is int Id)
-                Tabs.AddTab(new()
-                {
-                    TabContent = "UpdateDroneView",
-                    Text = "drone " + Id,
-                    Id = Id
-                });
-        }
-
     }
 }

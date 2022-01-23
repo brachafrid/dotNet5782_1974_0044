@@ -7,11 +7,9 @@
              xmlns:local="clr-namespace:PL" 
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <!--<UserControl.Resources>
-        <ResourceDictionary>
-            <local:TabItemContentConverter x:Key="TabItemContentConverter"/>
-        </ResourceDictionary>
-    </UserControl.Resources>-->
+    <UserControl.DataContext>
+        <local:AdministratorVM/>
+    </UserControl.DataContext>
     <UserControl.Resources>
         <ResourceDictionary Source="../Dictionary.xaml" />
     </UserControl.Resources>
@@ -27,36 +25,13 @@
                 <Button ToolTip="Stations" Content="{materialDesign:PackIcon Kind=GasStation}" Command="{Binding AddStationToListWindowCommand}"/>
             </ToolBar>
         </ToolBarTray>
-        <!--<TabControl ItemsSource="{Binding Source={x:Static local:Tabs.TabItems}}"  
-                    SelectedIndex="{Binding SelectedTab.Instance}" >
-            <TabControl.ItemTemplate>
-                <DataTemplate>
-                    <DockPanel>
-                        <TextBlock Text="{Binding Path=Text}"/>
-                        <Button Content="x"   Style="{StaticResource MaterialDesignIconForegroundButton}" Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabItem}}}"/>
-                    </DockPanel>
-                </DataTemplate>
-            </TabControl.ItemTemplate>
-            <TabControl.ContentTemplate>
-                <DataTemplate>
-                    <ContentControl>
-                        <ContentControl.Content>
-                            <MultiBinding Converter="{StaticResource TabItemContentConverter}">
-                                <Binding Path="TabContent" />
-                                <Binding Path="Id" />
-                            </MultiBinding>
-                        </ContentControl.Content>
-                    </ContentControl>
-                </DataTemplate>
-            </TabControl.ContentTemplate>
-        </TabControl>-->
-        <TabControl ItemsSource="{Binding Source={x:Static local:Tabs.TabItems}}" SelectedIndex="{Binding SelectedTab.Instance}" >
 
+        <TabControl ItemsSource="{Binding Source={x:Static local:Tabs.TabItems}}" SelectedIndex="{Binding SelectedTab.Instance}" >
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <DockPanel>
-                        <TextBlock Text="{Binding Path=Text}"/>
-                        <Button Content="x"   Style="{StaticResource MaterialDesignIconForegroundButton}" Command="{Binding DataContext.CloseCommand, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:MainWindow}}}" CommandParameter="{Binding  RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabItem}}}"/>
+                        <TextBlock Text="{Binding Path=Header}"/>
+                        <Button Content="x"   Style="{StaticResource MaterialDesignIconForegroundButton}" Command="{Binding Source={x:Static local:Tabs.CloseCommandTab}}" CommandParameter="{Binding}"/>
                     </DockPanel>
                 </DataTemplate>
             </TabControl.ItemTemplate>

@@ -25,6 +25,7 @@ namespace PL
         public RelayCommand ShowKindOfSortCommand { get; set; }
         public RelayCommand FilterCommand { get; set; }
         public RelayCommand CancelFilterCommand { get; set; }
+        public RelayCommand CancelGroupCommand { get; set; }
         public RelayCommand GroupCommand { get; set; }
         public RelayCommand AddEntitiyCommand { get; set; }
         public ListCollectionView list { set; get; }
@@ -118,6 +119,7 @@ namespace PL
             ShowKindOfSortCommand = new(ShowKindOfSort, null);
             FilterCommand = new(FilterEnum, null);
             CancelFilterCommand = new(CancelFilter, null);
+            CancelGroupCommand = new(CancelGroup, null);
             GroupCommand = new(Grouping, null);
             AddEntitiyCommand = new(AddEntity, null);
 
@@ -139,9 +141,14 @@ namespace PL
         public void Grouping(object param)
         {
             SelectedGroup = param.ToString();
-            list.GroupDescriptions.Clear();
+            CancelGroup(param);
             list.GroupDescriptions.Add(new PropertyGroupDescription(SelectedGroup));
             
+        }
+
+        public void CancelGroup(object param)
+        {
+            list.GroupDescriptions.Clear();
         }
         public bool InternalFilter(object obj)
         {
@@ -186,8 +193,6 @@ namespace PL
             VisblePackegeMode.visibility = Visibility.Collapsed;
             ShowValueFilter(typeof(T).GetProperty(SelectedKind).PropertyType);
         }
-
-
 
         public void CancelFilter(object param)
         {
@@ -254,7 +259,5 @@ namespace PL
                 PropertyChanged(this, new PropertyChangedEventArgs(properyName));
 
         }
-
-
     }
 }

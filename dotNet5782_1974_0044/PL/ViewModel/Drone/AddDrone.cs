@@ -12,7 +12,7 @@ namespace PL
     public class AddDroneVM
     {
         public DroneAdd drone { get; set; }
-        public List<int> StationsId { get; set; }
+        public IEnumerable<int> StationsId { get; set; }
         public Array Weight { get; set; }
         public RelayCommand AddDroneCommand { get; set; }
         public AddDroneVM()
@@ -25,7 +25,7 @@ namespace PL
         }
         void InitDrone()
         {
-            StationsId = PLService.GetStaionsWithEmptyChargeSlots().Select(station => station.Id).ToList();
+            StationsId = PLService.GetStaionsWithEmptyChargeSlots().Select(station => station.Id);
         }
         public void Add(object param)
         {
@@ -34,7 +34,7 @@ namespace PL
                 PLService.AddDrone(drone);
                 DelegateVM.Drone?.Invoke();                             
                 DelegateVM.Station?.Invoke();
-                Tabs.CloseTab((param as TabItemFormat).Text);
+                Tabs.CloseTab(param as TabItemFormat);
 
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)

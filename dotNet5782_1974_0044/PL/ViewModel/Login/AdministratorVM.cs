@@ -5,13 +5,12 @@ using System.Windows.Controls;
 
 namespace PL
 {
-    public  class AdministratorVM
+    public class AdministratorVM
     {
-        public  RelayCommand AddDroneToListWindowCommand { get; set; }
-        public  RelayCommand AddParcelToListWindowCommand { get; set; }
-        public  RelayCommand AddStationToListWindowCommand { get; set; }
-        public  RelayCommand AddCustomerToListWindowCommand { get; set; }
-        public RelayCommand CloseCommand { get; set; }
+        public RelayCommand AddDroneToListWindowCommand { get; set; }
+        public RelayCommand AddParcelToListWindowCommand { get; set; }
+        public RelayCommand AddStationToListWindowCommand { get; set; }
+        public RelayCommand AddCustomerToListWindowCommand { get; set; }
 
         public static IntDependency SelectedTab { get; set; } = new();
 
@@ -22,22 +21,14 @@ namespace PL
             AddStationToListWindowCommand = new(AddStationToList, null);
             AddCustomerToListWindowCommand = new(AddCustomerToList, null);
             Tabs.changeSelectedTab += changeIndex;
-            CloseCommand = new(Close, null);
         }
 
-        public void Close(object param)
-        {
-            if (param is TabItem tabItem)
-            {
-                Tabs.CloseTab((tabItem.Header as TabItemFormat).Text);
-            }
-        }
-        public  void AddDroneToList(object param)
+
+        public void AddDroneToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             {
-                Text = "Drones",
-                TabContent = "DroneToListWindow",
+                Header = "Drones",
                 Content = new DroneToListVM()
             });
         }
@@ -46,35 +37,32 @@ namespace PL
         {
             SelectedTab.Instance = index;
         }
-        public  void AddParcelToList(object param)
+        public void AddParcelToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             {
-                Text = "Parcels",
-                TabContent = "ParcelToListWindow",
+                Header = "Parcels",
                 Content = new ParcelToListVM()
             });
-            
+
         }
-        public  void AddStationToList(object param)
+        public void AddStationToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             {
-                Text = "Stations",
-                TabContent = "StationToListWindow",
+                Header = "Stations",
                 Content = new StationToListVM()
             });
-           
+
         }
-        public  void AddCustomerToList(object param)
+        public void AddCustomerToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()
             {
-                Text = "Customers",
-                TabContent = "CustomerTolistWindow",
-                Content = new StationToListVM()
+                Header = "Customers",
+                Content = new CustomerToListVM()
             });
-           
+
         }
     }
 }

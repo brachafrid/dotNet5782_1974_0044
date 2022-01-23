@@ -17,19 +17,8 @@ namespace PL
         public DroneToListVM()
         {
             UpdateInitList();
-            DoubleClick = new(OpenDetails, null);
+            DoubleClick = new(Tabs.OpenDetailes, null);
             DelegateVM.Drone += UpdateInitList;
-        }
-        public void OpenDetails(object param)
-        {
-            if (param != null)
-                Tabs.AddTab(new()
-                {
-                    TabContent = "UpdateDroneView",
-                    Text = "Drone " + (param as DroneToList).Id,
-                    Id = (param as DroneToList).Id,
-                    Content = new UpdateDroneView((param as DroneToList).Id)
-                });
         }
         void UpdateInitList()
         {
@@ -39,8 +28,7 @@ namespace PL
         {
             Tabs.AddTab(new()
             {
-                TabContent = "AddDroneView",
-                Text = "Drone",
+                Header = "Drone",
                 Content = new AddDroneVM()
             }) ;
         }

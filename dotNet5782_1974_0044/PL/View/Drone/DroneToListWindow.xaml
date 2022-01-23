@@ -11,9 +11,6 @@
     <UserControl.Resources>
         <ResourceDictionary Source="../Dictionary.xaml" />
     </UserControl.Resources>
-    <UserControl.DataContext>
-        <local:DroneToListVM />
-    </UserControl.DataContext>
     <ScrollViewer>
         <StackPanel>
             <StackPanel>
@@ -30,7 +27,7 @@
                     </i:Interaction.Triggers>
                 </ListView>
             </StackPanel>
-            <local:SortInput />
+            <local:SortInput/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

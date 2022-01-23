@@ -17,29 +17,18 @@ namespace PL
         {
             UpdateInitList();
             DelegateVM.Customer += UpdateInitList;
-            DoubleClick = new(OpenDetails, null);
+            DoubleClick = new(Tabs.OpenDetailes, null);
         }
         void UpdateInitList()
         {
-            list = new ListCollectionView( PLService.GetCustomers().ToList());
+            list = new ListCollectionView(PLService.GetCustomers().ToList());
         }
-      public void OpenDetails(object param)
-        {
-            if(param != null)
-            Tabs.AddTab(new()
-            {
-                TabContent = "UpdateCustomerView",
-                Text = "customer " + (param as CustomerToList).Id,
-                Id = (param as CustomerToList).Id,
-                Content = new UpdateCustomerVM((param as CustomerToList).Id)
-            }); 
-        }
+   
         public override void AddEntity(object param)
         {
             Tabs.AddTab(new()
             {
-                TabContent = "AddCustomerView",
-                Text = "Customer",
+                Header = "Customer",
                 Content = new CustomerAddVM(false)
             });
         }

@@ -7,15 +7,17 @@
              xmlns:local="clr-namespace:PL"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
-    <UserControl.DataContext>
-        <local:AddParcelVM/>
-    </UserControl.DataContext>
+    <UserControl.Resources>
+        <ResourceDictionary>
+            <local:CustomerAdministorVisibilityConverter x:Key="CustomerAdministorVisibilityConverter"/>
+        </ResourceDictionary>
+    </UserControl.Resources>
     <Grid>
         <ScrollViewer>
-            <StackPanel Visibility="{Binding VisibileParcel}">
+            <StackPanel Visibility="{Binding VisibileParcel.visibility}">
                 <ComboBox SelectedItem="{Binding parcel.Piority, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding piorities}" materialDesign:HintAssist.Hint="Piority" Margin="5" />
                 <ComboBox SelectedItem="{Binding parcel.Weight, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding Weight}" materialDesign:HintAssist.Hint="Weight Category" Margin="5"/>
-                <ComboBox SelectedItem="{Binding parcel.CustomerSender, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding customers}" materialDesign:HintAssist.Hint="sender Id" Margin="5"/>
+                <ComboBox SelectedItem="{Binding parcel.CustomerSender, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding IsAdministor,Converter={StaticResource CustomerAdministorVisibilityConverter}}" ItemsSource="{Binding customers}" materialDesign:HintAssist.Hint="sender Id" Margin="5"/>
                 <ComboBox SelectedItem="{Binding parcel.CustomerReceives, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" ItemsSource="{Binding customers}" materialDesign:HintAssist.Hint="reciver Id" Margin="5"/>
                 <Button Style="{StaticResource MaterialDesignFlatButton}"
                     HorizontalAlignment="Center"

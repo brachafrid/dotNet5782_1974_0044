@@ -12,7 +12,7 @@ namespace PL
 {
     class UpdateStationVM : DependencyObject
     {
-        private int id;
+        private readonly int id;
         public RelayCommand OpenDroneChargeCommand { get; set; }
         public PO.Station station
         {
@@ -61,7 +61,7 @@ namespace PL
             UpdateStationCommand = new(UpdateStation, param => station.Error == null);
             DeleteStationCommand = new(DeleteStation, param => station.Error == null);
             DelegateVM.Station += initStation;
-            OpenDroneChargeCommand = new(OpenDroneDetails, null);
+            OpenDroneChargeCommand = new(Tabs.OpenDetailes, null);
         }
         public void initStation()
         {
@@ -103,9 +103,8 @@ namespace PL
                 {
                     PLService.DeleteStation(station.Id);
                     MessageBox.Show("The station was successfully deleted");
-                    Tabs.CloseTab((param as TabItemFormat).Text);
+                    Tabs.CloseTab(param as TabItemFormat);
                     DelegateVM.Station -= initStation;
-                    DelegateVM.Station = DelegateVM.Station- initStation;
                     DelegateVM.Station?.Invoke();
                     
                 }
@@ -116,18 +115,7 @@ namespace PL
             }
         }
 
-        public void OpenDroneDetails(object param)
-        {
-            if (param != null && param is PL.PO.DroneInCharging droneCharge)
-                Tabs.AddTab(new()
-                {
-                    TabContent = "UpdateDroneView",
-                    Text = "drone " + droneCharge.Id,
-                    Id = droneCharge.Id,
-                    Content = new UpdateDroneVM(droneCharge.Id)
-                    
-                });
-        }
+      
 
     }
 }

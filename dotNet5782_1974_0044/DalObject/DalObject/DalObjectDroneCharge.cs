@@ -14,17 +14,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">the id number of a station</param>
         /// <returns>The counter of empty slots</returns>
-        public int CountFullChargeSlots(int id)
-        {
-            int count = 0;
-            foreach (DroneCharge item in DataSorce.DroneCharges)
-            {
-                if (item.Stationld == id)
-                    ++count;
-            }
-            return count;
-        }
-
+        public int CountFullChargeSlots(int id)=> DataSorce.DroneCharges.Count(Drone => Drone.Stationld == id);
         /// <summary>
         /// Finds all the drones that are charged at a particular station
         /// </summary>
