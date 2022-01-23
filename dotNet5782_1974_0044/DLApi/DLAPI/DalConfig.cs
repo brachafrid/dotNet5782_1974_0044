@@ -18,7 +18,7 @@ namespace DLApi
             XElement dalConfig = null;
             try
             {
-                dalConfig = XElement.Load($@"{Directory.GetCurrentDirectory()}\..\..\..\..\config.xml");
+                dalConfig = XElement.Load($@"{Directory.GetCurrentDirectory()}\..\..\config.xml");
 
             }
             catch (Exception e)

@@ -7,7 +7,7 @@ using DO;
 
 namespace Dal
 {
-    partial class DalXML
+    public partial class DalXml
     {
         public void RemoveDroneCharge(int droneId)
         {
