@@ -53,7 +53,7 @@ namespace Dal
             for (int i = 1; i <= CUSTOMERS_INIT; ++i)
                 RandomCustomer(dal, i);
             for (int i = 1; i <= PARCELS_INIT; ++i)
-                RandParcel(i);
+                RandParcel();
         }
         public static int AssignParcelDrone(WeightCategories weight)
         {
@@ -88,10 +88,10 @@ namespace Dal
             double longitude = Rnd.Next(LONGITUDE_MAX) + Rnd.NextDouble();
             dal.AddCustomer(id, phone, name, longitude, latitude);
         }
-        private static void RandParcel( int id)
+        private static void RandParcel()
         {
             Parcel newParcel = new ();
-            newParcel.Id = id;
+            newParcel.Id = ++Config.IdParcel;
             newParcel.SenderId = Customers[Rnd.Next(1, Customers.Count(customer => !customer.IsDeleted))].Id;
             do
             {

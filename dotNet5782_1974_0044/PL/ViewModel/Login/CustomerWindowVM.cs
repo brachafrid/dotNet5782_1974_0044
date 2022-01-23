@@ -37,12 +37,10 @@ namespace PL
         public RelayCommand DisplayCustomerCommand { get; set; }
         public ParcelAdd parcel { set; get; }
         int id;
-        public CustomerWindowVM(
-            //int Id
-            )
+        public CustomerWindowVM( int Id)    
         {
-            id = 7;
-                //Id;
+            id = Id;
+
             Init();
             Tabs.changeSelectedTab += changeIndex;
             AddParcelCommand = new(AddParcel, null);

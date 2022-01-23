@@ -29,19 +29,13 @@ namespace PL
             VisibilityParcel = new(visibilityParcel, param => parcel.Error == null);
             piorities = Enum.GetValues(typeof(Priorities));
             Weight = Enum.GetValues(typeof(WeightCategories));
-            if (!isAdministor)
-            {
+            IsAdministor = isAdministor;
+           if (!isAdministor)
                 parcel.CustomerSender = id;
-                VisibilitySender = new(visibilitySender, param => parcel.Error == null);
-            }
         }
         public void visibilityParcel(object param)
         {
             VisibleParcel.visibility = Visibility.Visible;
-        }
-        public void visibilitySender(object param)
-        {
-            VisibleSender.visibility = Visibility.Collapsed;
         }
         public void Add(object param)
         {
