@@ -6,6 +6,10 @@
     <UseWPF>true</UseWPF>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <OutputPath>../bin/</OutputPath>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="DronePL\**" />
     <Compile Remove="shmonzes\**" />
