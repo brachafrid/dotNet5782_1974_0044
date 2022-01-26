@@ -11,7 +11,7 @@ namespace Dal
 
     public static class XMLTools
     {
-        static string dir = @"..\data";
+        static string dir = @"..\data\";
         static XMLTools()
         {
             if (!Directory.Exists(dir))
@@ -34,7 +34,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
-        public static IEnumerable<T> LoadListFromXMLSerializer<T>(string filePath)
+        public static List<T> LoadListFromXMLSerializer<T>(string filePath)
         {
             try
             {
@@ -42,7 +42,7 @@ namespace Dal
                 {
                     XmlSerializer x = new XmlSerializer(typeof(IEnumerable<T>));
                     FileStream file = new FileStream(dir + filePath, FileMode.Open);
-                    IEnumerable<T> list = (IEnumerable<T>)x.Deserialize(file);
+                    List<T> list = (List<T>)x.Deserialize(file);
                     file.Close();
                     return list;
                 }

@@ -20,16 +20,16 @@ namespace Dal
 
         private void Initilaztion()
         {
-            if (!File.Exists(@"..\data\XMLDrone"))
-                XMLTools.SaveListToXMLSerializer(InitializeDrone(), "XmlDrone");
-            if (!File.Exists(@"..\data\XMLParcel"))
-                XMLTools.SaveListToXMLSerializer(InitializeParcel(), "XmlParcel");
-            if (!File.Exists(@"..\data\XMLStation"))
-                XMLTools.SaveListToXMLSerializer(InitializeStation(), "XMLStation");
-            if (!File.Exists(@"..\data\XMLCustomer"))
-                XMLTools.SaveListToXMLSerializer(InitializeCustomer(), "XMLCustomer");
-            if (!File.Exists(@"..\data\XMLDroneCharge"))
-                XMLTools.SaveListToXMLSerializer(new List<DroneCharge>(), "XMLDroneCharge");
+            if (!File.Exists(@"..\data\"+DRONE_PATH))
+                XMLTools.SaveListToXMLSerializer(InitializeDrone(), DRONE_PATH);
+            if (!File.Exists(@"..\data\"+STATION_PATH))
+                XMLTools.SaveListToXMLSerializer(InitializeStation(),STATION_PATH);
+            if (!File.Exists(@"..\data\"+CUSTOMER_PATH))
+                XMLTools.SaveListToXMLSerializer(InitializeCustomer(), CUSTOMER_PATH);
+            if (!File.Exists(@"..\data\"+PARCEL_PATH))
+                XMLTools.SaveListToXMLSerializer(InitializeParcel(), PARCEL_PATH);
+            if (!File.Exists(@"..\data\"+DRONE_CHARGE_PATH))
+                XMLTools.SaveListToXMLSerializer(new List<DroneCharge>(), DRONE_CHARGE_PATH);
         }
         public string GetAdministorPasssword()
         {

@@ -9,7 +9,7 @@ namespace Dal
 {
     public sealed partial class DalXml
     {
-        const string CUSTOMER_PATH = @"XMLCustomer.xml";
+        const string CUSTOMER_PATH = @"XmlCustomer.xml";
         public void AddCustomer(int id, string phone, string name, double longitude, double latitude)
         {
             List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);

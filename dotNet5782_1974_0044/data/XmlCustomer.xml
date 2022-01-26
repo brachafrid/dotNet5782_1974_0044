@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+<ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Customer>
+    <Id>1</Id>
+    <Name>Customer_ 1_1139137257</Name>
+    <Phone>0302209615</Phone>
+    <Longitude>26.21658857549382</Longitude>
+    <Latitude>34.792857344165846</Latitude>
+    <IsDeleted>false</IsDeleted>
+  </Customer>
+  <Customer>
+    <Id>2</Id>
+    <Name>Customer_ 2_-1351035960</Name>
+    <Phone>0183458828</Phone>
+    <Longitude>66.1848851405945</Longitude>
+    <Latitude>11.232670441843881</Latitude>
+    <IsDeleted>false</IsDeleted>
+  </Customer>
+  <Customer>
+    <Id>3</Id>
+    <Name>Customer_ 3_1600701930</Name>
+    <Phone>0348884790</Phone>
+    <Longitude>37.41413767934504</Longitude>
+    <Latitude>72.51564272936231</Latitude>
+    <IsDeleted>false</IsDeleted>
+  </Customer>
+  <Customer>
+    <Id>4</Id>
+    <Name>Customer_ 4_621365704</Name>
+    <Phone>0224900786</Phone>
+    <Longitude>32.062183466303246</Longitude>
+    <Latitude>7.512619493767907</Latitude>
+    <IsDeleted>false</IsDeleted>
+  </Customer>
+  <Customer>
+    <Id>5</Id>
+    <Name>Customer_ 5_662654413</Name>
+    <Phone>0618676566</Phone>
+    <Longitude>29.451227332209807</Longitude>
+    <Latitude>50.62484895699883</Latitude>
+    <IsDeleted>false</IsDeleted>
+  </Customer>
+  <Customer>
+    <Id>6</Id>
+    <Name>Customer_ 6_2114816056</Name>
+    <Phone>0649327824</Phone>
+    <Longitude>79.95805782170876</Longitude>
+    <Latitude>-83.96844689174017</Latitude>
+    <IsDeleted>false</IsDeleted>
+  </Customer>
+  <Customer>
+    <Id>7</Id>
+    <Name>Customer_ 7_-1992432748</Name>
+    <Phone>0821118059</Phone>
+    <Longitude>74.49744063173301</Longitude>
+    <Latitude>-12.641060491856681</Latitude>
+    <IsDeleted>false</IsDeleted>
+  </Customer>
+  <Customer>
+    <Id>8</Id>
+    <Name>Customer_ 8_902406656</Name>
+    <Phone>0588802727</Phone>
+    <Longitude>44.817260188431135</Longitude>
+    <Latitude>-26.567269789319145</Latitude>
+    <IsDeleted>false</IsDeleted>
+  </Customer>
+  <Customer>
+    <Id>9</Id>
+    <Name>Customer_ 9_681430172</Name>
+    <Phone>0878766366</Phone>
+    <Longitude>62.53465253977787</Longitude>
+    <Latitude>-65.11601756565088</Latitude>
+    <IsDeleted>false</IsDeleted>
+  </Customer>
+  <Customer>
+    <Id>10</Id>
+    <Name>Customer_ 10_1360986702</Name>
+    <Phone>0116049365</Phone>
+    <Longitude>83.71442235154771</Longitude>
+    <Latitude>65.63188543339814</Latitude>
+    <IsDeleted>false</IsDeleted>
+  </Customer>
+</ArrayOfCustomer>
