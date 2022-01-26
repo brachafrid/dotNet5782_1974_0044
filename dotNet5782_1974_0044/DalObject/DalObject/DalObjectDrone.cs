@@ -69,5 +69,4 @@ namespace Dal
             DataSorce.Drones.Add(drone);
         }
     }
-
 }
