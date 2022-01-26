@@ -18,6 +18,8 @@ namespace PL
         public bool IsAdministor { get; set; }
         public ParcelToListVM()
         {
+            sourceList = new ObservableCollection<ParcelToList>();
+            list = new ListCollectionView(sourceList);
             IsAdministor = true;
             UpdateInitList();
             DelegateVM.Parcel += UpdateInitList;
@@ -37,21 +39,23 @@ namespace PL
 
         void UpdateInitList()
         {
-           
-            if (state == string.Empty)
+            sourceList.Clear();
+            switch (state)
             {
-                list = new ListCollectionView(PLService.GetParcels().ToList());
-            }
-            if (state == "From")
-            {
-                list = new ListCollectionView(PLService.GetCustomer((int)id).FromCustomer.Select(parcel=>PLService.ConvertParcelAtCustomerToList(parcel)).ToList());
-            }
-            if (state == "To")
-            {
-                list = new ListCollectionView(PLService.GetCustomer((int)id).ToCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)).ToList());
+                case "From":
+                    foreach (var item in PLService.GetCustomer((int)id).FromCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)).ToList())
+                        sourceList.Add(item);
+                    break;
+                case "To":
+                    foreach (var item in PLService.GetCustomer((int)id).ToCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)).ToList())
+                        sourceList.Add(item);
+                    break;
+                default:
+                    foreach (var item in PLService.GetParcels())
+                        sourceList.Add(item);
+                    break;
             }
         }
-     
 
         public override void AddEntity(object param)
         {
@@ -59,7 +63,7 @@ namespace PL
             {
                 Header = "Parcel",
                 Content = new AddParcelVM(true)
-            }) ;
+            });
         }
     }
 }

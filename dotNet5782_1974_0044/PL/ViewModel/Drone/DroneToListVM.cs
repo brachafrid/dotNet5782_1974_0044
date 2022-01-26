@@ -13,15 +13,21 @@ namespace PL
 {
     public class DroneToListVM : GenericList<DroneToList>
     {
+       
         public DroneToListVM()
         {
+            sourceList = new ObservableCollection<DroneToList>();
+            list = new ListCollectionView(sourceList);
             UpdateInitList();
+           
             DoubleClick = new(Tabs.OpenDetailes, null);
             DelegateVM.Drone += UpdateInitList;
         }
         void UpdateInitList()
         {
-            list = new ListCollectionView(PLService.GetDrones().ToList());
+            sourceList.Clear();
+            foreach (var item in PLService.GetDrones())
+                sourceList.Add(item);
         }
         public override void AddEntity(object param)
         {

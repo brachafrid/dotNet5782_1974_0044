@@ -14,13 +14,17 @@ namespace PL
     {
         public StationToListVM()
         {
+            sourceList = new ObservableCollection<StationToList>();
+            list = new ListCollectionView(sourceList);
             UpdateInitList();
             DelegateVM.Station += UpdateInitList;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
         void UpdateInitList()
         {
-            list = new ListCollectionView(PLService.GetStations().ToList());
+            sourceList.Clear();
+            foreach (var item in PLService.GetStations())
+                sourceList.Add(item);
         }
         public override void AddEntity(object param)
         {
