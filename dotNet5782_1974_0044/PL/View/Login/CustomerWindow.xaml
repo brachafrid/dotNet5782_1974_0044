@@ -23,7 +23,7 @@
                     <Separator />
                     <Button ToolTip="Add Parcel" Content="{materialDesign:PackIcon Kind=PackageVariantPlus}" Command="{Binding AddParcelCommand}"/>
                     <Separator />
-                    <Button ToolTip="Update Parcel" Content="{materialDesign:PackIcon Kind=PackageVariant}"  Command="{Binding AddParcelCommand}"/>
+                    <!--<Button ToolTip="Update Parcel" Content="{materialDesign:PackIcon Kind=PackageVariant}"  Command="{Binding AddParcelCommand}"/>-->
                 </ToolBar>
             </ToolBarTray>
      
