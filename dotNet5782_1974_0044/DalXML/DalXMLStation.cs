@@ -38,10 +38,5 @@ namespace Dal
         {
             throw new NotImplementedException();
         }
-
-        public int CountFullChargeSlots(int id)
-        {
-            throw new NotImplementedException();
-        }
     }
 }
