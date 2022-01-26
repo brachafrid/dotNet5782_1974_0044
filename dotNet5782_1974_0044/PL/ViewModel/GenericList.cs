@@ -29,6 +29,7 @@ namespace PL
         public RelayCommand GroupCommand { get; set; }
         public RelayCommand AddEntitiyCommand { get; set; }
         public ListCollectionView list { set; get; }
+        public ObservableCollection<T> sourceList;
         public Visble VisibilityKindOfSort { get; set; } = new();
         public Visble StringSortVisibility { get; set; } = new();
         public Visble VisibilityWeightCategories { get; set; } = new();
@@ -134,10 +135,12 @@ namespace PL
         }
         public void Grouping(object param)
         {
-            SelectedGroup = param?.ToString();
-            CancelGroup(param);
-            list.GroupDescriptions.Add(new PropertyGroupDescription(SelectedGroup));
-            
+            if(param != null)
+            {
+                SelectedGroup = param?.ToString();
+                CancelGroup(param);
+                list.GroupDescriptions.Add(new PropertyGroupDescription(SelectedGroup));
+            }
         }
         public void CancelGroup(object param)
         {

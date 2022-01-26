@@ -18,6 +18,8 @@ namespace PL
         public bool IsAdministor { get; set; }
         public ParcelToListVM()
         {
+            sourceList = new ObservableCollection<ParcelToList>();
+            list = new ListCollectionView(sourceList);
             IsAdministor = true;
             UpdateInitList();
             DelegateVM.Parcel += UpdateInitList;
@@ -37,10 +39,16 @@ namespace PL
 
         void UpdateInitList()
         {
-           
+            sourceList.Clear();
+            switch (state)
+            {
+                case "From"
+            }
             if (state == string.Empty)
             {
-                list = new ListCollectionView(PLService.GetParcels().ToList());
+                
+                foreach (var item in PLService.GetParcels())
+                   
             }
             if (state == "From")
             {
