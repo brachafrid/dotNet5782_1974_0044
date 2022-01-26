@@ -10,7 +10,6 @@ namespace Dal
     public sealed partial class DalXml
     {
         static readonly Random Rnd = new();
-
         private const int DRONE_INIT = 5;
         private const int STATIONS_INIT = 2;
         private const int CUSTOMERS_INIT = 10;
