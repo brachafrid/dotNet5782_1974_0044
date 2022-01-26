@@ -14,7 +14,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">the id number of a station</param>
         /// <returns>The counter of empty slots</returns>
-        public int CountFullChargeSlots(int id)=> DataSorce.DroneCharges.Count(Drone => Drone.Stationld == id);
+        public int CountFullChargeSlots(int id)=> getEntities<DroneCharge>().Count(Drone => Drone.Stationld == id);
         /// <summary>
         /// Finds all the drones that are charged at a particular station
         /// </summary>
@@ -22,7 +22,7 @@ namespace Dal
         /// <returns>A list of DroneCarge</returns>
         public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation)
         {
-            return DataSorce.DroneCharges.FindAll(item => inTheStation(item.Stationld)).Select(item => item.Droneld);
+            return getEntities<DroneCharge>().Where(item => inTheStation(item.Stationld)).Select(item => item.Droneld);
         }
         /// <summary>
         /// Gets parameters and create new DroneCharge 
@@ -31,7 +31,7 @@ namespace Dal
         /// <param name="stationId">The station to add the drone</param>
         public void AddDRoneCharge(int droneId, int stationId)
         {
-            DataSorce.DroneCharges.Add(new DroneCharge() { Droneld = droneId, Stationld = stationId, StartCharging = DateTime.Now });
+            AddEntity(new DroneCharge() { Droneld = droneId, Stationld = stationId, StartCharging = DateTime.Now });
         }
         /// <summary>
         /// Remove DroneCharge object from the list
@@ -39,7 +39,7 @@ namespace Dal
         /// <param name="droneId">The drone to remove</param>
         public void RemoveDroneCharge(int droneId)
         {
-            DataSorce.DroneCharges.RemoveAll(drone=>drone.Droneld==droneId);
+            RemoveEntity(getEntities<DroneCharge>().FirstOrDefault(droneCharge=>droneCharge.Droneld==droneId));
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Dal
         /// <param name="droneId">The drone in charging</param>
         public DateTime GetTimeStartOfCharge(int droneId)
         {
-            return DataSorce.DroneCharges.FirstOrDefault(drone => drone.Droneld == droneId).StartCharging;
+            return getEntities<DroneCharge>().FirstOrDefault(drone => drone.Droneld == droneId).StartCharging;
         }
     }
 }

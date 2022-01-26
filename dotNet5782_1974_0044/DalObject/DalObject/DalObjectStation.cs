@@ -4,7 +4,7 @@ using System.Linq;
 using System;
 using DO;
 
-namespace  Dal
+namespace Dal
 
 {
     public partial class DalObject
@@ -19,16 +19,16 @@ namespace  Dal
         /// <param name="chargeSlots">Number of charging slots at the station</param>
         public void AddStation(int id, string name, double longitude, double latitude, int chargeSlots)
         {
-            if(ExistsIDTaxCheck(DataSorce.Stations, id))
+            if (ExistsIDTaxCheck(DataSorce.Stations, id))
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException();
-            Station newStation = new ();
+            Station newStation = new();
             newStation.Id = id;
             newStation.Name = name;
             newStation.Latitude = latitude;
             newStation.Longitude = longitude;
             newStation.ChargeSlots = chargeSlots;
             newStation.IsDeleted = false;
-            DataSorce.Stations.Add(newStation);
+            AddEntity(newStation);
         }
 
         //-------------------------------------------------Display-------------------------------------------------------------
@@ -39,7 +39,7 @@ namespace  Dal
         /// <returns>A station for display</returns>
         public Station GetStation(int id)
         {
-            Station station = DataSorce.Stations.FirstOrDefault(item => item.Id == id);
+            Station station = getEntities<Station>().FirstOrDefault(item => item.Id == id);
             if (station.Equals(default(Station)) || station.IsDeleted == true)
                 throw new KeyNotFoundException("There is no suitable station in data");
             return station;
@@ -49,14 +49,14 @@ namespace  Dal
         ///  Prepares the list of Sations for display
         /// </summary>
         /// <returns>A list of stations</returns>
-        public IEnumerable<Station> GetStations() => DataSorce.Stations.Where(s => !s.IsDeleted);
+        public IEnumerable<Station> GetStations() => getEntities<Station>();
 
         /// <summary>
         /// Find the satation that have empty charging slots
         /// </summary>
         /// <param name="exsitEmpty">The predicate to screen out if the station have empty charge slots</param>
         /// <returns>A collection of the requested station</returns>
-        public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty) => DataSorce.Stations.FindAll(item => exsitEmpty( item.ChargeSlots - CountFullChargeSlots(item.Id)) && !item.IsDeleted);
+        public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty) => getEntities<Station>().Where(item => exsitEmpty(item.ChargeSlots - CountFullChargeSlots(item.Id)) && !item.IsDeleted);
 
         //-------------------------------------------------Removing-------------------------------------------------------------
         /// <summary>
@@ -65,15 +65,15 @@ namespace  Dal
         /// <param name="station"></param>
         public void RemoveStation(Station station)
         {
-            DataSorce.Stations.Remove(station);
+            RemoveEntity(station);
         }
 
         public void DeleteStation(int id)
         {
             Station station = DataSorce.Stations.FirstOrDefault(item => item.Id == id);
-            DataSorce.Stations.Remove(station);
+            RemoveEntity(station);
             station.IsDeleted = true;
-            DataSorce.Stations.Add(station);
+            AddEntity(station);
         }
     }
 }
