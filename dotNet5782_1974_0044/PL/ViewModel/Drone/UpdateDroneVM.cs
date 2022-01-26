@@ -137,6 +137,7 @@ namespace PL
                     Tabs.CloseTab(param as TabItemFormat);
                     DelegateVM.Drone -= InitThisDrone;
                     DelegateVM.Drone?.Invoke();
+                    DelegateVM.Parcel?.Invoke();                   
                 }
             }
 
