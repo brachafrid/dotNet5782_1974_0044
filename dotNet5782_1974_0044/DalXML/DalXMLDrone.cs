@@ -15,52 +15,82 @@ namespace Dal
 
         public void AddDrone(int id, string model, WeightCategories MaxWeight)
         {
-            List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
-            if (ExistsIDTaxCheck(drones, id))
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException();
-            Drone newDrone = new()
-            {
-                Id = id,
-                Model = model,
-                MaxWeight = MaxWeight,
-                IsDeleted = false
+            try { 
+                List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
+                if (ExistsIDTaxCheck(drones, id))
+                    throw new ThereIsAnObjectWithTheSameKeyInTheListException();
+                Drone newDrone = new()
+                {
+                    Id = id,
+                    Model = model,
+                    MaxWeight = MaxWeight,
+                    IsDeleted = false
 
-            };
-            drones.Add(newDrone);
-            XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
+                };
+                drones.Add(newDrone);
+                XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
+            }
+            catch
+            {
+                throw new XMLFileLoadCreateException();
+            }
         }
 
         public void DeleteDrone(int id)
         {
-            List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
-            Drone drone = drones.FirstOrDefault(item => item.Id == id);
-            drones.Remove(drone);
-            drone.IsDeleted = true;
-            drones.Add(drone);
-            XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
+            try { 
+                List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
+                Drone drone = drones.FirstOrDefault(item => item.Id == id);
+                drones.Remove(drone);
+                drone.IsDeleted = true;
+                drones.Add(drone);
+                XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
+            }
+            catch
+            {
+                throw new XMLFileLoadCreateException();
+            }
         }
         public Drone GetDrone(int id)
         {
-            Drone drone = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH).FirstOrDefault(item => item.Id == id);
-            if (drone.Equals(default(Drone)) || drone.IsDeleted)
-                throw new KeyNotFoundException("There is not suitable drone in the data");
-            return drone;
+            try { 
+                Drone drone = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH).FirstOrDefault(item => item.Id == id);
+                if (drone.Equals(default(Drone)) || drone.IsDeleted)
+                    throw new KeyNotFoundException("There is not suitable drone in the data");
+                return drone;
+            }
+            catch
+            {
+                throw new XMLFileLoadCreateException();
+            }
         }
 
         public IEnumerable<Drone> GetDrones()
         {
-            return XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH).Where(d => !d.IsDeleted);
+            try { 
+                return XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH).Where(d => !d.IsDeleted);
+            }
+            catch
+            {
+                throw new XMLFileLoadCreateException();
+            }
         }
         public void RemoveDrone(Drone drone)
         {
-            List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
-            drones.Remove(drone);
-            XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
+            try { 
+                List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
+                drones.Remove(drone);
+                XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
+            }
+            catch
+            {
+                throw new XMLFileLoadCreateException();
+            }
         }
 
         public (double, double, double, double, double) GetElectricity()
         {
-            return (Config.Available, Config.LightWeightCarrier, Config.MediumWeightBearing, Config.CarriesHeavyWeight, Config.DroneLoadingRate);
+           return (Config.Available, Config.LightWeightCarrier, Config.MediumWeightBearing, Config.CarriesHeavyWeight, Config.DroneLoadingRate);
         }
     }
 }

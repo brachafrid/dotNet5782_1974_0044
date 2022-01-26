@@ -12,48 +12,80 @@ namespace Dal
         const string CUSTOMER_PATH = @"XmlCustomer.xml";
         public void AddCustomer(int id, string phone, string name, double longitude, double latitude)
         {
-            List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
-            if (ExistsIDTaxCheck(customers, id))
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException();
-            Customer newCustomer = new();
-            newCustomer.Id = id;
-            newCustomer.Name = name;
-            newCustomer.Phone = phone;
-            newCustomer.Latitude = latitude;
-            newCustomer.Longitude = longitude;
-            newCustomer.IsDeleted = false;
-            customers.Add(newCustomer);
-            XMLTools.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
+            try
+            {
+                List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
+                if (ExistsIDTaxCheck(customers, id))
+                    throw new ThereIsAnObjectWithTheSameKeyInTheListException();
+                Customer newCustomer = new();
+                newCustomer.Id = id;
+                newCustomer.Name = name;
+                newCustomer.Phone = phone;
+                newCustomer.Latitude = latitude;
+                newCustomer.Longitude = longitude;
+                newCustomer.IsDeleted = false;
+                customers.Add(newCustomer);
+                XMLTools.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
+            }
+            catch
+            {
+                throw new XMLFileLoadCreateException();
+            }
         }
 
         public void DeleteCustomer(int id)
         {
-            List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
-            Customer customer = customers.FirstOrDefault(item => item.Id == id);
-            customers.Remove(customer);
-            customer.IsDeleted = true;
-            customers.Add(customer);
-            XMLTools.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
+            try { 
+                List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
+                Customer customer = customers.FirstOrDefault(item => item.Id == id);
+                customers.Remove(customer);
+                customer.IsDeleted = true;
+                customers.Add(customer);
+                XMLTools.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
+            }
+            catch
+            {
+                throw new XMLFileLoadCreateException();
+            }
         }
 
         public Customer GetCustomer(int id)
         {
-            Customer customer = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH).FirstOrDefault(item => item.Id == id);
-            if (customer.Equals(default(Customer)) || customer.IsDeleted == true)
-                throw new KeyNotFoundException("There is no suitable customer in data");
-            return customer;
+            try { 
+                Customer customer = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH).FirstOrDefault(item => item.Id == id);
+                if (customer.Equals(default(Customer)) || customer.IsDeleted == true)
+                    throw new KeyNotFoundException("There is no suitable customer in data");
+                return customer;
+            }
+            catch
+            {
+                throw new XMLFileLoadCreateException();
+            }
         }
 
         public IEnumerable<Customer> GetCustomers()
         {
-            return XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH).Where(c => c.IsDeleted == false);
+
+            try { 
+                return XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH).Where(c => c.IsDeleted == false);
+            }
+            catch
+            {
+                throw new XMLFileLoadCreateException();
+            }
         }
 
         public void RemoveCustomer(Customer customer)
         {
-            List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
-            customers.Remove(customer);
-            XMLTools.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
+            try { 
+                List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
+                customers.Remove(customer);
+                XMLTools.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
+            }
+            catch
+            {
+                throw new XMLFileLoadCreateException();
+            }
         }
         static bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
         {

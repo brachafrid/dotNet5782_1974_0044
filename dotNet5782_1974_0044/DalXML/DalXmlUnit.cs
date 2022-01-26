@@ -46,14 +46,21 @@ namespace Dal
 
         public IEnumerable<Parcel> InitializeParcel()
         {
-            List<Parcel> Parcels = new();
-            for (int i = 1; i <= PARCELS_INIT; ++i)
+            try
             {
-                Parcels.Add(RandParcel());
-                XMLTools.SaveListToXMLSerializer(Parcels, PARCEL_PATH);
-            }
+                List<Parcel> Parcels = new();
+                for (int i = 1; i <= PARCELS_INIT; ++i)
+                {
+                    Parcels.Add(RandParcel());
+                    XMLTools.SaveListToXMLSerializer(Parcels, PARCEL_PATH);
+                }
 
-            return Parcels;
+                return Parcels;
+            }
+            catch
+            {
+                throw new XMLFileLoadCreateException();
+            }
         }
         public IEnumerable<Station> InitializeStation()
         {
@@ -72,13 +79,18 @@ namespace Dal
         }
         private int AssignParcelDrone(WeightCategories weight)
         {
-            Drone tmpDrone = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH).FirstOrDefault(item => weight <= item.MaxWeight);
-            if (!tmpDrone.Equals(default(Drone)))
-            {
-                return tmpDrone.Id;
+            try { 
+                Drone tmpDrone = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH).FirstOrDefault(item => weight <= item.MaxWeight);
+                if (!tmpDrone.Equals(default(Drone)))
+                {
+                    return tmpDrone.Id;
+                }
+                return 0;
             }
-            return 0;
-
+            catch
+            {
+                throw new XMLFileLoadCreateException();
+            }
         }
         private Drone RandomDrone(int id)
         {
@@ -126,49 +138,55 @@ namespace Dal
         }
         private Parcel RandParcel()
         {
-            Parcel newParcel = new();
-            newParcel.Id = ++Config.IdParcel;
-            List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
-            newParcel.SenderId = customers[Rnd.Next(0, customers.Count)].Id;
-            do
-            {
-                newParcel.TargetId = customers[Rnd.Next(0, customers.Count)].Id;
-            } while (newParcel.TargetId == newParcel.SenderId);
-            newParcel.Weigth = (WeightCategories)Rnd.Next(RANGE_ENUM);
-            newParcel.Priority = (Priorities)Rnd.Next(RANGE_ENUM);
-            newParcel.Requested = DateTime.Now; ;
-            newParcel.Sceduled = default;
-            newParcel.PickedUp = default;
-            newParcel.Delivered = default;
-            newParcel.DorneId = 0;
-            newParcel.IsDeleted = false;
-            int state = Rnd.Next(PARCELS_STATE);
-            if (state != 0)
-            {
-                newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);
-                if (newParcel.DorneId != 0)
+            try { 
+                Parcel newParcel = new();
+                newParcel.Id = ++Config.IdParcel;
+                List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
+                newParcel.SenderId = customers[Rnd.Next(0, customers.Count)].Id;
+                do
                 {
-                    Parcel tmp = XMLTools.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH).FirstOrDefault(parcel => parcel.DorneId == newParcel.DorneId && parcel.Delivered == null);
-                    if (tmp.DorneId == 0)
+                    newParcel.TargetId = customers[Rnd.Next(0, customers.Count)].Id;
+                } while (newParcel.TargetId == newParcel.SenderId);
+                newParcel.Weigth = (WeightCategories)Rnd.Next(RANGE_ENUM);
+                newParcel.Priority = (Priorities)Rnd.Next(RANGE_ENUM);
+                newParcel.Requested = DateTime.Now; ;
+                newParcel.Sceduled = default;
+                newParcel.PickedUp = default;
+                newParcel.Delivered = default;
+                newParcel.DorneId = 0;
+                newParcel.IsDeleted = false;
+                int state = Rnd.Next(PARCELS_STATE);
+                if (state != 0)
+                {
+                    newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);
+                    if (newParcel.DorneId != 0)
                     {
-                        newParcel.Sceduled = DateTime.Now;
-                        if (state == 2)
+                        Parcel tmp = XMLTools.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH).FirstOrDefault(parcel => parcel.DorneId == newParcel.DorneId && parcel.Delivered == null);
+                        if (tmp.DorneId == 0)
                         {
+                            newParcel.Sceduled = DateTime.Now;
+                            if (state == 2)
+                            {
+                                newParcel.PickedUp = DateTime.Now;
+                            }
+
+                        }
+                        if (state == 3)
+                        {
+                            newParcel.Sceduled = DateTime.Now;
                             newParcel.PickedUp = DateTime.Now;
+                            newParcel.Delivered = DateTime.Now;
                         }
 
                     }
-                    if (state == 3)
-                    {
-                        newParcel.Sceduled = DateTime.Now;
-                        newParcel.PickedUp = DateTime.Now;
-                        newParcel.Delivered = DateTime.Now;
-                    }
 
                 }
-
+                return newParcel;
             }
-            return newParcel;
+            catch
+            {
+                throw new XMLFileLoadCreateException();
+            }
         }
     }
 

@@ -20,16 +20,22 @@ namespace Dal
 
         private void Initilaztion()
         {
-            if (!File.Exists(@"..\data\"+DRONE_PATH))
-                XMLTools.SaveListToXMLSerializer(InitializeDrone(), DRONE_PATH);
-            if (!File.Exists(@"..\data\"+STATION_PATH))
-                XMLTools.SaveListToXMLSerializer(InitializeStation(),STATION_PATH);
-            if (!File.Exists(@"..\data\"+CUSTOMER_PATH))
-                XMLTools.SaveListToXMLSerializer(InitializeCustomer(), CUSTOMER_PATH);
-            if (!File.Exists(@"..\data\"+PARCEL_PATH))
-                XMLTools.SaveListToXMLSerializer(InitializeParcel(), PARCEL_PATH);
-            if (!File.Exists(@"..\data\"+DRONE_CHARGE_PATH))
-                XMLTools.SaveListToXMLSerializer(new List<DroneCharge>(), DRONE_CHARGE_PATH);
+            try { 
+                if (!File.Exists(@"..\data\"+DRONE_PATH))
+                    XMLTools.SaveListToXMLSerializer(InitializeDrone(), DRONE_PATH);
+                if (!File.Exists(@"..\data\"+STATION_PATH))
+                    XMLTools.SaveListToXMLSerializer(InitializeStation(),STATION_PATH);
+                if (!File.Exists(@"..\data\"+CUSTOMER_PATH))
+                    XMLTools.SaveListToXMLSerializer(InitializeCustomer(), CUSTOMER_PATH);
+                if (!File.Exists(@"..\data\"+PARCEL_PATH))
+                    XMLTools.SaveListToXMLSerializer(InitializeParcel(), PARCEL_PATH);
+                if (!File.Exists(@"..\data\"+DRONE_CHARGE_PATH))
+                    XMLTools.SaveListToXMLSerializer(new List<DroneCharge>(), DRONE_CHARGE_PATH);
+            }
+            catch
+            {
+                throw new XMLFileLoadCreateException();
+            }
         }
         public string GetAdministorPasssword()
         {
