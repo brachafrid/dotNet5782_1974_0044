@@ -40,7 +40,7 @@ namespace Dal
             {
                 if (File.Exists(dir + filePath))
                 {
-                    XmlSerializer x = new XmlSerializer(typeof(IEnumerable<T>));
+                    XmlSerializer x = new XmlSerializer(typeof(List<T>));
                     FileStream file = new FileStream(dir + filePath, FileMode.Open);
                     List<T> list = (List<T>)x.Deserialize(file);
                     file.Close();

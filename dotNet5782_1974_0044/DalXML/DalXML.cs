@@ -33,7 +33,7 @@ namespace Dal
         }
         public string GetAdministorPasssword()
         {
-            throw new NotImplementedException();
+            return "";
         }
     }
 }
