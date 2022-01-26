@@ -58,15 +58,7 @@ namespace BL
 
         public void DeleteStation(int id)
         {
-            Station station = GetStation(id);
-            if (!station.DroneInChargings.Any())
-            {
-                dal.DeleteStation(id);
-            }
-            else
-            {
-                throw new ThereAreAssociatedOrgansException("There are drones at the station, Cant delete.");
-            }
+            dal.DeleteStation(id);
         }
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
