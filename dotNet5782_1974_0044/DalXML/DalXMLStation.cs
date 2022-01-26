@@ -9,7 +9,7 @@ namespace Dal
 {
     public sealed partial class DalXml
     {
-        const string STATION_PATH = @"XMLStation.xml"; 
+        const string STATION_PATH = @"XmlStation.xml"; 
         public void RemoveStation(Station station)
         {
             List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH);

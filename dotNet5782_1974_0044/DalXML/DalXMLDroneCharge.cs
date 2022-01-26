@@ -9,7 +9,7 @@ namespace Dal
 {
     partial class DalXml
     {
-        const string DRONE_CHARGE_PATH = @"XMLDroneCharge.xml";
+        const string DRONE_CHARGE_PATH = @"XmlDroneCharge.xml";
         public void RemoveDroneCharge(int droneId)
         {
             List<DroneCharge> droneCharges = XMLTools.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH);
