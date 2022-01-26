@@ -23,7 +23,7 @@ namespace Dal
                 Id = id,
                 Model = model,
                 MaxWeight = MaxWeight,
-                IsActive = false
+                IsNotActive = false
 
             };
             AddEntity(newDrone);
@@ -39,7 +39,7 @@ namespace Dal
         public Drone GetDrone(int id)
         {
             Drone drone = getEntities<Drone>().FirstOrDefault(item => item.Id == id);
-            if (drone.Equals(default(Drone)) || drone.IsActive)
+            if (drone.Equals(default(Drone)) || drone.IsNotActive)
                 throw new KeyNotFoundException("There is not suitable drone in the data");
             return drone;
         }
@@ -65,7 +65,7 @@ namespace Dal
         {
             Drone drone = getEntities<Drone>().FirstOrDefault(item => item.Id == id);
             RemoveEntity(drone);
-            drone.IsActive = true;
+            drone.IsNotActive = true;
             AddEntity(drone);
         }
     }

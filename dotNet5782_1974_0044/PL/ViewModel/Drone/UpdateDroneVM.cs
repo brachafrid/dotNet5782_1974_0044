@@ -1,13 +1,7 @@
 ﻿using PL.PO;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace PL
 {
@@ -83,17 +77,24 @@ namespace PL
 
         public void SendToCharging(object param)
         {
-            if (drone.DroneState == PO.DroneState.AVAILABLE)
+            try
             {
-                PLService.SendDroneForCharg(drone.Id);
-                DelegateVM.Drone?.Invoke();
-                DelegateVM.Station?.Invoke();
+                if (drone.DroneState == PO.DroneState.AVAILABLE)
+                {
+                    PLService.SendDroneForCharg(drone.Id);
+                    DelegateVM.Drone?.Invoke();
+                    DelegateVM.Station?.Invoke();
+                }
+                else if (drone.DroneState == PO.DroneState.MAINTENANCE)
+                {
+                    PLService.ReleaseDroneFromCharging(drone.Id);
+                    DelegateVM.Drone?.Invoke();
+                    DelegateVM.Station?.Invoke();
+                }
             }
-            else if (drone.DroneState == PO.DroneState.MAINTENANCE)
+            catch(BO.ThereIsNoNearbyBaseStationThatTheDroneCanReachException)
             {
-                PLService.ReleaseDroneFromCharging(drone.Id);
-                DelegateVM.Drone?.Invoke();
-                DelegateVM.Station?.Invoke();
+                MessageBox.Show("no available station");
             }
         }
         public void parcelTreatedByDrone(object param)
@@ -133,7 +134,7 @@ namespace PL
                 if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
                     PLService.DeleteDrone(drone.Id);
-                    MessageBox.Show("The drone was successfully deleted"); 
+                    MessageBox.Show("The drone was successfully deleted");
                     DelegateVM.Drone -= InitThisDrone;
                     DelegateVM.Drone?.Invoke();
                     Tabs.CloseTab(param as TabItemFormat);
@@ -144,6 +145,6 @@ namespace PL
             {
                 MessageBox.Show($"{ex.Message}");
             }
-        }      
+        }
     }
 }

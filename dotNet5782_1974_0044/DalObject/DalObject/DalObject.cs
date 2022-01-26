@@ -36,7 +36,7 @@ namespace Dal
         {
             if (!lst.Any())
                 return false;
-            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id&& !(bool)item.GetType().GetProperty("IsActive").GetValue(item));
+            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id&& !(bool)item.GetType().GetProperty("IsNotActive").GetValue(item));
             return !temp.Equals(default(T));
         }
         /// <summary>

@@ -8,7 +8,7 @@
             public int Id { get; set; }
             public string Model { get; set; }
             public WeightCategories MaxWeight { get; set; }
-            public bool IsActive { get; set; }
+            public bool IsNotActive { get; set; }
             public override string ToString()=>$"Drone ID:{Id} Model:{Model}";
  
         }

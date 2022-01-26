@@ -24,7 +24,7 @@ namespace Dal
                     Id = id,
                     Model = model,
                     MaxWeight = MaxWeight,
-                    IsActive = false
+                    IsNotActive = false
 
                 };
                 drones.Add(newDrone);
@@ -42,7 +42,7 @@ namespace Dal
                 List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
                 Drone drone = drones.FirstOrDefault(item => item.Id == id);
                 drones.Remove(drone);
-                drone.IsActive = true;
+                drone.IsNotActive = true;
                 drones.Add(drone);
                 XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
             }
@@ -55,7 +55,7 @@ namespace Dal
         {
             try { 
                 Drone drone = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH).FirstOrDefault(item => item.Id == id);
-                if (drone.Equals(default(Drone)) || drone.IsActive)
+                if (drone.Equals(default(Drone)) || drone.IsNotActive)
                     throw new KeyNotFoundException("There is not suitable drone in the data");
                 return drone;
             }
@@ -68,7 +68,7 @@ namespace Dal
         public IEnumerable<Drone> GetDrones()
         {
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH).Where(d => !d.IsActive);
+                return XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH).Where(d => !d.IsNotActive);
             }
             catch
             {

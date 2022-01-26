@@ -27,7 +27,7 @@ namespace Dal
         public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH).FindAll(item => exsitEmpty(item.ChargeSlots - CountFullChargeSlots(item.Id)) && !item.IsActive);
+                return XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH).FindAll(item => exsitEmpty(item.ChargeSlots - CountFullChargeSlots(item.Id)) );
             }
             catch
             {
@@ -39,7 +39,7 @@ namespace Dal
         {
             try { 
                 Station station = XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH).FirstOrDefault(item => item.Id == id);
-                if (station.Equals(default(Station)) || station.IsActive == true)
+                if (station.Equals(default(Station)) )
                     throw new KeyNotFoundException("There is no suitable station in data");
                 return station;
             }
@@ -52,7 +52,7 @@ namespace Dal
         public IEnumerable<Station> GetStations()
         {
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH).Where(s => !s.IsActive);
+                return XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH);
             }
             catch
             {
@@ -66,7 +66,7 @@ namespace Dal
                 List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH);
                 Station station = stations.FirstOrDefault(item => item.Id == id);
                 stations.Remove(station);
-                station.IsActive = true;
+                station.IsNotActive = true;
                 stations.Add(station);
                 XMLTools.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
             }
@@ -88,7 +88,7 @@ namespace Dal
                 newStation.Latitude = latitude;
                 newStation.Longitude = longitude;
                 newStation.ChargeSlots = chargeSlots;
-                newStation.IsActive = false;
+                newStation.IsNotActive = false;
                 stations.Add(newStation); 
                 XMLTools.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
             }

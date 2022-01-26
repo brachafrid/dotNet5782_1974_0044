@@ -15,10 +15,10 @@ namespace Dal
             Type t = typeof(T);
             return t.Name switch
             {
-                { } when typeof(Drone).Name == t.Name => (IEnumerable<T>)DataSorce.Drones.Where(c => !c.IsActive),
-                { } when typeof(Parcel).Name == t.Name => (IEnumerable<T>)DataSorce.Parcels.Where(c => !c.IsActive),
-                { } when typeof(Customer).Name == t.Name => (IEnumerable<T>)DataSorce.Customers.Where(c =>! c.IsActive),
-                { } when typeof(Station).Name == t.Name => (IEnumerable<T>)DataSorce.Stations.Where(c => !c.IsActive),
+                { } when typeof(Drone).Name == t.Name => (IEnumerable<T>)DataSorce.Drones.Where(c => !c.IsNotActive),
+                { } when typeof(Parcel).Name == t.Name => (IEnumerable<T>)DataSorce.Parcels.Where(c => !c.IsNotActive),
+                { } when typeof(Customer).Name == t.Name => (IEnumerable<T>)DataSorce.Customers.Where(c =>! c.IsNotActive),
+                { } when typeof(Station).Name == t.Name => (IEnumerable<T>)DataSorce.Stations.Where(c => !c.IsNotActive),
                 { } when typeof(DroneCharge).Name == t.Name => (IEnumerable<T>)DataSorce.DroneCharges
 
             };

@@ -101,7 +101,7 @@ namespace Dal
                 Id = id,
                 Model = model,
                 MaxWeight = maxWeight,
-                IsActive = false
+                IsNotActive = false
             };
         }
         private Station RandomStation(int id)
@@ -117,7 +117,7 @@ namespace Dal
                 Longitude = longitude,
                 Latitude = latitude,
                 ChargeSlots = chargeSlots,
-                IsActive = false
+                IsNotActive = false
             };
         }
         private Customer RandomCustomer(int id)
@@ -133,7 +133,7 @@ namespace Dal
                 Longitude = longitude,
                 Latitude = latitude,
                 Phone = phone,
-                IsActive = false
+                IsNotActive = false
             };
         }
         private Parcel RandParcel()
@@ -154,7 +154,7 @@ namespace Dal
                 newParcel.PickedUp = default;
                 newParcel.Delivered = default;
                 newParcel.DorneId = 0;
-                newParcel.IsActive = false;
+                newParcel.IsNotActive = false;
                 int state = Rnd.Next(PARCELS_STATE);
                 if (state != 0)
                 {

@@ -16,7 +16,7 @@
             public DateTime?  Sceduled { get; set; }//שויך
             public DateTime?  PickedUp { get; set; }//נאסף
             public DateTime?  Delivered { get; set; }//סופק
-            public bool IsActive { get; set; }
+            public bool IsNotActive { get; set; }
 
             public override string ToString()
                 {
