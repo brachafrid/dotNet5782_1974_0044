@@ -11,31 +11,25 @@ using System.Xml.Serialization;
 
 namespace Dal
 {
-   public sealed partial class DalXml : Singletone<DalXml>, IDal
+    public sealed partial class DalXml : Singletone<DalXml>, IDal
     {
-         DalXml()
+        private DalXml()
         {
-            Creation();
             Initilaztion();
-        }
-        private void Creation()
-        {
-            if (!File.Exists(@"data\XMLDrone"))
-                try
-                {
-                    FileStream file = new FileStream(@"data\XMLDrone", FileMode.Create);
-                    file.Close();
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine(ex.Message);
-                }
-
         }
 
         private void Initilaztion()
         {
-
+            if (!File.Exists(@"..\data\XMLDrone"))
+                XMLTools.SaveListToXMLSerializer(InitializeDrone(), "XmlDrone");
+            if (!File.Exists(@"..\data\XMLParcel"))
+                XMLTools.SaveListToXMLSerializer(InitializeParcel(), "XmlParcel");
+            if (!File.Exists(@"..\data\XMLStation"))
+                XMLTools.SaveListToXMLSerializer(InitializeStation(), "XMLStation");
+            if (!File.Exists(@"..\data\XMLCustomer"))
+                XMLTools.SaveListToXMLSerializer(InitializeCustomer(), "XMLCustomer");
+            if (!File.Exists(@"..\data\XMLDroneCharge"))
+                XMLTools.SaveListToXMLSerializer(new List<DroneCharge>(), "XMLDroneCharge");
         }
         public string GetAdministorPasssword()
         {

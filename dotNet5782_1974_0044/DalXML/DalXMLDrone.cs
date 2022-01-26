@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,7 @@ using DO;
 
 namespace Dal
 {
-    partial class DalXml
+    public sealed partial class DalXml
     {
         public void AddDrone(int id, string model, WeightCategories MaxWeight)
         {
