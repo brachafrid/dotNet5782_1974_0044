@@ -11,11 +11,11 @@ namespace Dal
 {
     public sealed partial class DalXml
     {
-        const string xmlDrone = @"XmlDrone.xml";
+        const string DRONE_PATH = @"XmlDrone.xml";
 
         public void AddDrone(int id, string model, WeightCategories MaxWeight)
         {
-            List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(xmlDrone);
+            List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
             if (ExistsIDTaxCheck(drones, id))
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException();
             Drone newDrone = new()
@@ -27,21 +27,21 @@ namespace Dal
 
             };
             drones.Add(newDrone);
-            XMLTools.SaveListToXMLSerializer<Drone>(drones, xmlDrone);
+            XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
         }
 
         public void DeleteDrone(int id)
         {
-            List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(xmlDrone);
+            List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
             Drone drone = drones.FirstOrDefault(item => item.Id == id);
             drones.Remove(drone);
             drone.IsDeleted = true;
             drones.Add(drone);
-            XMLTools.SaveListToXMLSerializer<Drone>(drones, xmlDrone);
+            XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
         }
         public Drone GetDrone(int id)
         {
-            Drone drone = XMLTools.LoadListFromXMLSerializer<Drone>(xmlDrone).FirstOrDefault(item => item.Id == id);
+            Drone drone = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH).FirstOrDefault(item => item.Id == id);
             if (drone.Equals(default(Drone)) || drone.IsDeleted)
                 throw new KeyNotFoundException("There is not suitable drone in the data");
             return drone;
@@ -49,13 +49,13 @@ namespace Dal
 
         public IEnumerable<Drone> GetDrones()
         {
-            return XMLTools.LoadListFromXMLSerializer<Drone>(xmlDrone).Where(d => !d.IsDeleted);
+            return XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH).Where(d => !d.IsDeleted);
         }
         public void RemoveDrone(Drone drone)
         {
-            List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(xmlDrone);
+            List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
             drones.Remove(drone);
-            XMLTools.SaveListToXMLSerializer<Drone>(drones, xmlDrone);
+            XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
         }
 
         public (double, double, double, double, double) GetElectricity()
