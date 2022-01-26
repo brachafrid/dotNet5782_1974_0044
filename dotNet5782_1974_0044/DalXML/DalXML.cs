@@ -20,8 +20,6 @@ namespace Dal
 
         private void Initilaztion()
         {
-            if (!File.Exists(@"..\data\XMLDrone"))
-                XMLTools.SaveListToXMLSerializer(InitializeDrone(), "XmlDrone");
             if (!File.Exists(@"..\data\XMLParcel"))
                 XMLTools.SaveListToXMLSerializer(InitializeParcel(), "XmlParcel");
             if (!File.Exists(@"..\data\XMLStation"))
