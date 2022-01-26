@@ -11,7 +11,7 @@ namespace Dal
 
     public static class XMLTools
     {
-        static string dir = @"..\data";
+        static string dir = @"..\data\";
         static XMLTools()
         {
             if (!Directory.Exists(dir))
@@ -31,7 +31,7 @@ namespace Dal
             catch (Exception ex)
             {
                 Console.WriteLine(ex.Message);
-                //throw new DO.XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
+                throw new XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
         public static List<T> LoadListFromXMLSerializer<T>(string filePath)
@@ -40,10 +40,9 @@ namespace Dal
             {
                 if (File.Exists(dir + filePath))
                 {
-                    List<T> list;
                     XmlSerializer x = new XmlSerializer(typeof(List<T>));
                     FileStream file = new FileStream(dir + filePath, FileMode.Open);
-                    list = (List<T>)x.Deserialize(file);
+                    List<T> list = (List<T>)x.Deserialize(file);
                     file.Close();
                     return list;
                 }
@@ -52,9 +51,9 @@ namespace Dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);  // DO.XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
+               throw new XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
             }
-            return null;
+            return new List<T>();
         }
         #endregion
     }

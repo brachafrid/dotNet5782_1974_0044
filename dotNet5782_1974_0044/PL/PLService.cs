@@ -351,7 +351,15 @@ namespace PL
         }
         public static Drone GetDrone(int id)
         {
-            return ConvertDrone(ibal.GetDrone(id));
+            try
+            {
+                return ConvertDrone(ibal.GetDrone(id));
+            }
+            catch(ArgumentNullException ex)
+            {
+                throw new ArgumentNullException(ex.Message);
+            }
+            
         }
         public static IEnumerable<DroneToList> GetDrones()
         {

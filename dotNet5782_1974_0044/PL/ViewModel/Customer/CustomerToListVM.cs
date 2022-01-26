@@ -15,13 +15,17 @@ namespace PL
 
         public CustomerToListVM()
         {
+            sourceList = new ObservableCollection<CustomerToList>();
+            list = new ListCollectionView(sourceList);
             UpdateInitList();
             DelegateVM.Customer += UpdateInitList;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
         void UpdateInitList()
         {
-            list = new ListCollectionView(PLService.GetCustomers().ToList());
+            sourceList.Clear();
+            foreach (var item in PLService.GetCustomers())
+                sourceList.Add(item);
         }
    
         public override void AddEntity(object param)
