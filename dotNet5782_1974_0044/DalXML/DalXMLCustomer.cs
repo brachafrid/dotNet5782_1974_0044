@@ -9,29 +9,58 @@ namespace Dal
 {
     public sealed partial class DalXml
     {
+        const string xmlCustomer = @"XMLCustomer.xml";
         public void AddCustomer(int id, string phone, string name, double longitude, double latitude)
         {
-            throw new NotImplementedException();
+            List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(xmlCustomer);
+            if (ExistsIDTaxCheck(customers, id))
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException();
+            Customer newCustomer = new();
+            newCustomer.Id = id;
+            newCustomer.Name = name;
+            newCustomer.Phone = phone;
+            newCustomer.Latitude = latitude;
+            newCustomer.Longitude = longitude;
+            newCustomer.IsDeleted = false;
+            customers.Add(newCustomer);
+            XMLTools.SaveListToXMLSerializer<Customer>(customers, xmlCustomer);
         }
 
         public void DeleteCustomer(int id)
         {
-            throw new NotImplementedException();
+            List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(xmlCustomer);
+            Customer customer = customers.FirstOrDefault(item => item.Id == id);
+            customers.Remove(customer);
+            customer.IsDeleted = true;
+            customers.Add(customer);
+            XMLTools.SaveListToXMLSerializer<Customer>(customers, xmlCustomer);
         }
 
         public Customer GetCustomer(int id)
         {
-            throw new NotImplementedException();
+            Customer customer = XMLTools.LoadListFromXMLSerializer<Customer>(xmlCustomer).FirstOrDefault(item => item.Id == id);
+            if (customer.Equals(default(Customer)) || customer.IsDeleted == true)
+                throw new KeyNotFoundException("There is no suitable customer in data");
+            return customer;
         }
 
         public IEnumerable<Customer> GetCustomers()
         {
-            throw new NotImplementedException();
+            return XMLTools.LoadListFromXMLSerializer<Customer>(xmlCustomer).Where(c => c.IsDeleted == false);
         }
 
         public void RemoveCustomer(Customer customer)
         {
-            throw new NotImplementedException();
+            List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(xmlCustomer);
+            customers.Remove(customer);
+            XMLTools.SaveListToXMLSerializer<Customer>(customers, xmlCustomer);
+        }
+        static bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
+        {
+            if (!lst.Any())
+                return false;
+            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id);
+            return !temp.Equals(default(T));
         }
     }
 }
