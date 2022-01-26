@@ -21,7 +21,10 @@ namespace PL
         public static void CloseTab(object param)
         {
             if(param is TabItemFormat tabItem)
+            {
                 TabItems.Remove(TabItems.FirstOrDefault(tab => tab.Header == tabItem.Header));
+            }
+                
         }
         public static void AddTab(TabItemFormat tabItemFormat)
         {

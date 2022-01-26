@@ -103,10 +103,9 @@ namespace PL
                 {
                     PLService.DeleteStation(station.Id);
                     MessageBox.Show("The station was successfully deleted");
-                    Tabs.CloseTab(param as TabItemFormat);
                     DelegateVM.Station -= initStation;
                     DelegateVM.Station?.Invoke();
-                    
+                    Tabs.CloseTab(param as TabItemFormat);
                 }
             }
             catch (ThereAreAssociatedOrgansException ex)

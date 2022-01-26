@@ -46,7 +46,7 @@ namespace PL
             InitThisDrone();
             droneModel = drone.Model;
             UpdateDroneCommand = new(UpdateModel, param => drone.Error == null);
-            ChargingDroneCommand = new(sendToCharging, param => drone.Error == null);
+            ChargingDroneCommand = new(SendToCharging, param => drone.Error == null);
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => drone.Error == null);
             DeleteDroneCommand = new(DeleteDrone, param => drone.Error == null);
             DelegateVM.Drone += InitThisDrone;
@@ -81,7 +81,7 @@ namespace PL
             DelegateVM.Drone?.Invoke();
         }
 
-        public void sendToCharging(object param)
+        public void SendToCharging(object param)
         {
             if (drone.DroneState == PO.DroneState.AVAILABLE)
             {
@@ -133,11 +133,10 @@ namespace PL
                 if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
                     PLService.DeleteDrone(drone.Id);
-                    MessageBox.Show("The drone was successfully deleted");
-                    Tabs.CloseTab(param as TabItemFormat);
+                    MessageBox.Show("The drone was successfully deleted"); 
                     DelegateVM.Drone -= InitThisDrone;
                     DelegateVM.Drone?.Invoke();
-                    DelegateVM.Parcel?.Invoke();                   
+                    Tabs.CloseTab(param as TabItemFormat);
                 }
             }
 
