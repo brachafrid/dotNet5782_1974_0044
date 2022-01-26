@@ -42,24 +42,20 @@ namespace PL
             sourceList.Clear();
             switch (state)
             {
-                case "From"
-            }
-            if (state == string.Empty)
-            {
-                
-                foreach (var item in PLService.GetParcels())
-                   
-            }
-            if (state == "From")
-            {
-                list = new ListCollectionView(PLService.GetCustomer((int)id).FromCustomer.Select(parcel=>PLService.ConvertParcelAtCustomerToList(parcel)).ToList());
-            }
-            if (state == "To")
-            {
-                list = new ListCollectionView(PLService.GetCustomer((int)id).ToCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)).ToList());
+                case "From":
+                    foreach (var item in PLService.GetCustomer((int)id).FromCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)).ToList())
+                        sourceList.Add(item);
+                    break;
+                case "To":
+                    foreach (var item in PLService.GetCustomer((int)id).ToCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)).ToList())
+                        sourceList.Add(item);
+                    break;
+                default:
+                    foreach (var item in PLService.GetParcels())
+                        sourceList.Add(item);
+                    break;
             }
         }
-     
 
         public override void AddEntity(object param)
         {
@@ -67,7 +63,7 @@ namespace PL
             {
                 Header = "Parcel",
                 Content = new AddParcelVM(true)
-            }) ;
+            });
         }
     }
 }
