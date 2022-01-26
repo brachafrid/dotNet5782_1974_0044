@@ -27,7 +27,7 @@ namespace Dal
             newStation.Latitude = latitude;
             newStation.Longitude = longitude;
             newStation.ChargeSlots = chargeSlots;
-            newStation.IsDeleted = false;
+            newStation.IsActive = false;
             AddEntity(newStation);
         }
 
@@ -40,7 +40,7 @@ namespace Dal
         public Station GetStation(int id)
         {
             Station station = getEntities<Station>().FirstOrDefault(item => item.Id == id);
-            if (station.Equals(default(Station)) || station.IsDeleted == true)
+            if (station.Equals(default(Station)) || station.IsActive == true)
                 throw new KeyNotFoundException("There is no suitable station in data");
             return station;
         }
@@ -56,7 +56,7 @@ namespace Dal
         /// </summary>
         /// <param name="exsitEmpty">The predicate to screen out if the station have empty charge slots</param>
         /// <returns>A collection of the requested station</returns>
-        public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty) => getEntities<Station>().Where(item => exsitEmpty(item.ChargeSlots - CountFullChargeSlots(item.Id)) && !item.IsDeleted);
+        public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty) => getEntities<Station>().Where(item => exsitEmpty(item.ChargeSlots - CountFullChargeSlots(item.Id)) && !item.IsActive);
 
         //-------------------------------------------------Removing-------------------------------------------------------------
         /// <summary>
@@ -72,7 +72,7 @@ namespace Dal
         {
             Station station = DataSorce.Stations.FirstOrDefault(item => item.Id == id);
             RemoveEntity(station);
-            station.IsDeleted = true;
+            station.IsActive = true;
             AddEntity(station);
         }
     }

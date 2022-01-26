@@ -50,7 +50,7 @@
                     chargeSlots = value;
                 }
             }
-            public bool IsDeleted { get; set; }
+            public bool IsActive { get; set; }
 
             public override string ToString()
                 {
