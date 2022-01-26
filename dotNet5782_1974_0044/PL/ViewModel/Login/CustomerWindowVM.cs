@@ -40,7 +40,6 @@ namespace PL
         public CustomerWindowVM( int Id)    
         {
             id = Id;
-
             Init();
             Tabs.changeSelectedTab += changeIndex;
             AddParcelCommand = new(AddParcel, null);

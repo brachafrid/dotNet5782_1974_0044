@@ -13,7 +13,6 @@ namespace PL
 {
     public class DroneToListVM : GenericList<DroneToList>
     {
-
         public DroneToListVM()
         {
             UpdateInitList();
@@ -30,7 +29,7 @@ namespace PL
             {
                 Header = "Drone",
                 Content = new AddDroneVM()
-            }) ;
+            });
         }
     }
 }

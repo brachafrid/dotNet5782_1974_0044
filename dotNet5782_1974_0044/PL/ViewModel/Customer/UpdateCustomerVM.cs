@@ -98,9 +98,9 @@ namespace PL
                     }
                     else
                     {
-                        Tabs.CloseTab(param as TabItemFormat);
                         DelegateVM.Customer -= InitCustomer;
                         DelegateVM.Customer?.Invoke();
+                        Tabs.CloseTab(param as TabItemFormat);
                     }
 
                 }
