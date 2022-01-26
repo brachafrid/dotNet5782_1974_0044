@@ -92,10 +92,10 @@ namespace Dal
         {
             Parcel newParcel = new ();
             newParcel.Id = ++Config.IdParcel;
-            newParcel.SenderId = Customers[Rnd.Next(1, Customers.Count(customer => !customer.IsDeleted))].Id;
+            newParcel.SenderId = Customers[Rnd.Next(1, Customers.Count(customer => !customer.IsActive))].Id;
             do
             {
-                newParcel.TargetId = Customers[Rnd.Next(1, Customers.Count(customer => !customer.IsDeleted))].Id;
+                newParcel.TargetId = Customers[Rnd.Next(1, Customers.Count(customer => !customer.IsActive))].Id;
             } while (newParcel.TargetId == newParcel.SenderId);
             newParcel.Weigth = (WeightCategories)Rnd.Next(RANGE_ENUM);
             newParcel.Priority = (Priorities)Rnd.Next(RANGE_ENUM);
@@ -104,7 +104,7 @@ namespace Dal
             newParcel.PickedUp = default;
             newParcel.Delivered = default;
             newParcel.DorneId = 0;
-            newParcel.IsDeleted = false;
+            newParcel.IsActive = false;
             int state = Rnd.Next(PARCELS_STATE);
             if (state!=0)
             {

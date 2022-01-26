@@ -23,7 +23,7 @@ namespace Dal
                 newCustomer.Phone = phone;
                 newCustomer.Latitude = latitude;
                 newCustomer.Longitude = longitude;
-                newCustomer.IsDeleted = false;
+                newCustomer.IsActive = false;
                 customers.Add(newCustomer);
                 XMLTools.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
             }
@@ -39,7 +39,7 @@ namespace Dal
                 List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
                 Customer customer = customers.FirstOrDefault(item => item.Id == id);
                 customers.Remove(customer);
-                customer.IsDeleted = true;
+                customer.IsActive = true;
                 customers.Add(customer);
                 XMLTools.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
             }
@@ -53,7 +53,7 @@ namespace Dal
         {
             try { 
                 Customer customer = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH).FirstOrDefault(item => item.Id == id);
-                if (customer.Equals(default(Customer)) || customer.IsDeleted == true)
+                if (customer.Equals(default(Customer)) || customer.IsActive == true)
                     throw new KeyNotFoundException("There is no suitable customer in data");
                 return customer;
             }
@@ -67,7 +67,7 @@ namespace Dal
         {
 
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH).Where(c => c.IsDeleted == false);
+                return XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH).Where(c => c.IsActive == false);
             }
             catch
             {
