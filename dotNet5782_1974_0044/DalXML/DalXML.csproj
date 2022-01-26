@@ -15,4 +15,8 @@
     <ProjectReference Include="..\DLApi\DLApi.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DO\" />
+  </ItemGroup>
+
 </Project>
