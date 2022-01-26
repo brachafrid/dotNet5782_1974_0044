@@ -33,7 +33,7 @@ namespace Dal
             newParcel.PickedUp = pickedUp;
             newParcel.Delivered = delivered;
             newParcel.DorneId = droneId;
-            DataSorce.Parcels.Add(newParcel);
+            AddEntity(newParcel);
         }
 
         //-----------------------------------------------------Display--------------------------------------
@@ -44,7 +44,7 @@ namespace Dal
         /// <returns>A parcel for display</returns>
         public Parcel GetParcel(int id)
         {
-            Parcel parcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == id);
+            Parcel parcel =getEntities<Parcel>().FirstOrDefault(item => item.Id == id);
             if (parcel.Equals(default(Parcel)) || parcel.IsDeleted )
                 throw new KeyNotFoundException("There is not suitable parcel in data");
             return parcel;
@@ -61,7 +61,7 @@ namespace Dal
         /// </summary>
         /// <param name="notAssign">The predicate to screen out if the parcel not assign to drone</param>
         /// <returns>A list of the requested Parcels</returns>
-        public IEnumerable<Parcel> GetParcelsNotAssignedToDrone(Predicate<int> notAssign) => DataSorce.Parcels.FindAll(item =>notAssign(item.DorneId));
+        public IEnumerable<Parcel> GetParcelsNotAssignedToDrone(Predicate<int> notAssign) => getEntities<Parcel>().Where(item =>notAssign(item.DorneId));
         //-------------------------------------------------Removing-------------------------------------------------------------
         /// <summary>
         /// Removing a Parcel from the list
@@ -69,15 +69,15 @@ namespace Dal
         /// <param name="station"></param>
         public void RemoveParcel(Parcel parcel)
         {
-            DataSorce.Parcels.Remove(parcel);
+            RemoveEntity(parcel);
         }
 
         public void DeleteParcel(int id)
         {
-            Parcel parcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == id);
-            DataSorce.Parcels.Remove(parcel);
+            Parcel parcel = getEntities<Parcel>().FirstOrDefault(item => item.Id == id);
+            RemoveEntity(parcel);
             parcel.IsDeleted = true;
-            DataSorce.Parcels.Add(parcel);
+            AddEntity(parcel);
         }
     }
 }

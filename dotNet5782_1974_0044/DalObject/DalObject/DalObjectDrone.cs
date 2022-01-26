@@ -26,7 +26,7 @@ namespace Dal
                 IsDeleted = false
                 
             };
-            DataSorce.Drones.Add(newDrone);
+           AddEntity(newDrone);
         }
 
 
@@ -38,7 +38,7 @@ namespace Dal
         /// <returns>A drone for display</returns>
         public Drone GetDrone(int id)
         {
-            Drone drone=DataSorce.Drones.FirstOrDefault(item => item.Id == id);
+            Drone drone=getEntities<Drone>().FirstOrDefault(item => item.Id == id);
             if (drone.Equals(default(Drone)) || drone.IsDeleted)
                 throw new KeyNotFoundException("There is not suitable drone in the data");
             return drone;
@@ -48,7 +48,7 @@ namespace Dal
         /// Prepares the list of Drones for display
         /// </summary>
         /// <returns>A list of drones</returns>
-        public IEnumerable<Drone> GetDrones() => DataSorce.Drones.Where(d => !d.IsDeleted);
+        public IEnumerable<Drone> GetDrones() => getEntities<Drone>();
 
 
         //-------------------------------------------------Removing-------------------------------------------------------------
@@ -58,15 +58,13 @@ namespace Dal
         /// <param name="station"></param>
         public void RemoveDrone(Drone drone)
         {
-            DataSorce.Drones.Remove(drone);
+            RemoveEntity(drone);
         }
 
         public void DeleteDrone(int id)
         {
-            Drone drone = DataSorce.Drones.FirstOrDefault(item => item.Id == id);
-            DataSorce.Drones.Remove(drone);
+            Drone drone = getEntities<Drone>().FirstOrDefault(item => item.Id == id);
+            RemoveEntity(drone);
             drone.IsDeleted = true;
-            DataSorce.Drones.Add(drone);
-        }
-    }
+            AddEntity(drone);
 }
