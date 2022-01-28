@@ -22,7 +22,7 @@ namespace Dal
 
         private void Initilaztion()
         {
-            //try { 
+            try { 
             if (!File.Exists(DIR + CONFIG))
                 InitializeConfig();
             if (!File.Exists(DIR + DRONE_PATH))
@@ -35,16 +35,23 @@ namespace Dal
                 XMLTools.SaveListToXMLSerializer(InitializeParcel(), PARCEL_PATH);
             if (!File.Exists(DIR + DRONE_CHARGE_PATH))
                 XMLTools.SaveListToXMLSerializer(new List<DroneCharge>(), DRONE_CHARGE_PATH);
-            //}
-            //catch
-            //{
-            //    throw new XMLFileLoadCreateException();
-            //}
+            }
+            catch(XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.Message);
+            }
         }
 
         public string GetAdministorPasssword()
         {
-            return "";
+            try
+            {
+                return XMLTools.LoadConfigToXML(CONFIG).Elements().Single(elem => elem.Name.ToString().Contains("Password")).Value;
+            }
+            catch (XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.Message);
+            }
         }
     }
 }

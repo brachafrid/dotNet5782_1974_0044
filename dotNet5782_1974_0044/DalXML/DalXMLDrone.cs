@@ -31,9 +31,9 @@ namespace Dal
                 drones.Add(newDrone);
                 XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
 
@@ -47,9 +47,9 @@ namespace Dal
                 drones.Add(drone);
                 XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
         public Drone GetDrone(int id)
@@ -60,20 +60,20 @@ namespace Dal
                     throw new KeyNotFoundException("There is not suitable drone in the data");
                 return drone;
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
 
         public IEnumerable<Drone> GetDrones()
         {
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH).Where(d => !d.IsNotActive);
+                return XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
         public void RemoveDrone(Drone drone)
@@ -83,18 +83,25 @@ namespace Dal
                 drones.Remove(drone);
                 XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
 
         public (double, double, double, double, double) GetElectricity()
         {
-            XElement config = XMLTools.LoadConfigToXML(CONFIG);
-
-            var electricity=config.Elements().Select(elem => double.Parse(elem.Value));
-            return (electricity.ElementAt(1), electricity.ElementAt(2), electricity.ElementAt(3), electricity.ElementAt(4), electricity.ElementAt(5));
+            try
+            {
+                XElement config = XMLTools.LoadConfigToXML(CONFIG);
+                var electricity = config.Elements().Select(elem => double.Parse(elem.Value));
+                return (electricity.ElementAt(1), electricity.ElementAt(2), electricity.ElementAt(3), electricity.ElementAt(4), electricity.ElementAt(5));
+            }
+            catch (XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.Message);
+            }
+           
         }
     }
 }

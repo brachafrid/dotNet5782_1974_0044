@@ -18,20 +18,20 @@ namespace Dal
                 stations.Remove(station);
                 XMLTools.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
 
         public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH).FindAll(item => exsitEmpty(item.ChargeSlots - CountFullChargeSlots(item.Id)) );
+                return XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH).FindAll(item => exsitEmpty(item.ChargeSlots - CountFullChargeSlots(item.Id)) && !item.IsNotActive);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
 
@@ -43,9 +43,9 @@ namespace Dal
                     throw new KeyNotFoundException("There is no suitable station in data");
                 return station;
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
 
@@ -54,9 +54,9 @@ namespace Dal
             try { 
                 return XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
 
@@ -70,9 +70,9 @@ namespace Dal
                 stations.Add(station);
                 XMLTools.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
 
@@ -92,9 +92,9 @@ namespace Dal
                 stations.Add(newStation); 
                 XMLTools.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
     }
