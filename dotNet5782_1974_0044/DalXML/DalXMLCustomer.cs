@@ -27,9 +27,9 @@ namespace Dal
                 customers.Add(newCustomer);
                 XMLTools.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
 
@@ -43,9 +43,9 @@ namespace Dal
                 customers.Add(customer);
                 XMLTools.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
 
@@ -53,13 +53,13 @@ namespace Dal
         {
             try { 
                 Customer customer = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH).FirstOrDefault(item => item.Id == id);
-                if (customer.Equals(default(Customer)) || customer.IsNotActive == true)
+                if (customer.Equals(default(Customer)))
                     throw new KeyNotFoundException("There is no suitable customer in data");
                 return customer;
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
 
@@ -67,11 +67,11 @@ namespace Dal
         {
 
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH).Where(c => c.IsNotActive == false);
+                return XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
 
@@ -82,9 +82,9 @@ namespace Dal
                 customers.Remove(customer);
                 XMLTools.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
         static bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)

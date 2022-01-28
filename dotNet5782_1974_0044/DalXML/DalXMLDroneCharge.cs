@@ -18,9 +18,9 @@ namespace Dal
                 droneCharges.RemoveAll(drone => drone.Droneld == droneId);
                 XMLTools.SaveListToXMLSerializer<DroneCharge>(droneCharges, DRONE_CHARGE_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
 
@@ -29,9 +29,9 @@ namespace Dal
             try { 
                 return XMLTools.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH).FirstOrDefault(drone => drone.Droneld == droneId).StartCharging;
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
 
@@ -40,9 +40,9 @@ namespace Dal
             try { 
                 return XMLTools.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH).FindAll(item => inTheStation(item.Stationld)).Select(item => item.Droneld);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
         public void AddDRoneCharge(int droneId, int stationId)
@@ -52,9 +52,9 @@ namespace Dal
                 droneCharges.Add(new DroneCharge() { Droneld = droneId, Stationld = stationId, StartCharging = DateTime.Now });
                 XMLTools.SaveListToXMLSerializer<DroneCharge>(droneCharges, DRONE_CHARGE_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
         public int CountFullChargeSlots(int id)
@@ -62,9 +62,9 @@ namespace Dal
             try { 
                 return XMLTools.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH).Count(Drone => Drone.Stationld == id);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
     }

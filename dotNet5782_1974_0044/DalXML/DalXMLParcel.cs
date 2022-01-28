@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using DO;
 
 namespace Dal
@@ -21,7 +22,13 @@ namespace Dal
                 if (!ExistsIDTaxCheckNotDelited(GetCustomers(), TargetId))
                     throw new KeyNotFoundException("Target not exist");
                 Parcel newParcel = new();
-                newParcel.Id = id == 0 ? ++Config.IdParcel : id;
+
+                XElement config = XMLTools.LoadConfigToXML(CONFIG);
+                XElement parcelId = config.Elements().Single(elem => elem.Name.ToString().Contains("Parcel"));
+                newParcel.Id = id == 0 ? int.Parse(parcelId.Value) + 1 : id;
+                config.SetElementValue(parcelId.Name, newParcel.Id);
+                XMLTools.SaveConfigToXML(config, CONFIG);
+
                 newParcel.SenderId = SenderId;
                 newParcel.TargetId = TargetId;
                 newParcel.Weigth = Weigth;
@@ -34,9 +41,9 @@ namespace Dal
                 parcels.Add(newParcel);
                 XMLTools.SaveListToXMLSerializer<Parcel>(parcels, PARCEL_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
         public void DeleteParcel(int id)
@@ -50,9 +57,9 @@ namespace Dal
                 parcels.Add(parcel);
                 XMLTools.SaveListToXMLSerializer<Parcel>(parcels, PARCEL_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
         public Parcel GetParcel(int id)
@@ -60,23 +67,23 @@ namespace Dal
             try
             {
                 Parcel parcel = XMLTools.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH).FirstOrDefault(item => item.Id == id);
-                if (parcel.Equals(default(Parcel)) || parcel.IsNotActive)
+                if (parcel.Equals(default(Parcel)))
                     throw new KeyNotFoundException("There is not suitable parcel in data");
                 return parcel;
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
         public IEnumerable<Parcel> GetParcels()
         {
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH).Where(p => !p.IsNotActive);
+                return XMLTools.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
 
@@ -85,9 +92,9 @@ namespace Dal
             try { 
                 return XMLTools.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH).FindAll(item => notAssign(item.DorneId));
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
         public void RemoveParcel(Parcel parcel)
@@ -97,9 +104,9 @@ namespace Dal
                 parcels.Remove(parcel);
                 XMLTools.SaveListToXMLSerializer<Parcel>(parcels, PARCEL_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
         static bool ExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id)
