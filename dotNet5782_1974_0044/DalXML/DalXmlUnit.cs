@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
+using System.Xml.Linq;
+using System.Xml.Serialization;
 using DO;
 
 
@@ -26,15 +29,6 @@ namespace Dal
 
         public const string Administrator_Password = "";
 
-        internal class Config
-        {
-            internal static int IdParcel = 0;
-            internal static double Available = 0.001;
-            internal static double LightWeightCarrier = 0.002;
-            internal static double MediumWeightBearing = 0.003;
-            internal static double CarriesHeavyWeight = 0.004;
-            internal static double DroneLoadingRate = Rnd.NextDouble();
-        }
 
         public IEnumerable<Drone> InitializeDrone()
         {
@@ -42,6 +36,19 @@ namespace Dal
             for (int i = 1; i <= DRONE_INIT; ++i)
                 Drones.Add(RandomDrone(i));
             return Drones;
+        }
+
+        public void InitializeConfig()
+        {
+            new XDocument(
+            new XElement("Config",
+                            new XElement("IdParcel", 0),
+                            new XElement("Available", 0.001),
+                            new XElement("LightWeightCarrier", 0.002),
+                            new XElement("MediumWeightBearing", 0.003),
+                            new XElement("CarriesHeavyWeight", 0.004),
+                            new XElement("DroneLoadingRate", Rnd.NextDouble()))
+                      ).Save(DIR+CONFIG);                   
         }
 
         public IEnumerable<Parcel> InitializeParcel()
@@ -79,7 +86,8 @@ namespace Dal
         }
         private int AssignParcelDrone(WeightCategories weight)
         {
-            try { 
+            try
+            {
                 Drone tmpDrone = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH).FirstOrDefault(item => weight <= item.MaxWeight);
                 if (!tmpDrone.Equals(default(Drone)))
                 {
@@ -138,9 +146,14 @@ namespace Dal
         }
         private Parcel RandParcel()
         {
-            try { 
-                Parcel newParcel = new();
-                newParcel.Id = ++Config.IdParcel;
+            try
+            {
+                Parcel newParcel = new();                
+                XElement config=XMLTools.LoadConfigToXML(CONFIG);
+                XElement parcelId = config.Elements().Single(elem => elem.Name.ToString().Contains("Parcel"));
+                newParcel.Id =int.Parse(parcelId.Value)+1;
+                config.SetElementValue(parcelId.Name,newParcel.Id);
+                XMLTools.SaveConfigToXML(config, CONFIG);
                 List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
                 newParcel.SenderId = customers[Rnd.Next(0, customers.Count)].Id;
                 do

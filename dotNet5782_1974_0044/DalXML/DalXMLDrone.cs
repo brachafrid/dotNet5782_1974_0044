@@ -4,6 +4,7 @@ using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using DLApi;
 using DO;
 
@@ -90,7 +91,10 @@ namespace Dal
 
         public (double, double, double, double, double) GetElectricity()
         {
-           return (Config.Available, Config.LightWeightCarrier, Config.MediumWeightBearing, Config.CarriesHeavyWeight, Config.DroneLoadingRate);
+            XElement config = XMLTools.LoadConfigToXML(CONFIG);
+
+            var electricity=config.Elements().Select(elem => double.Parse(elem.Value));
+            return (electricity.ElementAt(1), electricity.ElementAt(2), electricity.ElementAt(3), electricity.ElementAt(4), electricity.ElementAt(5));
         }
     }
 }

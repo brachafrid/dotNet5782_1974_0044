@@ -13,6 +13,8 @@ namespace Dal
 {
     public sealed partial class DalXml : Singletone<DalXml>, IDal
     {
+        const string DIR = @"..\..\data\";
+        const string CONFIG = @"XmlConfig.xml";
         private DalXml()
         {
             Initilaztion();
@@ -20,23 +22,26 @@ namespace Dal
 
         private void Initilaztion()
         {
-            try { 
-                if (!File.Exists(@"..\data\"+DRONE_PATH))
-                    XMLTools.SaveListToXMLSerializer(InitializeDrone(), DRONE_PATH);
-                if (!File.Exists(@"..\data\"+STATION_PATH))
-                    XMLTools.SaveListToXMLSerializer(InitializeStation(),STATION_PATH);
-                if (!File.Exists(@"..\data\"+CUSTOMER_PATH))
-                    XMLTools.SaveListToXMLSerializer(InitializeCustomer(), CUSTOMER_PATH);
-                if (!File.Exists(@"..\data\"+PARCEL_PATH))
-                    XMLTools.SaveListToXMLSerializer(InitializeParcel(), PARCEL_PATH);
-                if (!File.Exists(@"..\data\"+DRONE_CHARGE_PATH))
-                    XMLTools.SaveListToXMLSerializer(new List<DroneCharge>(), DRONE_CHARGE_PATH);
-            }
-            catch
-            {
-                throw new XMLFileLoadCreateException();
-            }
+            //try { 
+            if (!File.Exists(DIR + CONFIG))
+                InitializeConfig();
+            if (!File.Exists(DIR + DRONE_PATH))
+                XMLTools.SaveListToXMLSerializer(InitializeDrone(), DRONE_PATH);
+            if (!File.Exists(DIR + STATION_PATH))
+                XMLTools.SaveListToXMLSerializer(InitializeStation(), STATION_PATH);
+            if (!File.Exists(DIR + CUSTOMER_PATH))
+                XMLTools.SaveListToXMLSerializer(InitializeCustomer(), CUSTOMER_PATH);
+            if (!File.Exists(DIR + PARCEL_PATH))
+                XMLTools.SaveListToXMLSerializer(InitializeParcel(), PARCEL_PATH);
+            if (!File.Exists(DIR + DRONE_CHARGE_PATH))
+                XMLTools.SaveListToXMLSerializer(new List<DroneCharge>(), DRONE_CHARGE_PATH);
+            //}
+            //catch
+            //{
+            //    throw new XMLFileLoadCreateException();
+            //}
         }
+
         public string GetAdministorPasssword()
         {
             return "";

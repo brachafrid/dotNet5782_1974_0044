@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using DO;
 
 namespace Dal
@@ -21,7 +22,13 @@ namespace Dal
                 if (!ExistsIDTaxCheckNotDelited(GetCustomers(), TargetId))
                     throw new KeyNotFoundException("Target not exist");
                 Parcel newParcel = new();
-                newParcel.Id = id == 0 ? ++Config.IdParcel : id;
+
+                XElement config = XMLTools.LoadConfigToXML(CONFIG);
+                XElement parcelId = config.Elements().Single(elem => elem.Name.ToString().Contains("Parcel"));
+                newParcel.Id = id == 0 ? int.Parse(parcelId.Value) + 1 : id;
+                config.SetElementValue(parcelId.Name, newParcel.Id);
+                XMLTools.SaveConfigToXML(config, CONFIG);
+
                 newParcel.SenderId = SenderId;
                 newParcel.TargetId = TargetId;
                 newParcel.Weigth = Weigth;

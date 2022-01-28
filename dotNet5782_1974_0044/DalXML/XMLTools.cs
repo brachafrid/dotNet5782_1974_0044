@@ -11,7 +11,7 @@ namespace Dal
 
     public static class XMLTools
     {
-        static string dir = @"..\data\";
+        static string dir = @"..\..\data\";
         static XMLTools()
         {
             if (!Directory.Exists(dir))
@@ -54,6 +54,36 @@ namespace Dal
                throw new XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
             }
             return new List<T>();
+        }
+
+        public static void SaveConfigToXML(XElement rootElem, string filePath)
+        {
+            try
+            {
+                rootElem.Save(dir + filePath);
+            }
+            catch (Exception ex)
+            {
+                throw new XMLFileLoadCreateException($"fail to create xml file: {filePath}", ex);
+            }
+        }
+        public static XElement LoadConfigToXML(string filePath)
+        {
+            try
+            {
+                if (!File.Exists(dir + filePath))
+                {
+                    throw new XMLFileLoadCreateException($"fail to load xml file: {filePath}");
+                }
+                XDocument document = XDocument.Load(dir + filePath);
+                return document.Root;
+            }
+            catch (Exception)
+            {
+
+                throw new XMLFileLoadCreateException();
+            }
+
         }
         #endregion
     }
