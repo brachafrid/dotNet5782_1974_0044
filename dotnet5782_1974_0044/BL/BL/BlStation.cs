@@ -58,7 +58,15 @@ namespace BL
 
         public void DeleteStation(int id)
         {
-            dal.DeleteStation(id);
+            Station station = GetStation(id);
+            if (!station.DroneInChargings.Any())
+            {
+                dal.DeleteStation(id);
+            }
+            else
+            {
+                throw new ThereAreAssociatedOrgansException("There are drones at the station, Cant delete.");
+            }
         }
         public bool IsActiveStation(int id) => dal.GetStations().FirstOrDefault(Station => Station.Id == id).IsNotActive;
 
