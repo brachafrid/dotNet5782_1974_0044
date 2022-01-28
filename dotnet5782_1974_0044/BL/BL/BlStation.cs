@@ -159,9 +159,8 @@ namespace BL
             DO.Station station = default;
             foreach (var item in stations)
             {
-                curDistance = Distance(location,
-                    new Location() { Latitude = item.Latitude, Longitude = item.Longitude });
-                if (curDistance < minDistance)
+                curDistance = Distance(location,new Location() { Latitude = item.Latitude, Longitude = item.Longitude });
+                if (curDistance < minDistance && !item.IsNotActive)
                 {
                     minDistance = curDistance;
                     station = item;

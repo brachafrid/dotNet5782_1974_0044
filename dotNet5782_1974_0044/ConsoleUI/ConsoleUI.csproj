@@ -9,4 +9,10 @@
     <OutputPath>../bin/</OutputPath>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DalObject\DalObject.csproj" />
+    <ProjectReference Include="..\DalXML\DalXml.csproj" />
+    <ProjectReference Include="..\DLApi\DLApi.csproj" />
+  </ItemGroup>
+
 </Project>

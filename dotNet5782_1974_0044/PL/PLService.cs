@@ -339,6 +339,7 @@ namespace PL
         }
         public static void SendDroneForCharg(int id)
         {
+
             ibal.SendDroneForCharg(id);
         }
         public static void ReleaseDroneFromCharging(int id)

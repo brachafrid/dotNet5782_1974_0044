@@ -26,7 +26,7 @@ namespace Dal
             newCustomer.Phone = phone;
             newCustomer.Latitude = latitude;
             newCustomer.Longitude = longitude;
-            newCustomer.IsDeleted = false;
+            newCustomer.IsNotActive = false;
             AddEntity(newCustomer);
         }
         //-----------------------------------------Display----------------------------------
@@ -44,7 +44,7 @@ namespace Dal
         public Customer GetCustomer(int id)
         {
             Customer customer=getEntities<Customer>().FirstOrDefault(item => item.Id == id );
-            if (customer.Equals(default(Customer)) || customer.IsDeleted == true)
+            if (customer.Equals(default(Customer)) || customer.IsNotActive == true)
                  throw new KeyNotFoundException("There is no suitable customer in data"); 
             return customer;
         }
@@ -57,7 +57,7 @@ namespace Dal
         {
             Customer customer = getEntities<Customer>().FirstOrDefault(item => item.Id == id);
             RemoveEntity(customer);
-            customer.IsDeleted = true;
+            customer.IsNotActive = true;
             AddEntity(customer);
         }
 

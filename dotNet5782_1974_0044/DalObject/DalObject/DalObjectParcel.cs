@@ -45,7 +45,7 @@ namespace Dal
         public Parcel GetParcel(int id)
         {
             Parcel parcel =getEntities<Parcel>().FirstOrDefault(item => item.Id == id);
-            if (parcel.Equals(default(Parcel)) || parcel.IsDeleted )
+            if (parcel.Equals(default(Parcel)) || parcel.IsNotActive )
                 throw new KeyNotFoundException("There is not suitable parcel in data");
             return parcel;
         }
@@ -54,7 +54,7 @@ namespace Dal
         /// Prepares the list of Parcels for display
         /// </summary>
         /// <returns>A list of parcel</returns>
-        public IEnumerable<Parcel> GetParcels() => DataSorce.Parcels.Where(p => !p.IsDeleted);
+        public IEnumerable<Parcel> GetParcels() => DataSorce.Parcels.Where(p => !p.IsNotActive);
 
         /// <summary>
         /// Find the Parcels that not assign to drone
@@ -76,7 +76,7 @@ namespace Dal
         {
             Parcel parcel = getEntities<Parcel>().FirstOrDefault(item => item.Id == id);
             RemoveEntity(parcel);
-            parcel.IsDeleted = true;
+            parcel.IsNotActive = true;
             AddEntity(parcel);
         }
     }

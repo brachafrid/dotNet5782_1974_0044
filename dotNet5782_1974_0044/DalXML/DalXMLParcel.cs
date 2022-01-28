@@ -53,7 +53,7 @@ namespace Dal
                 List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH);
                 Parcel parcel = parcels.FirstOrDefault(item => item.Id == id);
                 parcels.Remove(parcel);
-                parcel.IsDeleted = true;
+                parcel.IsNotActive = true;
                 parcels.Add(parcel);
                 XMLTools.SaveListToXMLSerializer<Parcel>(parcels, PARCEL_PATH);
             }
@@ -67,7 +67,7 @@ namespace Dal
             try
             {
                 Parcel parcel = XMLTools.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH).FirstOrDefault(item => item.Id == id);
-                if (parcel.Equals(default(Parcel)) || parcel.IsDeleted)
+                if (parcel.Equals(default(Parcel)) || parcel.IsNotActive)
                     throw new KeyNotFoundException("There is not suitable parcel in data");
                 return parcel;
             }
@@ -79,7 +79,7 @@ namespace Dal
         public IEnumerable<Parcel> GetParcels()
         {
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH).Where(p => !p.IsDeleted);
+                return XMLTools.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH).Where(p => !p.IsNotActive);
             }
             catch
             {
@@ -113,7 +113,7 @@ namespace Dal
         {
             if (!lst.Any())
                 return false;
-            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id && !(bool)item.GetType().GetProperty("IsDeleted").GetValue(item));
+            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id && !(bool)item.GetType().GetProperty("IsNotActive").GetValue(item));
             return !temp.Equals(default(T));
         }
     }
