@@ -34,7 +34,7 @@ namespace Dal
         /// Prepares the list of customer for display
         /// </summary>
         /// <returns>A list of customer</returns>
-        public IEnumerable<Customer> GetCustomers() => getEntities<Customer>();
+        public IEnumerable<Customer> GetCustomers() => GetEntities<Customer>();
 
         /// <summary>
         /// Find a customer that has tha same id number as the parameter
@@ -43,8 +43,8 @@ namespace Dal
         /// <returns>A customer for display</returns>
         public Customer GetCustomer(int id)
         {
-            Customer customer=getEntities<Customer>().FirstOrDefault(item => item.Id == id );
-            if (customer.Equals(default(Customer)) || customer.IsNotActive == true)
+            Customer customer=GetEntities<Customer>().FirstOrDefault(item => item.Id == id );
+            if (customer.Equals(default(Customer)))
                  throw new KeyNotFoundException("There is no suitable customer in data"); 
             return customer;
         }
@@ -55,7 +55,7 @@ namespace Dal
 
         public void DeleteCustomer(int id)
         {
-            Customer customer = getEntities<Customer>().FirstOrDefault(item => item.Id == id);
+            Customer customer = GetEntities<Customer>().FirstOrDefault(item => item.Id == id);
             RemoveEntity(customer);
             customer.IsNotActive = true;
             AddEntity(customer);

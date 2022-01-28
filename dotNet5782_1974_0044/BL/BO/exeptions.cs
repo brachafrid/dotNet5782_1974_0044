@@ -49,6 +49,20 @@ using System.Runtime.Serialization;
             }
 
         }
+    [Serializable]
+    public class DeletedExeption : Exception
+    {
+        public DeletedExeption() : base() { }
+        public DeletedExeption(string message) : base(message) { }
+        public DeletedExeption(string message, Exception inner) : base(message, inner) { }
+        protected DeletedExeption(SerializationInfo info, StreamingContext context) : base(info, context) { }
+
+        public override string ToString()
+        {
+            return "the element was deleted";
+        }
+
+    }
 
 
 }

@@ -38,8 +38,8 @@ namespace Dal
         /// <returns>A drone for display</returns>
         public Drone GetDrone(int id)
         {
-            Drone drone = getEntities<Drone>().FirstOrDefault(item => item.Id == id);
-            if (drone.Equals(default(Drone)) || drone.IsNotActive)
+            Drone drone = GetEntities<Drone>().FirstOrDefault(item => item.Id == id);
+            if (drone.Equals(default(Drone)) )
                 throw new KeyNotFoundException("There is not suitable drone in the data");
             return drone;
         }
@@ -48,7 +48,7 @@ namespace Dal
         /// Prepares the list of Drones for display
         /// </summary>
         /// <returns>A list of drones</returns>
-        public IEnumerable<Drone> GetDrones() => getEntities<Drone>();
+        public IEnumerable<Drone> GetDrones() => GetEntities<Drone>();
 
 
         //-------------------------------------------------Removing-------------------------------------------------------------
@@ -63,7 +63,7 @@ namespace Dal
 
         public void DeleteDrone(int id)
         {
-            Drone drone = getEntities<Drone>().FirstOrDefault(item => item.Id == id);
+            Drone drone = GetEntities<Drone>().FirstOrDefault(item => item.Id == id);
             RemoveEntity(drone);
             drone.IsNotActive = true;
             AddEntity(drone);

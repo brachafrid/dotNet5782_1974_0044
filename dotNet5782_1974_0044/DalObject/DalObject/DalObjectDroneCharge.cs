@@ -14,7 +14,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">the id number of a station</param>
         /// <returns>The counter of empty slots</returns>
-        public int CountFullChargeSlots(int id)=> getEntities<DroneCharge>().Count(Drone => Drone.Stationld == id);
+        public int CountFullChargeSlots(int id)=> GetEntities<DroneCharge>().Count(Drone => Drone.Stationld == id);
         /// <summary>
         /// Finds all the drones that are charged at a particular station
         /// </summary>
@@ -22,7 +22,7 @@ namespace Dal
         /// <returns>A list of DroneCarge</returns>
         public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation)
         {
-            return getEntities<DroneCharge>().Where(item => inTheStation(item.Stationld)).Select(item => item.Droneld);
+            return GetEntities<DroneCharge>().Where(item => inTheStation(item.Stationld)).Select(item => item.Droneld);
         }
         /// <summary>
         /// Gets parameters and create new DroneCharge 
@@ -39,7 +39,7 @@ namespace Dal
         /// <param name="droneId">The drone to remove</param>
         public void RemoveDroneCharge(int droneId)
         {
-            RemoveEntity(getEntities<DroneCharge>().FirstOrDefault(droneCharge=>droneCharge.Droneld==droneId));
+            RemoveEntity(GetEntities<DroneCharge>().FirstOrDefault(droneCharge=>droneCharge.Droneld==droneId));
         }
 
         /// <summary>
@@ -48,7 +48,7 @@ namespace Dal
         /// <param name="droneId">The drone in charging</param>
         public DateTime GetTimeStartOfCharge(int droneId)
         {
-            return getEntities<DroneCharge>().FirstOrDefault(drone => drone.Droneld == droneId).StartCharging;
+            return GetEntities<DroneCharge>().FirstOrDefault(drone => drone.Droneld == droneId).StartCharging;
         }
     }
 }

@@ -1,14 +1,14 @@
-﻿using BO;
+﻿using BLApi;
+using BO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.ComponentModel;
-using BLApi;
+using System.Linq;
 
 
 namespace BL
 {
-    
+
     public partial class BL : IBlDrone
     {
         //
@@ -67,7 +67,7 @@ namespace BL
             catch (ArgumentNullException ex)
             {
 
-                throw new ArgumentNullException( ex.Message);
+                throw new ArgumentNullException(ex.Message);
             }
 
         }
@@ -81,11 +81,11 @@ namespace BL
         /// <param name="name">The new name</param>
         public void UpdateDrone(int id, string name)
         {
-          
+
             DroneToList droneToList = default;
             try
             {
-               DO.Drone droneDl = dal.GetDrone(id);
+                DO.Drone droneDl = dal.GetDrone(id);
                 dal.RemoveDrone(droneDl);
                 dal.AddDrone(id, name, droneDl.MaxWeight);
                 droneToList = drones.First(item => item.Id == id);
@@ -94,18 +94,18 @@ namespace BL
                 if (name.Equals(string.Empty))
                     throw new ArgumentNullException("For updating the name must be initialized ");
             }
-          
+
             catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException( ex.Message);
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
             catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException( ex.Message);
+                throw new KeyNotFoundException(ex.Message);
             }
             finally
             {
-                if(droneToList != default)
+                if (droneToList != default)
                     drones.Add(droneToList);
             }
         }
@@ -147,7 +147,7 @@ namespace BL
                 throw new InvalidEnumArgumentException(" The drone is not maintenace so it is not possible to release it form charging ");
             drones.Remove(droneToList);
             droneToList.DroneState = DroneState.AVAILABLE;
-            droneToList.BatteryState +=(DateTime.Now-dal.GetTimeStartOfCharge(id)).TotalMinutes/ NUM_OF_MINUTE_IN_HOUR * droneLoadingRate;
+            droneToList.BatteryState += (DateTime.Now - dal.GetTimeStartOfCharge(id)).TotalMinutes / NUM_OF_MINUTE_IN_HOUR * droneLoadingRate;
             //No charging position was adding because there is no point in changing a variable that is not saved after the end of the function
             dal.RemoveDroneCharge(id);
             drones.Add(droneToList);
@@ -182,7 +182,7 @@ namespace BL
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
-           
+
         }
 
         /// <summary>
@@ -200,14 +200,14 @@ namespace BL
             DO.Parcel parcel = default;
             try
             {
-                 parcel= dal.GetParcel((int)droneToList.ParcelId);
-                if (parcel.PickedUp!= null)
+                parcel = dal.GetParcel((int)droneToList.ParcelId);
+                if (parcel.PickedUp != null)
                     throw new ArgumentNullException("The package has already been collected");
                 DO.Customer customer = dal.GetCustomer(parcel.SenderId);
                 Location senderLocation = new() { Longitude = customer.Longitude, Latitude = customer.Latitude };
                 droneToList.BatteryState -= Distance(droneToList.CurrentLocation, senderLocation) * available;
                 droneToList.CurrentLocation = senderLocation;
-                
+
             }
             catch (KeyNotFoundException ex)
             {
@@ -215,12 +215,12 @@ namespace BL
             }
             catch (ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException( ex.Message);
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
             finally
             {
                 drones.Add(droneToList);
-                if(!parcel.Equals(default(DO.Parcel)))
+                if (!parcel.Equals(default(DO.Parcel)))
                     ParcelcollectionDrone(parcel.Id);
             }
 
@@ -238,12 +238,12 @@ namespace BL
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
             DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
-            if (parcel.Delivered!=null)
+            if (parcel.Delivered != null)
                 throw new ArgumentNullException("The package has already been deliverd");
             drones.Remove(droneToList);
             try
             {
-               DO.Customer customer = dal.GetCustomer(parcel.TargetId);
+                DO.Customer customer = dal.GetCustomer(parcel.TargetId);
                 Location receiverLocation = new() { Longitude = customer.Longitude, Latitude = customer.Latitude };
                 droneToList.BatteryState -= Distance(droneToList.CurrentLocation, receiverLocation) * (WeightCategories)parcel.Weigth switch
                 {
@@ -258,7 +258,7 @@ namespace BL
             }
             catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException( ex.Message);
+                throw new KeyNotFoundException(ex.Message);
             }
             catch (ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
@@ -273,27 +273,24 @@ namespace BL
         public void DeleteDrone(int id)
         {
             DroneToList drone = drones.FirstOrDefault(item => item.Id == id);
-            if(drone.ParcelId == 0)
-            {
-                dal.DeleteDrone(id);
-                drones[drones.IndexOf(drone)].IsNotActive = true;
-            }
-            else
-            {
-                throw new ThereAreAssociatedOrgansException("There is parcel in the drone, Cant delete.");
-            }
+            if (drone.DroneState == DroneState.MAINTENANCE)
+                ReleaseDroneFromCharging(drone.Id);
+            dal.DeleteDrone(id);
+            drones[drones.IndexOf(drone)].IsNotActive = true;
         }
+        public bool IsActiveDrone(int id)=>drones.FirstOrDefault(Drone => Drone.Id == id).IsNotActive;
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
         /// <summary>
         /// Retrieves the list of drones from BL
         /// </summary>
         /// <returns>A list of drones to print</returns>
-        public IEnumerable<DroneToList> GetDrones() => drones.Where(drone=>!drone.IsNotActive);
+        public IEnumerable<DroneToList> GetActiveDrones() => drones.Where(drone => !drone.IsNotActive);
+        public IEnumerable<DroneToList> GetDrones() => drones;
 
         private List<DroneInCharging> CreatListDroneInCharging(int id)
         {
-            IEnumerable<int> list = dal.GetDronechargingInStation((int stationIdOfDrone)=> stationIdOfDrone == id);
+            IEnumerable<int> list = dal.GetDronechargingInStation((int stationIdOfDrone) => stationIdOfDrone == id);
             if (list.Count() == 0)
                 return new();
             List<DroneInCharging> droneInChargings = new();
@@ -318,7 +315,7 @@ namespace BL
         private Drone MapDrone(int id)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
-            if (droneToList == default|| droneToList.IsNotActive)
+            if (droneToList == default || droneToList.IsNotActive)
                 throw new ArgumentNullException("Map drone: There is not drone with same id in the data");
             return new Drone()
             {
@@ -328,7 +325,7 @@ namespace BL
                 DroneState = droneToList.DroneState,
                 BattaryMode = droneToList.BatteryState,
                 CurrentLocation = droneToList.CurrentLocation,
-                Parcel = droneToList.ParcelId !=0 ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
+                Parcel = droneToList.ParcelId != 0 ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
             };
         }
         //InvalidOperationException
@@ -347,6 +344,6 @@ namespace BL
             return suitableParcel;
         }
 
-      
+
     }
 }

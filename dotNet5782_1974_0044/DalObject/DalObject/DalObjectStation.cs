@@ -39,8 +39,8 @@ namespace Dal
         /// <returns>A station for display</returns>
         public Station GetStation(int id)
         {
-            Station station = getEntities<Station>().FirstOrDefault(item => item.Id == id);
-            if (station.Equals(default(Station)) || station.IsNotActive == true)
+            Station station = GetEntities<Station>().FirstOrDefault(item => item.Id == id);
+            if (station.Equals(default(Station)) )
                 throw new KeyNotFoundException("There is no suitable station in data");
             return station;
         }
@@ -49,14 +49,14 @@ namespace Dal
         ///  Prepares the list of Sations for display
         /// </summary>
         /// <returns>A list of stations</returns>
-        public IEnumerable<Station> GetStations() => getEntities<Station>();
+        public IEnumerable<Station> GetStations() => GetEntities<Station>();
 
         /// <summary>
         /// Find the satation that have empty charging slots
         /// </summary>
         /// <param name="exsitEmpty">The predicate to screen out if the station have empty charge slots</param>
         /// <returns>A collection of the requested station</returns>
-        public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty) => getEntities<Station>().Where(item => exsitEmpty(item.ChargeSlots - CountFullChargeSlots(item.Id)) && !item.IsNotActive);
+        public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty) => GetEntities<Station>().Where(item => exsitEmpty(item.ChargeSlots - CountFullChargeSlots(item.Id)) && !item.IsNotActive);
 
         //-------------------------------------------------Removing-------------------------------------------------------------
         /// <summary>

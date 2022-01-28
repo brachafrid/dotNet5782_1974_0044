@@ -44,8 +44,8 @@ namespace Dal
         /// <returns>A parcel for display</returns>
         public Parcel GetParcel(int id)
         {
-            Parcel parcel =getEntities<Parcel>().FirstOrDefault(item => item.Id == id);
-            if (parcel.Equals(default(Parcel)) || parcel.IsNotActive )
+            Parcel parcel =GetEntities<Parcel>().FirstOrDefault(item => item.Id == id);
+            if (parcel.Equals(default(Parcel)) )
                 throw new KeyNotFoundException("There is not suitable parcel in data");
             return parcel;
         }
@@ -54,14 +54,14 @@ namespace Dal
         /// Prepares the list of Parcels for display
         /// </summary>
         /// <returns>A list of parcel</returns>
-        public IEnumerable<Parcel> GetParcels() => DataSorce.Parcels.Where(p => !p.IsNotActive);
+        public IEnumerable<Parcel> GetParcels() =>GetEntities<Parcel>();
 
         /// <summary>
         /// Find the Parcels that not assign to drone
         /// </summary>
         /// <param name="notAssign">The predicate to screen out if the parcel not assign to drone</param>
         /// <returns>A list of the requested Parcels</returns>
-        public IEnumerable<Parcel> GetParcelsNotAssignedToDrone(Predicate<int> notAssign) => getEntities<Parcel>().Where(item =>notAssign(item.DorneId));
+        public IEnumerable<Parcel> GetParcelsNotAssignedToDrone(Predicate<int> notAssign) => GetEntities<Parcel>().Where(item =>notAssign(item.DorneId));
         //-------------------------------------------------Removing-------------------------------------------------------------
         /// <summary>
         /// Removing a Parcel from the list
@@ -74,7 +74,7 @@ namespace Dal
 
         public void DeleteParcel(int id)
         {
-            Parcel parcel = getEntities<Parcel>().FirstOrDefault(item => item.Id == id);
+            Parcel parcel = GetEntities<Parcel>().FirstOrDefault(item => item.Id == id);
             RemoveEntity(parcel);
             parcel.IsNotActive = true;
             AddEntity(parcel);

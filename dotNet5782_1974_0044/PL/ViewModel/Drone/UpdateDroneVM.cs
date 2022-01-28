@@ -129,8 +129,7 @@ namespace PL
 
         public void DeleteDrone(object param)
         {
-            try
-            {
+
                 if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
                     PLService.DeleteDrone(drone.Id);
@@ -139,12 +138,6 @@ namespace PL
                     DelegateVM.Drone?.Invoke();
                     Tabs.CloseTab(param as TabItemFormat);
                 }
-            }
-
-            catch (BO.ThereAreAssociatedOrgansException ex)
-            {
-                MessageBox.Show($"{ex.Message}");
-            }
         }
     }
 }

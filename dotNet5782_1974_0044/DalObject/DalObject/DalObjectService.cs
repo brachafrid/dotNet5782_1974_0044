@@ -10,17 +10,17 @@ namespace Dal
 {
   public partial class DalObject
     {
-        private IEnumerable<T> getEntities<T>()
+        private IEnumerable<T> GetEntities<T>()
         {
             Type t = typeof(T);
             return t.Name switch
             {
-                { } when typeof(Drone).Name == t.Name => (IEnumerable<T>)DataSorce.Drones.Where(c => !c.IsNotActive),
-                { } when typeof(Parcel).Name == t.Name => (IEnumerable<T>)DataSorce.Parcels.Where(c => !c.IsNotActive),
-                { } when typeof(Customer).Name == t.Name => (IEnumerable<T>)DataSorce.Customers.Where(c =>! c.IsNotActive),
-                { } when typeof(Station).Name == t.Name => (IEnumerable<T>)DataSorce.Stations.Where(c => !c.IsNotActive),
-                { } when typeof(DroneCharge).Name == t.Name => (IEnumerable<T>)DataSorce.DroneCharges
-
+                { } when typeof(Drone).Name == t.Name => (IEnumerable<T>)DataSorce.Drones,
+                { } when typeof(Parcel).Name == t.Name => (IEnumerable<T>)DataSorce.Parcels,
+                { } when typeof(Customer).Name == t.Name => (IEnumerable<T>)DataSorce.Customers,
+                { } when typeof(Station).Name == t.Name => (IEnumerable<T>)DataSorce.Stations,
+                { } when typeof(DroneCharge).Name == t.Name => (IEnumerable<T>)DataSorce.DroneCharges,
+                _ => null
             };
         }
         private void AddEntity<T>(T entity)

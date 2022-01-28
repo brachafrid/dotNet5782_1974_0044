@@ -58,16 +58,9 @@ namespace BL
 
         public void DeleteStation(int id)
         {
-            Station station = GetStation(id);
-            if (!station.DroneInChargings.Any())
-            {
-                dal.DeleteStation(id);
-            }
-            else
-            {
-                throw new ThereAreAssociatedOrgansException("There are drones at the station, Cant delete.");
-            }
+            dal.DeleteStation(id);
         }
+        public bool IsActiveStation(int id) => dal.GetStations().FirstOrDefault(Station => Station.Id == id).IsNotActive;
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
         /// <summary>
@@ -90,11 +83,9 @@ namespace BL
         /// Retrieves the list of stations from the data and converts it to station to list
         /// </summary>
         /// <returns>A list of statin to print</returns>
-        public IEnumerable<StationToList> GetStations()
-        {
-            return dal.GetStations().Select(item=>MapStationToList(item));
-        }
-
+        public IEnumerable<StationToList> GetStations()=>dal.GetStations().Select(item=>MapStationToList(item));
+        public IEnumerable<StationToList> GetActiveStations()=>dal.GetStations().Where(item=>!item.IsNotActive).Select(item=>MapStationToList(item));
+       
         //--------------------------------------------------Return-----------------------------------------------------------------------------------
         /// <summary>
         /// Retrieves the requested station from the data and converts it to BL station
@@ -168,7 +159,5 @@ namespace BL
             }
             return station;
         }
-
-   
     }
 }
