@@ -117,6 +117,8 @@ namespace BL
         public void SendDroneForCharg(int id)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
+            if (!IsActiveDrone(id))
+                throw new DeletedExeption("drone deleted");
             if (droneToList == default || droneToList.IsNotActive)
                 throw new ArgumentNullException(" There is no a drone with the same id in data");
             if (droneToList.DroneState != DroneState.AVAILABLE)
@@ -159,6 +161,8 @@ namespace BL
         /// <param name="droneId">The drone to assign it a parcel</param>
         public void AssingParcelToDrone(int droneId)
         {
+            if (!IsActiveDrone(droneId))
+                throw new DeletedExeption("drone deleted");
             DroneToList aviableDrone = drones.FirstOrDefault(item => item.Id == droneId);
             if (aviableDrone == default || aviableDrone.IsNotActive)
                 throw new ArgumentNullException(" There is no a drone with the same id in data");
