@@ -50,7 +50,7 @@ namespace BL
             var customersGotParcelLocation = GetLocationsCustomersGotParcels((int recivedparcels) => recivedparcels > 0);
             foreach (var drone in tmpDrones)
             {
-                bool canTakeParcel = true;
+                bool isAbleTakeParcel = true;
                 var parcel = parcels.FirstOrDefault(parcel => parcel.DorneId == drone.Id && parcel.Delivered == null);
                 double BatteryStatus;
                 double tmpBatteryStatus = default;
@@ -62,8 +62,8 @@ namespace BL
                 if (parcel.DorneId != 0)
                 {
                     state = DroneState.DELIVERY;
-                    tmpBatteryStatus = MinBattary(parcel, ref canTakeParcel);
-                    if (!canTakeParcel)
+                    tmpBatteryStatus = MinBattary(parcel, ref isAbleTakeParcel);
+                    if (!isAbleTakeParcel)
                     {
                         state = default;
                         parcel.DorneId = 0;
