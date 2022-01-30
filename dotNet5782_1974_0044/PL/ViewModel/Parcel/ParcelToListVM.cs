@@ -43,11 +43,11 @@ namespace PL
             switch (state)
             {
                 case "From":
-                    foreach (var item in PLService.GetCustomer((int)id).FromCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)).ToList())
+                    foreach (var item in PLService.GetCustomer((int)id).FromCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)))
                         sourceList.Add(item);
                     break;
                 case "To":
-                    foreach (var item in PLService.GetCustomer((int)id).ToCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)).ToList())
+                    foreach (var item in PLService.GetCustomer((int)id).ToCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)))
                         sourceList.Add(item);
                     break;
                 default:

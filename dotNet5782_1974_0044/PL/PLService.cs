@@ -175,7 +175,7 @@ namespace PL
                 Name = station.Name,
                 Location = ConvertLocation(station.Location),
                 EmptyChargeSlots = station.AvailableChargingPorts,
-                DroneInChargings = station.DroneInChargings.Select(item => ConvertDroneCharging(item)).ToList()
+                DroneInChargings = station.DroneInChargings.Select(item => ConvertDroneCharging(item))
             };
         }
         public static StationToList ConverterStationToList(BO.StationToList station)
