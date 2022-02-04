@@ -32,7 +32,6 @@ namespace PL
         public static event EventHandler<EntityChangedEventArgs> CustomerChangedEvent;
         public static event EventHandler<EntityChangedEventArgs> StationChangedEvent;
 
-        public static Action Station { set; get; }
         public static Action Parcel { set; get; }
     }
     public class EntityChangedEventArgs : EventArgs

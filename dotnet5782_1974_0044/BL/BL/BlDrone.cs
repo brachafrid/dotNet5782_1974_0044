@@ -186,7 +186,6 @@ namespace BL
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
-
         }
 
         /// <summary>
