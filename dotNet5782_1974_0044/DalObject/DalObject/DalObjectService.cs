@@ -43,6 +43,8 @@ namespace Dal
                 case { } when entity is DroneCharge droneCharge:
                     DataSorce.DroneCharges.Add(droneCharge);
                     break;
+                default:
+                    break;
             }
         }
         internal static void RemoveEntity<T>(T entity)
@@ -64,6 +66,8 @@ namespace Dal
                     break;
                 case { } when entity is DroneCharge droneCharge:
                     DataSorce.DroneCharges.Remove(droneCharge);
+                    break;
+                default:
                     break;
             }
         }

@@ -27,7 +27,7 @@ namespace PL
             try
             {
                 PLService.AddCustomer(customer);
-                DelegateVM.Customer?.Invoke();
+                DelegateVM.NotifyCustomerChanged((int)customer.Id);
                 Tabs.CloseTab(param as TabItemFormat);
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
@@ -41,7 +41,7 @@ namespace PL
             try
             {
                 PLService.AddCustomer(customer);
-                DelegateVM.Customer?.Invoke();
+                DelegateVM.NotifyCustomerChanged((int)customer.Id);
                 LoginScreen.Id = customer.Id;
                 LoginScreen.MyScreen = "CustomerWindow";
             }

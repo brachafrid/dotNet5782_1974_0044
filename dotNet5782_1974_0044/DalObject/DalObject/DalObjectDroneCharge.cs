@@ -1,4 +1,4 @@
-﻿
+﻿using DLApi;
 using System.Collections.Generic;
 using System;
 using System.Linq;
@@ -7,7 +7,7 @@ using DO;
 
 namespace Dal
 {
-    public partial class DalObject
+    public partial class DalObject:IDalDroneCharge
     {
         /// <summary>
         /// Count a number of charging slots occupied at a particular station 
@@ -50,5 +50,16 @@ namespace Dal
         {
             return DalObjectService.GetEntities<DroneCharge>().FirstOrDefault(drone => drone.Droneld == droneId).StartCharging;
         }
+        /// <summary>
+        /// Takes from the DataSource the electricity use data of the drone
+        /// </summary>
+        /// <returns>A array of electricity use</returns>
+
+        public (double, double, double, double, double) GetElectricity()
+        {
+            return (DataSorce.Config.Available, DataSorce.Config.LightWeightCarrier, DataSorce.Config.MediumWeightBearing, DataSorce.Config.CarriesHeavyWeight, DataSorce.Config.DroneLoadingRate);
+
+        }
     }
+
 }

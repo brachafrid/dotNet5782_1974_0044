@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DLApi;
 
 using DO;
 
 namespace Dal
 {
-    public partial class DalObject
+    public partial class DalObject:IDalParcel
     {
         //--------------------------------------Adding---------------------------
         /// <summary>

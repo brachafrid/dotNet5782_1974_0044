@@ -4,19 +4,20 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DO;
+using DLApi;
 
 namespace Dal
 {
-    public sealed partial class DalXml
+    public sealed partial class DalXml:IDalStation
     {
         const string STATION_PATH = @"XmlStation.xml"; 
         public void RemoveStation(Station station)
         {
             try
             {
-                List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH);
+                List<Station> stations = DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH);
                 stations.Remove(station);
-                XMLTools.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
+                DalXmlService.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
@@ -27,7 +28,7 @@ namespace Dal
         public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH).FindAll(item => exsitEmpty(item.ChargeSlots - CountFullChargeSlots(item.Id)) && !item.IsNotActive);
+                return DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH).FindAll(item => exsitEmpty(item.ChargeSlots - CountFullChargeSlots(item.Id)) && !item.IsNotActive);
             }
             catch (XMLFileLoadCreateException ex)
             {
@@ -38,7 +39,7 @@ namespace Dal
         public Station GetStation(int id)
         {
             try { 
-                Station station = XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH).FirstOrDefault(item => item.Id == id);
+                Station station = DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH).FirstOrDefault(item => item.Id == id);
                 if (station.Equals(default(Station)) )
                     throw new KeyNotFoundException("There is no suitable station in data");
                 return station;
@@ -52,7 +53,7 @@ namespace Dal
         public IEnumerable<Station> GetStations()
         {
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH);
+                return DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
@@ -63,12 +64,12 @@ namespace Dal
         public void DeleteStation(int id)
         {
             try { 
-                List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH);
+                List<Station> stations = DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH);
                 Station station = stations.FirstOrDefault(item => item.Id == id);
                 stations.Remove(station);
                 station.IsNotActive = true;
                 stations.Add(station);
-                XMLTools.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
+                DalXmlService.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
@@ -79,7 +80,7 @@ namespace Dal
         public void AddStation(int id, string name, double longitude, double latitude, int chargeSlots)
         {
             try { 
-                List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH);
+                List<Station> stations = DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH);
                 if (ExistsIDTaxCheck(stations, id))
                     throw new ThereIsAnObjectWithTheSameKeyInTheListException();
                 Station newStation = new();
@@ -90,7 +91,7 @@ namespace Dal
                 newStation.ChargeSlots = chargeSlots;
                 newStation.IsNotActive = false;
                 stations.Add(newStation); 
-                XMLTools.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
+                DalXmlService.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
