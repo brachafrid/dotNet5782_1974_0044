@@ -15,7 +15,7 @@ namespace PL
         public AddDroneVM()
         {
             InitDrone();
-            DelegateVM.Station += InitDrone;
+            DelegateVM.StationChangedEvent +=(sender,e)=> InitDrone();
             drone = new();
             AddDroneCommand = new(Add, param => drone.Error == null);
             Weight = Enum.GetValues(typeof(WeightCategories));

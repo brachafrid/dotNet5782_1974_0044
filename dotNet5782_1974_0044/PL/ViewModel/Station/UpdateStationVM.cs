@@ -108,8 +108,8 @@ namespace PL
                 {
                     PLService.DeleteStation(station.Id);
                     MessageBox.Show("The station was successfully deleted");
-                    DelegateVM.Station -= initStation;
-                    DelegateVM.Station?.Invoke();
+                    DelegateVM.StationChangedEvent -= HandleStationChanged;
+                    DelegateVM.NotifyStationChanged(station.Id);
                     Tabs.CloseTab(param as TabItemFormat);
                 }
             }
