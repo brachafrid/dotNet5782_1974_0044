@@ -9,10 +9,10 @@ using System.IO;
 namespace Dal
 {
 
-    internal static class XMLTools
+    internal static class DalXmlService
     {
         static string dir = @"..\..\data\";
-        static XMLTools()
+        static DalXmlService()
         {
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);

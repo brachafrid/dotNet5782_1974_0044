@@ -4,17 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DO;
+using DLApi;
 
 namespace Dal
 {
-    public sealed partial class DalXml
+    public sealed partial class DalXml:IDalCustomer
     {
         const string CUSTOMER_PATH = @"XmlCustomer.xml";
         public void AddCustomer(int id, string phone, string name, double longitude, double latitude)
         {
             try
             {
-                List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
+                List<Customer> customers = DalXmlService.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
                 if (ExistsIDTaxCheck(customers, id))
                     throw new ThereIsAnObjectWithTheSameKeyInTheListException();
                 Customer newCustomer = new();
@@ -25,7 +26,7 @@ namespace Dal
                 newCustomer.Longitude = longitude;
                 newCustomer.IsNotActive = false;
                 customers.Add(newCustomer);
-                XMLTools.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
+                DalXmlService.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
@@ -36,12 +37,12 @@ namespace Dal
         public void DeleteCustomer(int id)
         {
             try { 
-                List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
+                List<Customer> customers = DalXmlService.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
                 Customer customer = customers.FirstOrDefault(item => item.Id == id);
                 customers.Remove(customer);
                 customer.IsNotActive = true;
                 customers.Add(customer);
-                XMLTools.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
+                DalXmlService.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
@@ -52,7 +53,7 @@ namespace Dal
         public Customer GetCustomer(int id)
         {
             try { 
-                Customer customer = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH).FirstOrDefault(item => item.Id == id);
+                Customer customer = DalXmlService.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH).FirstOrDefault(item => item.Id == id);
                 if (customer.Equals(default(Customer)))
                     throw new KeyNotFoundException("There is no suitable customer in data");
                 return customer;
@@ -67,7 +68,7 @@ namespace Dal
         {
 
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
+                return DalXmlService.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
@@ -78,9 +79,9 @@ namespace Dal
         public void RemoveCustomer(Customer customer)
         {
             try { 
-                List<Customer> customers = XMLTools.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
+                List<Customer> customers = DalXmlService.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
                 customers.Remove(customer);
-                XMLTools.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
+                DalXmlService.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {

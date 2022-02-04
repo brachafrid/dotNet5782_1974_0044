@@ -10,14 +10,14 @@ using DO;
 
 namespace Dal
 {
-    public sealed partial class DalXml
+    public sealed partial class DalXml:IDalDrone
     {
         const string DRONE_PATH = @"XmlDrone.xml";
 
         public void AddDrone(int id, string model, WeightCategories MaxWeight)
         {
             try { 
-                List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
+                List<Drone> drones = DalXmlService.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
                 if (ExistsIDTaxCheck(drones, id))
                     throw new ThereIsAnObjectWithTheSameKeyInTheListException();
                 Drone newDrone = new()
@@ -29,7 +29,7 @@ namespace Dal
 
                 };
                 drones.Add(newDrone);
-                XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
+                DalXmlService.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
@@ -40,12 +40,12 @@ namespace Dal
         public void DeleteDrone(int id)
         {
             try { 
-                List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
+                List<Drone> drones = DalXmlService.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
                 Drone drone = drones.FirstOrDefault(item => item.Id == id);
                 drones.Remove(drone);
                 drone.IsNotActive = true;
                 drones.Add(drone);
-                XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
+                DalXmlService.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
@@ -55,7 +55,7 @@ namespace Dal
         public Drone GetDrone(int id)
         {
             try { 
-                Drone drone = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH).FirstOrDefault(item => item.Id == id);
+                Drone drone = DalXmlService.LoadListFromXMLSerializer<Drone>(DRONE_PATH).FirstOrDefault(item => item.Id == id);
                 if (drone.Equals(default(Drone)) || drone.IsNotActive)
                     throw new KeyNotFoundException("There is not suitable drone in the data");
                 return drone;
@@ -69,7 +69,7 @@ namespace Dal
         public IEnumerable<Drone> GetDrones()
         {
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
+                return DalXmlService.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
@@ -79,9 +79,9 @@ namespace Dal
         public void RemoveDrone(Drone drone)
         {
             try { 
-                List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
+                List<Drone> drones = DalXmlService.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
                 drones.Remove(drone);
-                XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
+                DalXmlService.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
@@ -93,7 +93,7 @@ namespace Dal
         {
             try
             {
-                XElement config = XMLTools.LoadConfigToXML(CONFIG);
+                XElement config = DalXmlService.LoadConfigToXML(CONFIG);
                 var electricity = config.Elements().Select(elem => double.Parse(elem.Value));
                 return (electricity.ElementAt(1), electricity.ElementAt(2), electricity.ElementAt(3), electricity.ElementAt(4), electricity.ElementAt(5));
             }
