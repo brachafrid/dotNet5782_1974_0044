@@ -8,9 +8,9 @@ using System.Threading.Tasks;
 
 namespace Dal
 {
-  public partial class DalObject
+  internal static class DalObjectService
     {
-        private IEnumerable<T> GetEntities<T>()
+        internal static IEnumerable<T> GetEntities<T>()
         {
             Type t = typeof(T);
             return t.Name switch
@@ -23,7 +23,7 @@ namespace Dal
                 _ => null
             };
         }
-        private void AddEntity<T>(T entity)
+        internal static void AddEntity<T>(T entity)
         {
             Type t = typeof(T);
             switch(entity.GetType().Name)
@@ -45,7 +45,7 @@ namespace Dal
                     break;
             }
         }
-        private void RemoveEntity<T>(T entity)
+        internal static void RemoveEntity<T>(T entity)
         {
             Type t = typeof(T);
             switch (entity.GetType().Name)

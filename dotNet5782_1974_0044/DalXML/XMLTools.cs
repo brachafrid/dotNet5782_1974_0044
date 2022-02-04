@@ -9,7 +9,7 @@ using System.IO;
 namespace Dal
 {
 
-    public static class XMLTools
+    internal static class XMLTools
     {
         static string dir = @"..\..\data\";
         static XMLTools()
@@ -19,7 +19,7 @@ namespace Dal
         }
 
         #region SaveLoadWithXMLSerializer
-        public static void SaveListToXMLSerializer<T>(IEnumerable<T> list, string filePath)
+        internal static void SaveListToXMLSerializer<T>(IEnumerable<T> list, string filePath)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
-        public static List<T> LoadListFromXMLSerializer<T>(string filePath)
+        internal static List<T> LoadListFromXMLSerializer<T>(string filePath)
         {
             try
             {
@@ -56,7 +56,7 @@ namespace Dal
             return new List<T>();
         }
 
-        public static void SaveConfigToXML(XElement rootElem, string filePath)
+        internal static void SaveConfigToXML(XElement rootElem, string filePath)
         {
             try
             {
@@ -67,7 +67,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException($"fail to create xml file: {filePath}", ex);
             }
         }
-        public static XElement LoadConfigToXML(string filePath)
+        internal static XElement LoadConfigToXML(string filePath)
         {
             try
             {

@@ -27,14 +27,14 @@ namespace Dal
             newCustomer.Latitude = latitude;
             newCustomer.Longitude = longitude;
             newCustomer.IsNotActive = false;
-            AddEntity(newCustomer);
+            DalObjectService.AddEntity(newCustomer);
         }
         //-----------------------------------------Display----------------------------------
         /// <summary>
         /// Prepares the list of customer for display
         /// </summary>
         /// <returns>A list of customer</returns>
-        public IEnumerable<Customer> GetCustomers() => GetEntities<Customer>();
+        public IEnumerable<Customer> GetCustomers() => DalObjectService.GetEntities<Customer>();
 
         /// <summary>
         /// Find a customer that has tha same id number as the parameter
@@ -43,22 +43,22 @@ namespace Dal
         /// <returns>A customer for display</returns>
         public Customer GetCustomer(int id)
         {
-            Customer customer=GetEntities<Customer>().FirstOrDefault(item => item.Id == id );
+            Customer customer= DalObjectService.GetEntities<Customer>().FirstOrDefault(item => item.Id == id );
             if (customer.Equals(default(Customer)))
                  throw new KeyNotFoundException("There is no suitable customer in data"); 
             return customer;
         }
         public void RemoveCustomer(Customer customer)
         {
-            RemoveEntity(customer);
+            DalObjectService.RemoveEntity(customer);
         }
 
         public void DeleteCustomer(int id)
         {
-            Customer customer = GetEntities<Customer>().FirstOrDefault(item => item.Id == id);
-            RemoveEntity(customer);
+            Customer customer = DalObjectService.GetEntities<Customer>().FirstOrDefault(item => item.Id == id);
+            DalObjectService.RemoveEntity(customer);
             customer.IsNotActive = true;
-            AddEntity(customer);
+            DalObjectService.AddEntity(customer);
         }
 
     }

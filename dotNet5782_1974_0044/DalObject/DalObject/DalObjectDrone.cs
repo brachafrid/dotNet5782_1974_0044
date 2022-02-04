@@ -26,7 +26,7 @@ namespace Dal
                 IsNotActive = false
 
             };
-            AddEntity(newDrone);
+            DalObjectService.AddEntity(newDrone);
         }
 
 
@@ -38,7 +38,7 @@ namespace Dal
         /// <returns>A drone for display</returns>
         public Drone GetDrone(int id)
         {
-            Drone drone = GetEntities<Drone>().FirstOrDefault(item => item.Id == id);
+            Drone drone = DalObjectService.GetEntities<Drone>().FirstOrDefault(item => item.Id == id);
             if (drone.Equals(default(Drone)) )
                 throw new KeyNotFoundException("There is not suitable drone in the data");
             return drone;
@@ -48,7 +48,7 @@ namespace Dal
         /// Prepares the list of Drones for display
         /// </summary>
         /// <returns>A list of drones</returns>
-        public IEnumerable<Drone> GetDrones() => GetEntities<Drone>();
+        public IEnumerable<Drone> GetDrones() => DalObjectService.GetEntities<Drone>();
 
 
         //-------------------------------------------------Removing-------------------------------------------------------------
@@ -58,15 +58,15 @@ namespace Dal
         /// <param name="station"></param>
         public void RemoveDrone(Drone drone)
         {
-            RemoveEntity(drone);
+            DalObjectService.RemoveEntity(drone);
         }
 
         public void DeleteDrone(int id)
         {
-            Drone drone = GetEntities<Drone>().FirstOrDefault(item => item.Id == id);
-            RemoveEntity(drone);
+            Drone drone = DalObjectService.GetEntities<Drone>().FirstOrDefault(item => item.Id == id);
+            DalObjectService.RemoveEntity(drone);
             drone.IsNotActive = true;
-            AddEntity(drone);
+            DalObjectService.AddEntity(drone);
         }
     }
 }
