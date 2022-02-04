@@ -23,7 +23,7 @@ namespace PL
             IsAdministor = true;
             UpdateInitList();
             DelegateVM.Parcel += UpdateInitList;
-            DelegateVM.Customer += UpdateInitList;
+            DelegateVM.CustomerChangedEvent +=(sender,e) =>UpdateInitList();
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
         public ParcelToListVM(object Id, object State)
@@ -32,7 +32,7 @@ namespace PL
             IsAdministor = false;
             state = (string)State;
             UpdateInitList();
-            DelegateVM.Customer += UpdateInitList;
+            DelegateVM.CustomerChangedEvent += (sender, e) => UpdateInitList();
             DelegateVM.Parcel += UpdateInitList;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }

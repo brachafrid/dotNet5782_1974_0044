@@ -14,18 +14,20 @@ namespace PL
     {
         public StationToListVM()
         {
-            sourceList = new ObservableCollection<StationToList>();
+            sourceList = new ObservableCollection<StationToList>(PLService.GetStations());
             list = new ListCollectionView(sourceList);
-            UpdateInitList();
-            DelegateVM.Station += UpdateInitList;
+            DelegateVM.StationChangedEvent += HandleStationChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
-        void UpdateInitList()
+        private void HandleStationChanged(object sender, EntityChangedEventArgs e)
         {
-            sourceList.Clear();
-            foreach (var item in PLService.GetStations())
-                sourceList.Add(item);
+            var station = sourceList.FirstOrDefault(s => s.Id == e.Id);
+            if (station != default)
+                sourceList.Remove(station);
+            var newStation = PLService.GetStations().FirstOrDefault(s => s.Id == e.Id);
+            sourceList.Add(newStation);
         }
+
         public override void AddEntity(object param)
         {
             Tabs.AddTab(new TabItemFormat()
