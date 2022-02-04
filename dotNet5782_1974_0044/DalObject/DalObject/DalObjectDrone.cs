@@ -1,4 +1,4 @@
-﻿
+﻿using DLApi;
 using System.Collections.Generic;
 using System.Linq;
 using System;
@@ -6,7 +6,7 @@ using DO;
 
 namespace Dal
 {
-    public partial class DalObject
+    public partial class DalObject:IDalDrone
     {
         //-------------------------Adding---------------------------------
         /// <summary>
