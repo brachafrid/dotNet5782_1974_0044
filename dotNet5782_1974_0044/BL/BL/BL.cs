@@ -10,7 +10,7 @@ namespace BL
 {
     public sealed partial class BL : Singletone<BL>, IBL
     {
-        IDal dal { get; } = DLFactory.GetDL();
+       internal IDal dal { get; } = DLFactory.GetDL();
         private const int DRONESTATUSESLENGTH = 2;
         public const int MAXINITBATTARY = 20;
         public const int MININITBATTARY = 0;

@@ -56,7 +56,7 @@ namespace Dal
         /// </summary>
         /// <param name="exsitEmpty">The predicate to screen out if the station have empty charge slots</param>
         /// <returns>A collection of the requested station</returns>
-        public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty) => DalObjectService.GetEntities<Station>().Where(item => exsitEmpty(item.ChargeSlots - CountFullChargeSlots(item.Id)) && !item.IsNotActiveDalObjectService.);
+        public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty) => DalObjectService.GetEntities<Station>().Where(item => exsitEmpty(item.ChargeSlots - CountFullChargeSlots(item.Id)) && !item.IsNotActive);
 
         //-------------------------------------------------Removing-------------------------------------------------------------
         /// <summary>
