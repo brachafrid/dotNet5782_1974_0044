@@ -60,8 +60,13 @@ namespace PL
             stationEmptyChargeSlots = station.EmptyChargeSlots;
             UpdateStationCommand = new(UpdateStation, param => station.Error == null);
             DeleteStationCommand = new(DeleteStation, param => station.Error == null);
-            DelegateVM.Station += initStation;
+            DelegateVM.StationChangedEvent += HandleStationChanged;
             OpenDroneChargeCommand = new(Tabs.OpenDetailes, null);
+        }
+        private void HandleStationChanged(object sender, EntityChangedEventArgs e)
+        {
+            if (id == e.Id)
+                initStation();
         }
         public void initStation()
         {
@@ -83,7 +88,7 @@ namespace PL
                 if (stationName != station.Name || stationEmptyChargeSlots != station.EmptyChargeSlots)
                 {
                     PLService.UpdateStation(station.Id, station.Name, station.EmptyChargeSlots);
-                    DelegateVM.Station?.Invoke();
+                    DelegateVM.NotifyStationChanged(station.Id);
                     stationName = station.Name;
                     stationEmptyChargeSlots = station.EmptyChargeSlots;
 
