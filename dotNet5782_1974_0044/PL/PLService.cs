@@ -25,7 +25,7 @@ namespace PL
         }
         public static IEnumerable<CustomerToList> GetCustomers()
         {
-            return ibal.GetCustomers().Select(customer => ConvertCustomerToList(customer));
+            return ibal.GetActiveCustomers().Select(customer => ConvertCustomerToList(customer));
         }
         public static void UpdateCustomer(int id, string name, string phone)
         {
@@ -35,6 +35,8 @@ namespace PL
         {
             ibal.DeleteCustomer(id);
         }
+        public static bool IsActiveCustomer(int id) => ibal.IsActiveCustomer(id);
+        
         public static PO.Customer ConvertCustomer(BO.Customer customer)
         {
             return new PO.Customer
@@ -110,6 +112,10 @@ namespace PL
                 Weight = (WeightCategories)parcel.WeightCategory
             };
         }
+        public static ParcelToList ConvertParcelAtCustomerToList(ParcelAtCustomer parcel)
+        {
+            return GetParcels().FirstOrDefault(par => par.Id == parcel.Id);
+        }
         public static BO.ParcelInTransfer ConvertBackParcelInTransfer(ParcelInTransfer parcel)
         {
             return new()
@@ -141,9 +147,10 @@ namespace PL
         {
             ibal.DeleteStation(id);
         }
+        public static bool IsActiveStation(int id) => ibal.IsActiveStation(id);
         public static IEnumerable<StationToList> GetStations()
         {
-            return ibal.GetStations().Select(item => ConverterStationToList(item));
+            return ibal.GetActiveStations().Select(item => ConverterStationToList(item));
         }
         public static IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots()
         {
@@ -168,7 +175,7 @@ namespace PL
                 Name = station.Name,
                 Location = ConvertLocation(station.Location),
                 EmptyChargeSlots = station.AvailableChargingPorts,
-                DroneInChargings = station.DroneInChargings.Select(item => ConvertDroneCharging(item)).ToList()
+                DroneInChargings = station.DroneInChargings.Select(item => ConvertDroneCharging(item))
             };
         }
         public static StationToList ConverterStationToList(BO.StationToList station)
@@ -243,11 +250,9 @@ namespace PL
         {
             ibal.DeleteParcel(id);
         }
+        public static bool IsActiveParcel(int id) => ibal.IsActiveParcel(id);
         public static Parcel GetParcel(int id) => ConvertParcel(ibal.GetParcel(id));
-        public static IEnumerable<ParcelToList> GetParcels() => ibal.GetParcels().Select(parcel => ConvertParcelToList(parcel));
-        //public static IEnumerable<ParcelToList> GetParcelsFrom(int Id) => ibal.GetParcels().Select(parcel => ConvertParcelToList(parcel)).Where(p => p.CustomerSender.Id == (int)Id);
-        //public static IEnumerable<ParcelToList> GetParcelsTo(int Id) => ibal.GetParcels().Select(parcel => ConvertParcelToList(parcel)).Where(p => p.CustomerReceives.Id == (int)Id);
-        //public IEnumerable<ParcelAtCustomer> GetParcelsNotAssignedToDrone=>ibal.GetParcelsNotAssignedToDrone((int num)=> num == 0).Select(parcel => ConvertParcelParcelAtCustomer(parcel));
+        public static IEnumerable<ParcelToList> GetParcels() => ibal.GetActiveParcels().Select(parcel => ConvertParcelToList(parcel));
         public static IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone => ibal.GetParcelsNotAssignedToDrone((int num) => num == 0).Select(parcel => ConvertParcelToList(parcel));
         public static BO.Parcel ConvertBackParcelAdd(ParcelAdd parcel)
         {
@@ -263,10 +268,10 @@ namespace PL
         {
             return new PO.ParcelAtCustomer()
             {
-                //Id = parcelAdd.
                 Weight = (PO.WeightCategories)parcelAdd.Weight,
                 Piority = (PO.Priorities)parcelAdd.Piority,
                 PackageMode = PO.PackageModes.ASSOCIATED,
+               
             };
         }
         public static BO.ParcelAtCustomer ConvertBackParcelAtCustomer(PO.ParcelAtCustomer parcelAtCustomer)
@@ -335,6 +340,7 @@ namespace PL
         }
         public static void SendDroneForCharg(int id)
         {
+
             ibal.SendDroneForCharg(id);
         }
         public static void ReleaseDroneFromCharging(int id)
@@ -345,13 +351,22 @@ namespace PL
         {
             ibal.DeleteDrone(id);
         }
+        public static bool IsActiveDrone(int id) => ibal.IsActiveDrone(id);
         public static Drone GetDrone(int id)
         {
-            return ConvertDrone(ibal.GetDrone(id));
+            try
+            {
+                return ConvertDrone(ibal.GetDrone(id));
+            }
+            catch(ArgumentNullException ex)
+            {
+                throw new ArgumentNullException(ex.Message);
+            }
+            
         }
         public static IEnumerable<DroneToList> GetDrones()
         {
-            return ibal.GetDrones().Select(item => ConvertDroneToList(item));
+            return ibal.GetActiveDrones().Select(item => ConvertDroneToList(item));
         }
         public static void AssingParcelToDrone(int droneId)
         {

@@ -1,8 +1,8 @@
-﻿using System;
+﻿using BLApi;
+using BO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using BO;
-using BLApi;
 
 namespace BL
 {
@@ -24,7 +24,7 @@ namespace BL
 
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
-            
+
         }
 
         //--------------------------------------------------Return-----------------------------------------------------------------------------------
@@ -55,7 +55,7 @@ namespace BL
         {
             if (name.Equals(string.Empty) && phone.Equals(string.Empty))
                 throw new ArgumentNullException("There is not field to update");
-            DO.Customer customer ;
+            DO.Customer customer;
             try
             {
                 customer = dal.GetCustomer(id);
@@ -73,23 +73,16 @@ namespace BL
             }
             catch (KeyNotFoundException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
 
 
         }
         public void DeleteCustomer(int id)
         {
-            Customer customer = GetCustomer(id);
-            if (!customer.ToCustomer.Any())
-            {
-                dal.DeleteCustomer(id);
-            }
-            else
-            {
-                throw new ThereAreAssociatedOrgansException("There are parcels on the way to the customer, Cant delete.");
-            }
+            dal.DeleteCustomer(id);
         }
+        public bool IsActiveCustomer(int id) => dal.GetCustomers().FirstOrDefault(Customer => Customer.Id == id).IsNotActive;
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
         /// <summary>
@@ -101,7 +94,7 @@ namespace BL
             return dal.GetCustomers().Select(customer => MapCustomerToList(customer));
         }
 
-
+        public IEnumerable<CustomerToList> GetActiveCustomers() => dal.GetCustomers().Where(Customer => !Customer.IsNotActive).Select(Customer => MapCustomerToList(Customer));
 
 
         //-----------------------------------------------Help function-----------------------------------------------------------------------------------
@@ -122,12 +115,12 @@ namespace BL
                     Longitude = customer.Longitude,
                     Latitude = customer.Latitude
                 },
-                FromCustomer = GetAllParcels().Where(Parcel=> Parcel.CustomerSender.Id == customer.Id).Select(parcel => ParcelToParcelAtCustomer(parcel, "sender")).ToList(),
+                FromCustomer = GetAllParcels().Where(Parcel => Parcel.CustomerSender.Id == customer.Id).Select(parcel => ParcelToParcelAtCustomer(parcel, "sender")).ToList(),
                 ToCustomer = GetAllParcels().Where(Parcel => Parcel.CustomerReceives.Id == customer.Id).Select(parcel => ParcelToParcelAtCustomer(parcel, "Recive")).ToList()
             };
         }
 
-       
+
     }
 }
 

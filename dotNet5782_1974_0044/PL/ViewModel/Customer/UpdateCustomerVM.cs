@@ -1,11 +1,5 @@
 ﻿using PL.PO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace PL
 {
@@ -32,9 +26,8 @@ namespace PL
         // Using a DependencyProperty as the backing store for customerName.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty customerNameProperty =
             DependencyProperty.Register("customerName", typeof(string), typeof(UpdateCustomerVM), new PropertyMetadata(""));
-
-
-
+        //public Visble ListsVisble { get; set; }
+        public bool IsAdministor { get; set; }
         public string customerPhone
         {
             get { return (string)GetValue(customerPhoneProperty); }
@@ -51,18 +44,25 @@ namespace PL
 
         //public RelayCommand TryCommand { get; set; }
 
-        public UpdateCustomerVM(int id)
+        public UpdateCustomerVM(int id, bool isAdministor)
         {
+            IsAdministor = isAdministor;
             this.id = id;
-            InitCustomer();
+            InitThisCustomer();
             customerName = customer.Name;
             customerPhone = customer.Phone;
             UpdateCustomerCommand = new(UpdateCustomer, param => customer.Error == null);
             DeleteCustomerCommand = new(DeleteCustomer, param => customer.Error == null);
-            DelegateVM.Customer += InitCustomer;
+            DelegateVM.CustomerChangedEvent += HandleCustomerChanged;
             OpenParcelCommand = new(Tabs.OpenDetailes, null);
+            IsAdministor = isAdministor;
         }
-        public void InitCustomer()
+        private void HandleCustomerChanged(object sender, EntityChangedEventArgs e)
+        {
+            if (id == e.Id)
+                InitThisCustomer();
+        }
+        public void InitThisCustomer()
         {
             customer = PLService.GetCustomer(id);
         }
@@ -79,22 +79,26 @@ namespace PL
 
         public void DeleteCustomer(object param)
         {
-            try
+            if (MessageBox.Show("You're sure you want to delete this customer?", "Delete Customer", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
             {
-                if (MessageBox.Show("You're sure you want to delete this customer?", "Delete Customer", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
-                {
-                    PLService.DeleteCustomer(customer.Id);
-                    MessageBox.Show("The customer was successfully deleted");
-                    Tabs.CloseTab((param as TabItemFormat).Header);
-                    DelegateVM.Customer -= InitCustomer;
-                    DelegateVM.Customer?.Invoke();
-                }
-            }
+                PLService.DeleteCustomer(customer.Id);
+                MessageBox.Show("The customer was successfully deleted");
 
-            catch (BO.ThereAreAssociatedOrgansException ex)
-            {
-                MessageBox.Show($"{ex.Message}");
+                if (!IsAdministor)
+                {
+                    LoginScreen.MyScreen = "LoginWindow";
+                    Tabs.TabItems.Clear();
+                    DelegateVM.Reset();
+                }
+                else
+                {
+                    DelegateVM.CustomerChangedEvent -= HandleCustomerChanged;
+                    DelegateVM.NotifyCustomerChanged(customer.Id);
+                    Tabs.CloseTab(param as TabItemFormat);
+                }
+
             }
         }
     }
 }
+

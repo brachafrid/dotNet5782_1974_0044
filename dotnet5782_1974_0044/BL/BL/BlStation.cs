@@ -1,12 +1,12 @@
-﻿using BO;
+﻿using BLApi;
+using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BLApi;
 
 namespace BL
 {
-    public partial class BL:IBlStations
+    public partial class BL : IBlStations
     {
         //-----------------------------------------------------------Adding------------------------------------------------------------------------
         /// <summary>
@@ -23,7 +23,7 @@ namespace BL
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
-           
+
         }
 
         //-------------------------------------------------------Updating-----------------------------------------------------------------------------
@@ -43,31 +43,24 @@ namespace BL
                 if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(stationDl.Id))
                     throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
                 dal.RemoveStation(stationDl);
-                dal.AddStation(id, name.Equals(string.Empty) ? stationDl.Name : name, stationDl.Longitude, stationDl.Latitude, chargeSlots==0 ? stationDl.ChargeSlots : chargeSlots);
+                dal.AddStation(id, name.Equals(string.Empty) ? stationDl.Name : name, stationDl.Longitude, stationDl.Latitude, chargeSlots == 0 ? stationDl.ChargeSlots : chargeSlots);
             }
             catch (KeyNotFoundException ex)
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-            catch(DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
-           
+
         }
 
         public void DeleteStation(int id)
         {
-            Station station = GetStation(id);
-            if (!station.DroneInChargings.Any())
-            {
-                dal.DeleteStation(id);
-            }
-            else
-            {
-                throw new ThereAreAssociatedOrgansException("There are drones at the station, Cant delete.");
-            }
+            dal.DeleteStation(id);
         }
+        public bool IsActiveStation(int id) => dal.GetStations().FirstOrDefault(Station => Station.Id == id).IsNotActive;
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
         /// <summary>
@@ -85,10 +78,8 @@ namespace BL
         /// Retrieves the list of stations from the data and converts it to station to list
         /// </summary>
         /// <returns>A list of statin to print</returns>
-        public IEnumerable<StationToList> GetStations()
-        {
-            return dal.GetStations().Select(item=>MapStationToList(item));
-        }
+        public IEnumerable<StationToList> GetStations() => dal.GetStations().Select(item => MapStationToList(item));
+        public IEnumerable<StationToList> GetActiveStations() => dal.GetStations().Where(item => !item.IsNotActive).Select(item => MapStationToList(item));
 
         //--------------------------------------------------Return-----------------------------------------------------------------------------------
         /// <summary>
@@ -106,7 +97,7 @@ namespace BL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-            
+
         }
 
         //-----------------------------------------------Help function-----------------------------------------------------------------------------------
@@ -117,12 +108,13 @@ namespace BL
         /// <returns>The converted station</returns>
         private BO.Station MapStation(DO.Station station)
         {
-            return new Station() {
+            return new Station()
+            {
                 Id = station.Id,
                 Name = station.Name,
-                Location = new Location() { Latitude=station.Latitude,Longitude=station.Longitude },
-                AvailableChargingPorts=station.ChargeSlots-dal.CountFullChargeSlots(station.Id),
-                DroneInChargings=CreatListDroneInCharging(station.Id)
+                Location = new Location() { Latitude = station.Latitude, Longitude = station.Longitude },
+                AvailableChargingPorts = station.ChargeSlots - dal.CountFullChargeSlots(station.Id),
+                DroneInChargings = CreatListDroneInCharging(station.Id)
             };
         }
 
@@ -134,10 +126,10 @@ namespace BL
         /// <param name="droneToList">The drone</param>
         /// <param name="minDistance">The distance the drone need to travel</param>
         /// <returns></returns>
-        private DO.Station ClosetStationPossible(IEnumerable<DO.Station> stations, Location droneToListLocation,double BatteryStatus, out double minDistance)
+        private DO.Station ClosetStationPossible(IEnumerable<DO.Station> stations, Location droneToListLocation, double BatteryStatus, out double minDistance)
         {
             DO.Station station = ClosetStation(stations, droneToListLocation);
-            minDistance = Distance( droneToListLocation, new Location() { Longitude = station.Longitude, Latitude = station.Latitude });
+            minDistance = Distance(droneToListLocation, new Location() { Longitude = station.Longitude, Latitude = station.Latitude });
             return minDistance * available <= BatteryStatus ? station : default(DO.Station);
         }
 
@@ -154,9 +146,8 @@ namespace BL
             DO.Station station = default;
             foreach (var item in stations)
             {
-                curDistance = Distance(location,
-                    new Location() { Latitude = item.Latitude, Longitude = item.Longitude });
-                if (curDistance < minDistance)
+                curDistance = Distance(location, new Location() { Latitude = item.Latitude, Longitude = item.Longitude });
+                if (curDistance < minDistance && !item.IsNotActive)
                 {
                     minDistance = curDistance;
                     station = item;
@@ -164,7 +155,5 @@ namespace BL
             }
             return station;
         }
-
-   
     }
 }

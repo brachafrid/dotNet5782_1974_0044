@@ -1,18 +1,45 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace PL
 {
     public static class DelegateVM
     {
-        public static Action Drone { set; get; }
-        public static Action Customer { set; get; }
-        public static Action Station { set; get; }
-        public static Action Parcel { set; get; }
+        public static void NotifyDroneChanged(int droneId)
+        {
+            DroneChangedEvent?.Invoke(null, new EntityChangedEventArgs(droneId));
+        }
+        public static void NotifyStationChanged(int stationId)
+        {
+            DroneChangedEvent?.Invoke(null, new EntityChangedEventArgs(stationId));
+        }
+        public static void NotifyCustomerChanged(int customerId)
+        {
+            DroneChangedEvent?.Invoke(null, new EntityChangedEventArgs(customerId));
+        }
+        public static void NotifyParcelChanged(int parcelId)
+        {
+            DroneChangedEvent?.Invoke(null, new EntityChangedEventArgs(parcelId));
+        }
+        public static void Reset()
+        {
+            DroneChangedEvent = null;
+            CustomerChangedEvent = null;
+            StationChangedEvent = null;
+            Parcel = null;
+        }
+        public static event EventHandler<EntityChangedEventArgs> DroneChangedEvent;
+        public static event EventHandler<EntityChangedEventArgs> ParcelChangedEvent;
+        public static event EventHandler<EntityChangedEventArgs> CustomerChangedEvent;
+        public static event EventHandler<EntityChangedEventArgs> StationChangedEvent;
 
-        //public static event EventHandler StationChangedEvent;
+        public static Action Parcel { set; get; }
+    }
+    public class EntityChangedEventArgs : EventArgs
+    {
+        public EntityChangedEventArgs(int id)
+        {
+            Id = id;
+        }
+        public int Id { get; private set; }
     }
 }

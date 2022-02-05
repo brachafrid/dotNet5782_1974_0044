@@ -21,7 +21,8 @@ namespace BL
                 NumParcelSentDelivered = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && parcel.Delivered!=null),
                 NumParcelSentNotDelivered = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && parcel.Delivered==null),
                 NumParcelWayToCustomer = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && parcel.Delivered==null
-                && parcel.PickedUp!=null)
+                && parcel.PickedUp!=null),
+                IsNotActive = customer.IsNotActive
             };
 
         }

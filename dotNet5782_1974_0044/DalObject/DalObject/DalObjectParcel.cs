@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using DLApi;
 
 using DO;
 
 namespace Dal
 {
-    public partial class DalObject
+    public partial class DalObject:IDalParcel
     {
         //--------------------------------------Adding---------------------------
         /// <summary>
@@ -33,7 +34,7 @@ namespace Dal
             newParcel.PickedUp = pickedUp;
             newParcel.Delivered = delivered;
             newParcel.DorneId = droneId;
-            DataSorce.Parcels.Add(newParcel);
+            DalObjectService.AddEntity(newParcel);
         }
 
         //-----------------------------------------------------Display--------------------------------------
@@ -44,8 +45,8 @@ namespace Dal
         /// <returns>A parcel for display</returns>
         public Parcel GetParcel(int id)
         {
-            Parcel parcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == id);
-            if (parcel.Equals(default(Parcel)) || parcel.IsDeleted )
+            Parcel parcel =DalObjectService.GetEntities<Parcel>().FirstOrDefault(item => item.Id == id);
+            if (parcel.Equals(default(Parcel)) )
                 throw new KeyNotFoundException("There is not suitable parcel in data");
             return parcel;
         }
@@ -54,14 +55,14 @@ namespace Dal
         /// Prepares the list of Parcels for display
         /// </summary>
         /// <returns>A list of parcel</returns>
-        public IEnumerable<Parcel> GetParcels() => DataSorce.Parcels.Where(p => !p.IsDeleted);
+        public IEnumerable<Parcel> GetParcels() =>DalObjectService.GetEntities<Parcel>();
 
         /// <summary>
         /// Find the Parcels that not assign to drone
         /// </summary>
         /// <param name="notAssign">The predicate to screen out if the parcel not assign to drone</param>
         /// <returns>A list of the requested Parcels</returns>
-        public IEnumerable<Parcel> GetParcelsNotAssignedToDrone(Predicate<int> notAssign) => DataSorce.Parcels.FindAll(item =>notAssign(item.DorneId));
+        public IEnumerable<Parcel> GetParcelsNotAssignedToDrone(Predicate<int> notAssign) => DalObjectService.GetEntities<Parcel>().Where(item =>notAssign(item.DorneId));
         //-------------------------------------------------Removing-------------------------------------------------------------
         /// <summary>
         /// Removing a Parcel from the list
@@ -69,15 +70,15 @@ namespace Dal
         /// <param name="station"></param>
         public void RemoveParcel(Parcel parcel)
         {
-            DataSorce.Parcels.Remove(parcel);
+            DalObjectService.RemoveEntity(parcel);
         }
 
         public void DeleteParcel(int id)
         {
-            Parcel parcel = DataSorce.Parcels.FirstOrDefault(item => item.Id == id);
-            DataSorce.Parcels.Remove(parcel);
-            parcel.IsDeleted = true;
-            DataSorce.Parcels.Add(parcel);
+            Parcel parcel = DalObjectService.GetEntities<Parcel>().FirstOrDefault(item => item.Id == id);
+            DalObjectService.RemoveEntity(parcel);
+            parcel.IsNotActive = true;
+            DalObjectService.AddEntity(parcel);
         }
     }
 }

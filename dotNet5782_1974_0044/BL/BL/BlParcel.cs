@@ -19,6 +19,10 @@ namespace BL
                 throw new KeyNotFoundException("Sender not exist");
             if (!ExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerReceives.Id))
                 throw new KeyNotFoundException("Target not exist");
+            if (!IsActiveCustomer(parcelBl.CustomerSender.Id))
+                throw new DeletedExeption("sender deleted");
+            if (!IsActiveCustomer(parcelBl.CustomerReceives.Id))
+                throw new DeletedExeption("reciver deleted");
             try
             {
                 dal.AddParcel(parcelBl.CustomerSender.Id, parcelBl.CustomerReceives.Id, (DO.WeightCategories)parcelBl.Weight, (DO.Priorities)parcelBl.Priority);
@@ -27,7 +31,6 @@ namespace BL
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
-           
         }
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
@@ -48,8 +51,10 @@ namespace BL
         {
             return dal.GetParcels().Select(parcel => MapParcelToList(parcel));
         }
-        
-
+        public IEnumerable<ParcelToList> GetActiveParcels()
+        {
+            return dal.GetParcels().Where(parcel=>!parcel.IsNotActive).Select(parcel => MapParcelToList(parcel));
+        }
         /// <summary>
         /// Retrieves the list of parcels from the data and converts it to BL parcel 
         /// </summaryparfcel
@@ -64,6 +69,7 @@ namespace BL
         /// Retrieves the requested parcel from the data and converts it to BL parcel
         /// </summary>
         /// <param name="id">The requested parcel id</param>
+        /// <param name="nullAble">enable null if the customer sender or reciver not found</param>
         /// <returns>A Bl parcel to print</returns>
         public Parcel GetParcel(int id)
         {
@@ -169,12 +175,14 @@ namespace BL
                 dal.DeleteParcel(id);
             }
         }
+        public bool IsActiveParcel(int id) => dal.GetParcels().FirstOrDefault(Drone => Drone.Id == id).IsNotActive;
 
         //-----------------------------------------------Help function-----------------------------------------------------------------------------------
         /// <summary>
         /// Convert a DAL parcel to BL parcel
         /// </summary>
         /// <param name="parcel">The parcel to convert</param>
+        /// <param name="nullAble"></param>
         /// <returns>The converted parcel</returns>
         private Parcel MapParcel(DO.Parcel parcel)
         {

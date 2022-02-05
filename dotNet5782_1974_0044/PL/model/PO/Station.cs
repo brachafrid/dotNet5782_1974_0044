@@ -53,9 +53,9 @@ namespace PL.PO
             }
         }
 
-        private List<DroneInCharging> droneInChargings;
+        private IEnumerable<DroneInCharging> droneInChargings;
 
-        public List<DroneInCharging> DroneInChargings
+        public IEnumerable<DroneInCharging> DroneInChargings
         {
             get => droneInChargings; 
             set {

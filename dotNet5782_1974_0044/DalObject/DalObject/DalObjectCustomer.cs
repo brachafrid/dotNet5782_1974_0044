@@ -1,4 +1,4 @@
-﻿
+﻿using DLApi;
 using System.Collections.Generic;
 using System.Linq;
 using DO;
@@ -6,7 +6,7 @@ using DO;
 
 namespace Dal
 {
-    public partial class DalObject
+    public partial class DalObject:IDalCustomer
     {
         //----------------------------------------------Adding-----------------------------------
         /// <summary>
@@ -26,15 +26,15 @@ namespace Dal
             newCustomer.Phone = phone;
             newCustomer.Latitude = latitude;
             newCustomer.Longitude = longitude;
-            newCustomer.IsDeleted = false;
-            DataSorce.Customers.Add(newCustomer);
+            newCustomer.IsNotActive = false;
+            DalObjectService.AddEntity(newCustomer);
         }
         //-----------------------------------------Display----------------------------------
         /// <summary>
         /// Prepares the list of customer for display
         /// </summary>
         /// <returns>A list of customer</returns>
-        public IEnumerable<Customer> GetCustomers() => DataSorce.Customers.Where(c => c.IsDeleted == false);
+        public IEnumerable<Customer> GetCustomers() => DalObjectService.GetEntities<Customer>();
 
         /// <summary>
         /// Find a customer that has tha same id number as the parameter
@@ -43,22 +43,22 @@ namespace Dal
         /// <returns>A customer for display</returns>
         public Customer GetCustomer(int id)
         {
-            Customer customer=DataSorce.Customers.FirstOrDefault(item => item.Id == id );
-            if (customer.Equals(default(Customer)) || customer.IsDeleted == true)
-            { throw new KeyNotFoundException("There is no suitable customer in data"); }
+            Customer customer= DalObjectService.GetEntities<Customer>().FirstOrDefault(item => item.Id == id );
+            if (customer.Equals(default(Customer)))
+                 throw new KeyNotFoundException("There is no suitable customer in data"); 
             return customer;
         }
         public void RemoveCustomer(Customer customer)
         {
-            DataSorce.Customers.Remove(customer);
+            DalObjectService.RemoveEntity(customer);
         }
 
         public void DeleteCustomer(int id)
         {
-            Customer customer = DataSorce.Customers.FirstOrDefault(item => item.Id == id);
-            DataSorce.Customers.Remove(customer);
-            customer.IsDeleted = true;
-            DataSorce.Customers.Add(customer);
+            Customer customer = DalObjectService.GetEntities<Customer>().FirstOrDefault(item => item.Id == id);
+            DalObjectService.RemoveEntity(customer);
+            customer.IsNotActive = true;
+            DalObjectService.AddEntity(customer);
         }
 
     }

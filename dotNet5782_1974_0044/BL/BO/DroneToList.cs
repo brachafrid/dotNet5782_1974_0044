@@ -15,7 +15,7 @@ namespace BO
         public double BatteryState { get; set; }
         public DroneState DroneState { get; set; }
         public Location CurrentLocation { get; set; }
-        public bool IsDeleted { get; set; }
+        public bool IsNotActive { get; set; }
         public int? ParcelId { get; set; }
         public override string ToString()
         {

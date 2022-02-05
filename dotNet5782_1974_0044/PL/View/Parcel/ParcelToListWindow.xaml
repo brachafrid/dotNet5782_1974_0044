@@ -8,13 +8,19 @@
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
     <UserControl.Resources>
-        <ResourceDictionary Source="../Dictionary.xaml" />
+        <ResourceDictionary>
+            <local:CustomerAdministorVisibilityConverter x:Key="CustomerAdministorVisibilityConverter"/>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Dictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
 
     <ScrollViewer>
         <StackPanel>
             <StackPanel>
-                <Button Content="Add Parcel" Command="{Binding AddEntitiyCommand}" /> <!--Visibility="{Binding Path=state,Converter={StaticResource ConvertButtonAddVisibility}}"/>-->
+                <Button Content="Add Parcel" Command="{Binding AddEntitiyCommand}" Visibility="{Binding IsAdministor, Converter={StaticResource CustomerAdministorVisibilityConverter}}"/>
+                <!--Visibility="{Binding Path=state,Converter={StaticResource ConvertButtonAddVisibility}}"/>-->
                 <ListView ItemsSource="{Binding Path=list}">
                     <ListView.GroupStyle>
                         <GroupStyle ContainerStyle="{StaticResource ResourceKey=Group}"/>

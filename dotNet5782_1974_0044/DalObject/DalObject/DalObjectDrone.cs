@@ -1,4 +1,4 @@
-﻿
+﻿using DLApi;
 using System.Collections.Generic;
 using System.Linq;
 using System;
@@ -6,7 +6,7 @@ using DO;
 
 namespace Dal
 {
-    public partial class DalObject
+    public partial class DalObject:IDalDrone
     {
         //-------------------------Adding---------------------------------
         /// <summary>
@@ -23,10 +23,10 @@ namespace Dal
                 Id = id,
                 Model = model,
                 MaxWeight = MaxWeight,
-                IsDeleted = false
-                
+                IsNotActive = false
+
             };
-            DataSorce.Drones.Add(newDrone);
+            DalObjectService.AddEntity(newDrone);
         }
 
 
@@ -38,8 +38,8 @@ namespace Dal
         /// <returns>A drone for display</returns>
         public Drone GetDrone(int id)
         {
-            Drone drone=DataSorce.Drones.FirstOrDefault(item => item.Id == id);
-            if (drone.Equals(default(Drone)) || drone.IsDeleted)
+            Drone drone = DalObjectService.GetEntities<Drone>().FirstOrDefault(item => item.Id == id);
+            if (drone.Equals(default(Drone)) )
                 throw new KeyNotFoundException("There is not suitable drone in the data");
             return drone;
         }
@@ -48,7 +48,7 @@ namespace Dal
         /// Prepares the list of Drones for display
         /// </summary>
         /// <returns>A list of drones</returns>
-        public IEnumerable<Drone> GetDrones() => DataSorce.Drones.Where(d => !d.IsDeleted);
+        public IEnumerable<Drone> GetDrones() => DalObjectService.GetEntities<Drone>();
 
 
         //-------------------------------------------------Removing-------------------------------------------------------------
@@ -58,16 +58,15 @@ namespace Dal
         /// <param name="station"></param>
         public void RemoveDrone(Drone drone)
         {
-            DataSorce.Drones.Remove(drone);
+            DalObjectService.RemoveEntity(drone);
         }
 
         public void DeleteDrone(int id)
         {
-            Drone drone = DataSorce.Drones.FirstOrDefault(item => item.Id == id);
-            DataSorce.Drones.Remove(drone);
-            drone.IsDeleted = true;
-            DataSorce.Drones.Add(drone);
+            Drone drone = DalObjectService.GetEntities<Drone>().FirstOrDefault(item => item.Id == id);
+            DalObjectService.RemoveEntity(drone);
+            drone.IsNotActive = true;
+            DalObjectService.AddEntity(drone);
         }
     }
-
 }

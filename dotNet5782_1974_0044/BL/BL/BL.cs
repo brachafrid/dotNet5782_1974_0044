@@ -10,7 +10,7 @@ namespace BL
 {
     public sealed partial class BL : Singletone<BL>, IBL
     {
-        IDal dal { get; } = DLFactory.GetDL();
+       internal IDal dal { get; } = DLFactory.GetDL();
         private const int DRONESTATUSESLENGTH = 2;
         public const int MAXINITBATTARY = 20;
         public const int MININITBATTARY = 0;
@@ -50,7 +50,7 @@ namespace BL
             var customersGotParcelLocation = GetLocationsCustomersGotParcels((int recivedparcels) => recivedparcels > 0);
             foreach (var drone in tmpDrones)
             {
-                bool canTakeParcel = true;
+                bool isAbleTakeParcel = true;
                 var parcel = parcels.FirstOrDefault(parcel => parcel.DorneId == drone.Id && parcel.Delivered == null);
                 double BatteryStatus;
                 double tmpBatteryStatus = default;
@@ -62,8 +62,8 @@ namespace BL
                 if (parcel.DorneId != 0)
                 {
                     state = DroneState.DELIVERY;
-                    tmpBatteryStatus = MinBattary(parcel, ref canTakeParcel);
-                    if (!canTakeParcel)
+                    tmpBatteryStatus = MinBattary(parcel, ref isAbleTakeParcel);
+                    if (!isAbleTakeParcel)
                     {
                         state = default;
                         parcel.DorneId = 0;
@@ -97,7 +97,7 @@ namespace BL
                     CurrentLocation = Location,
                     ParcelId = parcel.DorneId == 0 ? 0 : parcel.Id,
                     BatteryState = BatteryStatus,
-                    IsDeleted=false
+                    IsNotActive=false
                 });
                 if (state == DroneState.MAINTENANCE)
                     dal.AddDRoneCharge(drone.Id, dal.GetStations().FirstOrDefault(station => (station.Latitude == Location.Latitude && station.Longitude == Location.Longitude)).Id);

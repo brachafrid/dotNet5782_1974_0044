@@ -17,39 +17,25 @@ namespace PL
         public RelayCommand VisibilitySender { get; set; }
         public Visble VisibleParcel { get; set; }
         public Visble VisibleSender { get; set; }
-
         public IEnumerable<int> customers { get; set; }
         public Array piorities { get; set; }
         public Array Weight { get; set; }
-        public AddParcelVM()
+        public bool IsAdministor { get; set; }
+        public AddParcelVM(bool isAdministor, int id= 0)
         {
-            parcel = new();
+            parcel = new( );
             customers = PLService.GetCustomers().Select(customer => customer.Id);
             AddParcelCommand = new(Add, param => parcel.Error == null);
             VisibilityParcel = new(visibilityParcel, param => parcel.Error == null);
-            //VisibilitySender = new(visibilitySender, param => parcel.Error == null);
             piorities = Enum.GetValues(typeof(Priorities));
             Weight = Enum.GetValues(typeof(WeightCategories));
-
-        }
-        public AddParcelVM(int id)
-        {
-            parcel = new();
-            parcel.CustomerSender = id;
-            customers = PLService.GetCustomers().Select(customer => customer.Id);
-            AddParcelCommand = new(Add, param => parcel.Error == null);
-            VisibilityParcel = new(visibilityParcel, param => parcel.Error == null);
-            VisibilitySender = new(visibilitySender, param => parcel.Error == null);
-            piorities = Enum.GetValues(typeof(Priorities));
-            Weight = Enum.GetValues(typeof(WeightCategories));
+            IsAdministor = isAdministor;
+           if (!isAdministor)
+                parcel.CustomerSender = id;
         }
         public void visibilityParcel(object param)
         {
             VisibleParcel.visibility = Visibility.Visible;
-        }
-        public void visibilitySender(object param)
-        {
-            VisibleSender.visibility = Visibility.Collapsed;
         }
         public void Add(object param)
         {
@@ -57,8 +43,9 @@ namespace PL
             {
                 PLService.AddParcel(parcel);
                 DelegateVM.Parcel?.Invoke();
-                DelegateVM.Customer?.Invoke();
-                Tabs.CloseTab((param as TabItemFormat).Header);
+                DelegateVM.NotifyCustomerChanged(parcel.CustomerReceives);
+                DelegateVM.NotifyCustomerChanged(parcel.CustomerSender);
+                Tabs.CloseTab(param as TabItemFormat);
             }
             catch(KeyNotFoundException)
             {

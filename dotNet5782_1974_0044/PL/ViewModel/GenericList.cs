@@ -29,6 +29,7 @@ namespace PL
         public RelayCommand GroupCommand { get; set; }
         public RelayCommand AddEntitiyCommand { get; set; }
         public ListCollectionView list { set; get; }
+        public ObservableCollection<T> sourceList;
         public Visble VisibilityKindOfSort { get; set; } = new();
         public Visble StringSortVisibility { get; set; } = new();
         public Visble VisibilityWeightCategories { get; set; } = new();
@@ -111,8 +112,6 @@ namespace PL
         public string SelectedKind { get; set; }
         public string SelectedGroup { get; set; }
         public string selectedValue { get; set; }
-
-
         public GenericList()
         {
             UpdateSortOptions();
@@ -124,28 +123,25 @@ namespace PL
             AddEntitiyCommand = new(AddEntity, null);
 
         }
-
         public void FilterNow()
         {
             list.Filter = InternalFilter;
             list.IsLiveFiltering = true;
         }
-
         public abstract void AddEntity(object param);
-
-
         void UpdateSortOptions()
         {
             SortOption = new ObservableCollection<string>(typeof(T).GetProperties().Where(prop => !prop.Name.Contains("Id") && (prop.PropertyType.IsValueType || prop.PropertyType == typeof(string))).Select(prop => prop.Name));
         }
         public void Grouping(object param)
         {
-            SelectedGroup = param.ToString();
-            CancelGroup(param);
-            list.GroupDescriptions.Add(new PropertyGroupDescription(SelectedGroup));
-            
+            if(param != null)
+            {
+                SelectedGroup = param?.ToString();
+                CancelGroup(param);
+                list.GroupDescriptions.Add(new PropertyGroupDescription(SelectedGroup));
+            }
         }
-
         public void CancelGroup(object param)
         {
             list.GroupDescriptions.Clear();
@@ -193,7 +189,6 @@ namespace PL
             VisblePackegeMode.visibility = Visibility.Collapsed;
             ShowValueFilter(typeof(T).GetProperty(SelectedKind).PropertyType);
         }
-
         public void CancelFilter(object param)
         {
             Filters.RemoveAll((SortEntities o)=>true);
@@ -206,7 +201,6 @@ namespace PL
             VisblePackegeMode.visibility = Visibility.Collapsed;
             FilterNow();
         }
-
         public void ShowValueFilter(Type propertyType)
         {
             switch (propertyType.Name)
@@ -236,7 +230,6 @@ namespace PL
                     break;
             }
         }
-
         public void FilterEnum(object param)
         {
             selectedValue = param.ToString();
@@ -251,7 +244,6 @@ namespace PL
                 Filters[Filters.IndexOf(fiterEnum)].Value = selectedValue;
             FilterNow();
         }       
-
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
         {

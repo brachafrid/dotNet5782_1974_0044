@@ -9,7 +9,7 @@ using Utilities;
 namespace Dal
 {
     //singelton pattern step #1 - recommend using "sealed" class to avoid derivated violation
-    public sealed partial class DalObject:Singletone<DalObject>, DLApi.IDal
+    public sealed partial class DalObject:Singletone<DalObject>, IDal
     {
         /// <summary>
         /// Call to quick initialization function
@@ -36,19 +36,10 @@ namespace Dal
         {
             if (!lst.Any())
                 return false;
-            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id&& !(bool)item.GetType().GetProperty("IsDeleted").GetValue(item));
+            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id&& !(bool)item.GetType().GetProperty("IsNotActive").GetValue(item));
             return !temp.Equals(default(T));
         }
-        /// <summary>
-        /// Takes from the DataSource the electricity use data of the drone
-        /// </summary>
-        /// <returns>A array of electricity use</returns>
 
-        public (double, double,double,double,double) GetElectricity()
-        {
-            return (DataSorce.Config.Available, DataSorce.Config.LightWeightCarrier, DataSorce.Config.MediumWeightBearing, DataSorce.Config.CarriesHeavyWeight, DataSorce.Config.DroneLoadingRate);
-    
-        }
         public string GetAdministorPasssword()
         {
             return DataSorce.Administrator_Password;

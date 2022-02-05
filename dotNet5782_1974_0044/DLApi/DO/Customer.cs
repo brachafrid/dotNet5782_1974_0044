@@ -38,7 +38,7 @@
                 }
             }
 
-        public bool IsDeleted { get; set; }
+        public bool IsNotActive { get; set; }
 
         public override string ToString()
             {

@@ -53,7 +53,7 @@ namespace Dal
             for (int i = 1; i <= CUSTOMERS_INIT; ++i)
                 RandomCustomer(dal, i);
             for (int i = 1; i <= PARCELS_INIT; ++i)
-                RandParcel(i);
+                RandParcel();
         }
         public static int AssignParcelDrone(WeightCategories weight)
         {
@@ -88,14 +88,14 @@ namespace Dal
             double longitude = Rnd.Next(LONGITUDE_MAX) + Rnd.NextDouble();
             dal.AddCustomer(id, phone, name, longitude, latitude);
         }
-        private static void RandParcel( int id)
+        private static void RandParcel()
         {
             Parcel newParcel = new ();
-            newParcel.Id = id;
-            newParcel.SenderId = Customers[Rnd.Next(1, Customers.Count(customer => !customer.IsDeleted))].Id;
+            newParcel.Id = ++Config.IdParcel;
+            newParcel.SenderId = Customers[Rnd.Next(1, Customers.Count(customer => !customer.IsNotActive))].Id;
             do
             {
-                newParcel.TargetId = Customers[Rnd.Next(1, Customers.Count(customer => !customer.IsDeleted))].Id;
+                newParcel.TargetId = Customers[Rnd.Next(1, Customers.Count(customer => !customer.IsNotActive))].Id;
             } while (newParcel.TargetId == newParcel.SenderId);
             newParcel.Weigth = (WeightCategories)Rnd.Next(RANGE_ENUM);
             newParcel.Priority = (Priorities)Rnd.Next(RANGE_ENUM);
@@ -104,7 +104,7 @@ namespace Dal
             newParcel.PickedUp = default;
             newParcel.Delivered = default;
             newParcel.DorneId = 0;
-            newParcel.IsDeleted = false;
+            newParcel.IsNotActive = false;
             int state = Rnd.Next(PARCELS_STATE);
             if (state!=0)
             {

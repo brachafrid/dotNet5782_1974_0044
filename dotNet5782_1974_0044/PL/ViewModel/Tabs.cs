@@ -12,10 +12,19 @@ namespace PL
     public static class Tabs
     {
         public static ObservableCollection<TabItemFormat> TabItems { get; set; } = new();
+        public static RelayCommand CloseCommandTab { get; set; }
         public static Action<int> changeSelectedTab;
-        public static void CloseTab(string Text)
+        static Tabs()
         {
-            TabItems.Remove(TabItems.FirstOrDefault(tab => tab.Header == Text));
+            CloseCommandTab = new(CloseTab, null);
+        }
+        public static void CloseTab(object param)
+        {
+            if(param is TabItemFormat tabItem)
+            {
+                TabItems.Remove(TabItems.FirstOrDefault(tab => tab.Header == tabItem.Header));
+            }
+                
         }
         public static void AddTab(TabItemFormat tabItemFormat)
         {
@@ -35,35 +44,36 @@ namespace PL
             {
                 Type t = param.GetType();
                 int id = (int)t.GetProperty("Id").GetValue(param);
-                AddTab(
-                    t switch
+                TabItemFormat tab =
+                t switch
+                {
+                    { } when t.Name.StartsWith("Drone") && !PLService.IsActiveDrone(id) => new TabItemFormat()
                     {
-                        { } when t.Name.StartsWith("Drone") => new TabItemFormat()
-                        {
-                            Header = "Drone " + id,
-                            Content = new UpdateDroneVM(id)
-                        },
-                        { } when t.Name.StartsWith("Customer") => new TabItemFormat()
-                        {
-                            Header = "Customer " + id,
-                            Content = new UpdateCustomerVM(id)
-                        },
-                        { } when t.Name.StartsWith("Station") => new TabItemFormat()
-                        {
-                            Header = "Station " + id,
-                            Content = new UpdateStationVM(id)
-                        },
-                        { } when t.Name.StartsWith("Parcel") => new TabItemFormat()
-                        {
-                            Header = "Parcel " + id,
-                            Content = new UpdateParcelVM(id)
-                        },
-                        _ => throw new NotImplementedException(),
-                    }
-                    ) ;
+                        Header = "Drone " + id,
+                        Content = new UpdateDroneVM(id)
+                    },
+                    { } when t.Name.StartsWith("Customer") && !PLService.IsActiveCustomer(id) => new TabItemFormat()
+                    {
+                        Header = "Customer " + id,
+                        Content = new UpdateCustomerVM(id, true)
+                    },
+                    { } when t.Name.StartsWith("Station") && !PLService.IsActiveStation(id) => new TabItemFormat()
+                    {
+                        Header = "Station " + id,
+                        Content = new UpdateStationVM(id)
+                    },
+                    { } when t.Name.StartsWith("Parcel") && !PLService.IsActiveParcel(id) => new TabItemFormat()
+                    {
+                        Header = "Parcel " + id,
+                        Content = new UpdateParcelVM(id)
+                    },
+                    _ => null,
+                };
+                if (tab == null)
+                    MessageBox.Show("Deleted");
+                else
+                    AddTab(tab);
             }
-                
-
         }
     }
 }
