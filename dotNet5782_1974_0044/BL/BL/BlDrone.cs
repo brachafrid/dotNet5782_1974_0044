@@ -291,11 +291,11 @@ namespace BL
         /// <returns>A list of drones to print</returns>
         public IEnumerable<DroneToList> GetDrones() => drones.Where(drone=>!drone.IsDeleted);
 
-        private List<DroneInCharging> CreatListDroneInCharging(int id)
+        private IEnumerable<DroneInCharging> CreatListDroneInCharging(int id)
         {
             IEnumerable<int> list = dal.GetDronechargingInStation((int stationIdOfDrone)=> stationIdOfDrone == id);
             if (list.Count() == 0)
-                return new();
+                return new List<DroneInCharging>();
             List<DroneInCharging> droneInChargings = new();
             DroneToList droneToList;
             foreach (var idDrone in list)
