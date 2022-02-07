@@ -289,11 +289,7 @@ namespace BL
             dal.DeleteDrone(id);
             drones[drones.IndexOf(drone)].IsNotActive = true;
         }
-<<<<<<< HEAD
         public bool IsNotActiveDrone(int id)=>drones.Any(drone => drone.Id == id && drone.IsNotActive);
-=======
-        public bool IsActiveDrone(int id) => drones.FirstOrDefault(Drone => Drone.Id == id).IsNotActive;
->>>>>>> 4e7d976eefc15d075fc8fd331f1c668563845aed
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
         /// <summary>
