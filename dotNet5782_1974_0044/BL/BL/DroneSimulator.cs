@@ -22,16 +22,18 @@ namespace BL
         private const double VELOCITY = 1.0;
         private const double STEP = VELOCITY / TIME_STEP;
         double distance = 0.0;
-        public DroneSimulator(int id, BL BL, Action update)
+        public DroneSimulator(int id, BL BL, Action<int?, int?, int?, int?> update, Func<bool> checkStop)
         {
             try
             {
                 bl = BL;
                 Dal = bl.dal;
                 Drone = bl.GetDrone(id);
-                while(true)
+                while(!checkStop())
                 {
-                    
+                    bl.UpdateDrone(id, $"Drone{DateTime.Now.Second}");
+                    update(1, null, null, null);
+                    Thread.Sleep(DELAY);
                 }
             }
             catch (KeyNotFoundException ex)

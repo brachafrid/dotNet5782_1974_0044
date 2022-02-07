@@ -10,6 +10,7 @@ namespace PL
     {
         private int id;
         BackgroundWorker simulatorWorker;
+        Action simulateDrone;
         public PO.Drone drone
         {
             get { return (PO.Drone)GetValue(droneProperty); }
@@ -49,12 +50,13 @@ namespace PL
             DelegateVM.DroneChangedEvent += HandleADroneChanged;
             OpenParcelCommand = new(Tabs.OpenDetailes, null);
             OpenCustomerCommand = new(Tabs.OpenDetailes, null);
-            SimulatorCommand = new(StartSimulator);
+            simulateDrone = StartSimulator;
+            SimulatorCommand = new((param) => simulateDrone());
         }
 
         private void HandleADroneChanged(object sender, EntityChangedEventArgs e)
         {
-            if (id == e.Id || e.Id==null)
+            if (id == e.Id || e.Id == null)
                 InitThisDrone();
         }
 
@@ -94,7 +96,7 @@ namespace PL
                 {
                     PLService.SendDroneForCharg(drone.Id);
                     DelegateVM.NotifyDroneChanged(drone.Id);
-                   DelegateVM.NotifyStationChanged();
+                    DelegateVM.NotifyStationChanged();
                 }
                 else if (drone.DroneState == PO.DroneState.MAINTENANCE)
                 {
@@ -150,26 +152,20 @@ namespace PL
             }
         }
 
-
         public static readonly DependencyProperty AutoProperty =
             DependencyProperty.Register(nameof(Auto), typeof(bool), typeof(UpdateDroneVM), new PropertyMetadata(false));
         public bool Auto
         {
             get => (bool)GetValue(AutoProperty);
-            set { 
-                SetValue(AutoProperty, value);
-                if (value)
-                    StartSimulator(null);
-                else
-                    StopSimulator(null);
-            }
+            set => SetValue(AutoProperty, value);
         }
-        private void StartSimulator(object param)
+
+        private void StartSimulator()
         {
             Auto = true;
-            SimulatorCommand = new(StopSimulator);
+            simulateDrone = StopSimulator;
             simulatorWorker = new() { WorkerReportsProgress = true, WorkerSupportsCancellation = true, };
-             simulatorWorker.DoWork += (sender, args) => PLService.StartDroneSimulator(id, updateDrone, IsSimulatorStoped);
+            simulatorWorker.DoWork += (sender, args) => PLService.StartDroneSimulator(id, updateDrone, IsSimulatorStoped);
             simulatorWorker.RunWorkerCompleted += (sender, args) => Auto = false;
             simulatorWorker.ProgressChanged += HandleWorkerProgressChanged;
             simulatorWorker.RunWorkerAsync(id);
@@ -177,15 +173,19 @@ namespace PL
 
         private void HandleWorkerProgressChanged(object sender, ProgressChangedEventArgs e)
         {
+            //var x=(int? parcelId, int? senderId, int? receiverId, int? stationId)e.UserState;
             DelegateVM.NotifyDroneChanged(id);
         }
 
-        private void StopSimulator(object param)
+        private void StopSimulator()
         {
-            SimulatorCommand = new(StartSimulator);
+            simulateDrone = StartSimulator;
             simulatorWorker?.CancelAsync();
         }
-        private void updateDrone() => simulatorWorker.ReportProgress(0);
+        private void updateDrone(int? parcelId, int? senderId, int? receiverId, int? stationId)
+        {
+            simulatorWorker.ReportProgress(0,(parcelId,senderId,receiverId,stationId));
+        }
         private bool IsSimulatorStoped() => simulatorWorker.CancellationPending;
     }
 }

@@ -196,7 +196,6 @@ namespace BL
         {
             return dal.GetAdministorPasssword();
         }
-        public void StartDroneSimulator(int id, Action update, Func<bool> checkStop) => new DroneSimulator(id,this, update);
-        
+               
     }
 }

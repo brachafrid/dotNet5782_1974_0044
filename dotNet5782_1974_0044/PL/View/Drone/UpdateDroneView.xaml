@@ -23,6 +23,11 @@
         <ScrollViewer>
             <StackPanel >
                 <ContentPresenter Content="{Binding drone}"/>
+                <ToggleButton
+                            Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                            ToolTip="MaterialDesignSwitchToggleButton"
+                            IsChecked="{Binding Auto, Mode=TwoWay}" 
+                            Command="{Binding SimulatorCommand}"/>
                 <Button Content="update drone's model" Command="{Binding UpdateDroneCommand}">
                     <Button.Visibility>
                         <MultiBinding Converter="{StaticResource ConverterUpdateModel}">
@@ -36,7 +41,7 @@
                     <Button x:Name="sendToCharging" Content="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingContent}}"  Visibility="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingVisibility}}" Command="{Binding ChargingDroneCommand}"/>
                 </StackPanel>
                 <StackPanel>
-                    <Button x:Name="parcelTreatedByDRone"   Visibility="{Binding Path=drone.DroneState,Converter={StaticResource parcelTreatedByDroneVisibility}}" Command="{Binding ParcelTreatedByDrone}">
+                        <Button x:Name="parcelTreatedByDRone"   Visibility="{Binding Path=drone.DroneState,Converter={StaticResource parcelTreatedByDroneVisibility}}" Command="{Binding ParcelTreatedByDrone}">
                         <Button.Content>
                             <MultiBinding Converter="{StaticResource parcelTreatedByDroneContent}">
                                 <Binding Path="drone.DroneState" />
@@ -44,10 +49,7 @@
                             </MultiBinding>
                         </Button.Content>
                     </Button>
-                        <ToggleButton
-                            Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                            ToolTip="MaterialDesignSwitchToggleButton"
-                            IsChecked="{Binding Auto}" />
+                       
                         <Button Content="delete drone" Command="{Binding DeleteDroneCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
                 </StackPanel>
             </StackPanel>
