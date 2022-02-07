@@ -11,7 +11,7 @@ namespace BL
 
     public partial class BL : IBlDrone
     {
-        
+
         private const int NUM_OF_MINUTE_IN_HOUR = 60;
         private const int MIN_BATTERY = 20;
         private const int MAX_BATTERY = 40;
@@ -121,16 +121,25 @@ namespace BL
                 throw new ArgumentNullException(" There is no a drone with the same id in data");
             if (droneToList.DroneState != DroneState.AVAILABLE)
                 throw new InvalidEnumArgumentException($"The drone is {droneToList.DroneState} so it is not possible to send it for charging ");
-            DO.Station station = ClosetStationPossible(dal.GetStations(), droneToList.CurrentLocation, droneToList.BatteryState, out double minDistance);
-            if (station.Equals(default(DO.Station)))
-                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();
-            drones.Remove(droneToList);
-            droneToList.DroneState = DroneState.MAINTENANCE;
-            droneToList.BatteryState -= minDistance * available;
-            droneToList.CurrentLocation = new Location() { Longitude = station.Longitude, Latitude = station.Latitude }; ;
-            //No charging position was subtracting because there is no point in changing a variable that is not saved after the end of the function
-            dal.AddDRoneCharge(id, station.Id);
-            drones.Add(droneToList);
+            try
+            {
+                Station station = ClosetStationPossible(droneToList.CurrentLocation, droneToList.BatteryState, out double minDistance);
+                if (station == null)
+                    throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();
+                drones.Remove(droneToList);
+                droneToList.DroneState = DroneState.MAINTENANCE;
+                droneToList.BatteryState -= minDistance * available;
+                droneToList.CurrentLocation = station.Location;
+                //No charging position was subtracting because there is no point in changing a variable that is not saved after the end of the function
+                dal.AddDRoneCharge(id, station.Id);
+                drones.Add(droneToList);
+            }
+            catch (NotExsistSuitibleStationException ex)
+            {
+
+                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException(ex.Message,ex);
+            }
+
         }
 
         /// <summary>
@@ -251,7 +260,7 @@ namespace BL
                     WeightCategories.LIGHT => lightWeightCarrier,
                     WeightCategories.MEDIUM => mediumWeightBearing,
                     WeightCategories.HEAVY => carriesHeavyWeight,
-                    _=>0
+                    _ => 0
                 };
                 droneToList.CurrentLocation = receiverLocation;
                 droneToList.DroneState = DroneState.AVAILABLE;
@@ -280,7 +289,11 @@ namespace BL
             dal.DeleteDrone(id);
             drones[drones.IndexOf(drone)].IsNotActive = true;
         }
+<<<<<<< HEAD
         public bool IsNotActiveDrone(int id)=>drones.Any(drone => drone.Id == id && drone.IsNotActive);
+=======
+        public bool IsActiveDrone(int id) => drones.FirstOrDefault(Drone => Drone.Id == id).IsNotActive;
+>>>>>>> 4e7d976eefc15d075fc8fd331f1c668563845aed
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
         /// <summary>

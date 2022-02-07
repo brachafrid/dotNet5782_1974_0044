@@ -126,11 +126,13 @@ namespace BL
         /// <param name="droneToList">The drone</param>
         /// <param name="minDistance">The distance the drone need to travel</param>
         /// <returns></returns>
-        private DO.Station ClosetStationPossible(IEnumerable<DO.Station> stations, Location droneToListLocation, double BatteryStatus, out double minDistance)
+        internal Station ClosetStationPossible( Location droneToListLocation, double BatteryStatus, out double minDistance)
         {
-            DO.Station station = ClosetStation(stations, droneToListLocation);
-            minDistance = Distance(droneToListLocation, new Location() { Longitude = station.Longitude, Latitude = station.Latitude });
-            return minDistance * available <= BatteryStatus ? station : default(DO.Station);
+            Station station = ClosetStation(droneToListLocation);
+            if (station == null)
+                throw new NotExsistSuitibleStationException("no suitble station");
+            minDistance = Distance(droneToListLocation, station.Location);
+            return minDistance * available <= BatteryStatus ? station : null;
         }
 
         /// <summary>
@@ -139,18 +141,18 @@ namespace BL
         /// <param name="stations">The all stations</param>
         /// <param name="location">The  particular location</param>
         /// <returns>The station</returns>
-        private DO.Station ClosetStation(IEnumerable<DO.Station> stations, Location location)
+        private Station ClosetStation( Location location)
         {
             double minDistance = double.MaxValue;
             double curDistance;
-            DO.Station station = default;
-            foreach (var item in stations)
+            Station station = default;
+            foreach (var item in dal.GetStations())
             {
                 curDistance = Distance(location, new Location() { Latitude = item.Latitude, Longitude = item.Longitude });
                 if (curDistance < minDistance && !item.IsNotActive)
                 {
                     minDistance = curDistance;
-                    station = item;
+                    station = ConvertStation( item);
                 }
             }
             return station;
