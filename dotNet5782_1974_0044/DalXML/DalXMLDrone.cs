@@ -79,11 +79,13 @@ namespace Dal
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RemoveDrone(Drone drone)
+        public void UpdateDrone(Drone drone, string model)
         {
             try { 
                 List<Drone> drones = DalXmlService.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
                 drones.Remove(drone);
+                drone.Model = model;
+                drones.Add(drone);
                 DalXmlService.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
             }
             catch (XMLFileLoadCreateException ex)

@@ -47,22 +47,22 @@ namespace PL
                 TabItemFormat tab =
                 t switch
                 {
-                    { } when t.Name.StartsWith("Drone") && !PLService.IsActiveDrone(id) => new TabItemFormat()
+                    { } when t.Name.StartsWith("Drone") && !PLService.IsNotActiveDrone(id) => new TabItemFormat()
                     {
                         Header = "Drone " + id,
                         Content = new UpdateDroneVM(id)
                     },
-                    { } when t.Name.StartsWith("Customer") && !PLService.IsActiveCustomer(id) => new TabItemFormat()
+                    { } when t.Name.StartsWith("Customer") && !PLService.IsNotActiveCustomer(id) => new TabItemFormat()
                     {
                         Header = "Customer " + id,
                         Content = new UpdateCustomerVM(id, true)
                     },
-                    { } when t.Name.StartsWith("Station") && !PLService.IsActiveStation(id) => new TabItemFormat()
+                    { } when t.Name.StartsWith("Station") && !PLService.IsNotActiveStation(id) => new TabItemFormat()
                     {
                         Header = "Station " + id,
                         Content = new UpdateStationVM(id)
                     },
-                    { } when t.Name.StartsWith("Parcel") && !PLService.IsActiveParcel(id) => new TabItemFormat()
+                    { } when t.Name.StartsWith("Parcel") && !PLService.IsNotActiveParcel(id) => new TabItemFormat()
                     {
                         Header = "Parcel " + id,
                         Content = new UpdateParcelVM(id)

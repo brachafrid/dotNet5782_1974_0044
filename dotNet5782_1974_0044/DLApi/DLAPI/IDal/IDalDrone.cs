@@ -8,7 +8,7 @@ namespace DLApi
         public void AddDrone(int id, string model, WeightCategories MaxWeight);
         public Drone GetDrone(int id);
         public IEnumerable<Drone> GetDrones();
-        public void RemoveDrone(Drone drone);
+        public void UpdateDrone(Drone drone,string model);
         public void DeleteDrone(int id);
     }
 }

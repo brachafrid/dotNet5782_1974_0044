@@ -69,9 +69,14 @@ namespace Dal
         /// </summary>
         /// <param name="station"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RemoveStation(Station station)
+        public void UpdateStation(Station station,string name,int chargeSlots)
         {
             DalObjectService.RemoveEntity(station);
+            if (!name.Equals(string.Empty))
+                station.Name = name;
+            if (chargeSlots != 0)
+                station.ChargeSlots = chargeSlots;
+            DalObjectService.AddEntity(station);
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(int id)

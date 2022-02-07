@@ -33,7 +33,12 @@ namespace PL
             DeleteParcelCommand = new(DeleteParcel, param => parcel.Error == null);
             OpenCustomerCommand = new(Tabs.OpenDetailes, null);
             OpenDroneCommand = new(Tabs.OpenDetailes, null);
-            DelegateVM.Parcel += InitParcel;
+            DelegateVM.ParcelChangedEvent += HandleAParcelChanged;
+        }
+        private void HandleAParcelChanged(object sender, EntityChangedEventArgs e)
+        {
+            if (id == e.Id || e.Id == null)
+                InitParcel();
         }
         public void InitParcel()
         {
@@ -45,8 +50,8 @@ namespace PL
             {
                 PLService.DeleteParcel(parcel.Id);
                 MessageBox.Show("The parcel was successfully deleted");
-                DelegateVM.Parcel -= InitParcel;
-                DelegateVM.Parcel?.Invoke();
+                DelegateVM.ParcelChangedEvent -= HandleAParcelChanged;
+                DelegateVM.NotifyParcelChanged(parcel.Id);
                 Tabs.CloseTab(param as TabItemFormat);
             }
         }

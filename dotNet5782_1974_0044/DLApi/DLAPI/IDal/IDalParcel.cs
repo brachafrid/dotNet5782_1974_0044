@@ -13,7 +13,7 @@ namespace DLApi
         public Parcel GetParcel(int id);
         public IEnumerable<Parcel> GetParcels();
         public IEnumerable<Parcel> GetParcelsNotAssignedToDrone(Predicate<int> notAssign);
-        public void RemoveParcel(Parcel parcel);
+        public void UpdateParcel(Parcel parcel,Parcel newParcel);
         public void DeleteParcel(int id);
 
     }

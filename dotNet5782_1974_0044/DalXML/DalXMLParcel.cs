@@ -103,11 +103,12 @@ namespace Dal
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RemoveParcel(Parcel parcel)
+        public void UpdateParcel(Parcel parcel, Parcel newParcel)
         {
             try { 
                 List<Parcel> parcels = DalXmlService.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH);
                 parcels.Remove(parcel);
+                parcels.Add(newParcel);
                 DalXmlService.SaveListToXMLSerializer<Parcel>(parcels, PARCEL_PATH);
             }
             catch (XMLFileLoadCreateException ex)

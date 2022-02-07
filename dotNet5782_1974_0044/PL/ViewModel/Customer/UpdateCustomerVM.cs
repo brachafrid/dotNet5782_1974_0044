@@ -53,13 +53,13 @@ namespace PL
             customerPhone = customer.Phone;
             UpdateCustomerCommand = new(UpdateCustomer, param => customer.Error == null);
             DeleteCustomerCommand = new(DeleteCustomer, param => customer.Error == null);
-            DelegateVM.CustomerChangedEvent += HandleCustomerChanged;
+            DelegateVM.CustomerChangedEvent += HandleACustomerChanged;
             OpenParcelCommand = new(Tabs.OpenDetailes, null);
             IsAdministor = isAdministor;
         }
-        private void HandleCustomerChanged(object sender, EntityChangedEventArgs e)
+        private void HandleACustomerChanged(object sender, EntityChangedEventArgs e)
         {
-            if (id == e.Id)
+            if (id == e.Id||e.Id==null)
                 InitThisCustomer();
         }
         public void InitThisCustomer()
@@ -92,7 +92,7 @@ namespace PL
                 }
                 else
                 {
-                    DelegateVM.CustomerChangedEvent -= HandleCustomerChanged;
+                    DelegateVM.CustomerChangedEvent -= HandleACustomerChanged;
                     DelegateVM.NotifyCustomerChanged(customer.Id);
                     Tabs.CloseTab(param as TabItemFormat);
                 }

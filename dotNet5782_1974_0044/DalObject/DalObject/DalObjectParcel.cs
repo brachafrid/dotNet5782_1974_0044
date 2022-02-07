@@ -73,9 +73,10 @@ namespace Dal
         /// </summary>
         /// <param name="station"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RemoveParcel(Parcel parcel)
+        public void UpdateParcel(Parcel parcel,Parcel newParcel)
         {
             DalObjectService.RemoveEntity(parcel);
+            DalObjectService.AddEntity(newParcel);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]

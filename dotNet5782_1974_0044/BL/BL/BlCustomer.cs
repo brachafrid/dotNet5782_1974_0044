@@ -59,14 +59,7 @@ namespace BL
             DO.Customer customer;
             try
             {
-                customer = dal.GetCustomer(id);
-                dal.RemoveCustomer(customer);
-                if (name.Equals(string.Empty))
-                    name = customer.Name;
-                else if (phone.Equals(string.Empty))
-                    phone = customer.Phone;
-                dal.AddCustomer(id, phone, name, customer.Longitude, customer.Latitude);
-
+                dal.UpdateCustomer(dal.GetCustomer(id), name,phone);
             }
             catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
@@ -83,7 +76,7 @@ namespace BL
         {
             dal.DeleteCustomer(id);
         }
-        public bool IsActiveCustomer(int id) => dal.GetCustomers().FirstOrDefault(Customer => Customer.Id == id).IsNotActive;
+        public bool IsNotActiveCustomer(int id) => dal.GetCustomers().Any(customer => customer.Id == id && customer.IsNotActive);
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
         /// <summary>

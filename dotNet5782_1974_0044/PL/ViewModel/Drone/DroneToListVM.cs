@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
-using PL.PO;
+﻿using PL.PO;
 using System.Collections.ObjectModel;
-using System.Windows;
+using System.Linq;
+using System.Windows.Data;
 
 namespace PL
 {
@@ -23,11 +17,20 @@ namespace PL
 
         private void HandleDroneChanged(object sender, EntityChangedEventArgs e)
         {
-            var drone = sourceList.FirstOrDefault(d => d.Id == e.Id);
-            if (drone != default)
-                sourceList.Remove(drone);
-            var newDrone = PLService.GetDrones().FirstOrDefault(d => d.Id == e.Id);
-            sourceList.Add(newDrone);
+            if (e.Id != null)
+            {
+                var drone = sourceList.FirstOrDefault(d => d.Id == e.Id);
+                if (drone != default)
+                    sourceList.Remove(drone);
+                var newDrone = PLService.GetDrones().FirstOrDefault(d => d.Id == e.Id);
+                sourceList.Add(newDrone);
+            }
+            else
+            {
+                sourceList.Clear();
+                foreach (var item in PLService.GetDrones())
+                    sourceList.Add(item);
+            }
         }
 
         public override void AddEntity(object param)

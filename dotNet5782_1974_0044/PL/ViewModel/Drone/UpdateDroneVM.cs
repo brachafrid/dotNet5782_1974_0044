@@ -46,15 +46,15 @@ namespace PL
             ChargingDroneCommand = new(SendToCharging, param => drone.Error == null);
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => drone.Error == null);
             DeleteDroneCommand = new(DeleteDrone, param => drone.Error == null);
-            DelegateVM.DroneChangedEvent += HandleDroneChanged;
+            DelegateVM.DroneChangedEvent += HandleADroneChanged;
             OpenParcelCommand = new(Tabs.OpenDetailes, null);
             OpenCustomerCommand = new(Tabs.OpenDetailes, null);
             SimulatorCommand = new(StartSimulator);
         }
 
-        private void HandleDroneChanged(object sender, EntityChangedEventArgs e)
+        private void HandleADroneChanged(object sender, EntityChangedEventArgs e)
         {
-            if (id == e.Id)
+            if (id == e.Id || e.Id==null)
                 InitThisDrone();
         }
 
@@ -94,13 +94,13 @@ namespace PL
                 {
                     PLService.SendDroneForCharg(drone.Id);
                     DelegateVM.NotifyDroneChanged(drone.Id);
-                    //DelegateVM.NotifyStationChanged();
+                   DelegateVM.NotifyStationChanged();
                 }
                 else if (drone.DroneState == PO.DroneState.MAINTENANCE)
                 {
                     PLService.ReleaseDroneFromCharging(drone.Id);
                     DelegateVM.NotifyDroneChanged(drone.Id);
-                    //DelegateVM.NotifyStationChanged();
+                    DelegateVM.NotifyStationChanged();
                 }
             }
             catch (BO.ThereIsNoNearbyBaseStationThatTheDroneCanReachException)
@@ -144,7 +144,7 @@ namespace PL
             {
                 PLService.DeleteDrone(drone.Id);
                 MessageBox.Show("The drone was successfully deleted");
-                DelegateVM.DroneChangedEvent -= HandleDroneChanged;
+                DelegateVM.DroneChangedEvent -= HandleADroneChanged;
                 DelegateVM.NotifyDroneChanged(drone.Id);
                 Tabs.CloseTab(param as TabItemFormat);
             }

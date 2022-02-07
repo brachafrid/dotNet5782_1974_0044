@@ -63,10 +63,13 @@ namespace PL
             try
             {
                 Customer customer = PLService.GetCustomer((int)customerLogin.Id);
-                if (!PLService.IsActiveCustomer(customer.Id))
+                if (PLService.IsNotActiveCustomer(customer.Id))
                     MessageBox.Show("Deleted customer");
-                LoginScreen.Id = customer.Id;
-                LoginScreen.MyScreen = "CustomerWindow";
+                else
+                {
+                    LoginScreen.Id = customer.Id;
+                    LoginScreen.MyScreen = "CustomerWindow";
+                }
             }
             catch (KeyNotFoundException)
             {

@@ -52,9 +52,14 @@ namespace Dal
             return customer;
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RemoveCustomer(Customer customer)
+        public void UpdateCustomer(Customer customer, string name,string phone)
         {
             DalObjectService.RemoveEntity(customer);
+            if (!name.Equals(string.Empty))
+                customer.Name = name;
+            if (!phone.Equals(string.Empty))
+                customer.Phone = phone;
+            DalObjectService.AddEntity(customer);
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(int id)

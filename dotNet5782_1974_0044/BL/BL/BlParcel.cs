@@ -20,9 +20,9 @@ namespace BL
                 throw new KeyNotFoundException("Sender not exist");
             if (!ExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerReceives.Id))
                 throw new KeyNotFoundException("Target not exist");
-            if (!IsActiveCustomer(parcelBl.CustomerSender.Id))
+            if (IsNotActiveCustomer(parcelBl.CustomerSender.Id))
                 throw new DeletedExeption("sender deleted");
-            if (!IsActiveCustomer(parcelBl.CustomerReceives.Id))
+            if (IsNotActiveCustomer(parcelBl.CustomerReceives.Id))
                 throw new DeletedExeption("reciver deleted");
             try
             {
@@ -97,10 +97,10 @@ namespace BL
             try
             {
                 DO.Parcel parcel = dal.GetParcel(parcelId);
-                dal.RemoveParcel(parcel);
-                parcel.DorneId = droneId;
-                parcel.Sceduled = DateTime.Now;
-                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id,parcel.DorneId,parcel.Requested,parcel.Sceduled,parcel.PickedUp,parcel.Delivered);
+                DO.Parcel newParcel = parcel;
+                newParcel.DorneId = droneId;
+                newParcel.Sceduled = DateTime.Now;
+                dal.UpdateParcel(parcel, newParcel);
             }
             catch (KeyNotFoundException ex)
             {
@@ -122,9 +122,9 @@ namespace BL
             try
             {
                 DO.Parcel parcel = dal.GetParcel(parcelId);
-                dal.RemoveParcel(parcel);
-                parcel.PickedUp = DateTime.Now;
-                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id,parcel.DorneId, parcel.Requested, parcel.Sceduled, parcel.PickedUp, parcel.Delivered);
+                DO.Parcel newParcel = parcel;
+                newParcel.PickedUp = DateTime.Now;
+                dal.UpdateParcel(parcel, newParcel);               
             }
             catch (KeyNotFoundException ex)
             {
@@ -146,10 +146,10 @@ namespace BL
             DO.Parcel parcel;
             try
             {
-               parcel  = dal.GetParcel(parcelId);
-                dal.RemoveParcel(parcel);
-                parcel.Delivered = DateTime.Now;
-                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id, parcel.DorneId, parcel.Requested, parcel.Sceduled, parcel.PickedUp, parcel.Delivered);
+                parcel = dal.GetParcel(parcelId);
+                DO.Parcel newParcel = parcel;
+                newParcel.Delivered = DateTime.Now;
+                dal.UpdateParcel(parcel, newParcel);
 
             }
             catch (KeyNotFoundException ex)
@@ -176,7 +176,7 @@ namespace BL
                 dal.DeleteParcel(id);
             }
         }
-        public bool IsActiveParcel(int id) => dal.GetParcels().FirstOrDefault(Drone => Drone.Id == id).IsNotActive;
+        public bool IsNotActiveParcel(int id) => dal.GetParcels().Any(parcel => parcel.Id == id && parcel.IsNotActive);
 
         //-----------------------------------------------Help function-----------------------------------------------------------------------------------
         /// <summary>
