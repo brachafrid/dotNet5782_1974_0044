@@ -90,13 +90,13 @@ namespace PL
                 {
                     PLService.SendDroneForCharg(drone.Id);
                     DelegateVM.NotifyDroneChanged(drone.Id);
-                    DelegateVM.Station?.Invoke();
+                    DelegateVM.NotifyStationChanged();
                 }
                 else if (drone.DroneState == PO.DroneState.MAINTENANCE)
                 {
                     PLService.ReleaseDroneFromCharging(drone.Id);
                     DelegateVM.NotifyDroneChanged(drone.Id);
-                    DelegateVM.Station?.Invoke();
+                    DelegateVM.NotifyStationChanged();
                 }
             }
             catch (BO.ThereIsNoNearbyBaseStationThatTheDroneCanReachException)

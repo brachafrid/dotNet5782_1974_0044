@@ -8,6 +8,7 @@ using DLApi;
 using DO;
 using System.IO;
 using System.Xml.Serialization;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
@@ -41,7 +42,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public string GetAdministorPasssword()
         {
             try

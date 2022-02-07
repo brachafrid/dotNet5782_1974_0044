@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
@@ -13,7 +14,7 @@ namespace Dal
     public sealed partial class DalXml:IDalDrone
     {
         const string DRONE_PATH = @"XmlDrone.xml";
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(int id, string model, WeightCategories MaxWeight)
         {
             try { 
@@ -36,7 +37,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(int id)
         {
             try { 
@@ -52,6 +53,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int id)
         {
             try { 
@@ -65,7 +67,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> GetDrones()
         {
             try { 
@@ -76,6 +78,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDrone(Drone drone)
         {
             try { 
@@ -88,7 +91,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public (double, double, double, double, double) GetElectricity()
         {
             try

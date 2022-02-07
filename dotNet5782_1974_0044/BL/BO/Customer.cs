@@ -13,8 +13,8 @@ namespace BO
         public string Name { get; set; }
         public string Phone { get; set; }
         public Location Location { get; set; }
-        public List<ParcelAtCustomer> FromCustomer { get; set; }
-        public List<ParcelAtCustomer> ToCustomer { get; set; }
+        public IEnumerable<ParcelAtCustomer> FromCustomer { get; set; }
+        public IEnumerable<ParcelAtCustomer> ToCustomer { get; set; }
         public override string ToString()
         {
             return this.ToStringProperties();

@@ -6,13 +6,14 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using DO;
 using DLApi;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
     public sealed partial class DalXml:IDalParcel
     {
         const string PARCEL_PATH = @"XmlParcel.xml";
-        
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority, int id = 0, int droneId = 0, DateTime? requested = null, DateTime? sceduled = null, DateTime? pickedUp = null, DateTime? delivered = null)
         {
             try
@@ -47,6 +48,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(int id)
         {
             try
@@ -63,6 +65,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int id)
         {
             try
@@ -77,6 +80,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetParcels()
         {
             try { 
@@ -87,7 +91,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetParcelsNotAssignedToDrone(Predicate<int> notAssign)
         {
             try { 
@@ -98,6 +102,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveParcel(Parcel parcel)
         {
             try { 
