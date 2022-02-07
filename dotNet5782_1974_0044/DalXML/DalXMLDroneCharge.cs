@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using DO;
 using DLApi;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
     partial class DalXml:IDalDroneCharge
     {
         const string DRONE_CHARGE_PATH = @"XmlDroneCharge.xml";
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDroneCharge(int droneId)
         {
             try
@@ -24,7 +26,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DateTime GetTimeStartOfCharge(int droneId)
         {
             try { 
@@ -35,7 +37,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation)
         {
             try { 
@@ -46,6 +48,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDRoneCharge(int droneId, int stationId)
         {
             try { 
@@ -58,6 +61,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int CountFullChargeSlots(int id)
         {
             try { 

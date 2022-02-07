@@ -1,51 +1,46 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using BO;
+﻿using BO;
 using DLApi;
-using BLApi;
+using System;
+using System.Collections.Generic;
 using System.Threading;
 
 namespace BL
 {
-   internal class DroneSimulator
+    internal class DroneSimulator
     {
         enum Maintenance { Starting, Going, Charging }
         BL bl { set; get; }
-        IDal dal { set; get; }
-        Drone drone { set; get; }
+        IDal Dal { set; get; }
+        Drone Drone { set; get; }
         private const int DELAY = 500;
         private Maintenance maintenance = Maintenance.Starting;
-        public DroneSimulator(int id)
+        public DroneSimulator(int id, BL BL, Action update)
         {
             try
             {
-                 bl = BL.Instance;
-                 dal = bl.dal;
-                 drone = bl.GetDrone(id);
-                    
+                bl = BL;
+                Dal = bl.dal;
+                Drone = bl.GetDrone(id);
             }
             catch (KeyNotFoundException ex)
             {
 
-                throw new KeyNotFoundException("",ex);
+                throw new KeyNotFoundException("", ex);
             }
         }
         private void AvailbleDrone()
         {
-            lock(bl)
+            lock (bl)
             {
                 try
                 {
-                    bl.AssingParcelToDrone(drone.Id);
+                    bl.AssingParcelToDrone(Drone.Id);
                 }
-                catch(KeyNotFoundException)
+                catch (NotExsistSutibleParcelException)
                 {
-                    if (drone.BattaryMode == 100)
+                    if (Drone.BattaryMode == 100)
                         return;
-                    drone.DroneState = DroneState.MAINTENANCE;
+                    Drone.DroneState = DroneState.MAINTENANCE;
                     maintenance = Maintenance.Starting;
                 }
             }
@@ -56,14 +51,22 @@ namespace BL
             {
                 case Maintenance.Starting:
                     {
-
+                        // למצוא תחנה 
                         break;
                     }
-                    
+
                 case Maintenance.Going:
-                    break;
+                    {
+                        //להתחיל ללכת לתחנה
+                        break;
+                    }
+
                 case Maintenance.Charging:
-                    break;
+                    {
+                        //   להטעין
+                        break;
+                    }
+
                 default:
                     break;
             }

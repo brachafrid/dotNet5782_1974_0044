@@ -3,6 +3,7 @@ using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
@@ -71,12 +72,7 @@ namespace BL
         public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
             IEnumerable<DO.Station> list = dal.GetSationsWithEmptyChargeSlots(exsitEmpty);
-            List<StationToList> stations = new();
-            foreach (var item in list)
-            {
-                stations.Add(MapStationToList(item));
-            }
-            return stations;
+            return list.Select(item => MapStationToList(item));
         }
 
         /// <summary>

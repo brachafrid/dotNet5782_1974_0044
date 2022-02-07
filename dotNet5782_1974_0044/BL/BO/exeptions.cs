@@ -63,7 +63,25 @@ using System.Runtime.Serialization;
         }
 
     }
+    [Serializable]
+    internal class NotExsistSutibleParcelException : Exception
+    {
+        public NotExsistSutibleParcelException()
+        {
+        }
 
+        public NotExsistSutibleParcelException(string message) : base(message)
+        {
+        }
+
+        public NotExsistSutibleParcelException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected NotExsistSutibleParcelException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+    }
 
 }
 

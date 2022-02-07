@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Utilities;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
@@ -86,6 +87,7 @@ namespace BL
                     DroneState.MAINTENANCE => (locationOfStation.ElementAt(rand.Next(0, locationOfStation.Count())),
                     rand.NextDouble() + rand.Next(MININITBATTARY, MAXINITBATTARY)),
                     DroneState.DELIVERY => (FindLocationDroneWithParcel(parcel), tmpBatteryStatus),
+                    _=>(null,0)
                 };
                 // add the new drone to drones list
                 drones.Add(new DroneToList()
