@@ -150,12 +150,8 @@ namespace BL
             // if the drone hasn't picked up the parcel
             if (parcel.Delivered == null && parcel.PickedUp != null)
                 return locaiton;
-            var station = ClosetStation(dal.GetStations(), locaiton);
-            return new()
-            {
-                Latitude = station.Latitude,
-                Longitude = station.Longitude
-            };
+            var station = ClosetStation(locaiton);
+            return station.Location;
         }
         /// <summary>
         /// Calculate electricity for drone to take spesipic parcel 
@@ -191,8 +187,8 @@ namespace BL
         private double MinBatteryForAvailAble(Location location)
         {
 
-            var station = ClosetStation(dal.GetStations(), location);
-            double electricity = Distance(location, new() { Latitude = station.Latitude, Longitude = station.Longitude }) * available;
+            var station = ClosetStation( location);
+            double electricity = Distance(location,station.Location) * available;
             return electricity > FULLBATTRY ? MININITBATTARY : electricity;
         }
 

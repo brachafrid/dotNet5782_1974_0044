@@ -10,6 +10,7 @@ namespace BL
     {
         enum Maintenance { Starting, Going, Charging }
         BL bl { set; get; }
+        Station Station { set; get; }
         IDal Dal { set; get; }
         Drone Drone { set; get; }
         private const int DELAY = 500;
@@ -51,7 +52,11 @@ namespace BL
             {
                 case Maintenance.Starting:
                     {
-                        // למצוא תחנה 
+                        lock(bl)
+                        {
+                            Station = bl.ClosetStationPossible(Drone.CurrentLocation, Drone.BattaryMode, out double minDistance);
+                        }
+                        
                         break;
                     }
 

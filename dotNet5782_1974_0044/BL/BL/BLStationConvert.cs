@@ -19,6 +19,7 @@ namespace BL
                 FullChargeSlots = dal.CountFullChargeSlots(station.Id)
             };
         }
+      
 
 
     }
