@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DLApi;
-
+using System.Runtime.CompilerServices;
 using DO;
 
 namespace Dal
@@ -17,6 +17,7 @@ namespace Dal
         /// <param name="TargetId"> Id of target</param>
         /// <param name="Weigth"> The weigth of parcel (light- 0,medium - 1,heavy - 2)</param>
         /// <param name="Priority"> The priority of send the parcel (regular - 0,fast - 1,emergency - 2)</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority, int id = 0, int droneId = 0, DateTime? requested = default, DateTime? sceduled = default, DateTime? pickedUp = default, DateTime? delivered = default)
         {
             if (!ExistsIDTaxCheckNotDelited(GetCustomers(), SenderId))
@@ -43,6 +44,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">The id number of the requested parcel</param>
         /// <returns>A parcel for display</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int id)
         {
             Parcel parcel =DalObjectService.GetEntities<Parcel>().FirstOrDefault(item => item.Id == id);
@@ -55,6 +57,7 @@ namespace Dal
         /// Prepares the list of Parcels for display
         /// </summary>
         /// <returns>A list of parcel</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetParcels() =>DalObjectService.GetEntities<Parcel>();
 
         /// <summary>
@@ -62,17 +65,20 @@ namespace Dal
         /// </summary>
         /// <param name="notAssign">The predicate to screen out if the parcel not assign to drone</param>
         /// <returns>A list of the requested Parcels</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetParcelsNotAssignedToDrone(Predicate<int> notAssign) => DalObjectService.GetEntities<Parcel>().Where(item =>notAssign(item.DorneId));
         //-------------------------------------------------Removing-------------------------------------------------------------
         /// <summary>
         /// Removing a Parcel from the list
         /// </summary>
         /// <param name="station"></param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveParcel(Parcel parcel)
         {
             DalObjectService.RemoveEntity(parcel);
         }
 
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(int id)
         {
             Parcel parcel = DalObjectService.GetEntities<Parcel>().FirstOrDefault(item => item.Id == id);

@@ -5,12 +5,14 @@ using System.Text;
 using System.Threading.Tasks;
 using DO;
 using DLApi;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
     public sealed partial class DalXml:IDalStation
     {
-        const string STATION_PATH = @"XmlStation.xml"; 
+        const string STATION_PATH = @"XmlStation.xml";
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveStation(Station station)
         {
             try
@@ -24,7 +26,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
             try { 
@@ -35,7 +37,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int id)
         {
             try { 
@@ -49,7 +51,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetStations()
         {
             try { 
@@ -60,7 +62,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(int id)
         {
             try { 
@@ -76,7 +78,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(int id, string name, double longitude, double latitude, int chargeSlots)
         {
             try { 

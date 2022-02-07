@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using DO;
-
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
@@ -16,6 +16,7 @@ namespace Dal
         /// <param name="name">The customer`s name</param>
         /// <param name="longitude">>The position of the customer in relation to the longitude</param>
         /// <param name="latitude">>The position of the customer in relation to the latitude</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(int id, string phone, string name, double longitude, double latitude)
         {
             if (ExistsIDTaxCheck(DataSorce.Customers, id))
@@ -34,6 +35,7 @@ namespace Dal
         /// Prepares the list of customer for display
         /// </summary>
         /// <returns>A list of customer</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> GetCustomers() => DalObjectService.GetEntities<Customer>();
 
         /// <summary>
@@ -41,6 +43,7 @@ namespace Dal
         /// </summary>
         /// <param name="id">The id number of the requested customer</param>
         /// <returns>A customer for display</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomer(int id)
         {
             Customer customer= DalObjectService.GetEntities<Customer>().FirstOrDefault(item => item.Id == id );
@@ -48,11 +51,12 @@ namespace Dal
                  throw new KeyNotFoundException("There is no suitable customer in data"); 
             return customer;
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveCustomer(Customer customer)
         {
             DalObjectService.RemoveEntity(customer);
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(int id)
         {
             Customer customer = DalObjectService.GetEntities<Customer>().FirstOrDefault(item => item.Id == id);

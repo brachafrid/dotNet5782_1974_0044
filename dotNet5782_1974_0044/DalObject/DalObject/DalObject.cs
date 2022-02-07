@@ -1,10 +1,9 @@
 ﻿
 using DLApi;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using Utilities;
-
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
@@ -39,7 +38,7 @@ namespace Dal
             T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id&& !(bool)item.GetType().GetProperty("IsNotActive").GetValue(item));
             return !temp.Equals(default(T));
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public string GetAdministorPasssword()
         {
             return DataSorce.Administrator_Password;
