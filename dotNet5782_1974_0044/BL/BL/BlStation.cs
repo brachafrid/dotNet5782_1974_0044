@@ -43,8 +43,7 @@ namespace BL
                 DO.Station stationDl = dal.GetStation(id);
                 if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(stationDl.Id))
                     throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
-                dal.RemoveStation(stationDl);
-                dal.AddStation(id, name.Equals(string.Empty) ? stationDl.Name : name, stationDl.Longitude, stationDl.Latitude, chargeSlots == 0 ? stationDl.ChargeSlots : chargeSlots);
+                dal.UpdateStation(stationDl,name,chargeSlots);
             }
             catch (KeyNotFoundException ex)
             {
@@ -61,7 +60,7 @@ namespace BL
         {
             dal.DeleteStation(id);
         }
-        public bool IsActiveStation(int id) => dal.GetStations().FirstOrDefault(Station => Station.Id == id).IsNotActive;
+        public bool IsNotActiveStation(int id) => dal.GetStations().Any(station => station.Id == id && station.IsNotActive);
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
         /// <summary>
