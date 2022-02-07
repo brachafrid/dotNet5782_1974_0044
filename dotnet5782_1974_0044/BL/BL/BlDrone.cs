@@ -165,7 +165,7 @@ namespace BL
             if (!IsActiveDrone(droneId))
                 throw new DeletedExeption("drone deleted");
             DroneToList aviableDrone = drones.FirstOrDefault(item => item.Id == droneId);
-            if (aviableDrone == default || aviableDrone.IsNotActive)
+            if (aviableDrone == default)
                 throw new ArgumentNullException(" There is no a drone with the same id in data");
             if (aviableDrone.DroneState != DroneState.AVAILABLE)
                 throw new InvalidEnumArgumentException(" The drone is not aviable so it is not possible to assign it a parcel");
@@ -332,7 +332,6 @@ namespace BL
                 Parcel = droneToList.ParcelId != 0 ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
             };
         }
-        //InvalidOperationException
 
         /// <summary>
         /// Find the best parcel to assigning to thev drone
@@ -343,7 +342,7 @@ namespace BL
         {
             var orderdParcel = parcels.OrderByDescending(parcel => parcel.Key.Piority).ThenByDescending(parcel => parcel.Key.Weight).ThenBy(parcel => parcel.Value).ToDictionary(item => item.Key, item => item.Value);
             if (!orderdParcel.Any())
-                throw new KeyNotFoundException("There is no suitable parcel that meets all the conditions");
+                throw new NotExsistSutibleParcelException("There is no suitable parcel that meets all the conditions");
             ParcelToList suitableParcel = orderdParcel.FirstOrDefault().Key;
             return suitableParcel;
         }
