@@ -21,7 +21,7 @@ namespace BLApi
         public void DeliveryParcelByDrone(int droneId);
         public void DeleteDrone(int id);
         public bool IsActiveDrone(int id);
-
+        public void StartDroneSimulator(int id, Action update, Func<bool> checkStop);
     }
 }
 

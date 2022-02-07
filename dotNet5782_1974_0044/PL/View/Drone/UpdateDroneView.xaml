@@ -44,7 +44,11 @@
                             </MultiBinding>
                         </Button.Content>
                     </Button>
-                    <Button Content="delete drone" Command="{Binding DeleteDroneCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
+                        <ToggleButton
+                            Style="{StaticResource MaterialDesignSwitchToggleButton}"
+                            ToolTip="MaterialDesignSwitchToggleButton"
+                            IsChecked="{Binding Auto}" />
+                        <Button Content="delete drone" Command="{Binding DeleteDroneCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
                 </StackPanel>
             </StackPanel>
             </StackPanel>

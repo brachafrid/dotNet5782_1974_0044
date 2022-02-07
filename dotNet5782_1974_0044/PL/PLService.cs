@@ -462,5 +462,9 @@ namespace PL
                 Name = customerInParcel.Name
             };
         }
+        public static void StartDroneSimulator(int id, Action update, Func<bool> checkStop)
+        {
+            ibal.StartDroneSimulator(id, update, checkStop);
+        }
     }
 }

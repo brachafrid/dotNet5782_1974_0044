@@ -5,24 +5,23 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using Utilities;
-using System.Runtime.CompilerServices;
 
 namespace BL
 {
     public sealed partial class BL : Singletone<BL>, IBL
     {
-       internal IDal dal { get; } = DLFactory.GetDL();
+        internal IDal dal { get; } = DLFactory.GetDL();
         private const int DRONESTATUSESLENGTH = 2;
         public const int MAXINITBATTARY = 20;
         public const int MININITBATTARY = 0;
         public const int FULLBATTRY = 100;
-        private static readonly Random rand = new();
-        private readonly List<DroneToList> drones;
-        private readonly double available;
-        private readonly double lightWeightCarrier;
-        private readonly double mediumWeightBearing;
-        private readonly double carriesHeavyWeight;
-        private readonly double droneLoadingRate;
+        internal static readonly Random rand = new();
+        internal readonly List<DroneToList> drones;
+        internal readonly double available;
+        internal readonly double lightWeightCarrier;
+        internal readonly double mediumWeightBearing;
+        internal readonly double carriesHeavyWeight;
+        internal readonly double droneLoadingRate;
         BL()
         {
 
@@ -82,12 +81,12 @@ namespace BL
                 // set location and battery
                 (Location, BatteryStatus) = state switch
                 {
-                    DroneState.AVAILABLE => (tmpLocaiton = customersGotParcelLocation.ElementAt( rand.Next(0, customersGotParcelLocation.Count())), rand.Next((int)MinBatteryForAvailAble(tmpLocaiton) + 1, FULLBATTRY)
+                    DroneState.AVAILABLE => (tmpLocaiton = customersGotParcelLocation.ElementAt(rand.Next(0, customersGotParcelLocation.Count())), rand.Next((int)MinBatteryForAvailAble(tmpLocaiton) + 1, FULLBATTRY)
                     ),
                     DroneState.MAINTENANCE => (locationOfStation.ElementAt(rand.Next(0, locationOfStation.Count())),
                     rand.NextDouble() + rand.Next(MININITBATTARY, MAXINITBATTARY)),
                     DroneState.DELIVERY => (FindLocationDroneWithParcel(parcel), tmpBatteryStatus),
-                    _=>(null,0)
+                    _ => (null, 0)
                 };
                 // add the new drone to drones list
                 drones.Add(new DroneToList()
@@ -99,7 +98,7 @@ namespace BL
                     CurrentLocation = Location,
                     ParcelId = parcel.DorneId == 0 ? 0 : parcel.Id,
                     BatteryState = BatteryStatus,
-                    IsNotActive=false
+                    IsNotActive = false
                 });
                 if (state == DroneState.MAINTENANCE)
                     dal.AddDRoneCharge(drone.Id, dal.GetStations().FirstOrDefault(station => (station.Latitude == Location.Latitude && station.Longitude == Location.Longitude)).Id);
@@ -187,14 +186,16 @@ namespace BL
         private double MinBatteryForAvailAble(Location location)
         {
 
-            var station = ClosetStation( location);
-            double electricity = Distance(location,station.Location) * available;
+            var station = ClosetStation(location);
+            double electricity = Distance(location, station.Location) * available;
             return electricity > FULLBATTRY ? MININITBATTARY : electricity;
         }
 
         public string GetAdministorPasssword()
         {
-          return  dal.GetAdministorPasssword();
+            return dal.GetAdministorPasssword();
         }
+        public void StartDroneSimulator(int id, Action update, Func<bool> checkStop) => new DroneSimulator(id,this, update);
+        
     }
 }
