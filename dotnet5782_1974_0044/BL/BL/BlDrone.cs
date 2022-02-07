@@ -252,7 +252,8 @@ namespace BL
                 {
                     WeightCategories.LIGHT => lightWeightCarrier,
                     WeightCategories.MEDIUM => mediumWeightBearing,
-                    WeightCategories.HEAVY => carriesHeavyWeight
+                    WeightCategories.HEAVY => carriesHeavyWeight,
+                    _=>0
                 };
                 droneToList.CurrentLocation = receiverLocation;
                 droneToList.DroneState = DroneState.AVAILABLE;
