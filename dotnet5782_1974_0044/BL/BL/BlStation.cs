@@ -92,7 +92,7 @@ namespace BL
         {
             try
             {
-                return MapStation(dal.GetStation(id));
+                return ConvertStation(dal.GetStation(id));
             }
             catch (KeyNotFoundException ex)
             {
@@ -107,7 +107,7 @@ namespace BL
         /// </summary>
         /// <param name="station">The sation to convert</param>
         /// <returns>The converted station</returns>
-        private BO.Station MapStation(DO.Station station)
+        private BO.Station ConvertStation(DO.Station station)
         {
             return new Station()
             {
