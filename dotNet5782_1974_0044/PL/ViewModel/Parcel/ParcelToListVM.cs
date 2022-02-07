@@ -13,48 +13,70 @@ namespace PL
 {
     public class ParcelToListVM : GenericList<ParcelToList>
     {
-        int? id =null;
+        int? customerId =null;
         string state = string.Empty;
         public bool IsAdministor { get; set; }
         public ParcelToListVM()
         {
-            sourceList = new ObservableCollection<ParcelToList>();
+            sourceList = new ObservableCollection<ParcelToList>(UpdateInitList());
             list = new ListCollectionView(sourceList);
             IsAdministor = true;
             UpdateInitList();
-            DelegateVM.Parcel += UpdateInitList;
-            DelegateVM.CustomerChangedEvent +=(sender,e) =>UpdateInitList();
+            DelegateVM.CustomerChangedEvent += HandleParcelChanged;
+            DelegateVM.ParcelChangedEvent += HandleParcelChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
         public ParcelToListVM(object Id, object State)
         {
-            id = (int)Id;
+            customerId = (int)Id;
             IsAdministor = false;
             state = (string)State;
-            UpdateInitList();
-            DelegateVM.CustomerChangedEvent += (sender, e) => UpdateInitList();
-            DelegateVM.Parcel += UpdateInitList;
+            sourceList = new ObservableCollection<ParcelToList>(UpdateInitList());
+            list = new ListCollectionView(sourceList);
+            //UpdateInitList();
+            DelegateVM.CustomerChangedEvent += HandleParcelChanged;
+            DelegateVM.ParcelChangedEvent += HandleParcelChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
-
-        void UpdateInitList()
+        private void HandleParcelChanged(object sender, EntityChangedEventArgs e)
         {
-            sourceList.Clear();
-            switch (state)
+            if (e.Id != null)
             {
-                case "From":
-                    foreach (var item in PLService.GetCustomer((int)id).FromCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)))
-                        sourceList.Add(item);
-                    break;
-                case "To":
-                    foreach (var item in PLService.GetCustomer((int)id).ToCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)))
-                        sourceList.Add(item);
-                    break;
-                default:
-                    foreach (var item in PLService.GetParcels())
-                        sourceList.Add(item);
-                    break;
+                var parcel = sourceList.FirstOrDefault(p => p.Id == e.Id);
+                if (parcel != default)
+                    sourceList.Remove(parcel);
+                var newParcel = PLService.GetParcels().FirstOrDefault(p => p.Id == e.Id);
+                sourceList.Add(newParcel);
             }
+            else
+            {
+                sourceList.Clear();
+                switch (state)
+                {
+                    case "From":
+                        foreach (var item in PLService.GetCustomer((int)customerId).FromCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)))
+                            sourceList.Add(item);
+                        break;
+                    case "To":
+                        foreach (var item in PLService.GetCustomer((int)customerId).ToCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)))
+                            sourceList.Add(item);
+                        break;
+                    default:
+                        foreach (var item in PLService.GetParcels())
+                            sourceList.Add(item);
+                        break;
+                }
+            }
+        }
+
+       private IEnumerable<ParcelToList> UpdateInitList()
+        {
+            return state switch
+            {
+                "From" => PLService.GetCustomer((int)customerId).FromCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)),
+                "To" => PLService.GetCustomer((int)customerId).ToCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)),
+                _ => PLService.GetParcels()
+            };           
         }
 
         public override void AddEntity(object param)

@@ -14,7 +14,7 @@ namespace BLApi
         public IEnumerable<BO.ParcelToList> GetActiveParcels();
         public IEnumerable<BO.ParcelToList> GetParcelsNotAssignedToDrone(Predicate<int> notAssign);
         public void DeleteParcel(int id);
-        public bool IsActiveParcel(int id);
+        public bool IsNotActiveParcel(int id);
 
     }
 }

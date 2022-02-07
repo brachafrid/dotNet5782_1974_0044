@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 
 namespace BL
@@ -86,9 +85,7 @@ namespace BL
             DroneToList droneToList = default;
             try
             {
-                DO.Drone droneDl = dal.GetDrone(id);
-                dal.RemoveDrone(droneDl);
-                dal.AddDrone(id, name, droneDl.MaxWeight);
+                dal.UpdateDrone(dal.GetDrone(id), name);
                 droneToList = drones.First(item => item.Id == id);
                 drones.Remove(droneToList);
                 droneToList.DroneModel = name;
@@ -118,7 +115,7 @@ namespace BL
         public void SendDroneForCharg(int id)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
-            if (!IsActiveDrone(id))
+            if (droneToList.IsNotActive)
                 throw new DeletedExeption("drone deleted");
             if (droneToList == default || droneToList.IsNotActive)
                 throw new ArgumentNullException(" There is no a drone with the same id in data");
@@ -162,7 +159,7 @@ namespace BL
         /// <param name="droneId">The drone to assign it a parcel</param>
         public void AssingParcelToDrone(int droneId)
         {
-            if (!IsActiveDrone(droneId))
+            if (IsNotActiveDrone(droneId))
                 throw new DeletedExeption("drone deleted");
             DroneToList aviableDrone = drones.FirstOrDefault(item => item.Id == droneId);
             if (aviableDrone == default)
@@ -283,7 +280,7 @@ namespace BL
             dal.DeleteDrone(id);
             drones[drones.IndexOf(drone)].IsNotActive = true;
         }
-        public bool IsActiveDrone(int id)=>drones.FirstOrDefault(Drone => Drone.Id == id).IsNotActive;
+        public bool IsNotActiveDrone(int id)=>drones.Any(drone => drone.Id == id && drone.IsNotActive);
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
         /// <summary>

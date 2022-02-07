@@ -47,11 +47,11 @@ namespace PL
             DisplayParcelsToCommand = new(DisplayParcelsTo, null);
             DisplayCustomerCommand = new(DisplayCustomer, null);
             DelegateVM.CustomerChangedEvent += HandleCustomerChanged;
-            DelegateVM.Parcel += Init;
+            DelegateVM.ParcelChangedEvent +=(sender,e)=> Init();
         }
         private void HandleCustomerChanged(object sender, EntityChangedEventArgs e)
         {
-            if (id == e.Id)
+            if (id == e.Id||e.Id==null)
                 Init();
         }
         public void Init()

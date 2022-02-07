@@ -176,8 +176,9 @@ namespace BL
             // if the drone need more electricity 
             if (electrity > FULLBATTRY)
             {
-                dal.RemoveParcel(parcel);
-                dal.AddParcel(parcel.SenderId, parcel.TargetId, parcel.Weigth, parcel.Priority, parcel.Id, 0, parcel.Requested, parcel.Sceduled, parcel.PickedUp, parcel.Delivered);
+                DO.Parcel newParcel = parcel;
+                newParcel.Id = 0;
+                dal.UpdateParcel(parcel,newParcel);
                 canTakeParcel = false;
                 return 0;
             }

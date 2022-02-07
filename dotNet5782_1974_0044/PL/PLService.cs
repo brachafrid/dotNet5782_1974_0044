@@ -35,7 +35,7 @@ namespace PL
         {
             ibal.DeleteCustomer(id);
         }
-        public static bool IsActiveCustomer(int id) => ibal.IsActiveCustomer(id);
+        public static bool IsNotActiveCustomer(int id) => ibal.IsNotActiveCustomer(id);
         
         public static PO.Customer ConvertCustomer(BO.Customer customer)
         {
@@ -57,8 +57,8 @@ namespace PL
                 Name = customer.Name,
                 Phone = customer.Phone,
                 Location = ConvertBackLocation(customer.Location),
-                FromCustomer =new( customer.FromCustomer.Select(item => ConvertBackParcelAtCustomer(item))),
-                ToCustomer = new(customer.ToCustomer.Select(item => ConvertBackParcelAtCustomer(item)))
+                FromCustomer = customer.FromCustomer.Select(item => ConvertBackParcelAtCustomer(item)),
+                ToCustomer = customer.ToCustomer.Select(item => ConvertBackParcelAtCustomer(item))
             };
         }
         public static PO.CustomerToList ConvertCustomerToList(BO.CustomerToList customerToList)
@@ -147,7 +147,7 @@ namespace PL
         {
             ibal.DeleteStation(id);
         }
-        public static bool IsActiveStation(int id) => ibal.IsActiveStation(id);
+        public static bool IsNotActiveStation(int id) => ibal.IsNotActiveStation(id);
         public static IEnumerable<StationToList> GetStations()
         {
             return ibal.GetActiveStations().Select(item => ConverterStationToList(item));
@@ -250,7 +250,7 @@ namespace PL
         {
             ibal.DeleteParcel(id);
         }
-        public static bool IsActiveParcel(int id) => ibal.IsActiveParcel(id);
+        public static bool IsNotActiveParcel(int id) => ibal.IsNotActiveParcel(id);
         public static Parcel GetParcel(int id) => ConvertParcel(ibal.GetParcel(id));
         public static IEnumerable<ParcelToList> GetParcels() => ibal.GetActiveParcels().Select(parcel => ConvertParcelToList(parcel));
         public static IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone => ibal.GetParcelsNotAssignedToDrone((int num) => num == 0).Select(parcel => ConvertParcelToList(parcel));
@@ -351,7 +351,7 @@ namespace PL
         {
             ibal.DeleteDrone(id);
         }
-        public static bool IsActiveDrone(int id) => ibal.IsActiveDrone(id);
+        public static bool IsNotActiveDrone(int id) => ibal.IsNotActiveDrone(id);
         public static Drone GetDrone(int id)
         {
             try

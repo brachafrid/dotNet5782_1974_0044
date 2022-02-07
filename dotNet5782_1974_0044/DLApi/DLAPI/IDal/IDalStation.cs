@@ -13,7 +13,7 @@ namespace DLApi
         public Station GetStation(int id);
         public IEnumerable<Station> GetStations();
         public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty);
-        public void RemoveStation(Station station);
+        public void UpdateStation(Station station, string name, int chargeSlots);
         public int CountFullChargeSlots(int id);
         public void DeleteStation(int id);
     }

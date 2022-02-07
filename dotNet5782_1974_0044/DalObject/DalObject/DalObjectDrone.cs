@@ -60,9 +60,11 @@ namespace Dal
         /// </summary>
         /// <param name="station"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RemoveDrone(Drone drone)
+        public void UpdateDrone(Drone drone,string model)
         {
             DalObjectService.RemoveEntity(drone);
+            drone.Model = model;
+            DalObjectService.AddEntity(drone);
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(int id)

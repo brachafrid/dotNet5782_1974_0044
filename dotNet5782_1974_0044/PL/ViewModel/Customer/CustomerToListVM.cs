@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
-using PL.PO;
+﻿using PL.PO;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Data;
 
 namespace PL
 {
@@ -22,11 +17,21 @@ namespace PL
         }
         private void HandleCustomerChanged(object sender, EntityChangedEventArgs e)
         {
-            var customer = sourceList.FirstOrDefault(c => c.Id == e.Id);
-            if (customer != default)
-                sourceList.Remove(customer);
-            var newCustomer = PLService.GetCustomers().FirstOrDefault(c=> c.Id == e.Id);
-            sourceList.Add(newCustomer);
+            if (e.Id != null)
+            {
+                var customer = sourceList.FirstOrDefault(c => c.Id == e.Id);
+                if (customer != default)
+                    sourceList.Remove(customer);
+                var newCustomer = PLService.GetCustomers().FirstOrDefault(c => c.Id == e.Id);
+                sourceList.Add(newCustomer);
+            }
+            else
+            {
+                sourceList.Clear();
+                foreach (var item in PLService.GetCustomers())
+                    sourceList.Add(item);
+            }
+
         }
 
         public override void AddEntity(object param)

@@ -13,13 +13,13 @@ namespace Dal
         internal static IEnumerable<T> GetEntities<T>()
         {
             Type t = typeof(T);
-            return t.Name switch
+            return t switch
             {
-                { } when typeof(Drone).Name == t.Name => (IEnumerable<T>)DataSorce.Drones,
-                { } when typeof(Parcel).Name == t.Name => (IEnumerable<T>)DataSorce.Parcels,
-                { } when typeof(Customer).Name == t.Name => (IEnumerable<T>)DataSorce.Customers,
-                { } when typeof(Station).Name == t.Name => (IEnumerable<T>)DataSorce.Stations,
-                { } when typeof(DroneCharge).Name == t.Name => (IEnumerable<T>)DataSorce.DroneCharges,
+                { } when typeof(Drone) == t => (IEnumerable<T>)DataSorce.Drones,
+                { } when typeof(Parcel) == t => (IEnumerable<T>)DataSorce.Parcels,
+                { } when typeof(Customer) == t => (IEnumerable<T>)DataSorce.Customers,
+                { } when typeof(Station) == t => (IEnumerable<T>)DataSorce.Stations,
+                { } when typeof(DroneCharge) == t => (IEnumerable<T>)DataSorce.DroneCharges,
                 _ => null
             };
         }

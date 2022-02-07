@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
-using PL.PO;
+﻿using PL.PO;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Windows.Data;
 
 namespace PL
 {
@@ -21,11 +16,20 @@ namespace PL
         }
         private void HandleStationChanged(object sender, EntityChangedEventArgs e)
         {
-            var station = sourceList.FirstOrDefault(s => s.Id == e.Id);
-            if (station != default)
-                sourceList.Remove(station);
-            var newStation = PLService.GetStations().FirstOrDefault(s => s.Id == e.Id);
-            sourceList.Add(newStation);
+            if (e.Id != null)
+            {
+                var station = sourceList.FirstOrDefault(s => s.Id == e.Id);
+                if (station != default)
+                    sourceList.Remove(station);
+                var newStation = PLService.GetStations().FirstOrDefault(s => s.Id == e.Id);
+                sourceList.Add(newStation);
+            }
+            else
+            {
+                sourceList.Clear();
+                foreach (var item in PLService.GetStations())
+                    sourceList.Add(item);
+            }
         }
 
         public override void AddEntity(object param)
@@ -36,6 +40,6 @@ namespace PL
                 Content = new AddStationVM()
             });
         }
-     
+
     }
 }

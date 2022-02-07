@@ -13,12 +13,17 @@ namespace Dal
     {
         const string STATION_PATH = @"XmlStation.xml";
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RemoveStation(Station station)
+        public void UpdateStation(Station station, string name, int chargeSlots)
         {
             try
             {
                 List<Station> stations = DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH);
                 stations.Remove(station);
+                if (!name.Equals(string.Empty))
+                    station.Name = name;
+                if (chargeSlots != 0)
+                    station.ChargeSlots = chargeSlots;
+                stations.Add(station);
                 DalXmlService.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
             }
             catch (XMLFileLoadCreateException ex)

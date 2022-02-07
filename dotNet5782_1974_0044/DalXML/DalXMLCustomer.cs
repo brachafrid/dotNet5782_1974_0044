@@ -78,11 +78,16 @@ namespace Dal
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RemoveCustomer(Customer customer)
+        public void UpdateCustomer(Customer customer, string name, string phone)
         {
             try { 
                 List<Customer> customers = DalXmlService.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
                 customers.Remove(customer);
+                if (!name.Equals(string.Empty))
+                    customer.Name = name;
+                if (!phone.Equals(string.Empty))
+                    customer.Phone = phone;
+                customers.Add(customer);
                 DalXmlService.SaveListToXMLSerializer(customers, CUSTOMER_PATH);
             }
             catch (XMLFileLoadCreateException ex)

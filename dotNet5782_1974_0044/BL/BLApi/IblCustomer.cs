@@ -13,7 +13,7 @@ namespace BLApi
         public IEnumerable<CustomerToList> GetActiveCustomers();
         public void UpdateCustomer(int id, string name, string phone);
         public void DeleteCustomer(int id);
-        public bool IsActiveCustomer(int id);
+        public bool IsNotActiveCustomer(int id);
     }
 }
 
