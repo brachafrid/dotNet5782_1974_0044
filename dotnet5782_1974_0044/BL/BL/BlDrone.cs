@@ -178,6 +178,10 @@ namespace BL
                 //No charging position was adding because there is no point in changing a variable that is not saved after the end of the function
                 dal.RemoveDroneCharge(id);
             }
+            catch(KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException(ex.Message);
+            }
             catch (DO.TheDroneIsNotInChargingException ex)
             {
                 throw new TheDroneIsNotInChargingException(ex.DroneId);

@@ -69,6 +69,10 @@ namespace BL
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
+            catch(KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException(ex.Message);
+            }
 
         }
         public bool IsNotActiveStation(int id)
