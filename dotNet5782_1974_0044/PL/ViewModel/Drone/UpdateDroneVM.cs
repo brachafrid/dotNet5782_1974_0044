@@ -1,6 +1,7 @@
 ﻿using PL.PO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 
@@ -11,6 +12,7 @@ namespace PL
         private int id;
         BackgroundWorker simulatorWorker;
         Action simulateDrone;
+       
         public PO.Drone drone
         {
             get { return (PO.Drone)GetValue(droneProperty); }
@@ -145,6 +147,7 @@ namespace PL
                 Tabs.CloseTab(param as TabItemFormat);
             }
         }
+        #region simulator
         public static readonly DependencyProperty AutoProperty =
             DependencyProperty.Register(nameof(Auto), typeof(bool), typeof(UpdateDroneVM), new PropertyMetadata(false));
         public bool Auto
@@ -165,8 +168,8 @@ namespace PL
         private void HandleWorkerProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             DelegateVM.NotifyDroneChanged(id);
-            var ids=(ValueTuple<int? , int? , int? , int?>)e.UserState;
-            if(ids.Item1 != null)
+            var ids = (ValueTuple<int?, int?, int?, int?>)e.UserState;
+            if (ids.Item1 != null)
                 DelegateVM.NotifyParcelChanged(ids.Item1);
             if (ids.Item2 != null)
                 DelegateVM.NotifyCustomerChanged(ids.Item2);
@@ -174,7 +177,7 @@ namespace PL
                 DelegateVM.NotifyCustomerChanged(ids.Item3);
             if (ids.Item4 != null)
                 DelegateVM.NotifyStationChanged(ids.Item4);
-            
+
         }
         private void StopSimulator()
         {
@@ -186,5 +189,6 @@ namespace PL
             simulatorWorker.ReportProgress(0, (parcelId, senderId, receiverId, stationId));
         }
         private bool IsSimulatorStoped() => simulatorWorker.CancellationPending;
+        #endregion
     }
 }
