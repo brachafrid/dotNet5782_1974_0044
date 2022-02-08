@@ -1,11 +1,12 @@
-﻿using System;
+﻿
+using System;
 
 
 
     namespace DO
     {
-        public struct Customer
-        {
+        public struct Customer: IIdentifyable, IActiveable
+    {
             private double longitude;
             private double latitude;
             public int Id { get; set; }

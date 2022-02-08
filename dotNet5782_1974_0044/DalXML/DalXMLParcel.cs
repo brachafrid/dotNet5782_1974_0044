@@ -43,9 +43,9 @@ namespace Dal
                 parcels.Add(newParcel);
                 DalXmlService.SaveListToXMLSerializer<Parcel>(parcels, PARCEL_PATH);
             }
-            catch (XMLFileLoadCreateException ex)
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -60,9 +60,9 @@ namespace Dal
                 parcels.Add(parcel);
                 DalXmlService.SaveListToXMLSerializer<Parcel>(parcels, PARCEL_PATH);
             }
-            catch (XMLFileLoadCreateException ex)
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -75,9 +75,9 @@ namespace Dal
                     throw new KeyNotFoundException("There is not suitable parcel in data");
                 return parcel;
             }
-            catch (XMLFileLoadCreateException ex)
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -116,7 +116,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-        static bool ExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id)
+        static bool ExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id) where T:IIdentifyable,IActiveable
         {
             if (!lst.Any())
                 return false;

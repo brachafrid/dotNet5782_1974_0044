@@ -36,7 +36,20 @@ namespace BL
                 droneLoadingRate
             ) = dal.GetElectricity();
             // set the drones
-            Initialize();
+            try
+            {
+                Initialize();
+            }
+            catch (KeyNotFoundException ex)
+            {
+
+                throw new KeyNotFoundException(ex.Message);
+            }
+            catch(DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.Message);
+            }
+            
         }
 
         /// <summary>
@@ -195,7 +208,16 @@ namespace BL
 
         public string GetAdministorPasssword()
         {
-          return  dal.GetAdministorPasssword();
+            try
+            {
+                return dal.GetAdministorPasssword();
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+
+                throw new XMLFileLoadCreateException(ex.FilePath,ex.Message,ex.InnerException);
+            }
+         
         }
     }
 }

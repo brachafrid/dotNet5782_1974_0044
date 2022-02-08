@@ -22,7 +22,7 @@ namespace Dal
         public void AddStation(int id, string name, double longitude, double latitude, int chargeSlots)
         {
             if (ExistsIDTaxCheck(DataSorce.Stations, id))
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException();
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
             Station newStation = new();
             newStation.Id = id;
             newStation.Name = name;
@@ -44,7 +44,7 @@ namespace Dal
         {
             Station station = DalObjectService.GetEntities<Station>().FirstOrDefault(item => item.Id == id);
             if (station.Equals(default(Station)) )
-                throw new KeyNotFoundException("There is no suitable station in data");
+                throw new KeyNotFoundException($"There is no suitable station in data , the station id: {id} ");
             return station;
         }
 
@@ -82,6 +82,8 @@ namespace Dal
         public void DeleteStation(int id)
         {
             Station station = DataSorce.Stations.FirstOrDefault(item => item.Id == id);
+            if (station.Equals(default))
+                throw new KeyNotFoundException($"the station {id} not exsits in data");
             DalObjectService.RemoveEntity(station);
             station.IsNotActive = true;
             DalObjectService.AddEntity(station);

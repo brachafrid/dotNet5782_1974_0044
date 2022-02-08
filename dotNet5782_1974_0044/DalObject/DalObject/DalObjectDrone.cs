@@ -18,7 +18,7 @@ namespace Dal
         public void AddDrone(int id, string model, WeightCategories MaxWeight)
         {
             if (ExistsIDTaxCheck(DataSorce.Drones, id))
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException();
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
             Drone newDrone = new()
             {
                 Id = id,
@@ -70,6 +70,8 @@ namespace Dal
         public void DeleteDrone(int id)
         {
             Drone drone = DalObjectService.GetEntities<Drone>().FirstOrDefault(item => item.Id == id);
+            if (drone.Equals(default))
+                throw new KeyNotFoundException("There is no suitabke drone in data so the deleted failed");
             DalObjectService.RemoveEntity(drone);
             drone.IsNotActive = true;
             DalObjectService.AddEntity(drone);

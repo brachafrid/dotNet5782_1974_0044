@@ -19,7 +19,7 @@ namespace Dal
             {
                 List<Customer> customers = DalXmlService.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
                 if (ExistsIDTaxCheck(customers, id))
-                    throw new ThereIsAnObjectWithTheSameKeyInTheListException();
+                    throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
                 Customer newCustomer = new();
                 newCustomer.Id = id;
                 newCustomer.Name = name;
@@ -28,11 +28,11 @@ namespace Dal
                 newCustomer.Longitude = longitude;
                 newCustomer.IsNotActive = false;
                 customers.Add(newCustomer);
-                DalXmlService.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
+                DalXmlService.SaveListToXMLSerializer(customers, CUSTOMER_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath,ex.Message,ex.InnerException);
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -41,14 +41,16 @@ namespace Dal
             try { 
                 List<Customer> customers = DalXmlService.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
                 Customer customer = customers.FirstOrDefault(item => item.Id == id);
+                if (customer.Equals(default))
+                    throw new KeyNotFoundException($"the customer id {id} not exsits in data");
                 customers.Remove(customer);
                 customer.IsNotActive = true;
                 customers.Add(customer);
-                DalXmlService.SaveListToXMLSerializer<Customer>(customers, CUSTOMER_PATH);
+                DalXmlService.SaveListToXMLSerializer(customers, CUSTOMER_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -62,7 +64,7 @@ namespace Dal
             }
             catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -74,7 +76,7 @@ namespace Dal
             }
             catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -92,7 +94,7 @@ namespace Dal
             }
             catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
 

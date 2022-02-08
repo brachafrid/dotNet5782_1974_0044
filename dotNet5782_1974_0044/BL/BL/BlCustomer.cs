@@ -25,6 +25,10 @@ namespace BL
 
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
 
         }
 
@@ -67,16 +71,44 @@ namespace BL
             }
             catch (KeyNotFoundException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
+                throw new KeyNotFoundException(ex.Message);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
 
 
         }
         public void DeleteCustomer(int id)
         {
-            dal.DeleteCustomer(id);
+            try
+            {
+                dal.DeleteCustomer(id);
+            }
+            catch (KeyNotFoundException ex)
+            {
+
+                throw new KeyNotFoundException(ex.Message);
+            }
+            catch(DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+           
         }
-        public bool IsNotActiveCustomer(int id) => dal.GetCustomers().Any(customer => customer.Id == id && customer.IsNotActive);
+        public bool IsNotActiveCustomer(int id)
+        {
+            try
+            {
+              return  dal.GetCustomers().Any(customer => customer.Id == id && customer.IsNotActive);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+            
+        }
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
         /// <summary>
@@ -85,10 +117,30 @@ namespace BL
         /// <returns>A list of statin to print</returns>
         public IEnumerable<CustomerToList> GetCustomers()
         {
-            return dal.GetCustomers().Select(customer => MapCustomerToList(customer));
+            try
+            {
+                return dal.GetCustomers().Select(customer => MapCustomerToList(customer));
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+            
         }
 
-        public IEnumerable<CustomerToList> GetActiveCustomers() => dal.GetCustomers().Where(Customer => !Customer.IsNotActive).Select(Customer => MapCustomerToList(Customer));
+        public IEnumerable<CustomerToList> GetActiveCustomers()
+        {
+            try
+            {
+                return dal.GetCustomers().Where(Customer => !Customer.IsNotActive).Select(Customer => MapCustomerToList(Customer));
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
+        }
+        
 
 
         //-----------------------------------------------Help function-----------------------------------------------------------------------------------

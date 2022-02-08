@@ -20,7 +20,7 @@ namespace Dal
         public void AddCustomer(int id, string phone, string name, double longitude, double latitude)
         {
             if (ExistsIDTaxCheck(DataSorce.Customers, id))
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException();
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
             Customer newCustomer = new ();
             newCustomer.Id = id;
             newCustomer.Name = name;
@@ -65,6 +65,8 @@ namespace Dal
         public void DeleteCustomer(int id)
         {
             Customer customer = DalObjectService.GetEntities<Customer>().FirstOrDefault(item => item.Id == id);
+            if (customer.Equals(default))
+                throw new KeyNotFoundException("There is no suitable customer in data so nthe deleted failed");
             DalObjectService.RemoveEntity(customer);
             customer.IsNotActive = true;
             DalObjectService.AddEntity(customer);

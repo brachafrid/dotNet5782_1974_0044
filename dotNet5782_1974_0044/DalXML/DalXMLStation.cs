@@ -26,9 +26,9 @@ namespace Dal
                 stations.Add(station);
                 DalXmlService.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
             }
-            catch (XMLFileLoadCreateException ex)
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -37,9 +37,9 @@ namespace Dal
             try { 
                 return DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH).FindAll(item => exsitEmpty(item.ChargeSlots - CountFullChargeSlots(item.Id)) && !item.IsNotActive);
             }
-            catch (XMLFileLoadCreateException ex)
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -51,9 +51,9 @@ namespace Dal
                     throw new KeyNotFoundException("There is no suitable station in data");
                 return station;
             }
-            catch (XMLFileLoadCreateException ex)
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -62,9 +62,9 @@ namespace Dal
             try { 
                 return DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH);
             }
-            catch (XMLFileLoadCreateException ex)
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -78,9 +78,9 @@ namespace Dal
                 stations.Add(station);
                 DalXmlService.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
             }
-            catch (XMLFileLoadCreateException ex)
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -89,7 +89,7 @@ namespace Dal
             try { 
                 List<Station> stations = DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH);
                 if (ExistsIDTaxCheck(stations, id))
-                    throw new ThereIsAnObjectWithTheSameKeyInTheListException();
+                    throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
                 Station newStation = new();
                 newStation.Id = id;
                 newStation.Name = name;
@@ -100,9 +100,9 @@ namespace Dal
                 stations.Add(newStation); 
                 DalXmlService.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
             }
-            catch (XMLFileLoadCreateException ex)
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
     }

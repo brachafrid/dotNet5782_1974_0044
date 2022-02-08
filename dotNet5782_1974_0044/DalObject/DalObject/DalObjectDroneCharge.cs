@@ -43,7 +43,10 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDroneCharge(int droneId)
         {
-            DalObjectService.RemoveEntity(DalObjectService.GetEntities<DroneCharge>().FirstOrDefault(droneCharge=>droneCharge.Droneld==droneId));
+            DroneCharge droneCharge = DalObjectService.GetEntities<DroneCharge>().FirstOrDefault(droneCharge => droneCharge.Droneld == droneId);
+            if (droneCharge.Equals(default))
+                throw new TheDroneIsNotInChargingException("The drone is not in charging",droneId);
+            DalObjectService.RemoveEntity(droneCharge);
         }
 
         /// <summary>
@@ -53,7 +56,10 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public DateTime GetTimeStartOfCharge(int droneId)
         {
-            return DalObjectService.GetEntities<DroneCharge>().FirstOrDefault(drone => drone.Droneld == droneId).StartCharging;
+            DroneCharge droneCharge = DalObjectService.GetEntities<DroneCharge>().FirstOrDefault(drone => drone.Droneld == droneId);
+            if (droneCharge.Equals(default))
+                throw new TheDroneIsNotInChargingException("The drone is not in charging", droneId);
+            return droneCharge.StartCharging;
         }
         /// <summary>
         /// Takes from the DataSource the electricity use data of the drone

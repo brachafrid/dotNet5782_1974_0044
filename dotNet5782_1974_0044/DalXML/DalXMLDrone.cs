@@ -20,7 +20,7 @@ namespace Dal
             try { 
                 List<Drone> drones = DalXmlService.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
                 if (ExistsIDTaxCheck(drones, id))
-                    throw new ThereIsAnObjectWithTheSameKeyInTheListException();
+                    throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
                 Drone newDrone = new()
                 {
                     Id = id,
