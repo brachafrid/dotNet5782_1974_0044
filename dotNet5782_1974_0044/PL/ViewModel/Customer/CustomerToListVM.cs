@@ -17,20 +17,23 @@ namespace PL
         }
         private void HandleCustomerChanged(object sender, EntityChangedEventArgs e)
         {
-            if (e.Id != null)
-            {
-                var customer = sourceList.FirstOrDefault(c => c.Id == e.Id);
-                if (customer != default)
-                    sourceList.Remove(customer);
-                var newCustomer = PLService.GetCustomers().FirstOrDefault(c => c.Id == e.Id);
-                sourceList.Add(newCustomer);
+            try {
+                if (e.Id != null)
+                {
+                    var customer = sourceList.FirstOrDefault(c => c.Id == e.Id);
+                    if (customer != default)
+                        sourceList.Remove(customer);
+                    var newCustomer = PLService.GetCustomers().FirstOrDefault(c => c.Id == e.Id);
+                    sourceList.Add(newCustomer);
+                }
+                else
+                {
+                    sourceList.Clear();
+                    foreach (var item in PLService.GetCustomers())
+                        sourceList.Add(item);
+                } 
             }
-            else
-            {
-                sourceList.Clear();
-                foreach (var item in PLService.GetCustomers())
-                    sourceList.Add(item);
-            }
+            catch ()
 
         }
 

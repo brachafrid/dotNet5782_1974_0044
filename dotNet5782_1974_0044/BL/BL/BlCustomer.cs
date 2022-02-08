@@ -23,7 +23,6 @@ namespace BL
             }
             catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
             catch (DO.XMLFileLoadCreateException ex)
