@@ -27,7 +27,8 @@ namespace BL
         {
             try
             {
-                dal.AddDrone(droneBl.Id, droneBl.Model, (DO.WeightCategories)droneBl.WeightCategory);
+                lock (dal)
+                    dal.AddDrone(droneBl.Id, droneBl.Model, (DO.WeightCategories)droneBl.WeightCategory);
                 DO.Station station = dal.GetStation(stationId);
                 drones.Add(new()
                 {
@@ -40,7 +41,8 @@ namespace BL
                     ParcelId = 0,
                     IsNotActive = false
                 });
-                dal.AddDRoneCharge(droneBl.Id, stationId);
+                lock (dal)
+                    dal.AddDRoneCharge(droneBl.Id, stationId);
             }
             catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
@@ -101,16 +103,15 @@ namespace BL
         //[MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(int id, string name)
         {
-
-            DroneToList droneToList = default;
             try
             {
-                dal.UpdateDrone(dal.GetDrone(id), name);
-                droneToList = drones.FirstOrDefault(item => item.Id == id);
-                if (droneToList == default)
-                    throw new KeyNotFoundException($"The drone id {id} not exsits in data so the updating failed");
                 if (name.Equals(string.Empty))
                     throw new ArgumentNullException("For updating the name must be initialized ");
+                DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
+                if (droneToList == default)
+                    throw new KeyNotFoundException($"The drone id {id} not exsits in data so the updating failed");
+                lock (dal)
+                    dal.UpdateDrone(dal.GetDrone(id), name);
                 droneToList.DroneModel = name;
             }
 
@@ -359,7 +360,9 @@ namespace BL
 
         private IEnumerable<DroneInCharging> CreatListDroneInCharging(int id)
         {
-            IEnumerable<int> list = dal.GetDronechargingInStation((int stationIdOfDrone) => stationIdOfDrone == id);
+            IEnumerable<int> list;
+            lock (dal)
+                list = dal.GetDronechargingInStation((int stationIdOfDrone) => stationIdOfDrone == id);
             if (list.Count() == 0)
                 return new List<DroneInCharging>();
             List<DroneInCharging> droneInChargings = new();

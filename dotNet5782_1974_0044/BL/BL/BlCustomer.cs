@@ -19,7 +19,8 @@ namespace BL
         {
             try
             {
-                dal.AddCustomer(customerBL.Id, customerBL.Phone, customerBL.Name, customerBL.Location.Longitude, customerBL.Location.Latitude);
+                lock(dal)
+                    dal.AddCustomer(customerBL.Id, customerBL.Phone, customerBL.Name, customerBL.Location.Longitude, customerBL.Location.Latitude);
             }
             catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
@@ -46,7 +47,8 @@ namespace BL
         {
             try
             {
-                return MapCustomer(dal.GetCustomer(id));
+                lock (dal)
+                    return MapCustomer(dal.GetCustomer(id));
             }
             catch (KeyNotFoundException ex)
             {
@@ -66,7 +68,8 @@ namespace BL
         {
             try
             {
-                return dal.GetCustomers().Select(customer => MapCustomerToList(customer));
+                lock (dal)
+                    return dal.GetCustomers().Select(customer => MapCustomerToList(customer));
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
@@ -79,7 +82,8 @@ namespace BL
         {
             try
             {
-                return dal.GetCustomers().Where(Customer => !Customer.IsNotActive).Select(Customer => MapCustomerToList(Customer));
+                lock (dal)
+                    return dal.GetCustomers().Where(Customer => !Customer.IsNotActive).Select(Customer => MapCustomerToList(Customer));
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
@@ -104,7 +108,8 @@ namespace BL
         
             try
             {
-                dal.UpdateCustomer(dal.GetCustomer(id), name,phone);
+                lock (dal)
+                    dal.UpdateCustomer(dal.GetCustomer(id), name,phone);
             }
             catch (KeyNotFoundException ex)
             {
@@ -126,7 +131,8 @@ namespace BL
         {
             try
             {
-                dal.DeleteCustomer(id);
+                lock (dal)
+                    dal.DeleteCustomer(id);
             }
             catch (KeyNotFoundException ex)
             {
@@ -145,7 +151,8 @@ namespace BL
         {
             try
             {
-              return  dal.GetCustomers().Any(customer => customer.Id == id && customer.IsNotActive);
+                lock (dal)
+                    return  dal.GetCustomers().Any(customer => customer.Id == id && customer.IsNotActive);
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
