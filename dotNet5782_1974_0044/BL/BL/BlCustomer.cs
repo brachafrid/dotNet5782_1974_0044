@@ -136,7 +136,6 @@ namespace BL
             }
             catch (KeyNotFoundException ex)
             {
-
                 throw new KeyNotFoundException(ex.Message);
             }
             catch(DO.XMLFileLoadCreateException ex)

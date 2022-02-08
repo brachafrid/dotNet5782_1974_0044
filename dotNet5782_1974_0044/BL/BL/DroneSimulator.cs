@@ -9,7 +9,7 @@ namespace BL
 {
     internal class DroneSimulator
     {
-        enum Maintenance { Starting, Going, Charging }
+        enum Maintenance { Starting, Going }
         enum Delivery { Starting, Going, Delivery }
         int? parcelId;
         int? senderId;
@@ -18,7 +18,6 @@ namespace BL
         BL bl { set; get; }
         Parcel parcel { set; get; }
         Station Station { set; get; }
-        IDal Dal { set; get; }
         DroneToList Drone { set; get; }
         private const int DELAY = 500;
         private Maintenance maintenance = Maintenance.Starting;
@@ -26,14 +25,12 @@ namespace BL
         private const double TIME_STEP = DELAY / 1000.0;
         private const double VELOCITY = 1000;
         private const double STEP = VELOCITY / TIME_STEP;
-        //private const double STEP = 50;
         double distance = 0.0;
         public DroneSimulator(int id, BL BL, Action<int?, int?, int?, int?> update, Func<bool> checkStop)
         {
             try
             {
                 bl = BL;
-                Dal = bl.dal;
                 Drone = bl.drones.FirstOrDefault(Drone => Drone.Id == id);
                 if (Drone.DroneState == DroneState.DELIVERY && bl.GetParcel((int)Drone.ParcelId).CollectionTime != null)
                     delivery = Delivery.Delivery;
@@ -58,7 +55,7 @@ namespace BL
                             default:
                                 break;
                         }
-                    update(parcelId, senderId, reciverId, senderId);
+                    update(parcelId, senderId, reciverId, stationId);
                 }
             }
             catch (KeyNotFoundException ex)
@@ -96,11 +93,7 @@ namespace BL
                 case Maintenance.Going:
                     {
                         if (distance < 0.01)
-                        {
-                            maintenance = Maintenance.Charging;
                             bl.SendDroneForCharg(Drone.Id);
-                        }
-
                         else
                         {
                             Drone.CurrentLocation = UpdateLocationAndBattary(Station.Location, bl.available);
@@ -122,7 +115,7 @@ namespace BL
                 }
                 catch (NotExsistSutibleParcelException)
                 {
-                    if (Drone.BatteryState == 100)
+                    if (Drone.BatteryState >= 100)
                         return;
                     Drone.DroneState = DroneState.WAYTOCHARGE;
                     maintenance = Maintenance.Starting;
