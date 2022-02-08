@@ -405,6 +405,9 @@ namespace BL
             return suitableParcel;
         }
 
-
+        public void StartDroneSimulator(int id, Action<int?, int?, int?, int?> update, Func<bool> checkStop)
+        {
+            new DroneSimulator(id, this, update, checkStop);
+        }
     }
 }

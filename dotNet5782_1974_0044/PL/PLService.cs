@@ -36,7 +36,7 @@ namespace PL
             ibal.DeleteCustomer(id);
         }
         public static bool IsNotActiveCustomer(int id) => ibal.IsNotActiveCustomer(id);
-        
+
         public static PO.Customer ConvertCustomer(BO.Customer customer)
         {
             return new PO.Customer
@@ -45,8 +45,8 @@ namespace PL
                 Name = customer.Name,
                 Phone = customer.Phone,
                 Location = ConvertLocation(customer.Location),
-                FromCustomer =new( customer.FromCustomer.Select(item => ConvertParcelAtCustomer(item))),
-                ToCustomer =  new(customer.ToCustomer.Select(item =>ConvertParcelAtCustomer(item)))
+                FromCustomer = new(customer.FromCustomer.Select(item => ConvertParcelAtCustomer(item))),
+                ToCustomer = new(customer.ToCustomer.Select(item => ConvertParcelAtCustomer(item)))
             };
         }
         public static BO.Customer ConvertBackCustomer(PO.Customer customer)
@@ -107,7 +107,7 @@ namespace PL
                 CollectionPoint = ConvertLocation(parcel.CollectionPoint),
                 CustomerReceives = ConvertCustomerInParcel(parcel.CustomerReceives),
                 CustomerSender = ConvertCustomerInParcel(parcel.CustomerSender),
-                DeliveryDestination =ConvertLocation(parcel.DeliveryDestination),
+                DeliveryDestination = ConvertLocation(parcel.DeliveryDestination),
                 TransportDistance = parcel.TransportDistance,
                 Weight = (WeightCategories)parcel.WeightCategory
             };
@@ -124,7 +124,7 @@ namespace PL
                 Priority = (BO.Priorities)parcel.Piority,
                 ParcelState = parcel.ParcelState,
                 CollectionPoint = ConvertBackLocation(parcel.CollectionPoint),
-                CustomerReceives =ConvertBackCustomerInParcel(parcel.CustomerReceives),
+                CustomerReceives = ConvertBackCustomerInParcel(parcel.CustomerReceives),
                 CustomerSender = ConvertBackCustomerInParcel(parcel.CustomerSender),
                 DeliveryDestination = ConvertBackLocation(parcel.DeliveryDestination),
                 TransportDistance = parcel.TransportDistance,
@@ -164,7 +164,7 @@ namespace PL
                 Name = station.Name,
                 Location = ConvertBackLocation(station.Location),
                 AvailableChargingPorts = station.EmptyChargeSlots,
-                DroneInChargings = station.DroneInChargings.Select(item =>ConvertBackDroneCharging(item)).ToList()
+                DroneInChargings = station.DroneInChargings.Select(item => ConvertBackDroneCharging(item)).ToList()
             };
         }
         public static Station ConverterStation(BO.Station station)
@@ -211,7 +211,7 @@ namespace PL
                 CreationTime = parcel.CreationTime,
                 CustomerReceives = ConvertCustomerInParcel(parcel.CustomerReceives),
                 CustomerSender = ConvertCustomerInParcel(parcel.CustomerSender),
-                Drone = parcel.Drone != null?ConvertDroneWithParcel(parcel.Drone):null,
+                Drone = parcel.Drone != null ? ConvertDroneWithParcel(parcel.Drone) : null,
             };
         }
         public static BO.Parcel ConvertBackParcel(Parcel parcel)
@@ -271,7 +271,7 @@ namespace PL
                 Weight = (PO.WeightCategories)parcelAdd.Weight,
                 Piority = (PO.Priorities)parcelAdd.Piority,
                 PackageMode = PO.PackageModes.ASSOCIATED,
-               
+
             };
         }
         public static BO.ParcelAtCustomer ConvertBackParcelAtCustomer(PO.ParcelAtCustomer parcelAtCustomer)
@@ -358,11 +358,11 @@ namespace PL
             {
                 return ConvertDrone(ibal.GetDrone(id));
             }
-            catch(ArgumentNullException ex)
+            catch (ArgumentNullException ex)
             {
                 throw new ArgumentNullException(ex.Message);
             }
-            
+
         }
         public static IEnumerable<DroneToList> GetDrones()
         {
@@ -390,7 +390,7 @@ namespace PL
                 DroneState = (DroneState)drone.DroneState,
                 Weight = (WeightCategories)drone.WeightCategory,
                 Location = ConvertLocation(drone.CurrentLocation),
-                Parcel = drone.Parcel == null ? null :ConvertParcelInTransfer(drone.Parcel)
+                Parcel = drone.Parcel == null ? null : ConvertParcelInTransfer(drone.Parcel)
             };
         }
         public static BO.Drone ConvertBackDrone(Drone drone)
@@ -403,7 +403,7 @@ namespace PL
                 DroneState = (BO.DroneState)drone.DroneState,
                 WeightCategory = (BO.WeightCategories)drone.Weight,
                 CurrentLocation = ConvertBackLocation(drone.Location),
-                Parcel = drone.Parcel == null ? null :ConvertBackParcelInTransfer(drone.Parcel)
+                Parcel = drone.Parcel == null ? null : ConvertBackParcelInTransfer(drone.Parcel)
             };
         }
         public static DroneToList ConvertDroneToList(BO.DroneToList drone)
@@ -461,6 +461,10 @@ namespace PL
                 Id = customerInParcel.Id,
                 Name = customerInParcel.Name
             };
+        }
+        public static void StartDroneSimulator(int id, Action<int?, int?, int?, int?> update, Func<bool> checkStop)
+        {
+            ibal.StartDroneSimulator(id, update, checkStop);
         }
     }
 }

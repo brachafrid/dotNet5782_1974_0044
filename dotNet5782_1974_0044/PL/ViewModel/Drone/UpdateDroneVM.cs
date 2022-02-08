@@ -1,17 +1,16 @@
 ﻿using PL.PO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 
 namespace PL
 {
-
     public class UpdateDroneVM : DependencyObject
     {
-        public RelayCommand OpenParcelCommand { get; set; }
-        public RelayCommand OpenCustomerCommand { get; set; }
-
         private int id;
+        BackgroundWorker simulatorWorker;
+        Action simulateDrone;
         public PO.Drone drone
         {
             get { return (PO.Drone)GetValue(droneProperty); }
@@ -28,11 +27,16 @@ namespace PL
 
         public static readonly DependencyProperty droneModelProperty =
             DependencyProperty.Register("droneModel", typeof(string), typeof(UpdateDroneVM), new PropertyMetadata(string.Empty));
+
+        public RelayCommand OpenParcelCommand { get; set; }
+        public RelayCommand OpenCustomerCommand { get; set; }
         public RelayCommand UpdateDroneCommand { get; set; }
         public RelayCommand CloseDroneCommand { get; set; }
         public RelayCommand ChargingDroneCommand { get; set; }
         public RelayCommand ParcelTreatedByDrone { get; set; }
         public RelayCommand DeleteDroneCommand { get; set; }
+        public RelayCommand SimulatorCommand { get; set; }
+
 
         public UpdateDroneVM(int id)
         {
@@ -46,11 +50,13 @@ namespace PL
             DelegateVM.DroneChangedEvent += HandleADroneChanged;
             OpenParcelCommand = new(Tabs.OpenDetailes, null);
             OpenCustomerCommand = new(Tabs.OpenDetailes, null);
+            simulateDrone = StartSimulator;
+            SimulatorCommand = new((param) => simulateDrone());
         }
 
         private void HandleADroneChanged(object sender, EntityChangedEventArgs e)
         {
-            if (id == e.Id || e.Id==null)
+            if (id == e.Id || e.Id == null)
                 InitThisDrone();
         }
 
@@ -90,7 +96,7 @@ namespace PL
                 {
                     PLService.SendDroneForCharg(drone.Id);
                     DelegateVM.NotifyDroneChanged(drone.Id);
-                   DelegateVM.NotifyStationChanged();
+                    DelegateVM.NotifyStationChanged();
                 }
                 else if (drone.DroneState == PO.DroneState.MAINTENANCE)
                 {
@@ -133,7 +139,6 @@ namespace PL
                 MessageBox.Show($"{ex.Message}");
             }
         }
-
         public void DeleteDrone(object param)
         {
 
@@ -146,5 +151,41 @@ namespace PL
                 Tabs.CloseTab(param as TabItemFormat);
             }
         }
+
+        public static readonly DependencyProperty AutoProperty =
+            DependencyProperty.Register(nameof(Auto), typeof(bool), typeof(UpdateDroneVM), new PropertyMetadata(false));
+        public bool Auto
+        {
+            get => (bool)GetValue(AutoProperty);
+            set => SetValue(AutoProperty, value);
+        }
+
+        private void StartSimulator()
+        {
+            Auto = true;
+            simulateDrone = StopSimulator;
+            simulatorWorker = new() { WorkerReportsProgress = true, WorkerSupportsCancellation = true, };
+            simulatorWorker.DoWork += (sender, args) => PLService.StartDroneSimulator(id, updateDrone, IsSimulatorStoped);
+            simulatorWorker.RunWorkerCompleted += (sender, args) => Auto = false;
+            simulatorWorker.ProgressChanged += HandleWorkerProgressChanged;
+            simulatorWorker.RunWorkerAsync(id);
+        }
+
+        private void HandleWorkerProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            //var x=(int? parcelId, int? senderId, int? receiverId, int? stationId)e.UserState;
+            DelegateVM.NotifyDroneChanged(id);
+        }
+
+        private void StopSimulator()
+        {
+            simulateDrone = StartSimulator;
+            simulatorWorker?.CancelAsync();
+        }
+        private void updateDrone(int? parcelId, int? senderId, int? receiverId, int? stationId)
+        {
+            simulatorWorker.ReportProgress(0,(parcelId,senderId,receiverId,stationId));
+        }
+        private bool IsSimulatorStoped() => simulatorWorker.CancellationPending;
     }
 }
