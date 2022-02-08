@@ -93,7 +93,7 @@ namespace BL
                                 maintenance = Maintenance.Going;
                                 distance = BL.Distance(Drone.CurrentLocation, Station.Location);
                             }
-                            catch (NotExsistSuitibleStationException ex)
+                            catch (NotExsistSuitibleStationException)
                             {
 
                             }
@@ -107,6 +107,7 @@ namespace BL
                         if (distance < 0.01)
                         {
                             maintenance = Maintenance.Charging;
+                            Drone.DroneState = DroneState.AVAILABLE;
                             bl.SendDroneForCharg(Drone.Id);
                         }
 

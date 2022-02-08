@@ -20,7 +20,8 @@ namespace BL
             {
                 WeightCategories.LIGHT => lightWeightCarrier,
                 WeightCategories.MEDIUM => mediumWeightBearing,
-                WeightCategories.HEAVY => carriesHeavyWeight
+                WeightCategories.HEAVY => carriesHeavyWeight,
+               _ =>0
             };
             Station station;
             electricity = Distance(aviableDroneLocation, CustomerSender) * available +
@@ -28,6 +29,12 @@ namespace BL
             try
             {
                 station = batteryStatus != null ? ClosetStationPossible(aviableDroneLocation, (double)batteryStatus - electricity, out _) : ClosetStation(aviableDroneLocation);
+                if (station == null)
+                {
+                    distance = 0;
+                    return 101d;
+                }
+
                 electricity += Distance(CustomerReceives,
                              station.Location) * available;
                 distance = Distance(aviableDroneLocation, CustomerSender) +
