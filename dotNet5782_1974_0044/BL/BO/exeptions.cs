@@ -61,8 +61,11 @@ namespace BO
     [Serializable]
     public class DeletedExeption : Exception
     {
+        public int Id { get; set; }
         public DeletedExeption() : base() { }
+        public DeletedExeption(int id) : base() { Id = id; }
         public DeletedExeption(string message) : base(message) { }
+        public DeletedExeption(string message,int id) : base(message) { Id = id; }
         public DeletedExeption(string message, Exception inner) : base(message, inner) { }
         protected DeletedExeption(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
@@ -150,6 +153,45 @@ namespace BO
             return $"An element with the same key already exists in the list , the drone id is:{DroneId} ";
         }
 
+    }
+    [Serializable]
+    public class InvalidDroneStateException : Exception
+    {
+        public InvalidDroneStateException()
+        {
+        }
+
+        public InvalidDroneStateException(string message) : base(message)
+        {
+        }
+
+        public InvalidDroneStateException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected InvalidDroneStateException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
+    }
+
+    [Serializable]
+    internal class InvalidParcelStateException : Exception
+    {
+        public InvalidParcelStateException()
+        {
+        }
+
+        public InvalidParcelStateException(string message) : base(message)
+        {
+        }
+
+        public InvalidParcelStateException(string message, Exception innerException) : base(message, innerException)
+        {
+        }
+
+        protected InvalidParcelStateException(SerializationInfo info, StreamingContext context) : base(info, context)
+        {
+        }
     }
 
 }

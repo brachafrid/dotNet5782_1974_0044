@@ -9,7 +9,7 @@ namespace BL
 {
     public partial class BL : IBlCustomer
     {
-        //-----------------------------------------------------------Adding------------------------------------------------------------------------
+        #region Add
         /// <summary>
         /// Add a customer to the list of customers
         /// </summary>
@@ -31,8 +31,11 @@ namespace BL
             }
 
         }
+        #endregion
 
-        //--------------------------------------------------Return-----------------------------------------------------------------------------------
+        #region Return
+
+
         /// <summary>
         /// Retrieves the requested customer from the data and converts it to BL customer
         /// </summary>
@@ -49,7 +52,38 @@ namespace BL
                 throw new KeyNotFoundException(ex.Message);
             }
         }
-        //-------------------------------------------------------Updating-----------------------------------------------------------------------------
+        /// <summary>
+        /// Retrieves the list of customers  from the data and converts it to station to list
+        /// </summary>
+        /// <returns>A list of statin to print</returns>
+        public IEnumerable<CustomerToList> GetCustomers()
+        {
+            try
+            {
+                return dal.GetCustomers().Select(customer => MapCustomerToList(customer));
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
+        }
+
+        public IEnumerable<CustomerToList> GetActiveCustomers()
+        {
+            try
+            {
+                return dal.GetCustomers().Where(Customer => !Customer.IsNotActive).Select(Customer => MapCustomerToList(Customer));
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
+        }
+        #endregion
+
+        #region Update
         /// <summary>
         /// Update a customer in the customers list
         /// </summary>
@@ -60,14 +94,9 @@ namespace BL
         {
             if (name.Equals(string.Empty) && phone.Equals(string.Empty))
                 throw new ArgumentNullException("There is not field to update");
-            DO.Customer customer;
             try
             {
                 dal.UpdateCustomer(dal.GetCustomer(id), name,phone);
-            }
-            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
-            {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
             catch (KeyNotFoundException ex)
             {
@@ -80,6 +109,10 @@ namespace BL
 
 
         }
+
+        #endregion
+
+        #region Delete
         public void DeleteCustomer(int id)
         {
             try
@@ -97,6 +130,7 @@ namespace BL
             }
            
         }
+        #endregion
         public bool IsNotActiveCustomer(int id)
         {
             try
@@ -109,64 +143,7 @@ namespace BL
             }
             
         }
-
-        //-------------------------------------------------Return List-----------------------------------------------------------------------------
-        /// <summary>
-        /// Retrieves the list of customers  from the data and converts it to station to list
-        /// </summary>
-        /// <returns>A list of statin to print</returns>
-        public IEnumerable<CustomerToList> GetCustomers()
-        {
-            try
-            {
-                return dal.GetCustomers().Select(customer => MapCustomerToList(customer));
-            }
-            catch (DO.XMLFileLoadCreateException ex)
-            {
-                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
-            }
-            
-        }
-
-        public IEnumerable<CustomerToList> GetActiveCustomers()
-        {
-            try
-            {
-                return dal.GetCustomers().Where(Customer => !Customer.IsNotActive).Select(Customer => MapCustomerToList(Customer));
-            }
-            catch (DO.XMLFileLoadCreateException ex)
-            {
-                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
-            }
-
-        }
         
-
-
-        //-----------------------------------------------Help function-----------------------------------------------------------------------------------
-        /// <summary>
-        /// Convert a DAL customer to BL customer
-        /// </summary>
-        /// <param name="parcel">The customer to convert</param>
-        /// <returns>The converted customer</returns>
-        private Customer MapCustomer(DO.Customer customer)
-        {
-            return new Customer()
-            {
-                Id = customer.Id,
-                Phone = customer.Phone,
-                Name = customer.Name,
-                Location = new()
-                {
-                    Longitude = customer.Longitude,
-                    Latitude = customer.Latitude
-                },
-                FromCustomer = GetAllParcels().Where(Parcel => Parcel.CustomerSender.Id == customer.Id).Select(parcel => ParcelToParcelAtCustomer(parcel, "sender")).ToList(),
-                ToCustomer = GetAllParcels().Where(Parcel => Parcel.CustomerReceives.Id == customer.Id).Select(parcel => ParcelToParcelAtCustomer(parcel, "Recive")).ToList()
-            };
-        }
-
-
     }
 }
 
