@@ -3,16 +3,18 @@ using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
     public partial class BL : IBlParcel
     {
-        //-----------------------------------------------------------Adding------------------------------------------------------------------------
+        #region Add
         /// <summary>
         /// Add a parcel to the list of parcels
         /// </summary>
         /// <param name="parcelBl">The parcel for Adding</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel parcelBl)
         {
             if (!ExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerSender.Id))
@@ -35,17 +37,16 @@ namespace BL
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
-            //catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
-            //{
-            //    throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
-            //}
-        }
 
-        //-------------------------------------------------Return List-----------------------------------------------------------------------------
+        }
+        #endregion
+
+        #region Return
         /// <summary>
         /// Retrieves the list of parcels that not assigned to drone from the data and converts it to parcel to list
         /// </summary>
         /// <returns>A list of parcels to print</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone(Predicate<int> notAssign)
         {
             try
@@ -56,6 +57,10 @@ namespace BL
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException(ex.Message);
+            }
 
         }
 
@@ -63,6 +68,7 @@ namespace BL
         /// Retrieves the list of parcels from the data and converts it to parcel to list
         /// </summary>
         /// <returns>A list of parcels to print</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelToList> GetParcels()
         {
             try
@@ -73,8 +79,13 @@ namespace BL
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException(ex.Message);
+            }
 
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelToList> GetActiveParcels()
         {
             try
@@ -85,8 +96,14 @@ namespace BL
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException(ex.Message);
+            }
+
 
         }
+
         /// <summary>
         /// Retrieves the list of parcels from the data and converts it to BL parcel 
         /// </summaryparfcel
@@ -96,13 +113,13 @@ namespace BL
             return dal.GetParcels().Select(Parcel => GetParcel(Parcel.Id));
         }
 
-        //--------------------------------------------------Return-----------------------------------------------------------------------------------
         /// <summary>
         /// Retrieves the requested parcel from the data and converts it to BL parcel
         /// </summary>
         /// <param name="id">The requested parcel id</param>
         /// <param name="nullAble">enable null if the customer sender or reciver not found</param>
         /// <returns>A Bl parcel to print</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int id)
         {
             try
@@ -120,8 +137,9 @@ namespace BL
             }
 
         }
+        #endregion
 
-        //-------------------------------------------------Updating--------------------------------------------------------------------------------------
+        #region Update
         /// <summary>
         /// Assign the parcel to drone
         /// </summary>
@@ -141,10 +159,6 @@ namespace BL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-            //catch(DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
-            //{
-            //    throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
-            //}
 
         }
 
@@ -170,7 +184,10 @@ namespace BL
             dal.UpdateParcel(parcel, newParcel);
 
         }
+        #endregion
 
+        #region Delete
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(int id)
         {
             try
@@ -188,7 +205,6 @@ namespace BL
             }
             catch (KeyNotFoundException ex)
             {
-
                 throw new KeyNotFoundException(ex.Message);
             }
             catch (DO.XMLFileLoadCreateException ex)
@@ -197,41 +213,19 @@ namespace BL
             }
 
         }
-        public bool IsNotActiveParcel(int id) => dal.GetParcels().Any(parcel => parcel.Id == id && parcel.IsNotActive);
-
-        //-----------------------------------------------Help function-----------------------------------------------------------------------------------
-        /// <summary>
-        /// Convert a DAL parcel to BL parcel
-        /// </summary>
-        /// <param name="parcel">The parcel to convert</param>
-        /// <param name="nullAble"></param>
-        /// <returns>The converted parcel</returns>
-        private Parcel MapParcel(DO.Parcel parcel)
-        {
-            var tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
-            return new Parcel()
-            {
-                Id = parcel.Id,
-                CustomerReceives = MapCustomerInParcel(dal.GetCustomer(parcel.TargetId)),
-                CustomerSender = MapCustomerInParcel(dal.GetCustomer(parcel.SenderId)),
-                Weight = (BO.WeightCategories)parcel.Weigth,
-                Priority = (BO.Priorities)parcel.Priority,
-                AssignmentTime = parcel.Sceduled,
-                CollectionTime = parcel.PickedUp,
-                CreationTime = parcel.Requested,
-                DeliveryTime = parcel.Delivered,
-                Drone = tmpDrone != default ? MapDroneWithParcel(tmpDrone) : null
-            };
-        }
 
         private void DeleteParcelFromDrone(int id)
         {
             DroneToList drone = drones.FirstOrDefault(item => item.Id == id);
-            drones.Remove(drone);
-            drone.ParcelId = null;
-            drone.DroneState = DroneState.AVAILABLE;
-            drones.Add(drone);
+            if (drone != default)
+            {
+                drone.ParcelId = null;
+                drone.DroneState = DroneState.AVAILABLE;
+            }
         }
-
+        #endregion
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public bool IsNotActiveParcel(int id) => dal.GetParcels().Any(parcel => parcel.Id == id && parcel.IsNotActive);
+                      
     }
 }
