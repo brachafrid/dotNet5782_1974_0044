@@ -50,9 +50,16 @@ namespace BL
         /// <returns>The converted parcel</returns>
         private ParcelInTransfer CreateParcelInTransfer(int id)
         {
-            DO.Parcel parcel = dal.GetParcel(id);
-            DO.Customer sender = dal.GetCustomer(parcel.SenderId);
-            DO.Customer target = dal.GetCustomer(parcel.TargetId);
+            DO.Parcel parcel;
+            DO.Customer sender;
+            DO.Customer target;
+            lock (dal)
+            {
+                parcel = dal.GetParcel(id);
+                sender = dal.GetCustomer(parcel.SenderId);
+                target = dal.GetCustomer(parcel.TargetId);
+            }
+
             return new ParcelInTransfer
             {
                 Id = id,

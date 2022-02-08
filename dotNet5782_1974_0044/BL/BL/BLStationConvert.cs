@@ -11,13 +11,14 @@ namespace BL
         /// <returns>The converted station</returns>
         private BO.StationToList MapStationToList(DO.Station station)
         {
-            return new StationToList()
-            {
-                Id = station.Id,
-                Name = station.Name,
-                EmptyChargeSlots = station.ChargeSlots - dal.CountFullChargeSlots(station.Id),
-                FullChargeSlots = dal.CountFullChargeSlots(station.Id)
-            };
+            lock (dal)
+                return new StationToList()
+                {
+                    Id = station.Id,
+                    Name = station.Name,
+                    EmptyChargeSlots = station.ChargeSlots - dal.CountFullChargeSlots(station.Id),
+                    FullChargeSlots = dal.CountFullChargeSlots(station.Id)
+                };
         }
 
         /// <summary>
@@ -27,14 +28,15 @@ namespace BL
         /// <returns>The converted station</returns>
         private BO.Station ConvertStation(DO.Station station)
         {
-            return new Station()
-            {
-                Id = station.Id,
-                Name = station.Name,
-                Location = new Location() { Latitude = station.Latitude, Longitude = station.Longitude },
-                AvailableChargingPorts = station.ChargeSlots - dal.CountFullChargeSlots(station.Id),
-                DroneInChargings = CreatListDroneInCharging(station.Id)
-            };
+            lock (dal)
+                return new Station()
+                {
+                    Id = station.Id,
+                    Name = station.Name,
+                    Location = new Location() { Latitude = station.Latitude, Longitude = station.Longitude },
+                    AvailableChargingPorts = station.ChargeSlots - dal.CountFullChargeSlots(station.Id),
+                    DroneInChargings = CreatListDroneInCharging(station.Id)
+                };
         }
     }
 }
