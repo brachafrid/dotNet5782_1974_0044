@@ -40,7 +40,7 @@ namespace PL
         }
         private void HandleParcelChanged(object sender, EntityChangedEventArgs e)
         {
-            if (e.Id != null)
+            if (e.Id != null && e.Id !=0)
             {
                 var parcel = sourceList.FirstOrDefault(p => p.Id == e.Id);
                 if (parcel != default)

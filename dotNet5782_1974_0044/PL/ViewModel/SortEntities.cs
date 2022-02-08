@@ -11,7 +11,7 @@ namespace PL
         public string NameParameter { get; set; }
         public double? FirstParameter { get; set; }
         public double? LastParameter { get; set; }
-        public string? Value { get; set; }
+        public string Value { get; set; }
     }
 }
 

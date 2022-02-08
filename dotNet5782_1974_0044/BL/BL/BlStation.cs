@@ -168,8 +168,6 @@ namespace BL
         internal Station ClosetStationPossible(Location droneToListLocation, double BatteryStatus, out double minDistance)
         {
             Station station = ClosetStation(droneToListLocation);
-            if (station == null)
-                throw new NotExsistSuitibleStationException("no suitble station");
             minDistance = Distance(droneToListLocation, station.Location);
             return minDistance * available <= BatteryStatus ? station : null;
         }
@@ -182,9 +180,9 @@ namespace BL
         /// <returns>The station</returns>
         private Station ClosetStation(Location location)
         {
-            double minDistance = double.MaxValue;
+            double minDistance = int.MaxValue;
             double curDistance;
-            Station station = default;
+            Station station = null;
             foreach (var item in dal.GetStations())
             {
                 curDistance = Distance(location, new Location() { Latitude = item.Latitude, Longitude = item.Longitude });

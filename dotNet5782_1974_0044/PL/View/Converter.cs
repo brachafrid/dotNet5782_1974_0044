@@ -242,6 +242,7 @@ namespace PL
                 "LoginWindow" => new LoginWindow(),
                 "AdministratorWindow" => new AdministratorVM(),
                 "CustomerWindow" => new CustomerWindowVM((int)PO.LoginScreen.Id),
+                _=>null
             };
         }
 

@@ -60,7 +60,7 @@ namespace BL
         {
             if (name.Equals(string.Empty) && phone.Equals(string.Empty))
                 throw new ArgumentNullException("There is not field to update");
-            DO.Customer customer;
+        
             try
             {
                 dal.UpdateCustomer(dal.GetCustomer(id), name,phone);
