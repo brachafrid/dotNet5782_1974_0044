@@ -14,7 +14,7 @@ namespace BL
         /// Add a customer to the list of customers
         /// </summary>
         /// <param name="customerBL">The customer for Adding</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer customerBL)
         {
             try
@@ -42,7 +42,7 @@ namespace BL
         /// </summary>
         /// <param name="id">The requested customer id</param>
         /// <returns>A Bl customer to print</returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomer(int id)
         {
             try
@@ -62,7 +62,7 @@ namespace BL
         /// Retrieves the list of customers  from the data and converts it to station to list
         /// </summary>
         /// <returns>A list of statin to print</returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<CustomerToList> GetCustomers()
         {
             try
@@ -75,7 +75,7 @@ namespace BL
             }
 
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<CustomerToList> GetActiveCustomers()
         {
             try
@@ -97,7 +97,7 @@ namespace BL
         /// <param name="id">the id of the customer</param>
         /// <param name="name"></param>
         /// <param name="phone"></param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(int id, string name, string phone)
         {
             if (name.Equals(string.Empty) && phone.Equals(string.Empty))
@@ -122,7 +122,7 @@ namespace BL
         #endregion
 
         #region Delete
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(int id)
         {
             try
@@ -141,7 +141,7 @@ namespace BL
            
         }
         #endregion
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsNotActiveCustomer(int id)
         {
             try

@@ -54,6 +54,7 @@
         <local:AdministratorWindow/>
     </DataTemplate>
 
+  
     <DataTemplate DataType="{x:Type po:Location}">
         <materialDesign:Card Margin="12"  >
             <Grid>
