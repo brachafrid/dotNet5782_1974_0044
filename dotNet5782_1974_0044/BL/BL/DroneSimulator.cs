@@ -35,6 +35,8 @@ namespace BL
                 bl = BL;
                 Dal = bl.dal;
                 Drone = bl.drones.FirstOrDefault(Drone => Drone.Id == id);
+                if (Drone.DroneState == DroneState.DELIVERY && bl.GetParcel((int)Drone.ParcelId).CollectionTime != null)
+                    delivery = Delivery.Delivery;
                 while (!checkStop())
                 {
                     parcelId = senderId = reciverId = stationId = null;
@@ -123,7 +125,11 @@ namespace BL
                 case Maintenance.Charging:
                     {
                         if (Drone.BatteryState == 100)
+                        {
                             bl.ReleaseDroneFromCharging(Drone.Id);
+                            delivery = Delivery.Starting;
+                        }
+
                         else
                             lock (bl) Drone.BatteryState = Math.Min(100, Drone.BatteryState + bl.droneLoadingRate * TIME_STEP);
                         stationId = Station.Id;
