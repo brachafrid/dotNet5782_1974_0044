@@ -80,8 +80,9 @@ namespace BL
                                 Station = bl.ClosetStationPossible(Drone.CurrentLocation, Drone.BatteryState, out double n);
                                 if (Station != null)
                                 {
-                                    Drone.DroneState = DroneState.WAYTOCHARGE;
+                                   
                                     distance = BL.Distance(Drone.CurrentLocation, Station.Location);
+                                    maintenance = Maintenance.Going;
                                 }
                             }
                             catch (NotExsistSuitibleStationException)
