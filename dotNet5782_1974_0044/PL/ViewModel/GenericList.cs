@@ -1,15 +1,11 @@
-﻿using System;
+﻿using PL.PO;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Collections.ObjectModel;
-using System.Windows.Controls;
-using PL.PO;
-using System.ComponentModel;
 
 namespace PL
 {
@@ -40,19 +36,26 @@ namespace PL
 
         public List<SortEntities> Filters
         {
-            get { return (List<SortEntities>)GetValue(MyPropertyProperty); }
-            set { SetValue(MyPropertyProperty, value); }
+            get { return (List<SortEntities>)GetValue(FiltersProperty); }
+            set { SetValue(FiltersProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MyPropertyProperty =
-            DependencyProperty.Register("MyProperty", typeof(List<SortEntities>), typeof(GenericList<T>), new PropertyMetadata(new List<SortEntities>()));
+        public static readonly DependencyProperty FiltersProperty =
+            DependencyProperty.Register("Filters", typeof(List<SortEntities>), typeof(GenericList<T>), new PropertyMetadata(new List<SortEntities>()));
 
+        public int MaxValue
+        {
+            get { return (int)GetValue(MaxValueProperty); }
+            set { SetValue(MaxValueProperty, value); }
+        }
 
-        //public List<SortEntities> Filters { get; set; } = new();
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MaxValueProperty =
+            DependencyProperty.Register("MaxValue", typeof(int), typeof(GenericList<T>), new PropertyMetadata(0));
+
 
         private double doubleFirstChange = 0;
-        private double doubleLastChange = 100;
         public double DoubleFirstChange
         {
             get => doubleFirstChange;
@@ -64,31 +67,15 @@ namespace PL
                     Filters.Add(new SortEntities()
                     {
                         NameParameter = SelectedKind,
-                        FirstParameter = doubleFirstChange
+                        MinParameter = doubleFirstChange
                     });
                 else
-                    Filters[Filters.IndexOf(fiterWeight)].FirstParameter = doubleFirstChange;
+                    fiterWeight.MinParameter = doubleFirstChange;
                 FilterNow();
+                
             }
         }
-        public double DoubleLastChange
-        {
-            get => doubleLastChange;
-            set
-            {
-                doubleLastChange = value;
-                SortEntities fiterWeight = Filters.FirstOrDefault(filter => filter.NameParameter == SelectedKind);
-                if (fiterWeight == default)
-                    Filters.Add(new SortEntities()
-                    {
-                        NameParameter = SelectedKind,
-                        FirstParameter = doubleLastChange
-                    });
-                else
-                    Filters[Filters.IndexOf(fiterWeight)].FirstParameter = doubleLastChange;
-                FilterNow();
-            }
-        }
+
         private string modelContain;
         public string ModelContain
         {
@@ -115,7 +102,7 @@ namespace PL
         public GenericList()
         {
             UpdateSortOptions();
-            ShowKindOfSortCommand = new(ShowKindOfSort, null);
+            ShowKindOfSortCommand = new(ShowKindOfSort, (object param) => param != null);
             FilterCommand = new(FilterEnum, null);
             CancelFilterCommand = new(CancelFilter, null);
             CancelGroupCommand = new(CancelGroup, null);
@@ -135,7 +122,7 @@ namespace PL
         }
         public void Grouping(object param)
         {
-            if(param != null)
+            if (param != null)
             {
                 SelectedGroup = param?.ToString();
                 CancelGroup(param);
@@ -150,31 +137,23 @@ namespace PL
         {
             foreach (SortEntities item in Filters)
             {
-
-                if (item.FirstParameter == null && item.LastParameter == null)
+                if (obj.GetType().GetProperty(item.NameParameter).PropertyType.Name == typeof(string).Name)
                 {
-                    if (obj.GetType().GetProperty(item.NameParameter).PropertyType.Name == "String")
-                    {
-                        if (!obj.GetType().GetProperty(item.NameParameter).GetValue(obj).ToString().Contains(item.Value))
-                            return false;
-                    }
-                    else if (obj.GetType().GetProperty(item.NameParameter).GetValue(obj).ToString() != item.Value)
+                    if (!obj.GetType().GetProperty(item.NameParameter).GetValue(obj).ToString().Contains(item.Value))
                         return false;
                 }
-                else if (obj.GetType().GetProperty(item.NameParameter).PropertyType.Name == "Double")
+                else if (obj.GetType().GetProperty(item.NameParameter).PropertyType.Name == typeof(double).Name)
                 {
-                    if (item.LastParameter != null && (double)obj.GetType().GetProperty(item.NameParameter).GetValue(obj) > item.LastParameter)
-                        return false;
-                    if (item.FirstParameter != null && (double)obj.GetType().GetProperty(item.NameParameter).GetValue(obj) < item.FirstParameter)
+                    if ((double)obj.GetType().GetProperty(item.NameParameter).GetValue(obj) < item.MinParameter)
                         return false;
                 }
-                else
+                else if (obj.GetType().GetProperty(item.NameParameter).PropertyType.Name == typeof(int).Name)
                 {
-                    if (item.LastParameter != null && (int)obj.GetType().GetProperty(item.NameParameter).GetValue(obj) > item.LastParameter)
-                        return false;
-                    if (item.FirstParameter != null && (int)obj.GetType().GetProperty(item.NameParameter).GetValue(obj) < item.FirstParameter)
+                    if ((int)obj.GetType().GetProperty(item.NameParameter).GetValue(obj) < item.MinParameter)
                         return false;
                 }
+                else if (obj.GetType().GetProperty(item.NameParameter).GetValue(obj).ToString() != item.Value)
+                    return false;
             }
             return true;
         }
@@ -191,7 +170,7 @@ namespace PL
         }
         public void CancelFilter(object param)
         {
-            Filters.RemoveAll((SortEntities o)=>true);
+            Filters.RemoveAll((SortEntities o) => true);
             SelectedKind = string.Empty;
             VisbleDouble.visibility = Visibility.Collapsed;
             VisibilityDroneState.visibility = Visibility.Collapsed;
@@ -205,45 +184,57 @@ namespace PL
         {
             switch (propertyType.Name)
             {
-                case "String":
+                case { } when typeof(string).Name == propertyType.Name:
                     StringSortVisibility.visibility = Visibility.Visible;
                     break;
-                case "Double":
+                case { } when typeof(double).Name == propertyType.Name:
                     VisbleDouble.visibility = Visibility.Visible;
+                    MaxValue = MaxValueFunc();
                     break;
-                case "WeightCategories":
+                case { } when typeof(WeightCategories).Name == propertyType.Name:
                     VisibilityWeightCategories.visibility = Visibility.Visible;
                     break;
-                case "Priorities":
+                case { } when typeof(Priorities).Name == propertyType.Name:
                     VisibilityPriorities.visibility = Visibility.Visible;
                     break;
-                case "DroneState":
+                case { } when typeof(DroneState).Name == propertyType.Name:
                     VisibilityDroneState.visibility = Visibility.Visible;
                     break;
-                case "PackageModes":
+                case { } when typeof(PackageModes).Name == propertyType.Name:
                     VisblePackegeMode.visibility = Visibility.Visible;
                     break;
-                case "Int32":
+                case { } when typeof(int).Name == propertyType.Name:
                     VisbleDouble.visibility = Visibility.Visible;
+                    MaxValue = MaxValueFunc();
                     break;
                 default:
                     break;
             }
         }
+        private int MaxValueFunc()
+        {
+            if (typeof(T) == typeof(DroneToList))
+                return 100;
+            return (int)sourceList.Max(itm => itm.GetType().GetProperty(SelectedKind).GetValue(itm));
+        }
         public void FilterEnum(object param)
         {
-            selectedValue = param.ToString();
-            SortEntities fiterEnum = Filters.FirstOrDefault(filter => filter.NameParameter == SelectedKind);
-            if (fiterEnum == default)
-                Filters.Add(new SortEntities()
-                {
-                    NameParameter = SelectedKind,
-                    Value = selectedValue
-                });
-            else
-                Filters[Filters.IndexOf(fiterEnum)].Value = selectedValue;
-            FilterNow();
-        }       
+            if (param != null)
+            {
+                selectedValue = param.ToString();
+                SortEntities fiterEnum = Filters.FirstOrDefault(filter => filter.NameParameter == SelectedKind);
+                if (fiterEnum == default)
+                    Filters.Add(new SortEntities()
+                    {
+                        NameParameter = SelectedKind,
+                        Value = selectedValue
+                    });
+                else
+                    Filters[Filters.IndexOf(fiterEnum)].Value = selectedValue;
+                FilterNow();
+            }
+
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         private void onPropertyChanged(string properyName)
         {
