@@ -3,16 +3,18 @@ using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
     public partial class BL : IBlStations
     {
-        //-----------------------------------------------------------Adding------------------------------------------------------------------------
+        #region ADD
         /// <summary>
         /// Add a station to the list of stations
         /// </summary>
         /// <param name="stationBL">The station for Adding</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station stationBL)
         {
             try
@@ -25,75 +27,15 @@ namespace BL
             }
 
         }
+        #endregion
 
-        //-------------------------------------------------------Updating-----------------------------------------------------------------------------
-        /// <summary>
-        /// Update a station in the Stations list
-        /// </summary>
-        /// <param name="id">The id of the station</param>
-        /// <param name="name">The new name</param>
-        /// <param name="chargeSlots">A nwe number for charging slots</param>
-        public void UpdateStation(int id, string name, int chargeSlots)
-        {
-            if (name.Equals(string.Empty) && chargeSlots == 0)
-                throw new ArgumentNullException("For updating at least one parameter must be initialized ");
-            try
-            {
-                DO.Station stationDl = dal.GetStation(id);
-                if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(stationDl.Id))
-                    throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
-                dal.UpdateStation(stationDl, name, chargeSlots);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                throw new KeyNotFoundException(ex.Message);
-            }
-            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
-            {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
-            }
-            catch (DO.XMLFileLoadCreateException ex)
-            {
-                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
-            }
-
-        }
-
-        public void DeleteStation(int id)
-        {
-            try
-            {
-                dal.DeleteStation(id);
-            }
-            catch (DO.XMLFileLoadCreateException ex)
-            {
-                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
-            }
-            catch(KeyNotFoundException ex)
-            {
-                throw new KeyNotFoundException(ex.Message);
-            }
-
-        }
-        public bool IsNotActiveStation(int id)
-        {
-            try
-            {
-                return dal.GetStations().Any(station => station.Id == id && station.IsNotActive);
-            }
-            catch (DO.XMLFileLoadCreateException ex)
-            {
-                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
-            }
-
-        }
-
-        //-------------------------------------------------Return List-----------------------------------------------------------------------------
+        #region Return
         /// <summary>
         /// Retrieves the list of stations with empty charge slots  from the data and converts it to station to list
         /// </summary>
         /// <param name="exsitEmpty">the predicate to screen out if the station have empty charge slots</param>
         /// <returns>A list of statin to print</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
             try
@@ -112,15 +54,42 @@ namespace BL
         /// Retrieves the list of stations from the data and converts it to station to list
         /// </summary>
         /// <returns>A list of statin to print</returns>
-        public IEnumerable<StationToList> GetStations() => dal.GetStations().Select(item => MapStationToList(item));
-        public IEnumerable<StationToList> GetActiveStations() => dal.GetStations().Where(item => !item.IsNotActive).Select(item => MapStationToList(item));
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<StationToList> GetStations()
+        {
+            try
+            {
+               return dal.GetStations().Select(item => MapStationToList(item));
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
 
-        //--------------------------------------------------Return-----------------------------------------------------------------------------------
+                throw new XMLFileLoadCreateException(ex.FilePath,ex.Message,ex.InnerException);
+            }
+            
+        }
+
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<StationToList> GetActiveStations()
+        {
+            try
+            {
+                return dal.GetStations().Where(item => !item.IsNotActive).Select(item => MapStationToList(item));
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+            
+        }
+
         /// <summary>
         /// Retrieves the requested station from the data and converts it to BL station
         /// </summary>
         /// <param name="id">The requested station id</param>
         /// <returns>A Bl satation to print</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int id)
         {
             try
@@ -138,23 +107,68 @@ namespace BL
 
 
         }
+        #endregion
 
-        //-----------------------------------------------Help function-----------------------------------------------------------------------------------
+        #region Update
         /// <summary>
-        /// Convert a DAL station to BL satation
+        /// Update a station in the Stations list
         /// </summary>
-        /// <param name="station">The sation to convert</param>
-        /// <returns>The converted station</returns>
-        private BO.Station ConvertStation(DO.Station station)
+        /// <param name="id">The id of the station</param>
+        /// <param name="name">The new name</param>
+        /// <param name="chargeSlots">A nwe number for charging slots</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void UpdateStation(int id, string name, int chargeSlots)
         {
-            return new Station()
+            if (name.Equals(string.Empty) && chargeSlots == 0)
+                throw new ArgumentNullException("For updating at least one parameter must be initialized ");
+            try
             {
-                Id = station.Id,
-                Name = station.Name,
-                Location = new Location() { Latitude = station.Latitude, Longitude = station.Longitude },
-                AvailableChargingPorts = station.ChargeSlots - dal.CountFullChargeSlots(station.Id),
-                DroneInChargings = CreatListDroneInCharging(station.Id)
-            };
+                DO.Station stationDl = dal.GetStation(id);
+                if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(stationDl.Id))
+                    throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
+                dal.UpdateStation(stationDl, name, chargeSlots);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException(ex.Message);
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
+        }
+        #endregion
+
+        #region Delete
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void DeleteStation(int id)
+        {
+            try
+            {
+                dal.DeleteStation(id);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException(ex.Message);
+            }
+
+        }
+        #endregion
+        public bool IsNotActiveStation(int id)
+        {
+            try
+            {
+                return dal.GetStations().Any(station => station.Id == id && station.IsNotActive);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
         }
 
         /// <summary>
