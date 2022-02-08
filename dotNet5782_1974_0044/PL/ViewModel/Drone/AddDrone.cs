@@ -22,7 +22,14 @@ namespace PL
         }
         void InitDrone()
         {
-            StationsId = PLService.GetStaionsWithEmptyChargeSlots().Select(station => station.Id);
+            try
+            {
+                StationsId = PLService.GetStaionsWithEmptyChargeSlots().Select(station => station.Id);
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
         }
         public void Add(object param)
         {
@@ -39,7 +46,14 @@ namespace PL
                 MessageBox.Show("id has already exist");
                 drone.Id = null;
             }
-
+            catch(KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
         }
     }
 }

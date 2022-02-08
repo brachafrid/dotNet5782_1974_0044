@@ -59,7 +59,18 @@ namespace PL
         }
         public void InitThisDrone()
         {
-            drone = PLService.GetDrone(id);
+            try
+            {
+                drone = PLService.GetDrone(id);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
         }
         public void UpdateModel(object param)
         {
@@ -70,12 +81,19 @@ namespace PL
                     PLService.UpdateDrone(drone.Id, drone.Model);
                     MessageBox.Show("The drone has been successfully updated");
                     droneModel = drone.Model;
-
                 }
                 else
                 {
                     MessageBox.Show("Model name not updated");
                 }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
             catch (ArgumentNullException ex)
             {
@@ -104,6 +122,26 @@ namespace PL
             catch (BO.ThereIsNoNearbyBaseStationThatTheDroneCanReachException)
             {
                 MessageBox.Show("no available station");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.DeletedExeption ex)
+            {
+                MessageBox.Show($"{ex.Id} {ex.Message}");
+            }
+            catch (BO.InvalidDroneStateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.TheDroneIsNotInChargingException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
         public void parcelTreatedByDrone(object param)
@@ -134,17 +172,55 @@ namespace PL
             {
                 MessageBox.Show($"{ex.Message}");
             }
+            catch (BO.DeletedExeption ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.InvalidParcelStateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
         }
         public void DeleteDrone(object param)
         {
-
-            if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+            try
             {
-                PLService.DeleteDrone(drone.Id);
-                MessageBox.Show("The drone was successfully deleted");
-                DelegateVM.DroneChangedEvent -= HandleADroneChanged;
-                DelegateVM.NotifyDroneChanged(drone.Id);
-                Tabs.CloseTab(param as TabItemFormat);
+                if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                    PLService.DeleteDrone(drone.Id);
+                    MessageBox.Show("The drone was successfully deleted");
+                    DelegateVM.DroneChangedEvent -= HandleADroneChanged;
+                    DelegateVM.NotifyDroneChanged(drone.Id);
+                    Tabs.CloseTab(param as TabItemFormat);
+                }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.DeletedExeption ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.InvalidDroneStateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.TheDroneIsNotInChargingException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
         #region simulator

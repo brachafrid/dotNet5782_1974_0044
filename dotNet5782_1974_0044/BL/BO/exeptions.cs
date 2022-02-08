@@ -175,7 +175,7 @@ namespace BO
     }
 
     [Serializable]
-    internal class InvalidParcelStateException : Exception
+    public class InvalidParcelStateException : Exception
     {
         public InvalidParcelStateException()
         {
