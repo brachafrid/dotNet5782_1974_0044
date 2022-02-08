@@ -208,7 +208,7 @@ namespace BL
                     throw new KeyNotFoundException($"The drone id {droneId} not exsits in data so the updating failed");
                 if (aviableDrone.IsNotActive)
                     throw new DeletedExeption("drone deleted", droneId);
-                if (aviableDrone.DroneState != DroneState.AVAILABLE)
+                if (aviableDrone.DroneState != DroneState.AVAILABLE && aviableDrone.DroneState!=DroneState.WAYTOCHARGE)
                     throw new InvalidDroneStateException($" The drone is {aviableDrone.DroneState} so it is not possible to assign it a parcel");
                 Dictionary<ParcelToList, double> parcels = CreatParcelDictionaryToAssign(aviableDrone);
                 ParcelToList parcel = TreatInPiority(parcels);

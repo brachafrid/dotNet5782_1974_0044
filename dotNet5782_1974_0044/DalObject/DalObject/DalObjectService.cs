@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -15,11 +16,11 @@ namespace Dal
             Type t = typeof(T);
             return t switch
             {
-                { } when typeof(Drone) == t => (IEnumerable<T>)DataSorce.Drones,
-                { } when typeof(Parcel) == t => (IEnumerable<T>)DataSorce.Parcels,
-                { } when typeof(Customer) == t => (IEnumerable<T>)DataSorce.Customers,
-                { } when typeof(Station) == t => (IEnumerable<T>)DataSorce.Stations,
-                { } when typeof(DroneCharge) == t => (IEnumerable<T>)DataSorce.DroneCharges,
+                { } when typeof(Drone) == t => (IEnumerable<T>)DataSorce.Drones.Select(Drone =>Drone.Clone()),
+                { } when typeof(Parcel) == t => (IEnumerable<T>)DataSorce.Parcels.Select(Parcel => Parcel.Clone()),
+                { } when typeof(Customer) == t => (IEnumerable<T>)DataSorce.Customers.Select(Customer => Customer.Clone()),
+                { } when typeof(Station) == t => (IEnumerable<T>)DataSorce.Stations.Select(Station => Station.Clone()),
+                { } when typeof(DroneCharge) == t => (IEnumerable<T>)DataSorce.DroneCharges.Select(Drone => Drone.Clone()),
                 _ => null
             };
         }
@@ -46,6 +47,18 @@ namespace Dal
                 default:
                     break;
             }
+        }
+        private static T Clone<T>(this T entity)where T:new()
+        {
+            T temp = new();
+            object box = temp;
+            
+            foreach (var item in entity.GetType().GetProperties())
+            {
+                PropertyInfo info = temp.GetType().GetProperty(item.Name);
+               info.SetValue(box, item.GetValue(entity));
+            }
+            return (T)box;
         }
         internal static void RemoveEntity<T>(T entity)
         {
