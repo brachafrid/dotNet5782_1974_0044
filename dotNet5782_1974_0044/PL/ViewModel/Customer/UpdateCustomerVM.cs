@@ -1,4 +1,6 @@
 ﻿using PL.PO;
+using System;
+using System.Collections.Generic;
 using System.Windows;
 
 namespace PL
@@ -59,44 +61,82 @@ namespace PL
         }
         private void HandleACustomerChanged(object sender, EntityChangedEventArgs e)
         {
-            if (id == e.Id||e.Id==null)
+            if (id == e.Id || e.Id == null)
                 InitThisCustomer();
         }
         public void InitThisCustomer()
         {
-            customer = PLService.GetCustomer(id);
+            try
+            {
+                customer = PLService.GetCustomer(id);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
         }
 
         public void UpdateCustomer(object param)
         {
-            if (customerName != customer.Name || customerPhone != customer.Phone)
+            try
             {
-                PLService.UpdateCustomer(customer.Id, customer.Name, customer.Phone);
-                customerName = customer.Name;
-                customerPhone = customer.Phone;
+                if (customerName != customer.Name || customerPhone != customer.Phone)
+                {
+                    PLService.UpdateCustomer(customer.Id, customer.Name, customer.Phone);
+                    customerName = customer.Name;
+                    customerPhone = customer.Phone;
+                }
             }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+
         }
 
         public void DeleteCustomer(object param)
         {
-            if (MessageBox.Show("You're sure you want to delete this customer?", "Delete Customer", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+            try
             {
-                PLService.DeleteCustomer(customer.Id);
-                MessageBox.Show("The customer was successfully deleted");
-
-                if (!IsAdministor)
+                if (MessageBox.Show("You're sure you want to delete this customer?", "Delete Customer", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    LoginScreen.MyScreen = "LoginWindow";
-                    Tabs.TabItems.Clear();
-                    DelegateVM.Reset();
-                }
-                else
-                {
-                    DelegateVM.CustomerChangedEvent -= HandleACustomerChanged;
-                    DelegateVM.NotifyCustomerChanged(customer.Id);
-                    Tabs.CloseTab(param as TabItemFormat);
-                }
+                    PLService.DeleteCustomer(customer.Id);
+                    MessageBox.Show("The customer was successfully deleted");
 
+                    if (!IsAdministor)
+                    {
+                        LoginScreen.MyScreen = "LoginWindow";
+                        Tabs.TabItems.Clear();
+                        DelegateVM.Reset();
+                    }
+                    else
+                    {
+                        DelegateVM.CustomerChangedEvent -= HandleACustomerChanged;
+                        DelegateVM.NotifyCustomerChanged(customer.Id);
+                        Tabs.CloseTab(param as TabItemFormat);
+                    }
+
+                }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
     }
