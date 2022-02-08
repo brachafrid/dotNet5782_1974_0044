@@ -24,9 +24,9 @@ namespace BL
         private Maintenance maintenance = Maintenance.Starting;
         private Delivery delivery = Delivery.Starting;
         private const double TIME_STEP = DELAY / 1000.0;
-        private const double VELOCITY = 1.0;
-        //private const double STEP = VELOCITY / TIME_STEP;
-        private const double STEP = 50;
+        private const double VELOCITY = 1000;
+        private const double STEP = VELOCITY / TIME_STEP;
+        //private const double STEP = 50;
         double distance = 0.0;
         public DroneSimulator(int id, BL BL, Action<int?, int?, int?, int?> update, Func<bool> checkStop)
         {
@@ -34,7 +34,7 @@ namespace BL
             {
                 bl = BL;
                 Dal = bl.dal;
-                Drone = bl.drones.FirstOrDefault(Drone =>Drone.Id == id);
+                Drone = bl.drones.FirstOrDefault(Drone => Drone.Id == id);
                 while (!checkStop())
                 {
                     parcelId = senderId = reciverId = stationId = null;
@@ -104,10 +104,18 @@ namespace BL
 
                 case Maintenance.Going:
                     {
-                        if (distance < 0.1)
+                        if (distance < 0.01)
+                        {
                             maintenance = Maintenance.Charging;
+                            bl.SendDroneForCharg(Drone.Id);
+                        }
+
                         else
+                        {
                             Drone.CurrentLocation = UpdateLocationAndBattary(Station.Location, bl.available);
+                            distance = BL.Distance(Drone.CurrentLocation, Station.Location);
+                        }
+
                         break;
                     }
 
@@ -116,7 +124,7 @@ namespace BL
                         if (Drone.BatteryState == 100)
                             bl.ReleaseDroneFromCharging(Drone.Id);
                         else
-                            lock (bl) Drone.BatteryState = Math.Min(1.0, Drone.BatteryState + bl.droneLoadingRate * TIME_STEP);
+                            lock (bl) Drone.BatteryState = Math.Min(100, Drone.BatteryState + bl.droneLoadingRate * TIME_STEP);
                         stationId = Station.Id;
                         break;
                     }
@@ -148,7 +156,11 @@ namespace BL
                             lock (bl)
                             {
                                 if (distance > 0.01)
+                                {
                                     Drone.CurrentLocation = UpdateLocationAndBattary(bl.GetCustomer(parcel.CustomerSender.Id).Location, bl.available);
+                                    distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerSender.Id).Location);
+                                }
+
                                 else
                                 {
                                     lock (bl)
@@ -160,10 +172,11 @@ namespace BL
                                             distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerReceives.Id).Location);
                                             bl.ParcelCollectionByDrone(Drone.Id);
                                             parcelId = Drone.ParcelId;
+                                            delivery = Delivery.Delivery;
                                         }
-                                        catch(ArgumentNullException)
+                                        catch (ArgumentNullException)
                                         {
-                                           delivery = Delivery.Delivery;
+                                            delivery = Delivery.Delivery;
                                         }
                                     }
                                 }
@@ -185,7 +198,7 @@ namespace BL
                             {
                                 lock (bl)
                                 {
-                                    double elect =bl.GetParcel((int) Drone.ParcelId).Weight switch
+                                    double elect = bl.GetParcel((int)Drone.ParcelId).Weight switch
                                     {
                                         WeightCategories.HEAVY => bl.carriesHeavyWeight,
                                         WeightCategories.MEDIUM => bl.mediumWeightBearing,
@@ -193,6 +206,7 @@ namespace BL
                                         _ => 0.0
                                     };
                                     Drone.CurrentLocation = UpdateLocationAndBattary(bl.GetCustomer(parcel.CustomerReceives.Id).Location, elect);
+                                    distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerReceives.Id).Location);
                                 }
                             }
 

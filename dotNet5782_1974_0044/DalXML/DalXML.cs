@@ -20,7 +20,7 @@ namespace Dal
             }
             catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.in);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex);
             }
 
         }
