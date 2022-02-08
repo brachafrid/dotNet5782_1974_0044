@@ -3,7 +3,6 @@ using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace BL
 {
@@ -22,7 +21,7 @@ namespace BL
             }
             catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message, ex.Id);
             }
 
         }
@@ -43,7 +42,7 @@ namespace BL
                 DO.Station stationDl = dal.GetStation(id);
                 if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(stationDl.Id))
                     throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
-                dal.UpdateStation(stationDl,name,chargeSlots);
+                dal.UpdateStation(stationDl, name, chargeSlots);
             }
             catch (KeyNotFoundException ex)
             {
@@ -53,14 +52,41 @@ namespace BL
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
 
         }
 
         public void DeleteStation(int id)
         {
-            dal.DeleteStation(id);
+            try
+            {
+                dal.DeleteStation(id);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+            catch(KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException(ex.Message);
+            }
+
         }
-        public bool IsNotActiveStation(int id) => dal.GetStations().Any(station => station.Id == id && station.IsNotActive);
+        public bool IsNotActiveStation(int id)
+        {
+            try
+            {
+                return dal.GetStations().Any(station => station.Id == id && station.IsNotActive);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
+        }
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
         /// <summary>
@@ -70,8 +96,16 @@ namespace BL
         /// <returns>A list of statin to print</returns>
         public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
-            IEnumerable<DO.Station> list = dal.GetSationsWithEmptyChargeSlots(exsitEmpty);
-            return list.Select(item => MapStationToList(item));
+            try
+            {
+                IEnumerable<DO.Station> list = dal.GetSationsWithEmptyChargeSlots(exsitEmpty);
+                return list.Select(item => MapStationToList(item));
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
         }
 
         /// <summary>
@@ -97,6 +131,11 @@ namespace BL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
 
         }
 
@@ -126,7 +165,7 @@ namespace BL
         /// <param name="droneToList">The drone</param>
         /// <param name="minDistance">The distance the drone need to travel</param>
         /// <returns></returns>
-        internal Station ClosetStationPossible( Location droneToListLocation, double BatteryStatus, out double minDistance)
+        internal Station ClosetStationPossible(Location droneToListLocation, double BatteryStatus, out double minDistance)
         {
             Station station = ClosetStation(droneToListLocation);
             if (station == null)
@@ -141,7 +180,7 @@ namespace BL
         /// <param name="stations">The all stations</param>
         /// <param name="location">The  particular location</param>
         /// <returns>The station</returns>
-        private Station ClosetStation( Location location)
+        private Station ClosetStation(Location location)
         {
             double minDistance = double.MaxValue;
             double curDistance;
@@ -152,7 +191,7 @@ namespace BL
                 if (curDistance < minDistance && !item.IsNotActive)
                 {
                     minDistance = curDistance;
-                    station = ConvertStation( item);
+                    station = ConvertStation(item);
                 }
             }
             return station;

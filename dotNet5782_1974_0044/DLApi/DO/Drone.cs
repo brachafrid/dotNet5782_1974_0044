@@ -1,10 +1,9 @@
 ﻿
 
-
-    namespace DO
+namespace DO
     {
-        public struct Drone
-        {
+        public struct Drone: IIdentifyable, IActiveable
+    {
             public int Id { get; set; }
             public string Model { get; set; }
             public WeightCategories MaxWeight { get; set; }

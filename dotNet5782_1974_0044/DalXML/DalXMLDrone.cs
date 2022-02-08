@@ -20,17 +20,16 @@ namespace Dal
             try { 
                 List<Drone> drones = DalXmlService.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
                 if (ExistsIDTaxCheck(drones, id))
-                    throw new ThereIsAnObjectWithTheSameKeyInTheListException();
-                Drone newDrone = new()
+                    throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
+                drones.Add(new()
                 {
                     Id = id,
                     Model = model,
                     MaxWeight = MaxWeight,
                     IsNotActive = false
 
-                };
-                drones.Add(newDrone);
-                DalXmlService.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
+                });
+                DalXmlService.SaveListToXMLSerializer(drones, DRONE_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
@@ -43,10 +42,12 @@ namespace Dal
             try { 
                 List<Drone> drones = DalXmlService.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
                 Drone drone = drones.FirstOrDefault(item => item.Id == id);
+                if (drone.Equals(default(Drone)))
+                    throw new KeyNotFoundException($"The drone id {id} not exsits in data");
                 drones.Remove(drone);
                 drone.IsNotActive = true;
                 drones.Add(drone);
-                DalXmlService.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
+                DalXmlService.SaveListToXMLSerializer(drones, DRONE_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
@@ -59,7 +60,7 @@ namespace Dal
             try { 
                 Drone drone = DalXmlService.LoadListFromXMLSerializer<Drone>(DRONE_PATH).FirstOrDefault(item => item.Id == id);
                 if (drone.Equals(default(Drone)) || drone.IsNotActive)
-                    throw new KeyNotFoundException("There is not suitable drone in the data");
+                    throw new KeyNotFoundException($"There is not suitable drone in the data , the drone id {id}");
                 return drone;
             }
             catch (XMLFileLoadCreateException ex)
@@ -86,7 +87,7 @@ namespace Dal
                 drones.Remove(drone);
                 drone.Model = model;
                 drones.Add(drone);
-                DalXmlService.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
+                DalXmlService.SaveListToXMLSerializer(drones, DRONE_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {

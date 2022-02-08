@@ -1,11 +1,12 @@
-﻿using System;
+﻿
+using System;
 
 
 
     namespace DO
     {
-        public struct Station
-        {
+        public struct Station: IIdentifyable, IActiveable
+    {
             private double longitude;
             private double latitude;
             private int chargeSlots;

@@ -49,6 +49,10 @@ namespace BL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
 
         }
 
@@ -68,6 +72,10 @@ namespace BL
             {
 
                 throw new ArgumentNullException(ex.Message);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
 
         }
@@ -100,6 +108,10 @@ namespace BL
             catch (KeyNotFoundException ex)
             {
                 throw new KeyNotFoundException(ex.Message);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
             finally
             {
@@ -139,6 +151,10 @@ namespace BL
 
                 throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException(ex.Message, ex);
             }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
 
         }
 
@@ -149,17 +165,32 @@ namespace BL
         /// <param name="timeOfCharg">The time of charging</param>
         public void ReleaseDroneFromCharging(int id)
         {
-            DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
-            if (droneToList == default || droneToList.IsNotActive)
-                throw new ArgumentNullException("There is no a drone with the same id in charging");
-            if (droneToList.DroneState != DroneState.MAINTENANCE)
-                throw new InvalidEnumArgumentException(" The drone is not maintenace so it is not possible to release it form charging ");
-            drones.Remove(droneToList);
-            droneToList.DroneState = DroneState.AVAILABLE;
-            droneToList.BatteryState += (DateTime.Now - dal.GetTimeStartOfCharge(id)).TotalMinutes / NUM_OF_MINUTE_IN_HOUR * droneLoadingRate;
-            //No charging position was adding because there is no point in changing a variable that is not saved after the end of the function
-            dal.RemoveDroneCharge(id);
-            drones.Add(droneToList);
+            DroneToList droneToList;
+            try
+            {
+                droneToList = drones.FirstOrDefault(item => item.Id == id);
+                if (droneToList == default || droneToList.IsNotActive)
+                    throw new ArgumentNullException("There is no a drone with the same id in charging");
+                if (droneToList.DroneState != DroneState.MAINTENANCE)
+                    throw new InvalidEnumArgumentException(" The drone is not maintenace so it is not possible to release it form charging ");
+                droneToList.DroneState = DroneState.AVAILABLE;
+                droneToList.BatteryState += (DateTime.Now - dal.GetTimeStartOfCharge(id)).TotalMinutes / NUM_OF_MINUTE_IN_HOUR * droneLoadingRate;
+                //No charging position was adding because there is no point in changing a variable that is not saved after the end of the function
+                dal.RemoveDroneCharge(id);
+            }
+            catch(KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException(ex.Message);
+            }
+            catch (DO.TheDroneIsNotInChargingException ex)
+            {
+                throw new TheDroneIsNotInChargingException(ex.DroneId);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
         }
 
         /// <summary>
@@ -168,16 +199,16 @@ namespace BL
         /// <param name="droneId">The drone to assign it a parcel</param>
         public void AssingParcelToDrone(int droneId)
         {
-            if (IsNotActiveDrone(droneId))
-                throw new DeletedExeption("drone deleted");
-            DroneToList aviableDrone = drones.FirstOrDefault(item => item.Id == droneId);
-            if (aviableDrone == default)
-                throw new ArgumentNullException(" There is no a drone with the same id in data");
-            if (aviableDrone.DroneState != DroneState.AVAILABLE)
-                throw new InvalidEnumArgumentException(" The drone is not aviable so it is not possible to assign it a parcel");
-            Dictionary<ParcelToList, double> parcels = CreatParcelDictionaryToAssign(aviableDrone);
             try
             {
+                if (IsNotActiveDrone(droneId))
+                    throw new DeletedExeption("drone deleted");
+                DroneToList aviableDrone = drones.FirstOrDefault(item => item.Id == droneId);
+                if (aviableDrone == default)
+                    throw new ArgumentNullException(" There is no a drone with the same id in data");
+                if (aviableDrone.DroneState != DroneState.AVAILABLE)
+                    throw new InvalidEnumArgumentException(" The drone is not aviable so it is not possible to assign it a parcel");
+                Dictionary<ParcelToList, double> parcels = CreatParcelDictionaryToAssign(aviableDrone);
                 ParcelToList parcel = TreatInPiority(parcels);
                 drones.Remove(aviableDrone);
                 aviableDrone.DroneState = DroneState.DELIVERY;
@@ -193,6 +224,10 @@ namespace BL
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
         }
 
         /// <summary>
@@ -206,7 +241,6 @@ namespace BL
                 throw new ArgumentNullException(" There is no a drone with the same id in data");
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
-            drones.Remove(droneToList);
             DO.Parcel parcel = default;
             try
             {
@@ -217,6 +251,8 @@ namespace BL
                 Location senderLocation = new() { Longitude = customer.Longitude, Latitude = customer.Latitude };
                 droneToList.BatteryState -= Distance(droneToList.CurrentLocation, senderLocation) * available;
                 droneToList.CurrentLocation = senderLocation;
+                if (!parcel.Equals(default(DO.Parcel)))
+                    ParcelcollectionDrone(parcel.Id);
 
             }
             catch (KeyNotFoundException ex)
@@ -227,12 +263,11 @@ namespace BL
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
-            finally
+            catch(DO.XMLFileLoadCreateException ex)
             {
-                drones.Add(droneToList);
-                if (!parcel.Equals(default(DO.Parcel)))
-                    ParcelcollectionDrone(parcel.Id);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
+
 
         }
 
@@ -247,10 +282,9 @@ namespace BL
                 throw new ArgumentNullException("There is no a drone with the same id in data");
             if (droneToList.ParcelId == null)
                 throw new ArgumentNullException("No parcel has been associated yet");
-            DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
+            DO.Parcel parcel = dal. GetParcel((int)droneToList.ParcelId);
             if (parcel.Delivered != null)
                 throw new ArgumentNullException("The package has already been deliverd");
-            drones.Remove(droneToList);
             try
             {
                 DO.Customer customer = dal.GetCustomer(parcel.TargetId);
@@ -275,19 +309,31 @@ namespace BL
             {
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
-            finally
+            catch( DO.XMLFileLoadCreateException ex)
             {
-                drones.Add(droneToList);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
-
         }
         public void DeleteDrone(int id)
         {
-            DroneToList drone = drones.FirstOrDefault(item => item.Id == id);
-            if (drone.DroneState == DroneState.MAINTENANCE)
-                ReleaseDroneFromCharging(drone.Id);
-            dal.DeleteDrone(id);
-            drones[drones.IndexOf(drone)].IsNotActive = true;
+            try
+            {
+                DroneToList drone = drones.FirstOrDefault(item => item.Id == id);
+                if (drone.DroneState == DroneState.MAINTENANCE)
+                    ReleaseDroneFromCharging(drone.Id);
+                dal.DeleteDrone(id);
+                drones[drones.IndexOf(drone)].IsNotActive = true;
+            }
+            catch (KeyNotFoundException ex)
+            {
+
+                throw new KeyNotFoundException(ex.Message);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
         }
         public bool IsNotActiveDrone(int id) => drones.Any(drone => drone.Id == id && drone.IsNotActive);
 
@@ -328,16 +374,25 @@ namespace BL
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
             if (droneToList == default || droneToList.IsNotActive)
                 throw new ArgumentNullException("Map drone: There is not drone with same id in the data");
-            return new Drone()
+            try
             {
-                Id = droneToList.Id,
-                Model = droneToList.DroneModel,
-                WeightCategory = droneToList.Weight,
-                DroneState = droneToList.DroneState,
-                BattaryMode = droneToList.BatteryState,
-                CurrentLocation = droneToList.CurrentLocation,
-                Parcel = droneToList.ParcelId != 0 ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
-            };
+                return new Drone()
+                {
+                    Id = droneToList.Id,
+                    Model = droneToList.DroneModel,
+                    WeightCategory = droneToList.Weight,
+                    DroneState = droneToList.DroneState,
+                    BattaryMode = droneToList.BatteryState,
+                    CurrentLocation = droneToList.CurrentLocation,
+                    Parcel = droneToList.ParcelId != 0 ? CreateParcelInTransfer((int)droneToList.ParcelId) : null
+                };
+            }
+            catch (KeyNotFoundException ex)
+            {
+
+                throw new KeyNotFoundException(ex.Message);
+            }
+
         }
 
         /// <summary>

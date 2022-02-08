@@ -24,11 +24,11 @@ namespace Dal
                 if (chargeSlots != 0)
                     station.ChargeSlots = chargeSlots;
                 stations.Add(station);
-                DalXmlService.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
+                DalXmlService.SaveListToXMLSerializer(stations, STATION_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -39,7 +39,7 @@ namespace Dal
             }
             catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -53,7 +53,7 @@ namespace Dal
             }
             catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -64,7 +64,7 @@ namespace Dal
             }
             catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -73,14 +73,16 @@ namespace Dal
             try { 
                 List<Station> stations = DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH);
                 Station station = stations.FirstOrDefault(item => item.Id == id);
+                if (station.Equals(default(Station)))
+                    throw new KeyNotFoundException($"The station id {id}  not exsits in dta");
                 stations.Remove(station);
                 station.IsNotActive = true;
                 stations.Add(station);
-                DalXmlService.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
+                DalXmlService.SaveListToXMLSerializer(stations, STATION_PATH);
             }
-            catch (XMLFileLoadCreateException ex)
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -89,20 +91,21 @@ namespace Dal
             try { 
                 List<Station> stations = DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH);
                 if (ExistsIDTaxCheck(stations, id))
-                    throw new ThereIsAnObjectWithTheSameKeyInTheListException();
-                Station newStation = new();
-                newStation.Id = id;
-                newStation.Name = name;
-                newStation.Latitude = latitude;
-                newStation.Longitude = longitude;
-                newStation.ChargeSlots = chargeSlots;
-                newStation.IsNotActive = false;
-                stations.Add(newStation); 
-                DalXmlService.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
+                    throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
+                stations.Add(new()
+                {
+                    Id = id,
+                    Name = name,
+                    Latitude = latitude,
+                    Longitude = longitude,
+                    ChargeSlots = chargeSlots,
+                    IsNotActive = false
+                }); 
+                DalXmlService.SaveListToXMLSerializer(stations, STATION_PATH);
             }
-            catch (XMLFileLoadCreateException ex)
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
     }

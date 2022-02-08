@@ -20,15 +20,16 @@ namespace Dal
         public void AddCustomer(int id, string phone, string name, double longitude, double latitude)
         {
             if (ExistsIDTaxCheck(DataSorce.Customers, id))
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException();
-            Customer newCustomer = new ();
-            newCustomer.Id = id;
-            newCustomer.Name = name;
-            newCustomer.Phone = phone;
-            newCustomer.Latitude = latitude;
-            newCustomer.Longitude = longitude;
-            newCustomer.IsNotActive = false;
-            DalObjectService.AddEntity(newCustomer);
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
+            DalObjectService.AddEntity(new Customer()
+            {
+                Id = id,
+                Name = name,
+                Phone = phone,
+                Latitude = latitude,
+                Longitude = longitude,
+                IsNotActive = false
+            });
         }
         //-----------------------------------------Display----------------------------------
         /// <summary>
@@ -48,7 +49,7 @@ namespace Dal
         {
             Customer customer= DalObjectService.GetEntities<Customer>().FirstOrDefault(item => item.Id == id );
             if (customer.Equals(default(Customer)))
-                 throw new KeyNotFoundException("There is no suitable customer in data"); 
+                 throw new KeyNotFoundException($"There is no suitable customer in data , the id: {id}"); 
             return customer;
         }
         [MethodImpl(MethodImplOptions.Synchronized)]
@@ -65,6 +66,8 @@ namespace Dal
         public void DeleteCustomer(int id)
         {
             Customer customer = DalObjectService.GetEntities<Customer>().FirstOrDefault(item => item.Id == id);
+            if (customer.Equals(default(Customer)))
+                throw new KeyNotFoundException("There is no suitable customer in data so nthe deleted failed");
             DalObjectService.RemoveEntity(customer);
             customer.IsNotActive = true;
             DalObjectService.AddEntity(customer);

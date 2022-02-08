@@ -1,9 +1,8 @@
-﻿using BO;
+﻿using BLApi;
+using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BLApi;
-using System.Runtime.CompilerServices;
 
 namespace BL
 {
@@ -17,21 +16,29 @@ namespace BL
         public void AddParcel(Parcel parcelBl)
         {
             if (!ExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerSender.Id))
-                throw new KeyNotFoundException("Sender not exist");
+                throw new KeyNotFoundException($"Sender Id: {parcelBl.CustomerSender.Id} not exist");
             if (!ExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerReceives.Id))
-                throw new KeyNotFoundException("Target not exist");
+                throw new KeyNotFoundException($"Target id: { parcelBl.CustomerReceives.Id} not exist");
             if (IsNotActiveCustomer(parcelBl.CustomerSender.Id))
-                throw new DeletedExeption("sender deleted");
+                throw new DeletedExeption($"sender {parcelBl.CustomerSender.Id} deleted");
             if (IsNotActiveCustomer(parcelBl.CustomerReceives.Id))
-                throw new DeletedExeption("reciver deleted");
+                throw new DeletedExeption($"Reciver {parcelBl.CustomerReceives.Id} deleted");
             try
             {
                 dal.AddParcel(parcelBl.CustomerSender.Id, parcelBl.CustomerReceives.Id, (DO.WeightCategories)parcelBl.Weight, (DO.Priorities)parcelBl.Priority);
             }
-            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            catch (KeyNotFoundException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
+                throw new KeyNotFoundException(ex.Message);
             }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+            //catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            //{
+            //    throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
+            //}
         }
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
@@ -41,7 +48,15 @@ namespace BL
         /// <returns>A list of parcels to print</returns>
         public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone(Predicate<int> notAssign)
         {
-            return dal.GetParcelsNotAssignedToDrone(notAssign).Select(parcel => MapParcelToList(parcel)); ;
+            try
+            {
+                return dal.GetParcelsNotAssignedToDrone(notAssign).Select(parcel => MapParcelToList(parcel));
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
         }
 
         /// <summary>
@@ -50,11 +65,27 @@ namespace BL
         /// <returns>A list of parcels to print</returns>
         public IEnumerable<ParcelToList> GetParcels()
         {
-            return dal.GetParcels().Select(parcel => MapParcelToList(parcel));
+            try
+            {
+                return dal.GetParcels().Select(parcel => MapParcelToList(parcel));
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
         }
         public IEnumerable<ParcelToList> GetActiveParcels()
         {
-            return dal.GetParcels().Where(parcel=>!parcel.IsNotActive).Select(parcel => MapParcelToList(parcel));
+            try
+            {
+                return dal.GetParcels().Where(parcel => !parcel.IsNotActive).Select(parcel => MapParcelToList(parcel));
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
         }
         /// <summary>
         /// Retrieves the list of parcels from the data and converts it to BL parcel 
@@ -83,7 +114,11 @@ namespace BL
 
                 throw new KeyNotFoundException(ex.Message);
             }
-            
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
         }
 
         //-------------------------------------------------Updating--------------------------------------------------------------------------------------
@@ -106,10 +141,10 @@ namespace BL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-            catch(DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
-            {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
-            }
+            //catch(DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            //{
+            //    throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
+            //}
 
         }
 
@@ -124,16 +159,17 @@ namespace BL
                 DO.Parcel parcel = dal.GetParcel(parcelId);
                 DO.Parcel newParcel = parcel;
                 newParcel.PickedUp = DateTime.Now;
-                dal.UpdateParcel(parcel, newParcel);               
+                dal.UpdateParcel(parcel, newParcel);
             }
             catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException(ex.Message );
+                throw new KeyNotFoundException(ex.Message);
             }
-            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
-            {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
-            }
+
+            //catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            //{
+            //    throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
+            //}
 
         }
 
@@ -156,25 +192,38 @@ namespace BL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
-            {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
-            }
+            //catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+            //{
+            //    throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
+            //}
 
         }
 
         public void DeleteParcel(int id)
         {
-            Parcel parcel = GetParcel(id);
-            if(parcel.Drone == null)
+            try
             {
-                dal.DeleteParcel(id);
+                Parcel parcel = GetParcel(id);
+                if (parcel.Drone == null)
+                {
+                    dal.DeleteParcel(id);
+                }
+                else
+                {
+                    DeleteParcelFromDrone(parcel.Drone.Id);
+                    dal.DeleteParcel(id);
+                }
             }
-            else
+            catch (KeyNotFoundException ex)
             {
-                DeleteParcelFromDrone(parcel.Drone.Id);
-                dal.DeleteParcel(id);
+
+                throw new KeyNotFoundException(ex.Message);
             }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
         }
         public bool IsNotActiveParcel(int id) => dal.GetParcels().Any(parcel => parcel.Id == id && parcel.IsNotActive);
 

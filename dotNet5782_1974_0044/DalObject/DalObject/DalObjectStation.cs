@@ -22,15 +22,16 @@ namespace Dal
         public void AddStation(int id, string name, double longitude, double latitude, int chargeSlots)
         {
             if (ExistsIDTaxCheck(DataSorce.Stations, id))
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException();
-            Station newStation = new();
-            newStation.Id = id;
-            newStation.Name = name;
-            newStation.Latitude = latitude;
-            newStation.Longitude = longitude;
-            newStation.ChargeSlots = chargeSlots;
-            newStation.IsNotActive = false;
-            DalObjectService.AddEntity(newStation);
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
+            DalObjectService.AddEntity(new Station()
+            {
+                Id = id,
+                Name = name,
+                Latitude = latitude,
+                Longitude = longitude,
+                ChargeSlots = chargeSlots,
+                IsNotActive = false
+            });
         }
 
         //-------------------------------------------------Display-------------------------------------------------------------
@@ -44,7 +45,7 @@ namespace Dal
         {
             Station station = DalObjectService.GetEntities<Station>().FirstOrDefault(item => item.Id == id);
             if (station.Equals(default(Station)) )
-                throw new KeyNotFoundException("There is no suitable station in data");
+                throw new KeyNotFoundException($"There is no suitable station in data , the station id: {id} ");
             return station;
         }
 
@@ -82,6 +83,8 @@ namespace Dal
         public void DeleteStation(int id)
         {
             Station station = DataSorce.Stations.FirstOrDefault(item => item.Id == id);
+            if (station.Equals(default(Station)))
+                throw new KeyNotFoundException($"the station {id} not exsits in data");
             DalObjectService.RemoveEntity(station);
             station.IsNotActive = true;
             DalObjectService.AddEntity(station);

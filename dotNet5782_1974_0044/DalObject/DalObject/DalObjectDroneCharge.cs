@@ -22,10 +22,8 @@ namespace Dal
         ///<param name="inTheStation">The predicate to screen out if the station id of the drone equal to a spesific station id </param>
         /// <returns>A list of DroneCarge</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation)
-        {
-            return DalObjectService.GetEntities<DroneCharge>().Where(item => inTheStation(item.Stationld)).Select(item => item.Droneld);
-        }
+        public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation)=> DalObjectService.GetEntities<DroneCharge>().Where(item => inTheStation(item.Stationld)).Select(item => item.Droneld);
+
         /// <summary>
         /// Gets parameters and create new DroneCharge 
         /// </summary>
@@ -43,7 +41,10 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDroneCharge(int droneId)
         {
-            DalObjectService.RemoveEntity(DalObjectService.GetEntities<DroneCharge>().FirstOrDefault(droneCharge=>droneCharge.Droneld==droneId));
+            DroneCharge droneCharge = DalObjectService.GetEntities<DroneCharge>().FirstOrDefault(droneCharge => droneCharge.Droneld == droneId);
+            if (droneCharge.Equals(default(DroneCharge)))
+                throw new TheDroneIsNotInChargingException("The drone is not in charging",droneId);
+            DalObjectService.RemoveEntity(droneCharge);
         }
 
         /// <summary>
@@ -53,7 +54,10 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public DateTime GetTimeStartOfCharge(int droneId)
         {
-            return DalObjectService.GetEntities<DroneCharge>().FirstOrDefault(drone => drone.Droneld == droneId).StartCharging;
+            DroneCharge droneCharge = DalObjectService.GetEntities<DroneCharge>().FirstOrDefault(drone => drone.Droneld == droneId);
+            if (droneCharge.Equals(default(DroneCharge)))
+                throw new TheDroneIsNotInChargingException("The drone is not in charging", droneId);
+            return droneCharge.StartCharging;
         }
         /// <summary>
         /// Takes from the DataSource the electricity use data of the drone

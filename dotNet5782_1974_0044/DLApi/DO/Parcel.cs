@@ -1,11 +1,12 @@
-﻿using System;
+﻿
+using System;
 
 
 
     namespace DO
     {
-       public struct Parcel
-       {
+       public struct Parcel: IIdentifyable, IActiveable
+    {
             public int Id { get; set; }
             public int SenderId { get; set; }
             public int TargetId { get; set; }
