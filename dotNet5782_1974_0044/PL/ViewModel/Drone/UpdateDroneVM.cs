@@ -12,13 +12,11 @@ namespace PL
         private int id;
         BackgroundWorker simulatorWorker;
         Action simulateDrone;
-       
         public PO.Drone drone
         {
             get { return (PO.Drone)GetValue(droneProperty); }
             set { SetValue(droneProperty, value); }
         }
-
         public static readonly DependencyProperty droneProperty =
             DependencyProperty.Register("drone", typeof(PO.Drone), typeof(UpdateDroneVM), new PropertyMetadata(new PO.Drone()));
         public string droneModel
@@ -26,7 +24,6 @@ namespace PL
             get { return (string)GetValue(droneModelProperty); }
             set { SetValue(droneModelProperty, value); }
         }
-
         public static readonly DependencyProperty droneModelProperty =
             DependencyProperty.Register("droneModel", typeof(string), typeof(UpdateDroneVM), new PropertyMetadata(string.Empty));
         public RelayCommand OpenParcelCommand { get; set; }
