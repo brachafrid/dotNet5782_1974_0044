@@ -27,7 +27,6 @@ namespace PL
 
         public static readonly DependencyProperty droneModelProperty =
             DependencyProperty.Register("droneModel", typeof(string), typeof(UpdateDroneVM), new PropertyMetadata(string.Empty));
-
         public RelayCommand OpenParcelCommand { get; set; }
         public RelayCommand OpenCustomerCommand { get; set; }
         public RelayCommand UpdateDroneCommand { get; set; }
@@ -36,8 +35,6 @@ namespace PL
         public RelayCommand ParcelTreatedByDrone { get; set; }
         public RelayCommand DeleteDroneCommand { get; set; }
         public RelayCommand SimulatorCommand { get; set; }
-
-
         public UpdateDroneVM(int id)
         {
             this.id = id;
@@ -53,13 +50,11 @@ namespace PL
             simulateDrone = StartSimulator;
             SimulatorCommand = new((param) => simulateDrone());
         }
-
         private void HandleADroneChanged(object sender, EntityChangedEventArgs e)
         {
             if (id == e.Id || e.Id == null)
                 InitThisDrone();
         }
-
         public void InitThisDrone()
         {
             drone = PLService.GetDrone(id);
@@ -87,7 +82,6 @@ namespace PL
             }
             DelegateVM.NotifyDroneChanged(drone.Id);
         }
-
         public void SendToCharging(object param)
         {
             try
@@ -151,7 +145,6 @@ namespace PL
                 Tabs.CloseTab(param as TabItemFormat);
             }
         }
-
         public static readonly DependencyProperty AutoProperty =
             DependencyProperty.Register(nameof(Auto), typeof(bool), typeof(UpdateDroneVM), new PropertyMetadata(false));
         public bool Auto
@@ -159,7 +152,6 @@ namespace PL
             get => (bool)GetValue(AutoProperty);
             set => SetValue(AutoProperty, value);
         }
-
         private void StartSimulator()
         {
             Auto = true;
@@ -170,7 +162,6 @@ namespace PL
             simulatorWorker.ProgressChanged += HandleWorkerProgressChanged;
             simulatorWorker.RunWorkerAsync(id);
         }
-
         private void HandleWorkerProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             DelegateVM.NotifyDroneChanged(id);

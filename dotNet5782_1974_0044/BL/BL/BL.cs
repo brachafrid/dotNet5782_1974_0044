@@ -44,11 +44,11 @@ namespace BL
 
                 throw new KeyNotFoundException(ex.Message);
             }
-            catch(DO.XMLFileLoadCreateException ex)
+            catch (DO.XMLFileLoadCreateException ex)
             {
                 throw new XMLFileLoadCreateException(ex.Message);
             }
-            
+
         }
 
         /// <summary>
@@ -82,12 +82,12 @@ namespace BL
                         parcel.DorneId = 0;
                     }
 
+
                 }
                 else if (state == default)
                 {
-                    if (customersGotParcelLocation.Count() > 0)
-                        state = (DroneState)rand.Next(0, DRONESTATUSESLENGTH);
-                    else
+                    state = (DroneState)rand.Next(0, DRONESTATUSESLENGTH);
+                    if (customersGotParcelLocation.Count() <= 0 || state == DroneState.WAYTOCHARGE)
                         state = DroneState.MAINTENANCE;
 
                 }
@@ -186,7 +186,7 @@ namespace BL
             {
                 DO.Parcel newParcel = parcel;
                 newParcel.Id = 0;
-                dal.UpdateParcel(parcel,newParcel);
+                dal.UpdateParcel(parcel, newParcel);
                 canTakeParcel = false;
                 return 0;
             }
@@ -214,10 +214,10 @@ namespace BL
             catch (DO.XMLFileLoadCreateException ex)
             {
 
-                throw new XMLFileLoadCreateException(ex.FilePath,ex.Message,ex.InnerException);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
-         
+
         }
-               
+
     }
 }

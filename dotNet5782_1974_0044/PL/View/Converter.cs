@@ -21,7 +21,41 @@ namespace PL
         /// <returns>Returns visibility, visible or collapsed</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-          return  value.ToString() != DroneState.MAINTENANCE.ToString()? Visibility.Visible: Visibility.Collapsed;      
+          return  value.ToString() != new DateTime().ToString()? Visibility.Visible: Visibility.Collapsed;      
+        }
+
+        /// <summary>
+        /// Convert Back for Visibility
+        /// </summary>
+        /// <param name="value">drone's state</param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>Returns visibility, hidden</returns>
+        public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            return Visibility.Hidden;
+        }
+    }
+
+    public class parcelButtunsContent : IValueConverter
+    {
+        /// <summary>
+        /// Convert per drone state to visibility, visible or collapsed
+        /// </summary>
+        /// <param name="value">drone's state</param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>Returns visibility, visible or collapsed</returns>
+        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        {
+            if (value.ToString() != new DateTime().ToString())
+            {
+                return "Parcel delivery";
+            }
+            else
+                return "Parcel collection";
         }
 
         /// <summary>
@@ -93,12 +127,9 @@ namespace PL
         /// <returns>Returns the content of update buttons</returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0].ToString() == DroneState.DELIVERY.ToString()
-               // || values[0].ToString() != DroneState.DELIVERY.ToString()
-                )
-                {
-               if (values[1].ToString() == "True" //|| values[1].ToString() != null
-                    )
+            if (values[0].ToString() == DroneState.DELIVERY.ToString())
+            {
+                if (values[1].ToString() == "True")
                 {
                     return "Parcel delivery";
                 }
@@ -109,7 +140,6 @@ namespace PL
                 return "Sending the drone for delivery";
 
         }
-
         /// <summary> 
         /// Convert Back to parcel Treated By Drone Content
         /// </summary>
