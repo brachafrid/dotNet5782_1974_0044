@@ -1,6 +1,7 @@
 ﻿using PL.PO;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 
 namespace PL
@@ -33,7 +34,15 @@ namespace PL
                         sourceList.Add(item);
                 } 
             }
-            catch ()
+            catch(BO.XMLFileLoadCreateException ex)
+            {
+                if (ex.Message != string.Empty)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                else
+                    MessageBox.Show(ex.ToString());
+            }
 
         }
 
