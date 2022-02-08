@@ -152,50 +152,22 @@ namespace BL
         /// Collect the parcel by drone
         /// </summary>
         /// <param name="parcelId">The parcel to update</param>
-        private void ParcelcollectionDrone(int parcelId)
+        private void ParcelcollectionDrone(DO.Parcel parcel)
         {
-            try
-            {
-                DO.Parcel parcel = dal.GetParcel(parcelId);
-                DO.Parcel newParcel = parcel;
-                newParcel.PickedUp = DateTime.Now;
-                dal.UpdateParcel(parcel, newParcel);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                throw new KeyNotFoundException(ex.Message);
-            }
-
-            //catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
-            //{
-            //    throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
-            //}
-
+            DO.Parcel newParcel = parcel;
+            newParcel.PickedUp = DateTime.Now;
+            dal.UpdateParcel(parcel, newParcel);
         }
 
         /// <summary>
         /// Deliverd the parcel by drone
         /// </summary>
         /// <param name="parcelId">The parcel to update</param>
-        private void ParcelDeliveredDrone(int parcelId)
+        private void ParcelDeliveredDrone(DO.Parcel parcel)
         {
-            DO.Parcel parcel;
-            try
-            {
-                parcel = dal.GetParcel(parcelId);
-                DO.Parcel newParcel = parcel;
-                newParcel.Delivered = DateTime.Now;
-                dal.UpdateParcel(parcel, newParcel);
-
-            }
-            catch (KeyNotFoundException ex)
-            {
-                throw new KeyNotFoundException(ex.Message);
-            }
-            //catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
-            //{
-            //    throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
-            //}
+            DO.Parcel newParcel = parcel;
+            newParcel.Delivered = DateTime.Now;
+            dal.UpdateParcel(parcel, newParcel);
 
         }
 
