@@ -20,17 +20,15 @@ namespace Dal
             {
                 List<Parcel> parcels = DalXmlService.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH);
                 if (!ExistsIDTaxCheckNotDelited(GetCustomers(), SenderId))
-                    throw new KeyNotFoundException("Sender not exist");
+                    throw new KeyNotFoundException($"Sender id {SenderId} not exist in data");
                 if (!ExistsIDTaxCheckNotDelited(GetCustomers(), TargetId))
-                    throw new KeyNotFoundException("Target not exist");
+                    throw new KeyNotFoundException($"Target id {TargetId} not exist in data");
                 Parcel newParcel = new();
-
                 XElement config = DalXmlService.LoadConfigToXML(CONFIG);
                 XElement parcelId = config.Elements().Single(elem => elem.Name.ToString().Contains("Parcel"));
                 newParcel.Id = id == 0 ? int.Parse(parcelId.Value) + 1 : id;
                 config.SetElementValue(parcelId.Name, newParcel.Id);
                 DalXmlService.SaveConfigToXML(config, CONFIG);
-
                 newParcel.SenderId = SenderId;
                 newParcel.TargetId = TargetId;
                 newParcel.Weigth = Weigth;
@@ -41,9 +39,9 @@ namespace Dal
                 newParcel.Delivered = delivered;
                 newParcel.DorneId = droneId;
                 parcels.Add(newParcel);
-                DalXmlService.SaveListToXMLSerializer<Parcel>(parcels, PARCEL_PATH);
+                DalXmlService.SaveListToXMLSerializer(parcels, PARCEL_PATH);
             }
-            catch (DO.XMLFileLoadCreateException ex)
+            catch (XMLFileLoadCreateException ex)
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
@@ -55,12 +53,14 @@ namespace Dal
             {
                 List<Parcel> parcels = DalXmlService.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH);
                 Parcel parcel = parcels.FirstOrDefault(item => item.Id == id);
+                if (parcel.Equals(default(Parcel)))
+                    throw new KeyNotFoundException($"The parcel id {id} not exsits in data");
                 parcels.Remove(parcel);
                 parcel.IsNotActive = true;
                 parcels.Add(parcel);
-                DalXmlService.SaveListToXMLSerializer<Parcel>(parcels, PARCEL_PATH);
+                DalXmlService.SaveListToXMLSerializer(parcels, PARCEL_PATH);
             }
-            catch (DO.XMLFileLoadCreateException ex)
+            catch (XMLFileLoadCreateException ex)
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
@@ -75,7 +75,7 @@ namespace Dal
                     throw new KeyNotFoundException("There is not suitable parcel in data");
                 return parcel;
             }
-            catch (DO.XMLFileLoadCreateException ex)
+            catch (XMLFileLoadCreateException ex)
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
@@ -109,7 +109,7 @@ namespace Dal
                 List<Parcel> parcels = DalXmlService.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH);
                 parcels.Remove(parcel);
                 parcels.Add(newParcel);
-                DalXmlService.SaveListToXMLSerializer<Parcel>(parcels, PARCEL_PATH);
+                DalXmlService.SaveListToXMLSerializer(parcels, PARCEL_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {

@@ -23,14 +23,15 @@ namespace Dal
         {
             if (ExistsIDTaxCheck(DataSorce.Stations, id))
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
-            Station newStation = new();
-            newStation.Id = id;
-            newStation.Name = name;
-            newStation.Latitude = latitude;
-            newStation.Longitude = longitude;
-            newStation.ChargeSlots = chargeSlots;
-            newStation.IsNotActive = false;
-            DalObjectService.AddEntity(newStation);
+            DalObjectService.AddEntity(new Station()
+            {
+                Id = id,
+                Name = name,
+                Latitude = latitude,
+                Longitude = longitude,
+                ChargeSlots = chargeSlots,
+                IsNotActive = false
+            });
         }
 
         //-------------------------------------------------Display-------------------------------------------------------------
@@ -82,7 +83,7 @@ namespace Dal
         public void DeleteStation(int id)
         {
             Station station = DataSorce.Stations.FirstOrDefault(item => item.Id == id);
-            if (station.Equals(default))
+            if (station.Equals(default(Station)))
                 throw new KeyNotFoundException($"the station {id} not exsits in data");
             DalObjectService.RemoveEntity(station);
             station.IsNotActive = true;

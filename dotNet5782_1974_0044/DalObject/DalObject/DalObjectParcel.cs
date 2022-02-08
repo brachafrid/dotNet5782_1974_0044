@@ -24,7 +24,7 @@ namespace Dal
                 throw new KeyNotFoundException($"Sender Id: {SenderId} not exist");
             if (!ExistsIDTaxCheckNotDelited(GetCustomers(), TargetId))
                 throw new KeyNotFoundException($"Target id: {TargetId} not exist");
-            Parcel newParcel = new()
+            DalObjectService.AddEntity(new Parcel()
             {
                 Id = id == 0 ? ++DataSorce.Config.IdParcel : id,
                 SenderId = SenderId,
@@ -36,8 +36,7 @@ namespace Dal
                 PickedUp = pickedUp,
                 Delivered = delivered,
                 DorneId = droneId,
-            };
-            DalObjectService.AddEntity(newParcel);
+            });
         }
 
         //-----------------------------------------------------Display--------------------------------------
@@ -85,7 +84,7 @@ namespace Dal
         public void DeleteParcel(int id)
         {
             Parcel parcel = DalObjectService.GetEntities<Parcel>().FirstOrDefault(item => item.Id == id);
-            if (parcel.Equals(default))
+            if (parcel.Equals(default(Parcel)))
                 throw new KeyNotFoundException($"The parcel {id} not exsits in the data");
             DalObjectService.RemoveEntity(parcel);
             parcel.IsNotActive = true;

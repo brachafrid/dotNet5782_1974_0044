@@ -22,10 +22,8 @@ namespace Dal
         ///<param name="inTheStation">The predicate to screen out if the station id of the drone equal to a spesific station id </param>
         /// <returns>A list of DroneCarge</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation)
-        {
-            return DalObjectService.GetEntities<DroneCharge>().Where(item => inTheStation(item.Stationld)).Select(item => item.Droneld);
-        }
+        public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation)=> DalObjectService.GetEntities<DroneCharge>().Where(item => inTheStation(item.Stationld)).Select(item => item.Droneld);
+
         /// <summary>
         /// Gets parameters and create new DroneCharge 
         /// </summary>
@@ -44,7 +42,7 @@ namespace Dal
         public void RemoveDroneCharge(int droneId)
         {
             DroneCharge droneCharge = DalObjectService.GetEntities<DroneCharge>().FirstOrDefault(droneCharge => droneCharge.Droneld == droneId);
-            if (droneCharge.Equals(default))
+            if (droneCharge.Equals(default(DroneCharge)))
                 throw new TheDroneIsNotInChargingException("The drone is not in charging",droneId);
             DalObjectService.RemoveEntity(droneCharge);
         }
@@ -57,7 +55,7 @@ namespace Dal
         public DateTime GetTimeStartOfCharge(int droneId)
         {
             DroneCharge droneCharge = DalObjectService.GetEntities<DroneCharge>().FirstOrDefault(drone => drone.Droneld == droneId);
-            if (droneCharge.Equals(default))
+            if (droneCharge.Equals(default(DroneCharge)))
                 throw new TheDroneIsNotInChargingException("The drone is not in charging", droneId);
             return droneCharge.StartCharging;
         }

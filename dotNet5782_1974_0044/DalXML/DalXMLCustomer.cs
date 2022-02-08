@@ -20,14 +20,15 @@ namespace Dal
                 List<Customer> customers = DalXmlService.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
                 if (ExistsIDTaxCheck(customers, id))
                     throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
-                Customer newCustomer = new();
-                newCustomer.Id = id;
-                newCustomer.Name = name;
-                newCustomer.Phone = phone;
-                newCustomer.Latitude = latitude;
-                newCustomer.Longitude = longitude;
-                newCustomer.IsNotActive = false;
-                customers.Add(newCustomer);
+                customers.Add(new()
+                {
+                    Id = id,
+                    Name = name,
+                    Phone = phone,
+                    Latitude = latitude,
+                    Longitude = longitude,
+                    IsNotActive = false
+                });
                 DalXmlService.SaveListToXMLSerializer(customers, CUSTOMER_PATH);
             }
             catch (XMLFileLoadCreateException ex)
@@ -41,7 +42,7 @@ namespace Dal
             try { 
                 List<Customer> customers = DalXmlService.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
                 Customer customer = customers.FirstOrDefault(item => item.Id == id);
-                if (customer.Equals(default))
+                if (customer.Equals(default(Customer)))
                     throw new KeyNotFoundException($"the customer id {id} not exsits in data");
                 customers.Remove(customer);
                 customer.IsNotActive = true;
@@ -98,7 +99,7 @@ namespace Dal
             }
         }
 
-        static bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
+        static bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)where T:IIdentifyable
         {
             if (!lst.Any())
                 return false;

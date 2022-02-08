@@ -32,7 +32,7 @@ namespace Dal
            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id);
             return !temp.Equals(default(T));
         }
-        static bool ExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id)where T:IActiveable
+        static bool ExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id)where T:IActiveable,IIdentifyable
         {
             if (!lst.Any())
                 return false;
