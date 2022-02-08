@@ -32,7 +32,6 @@ namespace PL
         public RelayCommand OpenParcelCommand { get; set; }
         public RelayCommand OpenCustomerCommand { get; set; }
         public RelayCommand UpdateDroneCommand { get; set; }
-        public RelayCommand CloseDroneCommand { get; set; }
         public RelayCommand ChargingDroneCommand { get; set; }
         public RelayCommand ParcelTreatedByDrone { get; set; }
         public RelayCommand DeleteDroneCommand { get; set; }
@@ -140,11 +139,17 @@ namespace PL
 
             if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
             {
-                PLService.DeleteDrone(drone.Id);
-                MessageBox.Show("The drone was successfully deleted");
-                DelegateVM.DroneChangedEvent -= HandleADroneChanged;
-                DelegateVM.NotifyDroneChanged(drone.Id);
-                Tabs.CloseTab(param as TabItemFormat);
+                if(simulatorWorker != null && !simulatorWorker.CancellationPending)
+                simulatorWorker.CancelAsync();
+               if(simulatorWorker != null && !simulatorWorker.IsBusy)
+                {
+                    PLService.DeleteDrone(drone.Id);
+                    MessageBox.Show("The drone was successfully deleted");
+                    DelegateVM.DroneChangedEvent -= HandleADroneChanged;
+                    DelegateVM.NotifyDroneChanged(drone.Id);
+                    Tabs.CloseTab(param as TabItemFormat);
+                }
+             
             }
         }
         #region simulator

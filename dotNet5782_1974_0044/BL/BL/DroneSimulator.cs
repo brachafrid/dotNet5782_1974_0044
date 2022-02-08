@@ -1,5 +1,4 @@
 ﻿using BO;
-using DLApi;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,9 +30,12 @@ namespace BL
             try
             {
                 bl = BL;
-                Drone = bl.drones.FirstOrDefault(Drone => Drone.Id == id);
-                if (Drone.DroneState == DroneState.DELIVERY && bl.GetParcel((int)Drone.ParcelId).CollectionTime != null)
-                    delivery = Delivery.Delivery;
+                lock (bl)
+                {
+                    Drone = bl.drones.FirstOrDefault(Drone => Drone.Id == id);
+                    if (Drone.DroneState == DroneState.DELIVERY && bl.GetParcel((int)Drone.ParcelId).CollectionTime != null)
+                        delivery = Delivery.Delivery;
+                }
                 while (!checkStop())
                 {
                     parcelId = senderId = reciverId = stationId = null;
@@ -77,7 +79,7 @@ namespace BL
                                 Station = bl.ClosetStationPossible(Drone.CurrentLocation, Drone.BatteryState, out double n);
                                 if (Station != null)
                                 {
-                                   
+
                                     distance = BL.Distance(Drone.CurrentLocation, Station.Location);
                                     maintenance = Maintenance.Going;
                                 }
@@ -137,115 +139,115 @@ namespace BL
             stationId = Station.Id;
 
         }
-    
-    private void DeliveryDrone()
-    {
-        try
+
+        private void DeliveryDrone()
         {
-            lock (bl)
+            try
             {
-                parcel = bl.GetParcel((int)Drone.ParcelId);
-            }
-            switch (delivery)
-            {
-                case Delivery.Starting:
-                    {
-                        lock (bl)
+                lock (bl)
+                {
+                    parcel = bl.GetParcel((int)Drone.ParcelId);
+                }
+                switch (delivery)
+                {
+                    case Delivery.Starting:
                         {
-                            distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerSender.Id).Location);
-                        }
-                        delivery = Delivery.Going;
-                        break;
-                    }
-                case Delivery.Going:
-                    {
-                        lock (bl)
-                        {
-                            if (distance > 0.01)
+                            lock (bl)
                             {
-                                Drone.CurrentLocation = UpdateLocationAndBattary(bl.GetCustomer(parcel.CustomerSender.Id).Location, bl.available);
                                 distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerSender.Id).Location);
                             }
+                            delivery = Delivery.Going;
+                            break;
+                        }
+                    case Delivery.Going:
+                        {
+                            lock (bl)
+                            {
+                                if (distance > 0.01)
+                                {
+                                    Drone.CurrentLocation = UpdateLocationAndBattary(bl.GetCustomer(parcel.CustomerSender.Id).Location, bl.available);
+                                    distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerSender.Id).Location);
+                                }
 
+                                else
+                                {
+                                    lock (bl)
+                                    {
+                                        try
+                                        {
+                                            delivery = Delivery.Delivery;
+                                            Drone.CurrentLocation = bl.GetCustomer(parcel.CustomerSender.Id).Location;
+                                            distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerReceives.Id).Location);
+                                            bl.ParcelCollectionByDrone(Drone.Id);
+                                            parcelId = Drone.ParcelId;
+                                            delivery = Delivery.Delivery;
+                                        }
+                                        catch (ArgumentNullException)
+                                        {
+                                            delivery = Delivery.Delivery;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
+                        }
+                    case Delivery.Delivery:
+                        {
+                            if (distance < 0.01)
+                            {
+                                lock (bl)
+                                {
+                                    bl.DeliveryParcelByDrone(Drone.Id);
+                                    Drone.DroneState = DroneState.AVAILABLE;
+                                    parcelId = Drone.ParcelId;
+                                }
+                            }
                             else
                             {
                                 lock (bl)
                                 {
-                                    try
+                                    double elect = bl.GetParcel((int)Drone.ParcelId).Weight switch
                                     {
-                                        delivery = Delivery.Delivery;
-                                        Drone.CurrentLocation = bl.GetCustomer(parcel.CustomerSender.Id).Location;
-                                        distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerReceives.Id).Location);
-                                        bl.ParcelCollectionByDrone(Drone.Id);
-                                        parcelId = Drone.ParcelId;
-                                        delivery = Delivery.Delivery;
-                                    }
-                                    catch (ArgumentNullException)
-                                    {
-                                        delivery = Delivery.Delivery;
-                                    }
+                                        WeightCategories.HEAVY => bl.carriesHeavyWeight,
+                                        WeightCategories.MEDIUM => bl.mediumWeightBearing,
+                                        WeightCategories.LIGHT => bl.lightWeightCarrier,
+                                        _ => 0.0
+                                    };
+                                    Drone.CurrentLocation = UpdateLocationAndBattary(bl.GetCustomer(parcel.CustomerReceives.Id).Location, elect);
+                                    distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerReceives.Id).Location);
                                 }
                             }
-                        }
-                        break;
-                    }
-                case Delivery.Delivery:
-                    {
-                        if (distance < 0.01)
-                        {
-                            lock (bl)
-                            {
-                                bl.DeliveryParcelByDrone(Drone.Id);
-                                Drone.DroneState = DroneState.AVAILABLE;
-                                parcelId = Drone.ParcelId;
-                            }
-                        }
-                        else
-                        {
-                            lock (bl)
-                            {
-                                double elect = bl.GetParcel((int)Drone.ParcelId).Weight switch
-                                {
-                                    WeightCategories.HEAVY => bl.carriesHeavyWeight,
-                                    WeightCategories.MEDIUM => bl.mediumWeightBearing,
-                                    WeightCategories.LIGHT => bl.lightWeightCarrier,
-                                    _ => 0.0
-                                };
-                                Drone.CurrentLocation = UpdateLocationAndBattary(bl.GetCustomer(parcel.CustomerReceives.Id).Location, elect);
-                                distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerReceives.Id).Location);
-                            }
+
+                            break;
                         }
 
+                    default:
                         break;
-                    }
+                }
 
-                default:
-                    break;
+            }
+            catch (KeyNotFoundException)
+            {
+                Drone.DroneState = DroneState.AVAILABLE;
             }
 
+
+
         }
-        catch (KeyNotFoundException)
+        private static bool sleepDelayTime()
         {
-            Drone.DroneState = DroneState.AVAILABLE;
+            try { Thread.Sleep(DELAY); } catch (ThreadInterruptedException) { return false; }
+            return true;
+        }
+        private Location UpdateLocationAndBattary(Location Target, double elec)
+        {
+            double delta = distance < STEP ? distance : STEP;
+            double proportion = delta / distance;
+            Drone.BatteryState = Math.Max(0.0, Drone.BatteryState - delta * elec);
+            double lat = Drone.CurrentLocation.Latitude + (Target.Latitude - Drone.CurrentLocation.Latitude) * proportion;
+            double lon = Drone.CurrentLocation.Longitude + (Target.Longitude - Drone.CurrentLocation.Longitude) * proportion;
+            return new() { Latitude = lat, Longitude = lon };
         }
 
-
-
     }
-    private static bool sleepDelayTime()
-    {
-        try { Thread.Sleep(DELAY); } catch (ThreadInterruptedException) { return false; }
-        return true;
-    }
-    private Location UpdateLocationAndBattary(Location Target, double elec)
-    {
-        double delta = distance < STEP ? distance : STEP;
-        double proportion = delta / distance;
-        Drone.BatteryState = Math.Max(0.0, Drone.BatteryState - delta * elec);
-        double lat = Drone.CurrentLocation.Latitude + (Target.Latitude - Drone.CurrentLocation.Latitude) * proportion;
-        double lon = Drone.CurrentLocation.Longitude + (Target.Longitude - Drone.CurrentLocation.Longitude) * proportion;
-        return new() { Latitude = lat, Longitude = lon };
-    }
-
-}
 }
