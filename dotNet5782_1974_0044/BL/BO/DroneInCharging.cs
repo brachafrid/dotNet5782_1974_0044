@@ -11,7 +11,6 @@ namespace BO
     {
         public int Id { get; init; }
         public double ChargingMode { get; set; }
-        public DateTime StartChrging { get; set; }
         public override string ToString()
         {
             return this.ToStringProperties();

@@ -3,25 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using DO;
+using DLApi;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
-    public sealed partial class DalXml
+    public sealed partial class DalXml:IDalParcel
     {
         const string PARCEL_PATH = @"XmlParcel.xml";
-        
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority, int id = 0, int droneId = 0, DateTime? requested = null, DateTime? sceduled = null, DateTime? pickedUp = null, DateTime? delivered = null)
         {
             try
             {
-                List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH);
+                List<Parcel> parcels = DalXmlService.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH);
                 if (!ExistsIDTaxCheckNotDelited(GetCustomers(), SenderId))
-                    throw new KeyNotFoundException("Sender not exist");
+                    throw new KeyNotFoundException($"Sender id {SenderId} not exist in data");
                 if (!ExistsIDTaxCheckNotDelited(GetCustomers(), TargetId))
-                    throw new KeyNotFoundException("Target not exist");
+                    throw new KeyNotFoundException($"Target id {TargetId} not exist in data");
                 Parcel newParcel = new();
-                newParcel.Id = id == 0 ? ++Config.IdParcel : id;
+                XElement config = DalXmlService.LoadConfigToXML(CONFIG);
+                XElement parcelId = config.Elements().Single(elem => elem.Name.ToString().Contains("Parcel"));
+                newParcel.Id = id == 0 ? int.Parse(parcelId.Value) + 1 : id;
+                config.SetElementValue(parcelId.Name, newParcel.Id);
+                DalXmlService.SaveConfigToXML(config, CONFIG);
                 newParcel.SenderId = SenderId;
                 newParcel.TargetId = TargetId;
                 newParcel.Weigth = Weigth;
@@ -32,81 +39,88 @@ namespace Dal
                 newParcel.Delivered = delivered;
                 newParcel.DorneId = droneId;
                 parcels.Add(newParcel);
-                XMLTools.SaveListToXMLSerializer<Parcel>(parcels, PARCEL_PATH);
+                DalXmlService.SaveListToXMLSerializer(parcels, PARCEL_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(int id)
         {
             try
             {
-                List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH);
+                List<Parcel> parcels = DalXmlService.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH);
                 Parcel parcel = parcels.FirstOrDefault(item => item.Id == id);
+                if (parcel.Equals(default(Parcel)))
+                    throw new KeyNotFoundException($"The parcel id {id} not exsits in data");
                 parcels.Remove(parcel);
-                parcel.IsActive = true;
+                parcel.IsNotActive = true;
                 parcels.Add(parcel);
-                XMLTools.SaveListToXMLSerializer<Parcel>(parcels, PARCEL_PATH);
+                DalXmlService.SaveListToXMLSerializer(parcels, PARCEL_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int id)
         {
             try
             {
-                Parcel parcel = XMLTools.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH).FirstOrDefault(item => item.Id == id);
-                if (parcel.Equals(default(Parcel)) || parcel.IsActive)
+                Parcel parcel = DalXmlService.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH).FirstOrDefault(item => item.Id == id);
+                if (parcel.Equals(default(Parcel)))
                     throw new KeyNotFoundException("There is not suitable parcel in data");
                 return parcel;
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetParcels()
         {
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH).Where(p => !p.IsActive);
+                return DalXmlService.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetParcelsNotAssignedToDrone(Predicate<int> notAssign)
         {
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH).FindAll(item => notAssign(item.DorneId));
+                return DalXmlService.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH).FindAll(item => notAssign(item.DorneId));
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-        public void RemoveParcel(Parcel parcel)
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void UpdateParcel(Parcel parcel, Parcel newParcel)
         {
             try { 
-                List<Parcel> parcels = XMLTools.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH);
+                List<Parcel> parcels = DalXmlService.LoadListFromXMLSerializer<Parcel>(PARCEL_PATH);
                 parcels.Remove(parcel);
-                XMLTools.SaveListToXMLSerializer<Parcel>(parcels, PARCEL_PATH);
+                parcels.Add(newParcel);
+                DalXmlService.SaveListToXMLSerializer(parcels, PARCEL_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-        static bool ExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id)
+        static bool ExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id) where T:IIdentifyable,IActiveable
         {
             if (!lst.Any())
                 return false;
-            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id && !(bool)item.GetType().GetProperty("IsActive").GetValue(item));
+            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id && !(bool)item.GetType().GetProperty("IsNotActive").GetValue(item));
             return !temp.Equals(default(T));
         }
     }

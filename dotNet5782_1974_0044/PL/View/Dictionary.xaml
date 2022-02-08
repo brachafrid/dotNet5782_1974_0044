@@ -108,7 +108,8 @@
                     </DockPanel>
                     <TextBlock Text="{Binding Path=Weight, StringFormat=Weigth :{0}}"/>
                     <TextBlock Text="{Binding Path = DroneState, StringFormat=state :{0}}" />
-                    <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />
+                    <!--<TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />-->
+                    <ProgressBar  Value="{Binding Path=BattaryMode}" Width="80" Minimum="0" Maximum="100"/>
                 </ListBox>
             </StackPanel>
             <ContentPresenter Content="{Binding Location}" />

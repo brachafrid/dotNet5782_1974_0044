@@ -4,22 +4,23 @@ using System.Text;
 using System.Xml.Serialization;
 using System.Xml.Linq;
 using System.IO;
+using DO;
 
 
 namespace Dal
 {
 
-    public static class XMLTools
+    internal static class DalXmlService
     {
-        static string dir = @"..\data\";
-        static XMLTools()
+        static string dir = @"..\..\data\";
+        static DalXmlService()
         {
             if (!Directory.Exists(dir))
                 Directory.CreateDirectory(dir);
         }
 
         #region SaveLoadWithXMLSerializer
-        public static void SaveListToXMLSerializer<T>(IEnumerable<T> list, string filePath)
+        internal static void SaveListToXMLSerializer<T>(IEnumerable<T> list, string filePath)
         {
             try
             {
@@ -34,7 +35,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
-        public static List<T> LoadListFromXMLSerializer<T>(string filePath)
+        internal static List<T> LoadListFromXMLSerializer<T>(string filePath)
         {
             try
             {
@@ -54,6 +55,36 @@ namespace Dal
                throw new XMLFileLoadCreateException(filePath, $"fail to load xml file: {filePath}", ex);
             }
             return new List<T>();
+        }
+
+        internal static void SaveConfigToXML(XElement rootElem, string filePath)
+        {
+            try
+            {
+                rootElem.Save(dir + filePath);
+            }
+            catch (Exception ex)
+            {
+                throw new XMLFileLoadCreateException($"fail to create xml file: {filePath}", ex);
+            }
+        }
+        internal static XElement LoadConfigToXML(string filePath)
+        {
+            try
+            {
+                if (!File.Exists(dir + filePath))
+                {
+                    throw new XMLFileLoadCreateException($"fail to load xml file: {filePath}");
+                }
+                XDocument document = XDocument.Load(dir + filePath);
+                return document.Root;
+            }
+            catch (Exception)
+            {
+
+                throw new XMLFileLoadCreateException();
+            }
+
         }
         #endregion
     }

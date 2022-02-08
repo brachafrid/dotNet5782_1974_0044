@@ -1,14 +1,15 @@
-﻿using System;
+﻿using BLApi;
+using BO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using BO;
-using BLApi;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
     public partial class BL : IBlCustomer
     {
-        //-----------------------------------------------------------Adding------------------------------------------------------------------------
+        #region Add
         /// <summary>
         /// Add a customer to the list of customers
         /// </summary>
@@ -24,10 +25,17 @@ namespace BL
 
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
-            
-        }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
 
-        //--------------------------------------------------Return-----------------------------------------------------------------------------------
+        }
+        #endregion
+
+        #region Return
+
+
         /// <summary>
         /// Retrieves the requested customer from the data and converts it to BL customer
         /// </summary>
@@ -44,7 +52,38 @@ namespace BL
                 throw new KeyNotFoundException(ex.Message);
             }
         }
-        //-------------------------------------------------------Updating-----------------------------------------------------------------------------
+        /// <summary>
+        /// Retrieves the list of customers  from the data and converts it to station to list
+        /// </summary>
+        /// <returns>A list of statin to print</returns>
+        public IEnumerable<CustomerToList> GetCustomers()
+        {
+            try
+            {
+                return dal.GetCustomers().Select(customer => MapCustomerToList(customer));
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
+        }
+
+        public IEnumerable<CustomerToList> GetActiveCustomers()
+        {
+            try
+            {
+                return dal.GetCustomers().Where(Customer => !Customer.IsNotActive).Select(Customer => MapCustomerToList(Customer));
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
+        }
+        #endregion
+
+        #region Update
         /// <summary>
         /// Update a customer in the customers list
         /// </summary>
@@ -55,79 +94,56 @@ namespace BL
         {
             if (name.Equals(string.Empty) && phone.Equals(string.Empty))
                 throw new ArgumentNullException("There is not field to update");
-            DO.Customer customer ;
             try
             {
-                customer = dal.GetCustomer(id);
-                dal.RemoveCustomer(customer);
-                if (name.Equals(string.Empty))
-                    name = customer.Name;
-                else if (phone.Equals(string.Empty))
-                    phone = customer.Phone;
-                dal.AddCustomer(id, phone, name, customer.Longitude, customer.Latitude);
-
-            }
-            catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
-            {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
+                dal.UpdateCustomer(dal.GetCustomer(id), name,phone);
             }
             catch (KeyNotFoundException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
+                throw new KeyNotFoundException(ex.Message);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
 
 
         }
+
+        #endregion
+
+        #region Delete
         public void DeleteCustomer(int id)
         {
-            Customer customer = GetCustomer(id);
-            if (!customer.ToCustomer.Any())
+            try
             {
                 dal.DeleteCustomer(id);
             }
-            else
+            catch (KeyNotFoundException ex)
             {
-                throw new ThereAreAssociatedOrgansException("There are parcels on the way to the customer, Cant delete.");
+
+                throw new KeyNotFoundException(ex.Message);
             }
-        }
-
-        //-------------------------------------------------Return List-----------------------------------------------------------------------------
-        /// <summary>
-        /// Retrieves the list of customers  from the data and converts it to station to list
-        /// </summary>
-        /// <returns>A list of statin to print</returns>
-        public IEnumerable<CustomerToList> GetCustomers()
-        {
-            return dal.GetCustomers().Select(customer => MapCustomerToList(customer));
-        }
-
-
-
-
-        //-----------------------------------------------Help function-----------------------------------------------------------------------------------
-        /// <summary>
-        /// Convert a DAL customer to BL customer
-        /// </summary>
-        /// <param name="parcel">The customer to convert</param>
-        /// <returns>The converted customer</returns>
-        private Customer MapCustomer(DO.Customer customer)
-        {
-            return new Customer()
+            catch(DO.XMLFileLoadCreateException ex)
             {
-                Id = customer.Id,
-                Phone = customer.Phone,
-                Name = customer.Name,
-                Location = new()
-                {
-                    Longitude = customer.Longitude,
-                    Latitude = customer.Latitude
-                },
-                FromCustomer = GetAllParcels().Where(Parcel=> Parcel.CustomerSender.Id == customer.Id).Select(parcel => ParcelToParcelAtCustomer(parcel, "sender")).ToList(),
-                ToCustomer = GetAllParcels().Where(Parcel => Parcel.CustomerReceives.Id == customer.Id).Select(parcel => ParcelToParcelAtCustomer(parcel, "Recive")).ToList()
-            };
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+           
         }
-
-       
+        #endregion
+        public bool IsNotActiveCustomer(int id)
+        {
+            try
+            {
+              return  dal.GetCustomers().Any(customer => customer.Id == id && customer.IsNotActive);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+            
+        }
+        
     }
 }
 

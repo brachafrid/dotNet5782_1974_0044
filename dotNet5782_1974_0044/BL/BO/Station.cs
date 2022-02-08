@@ -11,7 +11,7 @@
             public string Name { get; set; }
             public Location Location { get; set; }
             public int AvailableChargingPorts { get; set; }
-            public List<DroneInCharging> DroneInChargings { get; set; }
+            public IEnumerable<DroneInCharging> DroneInChargings { get; set; }
             public override string ToString()
             {
                 return this.ToStringProperties();

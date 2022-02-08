@@ -1,12 +1,12 @@
-﻿
+﻿using DLApi;
 using System.Collections.Generic;
 using System.Linq;
 using System;
 using DO;
-
+using System.Runtime.CompilerServices;
 namespace Dal
 {
-    public partial class DalObject
+    public partial class DalObject:IDalDrone
     {
         //-------------------------Adding---------------------------------
         /// <summary>
@@ -14,19 +14,19 @@ namespace Dal
         /// </summary>
         /// <param name="model"> Grone's model</param>
         /// <param name="MaxWeight"> The max weight that the drone can swipe (light- 0,medium - 1,heavy - 2)</param>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(int id, string model, WeightCategories MaxWeight)
         {
             if (ExistsIDTaxCheck(DataSorce.Drones, id))
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException();
-            Drone newDrone = new()
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
+            DalObjectService.AddEntity(new Drone()
             {
                 Id = id,
                 Model = model,
                 MaxWeight = MaxWeight,
-                IsActive = false
+                IsNotActive = false
 
-            };
-            AddEntity(newDrone);
+            });
         }
 
 
@@ -36,11 +36,12 @@ namespace Dal
         /// </summary>
         /// <param name="id">The id number of the requested drone</param>
         /// <returns>A drone for display</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int id)
         {
-            Drone drone = getEntities<Drone>().FirstOrDefault(item => item.Id == id);
-            if (drone.Equals(default(Drone)) || drone.IsActive)
-                throw new KeyNotFoundException("There is not suitable drone in the data");
+            Drone drone = DalObjectService.GetEntities<Drone>().FirstOrDefault(item => item.Id == id);
+            if (drone.Equals(default(Drone)) )
+                throw new KeyNotFoundException($"There is not suitable drone in the data , the id {id}");
             return drone;
         }
 
@@ -48,7 +49,8 @@ namespace Dal
         /// Prepares the list of Drones for display
         /// </summary>
         /// <returns>A list of drones</returns>
-        public IEnumerable<Drone> GetDrones() => getEntities<Drone>();
+         [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<Drone> GetDrones() => DalObjectService.GetEntities<Drone>();
 
 
         //-------------------------------------------------Removing-------------------------------------------------------------
@@ -56,17 +58,22 @@ namespace Dal
         /// Removing a Drone from the list
         /// </summary>
         /// <param name="station"></param>
-        public void RemoveDrone(Drone drone)
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void UpdateDrone(Drone drone,string model)
         {
-            RemoveEntity(drone);
+            DalObjectService.RemoveEntity(drone);
+            drone.Model = model;
+            DalObjectService.AddEntity(drone);
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(int id)
         {
-            Drone drone = getEntities<Drone>().FirstOrDefault(item => item.Id == id);
-            RemoveEntity(drone);
-            drone.IsActive = true;
-            AddEntity(drone);
+            Drone drone = DalObjectService.GetEntities<Drone>().FirstOrDefault(item => item.Id == id);
+            if (drone.Equals(default(Drone)))
+                throw new KeyNotFoundException("There is no suitable drone in data so the deleted failed");
+            DalObjectService.RemoveEntity(drone);
+            drone.IsNotActive = true;
+            DalObjectService.AddEntity(drone);
         }
     }
 }

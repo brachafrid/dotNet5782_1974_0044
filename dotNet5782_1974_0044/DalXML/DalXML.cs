@@ -1,45 +1,57 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Utilities;
-using DLApi;
+﻿using DLApi;
 using DO;
+using System.Collections.Generic;
 using System.IO;
-using System.Xml.Serialization;
+using System.Linq;
+using System.Runtime.CompilerServices;
+using Utilities;
 
 namespace Dal
 {
     public sealed partial class DalXml : Singletone<DalXml>, IDal
     {
+        const string DIR = @"..\..\data\";
+        const string CONFIG = @"XmlConfig.xml";
         private DalXml()
         {
-            Initilaztion();
+            try
+            {
+                Initilaztion();
+            }
+            catch (XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex);
+            }
+
         }
 
         private void Initilaztion()
         {
-            try { 
-                if (!File.Exists(@"..\data\"+DRONE_PATH))
-                    XMLTools.SaveListToXMLSerializer(InitializeDrone(), DRONE_PATH);
-                if (!File.Exists(@"..\data\"+STATION_PATH))
-                    XMLTools.SaveListToXMLSerializer(InitializeStation(),STATION_PATH);
-                if (!File.Exists(@"..\data\"+CUSTOMER_PATH))
-                    XMLTools.SaveListToXMLSerializer(InitializeCustomer(), CUSTOMER_PATH);
-                if (!File.Exists(@"..\data\"+PARCEL_PATH))
-                    XMLTools.SaveListToXMLSerializer(InitializeParcel(), PARCEL_PATH);
-                if (!File.Exists(@"..\data\"+DRONE_CHARGE_PATH))
-                    XMLTools.SaveListToXMLSerializer(new List<DroneCharge>(), DRONE_CHARGE_PATH);
-            }
-            catch
-            {
-                throw new XMLFileLoadCreateException();
-            }
+
+            if (!File.Exists(DIR + CONFIG))
+                DalXmlUnit.InitializeConfig();
+            if (!File.Exists(DIR + DRONE_PATH))
+                DalXmlService.SaveListToXMLSerializer(DalXmlUnit.InitializeDrone(), DRONE_PATH);
+            if (!File.Exists(DIR + STATION_PATH))
+                DalXmlService.SaveListToXMLSerializer(DalXmlUnit.InitializeStation(), STATION_PATH);
+            if (!File.Exists(DIR + CUSTOMER_PATH))
+                DalXmlService.SaveListToXMLSerializer(DalXmlUnit.InitializeCustomer(), CUSTOMER_PATH);
+            if (!File.Exists(DIR + PARCEL_PATH))
+                DalXmlService.SaveListToXMLSerializer(DalXmlUnit.InitializeParcel(), PARCEL_PATH);
+            if (!File.Exists(DIR + DRONE_CHARGE_PATH))
+                DalXmlService.SaveListToXMLSerializer(new List<DroneCharge>(), DRONE_CHARGE_PATH);
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public string GetAdministorPasssword()
         {
-            return "";
+            try
+            {
+                return DalXmlService.LoadConfigToXML(CONFIG).Elements().Single(elem => elem.Name.ToString().Contains("Password")).Value;
+            }
+            catch (XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
         }
     }
 }

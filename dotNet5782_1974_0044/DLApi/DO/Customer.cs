@@ -1,11 +1,12 @@
-﻿using System;
+﻿
+using System;
 
 
 
     namespace DO
     {
-        public struct Customer
-        {
+        public struct Customer: IIdentifyable, IActiveable
+    {
             private double longitude;
             private double latitude;
             public int Id { get; set; }
@@ -38,7 +39,7 @@
                 }
             }
 
-        public bool IsActive { get; set; }
+        public bool IsNotActive { get; set; }
 
         public override string ToString()
             {

@@ -8,22 +8,22 @@ using System.Threading.Tasks;
 
 namespace Dal
 {
-  public partial class DalObject
+  internal static class DalObjectService
     {
-        private IEnumerable<T> getEntities<T>()
+        internal static IEnumerable<T> GetEntities<T>()
         {
             Type t = typeof(T);
-            return t.Name switch
+            return t switch
             {
-                { } when typeof(Drone).Name == t.Name => (IEnumerable<T>)DataSorce.Drones.Where(c => !c.IsActive),
-                { } when typeof(Parcel).Name == t.Name => (IEnumerable<T>)DataSorce.Parcels.Where(c => !c.IsActive),
-                { } when typeof(Customer).Name == t.Name => (IEnumerable<T>)DataSorce.Customers.Where(c =>! c.IsActive),
-                { } when typeof(Station).Name == t.Name => (IEnumerable<T>)DataSorce.Stations.Where(c => !c.IsActive),
-                { } when typeof(DroneCharge).Name == t.Name => (IEnumerable<T>)DataSorce.DroneCharges
-
+                { } when typeof(Drone) == t => (IEnumerable<T>)DataSorce.Drones,
+                { } when typeof(Parcel) == t => (IEnumerable<T>)DataSorce.Parcels,
+                { } when typeof(Customer) == t => (IEnumerable<T>)DataSorce.Customers,
+                { } when typeof(Station) == t => (IEnumerable<T>)DataSorce.Stations,
+                { } when typeof(DroneCharge) == t => (IEnumerable<T>)DataSorce.DroneCharges,
+                _ => null
             };
         }
-        private void AddEntity<T>(T entity)
+        internal static void AddEntity<T>(T entity)
         {
             Type t = typeof(T);
             switch(entity.GetType().Name)
@@ -43,9 +43,11 @@ namespace Dal
                 case { } when entity is DroneCharge droneCharge:
                     DataSorce.DroneCharges.Add(droneCharge);
                     break;
+                default:
+                    break;
             }
         }
-        private void RemoveEntity<T>(T entity)
+        internal static void RemoveEntity<T>(T entity)
         {
             Type t = typeof(T);
             switch (entity.GetType().Name)
@@ -64,6 +66,8 @@ namespace Dal
                     break;
                 case { } when entity is DroneCharge droneCharge:
                     DataSorce.DroneCharges.Remove(droneCharge);
+                    break;
+                default:
                     break;
             }
         }

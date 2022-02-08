@@ -49,22 +49,34 @@ namespace BL
         /// <returns>The converted parcel</returns>
         private ParcelInTransfer CreateParcelInTransfer(int id)
         {
-
-            DO.Parcel parcel = dal.GetParcel(id);
-            DO.Customer sender = dal.GetCustomer(parcel.SenderId);
-            DO.Customer target = dal.GetCustomer(parcel.TargetId);
-            return new ParcelInTransfer
+            try
             {
-                Id = id,
-                WeightCategory = (BO.WeightCategories)parcel.Weigth,
-                Priority = (BO.Priorities)parcel.Priority,
-                ParcelState = parcel.PickedUp!=null,
-                CollectionPoint = new BO.Location() { Longitude = sender.Longitude, Latitude = sender.Latitude },
-                DeliveryDestination = new BO.Location() { Longitude = target.Longitude, Latitude = target.Latitude },
-                TransportDistance = Distance(new Location() { Longitude = sender.Longitude, Latitude = sender.Latitude }, new Location() { Longitude = sender.Longitude, Latitude = sender.Latitude }),
-                CustomerSender = new CustomerInParcel() { Id = sender.Id, Name = sender.Name },
-                CustomerReceives = new CustomerInParcel() { Id = target.Id, Name = target.Name }
-            };
+                DO.Parcel parcel = dal.GetParcel(id);
+                DO.Customer sender = dal.GetCustomer(parcel.SenderId);
+                DO.Customer target = dal.GetCustomer(parcel.TargetId);
+                return new ParcelInTransfer
+                {
+                    Id = id,
+                    WeightCategory = (BO.WeightCategories)parcel.Weigth,
+                    Priority = (BO.Priorities)parcel.Priority,
+                    ParcelState = parcel.PickedUp != null,
+                    CollectionPoint = new BO.Location() { Longitude = sender.Longitude, Latitude = sender.Latitude },
+                    DeliveryDestination = new BO.Location() { Longitude = target.Longitude, Latitude = target.Latitude },
+                    TransportDistance = Distance(new Location() { Longitude = sender.Longitude, Latitude = sender.Latitude }, new Location() { Longitude = sender.Longitude, Latitude = sender.Latitude }),
+                    CustomerSender = new CustomerInParcel() { Id = sender.Id, Name = sender.Name },
+                    CustomerReceives = new CustomerInParcel() { Id = target.Id, Name = target.Name }
+                };
+            }
+            catch (KeyNotFoundException ex)
+            {
+
+                throw new KeyNotFoundException(ex.Message);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
         }
 
         /// <summary>

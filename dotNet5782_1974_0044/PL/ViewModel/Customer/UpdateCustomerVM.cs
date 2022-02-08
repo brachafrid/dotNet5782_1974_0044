@@ -1,11 +1,5 @@
 ﻿using PL.PO;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace PL
 {
@@ -54,16 +48,21 @@ namespace PL
         {
             IsAdministor = isAdministor;
             this.id = id;
-            InitCustomer();
+            InitThisCustomer();
             customerName = customer.Name;
             customerPhone = customer.Phone;
             UpdateCustomerCommand = new(UpdateCustomer, param => customer.Error == null);
             DeleteCustomerCommand = new(DeleteCustomer, param => customer.Error == null);
-            DelegateVM.Customer += InitCustomer;
+            DelegateVM.CustomerChangedEvent += HandleACustomerChanged;
             OpenParcelCommand = new(Tabs.OpenDetailes, null);
             IsAdministor = isAdministor;
         }
-        public void InitCustomer()
+        private void HandleACustomerChanged(object sender, EntityChangedEventArgs e)
+        {
+            if (id == e.Id||e.Id==null)
+                InitThisCustomer();
+        }
+        public void InitThisCustomer()
         {
             customer = PLService.GetCustomer(id);
         }
@@ -80,36 +79,26 @@ namespace PL
 
         public void DeleteCustomer(object param)
         {
-            try
+            if (MessageBox.Show("You're sure you want to delete this customer?", "Delete Customer", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
             {
-                if (MessageBox.Show("You're sure you want to delete this customer?", "Delete Customer", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                PLService.DeleteCustomer(customer.Id);
+                MessageBox.Show("The customer was successfully deleted");
+
+                if (!IsAdministor)
                 {
-                    PLService.DeleteCustomer(customer.Id);
-                    MessageBox.Show("The customer was successfully deleted");
-
-                    if (!IsAdministor)
-                    {
-                        LoginScreen.MyScreen = "LoginWindow";
-                        Tabs.TabItems.Clear();
-                        DelegateVM.Customer = null;
-                        DelegateVM.Drone = null;
-                        DelegateVM.Station = null;
-                        DelegateVM.Parcel = null;
-                    }
-                    else
-                    {
-                        DelegateVM.Customer -= InitCustomer;
-                        DelegateVM.Customer?.Invoke();
-                        Tabs.CloseTab(param as TabItemFormat);
-                    }
-
+                    LoginScreen.MyScreen = "LoginWindow";
+                    Tabs.TabItems.Clear();
+                    DelegateVM.Reset();
                 }
-            }
+                else
+                {
+                    DelegateVM.CustomerChangedEvent -= HandleACustomerChanged;
+                    DelegateVM.NotifyCustomerChanged(customer.Id);
+                    Tabs.CloseTab(param as TabItemFormat);
+                }
 
-            catch (BO.ThereAreAssociatedOrgansException ex)
-            {
-                MessageBox.Show($"{ex.Message}");
             }
         }
     }
 }
+

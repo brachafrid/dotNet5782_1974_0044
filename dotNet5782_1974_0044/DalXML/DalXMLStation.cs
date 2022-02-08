@@ -4,97 +4,108 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DO;
+using DLApi;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
-    public sealed partial class DalXml
+    public sealed partial class DalXml:IDalStation
     {
-        const string STATION_PATH = @"XmlStation.xml"; 
-        public void RemoveStation(Station station)
+        const string STATION_PATH = @"XmlStation.xml";
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void UpdateStation(Station station, string name, int chargeSlots)
         {
             try
             {
-                List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH);
+                List<Station> stations = DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH);
                 stations.Remove(station);
-                XMLTools.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
+                if (!name.Equals(string.Empty))
+                    station.Name = name;
+                if (chargeSlots != 0)
+                    station.ChargeSlots = chargeSlots;
+                stations.Add(station);
+                DalXmlService.SaveListToXMLSerializer(stations, STATION_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH).FindAll(item => exsitEmpty(item.ChargeSlots - CountFullChargeSlots(item.Id)) && !item.IsActive);
+                return DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH).FindAll(item => exsitEmpty(item.ChargeSlots - CountFullChargeSlots(item.Id)) && !item.IsNotActive);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int id)
         {
             try { 
-                Station station = XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH).FirstOrDefault(item => item.Id == id);
-                if (station.Equals(default(Station)) || station.IsActive == true)
+                Station station = DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH).FirstOrDefault(item => item.Id == id);
+                if (station.Equals(default(Station)) )
                     throw new KeyNotFoundException("There is no suitable station in data");
                 return station;
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetStations()
         {
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH).Where(s => !s.IsActive);
+                return DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(int id)
         {
             try { 
-                List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH);
+                List<Station> stations = DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH);
                 Station station = stations.FirstOrDefault(item => item.Id == id);
+                if (station.Equals(default(Station)))
+                    throw new KeyNotFoundException($"The station id {id}  not exsits in dta");
                 stations.Remove(station);
-                station.IsActive = true;
+                station.IsNotActive = true;
                 stations.Add(station);
-                XMLTools.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
+                DalXmlService.SaveListToXMLSerializer(stations, STATION_PATH);
             }
-            catch
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(int id, string name, double longitude, double latitude, int chargeSlots)
         {
             try { 
-                List<Station> stations = XMLTools.LoadListFromXMLSerializer<Station>(STATION_PATH);
+                List<Station> stations = DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH);
                 if (ExistsIDTaxCheck(stations, id))
-                    throw new ThereIsAnObjectWithTheSameKeyInTheListException();
-                Station newStation = new();
-                newStation.Id = id;
-                newStation.Name = name;
-                newStation.Latitude = latitude;
-                newStation.Longitude = longitude;
-                newStation.ChargeSlots = chargeSlots;
-                newStation.IsActive = false;
-                stations.Add(newStation); 
-                XMLTools.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
+                    throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
+                stations.Add(new()
+                {
+                    Id = id,
+                    Name = name,
+                    Latitude = latitude,
+                    Longitude = longitude,
+                    ChargeSlots = chargeSlots,
+                    IsNotActive = false
+                }); 
+                DalXmlService.SaveListToXMLSerializer(stations, STATION_PATH);
             }
-            catch
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
     }

@@ -2,10 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace PL
 {
@@ -18,7 +15,7 @@ namespace PL
         public AddDroneVM()
         {
             InitDrone();
-            DelegateVM.Station += InitDrone;
+            DelegateVM.StationChangedEvent +=(sender,e)=> InitDrone();
             drone = new();
             AddDroneCommand = new(Add, param => drone.Error == null);
             Weight = Enum.GetValues(typeof(WeightCategories));
@@ -32,8 +29,8 @@ namespace PL
             try
             {
                 PLService.AddDrone(drone);
-                DelegateVM.Drone?.Invoke();                             
-                DelegateVM.Station?.Invoke();
+                DelegateVM.NotifyDroneChanged(drone.Id ?? 0);
+                DelegateVM.NotifyStationChanged(drone.StationId);
                 Tabs.CloseTab(param as TabItemFormat);
 
             }

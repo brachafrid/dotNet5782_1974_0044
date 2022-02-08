@@ -1,11 +1,12 @@
-﻿using System;
+﻿
+using System;
 
 
 
     namespace DO
     {
-       public struct Parcel
-       {
+       public struct Parcel: IIdentifyable, IActiveable
+    {
             public int Id { get; set; }
             public int SenderId { get; set; }
             public int TargetId { get; set; }
@@ -16,7 +17,7 @@
             public DateTime?  Sceduled { get; set; }//שויך
             public DateTime?  PickedUp { get; set; }//נאסף
             public DateTime?  Delivered { get; set; }//סופק
-            public bool IsActive { get; set; }
+            public bool IsNotActive { get; set; }
 
             public override string ToString()
                 {

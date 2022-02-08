@@ -4,67 +4,75 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DO;
+using DLApi;
+using System.Runtime.CompilerServices;
 
 namespace Dal
 {
-    partial class DalXml
+    partial class DalXml:IDalDroneCharge
     {
         const string DRONE_CHARGE_PATH = @"XmlDroneCharge.xml";
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDroneCharge(int droneId)
         {
             try
             {
-                List<DroneCharge> droneCharges = XMLTools.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH);
+                List<DroneCharge> droneCharges = DalXmlService.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH);
                 droneCharges.RemoveAll(drone => drone.Droneld == droneId);
-                XMLTools.SaveListToXMLSerializer<DroneCharge>(droneCharges, DRONE_CHARGE_PATH);
+                DalXmlService.SaveListToXMLSerializer(droneCharges, DRONE_CHARGE_PATH);
             }
-            catch
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public DateTime GetTimeStartOfCharge(int droneId)
         {
-            try { 
-                return XMLTools.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH).FirstOrDefault(drone => drone.Droneld == droneId).StartCharging;
+            try {
+                DroneCharge droneCharge = DalXmlService.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH).FirstOrDefault(drone => drone.Droneld == droneId);
+                if (droneCharge.Equals(default(DroneCharge)))
+                    throw new KeyNotFoundException($"The drone id {droneId} not in charging");
+                return droneCharge.StartCharging;
             }
-            catch
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation)
         {
             try { 
-                return XMLTools.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH).FindAll(item => inTheStation(item.Stationld)).Select(item => item.Droneld);
+                return DalXmlService.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH).FindAll(item => inTheStation(item.Stationld)).Select(item => item.Droneld);
             }
-            catch
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDRoneCharge(int droneId, int stationId)
         {
             try { 
-                List<DroneCharge> droneCharges = XMLTools.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH);
+                List<DroneCharge> droneCharges = DalXmlService.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH);
                 droneCharges.Add(new DroneCharge() { Droneld = droneId, Stationld = stationId, StartCharging = DateTime.Now });
-                XMLTools.SaveListToXMLSerializer<DroneCharge>(droneCharges, DRONE_CHARGE_PATH);
+                DalXmlService.SaveListToXMLSerializer(droneCharges, DRONE_CHARGE_PATH);
             }
-            catch
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public int CountFullChargeSlots(int id)
         {
             try { 
-                return XMLTools.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH).Count(Drone => Drone.Stationld == id);
+                return DalXmlService.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH).Count(Drone => Drone.Stationld == id);
             }
-            catch
+            catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
     }

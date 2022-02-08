@@ -2,95 +2,112 @@
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using DLApi;
 using DO;
 
 namespace Dal
 {
-    public sealed partial class DalXml
+    public sealed partial class DalXml:IDalDrone
     {
         const string DRONE_PATH = @"XmlDrone.xml";
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(int id, string model, WeightCategories MaxWeight)
         {
             try { 
-                List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
+                List<Drone> drones = DalXmlService.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
                 if (ExistsIDTaxCheck(drones, id))
-                    throw new ThereIsAnObjectWithTheSameKeyInTheListException();
-                Drone newDrone = new()
+                    throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
+                drones.Add(new()
                 {
                     Id = id,
                     Model = model,
                     MaxWeight = MaxWeight,
-                    IsActive = false
+                    IsNotActive = false
 
-                };
-                drones.Add(newDrone);
-                XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
+                });
+                DalXmlService.SaveListToXMLSerializer(drones, DRONE_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(int id)
         {
             try { 
-                List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
+                List<Drone> drones = DalXmlService.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
                 Drone drone = drones.FirstOrDefault(item => item.Id == id);
+                if (drone.Equals(default(Drone)))
+                    throw new KeyNotFoundException($"The drone id {id} not exsits in data");
                 drones.Remove(drone);
-                drone.IsActive = true;
+                drone.IsNotActive = true;
                 drones.Add(drone);
-                XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
+                DalXmlService.SaveListToXMLSerializer(drones, DRONE_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int id)
         {
             try { 
-                Drone drone = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH).FirstOrDefault(item => item.Id == id);
-                if (drone.Equals(default(Drone)) || drone.IsActive)
-                    throw new KeyNotFoundException("There is not suitable drone in the data");
+                Drone drone = DalXmlService.LoadListFromXMLSerializer<Drone>(DRONE_PATH).FirstOrDefault(item => item.Id == id);
+                if (drone.Equals(default(Drone)) || drone.IsNotActive)
+                    throw new KeyNotFoundException($"There is not suitable drone in the data , the drone id {id}");
                 return drone;
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> GetDrones()
         {
             try { 
-                return XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH).Where(d => !d.IsActive);
+                return DalXmlService.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-        public void RemoveDrone(Drone drone)
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public void UpdateDrone(Drone drone, string model)
         {
             try { 
-                List<Drone> drones = XMLTools.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
+                List<Drone> drones = DalXmlService.LoadListFromXMLSerializer<Drone>(DRONE_PATH);
                 drones.Remove(drone);
-                XMLTools.SaveListToXMLSerializer<Drone>(drones, DRONE_PATH);
+                drone.Model = model;
+                drones.Add(drone);
+                DalXmlService.SaveListToXMLSerializer(drones, DRONE_PATH);
             }
-            catch
+            catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException();
+                throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public (double, double, double, double, double) GetElectricity()
         {
-           return (Config.Available, Config.LightWeightCarrier, Config.MediumWeightBearing, Config.CarriesHeavyWeight, Config.DroneLoadingRate);
+            try
+            {
+                XElement config = DalXmlService.LoadConfigToXML(CONFIG);
+                var electricity = config.Elements().Select(elem => double.Parse(elem.Value));
+                return (electricity.ElementAt(1), electricity.ElementAt(2), electricity.ElementAt(3), electricity.ElementAt(4), electricity.ElementAt(5));
+            }
+            catch (XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.Message);
+            }
+           
         }
     }
 }
