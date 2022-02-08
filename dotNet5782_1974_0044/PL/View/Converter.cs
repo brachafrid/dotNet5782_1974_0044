@@ -93,9 +93,9 @@ namespace PL
         /// <returns>Returns the content of update buttons</returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0].ToString() == DroneState.DELIVERY.ToString())
+            if (values[0].ToString() == DroneState.DELIVERY.ToString() || values[0].ToString() != DroneState.DELIVERY.ToString())
             {
-                if (values[1].ToString() == "True")
+                if (values[1].ToString() == "True" || values[1].ToString() != null)
                 {
                     return "Parcel delivery";
                 }

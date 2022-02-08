@@ -8,12 +8,29 @@
              d:DesignHeight="450" d:DesignWidth="800">
 
     <UserControl.Resources>
-        <ResourceDictionary Source="../Dictionary.xaml" />
+
+        <ResourceDictionary>
+            <local:parcelTreatedByDroneVisibility x:Key="parcelTreatedByDroneVisibility" />
+            <local:parcelTreatedByDroneContent x:Key="parcelTreatedByDroneContent" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Dictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
     </UserControl.Resources>
     <ScrollViewer>
-    <StackPanel>
-        <ContentPresenter Content="{Binding parcel}"/>
-        <Button Content="delete parcel" Command="{Binding DeleteParcelCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
-    </StackPanel>
+        <StackPanel>
+            <StackPanel>
+                <ContentPresenter Content="{Binding parcel}"/>
+                <Button x:Name="parcelTreatedByDRone"   Visibility="{Binding Path=drone.DroneState,Converter={StaticResource parcelTreatedByDroneVisibility}}" Command="{Binding ParcelTreatedByDrone}">
+                    <Button.Content>
+                        <MultiBinding Converter="{StaticResource parcelTreatedByDroneContent}">
+                            <Binding Path="parcel" />
+                            <Binding Path="parcel.pickedUp" />
+                        </MultiBinding>
+                    </Button.Content>
+                </Button>
+                <Button Content="delete parcel" Command="{Binding DeleteParcelCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
+            </StackPanel>
+        </StackPanel>
     </ScrollViewer>
 </UserControl>

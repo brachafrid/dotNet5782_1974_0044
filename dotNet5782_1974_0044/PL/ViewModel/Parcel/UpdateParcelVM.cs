@@ -14,6 +14,9 @@ namespace PL
         private readonly int id;
         public RelayCommand OpenCustomerCommand { get; set; }
         public RelayCommand OpenDroneCommand { get; set; }
+        public RelayCommand ParcelTreatedByDrone { get; set; }
+ 
+
         public Parcel parcel
         {
             get { return (Parcel)GetValue(parcelProperty); }
@@ -33,6 +36,7 @@ namespace PL
             DeleteParcelCommand = new(DeleteParcel, param => parcel.Error == null);
             OpenCustomerCommand = new(Tabs.OpenDetailes, null);
             OpenDroneCommand = new(Tabs.OpenDetailes, null);
+            ParcelTreatedByDrone = new(parcelTreatedByDrone, param => parcel.Error == null);
             DelegateVM.ParcelChangedEvent += HandleAParcelChanged;
         }
         private void HandleAParcelChanged(object sender, EntityChangedEventArgs e)
@@ -55,5 +59,27 @@ namespace PL
                 Tabs.CloseTab(param as TabItemFormat);
             }
         }
+
+        public void parcelTreatedByDrone(object param)
+        {
+            try
+            {
+                if (parcel.CollectionTime != null)
+                { 
+                    PLService.DeliveryParcelByDrone(parcel.Drone.Id);
+                    DelegateVM.NotifyDroneChanged(parcel.Drone.Id);
+                }
+                else
+                {
+                    PLService.ParcelCollectionByDrone(parcel.Drone.Id);
+                    DelegateVM.NotifyDroneChanged(parcel.Drone.Id);
+                }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show($"{ex.Message}");
+            }
+        }
+
     }
 }
