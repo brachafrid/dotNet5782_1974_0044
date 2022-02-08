@@ -30,6 +30,15 @@ namespace PL
                 DelegateVM.NotifyCustomerChanged((int)customer.Id);
                 Tabs.CloseTab(param as TabItemFormat);
             }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                if (ex.Message != string.Empty)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                else
+                    MessageBox.Show(ex.ToString());
+            }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {
                 MessageBox.Show("Id has already exist");
@@ -49,6 +58,15 @@ namespace PL
             {
                 MessageBox.Show("Id has already exist");
                 customer.Id = null;
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                if (ex.Message != string.Empty)
+                {
+                    MessageBox.Show(ex.Message);
+                }
+                else
+                    MessageBox.Show(ex.ToString());
             }
         }
 
