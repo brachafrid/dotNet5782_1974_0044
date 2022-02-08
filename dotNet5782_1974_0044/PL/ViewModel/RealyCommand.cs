@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,11 +25,13 @@ namespace PL
             this.canExecute = canExecute;
         }
 
+        [DebuggerStepThrough]
         public bool CanExecute(object parameter = null)
         {
             return canExecute == null || canExecute(parameter);
         }
 
+        
         public void Execute(object parameter)
         {
             execute(parameter);
