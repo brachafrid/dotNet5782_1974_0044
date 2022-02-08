@@ -173,10 +173,18 @@ namespace PL
 
         private void HandleWorkerProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            //var x=(int? parcelId, int? senderId, int? receiverId, int? stationId)e.UserState;
             DelegateVM.NotifyDroneChanged(id);
+            var ids=(ValueTuple<int? , int? , int? , int?>)e.UserState;
+            if(ids.Item1 != null)
+                DelegateVM.NotifyParcelChanged(ids.Item1);
+            if (ids.Item2 != null)
+                DelegateVM.NotifyCustomerChanged(ids.Item2);
+            if (ids.Item3 != null)
+                DelegateVM.NotifyCustomerChanged(ids.Item3);
+            if (ids.Item4 != null)
+                DelegateVM.NotifyStationChanged(ids.Item4);
+            
         }
-
         private void StopSimulator()
         {
             simulateDrone = StartSimulator;
@@ -184,7 +192,7 @@ namespace PL
         }
         private void updateDrone(int? parcelId, int? senderId, int? receiverId, int? stationId)
         {
-            simulatorWorker.ReportProgress(0,(parcelId,senderId,receiverId,stationId));
+            simulatorWorker.ReportProgress(0, (parcelId, senderId, receiverId, stationId));
         }
         private bool IsSimulatorStoped() => simulatorWorker.CancellationPending;
     }

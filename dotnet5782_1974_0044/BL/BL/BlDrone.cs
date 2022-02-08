@@ -137,7 +137,7 @@ namespace BL
             catch (NotExsistSuitibleStationException ex)
             {
 
-                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException(ex.Message,ex);
+                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException(ex.Message, ex);
             }
 
         }
@@ -289,7 +289,7 @@ namespace BL
             dal.DeleteDrone(id);
             drones[drones.IndexOf(drone)].IsNotActive = true;
         }
-        public bool IsNotActiveDrone(int id)=>drones.Any(drone => drone.Id == id && drone.IsNotActive);
+        public bool IsNotActiveDrone(int id) => drones.Any(drone => drone.Id == id && drone.IsNotActive);
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
         /// <summary>
@@ -354,6 +354,9 @@ namespace BL
             return suitableParcel;
         }
 
-
+        public void StartDroneSimulator(int id, Action<int?, int?, int?, int?> update, Func<bool> checkStop)
+        {
+            new DroneSimulator(id, this, update, checkStop);
+        }
     }
 }
