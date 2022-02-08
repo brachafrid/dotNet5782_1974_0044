@@ -335,6 +335,7 @@ namespace BL
             }
 
         }
+        #endregion
         public bool IsNotActiveDrone(int id) => drones.Any(drone => drone.Id == id && drone.IsNotActive);
 
         //-------------------------------------------------Return List-----------------------------------------------------------------------------
