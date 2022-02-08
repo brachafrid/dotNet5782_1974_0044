@@ -1,5 +1,5 @@
-﻿using System.Linq;
-using BO;
+﻿using BO;
+using System.Linq;
 
 namespace BL
 {
@@ -12,18 +12,18 @@ namespace BL
         /// <returns>The converted customer</returns>
         private CustomerToList MapCustomerToList(DO.Customer customer)
         {
-            return new CustomerToList()
-            {
-                Id = customer.Id,
-                Phone = customer.Phone,
-                Name = customer.Name,
-                NumParcelReceived = dal.GetParcels().Count(parcel => parcel.TargetId == customer.Id && parcel.Delivered!=null),
-                NumParcelSentDelivered = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && parcel.Delivered!=null),
-                NumParcelSentNotDelivered = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && parcel.Delivered==null),
-                NumParcelWayToCustomer = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && parcel.Delivered==null
-                && parcel.PickedUp!=null),
-                IsNotActive = customer.IsNotActive
-            };
+            lock (dal)
+                return new CustomerToList()
+                {
+                    Id = customer.Id,
+                    Phone = customer.Phone,
+                    Name = customer.Name,
+                    NumParcelReceived = dal.GetParcels().Count(parcel => parcel.TargetId == customer.Id && parcel.Delivered != null),
+                    NumParcelSentDelivered = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && parcel.Delivered != null),
+                    NumParcelSentNotDelivered = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && parcel.Delivered == null),
+                    NumParcelWayToCustomer = dal.GetParcels().Count(parcel => parcel.SenderId == customer.Id && parcel.Delivered == null && parcel.PickedUp != null),
+                    IsNotActive = customer.IsNotActive
+                };
 
         }
 

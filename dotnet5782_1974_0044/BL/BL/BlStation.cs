@@ -19,7 +19,8 @@ namespace BL
         {
             try
             {
-                dal.AddStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);
+                lock (dal)
+                    dal.AddStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);
             }
             catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
@@ -40,7 +41,9 @@ namespace BL
         {
             try
             {
-                IEnumerable<DO.Station> list = dal.GetSationsWithEmptyChargeSlots(exsitEmpty);
+                IEnumerable<DO.Station> list;
+                lock (dal)
+                    list = dal.GetSationsWithEmptyChargeSlots(exsitEmpty);
                 return list.Select(item => MapStationToList(item));
             }
             catch (DO.XMLFileLoadCreateException ex)
@@ -59,7 +62,8 @@ namespace BL
         {
             try
             {
-               return dal.GetStations().Select(item => MapStationToList(item));
+                lock (dal)
+                    return dal.GetStations().Select(item => MapStationToList(item));
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
@@ -74,7 +78,8 @@ namespace BL
         {
             try
             {
-                return dal.GetStations().Where(item => !item.IsNotActive).Select(item => MapStationToList(item));
+                lock (dal)
+                    return dal.GetStations().Where(item => !item.IsNotActive).Select(item => MapStationToList(item));
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
@@ -94,7 +99,8 @@ namespace BL
         {
             try
             {
-                return ConvertStation(dal.GetStation(id));
+                lock (dal)
+                    return ConvertStation(dal.GetStation(id));
             }
             catch (KeyNotFoundException ex)
             {
@@ -123,7 +129,9 @@ namespace BL
                 throw new ArgumentNullException("For updating at least one parameter must be initialized ");
             try
             {
-                DO.Station stationDl = dal.GetStation(id);
+                DO.Station stationDl;
+                lock (dal)
+                    stationDl = dal.GetStation(id);
                 if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(stationDl.Id))
                     throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
                 dal.UpdateStation(stationDl, name, chargeSlots);
@@ -146,7 +154,8 @@ namespace BL
         {
             try
             {
-                dal.DeleteStation(id);
+                lock (dal)
+                    dal.DeleteStation(id);
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
@@ -163,7 +172,8 @@ namespace BL
         {
             try
             {
-                return dal.GetStations().Any(station => station.Id == id && station.IsNotActive);
+                lock (dal)
+                    return dal.GetStations().Any(station => station.Id == id && station.IsNotActive);
             }
             catch (DO.XMLFileLoadCreateException ex)
             {

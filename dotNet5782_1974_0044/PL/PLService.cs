@@ -385,7 +385,7 @@ namespace PL
             {
                 Id = drone.Id,
                 Model = drone.Model,
-                BattaryMode = drone.BattaryMode,
+                BattaryMode =(float) drone.BattaryMode,
                 DroneState = (DroneState)drone.DroneState,
                 Weight = (WeightCategories)drone.WeightCategory,
                 Location = ConvertLocation(drone.CurrentLocation),
