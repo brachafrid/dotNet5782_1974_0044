@@ -25,7 +25,7 @@ namespace PL
             this.canExecute = canExecute;
         }
 
-        [DebuggerStepThrough]
+        //[DebuggerStepThrough]
         public bool CanExecute(object parameter = null)
         {
             return canExecute == null || canExecute(parameter);
