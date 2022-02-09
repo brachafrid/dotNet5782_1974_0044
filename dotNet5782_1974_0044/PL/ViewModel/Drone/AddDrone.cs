@@ -31,16 +31,14 @@ namespace PL
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
-        public void Add(object param)
+        public async void Add(object param)
         {
             try
             {
-                PLService.AddDrone(drone, () =>
-                {
-                    DelegateVM.NotifyDroneChanged(drone.Id ?? 0);
-                    DelegateVM.NotifyStationChanged(drone.StationId);
-                    Tabs.CloseTab(param as TabItemFormat);
-                });
+                Tabs.CloseTab(param as TabItemFormat);
+                await PLService.AddDrone(drone);
+                DelegateVM.NotifyDroneChanged(drone.Id ?? 0);
+                DelegateVM.NotifyStationChanged(drone.StationId);
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {

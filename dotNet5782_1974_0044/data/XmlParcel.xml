@@ -1,19 +1,6 @@
 <?xml version="1.0"?>
 <ArrayOfParcel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Parcel>
-    <Id>3</Id>
-    <SenderId>10</SenderId>
-    <TargetId>3</TargetId>
-    <Weigth>LIGHT</Weigth>
-    <Priority>REGULAR</Priority>
-    <Requested>2022-02-09T17:40:37.7965792+02:00</Requested>
-    <DorneId>1</DorneId>
-    <Sceduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
     <Id>4</Id>
     <SenderId>4</SenderId>
     <TargetId>5</TargetId>
@@ -21,19 +8,6 @@
     <Priority>EMERGENCY</Priority>
     <Requested>2022-02-09T17:40:37.8034347+02:00</Requested>
     <DorneId>1</DorneId>
-    <Sceduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
-    <Id>5</Id>
-    <SenderId>2</SenderId>
-    <TargetId>8</TargetId>
-    <Weigth>HEAVY</Weigth>
-    <Priority>FAST</Priority>
-    <Requested>2022-02-09T17:40:37.8105521+02:00</Requested>
-    <DorneId>0</DorneId>
     <Sceduled xsi:nil="true" />
     <PickedUp xsi:nil="true" />
     <Delivered xsi:nil="true" />
@@ -128,6 +102,32 @@
     <Sceduled xsi:nil="true" />
     <PickedUp>2022-02-09T18:24:08.1626746+02:00</PickedUp>
     <Delivered xsi:nil="true" />
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>5</Id>
+    <SenderId>2</SenderId>
+    <TargetId>8</TargetId>
+    <Weigth>HEAVY</Weigth>
+    <Priority>FAST</Priority>
+    <Requested>2022-02-09T17:40:37.8105521+02:00</Requested>
+    <DorneId>5</DorneId>
+    <Sceduled>2022-02-09T20:31:26.1832026+02:00</Sceduled>
+    <PickedUp>2022-02-09T20:31:29.8522774+02:00</PickedUp>
+    <Delivered>2022-02-09T20:31:31.9252629+02:00</Delivered>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>3</Id>
+    <SenderId>10</SenderId>
+    <TargetId>3</TargetId>
+    <Weigth>LIGHT</Weigth>
+    <Priority>REGULAR</Priority>
+    <Requested>2022-02-09T17:40:37.7965792+02:00</Requested>
+    <DorneId>1</DorneId>
+    <Sceduled xsi:nil="true" />
+    <PickedUp>2022-02-09T20:31:45.1051864+02:00</PickedUp>
+    <Delivered>2022-02-09T20:31:47.7004419+02:00</Delivered>
     <IsNotActive>false</IsNotActive>
   </Parcel>
 </ArrayOfParcel>

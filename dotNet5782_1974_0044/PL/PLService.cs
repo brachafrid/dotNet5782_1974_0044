@@ -64,20 +64,23 @@ namespace PL
         #endregion
 
         #region station
-        public static void AddStation(StationAdd station, Action complete)
+        public static async Task AddStation(StationAdd station)
         {
+            TaskCompletionSource completedTask =new();
             BackgroundWorker workerPl = new();
             workerPl.DoWork += (sender, e) => ibal.AddStation(PlServiceConvert.ConverBackStationAdd(station));
-            workerPl.RunWorkerCompleted += (sender, e) => complete();
+            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
             workerPl.RunWorkerAsync();
+            await completedTask.Task;
         }
-        public static void UpdateStation(int id, string name, int chargeSlots, Action complete)
+        public static async Task UpdateStation(int id, string name, int chargeSlots)
         {
+            TaskCompletionSource completedTask = new();
             BackgroundWorker workerPl = new();
             workerPl.DoWork += (sender, e) => ibal.UpdateStation(id, name, chargeSlots);
-            workerPl.RunWorkerCompleted += (sender, e) => complete();
+            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
             workerPl.RunWorkerAsync();
-
+            await completedTask.Task;
         }
         public static Station GetStation(int id)
         {
@@ -99,12 +102,14 @@ namespace PL
         #endregion
 
         #region parcel
-        public static void AddParcel(ParcelAdd parcel, Action complete)
+        public static async Task AddParcel(ParcelAdd parcel)
         {
+            TaskCompletionSource completedTask = new();
             BackgroundWorker workerPl = new();
             workerPl.DoWork += (sender, e) => ibal.AddParcel(PlServiceConvert.ConvertBackParcelAdd(parcel));
-            workerPl.RunWorkerCompleted += (sender, e) => complete();
+            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
             workerPl.RunWorkerAsync();
+            await completedTask.Task;
         }
         public static void DeleteParcel(int id)
         {
@@ -112,24 +117,37 @@ namespace PL
         }
         public static bool IsNotActiveParcel(int id) => ibal.IsNotActiveParcel(id);
         public static Parcel GetParcel(int id) => PlServiceConvert.ConvertParcel(ibal.GetParcel(id));
-        public static IEnumerable<ParcelToList> GetParcels() => ibal.GetActiveParcels().Select(parcel => PlServiceConvert.ConvertParcelToList(parcel));
+        public static async Task< IEnumerable<ParcelToList>> GetParcels()
+        {
+            var taskCompletionSource = new TaskCompletionSource<IEnumerable<ParcelToList>>();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) => e.Result = ibal.GetActiveParcels().Select(parcel => PlServiceConvert.ConvertParcelToList(parcel));
+            workerPl.RunWorkerCompleted += (sender, e) => taskCompletionSource.SetResult((IEnumerable<ParcelToList>)e.Result);
+            workerPl.RunWorkerAsync();
+            return await taskCompletionSource.Task;
+           
+        }
         public static IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone => ibal.GetParcelsNotAssignedToDrone((int num) => num == 0).Select(parcel => PlServiceConvert.ConvertParcelToList(parcel));
         #endregion
 
         #region drone
-        public static void AddDrone(DroneAdd drone, Action complete)
+        public static async Task AddDrone(DroneAdd drone)
         {
+            TaskCompletionSource completedTask = new();
             BackgroundWorker workerPl = new();
             workerPl.DoWork += (sender, e) => ibal.AddDrone(PlServiceConvert.ConvertBackDroneToAdd(drone), drone.StationId);
-            workerPl.RunWorkerCompleted += (sender, e) => complete();
+            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
             workerPl.RunWorkerAsync();
+            await completedTask.Task;
         }
-        public static void UpdateDrone(int id, string model, Action complete)
+        public static async Task UpdateDrone(int id, string model)
         {
+            var workerCompleted = new TaskCompletionSource();
             BackgroundWorker workerPl = new();
             workerPl.DoWork += (sender, e) => ibal.UpdateDrone(id, model);
-            workerPl.RunWorkerCompleted += (sender, e) => complete();
+            workerPl.RunWorkerCompleted += (sender, e) => workerCompleted.SetResult();
             workerPl.RunWorkerAsync();
+            await workerCompleted.Task;
         }
         public static void SendDroneForCharg(int id)
         {
@@ -144,11 +162,16 @@ namespace PL
             ibal.DeleteDrone(id);
         }
         public static bool IsNotActiveDrone(int id) => ibal.IsNotActiveDrone(id);
-        public static Drone GetDrone(int id)
+        public static async Task<Drone> GetDrone(int id)
         {
             try
             {
-                return PlServiceConvert.ConvertDrone(ibal.GetDrone(id));
+                TaskCompletionSource<Drone> completedTask = new();
+                BackgroundWorker worker = new();
+                worker.DoWork += (sender,e)=> e.Result=PlServiceConvert.ConvertDrone(ibal.GetDrone(id));
+                worker.RunWorkerCompleted += (sender, e) => completedTask.SetResult(e.Result as Drone);
+                worker.RunWorkerAsync();
+                return await completedTask.Task;
             }
             catch (ArgumentNullException ex)
             {
@@ -156,9 +179,15 @@ namespace PL
             }
 
         }
-        public static IEnumerable<DroneToList> GetDrones()
+        public static async Task< IEnumerable<DroneToList>> GetDrones()
         {
-            return ibal.GetActiveDrones().Select(item => PlServiceConvert.ConvertDroneToList(item));
+            TaskCompletionSource<IEnumerable<DroneToList>> completedTask = new();
+            BackgroundWorker worker = new();
+            worker.DoWork += (sender, e) => e.Result = ibal.GetActiveDrones().Select(item => PlServiceConvert.ConvertDroneToList(item));
+            worker.RunWorkerCompleted += (sender, e) => completedTask.SetResult(e.Result as IEnumerable<DroneToList>);
+            worker.RunWorkerAsync();
+            return await completedTask.Task;
+
         }
         public static void AssingParcelToDrone(int droneId)
         {

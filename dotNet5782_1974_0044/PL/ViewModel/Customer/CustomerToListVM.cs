@@ -20,11 +20,10 @@ namespace PL
 
         private async void InitList()
         {
-            var l = await PLService.GetCustomers();
-            sourceList = new ObservableCollection<CustomerToList>(l);
+            sourceList = new ObservableCollection<CustomerToList>(await PLService.GetCustomers());
             list = new ListCollectionView(sourceList);
         }
-
+        
         private async void HandleCustomerChanged(object sender, EntityChangedEventArgs e)
         {
             try
@@ -56,7 +55,6 @@ namespace PL
             }
 
         }
-
         public override void AddEntity(object param)
         {
             Tabs.AddTab(new()

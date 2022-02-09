@@ -1,5 +1,6 @@
 ﻿using PL.PO;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace PL
 {
@@ -100,9 +101,9 @@ namespace PL
                 Weight = (WeightCategories)parcel.WeightCategory
             };
         }
-        public static ParcelToList ConvertParcelAtCustomerToList(ParcelAtCustomer parcel)
+        public static async Task<ParcelToList> ConvertParcelAtCustomerToList(ParcelAtCustomer parcel)
         {
-            return PLService.GetParcels().FirstOrDefault(par => par.Id == parcel.Id);
+            return (await PLService.GetParcels()).FirstOrDefault(par => par.Id == parcel.Id);
         }
         public static Parcel ConvertParcel(BO.Parcel parcel)
         {

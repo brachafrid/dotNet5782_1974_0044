@@ -9,26 +9,29 @@ namespace PL
     {
         public DroneToListVM()
         {
-            sourceList = new ObservableCollection<DroneToList>(PLService.GetDrones());
-            list = new ListCollectionView(sourceList);
+            InitList();
             DoubleClick = new(Tabs.OpenDetailes, null);
             DelegateVM.DroneChangedEvent += HandleDroneChanged;
         }
-
-        private void HandleDroneChanged(object sender, EntityChangedEventArgs e)
+        private async void InitList()
+        {
+            sourceList = new ObservableCollection<DroneToList>(await PLService.GetDrones());
+            list = new ListCollectionView(sourceList);
+        }
+        private async void HandleDroneChanged(object sender, EntityChangedEventArgs e)
         {
             if (e.Id != null)
             {
                 var drone = sourceList.FirstOrDefault(d => d.Id == e.Id);
                 if (drone != default)
                     sourceList.Remove(drone);
-                var newDrone = PLService.GetDrones().FirstOrDefault(d => d.Id == e.Id);
+                var newDrone = (await PLService.GetDrones()).FirstOrDefault(d => d.Id == e.Id);
                 sourceList.Add(newDrone);
             }
             else
             {
                 sourceList.Clear();
-                foreach (var item in PLService.GetDrones())
+                foreach (var item in (await PLService.GetDrones()))
                     sourceList.Add(item);
             }
         }

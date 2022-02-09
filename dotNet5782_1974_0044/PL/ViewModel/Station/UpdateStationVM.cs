@@ -2,9 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace PL
@@ -26,7 +23,9 @@ namespace PL
         public Station Station
         {
             get { return station; }
-            set { station = value;
+            set
+            {
+                station = value;
                 onPropertyChanged("Station");
             }
         }
@@ -41,7 +40,7 @@ namespace PL
                 onPropertyChanged("StationName");
             }
         }
-        private int stationEmptyChargeSlots=0;
+        private int stationEmptyChargeSlots = 0;
 
         public int StationEmptyChargeSlots
         {
@@ -85,18 +84,17 @@ namespace PL
 
         }
 
-        public void UpdateStation(object param)
+        public async void UpdateStation(object param)
         {
             try
             {
                 if (stationName != Station.Name || stationEmptyChargeSlots != Station.EmptyChargeSlots)
                 {
-                    PLService.UpdateStation(station.Id, station.Name, station.EmptyChargeSlots, () =>
-                    {
-                        DelegateVM.NotifyStationChanged(station.Id);
-                        stationName = station.Name;
-                        stationEmptyChargeSlots = station.EmptyChargeSlots;
-                    });
+                    await PLService.UpdateStation(station.Id, station.Name, station.EmptyChargeSlots);
+                    DelegateVM.NotifyStationChanged(station.Id);
+                    stationName = station.Name;
+                    stationEmptyChargeSlots = station.EmptyChargeSlots;
+
                 }
             }
             catch (ArgumentOutOfRangeException ex)

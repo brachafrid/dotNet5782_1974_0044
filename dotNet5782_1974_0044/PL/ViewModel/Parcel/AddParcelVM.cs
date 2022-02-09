@@ -68,17 +68,16 @@ namespace PL
         {
             VisibleParcel = Visibility.Visible;
         }
-        public void Add(object param)
+        public async void Add(object param)
         {
             try
             {
-                PLService.AddParcel(parcel, () => {
+              await  PLService.AddParcel(parcel);
                 DelegateVM.NotifyParcelChanged();
                 //DelegateVM.NotifyCustomerChanged(parcel.CustomerReceives);
                 DelegateVM.NotifyCustomerChanged();
                 //DelegateVM.NotifyCustomerChanged(parcel.CustomerSender);
                 Tabs.CloseTab(param as TabItemFormat);
-            });
             }
             catch(KeyNotFoundException)
             {
