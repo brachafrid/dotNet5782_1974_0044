@@ -136,7 +136,7 @@ namespace BL
                 throw new KeyNotFoundException($"The drone id {id} not exsits in data so the updating failed");
             if (droneToList.IsNotActive)
                 throw new DeletedExeption("drone deleted",id);
-            if (droneToList.DroneState != DroneState.AVAILABLE&& droneToList.DroneState != DroneState.WAYTOCHARGE)
+            if (droneToList.DroneState != DroneState.AVAILABLE && droneToList.DroneState != DroneState.WAYTOCHARGE)
                 throw new InvalidDroneStateException($"The drone {id} is {droneToList.DroneState} so it is not possible to send it for charging ");
             try
             {

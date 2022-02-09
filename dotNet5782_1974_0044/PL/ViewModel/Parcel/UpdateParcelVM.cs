@@ -1,6 +1,7 @@
 ﻿using PL.PO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,23 +10,29 @@ using System.Windows.Controls;
 
 namespace PL
 {
-    class UpdateParcelVM : DependencyObject
+    class UpdateParcelVM : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void onPropertyChanged(string properyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
+
+        }
         private readonly int id;
         public RelayCommand OpenCustomerCommand { get; set; }
         public RelayCommand OpenDroneCommand { get; set; }
         public RelayCommand ParcelTreatedByDrone { get; set; }
- 
 
-        public Parcel parcel
+        private Parcel parcel;
+
+        public Parcel Parcel
         {
-            get { return (Parcel)GetValue(parcelProperty); }
-            set { SetValue(parcelProperty, value); }
+            get { return parcel; }
+            set { parcel = value;
+                onPropertyChanged("Parcel");
+            }
         }
-
-        // Using a DependencyProperty as the backing store for station.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty parcelProperty =
-            DependencyProperty.Register("parcel", typeof(Parcel), typeof(UpdateParcelVM), new PropertyMetadata(new Parcel()));
 
         public RelayCommand DeleteParcelCommand { get; set; }
 
@@ -33,25 +40,25 @@ namespace PL
         {
             this.id = id;
             InitParcel();
-            DeleteParcelCommand = new(DeleteParcel, param => parcel.Error == null);
+            DeleteParcelCommand = new(DeleteParcel, param => Parcel.Error == null);
             OpenCustomerCommand = new(Tabs.OpenDetailes, null);
             OpenDroneCommand = new(Tabs.OpenDetailes, null);
-            ParcelTreatedByDrone = new(parcelTreatedByDrone, param => parcel.Error == null);
+            ParcelTreatedByDrone = new(parcelTreatedByDrone, param => Parcel.Error == null);
             DelegateVM.ParcelChangedEvent += HandleAParcelChanged;
 
-            if(parcel.AssignmentTime == null)
+            if(Parcel.AssignmentTime == null)
             {
-                parcel.AssignmentTime = new DateTime();
+                Parcel.AssignmentTime = new DateTime();
             }
-            if (parcel.CollectionTime == null)
+            if (Parcel.CollectionTime == null)
             {
-                parcel.CollectionTime = new DateTime();
+                Parcel.CollectionTime = new DateTime();
             }
-            if (parcel.DeliveryTime == null)
+            if (Parcel.DeliveryTime == null)
             {
-                parcel.DeliveryTime = new DateTime();
+                Parcel.DeliveryTime = new DateTime();
             }
-            //parcel.CollectionTime = DateTime.Now;
+            //Parcel.CollectionTime = DateTime.Now;
         }
         private void HandleAParcelChanged(object sender, EntityChangedEventArgs e)
         {
@@ -66,10 +73,11 @@ namespace PL
         {
             if (MessageBox.Show("You're sure you want to delete this parcel?", "Delete Parcel", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
             {
-                PLService.DeleteParcel(parcel.Id);
+                PLService.DeleteParcel(Parcel.Id);
                 MessageBox.Show("The parcel was successfully deleted");
                 DelegateVM.ParcelChangedEvent -= HandleAParcelChanged;
-                DelegateVM.NotifyParcelChanged(parcel.Id);
+                //DelegateVM.NotifyParcelChanged(Parcel.Id);
+                DelegateVM.NotifyParcelChanged();
                 Tabs.CloseTab(param as TabItemFormat);
             }
         }
@@ -78,17 +86,19 @@ namespace PL
         {
             try
             {
-                if (parcel.AssignmentTime != null)
+                if (Parcel.AssignmentTime != null)
                 {
-                    if (parcel.CollectionTime != null)
+                    if (Parcel.CollectionTime != null)
                     {
-                        PLService.DeliveryParcelByDrone(parcel.Drone.Id);
-                        DelegateVM.NotifyDroneChanged(parcel.Drone.Id);
+                        PLService.DeliveryParcelByDrone(Parcel.Drone.Id);
+                        //DelegateVM.NotifyDroneChanged(Parcel.Drone.Id);
+                        DelegateVM.NotifyDroneChanged();
                     }
                     else
                     {
-                        PLService.ParcelCollectionByDrone(parcel.Drone.Id);
-                        DelegateVM.NotifyDroneChanged(parcel.Drone.Id);
+                        PLService.ParcelCollectionByDrone(Parcel.Drone.Id);
+                        //DelegateVM.NotifyDroneChanged(Parcel.Drone.Id);
+                        DelegateVM.NotifyDroneChanged();
                     }
                 }
             }

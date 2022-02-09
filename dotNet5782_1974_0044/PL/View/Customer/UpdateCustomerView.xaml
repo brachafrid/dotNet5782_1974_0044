@@ -18,13 +18,13 @@
     <Grid>
         <ScrollViewer>
             <StackPanel x:Name="customer" >
-                <ContentPresenter Content="{Binding customer}"  />
+                <ContentPresenter Content="{Binding Customer}"  />
                 <Button Content="update customer" Command="{Binding UpdateCustomerCommand}">
                     <Button.Visibility>
                         <MultiBinding Converter="{StaticResource ConverterUpdateCustomer}">
-                            <Binding Path="customer.Name" />
+                            <Binding Path="Customer.Name" />
                             <Binding Path="customerName" />
-                            <Binding Path="customer.Phone" />
+                            <Binding Path="Customer.Phone" />
                             <Binding Path="customerPhone" />
                         </MultiBinding>
                     </Button.Visibility>

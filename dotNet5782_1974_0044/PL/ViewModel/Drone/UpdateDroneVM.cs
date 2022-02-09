@@ -7,25 +7,40 @@ using System.Windows;
 
 namespace PL
 {
-    public class UpdateDroneVM : DependencyObject
+    public class UpdateDroneVM : DependencyObject, INotifyPropertyChanged
     {
         private int id;
         BackgroundWorker simulatorWorker;
         Action simulateDrone;
-        public PO.Drone drone
+
+        private Drone drone;
+        public Drone Drone
         {
-            get { return (PO.Drone)GetValue(droneProperty); }
-            set { SetValue(droneProperty, value); }
+            get { return drone; }
+            set
+            {
+                drone = value;
+                onPropertyChanged("Drone");
+            }
         }
-        public static readonly DependencyProperty droneProperty =
-            DependencyProperty.Register("drone", typeof(PO.Drone), typeof(UpdateDroneVM), new PropertyMetadata(new PO.Drone()));
-        public string droneModel
+
+        private string droneModel;
+        public string DroneModel
         {
-            get { return (string)GetValue(droneModelProperty); }
-            set { SetValue(droneModelProperty, value); }
+            get { return droneModel; }
+            set { droneModel = value;
+                onPropertyChanged("DroneModel");
+            }
         }
-        public static readonly DependencyProperty droneModelProperty =
-            DependencyProperty.Register("droneModel", typeof(string), typeof(UpdateDroneVM), new PropertyMetadata(string.Empty));
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void onPropertyChanged(string properyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
+
+        }
+
         public RelayCommand OpenParcelCommand { get; set; }
         public RelayCommand OpenCustomerCommand { get; set; }
         public RelayCommand UpdateDroneCommand { get; set; }
@@ -37,11 +52,11 @@ namespace PL
         {
             this.id = id;
             InitThisDrone();
-            droneModel = drone.Model;
-            UpdateDroneCommand = new(UpdateModel, param => drone.Error == null);
-            ChargingDroneCommand = new(SendToCharging, param => drone.Error == null);
-            ParcelTreatedByDrone = new(parcelTreatedByDrone, param => drone.Error == null);
-            DeleteDroneCommand = new(DeleteDrone, param => drone.Error == null);
+            droneModel = Drone.Model;
+            UpdateDroneCommand = new(UpdateModel, param => Drone.Error == null);
+            ChargingDroneCommand = new(SendToCharging, param => Drone.Error == null);
+            ParcelTreatedByDrone = new(parcelTreatedByDrone, param => Drone.Error == null);
+            DeleteDroneCommand = new(DeleteDrone, param => Drone.Error == null);
             DelegateVM.DroneChangedEvent += HandleADroneChanged;
             OpenParcelCommand = new(Tabs.OpenDetailes, null);
             OpenCustomerCommand = new(Tabs.OpenDetailes, null);
@@ -57,7 +72,7 @@ namespace PL
         {
             try
             {
-                drone = PLService.GetDrone(id);
+                Drone = PLService.GetDrone(id);
             }
             catch (KeyNotFoundException ex)
             {
@@ -72,13 +87,13 @@ namespace PL
         {
             try
             {
-                if (droneModel != drone.Model)
+                if (droneModel != Drone.Model)
                 {
-                    PLService.UpdateDrone(drone.Id, drone.Model, () =>
-                    {
-                        MessageBox.Show("The drone has been successfully updated");
-                        droneModel = drone.Model;
-                    });
+                    PLService.UpdateDrone(Drone.Id, Drone.Model);
+                    MessageBox.Show("The drone has been successfully updated");
+                    droneModel = Drone.Model;
+                    DelegateVM.NotifyDroneChanged();
+
                 }
                 else
                 {
@@ -98,22 +113,25 @@ namespace PL
                 MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
                 MessageBox.Show("For updating the name must be initialized ");
             }
-            DelegateVM.NotifyDroneChanged(drone.Id);
+            //DelegateVM.NotifyDroneChanged(drone.Id);
+            DelegateVM.NotifyDroneChanged();
         }
         public void SendToCharging(object param)
         {
             try
             {
-                if (drone.DroneState == PO.DroneState.AVAILABLE)
+                if (Drone.DroneState == PO.DroneState.AVAILABLE)
                 {
-                    PLService.SendDroneForCharg(drone.Id);
-                    DelegateVM.NotifyDroneChanged(drone.Id);
+                    PLService.SendDroneForCharg(Drone.Id);
+                    //DelegateVM.NotifyDroneChanged(drone.Id);
+                    DelegateVM.NotifyDroneChanged();
                     DelegateVM.NotifyStationChanged();
                 }
-                else if (drone.DroneState == PO.DroneState.MAINTENANCE)
+                else if (Drone.DroneState == PO.DroneState.MAINTENANCE)
                 {
-                    PLService.ReleaseDroneFromCharging(drone.Id);
-                    DelegateVM.NotifyDroneChanged(drone.Id);
+                    PLService.ReleaseDroneFromCharging(Drone.Id);
+                    //DelegateVM.NotifyDroneChanged(drone.Id);
+                    DelegateVM.NotifyDroneChanged();
                     DelegateVM.NotifyStationChanged();
                 }
             }
@@ -146,23 +164,26 @@ namespace PL
         {
             try
             {
-                if (drone.DroneState == PO.DroneState.DELIVERY)
+                if (Drone.DroneState == PO.DroneState.DELIVERY)
                 {
-                    if (drone.Parcel.ParcelState == true)
+                    if (Drone.Parcel.ParcelState == true)
                     {
-                        PLService.DeliveryParcelByDrone(drone.Id);
-                        DelegateVM.NotifyDroneChanged(drone.Id);
+                        PLService.DeliveryParcelByDrone(Drone.Id);
+                        //DelegateVM.NotifyDroneChanged(drone.Id);
+                        DelegateVM.NotifyDroneChanged();
                     }
                     else
                     {
-                        PLService.ParcelCollectionByDrone(drone.Id);
-                        DelegateVM.NotifyDroneChanged(drone.Id);
+                        PLService.ParcelCollectionByDrone(Drone.Id);
+                        //DelegateVM.NotifyDroneChanged(drone.Id);
+                        DelegateVM.NotifyDroneChanged();
                     }
                 }
                 else
                 {
-                    PLService.AssingParcelToDrone(drone.Id);
-                    DelegateVM.NotifyDroneChanged(drone.Id);
+                    PLService.AssingParcelToDrone(Drone.Id);
+                    //DelegateVM.NotifyDroneChanged(drone.Id);
+                    DelegateVM.NotifyDroneChanged();
 
                 }
             }
@@ -193,10 +214,10 @@ namespace PL
             {
                 if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    PLService.DeleteDrone(drone.Id);
+                    PLService.DeleteDrone(Drone.Id);
                     MessageBox.Show("The drone was successfully deleted");
                     DelegateVM.DroneChangedEvent -= HandleADroneChanged;
-                    DelegateVM.NotifyDroneChanged(drone.Id);
+                    DelegateVM.NotifyDroneChanged(Drone.Id);
                     Tabs.CloseTab(param as TabItemFormat);
                 }
             }
@@ -225,10 +246,11 @@ namespace PL
                 simulatorWorker.CancelAsync();
                if(simulatorWorker != null && !simulatorWorker.IsBusy)
                 {
-                    PLService.DeleteDrone(drone.Id);
+                    PLService.DeleteDrone(Drone.Id);
                     MessageBox.Show("The drone was successfully deleted");
                     DelegateVM.DroneChangedEvent -= HandleADroneChanged;
-                    DelegateVM.NotifyDroneChanged(drone.Id);
+                    //DelegateVM.NotifyDroneChanged(drone.Id);
+                    DelegateVM.NotifyDroneChanged();
                     Tabs.CloseTab(param as TabItemFormat);
                 }
              
@@ -236,12 +258,14 @@ namespace PL
             }
         }
         #region simulator
-        public static readonly DependencyProperty AutoProperty =
-            DependencyProperty.Register(nameof(Auto), typeof(bool), typeof(UpdateDroneVM), new PropertyMetadata(false));
+        private bool auto;
+
         public bool Auto
         {
-            get => (bool)GetValue(AutoProperty);
-            set => SetValue(AutoProperty, value);
+            get { return auto; }
+            set { auto = value;
+                onPropertyChanged("Auto");
+            }
         }
         private void StartSimulator()
         {
@@ -255,16 +279,25 @@ namespace PL
         }
         private void HandleWorkerProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            DelegateVM.NotifyDroneChanged(id);
+            //DelegateVM.NotifyDroneChanged(id);
+            DelegateVM.NotifyDroneChanged();
             var ids = (ValueTuple<int?, int?, int?, int?>)e.UserState;
-            if (ids.Item1 != null)
-                DelegateVM.NotifyParcelChanged(ids.Item1);
-            if (ids.Item2 != null)
-                DelegateVM.NotifyCustomerChanged(ids.Item2);
-            if (ids.Item3 != null)
-                DelegateVM.NotifyCustomerChanged(ids.Item3);
-            if (ids.Item4 != null)
-                DelegateVM.NotifyStationChanged(ids.Item4);
+            //if (ids.Item1 != null)
+            //    DelegateVM.NotifyParcelChanged(ids.Item1);
+            //else
+                DelegateVM.NotifyParcelChanged();
+            //if (ids.Item2 != null)
+            //    DelegateVM.NotifyCustomerChanged(ids.Item2);
+            //else
+                DelegateVM.NotifyCustomerChanged();
+            //if (ids.Item3 != null)
+            //    DelegateVM.NotifyCustomerChanged(ids.Item3);
+            //else
+                DelegateVM.NotifyCustomerChanged();
+            //if (ids.Item4 != null)
+            //    DelegateVM.NotifyStationChanged(ids.Item4);
+            //else
+                DelegateVM.NotifyStationChanged();
 
         }
         private void StopSimulator()

@@ -9,7 +9,7 @@ using System.Windows.Data;
 
 namespace PL
 {
-    public abstract class GenericList<T> : DependencyObject, INotifyPropertyChanged
+    public abstract class GenericList<T> : INotifyPropertyChanged
     {
         public List<string> KindOfSort { get; set; } = new() { "Range", "Single" };
         public Array WeightCategories { get; set; } = Enum.GetValues(typeof(WeightCategories));
@@ -26,33 +26,100 @@ namespace PL
         public RelayCommand AddEntitiyCommand { get; set; }
         public ListCollectionView list { set; get; }
         public ObservableCollection<T> sourceList;
-        public Visble VisibilityKindOfSort { get; set; } = new();
-        public Visble StringSortVisibility { get; set; } = new();
-        public Visble VisibilityWeightCategories { get; set; } = new();
-        public Visble VisibilityPriorities { get; set; } = new();
-        public Visble VisibilityDroneState { get; set; } = new();
-        public Visble VisbleDouble { set; get; } = new();
-        public Visble VisblePackegeMode { set; get; } = new();
+
+        private Visibility visibilityKindOfSort=Visibility.Collapsed;
+
+        public Visibility VisibilityKindOfSort
+        {
+            get { return visibilityKindOfSort; }
+            set { visibilityKindOfSort = value;
+                onPropertyChanged("VisibilityKindOfSort");
+            }
+        }
+        private Visibility stringSortVisibility = Visibility.Collapsed;
+
+        public Visibility StringSortVisibility
+        {
+            get { return stringSortVisibility; }
+            set
+            {
+                stringSortVisibility = value;
+                onPropertyChanged("StringSortVisibility");
+            }
+        }
+        private Visibility visibilityWeightCategories=Visibility.Collapsed;
+
+        public Visibility VisibilityWeightCategories
+        {
+            get { return visibilityWeightCategories; }
+            set { visibilityWeightCategories = value;
+                onPropertyChanged("VisibilityWeightCategories");
+            }
+        }
+
+        private Visibility visibilityPriorities=Visibility.Collapsed;
+
+        public Visibility VisibilityPriorities
+        {
+            get { return visibilityPriorities; }
+            set
+            {
+                visibilityPriorities = value;
+                onPropertyChanged("VisibilityPriorities");
+            }
+        }
+        private Visibility visibilityDroneState=Visibility.Collapsed;
+
+        public Visibility VisibilityDroneState
+        {
+            get { return visibilityDroneState; }
+            set
+            {
+                visibilityDroneState = value;
+                onPropertyChanged("VisibilityDroneState");
+            }
+        }
+        private Visibility visbleDouble=Visibility.Collapsed;
+
+        public Visibility VisbleDouble
+        {
+            get { return visbleDouble; }
+            set
+            {
+                visbleDouble = value;
+                onPropertyChanged("VisbleDouble");
+            }
+        }
+        private Visibility visblePackegeMode=Visibility.Collapsed;
+
+        public Visibility VisblePackegeMode
+        {
+            get { return visblePackegeMode; }
+            set
+            {
+                visblePackegeMode = value;
+                onPropertyChanged("VisblePackegeMode");
+            }
+        }
+        private List<SortEntities> filters=new();
 
         public List<SortEntities> Filters
         {
-            get { return (List<SortEntities>)GetValue(FiltersProperty); }
-            set { SetValue(FiltersProperty, value); }
+            get { return filters; }
+            set { filters = value;
+                onPropertyChanged("Filters");
+            }
         }
 
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty FiltersProperty =
-            DependencyProperty.Register("Filters", typeof(List<SortEntities>), typeof(GenericList<T>), new PropertyMetadata(new List<SortEntities>()));
+        private int maxValue;
 
         public int MaxValue
         {
-            get { return (int)GetValue(MaxValueProperty); }
-            set { SetValue(MaxValueProperty, value); }
+            get { return maxValue; }
+            set { maxValue = value;
+                onPropertyChanged("MaxValue");
+            }
         }
-
-        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty MaxValueProperty =
-            DependencyProperty.Register("MaxValue", typeof(int), typeof(GenericList<T>), new PropertyMetadata(0));
 
 
         private double doubleFirstChange = 0;
@@ -160,24 +227,24 @@ namespace PL
         public void ShowKindOfSort(object param)
         {
             SelectedKind = param.ToString();
-            VisbleDouble.visibility = Visibility.Collapsed;
-            VisibilityDroneState.visibility = Visibility.Collapsed;
-            VisibilityPriorities.visibility = Visibility.Collapsed;
-            VisibilityWeightCategories.visibility = Visibility.Collapsed;
-            StringSortVisibility.visibility = Visibility.Collapsed;
-            VisblePackegeMode.visibility = Visibility.Collapsed;
+            VisbleDouble = Visibility.Collapsed;
+            VisibilityDroneState = Visibility.Collapsed;
+            VisibilityPriorities = Visibility.Collapsed;
+            VisibilityWeightCategories = Visibility.Collapsed;
+            StringSortVisibility = Visibility.Collapsed;
+            VisblePackegeMode = Visibility.Collapsed;
             ShowValueFilter(typeof(T).GetProperty(SelectedKind).PropertyType);
         }
         public void CancelFilter(object param)
         {
             Filters.RemoveAll((SortEntities o) => true);
             SelectedKind = string.Empty;
-            VisbleDouble.visibility = Visibility.Collapsed;
-            VisibilityDroneState.visibility = Visibility.Collapsed;
-            VisibilityPriorities.visibility = Visibility.Collapsed;
-            VisibilityWeightCategories.visibility = Visibility.Collapsed;
-            StringSortVisibility.visibility = Visibility.Collapsed;
-            VisblePackegeMode.visibility = Visibility.Collapsed;
+            VisbleDouble = Visibility.Collapsed;
+            VisibilityDroneState = Visibility.Collapsed;
+            VisibilityPriorities = Visibility.Collapsed;
+            VisibilityWeightCategories = Visibility.Collapsed;
+            StringSortVisibility = Visibility.Collapsed;
+            VisblePackegeMode = Visibility.Collapsed;
             FilterNow();
         }
         public void ShowValueFilter(Type propertyType)
@@ -185,26 +252,26 @@ namespace PL
             switch (propertyType.Name)
             {
                 case { } when typeof(string).Name == propertyType.Name:
-                    StringSortVisibility.visibility = Visibility.Visible;
+                    StringSortVisibility = Visibility.Visible;
                     break;
                 case { } when typeof(double).Name == propertyType.Name:
-                    VisbleDouble.visibility = Visibility.Visible;
+                    VisbleDouble = Visibility.Visible;
                     MaxValue = MaxValueFunc();
                     break;
                 case { } when typeof(WeightCategories).Name == propertyType.Name:
-                    VisibilityWeightCategories.visibility = Visibility.Visible;
+                    VisibilityWeightCategories = Visibility.Visible;
                     break;
                 case { } when typeof(Priorities).Name == propertyType.Name:
-                    VisibilityPriorities.visibility = Visibility.Visible;
+                    VisibilityPriorities = Visibility.Visible;
                     break;
                 case { } when typeof(DroneState).Name == propertyType.Name:
-                    VisibilityDroneState.visibility = Visibility.Visible;
+                    VisibilityDroneState = Visibility.Visible;
                     break;
                 case { } when typeof(PackageModes).Name == propertyType.Name:
-                    VisblePackegeMode.visibility = Visibility.Visible;
+                    VisblePackegeMode = Visibility.Visible;
                     break;
                 case { } when typeof(int).Name == propertyType.Name:
-                    VisbleDouble.visibility = Visibility.Visible;
+                    VisbleDouble = Visibility.Visible;
                     MaxValue = MaxValueFunc();
                     break;
                 default:
@@ -236,7 +303,7 @@ namespace PL
 
         }
         public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
+        protected void onPropertyChanged(string properyName)
         {
             if (PropertyChanged != null)
                 PropertyChanged(this, new PropertyChangedEventArgs(properyName));

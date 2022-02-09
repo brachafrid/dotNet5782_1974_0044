@@ -1,49 +1,57 @@
-﻿using BO;
-using PL.PO;
+﻿using PL.PO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 
 namespace PL
 {
-    class UpdateStationVM : DependencyObject
+    class UpdateStationVM : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void onPropertyChanged(string properyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
+
+        }
+
         private readonly int id;
         public RelayCommand OpenDroneChargeCommand { get; set; }
-        public PO.Station station
+        private Station station;
+
+        public Station Station
         {
-            get { return (PO.Station)GetValue(stationProperty); }
-            set { SetValue(stationProperty, value); }
+            get { return station; }
+            set { station = value;
+                onPropertyChanged("Station");
+            }
         }
+        private string stationName;
 
-        // Using a DependencyProperty as the backing store for station.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty stationProperty =
-            DependencyProperty.Register("station", typeof(PO.Station), typeof(UpdateStationVM), new PropertyMetadata(new PO.Station()));
-
-
-
-        public string stationName
+        public string StationName
         {
-            get { return (string)GetValue(stationNameProperty); }
-            set { SetValue(stationNameProperty, value); }
+            get { return stationName; }
+            set
+            {
+                stationName = value;
+                onPropertyChanged("StationName");
+            }
         }
+        private int stationEmptyChargeSlots=0;
 
-        // Using a DependencyProperty as the backing store for customerName.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty stationNameProperty =
-            DependencyProperty.Register("stationName", typeof(string), typeof(UpdateStationVM), new PropertyMetadata(""));
-
-
-
-        public int stationEmptyChargeSlots
+        public int StationEmptyChargeSlots
         {
-            get { return (int)GetValue(stationEmptyChargeSlotsProperty); }
-            set { SetValue(stationEmptyChargeSlotsProperty, value); }
+            get { return stationEmptyChargeSlots; }
+            set
+            {
+                stationEmptyChargeSlots = value;
+                onPropertyChanged("StationEmptyChargeSlots");
+            }
         }
-
-        // Using a DependencyProperty as the backing store for customerPhone.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty stationEmptyChargeSlotsProperty =
-            DependencyProperty.Register("stationEmptyChargeSlots", typeof(int), typeof(UpdateStationVM), new PropertyMetadata(0));
-
 
         public RelayCommand UpdateStationCommand { get; set; }
         public RelayCommand DeleteStationCommand { get; set; }
@@ -52,10 +60,10 @@ namespace PL
         {
             this.id = id;
             initStation();
-            stationName = station.Name;
-            stationEmptyChargeSlots = station.EmptyChargeSlots;
-            UpdateStationCommand = new(UpdateStation, param => station.Error == null);
-            DeleteStationCommand = new(DeleteStation, param => station.Error == null);
+            stationName = Station.Name;
+            stationEmptyChargeSlots = Station.EmptyChargeSlots;
+            UpdateStationCommand = new(UpdateStation, param => Station.Error == null);
+            DeleteStationCommand = new(DeleteStation, param => Station.Error == null);
             DelegateVM.StationChangedEvent += HandleAStationChanged;
             OpenDroneChargeCommand = new(Tabs.OpenDetailes, null);
         }
@@ -81,7 +89,7 @@ namespace PL
         {
             try
             {
-                if (stationName != station.Name || stationEmptyChargeSlots != station.EmptyChargeSlots)
+                if (stationName != Station.Name || stationEmptyChargeSlots != Station.EmptyChargeSlots)
                 {
                     PLService.UpdateStation(station.Id, station.Name, station.EmptyChargeSlots, () =>
                     {
@@ -103,14 +111,15 @@ namespace PL
 
                 if (MessageBox.Show("You're sure you want to delete this station?", "Delete Station", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    PLService.DeleteStation(station.Id);
+                    PLService.DeleteStation(Station.Id);
                     MessageBox.Show("The station was successfully deleted");
                     DelegateVM.StationChangedEvent -= HandleAStationChanged;
-                    DelegateVM.NotifyStationChanged(station.Id);
+                    //DelegateVM.NotifyStationChanged(Station.Id);
+                    DelegateVM.NotifyStationChanged();
                     Tabs.CloseTab(param as TabItemFormat);
                 }
             }
-            catch (ThereAreAssociatedOrgansException ex)
+            catch (BO.ThereAreAssociatedOrgansException ex)
             {
                 MessageBox.Show($"{ex.Message}");
             }
