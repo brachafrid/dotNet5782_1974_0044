@@ -118,7 +118,7 @@
         </DockPanel>
     </DataTemplate>
 
-    <DataTemplate DataType="{x:Type po:ParcelInTransfer}">
+    <DataTemplate DataType="{x:Type po:ParcelInTransfer}" >
         <Expander >
             <i:Interaction.Triggers>
                 <i:EventTrigger EventName="MouseDoubleClick">
