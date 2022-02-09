@@ -88,7 +88,8 @@ namespace PL
                 if (stationName != station.Name || stationEmptyChargeSlots != station.EmptyChargeSlots)
                 {
                     PLService.UpdateStation(station.Id, station.Name, station.EmptyChargeSlots);
-                    DelegateVM.NotifyStationChanged(station.Id);
+                    //DelegateVM.NotifyStationChanged(station.Id);
+                    DelegateVM.NotifyStationChanged();
                     stationName = station.Name;
                     stationEmptyChargeSlots = station.EmptyChargeSlots;
 
@@ -109,7 +110,8 @@ namespace PL
                     PLService.DeleteStation(station.Id);
                     MessageBox.Show("The station was successfully deleted");
                     DelegateVM.StationChangedEvent -= HandleAStationChanged;
-                    DelegateVM.NotifyStationChanged(station.Id);
+                    //DelegateVM.NotifyStationChanged(station.Id);
+                    DelegateVM.NotifyStationChanged();
                     Tabs.CloseTab(param as TabItemFormat);
                 }
             }

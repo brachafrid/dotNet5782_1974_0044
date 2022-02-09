@@ -69,6 +69,7 @@ namespace PL
                     PLService.UpdateDrone(drone.Id, drone.Model);
                     MessageBox.Show("The drone has been successfully updated");
                     droneModel = drone.Model;
+                    DelegateVM.NotifyDroneChanged();
 
                 }
                 else
@@ -81,7 +82,8 @@ namespace PL
                 MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
                 MessageBox.Show("For updating the name must be initialized ");
             }
-            DelegateVM.NotifyDroneChanged(drone.Id);
+            //DelegateVM.NotifyDroneChanged(drone.Id);
+            DelegateVM.NotifyDroneChanged();
         }
         public void SendToCharging(object param)
         {
@@ -90,13 +92,15 @@ namespace PL
                 if (drone.DroneState == PO.DroneState.AVAILABLE)
                 {
                     PLService.SendDroneForCharg(drone.Id);
-                    DelegateVM.NotifyDroneChanged(drone.Id);
+                    //DelegateVM.NotifyDroneChanged(drone.Id);
+                    DelegateVM.NotifyDroneChanged();
                     DelegateVM.NotifyStationChanged();
                 }
                 else if (drone.DroneState == PO.DroneState.MAINTENANCE)
                 {
                     PLService.ReleaseDroneFromCharging(drone.Id);
-                    DelegateVM.NotifyDroneChanged(drone.Id);
+                    //DelegateVM.NotifyDroneChanged(drone.Id);
+                    DelegateVM.NotifyDroneChanged();
                     DelegateVM.NotifyStationChanged();
                 }
             }
@@ -114,18 +118,21 @@ namespace PL
                     if (drone.Parcel.ParcelState == true)
                     {
                         PLService.DeliveryParcelByDrone(drone.Id);
-                        DelegateVM.NotifyDroneChanged(drone.Id);
+                        //DelegateVM.NotifyDroneChanged(drone.Id);
+                        DelegateVM.NotifyDroneChanged();
                     }
                     else
                     {
                         PLService.ParcelCollectionByDrone(drone.Id);
-                        DelegateVM.NotifyDroneChanged(drone.Id);
+                        //DelegateVM.NotifyDroneChanged(drone.Id);
+                        DelegateVM.NotifyDroneChanged();
                     }
                 }
                 else
                 {
                     PLService.AssingParcelToDrone(drone.Id);
-                    DelegateVM.NotifyDroneChanged(drone.Id);
+                    //DelegateVM.NotifyDroneChanged(drone.Id);
+                    DelegateVM.NotifyDroneChanged();
 
                 }
             }
@@ -146,7 +153,8 @@ namespace PL
                     PLService.DeleteDrone(drone.Id);
                     MessageBox.Show("The drone was successfully deleted");
                     DelegateVM.DroneChangedEvent -= HandleADroneChanged;
-                    DelegateVM.NotifyDroneChanged(drone.Id);
+                    //DelegateVM.NotifyDroneChanged(drone.Id);
+                    DelegateVM.NotifyDroneChanged();
                     Tabs.CloseTab(param as TabItemFormat);
                 }
              
@@ -172,16 +180,25 @@ namespace PL
         }
         private void HandleWorkerProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            DelegateVM.NotifyDroneChanged(id);
+            //DelegateVM.NotifyDroneChanged(id);
+            DelegateVM.NotifyDroneChanged();
             var ids = (ValueTuple<int?, int?, int?, int?>)e.UserState;
-            if (ids.Item1 != null)
-                DelegateVM.NotifyParcelChanged(ids.Item1);
-            if (ids.Item2 != null)
-                DelegateVM.NotifyCustomerChanged(ids.Item2);
-            if (ids.Item3 != null)
-                DelegateVM.NotifyCustomerChanged(ids.Item3);
-            if (ids.Item4 != null)
-                DelegateVM.NotifyStationChanged(ids.Item4);
+            //if (ids.Item1 != null)
+            //    DelegateVM.NotifyParcelChanged(ids.Item1);
+            //else
+                DelegateVM.NotifyParcelChanged();
+            //if (ids.Item2 != null)
+            //    DelegateVM.NotifyCustomerChanged(ids.Item2);
+            //else
+                DelegateVM.NotifyCustomerChanged();
+            //if (ids.Item3 != null)
+            //    DelegateVM.NotifyCustomerChanged(ids.Item3);
+            //else
+                DelegateVM.NotifyCustomerChanged();
+            //if (ids.Item4 != null)
+            //    DelegateVM.NotifyStationChanged(ids.Item4);
+            //else
+                DelegateVM.NotifyStationChanged();
 
         }
         private void StopSimulator()

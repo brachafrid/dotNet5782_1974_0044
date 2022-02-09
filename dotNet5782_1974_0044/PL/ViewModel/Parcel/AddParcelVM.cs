@@ -43,8 +43,9 @@ namespace PL
             {
                 PLService.AddParcel(parcel);
                 DelegateVM.NotifyParcelChanged();
-                DelegateVM.NotifyCustomerChanged(parcel.CustomerReceives);
-                DelegateVM.NotifyCustomerChanged(parcel.CustomerSender);
+                //DelegateVM.NotifyCustomerChanged(parcel.CustomerReceives);
+                DelegateVM.NotifyCustomerChanged();
+                //DelegateVM.NotifyCustomerChanged(parcel.CustomerSender);
                 Tabs.CloseTab(param as TabItemFormat);
             }
             catch(KeyNotFoundException)

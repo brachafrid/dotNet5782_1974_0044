@@ -1,14 +1,6 @@
 <?xml version="1.0"?>
 <ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Customer>
-    <Id>2</Id>
-    <Name>Customer_ 2_-563965328</Name>
-    <Phone>0895613230</Phone>
-    <Longitude>56.781349613695106</Longitude>
-    <Latitude>45.216520377069955</Latitude>
-    <IsNotActive>false</IsNotActive>
-  </Customer>
-  <Customer>
     <Id>3</Id>
     <Name>Customer_ 3_141763775</Name>
     <Phone>0763188717</Phone>
@@ -79,5 +71,13 @@
     <Longitude>37.2454020689453</Longitude>
     <Latitude>-19.783059560127118</Latitude>
     <IsNotActive>true</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>2</Id>
+    <Name>Customer_ </Name>
+    <Phone>0895613230</Phone>
+    <Longitude>56.781349613695106</Longitude>
+    <Latitude>45.216520377069955</Latitude>
+    <IsNotActive>false</IsNotActive>
   </Customer>
 </ArrayOfCustomer>

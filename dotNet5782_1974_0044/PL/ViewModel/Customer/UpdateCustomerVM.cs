@@ -89,6 +89,7 @@ namespace PL
                     PLService.UpdateCustomer(customer.Id, customer.Name, customer.Phone);
                     customerName = customer.Name;
                     customerPhone = customer.Phone;
+                    DelegateVM.NotifyCustomerChanged();
                 }
             }
             catch (ArgumentNullException ex)
@@ -124,7 +125,8 @@ namespace PL
                     else
                     {
                         DelegateVM.CustomerChangedEvent -= HandleACustomerChanged;
-                        DelegateVM.NotifyCustomerChanged(customer.Id);
+                        //DelegateVM.NotifyCustomerChanged(customer.Id);
+                        DelegateVM.NotifyCustomerChanged();
                         Tabs.CloseTab(param as TabItemFormat);
                     }
 

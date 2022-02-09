@@ -1,12 +1,6 @@
 <?xml version="1.0"?>
 <ArrayOfDrone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Drone>
-    <Id>1</Id>
-    <Model>Model_Drone_ 98_1729949339</Model>
-    <MaxWeight>MEDIUM</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
     <Id>2</Id>
     <Model>Model_Drone_ 99_-917484946</Model>
     <MaxWeight>LIGHT</MaxWeight>
@@ -34,6 +28,12 @@
     <Id>57</Id>
     <Model>gfrt</Model>
     <MaxWeight>LIGHT</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>1</Id>
+    <Model>Model_Drone_ 98</Model>
+    <MaxWeight>MEDIUM</MaxWeight>
     <IsNotActive>false</IsNotActive>
   </Drone>
 </ArrayOfDrone>

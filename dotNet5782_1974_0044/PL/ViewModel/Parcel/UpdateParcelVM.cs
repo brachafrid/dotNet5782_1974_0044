@@ -69,7 +69,8 @@ namespace PL
                 PLService.DeleteParcel(parcel.Id);
                 MessageBox.Show("The parcel was successfully deleted");
                 DelegateVM.ParcelChangedEvent -= HandleAParcelChanged;
-                DelegateVM.NotifyParcelChanged(parcel.Id);
+                //DelegateVM.NotifyParcelChanged(parcel.Id);
+                DelegateVM.NotifyParcelChanged();
                 Tabs.CloseTab(param as TabItemFormat);
             }
         }
@@ -83,12 +84,14 @@ namespace PL
                     if (parcel.CollectionTime != null)
                     {
                         PLService.DeliveryParcelByDrone(parcel.Drone.Id);
-                        DelegateVM.NotifyDroneChanged(parcel.Drone.Id);
+                        //DelegateVM.NotifyDroneChanged(parcel.Drone.Id);
+                        DelegateVM.NotifyDroneChanged();
                     }
                     else
                     {
                         PLService.ParcelCollectionByDrone(parcel.Drone.Id);
-                        DelegateVM.NotifyDroneChanged(parcel.Drone.Id);
+                        //DelegateVM.NotifyDroneChanged(parcel.Drone.Id);
+                        DelegateVM.NotifyDroneChanged();
                     }
                 }
             }

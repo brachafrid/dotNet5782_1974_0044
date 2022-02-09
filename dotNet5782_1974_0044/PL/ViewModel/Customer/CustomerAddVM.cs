@@ -27,7 +27,8 @@ namespace PL
             try
             {
                 PLService.AddCustomer(customer);
-                DelegateVM.NotifyCustomerChanged((int)customer.Id);
+                //DelegateVM.NotifyCustomerChanged((int)customer.Id);
+                DelegateVM.NotifyCustomerChanged();
                 Tabs.CloseTab(param as TabItemFormat);
             }
             catch (BO.XMLFileLoadCreateException ex)
@@ -50,7 +51,8 @@ namespace PL
             try
             {
                 PLService.AddCustomer(customer);
-                DelegateVM.NotifyCustomerChanged((int)customer.Id);
+                //DelegateVM.NotifyCustomerChanged((int)customer.Id);
+                DelegateVM.NotifyCustomerChanged();
                 LoginScreen.Id = customer.Id;
                 LoginScreen.MyScreen = "CustomerWindow";
             }

@@ -29,8 +29,10 @@ namespace PL
             try
             {
                 PLService.AddDrone(drone);
-                DelegateVM.NotifyDroneChanged(drone.Id ?? 0);
-                DelegateVM.NotifyStationChanged(drone.StationId);
+                //DelegateVM.NotifyDroneChanged(drone.Id ?? 0);
+                DelegateVM.NotifyDroneChanged();
+                //DelegateVM.NotifyStationChanged(drone.StationId);
+                DelegateVM.NotifyStationChanged();
                 Tabs.CloseTab(param as TabItemFormat);
 
             }
