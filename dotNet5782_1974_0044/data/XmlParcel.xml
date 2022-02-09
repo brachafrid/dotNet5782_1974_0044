@@ -1,19 +1,6 @@
 <?xml version="1.0"?>
 <ArrayOfParcel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Parcel>
-    <Id>1</Id>
-    <SenderId>2</SenderId>
-    <TargetId>6</TargetId>
-    <Weigth>LIGHT</Weigth>
-    <Priority>FAST</Priority>
-    <Requested>2022-02-07T19:56:35.2750013+02:00</Requested>
-    <DorneId>1</DorneId>
-    <Sceduled>2022-02-07T19:56:35.2803134+02:00</Sceduled>
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
     <Id>2</Id>
     <SenderId>10</SenderId>
     <TargetId>8</TargetId>
@@ -128,6 +115,19 @@
     <Sceduled xsi:nil="true" />
     <PickedUp xsi:nil="true" />
     <Delivered xsi:nil="true" />
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>1</Id>
+    <SenderId>2</SenderId>
+    <TargetId>6</TargetId>
+    <Weigth>LIGHT</Weigth>
+    <Priority>FAST</Priority>
+    <Requested>2022-02-07T19:56:35.2750013+02:00</Requested>
+    <DorneId>1</DorneId>
+    <Sceduled>2022-02-07T19:56:35.2803134+02:00</Sceduled>
+    <PickedUp>2022-02-09T15:59:36.9532384+02:00</PickedUp>
+    <Delivered>2022-02-09T15:59:37.9792638+02:00</Delivered>
     <IsNotActive>false</IsNotActive>
   </Parcel>
 </ArrayOfParcel>

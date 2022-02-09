@@ -30,4 +30,10 @@
     <MaxWeight>MEDIUM</MaxWeight>
     <IsNotActive>false</IsNotActive>
   </Drone>
+  <Drone>
+    <Id>57</Id>
+    <Model>gfrt</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
 </ArrayOfDrone>

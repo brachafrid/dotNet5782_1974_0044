@@ -14,6 +14,7 @@
             <local:parcelTreatedByDroneContent x:Key="parcelTreatedByDroneContent" />
             <local:ConvertDroneChargingVisibility x:Key="ConvertDroneChargingVisibility" />
             <local:ConvertDroneChargingContent x:Key="ConvertDroneChargingContent" />
+            <local:DeleteDroneVisibility x:Key="DeleteDroneVisibility" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Dictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -36,22 +37,34 @@
                         </MultiBinding>
                     </Button.Visibility>
                 </Button>
-                <StackPanel   HorizontalAlignment="Stretch">
+                <StackPanel HorizontalAlignment="Stretch">
                 <StackPanel x:Name="droneCharge">
-                    <Button x:Name="sendToCharging" Content="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingContent}}"  Visibility="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingVisibility}}" Command="{Binding ChargingDroneCommand}"/>
-                </StackPanel>
+                        <Button x:Name="sendToCharging" Content="{Binding Path=drone.DroneState,Converter={StaticResource ConvertDroneChargingContent}}"   Command="{Binding ChargingDroneCommand}">
+                            <Button.Visibility>
+                                <MultiBinding Converter="{StaticResource ConvertDroneChargingVisibility}">
+                                    <Binding Path="drone.DroneState" />
+                                    <Binding Path="Auto" />
+                                </MultiBinding>
+                            </Button.Visibility>
+                        </Button>
+                    </StackPanel>
                 <StackPanel>
-                        <Button x:Name="parcelTreatedByDRone"   Visibility="{Binding Path=drone.DroneState,Converter={StaticResource parcelTreatedByDroneVisibility}}" Command="{Binding ParcelTreatedByDrone}">
-                        <Button.Content>
-                            <MultiBinding Converter="{StaticResource parcelTreatedByDroneContent}">
-                                <Binding Path="drone.DroneState" />
-                                <Binding Path="drone.Parcel.ParcelState" />
-                            </MultiBinding>
-                        </Button.Content>
-                    </Button>
-                       
-                        
-                    <Button Content="delete drone" Command="{Binding DeleteDroneCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
+                        <Button x:Name="parcelTreatedByDRone" Command="{Binding ParcelTreatedByDrone}">
+                            <Button.Content>
+                                <MultiBinding Converter="{StaticResource parcelTreatedByDroneContent}">
+                                    <Binding Path="drone.DroneState" />
+                                    <Binding Path="drone.Parcel.ParcelState" />
+                                </MultiBinding>
+                            </Button.Content>
+                            <Button.Visibility>
+                                <MultiBinding Converter="{StaticResource parcelTreatedByDroneVisibility}">
+                                    <Binding Path="drone.DroneState" />
+                                    <Binding Path="Auto" />
+                                </MultiBinding>
+                            </Button.Visibility>
+                        </Button>
+                        <Button Content="delete drone" Visibility="{Binding Path=Auto , Converter={StaticResource DeleteDroneVisibility}}" Command="{Binding DeleteDroneCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}">
+                        </Button>
                         <DockPanel>
                             <materialDesign:PopupBox DockPanel.Dock="Right" PlacementMode="BottomAndAlignRightEdges">
                                 <ListBox>

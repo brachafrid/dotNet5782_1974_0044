@@ -9,7 +9,37 @@ namespace PL
     /// <summary>
     /// Multi Converter for Visibility
     /// </summary>
-    public class parcelTreatedByDroneVisibility : IValueConverter
+    public class parcelTreatedByDroneVisibility : IMultiValueConverter
+    {
+        /// <summary>
+        /// Convert per drone state to visibility, visible or collapsed
+        /// </summary>
+        /// <param name="values">drone's state</param>
+        /// <param name="targetType"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>Returns visibility, visible or collapsed</returns>
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
+        {
+          return  values[0].ToString() != new DateTime().ToString() && values[1] is bool auto && !auto ? Visibility.Visible: Visibility.Collapsed;      
+        }
+
+        /// <summary>
+        /// Convert Back for Visibility
+        /// </summary>
+        /// <param name="value">drone's state</param>
+        /// <param name="targetTypes"></param>
+        /// <param name="parameter"></param>
+        /// <param name="culture"></param>
+        /// <returns>Returns visibility, hidden</returns>
+        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
+        {
+            throw new NotImplementedException();
+        }
+    }
+
+
+    public class parcelButtunsContent : IValueConverter
     {
         /// <summary>
         /// Convert per drone state to visibility, visible or collapsed
@@ -21,7 +51,7 @@ namespace PL
         /// <returns>Returns visibility, visible or collapsed</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-          return  value.ToString() != new DateTime().ToString()? Visibility.Visible: Visibility.Collapsed;      
+            return value.ToString() != new DateTime().ToString()?"Parcel delivery":"Parcel collection";
         }
 
         /// <summary>
@@ -38,7 +68,7 @@ namespace PL
         }
     }
 
-    public class parcelButtunsContent : IValueConverter
+    public class DeleteDroneVisibility : IValueConverter
     {
         /// <summary>
         /// Convert per drone state to visibility, visible or collapsed
@@ -50,12 +80,7 @@ namespace PL
         /// <returns>Returns visibility, visible or collapsed</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value.ToString() != new DateTime().ToString())
-            {
-                return "Parcel delivery";
-            }
-            else
-                return "Parcel collection";
+            return !(bool)value ?Visibility.Visible:Visibility.Collapsed;
         }
 
         /// <summary>
@@ -88,12 +113,7 @@ namespace PL
         /// <returns>Returns visibility: visible or collapsed</returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0] as string != values[1] as string)
-            {
-                return Visibility.Visible;
-            }
-            else
-                return Visibility.Collapsed;
+            return values[0] as string != values[1] as string?Visibility.Visible:Visibility.Collapsed;
         }
 
         /// <summary>
@@ -194,7 +214,7 @@ namespace PL
     /// <summary>
     /// Convert Drone Charging Visibility
     /// </summary>
-    public class ConvertDroneChargingVisibility : IValueConverter
+    public class ConvertDroneChargingVisibility : IMultiValueConverter
     {
         /// <summary>
         /// Checks drone status.
@@ -205,9 +225,9 @@ namespace PL
         /// <param name="parameter"></param>
         /// <param name="culture"></param>
         /// <returns>Returns visibility: visible or collapsed</returns>
-        public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value.ToString() != DroneState.DELIVERY.ToString())
+            if (values[0].ToString() != DroneState.DELIVERY.ToString() && values[1] is bool auto && !auto)
                 return Visibility.Visible;
             else
                 return Visibility.Collapsed;
@@ -222,11 +242,10 @@ namespace PL
         /// <param name="parameter"></param>
         /// <param name="culture"></param>
         /// <returns>Returns Exception</returns>
-        object IValueConverter.ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+        object[] IMultiValueConverter.ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
         {
             throw new NotImplementedException();
         }
-
     }
 
     /// <summary>
