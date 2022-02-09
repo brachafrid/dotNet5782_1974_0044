@@ -35,7 +35,6 @@ namespace PL
                     sourceList.Add(item);
             }
         }
-
         public override void AddEntity(object param)
         {
             Tabs.AddTab(new()

@@ -1,32 +1,6 @@
 <?xml version="1.0"?>
 <ArrayOfParcel xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Parcel>
-    <Id>4</Id>
-    <SenderId>4</SenderId>
-    <TargetId>5</TargetId>
-    <Weigth>MEDIUM</Weigth>
-    <Priority>EMERGENCY</Priority>
-    <Requested>2022-02-09T17:40:37.8034347+02:00</Requested>
-    <DorneId>1</DorneId>
-    <Sceduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
-    <Id>6</Id>
-    <SenderId>8</SenderId>
-    <TargetId>10</TargetId>
-    <Weigth>HEAVY</Weigth>
-    <Priority>EMERGENCY</Priority>
-    <Requested>2022-02-09T17:40:37.8177536+02:00</Requested>
-    <DorneId>1</DorneId>
-    <Sceduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
     <Id>7</Id>
     <SenderId>4</SenderId>
     <TargetId>1</TargetId>
@@ -128,6 +102,32 @@
     <Sceduled xsi:nil="true" />
     <PickedUp>2022-02-09T20:31:45.1051864+02:00</PickedUp>
     <Delivered>2022-02-09T20:31:47.7004419+02:00</Delivered>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>4</Id>
+    <SenderId>4</SenderId>
+    <TargetId>5</TargetId>
+    <Weigth>MEDIUM</Weigth>
+    <Priority>EMERGENCY</Priority>
+    <Requested>2022-02-09T17:40:37.8034347+02:00</Requested>
+    <DorneId>1</DorneId>
+    <Sceduled xsi:nil="true" />
+    <PickedUp>2022-02-09T21:32:44.7721416+02:00</PickedUp>
+    <Delivered>2022-02-09T21:32:47.0115394+02:00</Delivered>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>6</Id>
+    <SenderId>8</SenderId>
+    <TargetId>10</TargetId>
+    <Weigth>HEAVY</Weigth>
+    <Priority>EMERGENCY</Priority>
+    <Requested>2022-02-09T17:40:37.8177536+02:00</Requested>
+    <DorneId>1</DorneId>
+    <Sceduled xsi:nil="true" />
+    <PickedUp>2022-02-09T21:36:47.1095043+02:00</PickedUp>
+    <Delivered>2022-02-09T21:36:49.1913891+02:00</Delivered>
     <IsNotActive>false</IsNotActive>
   </Parcel>
 </ArrayOfParcel>

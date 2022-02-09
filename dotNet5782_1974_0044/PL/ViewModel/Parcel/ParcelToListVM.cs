@@ -18,9 +18,7 @@ namespace PL
         public bool IsAdministor { get; set; }
         public ParcelToListVM()
         {
-
             InitList();
-            list = new ListCollectionView(sourceList);
             IsAdministor = true;
             //UpdateInitList();
             DelegateVM.CustomerChangedEvent += HandleParcelChanged;
@@ -30,6 +28,7 @@ namespace PL
         private async void InitList()
         {
             sourceList = new ObservableCollection<ParcelToList>(await UpdateInitList());
+            list = new ListCollectionView(sourceList);
         }
         public ParcelToListVM(object Id, object State)
         {
