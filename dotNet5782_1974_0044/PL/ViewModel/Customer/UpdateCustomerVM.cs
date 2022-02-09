@@ -60,10 +60,10 @@ namespace PL
             IsAdministor = isAdministor;
             this.id = id;
             InitThisCustomer();
-            customerName = customer.Name;
-            customerPhone = customer.Phone;
-            UpdateCustomerCommand = new(UpdateCustomer, param => customer.Error == null);
-            DeleteCustomerCommand = new(DeleteCustomer, param => customer.Error == null);
+            customerName = Customer.Name;
+            customerPhone = Customer.Phone;
+            UpdateCustomerCommand = new(UpdateCustomer, param => Customer.Error == null);
+            DeleteCustomerCommand = new(DeleteCustomer, param => Customer.Error == null);
             DelegateVM.CustomerChangedEvent += HandleACustomerChanged;
             OpenParcelCommand = new(Tabs.OpenDetailes, null);
             IsAdministor = isAdministor;
@@ -93,11 +93,11 @@ namespace PL
         {
             try
             {
-                if (customerName != customer.Name || customerPhone != customer.Phone)
+                if (customerName != Customer.Name || customerPhone != Customer.Phone)
                 {
-                    PLService.UpdateCustomer(customer.Id, customer.Name, customer.Phone);
-                    customerName = customer.Name;
-                    customerPhone = customer.Phone;
+                    PLService.UpdateCustomer(Customer.Id, Customer.Name, Customer.Phone);
+                    customerName = Customer.Name;
+                    customerPhone = Customer.Phone;
                     DelegateVM.NotifyCustomerChanged();
                 }
             }
@@ -122,7 +122,7 @@ namespace PL
             {
                 if (MessageBox.Show("You're sure you want to delete this customer?", "Delete Customer", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    PLService.DeleteCustomer(customer.Id);
+                    PLService.DeleteCustomer(Customer.Id);
                     MessageBox.Show("The customer was successfully deleted");
 
                     if (!IsAdministor)
@@ -134,7 +134,7 @@ namespace PL
                     else
                     {
                         DelegateVM.CustomerChangedEvent -= HandleACustomerChanged;
-                        //DelegateVM.NotifyCustomerChanged(customer.Id);
+                        //DelegateVM.NotifyCustomerChanged(Customer.Id);
                         DelegateVM.NotifyCustomerChanged();
                         Tabs.CloseTab(param as TabItemFormat);
                     }

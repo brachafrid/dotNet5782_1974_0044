@@ -61,10 +61,10 @@ namespace PL
         {
             this.id = id;
             initStation();
-            stationName = station.Name;
-            stationEmptyChargeSlots = station.EmptyChargeSlots;
-            UpdateStationCommand = new(UpdateStation, param => station.Error == null);
-            DeleteStationCommand = new(DeleteStation, param => station.Error == null);
+            stationName = Station.Name;
+            stationEmptyChargeSlots = Station.EmptyChargeSlots;
+            UpdateStationCommand = new(UpdateStation, param => Station.Error == null);
+            DeleteStationCommand = new(DeleteStation, param => Station.Error == null);
             DelegateVM.StationChangedEvent += HandleAStationChanged;
             OpenDroneChargeCommand = new(Tabs.OpenDetailes, null);
         }
@@ -90,13 +90,13 @@ namespace PL
         {
             try
             {
-                if (stationName != station.Name || stationEmptyChargeSlots != station.EmptyChargeSlots)
+                if (stationName != Station.Name || stationEmptyChargeSlots != Station.EmptyChargeSlots)
                 {
-                    PLService.UpdateStation(station.Id, station.Name, station.EmptyChargeSlots);
-                    //DelegateVM.NotifyStationChanged(station.Id);
+                    PLService.UpdateStation(Station.Id, Station.Name, Station.EmptyChargeSlots);
+                    //DelegateVM.NotifyStationChanged(Station.Id);
                     DelegateVM.NotifyStationChanged();
-                    stationName = station.Name;
-                    stationEmptyChargeSlots = station.EmptyChargeSlots;
+                    stationName = Station.Name;
+                    stationEmptyChargeSlots = Station.EmptyChargeSlots;
 
                 }
             }
@@ -112,10 +112,10 @@ namespace PL
 
                 if (MessageBox.Show("You're sure you want to delete this station?", "Delete Station", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    PLService.DeleteStation(station.Id);
+                    PLService.DeleteStation(Station.Id);
                     MessageBox.Show("The station was successfully deleted");
                     DelegateVM.StationChangedEvent -= HandleAStationChanged;
-                    //DelegateVM.NotifyStationChanged(station.Id);
+                    //DelegateVM.NotifyStationChanged(Station.Id);
                     DelegateVM.NotifyStationChanged();
                     Tabs.CloseTab(param as TabItemFormat);
                 }
