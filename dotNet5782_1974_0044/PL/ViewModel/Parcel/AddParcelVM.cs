@@ -24,7 +24,7 @@ namespace PL
         public AddParcelVM(bool isAdministor, int id= 0)
         {
             parcel = new( );
-            customers = PLService.GetCustomers().Select(customer => customer.Id);
+            InitCustomersList();
             AddParcelCommand = new(Add, param => parcel.Error == null);
             VisibilityParcel = new(visibilityParcel, param => parcel.Error == null);
             piorities = Enum.GetValues(typeof(Priorities));
@@ -33,6 +33,13 @@ namespace PL
            if (!isAdministor)
                 parcel.CustomerSender = id;
         }
+
+        private async void InitCustomersList()
+        {
+            customers = (await PLService.GetCustomers())
+                .Select(customer => customer.Id);
+        }
+
         public void visibilityParcel(object param)
         {
             VisibleParcel.visibility = Visibility.Visible;
@@ -41,11 +48,12 @@ namespace PL
         {
             try
             {
-                PLService.AddParcel(parcel);
+                PLService.AddParcel(parcel, () => {
                 DelegateVM.NotifyParcelChanged();
                 DelegateVM.NotifyCustomerChanged(parcel.CustomerReceives);
                 DelegateVM.NotifyCustomerChanged(parcel.CustomerSender);
                 Tabs.CloseTab(param as TabItemFormat);
+            });
             }
             catch(KeyNotFoundException)
             {

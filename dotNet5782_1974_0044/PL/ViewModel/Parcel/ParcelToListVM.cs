@@ -18,27 +18,32 @@ namespace PL
         public bool IsAdministor { get; set; }
         public ParcelToListVM()
         {
-            sourceList = new ObservableCollection<ParcelToList>(UpdateInitList());
+
+            InitList();
             list = new ListCollectionView(sourceList);
             IsAdministor = true;
-            UpdateInitList();
+            //UpdateInitList();
             DelegateVM.CustomerChangedEvent += HandleParcelChanged;
             DelegateVM.ParcelChangedEvent += HandleParcelChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
+        }
+        private async void InitList()
+        {
+            sourceList = new ObservableCollection<ParcelToList>( await UpdateInitList());
         }
         public ParcelToListVM(object Id, object State)
         {
             customerId = (int)Id;
             IsAdministor = false;
             state = (string)State;
-            sourceList = new ObservableCollection<ParcelToList>(UpdateInitList());
+            InitList();
             list = new ListCollectionView(sourceList);
             //UpdateInitList();
             DelegateVM.CustomerChangedEvent += HandleParcelChanged;
             DelegateVM.ParcelChangedEvent += HandleParcelChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
-        private void HandleParcelChanged(object sender, EntityChangedEventArgs e)
+        private async void HandleParcelChanged(object sender, EntityChangedEventArgs e)
         {
             if (e.Id != null && e.Id !=0)
             {
@@ -54,12 +59,16 @@ namespace PL
                 switch (state)
                 {
                     case "From":
-                        foreach (var item in PLService.GetCustomer((int)customerId).FromCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)))
-                            sourceList.Add(item);
+                        {
+                            foreach (var item in  (await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel)))
+                                sourceList.Add(item);
+                        }
                         break;
                     case "To":
-                        foreach (var item in PLService.GetCustomer((int)customerId).ToCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)))
-                            sourceList.Add(item);
+                        {
+                            foreach (var item in (await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel)))
+                                sourceList.Add(item);
+                        }
                         break;
                     default:
                         foreach (var item in PLService.GetParcels())
@@ -69,12 +78,12 @@ namespace PL
             }
         }
 
-       private IEnumerable<ParcelToList> UpdateInitList()
+       private async Task<IEnumerable<ParcelToList>> UpdateInitList()
         {
-            return state switch
+            return  state switch
             {
-                "From" => PLService.GetCustomer((int)customerId).FromCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)),
-                "To" => PLService.GetCustomer((int)customerId).ToCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)),
+                "From" =>(await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel =>PlServiceConvert.ConvertParcelAtCustomerToList(parcel)),
+                "To" =>(await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel)),
                 _ => PLService.GetParcels()
             };           
         }

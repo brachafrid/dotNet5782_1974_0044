@@ -44,17 +44,13 @@ namespace PL
         public RelayCommand UpdateCustomerCommand { get; set; }
         public RelayCommand DeleteCustomerCommand { get; set; }
 
-        //public RelayCommand TryCommand { get; set; }
-
         public UpdateCustomerVM(int id, bool isAdministor)
         {
             IsAdministor = isAdministor;
             this.id = id;
             InitThisCustomer();
-            customerName = customer.Name;
-            customerPhone = customer.Phone;
-            UpdateCustomerCommand = new(UpdateCustomer, param => customer.Error == null);
-            DeleteCustomerCommand = new(DeleteCustomer, param => customer.Error == null);
+            UpdateCustomerCommand = new(UpdateCustomer, param => customer?.Error == null);
+            DeleteCustomerCommand = new(DeleteCustomer, param => customer?.Error == null);
             DelegateVM.CustomerChangedEvent += HandleACustomerChanged;
             OpenParcelCommand = new(Tabs.OpenDetailes, null);
             IsAdministor = isAdministor;
@@ -64,11 +60,13 @@ namespace PL
             if (id == e.Id || e.Id == null)
                 InitThisCustomer();
         }
-        public void InitThisCustomer()
+        public async void InitThisCustomer()
         {
             try
             {
-                customer = PLService.GetCustomer(id);
+                customer = await PLService.GetCustomer(id);
+                customerName = customer.Name;
+                customerPhone = customer.Phone;
             }
             catch (KeyNotFoundException ex)
             {
@@ -80,15 +78,17 @@ namespace PL
             }
         }
 
-        public void UpdateCustomer(object param)
+        public async void UpdateCustomer(object param)
         {
             try
             {
                 if (customerName != customer.Name || customerPhone != customer.Phone)
                 {
-                    PLService.UpdateCustomer(customer.Id, customer.Name, customer.Phone);
+                    await PLService.UpdateCustomer(customer.Id, customer.Name, customer.Phone);
                     customerName = customer.Name;
                     customerPhone = customer.Phone;
+                    DelegateVM.NotifyCustomerChanged();
+
                 }
             }
             catch (ArgumentNullException ex)
@@ -105,7 +105,6 @@ namespace PL
             }
 
         }
-
         public void DeleteCustomer(object param)
         {
             try

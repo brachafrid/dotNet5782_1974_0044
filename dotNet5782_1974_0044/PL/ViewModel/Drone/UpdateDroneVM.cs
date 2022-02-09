@@ -74,9 +74,11 @@ namespace PL
             {
                 if (droneModel != drone.Model)
                 {
-                    PLService.UpdateDrone(drone.Id, drone.Model);
-                    MessageBox.Show("The drone has been successfully updated");
-                    droneModel = drone.Model;
+                    PLService.UpdateDrone(drone.Id, drone.Model, () =>
+                    {
+                        MessageBox.Show("The drone has been successfully updated");
+                        droneModel = drone.Model;
+                    });
                 }
                 else
                 {

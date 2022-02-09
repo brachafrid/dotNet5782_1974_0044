@@ -54,9 +54,9 @@ namespace PL
             if (id == e.Id||e.Id==null)
                 Init();
         }
-        public void Init()
+        public async void Init()
         {
-            customer = PLService.GetCustomer(id);
+            customer = await PLService.GetCustomer(id); 
         }
 
         public void changeIndex(int index)

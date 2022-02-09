@@ -58,11 +58,11 @@ namespace PL
             }
 
         }
-        public void CustomerLogin(object param)
+        public async void CustomerLogin(object param)
         {
             try
             {
-                Customer customer = PLService.GetCustomer((int)customerLogin.Id);
+              Customer  customer = await PLService.GetCustomer((int)customerLogin.Id);
                 if (PLService.IsNotActiveCustomer(customer.Id))
                     MessageBox.Show("Deleted customer");
                 else

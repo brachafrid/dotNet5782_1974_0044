@@ -2,11 +2,7 @@
 using PL.PO;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace PL
 {
@@ -65,7 +61,7 @@ namespace PL
         }
         private void HandleAStationChanged(object sender, EntityChangedEventArgs e)
         {
-            if (id == e.Id||e.Id==null)
+            if (id == e.Id || e.Id == null)
                 initStation();
         }
         public void initStation()
@@ -74,7 +70,7 @@ namespace PL
             {
                 station = PLService.GetStation(id);
             }
-            catch(KeyNotFoundException)
+            catch (KeyNotFoundException)
             {
 
             }
@@ -87,11 +83,12 @@ namespace PL
             {
                 if (stationName != station.Name || stationEmptyChargeSlots != station.EmptyChargeSlots)
                 {
-                    PLService.UpdateStation(station.Id, station.Name, station.EmptyChargeSlots);
-                    DelegateVM.NotifyStationChanged(station.Id);
-                    stationName = station.Name;
-                    stationEmptyChargeSlots = station.EmptyChargeSlots;
-
+                    PLService.UpdateStation(station.Id, station.Name, station.EmptyChargeSlots, () =>
+                    {
+                        DelegateVM.NotifyStationChanged(station.Id);
+                        stationName = station.Name;
+                        stationEmptyChargeSlots = station.EmptyChargeSlots;
+                    });
                 }
             }
             catch (ArgumentOutOfRangeException ex)
@@ -119,7 +116,7 @@ namespace PL
             }
         }
 
-      
+
 
     }
 }
