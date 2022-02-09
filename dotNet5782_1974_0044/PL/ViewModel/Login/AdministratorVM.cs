@@ -1,18 +1,34 @@
 ﻿using PL.PO;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Windows.Controls;
 
 namespace PL
 {
-    public class AdministratorVM
+    public class AdministratorVM: INotifyPropertyChanged
     {
         public RelayCommand AddDroneToListWindowCommand { get; set; }
         public RelayCommand AddParcelToListWindowCommand { get; set; }
         public RelayCommand AddStationToListWindowCommand { get; set; }
         public RelayCommand AddCustomerToListWindowCommand { get; set; }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void onPropertyChanged(string properyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
 
-        public static IntDependency SelectedTab { get; set; } = new();
+        }
+        private int selectedTab;
+
+        public int SelectedTab
+        {
+            get { return selectedTab; }
+            set { selectedTab = value;
+                onPropertyChanged("SelectedTab");
+            }
+        }
+
 
         public AdministratorVM()
         {
@@ -35,7 +51,7 @@ namespace PL
 
         public void changeIndex(int index)
         {
-            SelectedTab.Instance = index;
+            SelectedTab = index;
         }
         public void AddParcelToList(object param)
         {

@@ -1,13 +1,20 @@
 ﻿using PL.PO;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace PL
 {
-    public class LoginVM : DependencyObject
+    public class LoginVM : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void onPropertyChanged(string properyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
 
+        }
         public LoginVM()
         {
             Add = new(true);
@@ -24,26 +31,58 @@ namespace PL
         public RelayCommand ShowCustomerLoginCommand { get; set; }
         public RelayCommand ShowCustomerSigninCommand { get; set; }
         public CustomerLogin customerLogin { get; set; } = new();
-        public Visble VisibilityAdministratorLogin { get; set; } = new();
-        public Visble VisibilityCustomerLogin { get; set; } = new();
-        public Visble VisibilityCustomerSignIn { get; set; } = new();
+        private Visibility visibilityAdministratorLogin=Visibility.Collapsed;
+
+        public Visibility VisibilityAdministratorLogin
+        {
+            get { return visibilityAdministratorLogin; }
+            set { visibilityAdministratorLogin = value;
+                onPropertyChanged("VisibilityAdministratorLogin");
+            }
+        }
+
+        private Visibility visibilityCustomerLogin = Visibility.Collapsed;
+
+        public Visibility VisibilityCustomerLogin
+        {
+            get { return visibilityCustomerLogin; }
+            set
+            {
+                visibilityCustomerLogin = value;
+                onPropertyChanged("VisibilityCustomerLogin");
+            }
+        }
+
+
+        private Visibility visibilityCustomerSignIn = Visibility.Collapsed;
+
+        public Visibility VisibilityCustomerSignIn
+        {
+            get { return visibilityCustomerSignIn; }
+            set
+            {
+                visibilityCustomerSignIn = value;
+                onPropertyChanged("VisibilityCustomerSignIn");
+            }
+        }
+
         public void ShowAdministratorLogin(object param)
         {
-            VisibilityAdministratorLogin.visibility = Visibility.Visible;
-            VisibilityCustomerLogin.visibility = Visibility.Collapsed;
-            VisibilityCustomerSignIn.visibility = Visibility.Collapsed;
+            VisibilityAdministratorLogin = Visibility.Visible;
+            VisibilityCustomerLogin = Visibility.Collapsed;
+            VisibilityCustomerSignIn = Visibility.Collapsed;
         }
         public void ShowCustomerSignin(object param)
         {
-            VisibilityAdministratorLogin.visibility = Visibility.Collapsed;
-            VisibilityCustomerLogin.visibility = Visibility.Collapsed;
-            VisibilityCustomerSignIn.visibility = Visibility.Visible;
+            VisibilityAdministratorLogin = Visibility.Collapsed;
+            VisibilityCustomerLogin = Visibility.Collapsed;
+            VisibilityCustomerSignIn = Visibility.Visible;
         }
         public void ShowCustomerLogin(object param)
         {
-            VisibilityCustomerLogin.visibility = Visibility.Visible;
-            VisibilityAdministratorLogin.visibility = Visibility.Collapsed;
-            VisibilityCustomerSignIn.visibility = Visibility.Collapsed;
+            VisibilityCustomerLogin = Visibility.Visible;
+            VisibilityAdministratorLogin = Visibility.Collapsed;
+            VisibilityCustomerSignIn = Visibility.Collapsed;
         }
         public void AdministratorLogin(object param)
         {

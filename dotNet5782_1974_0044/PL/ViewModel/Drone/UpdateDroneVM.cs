@@ -7,25 +7,38 @@ using System.Windows;
 
 namespace PL
 {
-    public class UpdateDroneVM : DependencyObject
+    public class UpdateDroneVM : INotifyPropertyChanged  
     {
         private int id;
         BackgroundWorker simulatorWorker;
         Action simulateDrone;
-        public PO.Drone drone
+        private Drone drone;
+
+        public Drone Drone
         {
-            get { return (PO.Drone)GetValue(droneProperty); }
-            set { SetValue(droneProperty, value); }
+            get { return drone; }
+            set { drone = value;
+                onPropertyChanged("Drone");
+            }
         }
-        public static readonly DependencyProperty droneProperty =
-            DependencyProperty.Register("drone", typeof(PO.Drone), typeof(UpdateDroneVM), new PropertyMetadata(new PO.Drone()));
-        public string droneModel
+        private string droneModel;
+
+        public string DroneModel
         {
-            get { return (string)GetValue(droneModelProperty); }
-            set { SetValue(droneModelProperty, value); }
+            get { return droneModel; }
+            set { droneModel = value;
+                onPropertyChanged("DroneModel");
+            }
         }
-        public static readonly DependencyProperty droneModelProperty =
-            DependencyProperty.Register("droneModel", typeof(string), typeof(UpdateDroneVM), new PropertyMetadata(string.Empty));
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        private void onPropertyChanged(string properyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
+
+        }
+
         public RelayCommand OpenParcelCommand { get; set; }
         public RelayCommand OpenCustomerCommand { get; set; }
         public RelayCommand UpdateDroneCommand { get; set; }
@@ -243,12 +256,14 @@ namespace PL
             }
         }
         #region simulator
-        public static readonly DependencyProperty AutoProperty =
-            DependencyProperty.Register(nameof(Auto), typeof(bool), typeof(UpdateDroneVM), new PropertyMetadata(false));
+        private bool auto;
+
         public bool Auto
         {
-            get => (bool)GetValue(AutoProperty);
-            set => SetValue(AutoProperty, value);
+            get { return auto; }
+            set { auto = value;
+                onPropertyChanged("Auto");
+            }
         }
         private void StartSimulator()
         {

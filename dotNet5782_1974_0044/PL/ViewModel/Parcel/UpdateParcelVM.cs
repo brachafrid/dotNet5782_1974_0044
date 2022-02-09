@@ -1,6 +1,7 @@
 ﻿using PL.PO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,23 +10,29 @@ using System.Windows.Controls;
 
 namespace PL
 {
-    class UpdateParcelVM : DependencyObject
+    class UpdateParcelVM : INotifyPropertyChanged
     {
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void onPropertyChanged(string properyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
+
+        }
         private readonly int id;
         public RelayCommand OpenCustomerCommand { get; set; }
         public RelayCommand OpenDroneCommand { get; set; }
         public RelayCommand ParcelTreatedByDrone { get; set; }
- 
 
-        public Parcel parcel
+        private Parcel parcel;
+
+        public Parcel Parcel
         {
-            get { return (Parcel)GetValue(parcelProperty); }
-            set { SetValue(parcelProperty, value); }
+            get { return parcel; }
+            set { parcel = value;
+                onPropertyChanged("Parcel");
+            }
         }
-
-        // Using a DependencyProperty as the backing store for station.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty parcelProperty =
-            DependencyProperty.Register("parcel", typeof(Parcel), typeof(UpdateParcelVM), new PropertyMetadata(new Parcel()));
 
         public RelayCommand DeleteParcelCommand { get; set; }
 
