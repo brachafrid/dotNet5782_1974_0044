@@ -75,7 +75,6 @@ namespace BL
             }
             catch (KeyNotFoundException ex)
             {
-
                 throw new KeyNotFoundException(ex.Message);
             }
             catch (DO.XMLFileLoadCreateException ex)
@@ -169,7 +168,6 @@ namespace BL
         //[MethodImpl(MethodImplOptions.Synchronized)]
         public void ReleaseDroneFromCharging(int id)
         {
-         
             try
             {
                 DroneToList  droneToList = drones.FirstOrDefault(item => item.Id == id);
@@ -340,7 +338,6 @@ namespace BL
             }
             catch (KeyNotFoundException ex)
             {
-
                 throw new KeyNotFoundException(ex.Message);
             }
             catch (DO.XMLFileLoadCreateException ex)
