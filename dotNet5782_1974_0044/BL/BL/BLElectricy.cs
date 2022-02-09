@@ -46,7 +46,6 @@ namespace BL
             {
                 throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException(ex.Message, ex);
             }
-
         }
     }
 }

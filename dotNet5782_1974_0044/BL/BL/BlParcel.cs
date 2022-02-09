@@ -3,7 +3,6 @@ using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace BL
 {
@@ -14,20 +13,24 @@ namespace BL
         /// Add a parcel to the list of parcels
         /// </summary>
         /// <param name="parcelBl">The parcel for Adding</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel parcelBl)
         {
-            if (!ExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerSender.Id))
-                throw new KeyNotFoundException($"Sender Id: {parcelBl.CustomerSender.Id} not exist");
-            if (!ExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerReceives.Id))
-                throw new KeyNotFoundException($"Target id: { parcelBl.CustomerReceives.Id} not exist");
+            lock (dal)
+            {
+                if (!ExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerSender.Id))
+                    throw new KeyNotFoundException($"Sender Id: {parcelBl.CustomerSender.Id} not exist");
+                if (!ExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerReceives.Id))
+                    throw new KeyNotFoundException($"Target id: { parcelBl.CustomerReceives.Id} not exist");
+            }
             if (IsNotActiveCustomer(parcelBl.CustomerSender.Id))
                 throw new DeletedExeption($"sender {parcelBl.CustomerSender.Id} deleted");
             if (IsNotActiveCustomer(parcelBl.CustomerReceives.Id))
                 throw new DeletedExeption($"Reciver {parcelBl.CustomerReceives.Id} deleted");
             try
             {
-                dal.AddParcel(parcelBl.CustomerSender.Id, parcelBl.CustomerReceives.Id, (DO.WeightCategories)parcelBl.Weight, (DO.Priorities)parcelBl.Priority);
+                lock (dal)
+                    dal.AddParcel(parcelBl.CustomerSender.Id, parcelBl.CustomerReceives.Id, (DO.WeightCategories)parcelBl.Weight, (DO.Priorities)parcelBl.Priority);
             }
             catch (KeyNotFoundException ex)
             {
@@ -46,12 +49,13 @@ namespace BL
         /// Retrieves the list of parcels that not assigned to drone from the data and converts it to parcel to list
         /// </summary>
         /// <returns>A list of parcels to print</returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone(Predicate<int> notAssign)
         {
             try
             {
-                return dal.GetParcelsNotAssignedToDrone(notAssign).Select(parcel => MapParcelToList(parcel));
+                lock (dal)
+                    return dal.GetParcelsNotAssignedToDrone(notAssign).Select(parcel => MapParcelToList(parcel));
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
@@ -68,12 +72,13 @@ namespace BL
         /// Retrieves the list of parcels from the data and converts it to parcel to list
         /// </summary>
         /// <returns>A list of parcels to print</returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelToList> GetParcels()
         {
             try
             {
-                return dal.GetParcels().Select(parcel => MapParcelToList(parcel));
+                lock (dal)
+                    return dal.GetParcels().Select(parcel => MapParcelToList(parcel));
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
@@ -85,12 +90,13 @@ namespace BL
             }
 
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelToList> GetActiveParcels()
         {
             try
             {
-                return dal.GetParcels().Where(parcel => !parcel.IsNotActive).Select(parcel => MapParcelToList(parcel));
+                lock (dal)
+                    return dal.GetParcels().Where(parcel => !parcel.IsNotActive).Select(parcel => MapParcelToList(parcel));
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
@@ -110,7 +116,8 @@ namespace BL
         /// <returns>A list of parcels to print</returns>
         private IEnumerable<Parcel> GetAllParcels()
         {
-            return dal.GetParcels().Select(Parcel => GetParcel(Parcel.Id));
+            lock (dal)
+                return dal.GetParcels().Select(Parcel => GetParcel(Parcel.Id));
         }
 
         /// <summary>
@@ -119,12 +126,13 @@ namespace BL
         /// <param name="id">The requested parcel id</param>
         /// <param name="nullAble">enable null if the customer sender or reciver not found</param>
         /// <returns>A Bl parcel to print</returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int id)
         {
             try
             {
-                return MapParcel(dal.GetParcel(id));
+                lock (dal)
+                    return MapParcel(dal.GetParcel(id));
             }
             catch (KeyNotFoundException ex)
             {
@@ -149,7 +157,9 @@ namespace BL
         {
             try
             {
-                DO.Parcel parcel = dal.GetParcel(parcelId);
+                DO.Parcel parcel;
+                lock (dal)
+                    parcel = dal.GetParcel(parcelId);
                 DO.Parcel newParcel = parcel;
                 newParcel.DorneId = droneId;
                 newParcel.Sceduled = DateTime.Now;
@@ -170,7 +180,8 @@ namespace BL
         {
             DO.Parcel newParcel = parcel;
             newParcel.PickedUp = DateTime.Now;
-            dal.UpdateParcel(parcel, newParcel);
+            lock (dal)
+                dal.UpdateParcel(parcel, newParcel);
         }
 
         /// <summary>
@@ -181,26 +192,27 @@ namespace BL
         {
             DO.Parcel newParcel = parcel;
             newParcel.Delivered = DateTime.Now;
-            dal.UpdateParcel(parcel, newParcel);
+            lock (dal)
+                dal.UpdateParcel(parcel, newParcel);
 
         }
         #endregion
 
         #region Delete
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(int id)
         {
             try
             {
                 Parcel parcel = GetParcel(id);
                 if (parcel.Drone == null)
-                {
-                    dal.DeleteParcel(id);
-                }
+                    lock (dal)
+                        dal.DeleteParcel(id);
                 else
                 {
                     DeleteParcelFromDrone(parcel.Drone.Id);
-                    dal.DeleteParcel(id);
+                    lock (dal)
+                        dal.DeleteParcel(id);
                 }
             }
             catch (KeyNotFoundException ex)
@@ -224,8 +236,12 @@ namespace BL
             }
         }
         #endregion
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public bool IsNotActiveParcel(int id) => dal.GetParcels().Any(parcel => parcel.Id == id && parcel.IsNotActive);
-                      
+        //[MethodImpl(MethodImplOptions.Synchronized)]
+        public bool IsNotActiveParcel(int id)
+        {
+            lock (dal)
+               return dal.GetParcels().Any(parcel => parcel.Id == id && parcel.IsNotActive);
+        }
+
     }
 }

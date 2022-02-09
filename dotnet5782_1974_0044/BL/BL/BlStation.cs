@@ -14,12 +14,13 @@ namespace BL
         /// Add a station to the list of stations
         /// </summary>
         /// <param name="stationBL">The station for Adding</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station stationBL)
         {
             try
             {
-                dal.AddStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);
+                lock (dal)
+                    dal.AddStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);
             }
             catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
@@ -35,12 +36,14 @@ namespace BL
         /// </summary>
         /// <param name="exsitEmpty">the predicate to screen out if the station have empty charge slots</param>
         /// <returns>A list of statin to print</returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
             try
             {
-                IEnumerable<DO.Station> list = dal.GetSationsWithEmptyChargeSlots(exsitEmpty);
+                IEnumerable<DO.Station> list;
+                lock (dal)
+                    list = dal.GetSationsWithEmptyChargeSlots(exsitEmpty);
                 return list.Select(item => MapStationToList(item));
             }
             catch (DO.XMLFileLoadCreateException ex)
@@ -54,12 +57,13 @@ namespace BL
         /// Retrieves the list of stations from the data and converts it to station to list
         /// </summary>
         /// <returns>A list of statin to print</returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> GetStations()
         {
             try
             {
-               return dal.GetStations().Select(item => MapStationToList(item));
+                lock (dal)
+                    return dal.GetStations().Select(item => MapStationToList(item));
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
@@ -69,12 +73,13 @@ namespace BL
             
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> GetActiveStations()
         {
             try
             {
-                return dal.GetStations().Where(item => !item.IsNotActive).Select(item => MapStationToList(item));
+                lock (dal)
+                    return dal.GetStations().Where(item => !item.IsNotActive).Select(item => MapStationToList(item));
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
@@ -89,12 +94,13 @@ namespace BL
         /// </summary>
         /// <param name="id">The requested station id</param>
         /// <returns>A Bl satation to print</returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int id)
         {
             try
             {
-                return ConvertStation(dal.GetStation(id));
+                lock (dal)
+                    return ConvertStation(dal.GetStation(id));
             }
             catch (KeyNotFoundException ex)
             {
@@ -116,14 +122,16 @@ namespace BL
         /// <param name="id">The id of the station</param>
         /// <param name="name">The new name</param>
         /// <param name="chargeSlots">A nwe number for charging slots</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(int id, string name, int chargeSlots)
         {
             if (name.Equals(string.Empty) && chargeSlots == 0)
                 throw new ArgumentNullException("For updating at least one parameter must be initialized ");
             try
             {
-                DO.Station stationDl = dal.GetStation(id);
+                DO.Station stationDl;
+                lock (dal)
+                    stationDl = dal.GetStation(id);
                 if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(stationDl.Id))
                     throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
                 dal.UpdateStation(stationDl, name, chargeSlots);
@@ -141,12 +149,13 @@ namespace BL
         #endregion
 
         #region Delete
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(int id)
         {
             try
             {
-                dal.DeleteStation(id);
+                lock (dal)
+                    dal.DeleteStation(id);
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
@@ -163,7 +172,8 @@ namespace BL
         {
             try
             {
-                return dal.GetStations().Any(station => station.Id == id && station.IsNotActive);
+                lock (dal)
+                    return dal.GetStations().Any(station => station.Id == id && station.IsNotActive);
             }
             catch (DO.XMLFileLoadCreateException ex)
             {

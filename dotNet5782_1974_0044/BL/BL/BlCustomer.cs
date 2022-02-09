@@ -14,16 +14,16 @@ namespace BL
         /// Add a customer to the list of customers
         /// </summary>
         /// <param name="customerBL">The customer for Adding</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer customerBL)
         {
             try
             {
-                dal.AddCustomer(customerBL.Id, customerBL.Phone, customerBL.Name, customerBL.Location.Longitude, customerBL.Location.Latitude);
+                lock(dal)
+                    dal.AddCustomer(customerBL.Id, customerBL.Phone, customerBL.Name, customerBL.Location.Longitude, customerBL.Location.Latitude);
             }
             catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
             }
             catch (DO.XMLFileLoadCreateException ex)
@@ -42,12 +42,13 @@ namespace BL
         /// </summary>
         /// <param name="id">The requested customer id</param>
         /// <returns>A Bl customer to print</returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomer(int id)
         {
             try
             {
-                return MapCustomer(dal.GetCustomer(id));
+                lock (dal)
+                    return MapCustomer(dal.GetCustomer(id));
             }
             catch (KeyNotFoundException ex)
             {
@@ -62,12 +63,13 @@ namespace BL
         /// Retrieves the list of customers  from the data and converts it to station to list
         /// </summary>
         /// <returns>A list of statin to print</returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<CustomerToList> GetCustomers()
         {
             try
             {
-                return dal.GetCustomers().Select(customer => MapCustomerToList(customer));
+                lock (dal)
+                    return dal.GetCustomers().Select(customer => MapCustomerToList(customer));
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
@@ -75,12 +77,13 @@ namespace BL
             }
 
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<CustomerToList> GetActiveCustomers()
         {
             try
             {
-                return dal.GetCustomers().Where(Customer => !Customer.IsNotActive).Select(Customer => MapCustomerToList(Customer));
+                lock (dal)
+                    return dal.GetCustomers().Where(Customer => !Customer.IsNotActive).Select(Customer => MapCustomerToList(Customer));
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
@@ -97,7 +100,7 @@ namespace BL
         /// <param name="id">the id of the customer</param>
         /// <param name="name"></param>
         /// <param name="phone"></param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(int id, string name, string phone)
         {
             if (name.Equals(string.Empty) && phone.Equals(string.Empty))
@@ -105,7 +108,8 @@ namespace BL
         
             try
             {
-                dal.UpdateCustomer(dal.GetCustomer(id), name,phone);
+                lock (dal)
+                    dal.UpdateCustomer(dal.GetCustomer(id), name,phone);
             }
             catch (KeyNotFoundException ex)
             {
@@ -122,16 +126,16 @@ namespace BL
         #endregion
 
         #region Delete
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(int id)
         {
             try
             {
-                dal.DeleteCustomer(id);
+                lock (dal)
+                    dal.DeleteCustomer(id);
             }
             catch (KeyNotFoundException ex)
             {
-
                 throw new KeyNotFoundException(ex.Message);
             }
             catch(DO.XMLFileLoadCreateException ex)
@@ -141,12 +145,13 @@ namespace BL
            
         }
         #endregion
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsNotActiveCustomer(int id)
         {
             try
             {
-              return  dal.GetCustomers().Any(customer => customer.Id == id && customer.IsNotActive);
+                lock (dal)
+                    return  dal.GetCustomers().Any(customer => customer.Id == id && customer.IsNotActive);
             }
             catch (DO.XMLFileLoadCreateException ex)
             {

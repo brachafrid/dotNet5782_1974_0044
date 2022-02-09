@@ -340,7 +340,6 @@ namespace PL
         }
         public static void SendDroneForCharg(int id)
         {
-
             ibal.SendDroneForCharg(id);
         }
         public static void ReleaseDroneFromCharging(int id)
@@ -386,7 +385,7 @@ namespace PL
             {
                 Id = drone.Id,
                 Model = drone.Model,
-                BattaryMode = drone.BattaryMode,
+                BattaryMode =(float) drone.BattaryMode,
                 DroneState = (DroneState)drone.DroneState,
                 Weight = (WeightCategories)drone.WeightCategory,
                 Location = ConvertLocation(drone.CurrentLocation),

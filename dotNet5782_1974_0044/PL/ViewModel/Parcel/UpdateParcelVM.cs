@@ -38,6 +38,20 @@ namespace PL
             OpenDroneCommand = new(Tabs.OpenDetailes, null);
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => parcel.Error == null);
             DelegateVM.ParcelChangedEvent += HandleAParcelChanged;
+
+            if(parcel.AssignmentTime == null)
+            {
+                parcel.AssignmentTime = new DateTime();
+            }
+            if (parcel.CollectionTime == null)
+            {
+                parcel.CollectionTime = new DateTime();
+            }
+            if (parcel.DeliveryTime == null)
+            {
+                parcel.DeliveryTime = new DateTime();
+            }
+            //parcel.CollectionTime = DateTime.Now;
         }
         private void HandleAParcelChanged(object sender, EntityChangedEventArgs e)
         {
@@ -64,15 +78,18 @@ namespace PL
         {
             try
             {
-                if (parcel.CollectionTime != null)
-                { 
-                    PLService.DeliveryParcelByDrone(parcel.Drone.Id);
-                    DelegateVM.NotifyDroneChanged(parcel.Drone.Id);
-                }
-                else
+                if (parcel.AssignmentTime != null)
                 {
-                    PLService.ParcelCollectionByDrone(parcel.Drone.Id);
-                    DelegateVM.NotifyDroneChanged(parcel.Drone.Id);
+                    if (parcel.CollectionTime != null)
+                    {
+                        PLService.DeliveryParcelByDrone(parcel.Drone.Id);
+                        DelegateVM.NotifyDroneChanged(parcel.Drone.Id);
+                    }
+                    else
+                    {
+                        PLService.ParcelCollectionByDrone(parcel.Drone.Id);
+                        DelegateVM.NotifyDroneChanged(parcel.Drone.Id);
+                    }
                 }
             }
             catch (KeyNotFoundException ex)

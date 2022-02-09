@@ -22,12 +22,13 @@ namespace BL
         /// </summary>
         /// <param name="droneBl">The drone for Adding</param>
         ///<param name="stationId">The station to put the drone</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone droneBl, int stationId)
         {
             try
             {
-                dal.AddDrone(droneBl.Id, droneBl.Model, (DO.WeightCategories)droneBl.WeightCategory);
+                lock (dal)
+                    dal.AddDrone(droneBl.Id, droneBl.Model, (DO.WeightCategories)droneBl.WeightCategory);
                 DO.Station station = dal.GetStation(stationId);
                 drones.Add(new()
                 {
@@ -40,7 +41,8 @@ namespace BL
                     ParcelId = 0,
                     IsNotActive = false
                 });
-                dal.AddDRoneCharge(droneBl.Id, stationId);
+                lock (dal)
+                    dal.AddDRoneCharge(droneBl.Id, stationId);
             }
             catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
@@ -64,7 +66,7 @@ namespace BL
         /// </summary>
         /// <param name="id">The requested drone id</param>
         /// <returns>A Bl drone to print</returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public BO.Drone GetDrone(int id)
         {
             try
@@ -73,7 +75,6 @@ namespace BL
             }
             catch (KeyNotFoundException ex)
             {
-
                 throw new KeyNotFoundException(ex.Message);
             }
             catch (DO.XMLFileLoadCreateException ex)
@@ -82,7 +83,7 @@ namespace BL
             }
 
         }
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneToList> GetActiveDrones() => drones.Where(drone => !drone.IsNotActive);
 
         /// <summary>
@@ -98,19 +99,18 @@ namespace BL
         /// </summary>
         /// <param name="id">The drone to update</param>
         /// <param name="name">The new name</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(int id, string name)
         {
-
-            DroneToList droneToList = default;
             try
             {
-                dal.UpdateDrone(dal.GetDrone(id), name);
-                droneToList = drones.FirstOrDefault(item => item.Id == id);
-                if (droneToList == default)
-                    throw new KeyNotFoundException($"The drone id {id} not exsits in data so the updating failed");
                 if (name.Equals(string.Empty))
                     throw new ArgumentNullException("For updating the name must be initialized ");
+                DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
+                if (droneToList == default)
+                    throw new KeyNotFoundException($"The drone id {id} not exsits in data so the updating failed");
+                lock (dal)
+                    dal.UpdateDrone(dal.GetDrone(id), name);
                 droneToList.DroneModel = name;
             }
 
@@ -128,7 +128,7 @@ namespace BL
         /// Send a drone for charging in the closet station with empty charge slots tha t the drone can arrive there
         /// </summary>
         /// <param name="id">The id of the drone</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void SendDroneForCharg(int id)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
@@ -165,10 +165,9 @@ namespace BL
         /// </summary>
         /// <param name="id">The drone to realsing</param>
         /// <param name="timeOfCharg">The time of charging</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void ReleaseDroneFromCharging(int id)
         {
-         
             try
             {
                 DroneToList  droneToList = drones.FirstOrDefault(item => item.Id == id);
@@ -198,7 +197,7 @@ namespace BL
         /// Assign parcel to drone in according to weight and distance (call to help function)
         /// </summary>
         /// <param name="droneId">The drone to assign it a parcel</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void AssingParcelToDrone(int droneId)
         {
             try
@@ -208,7 +207,7 @@ namespace BL
                     throw new KeyNotFoundException($"The drone id {droneId} not exsits in data so the updating failed");
                 if (aviableDrone.IsNotActive)
                     throw new DeletedExeption("drone deleted", droneId);
-                if (aviableDrone.DroneState != DroneState.AVAILABLE)
+                if (aviableDrone.DroneState != DroneState.AVAILABLE && aviableDrone.DroneState!=DroneState.WAYTOCHARGE)
                     throw new InvalidDroneStateException($" The drone is {aviableDrone.DroneState} so it is not possible to assign it a parcel");
                 Dictionary<ParcelToList, double> parcels = CreatParcelDictionaryToAssign(aviableDrone);
                 ParcelToList parcel = TreatInPiority(parcels);
@@ -242,7 +241,7 @@ namespace BL
         /// Collecting the parcel from the sender 
         /// </summary>
         /// <param name="droneId">The drone that collect</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void ParcelCollectionByDrone(int droneId)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == droneId);
@@ -280,7 +279,7 @@ namespace BL
         /// Deliverd the parcel to the reciver 
         /// </summary>
         /// <param name="droneId">The drone that deliverd</param>
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void DeliveryParcelByDrone(int droneId)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == droneId);
@@ -322,7 +321,7 @@ namespace BL
         #endregion
 
         #region Delete
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(int id)
         {
             DroneToList drone = drones.FirstOrDefault(item => item.Id == id);
@@ -339,7 +338,6 @@ namespace BL
             }
             catch (KeyNotFoundException ex)
             {
-
                 throw new KeyNotFoundException(ex.Message);
             }
             catch (DO.XMLFileLoadCreateException ex)
@@ -354,12 +352,14 @@ namespace BL
 
         }
         #endregion
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsNotActiveDrone(int id) => drones.Any(drone => drone.Id == id && drone.IsNotActive);
 
         private IEnumerable<DroneInCharging> CreatListDroneInCharging(int id)
         {
-            IEnumerable<int> list = dal.GetDronechargingInStation((int stationIdOfDrone) => stationIdOfDrone == id);
+            IEnumerable<int> list;
+            lock (dal)
+                list = dal.GetDronechargingInStation((int stationIdOfDrone) => stationIdOfDrone == id);
             if (list.Count() == 0)
                 return new List<DroneInCharging>();
             List<DroneInCharging> droneInChargings = new();
@@ -390,7 +390,7 @@ namespace BL
             return suitableParcel;
         }
 
-        [MethodImpl(MethodImplOptions.Synchronized)]
+        //[MethodImpl(MethodImplOptions.Synchronized)]
         public void StartDroneSimulator(int id, Action<int?, int?, int?, int?> update, Func<bool> checkStop)
         {
             new DroneSimulator(id, this, update, checkStop);

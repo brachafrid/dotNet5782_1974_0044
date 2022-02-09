@@ -1,6 +1,7 @@
 ﻿using PL.PO;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Windows;
 
@@ -16,7 +17,6 @@ namespace PL
             get { return (PO.Drone)GetValue(droneProperty); }
             set { SetValue(droneProperty, value); }
         }
-
         public static readonly DependencyProperty droneProperty =
             DependencyProperty.Register("drone", typeof(PO.Drone), typeof(UpdateDroneVM), new PropertyMetadata(new PO.Drone()));
         public string droneModel
@@ -24,13 +24,11 @@ namespace PL
             get { return (string)GetValue(droneModelProperty); }
             set { SetValue(droneModelProperty, value); }
         }
-
         public static readonly DependencyProperty droneModelProperty =
             DependencyProperty.Register("droneModel", typeof(string), typeof(UpdateDroneVM), new PropertyMetadata(string.Empty));
         public RelayCommand OpenParcelCommand { get; set; }
         public RelayCommand OpenCustomerCommand { get; set; }
         public RelayCommand UpdateDroneCommand { get; set; }
-        public RelayCommand CloseDroneCommand { get; set; }
         public RelayCommand ChargingDroneCommand { get; set; }
         public RelayCommand ParcelTreatedByDrone { get; set; }
         public RelayCommand DeleteDroneCommand { get; set; }
@@ -57,7 +55,18 @@ namespace PL
         }
         public void InitThisDrone()
         {
-            drone = PLService.GetDrone(id);
+            try
+            {
+                drone = PLService.GetDrone(id);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
         }
         public void UpdateModel(object param)
         {
@@ -68,12 +77,19 @@ namespace PL
                     PLService.UpdateDrone(drone.Id, drone.Model);
                     MessageBox.Show("The drone has been successfully updated");
                     droneModel = drone.Model;
-
                 }
                 else
                 {
                     MessageBox.Show("Model name not updated");
                 }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
             catch (ArgumentNullException ex)
             {
@@ -102,6 +118,26 @@ namespace PL
             catch (BO.ThereIsNoNearbyBaseStationThatTheDroneCanReachException)
             {
                 MessageBox.Show("no available station");
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.DeletedExeption ex)
+            {
+                MessageBox.Show($"{ex.Id} {ex.Message}");
+            }
+            catch (BO.InvalidDroneStateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.TheDroneIsNotInChargingException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
         public void parcelTreatedByDrone(object param)
@@ -132,19 +168,72 @@ namespace PL
             {
                 MessageBox.Show($"{ex.Message}");
             }
+            catch (BO.DeletedExeption ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.InvalidParcelStateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
         }
         public void DeleteDrone(object param)
         {
-
-            if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+            try
             {
-                PLService.DeleteDrone(drone.Id);
-                MessageBox.Show("The drone was successfully deleted");
-                DelegateVM.DroneChangedEvent -= HandleADroneChanged;
-                DelegateVM.NotifyDroneChanged(drone.Id);
-                Tabs.CloseTab(param as TabItemFormat);
+                if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                    PLService.DeleteDrone(drone.Id);
+                    MessageBox.Show("The drone was successfully deleted");
+                    DelegateVM.DroneChangedEvent -= HandleADroneChanged;
+                    DelegateVM.NotifyDroneChanged(drone.Id);
+                    Tabs.CloseTab(param as TabItemFormat);
+                }
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.DeletedExeption ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.InvalidDroneStateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.TheDroneIsNotInChargingException ex)
+            {
+
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+
+                if(simulatorWorker != null && !simulatorWorker.CancellationPending)
+                simulatorWorker.CancelAsync();
+               if(simulatorWorker != null && !simulatorWorker.IsBusy)
+                {
+                    PLService.DeleteDrone(drone.Id);
+                    MessageBox.Show("The drone was successfully deleted");
+                    DelegateVM.DroneChangedEvent -= HandleADroneChanged;
+                    DelegateVM.NotifyDroneChanged(drone.Id);
+                    Tabs.CloseTab(param as TabItemFormat);
+                }
+             
+
             }
         }
+        #region simulator
         public static readonly DependencyProperty AutoProperty =
             DependencyProperty.Register(nameof(Auto), typeof(bool), typeof(UpdateDroneVM), new PropertyMetadata(false));
         public bool Auto
@@ -165,8 +254,8 @@ namespace PL
         private void HandleWorkerProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             DelegateVM.NotifyDroneChanged(id);
-            var ids=(ValueTuple<int? , int? , int? , int?>)e.UserState;
-            if(ids.Item1 != null)
+            var ids = (ValueTuple<int?, int?, int?, int?>)e.UserState;
+            if (ids.Item1 != null)
                 DelegateVM.NotifyParcelChanged(ids.Item1);
             if (ids.Item2 != null)
                 DelegateVM.NotifyCustomerChanged(ids.Item2);
@@ -174,7 +263,7 @@ namespace PL
                 DelegateVM.NotifyCustomerChanged(ids.Item3);
             if (ids.Item4 != null)
                 DelegateVM.NotifyStationChanged(ids.Item4);
-            
+
         }
         private void StopSimulator()
         {
@@ -186,5 +275,6 @@ namespace PL
             simulatorWorker.ReportProgress(0, (parcelId, senderId, receiverId, stationId));
         }
         private bool IsSimulatorStoped() => simulatorWorker.CancellationPending;
+        #endregion
     }
 }

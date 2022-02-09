@@ -52,8 +52,8 @@ namespace PL.PO
                 onPropertyChanged("DroneState");
             }
         }
-        private double battaryMode;
-        public double BattaryMode
+        private float battaryMode;
+        public float BattaryMode
         {
             get => battaryMode;
             set

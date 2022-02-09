@@ -11,7 +11,7 @@
 
         <ResourceDictionary>
             <local:parcelTreatedByDroneVisibility x:Key="parcelTreatedByDroneVisibility" />
-            <local:parcelTreatedByDroneContent x:Key="parcelTreatedByDroneContent" />
+            <local:parcelButtunsContent x:Key="parcelButtunsContent" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Dictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
@@ -21,14 +21,8 @@
         <StackPanel>
             <StackPanel>
                 <ContentPresenter Content="{Binding parcel}"/>
-                <Button x:Name="parcelTreatedByDRone"   Visibility="{Binding Path=drone.DroneState,Converter={StaticResource parcelTreatedByDroneVisibility}}" Command="{Binding ParcelTreatedByDrone}">
-                    <Button.Content>
-                        <MultiBinding Converter="{StaticResource parcelTreatedByDroneContent}">
-                            <Binding Path="parcel" />
-                            <Binding Path="parcel.PickedUp" />
-                        </MultiBinding>
-                    </Button.Content>
-                </Button>
+                <Button x:Name="parcelTreatedByDRone"   Visibility="{Binding Path=parcel.AssignmentTime ,Converter={StaticResource parcelTreatedByDroneVisibility}}" Command="{Binding ParcelTreatedByDrone}"
+                        Content="{Binding Path=parcel.CollectionTime ,Converter={StaticResource parcelButtunsContent}}"/>
                 <Button Content="delete parcel" Command="{Binding DeleteParcelCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
             </StackPanel>
         </StackPanel>
