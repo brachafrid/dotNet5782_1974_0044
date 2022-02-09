@@ -7,22 +7,24 @@ using System.Windows;
 
 namespace PL
 {
-    public class UpdateDroneVM : INotifyPropertyChanged  
+    public class UpdateDroneVM : DependencyObject, INotifyPropertyChanged
     {
         private int id;
         BackgroundWorker simulatorWorker;
         Action simulateDrone;
-        private Drone drone;
 
+        private Drone drone;
         public Drone Drone
         {
             get { return drone; }
-            set { drone = value;
+            set
+            {
+                drone = value;
                 onPropertyChanged("Drone");
             }
         }
-        private string droneModel;
 
+        private string droneModel;
         public string DroneModel
         {
             get { return droneModel; }
@@ -50,11 +52,11 @@ namespace PL
         {
             this.id = id;
             InitThisDrone();
-            droneModel = drone.Model;
-            UpdateDroneCommand = new(UpdateModel, param => drone.Error == null);
-            ChargingDroneCommand = new(SendToCharging, param => drone.Error == null);
-            ParcelTreatedByDrone = new(parcelTreatedByDrone, param => drone.Error == null);
-            DeleteDroneCommand = new(DeleteDrone, param => drone.Error == null);
+            droneModel = Drone.Model;
+            UpdateDroneCommand = new(UpdateModel, param => Drone.Error == null);
+            ChargingDroneCommand = new(SendToCharging, param => Drone.Error == null);
+            ParcelTreatedByDrone = new(parcelTreatedByDrone, param => Drone.Error == null);
+            DeleteDroneCommand = new(DeleteDrone, param => Drone.Error == null);
             DelegateVM.DroneChangedEvent += HandleADroneChanged;
             OpenParcelCommand = new(Tabs.OpenDetailes, null);
             OpenCustomerCommand = new(Tabs.OpenDetailes, null);
@@ -70,7 +72,7 @@ namespace PL
         {
             try
             {
-                drone = PLService.GetDrone(id);
+                Drone = PLService.GetDrone(id);
             }
             catch (KeyNotFoundException ex)
             {
@@ -85,11 +87,11 @@ namespace PL
         {
             try
             {
-                if (droneModel != drone.Model)
+                if (droneModel != Drone.Model)
                 {
-                    PLService.UpdateDrone(drone.Id, drone.Model);
+                    PLService.UpdateDrone(Drone.Id, Drone.Model);
                     MessageBox.Show("The drone has been successfully updated");
-                    droneModel = drone.Model;
+                    droneModel = Drone.Model;
                     DelegateVM.NotifyDroneChanged();
 
                 }
@@ -118,16 +120,16 @@ namespace PL
         {
             try
             {
-                if (drone.DroneState == PO.DroneState.AVAILABLE)
+                if (Drone.DroneState == PO.DroneState.AVAILABLE)
                 {
-                    PLService.SendDroneForCharg(drone.Id);
+                    PLService.SendDroneForCharg(Drone.Id);
                     //DelegateVM.NotifyDroneChanged(drone.Id);
                     DelegateVM.NotifyDroneChanged();
                     DelegateVM.NotifyStationChanged();
                 }
-                else if (drone.DroneState == PO.DroneState.MAINTENANCE)
+                else if (Drone.DroneState == PO.DroneState.MAINTENANCE)
                 {
-                    PLService.ReleaseDroneFromCharging(drone.Id);
+                    PLService.ReleaseDroneFromCharging(Drone.Id);
                     //DelegateVM.NotifyDroneChanged(drone.Id);
                     DelegateVM.NotifyDroneChanged();
                     DelegateVM.NotifyStationChanged();
@@ -162,24 +164,24 @@ namespace PL
         {
             try
             {
-                if (drone.DroneState == PO.DroneState.DELIVERY)
+                if (Drone.DroneState == PO.DroneState.DELIVERY)
                 {
-                    if (drone.Parcel.ParcelState == true)
+                    if (Drone.Parcel.ParcelState == true)
                     {
-                        PLService.DeliveryParcelByDrone(drone.Id);
+                        PLService.DeliveryParcelByDrone(Drone.Id);
                         //DelegateVM.NotifyDroneChanged(drone.Id);
                         DelegateVM.NotifyDroneChanged();
                     }
                     else
                     {
-                        PLService.ParcelCollectionByDrone(drone.Id);
+                        PLService.ParcelCollectionByDrone(Drone.Id);
                         //DelegateVM.NotifyDroneChanged(drone.Id);
                         DelegateVM.NotifyDroneChanged();
                     }
                 }
                 else
                 {
-                    PLService.AssingParcelToDrone(drone.Id);
+                    PLService.AssingParcelToDrone(Drone.Id);
                     //DelegateVM.NotifyDroneChanged(drone.Id);
                     DelegateVM.NotifyDroneChanged();
 
@@ -212,10 +214,10 @@ namespace PL
             {
                 if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    PLService.DeleteDrone(drone.Id);
+                    PLService.DeleteDrone(Drone.Id);
                     MessageBox.Show("The drone was successfully deleted");
                     DelegateVM.DroneChangedEvent -= HandleADroneChanged;
-                    DelegateVM.NotifyDroneChanged(drone.Id);
+                    DelegateVM.NotifyDroneChanged(Drone.Id);
                     Tabs.CloseTab(param as TabItemFormat);
                 }
             }
@@ -244,7 +246,7 @@ namespace PL
                 simulatorWorker.CancelAsync();
                if(simulatorWorker != null && !simulatorWorker.IsBusy)
                 {
-                    PLService.DeleteDrone(drone.Id);
+                    PLService.DeleteDrone(Drone.Id);
                     MessageBox.Show("The drone was successfully deleted");
                     DelegateVM.DroneChangedEvent -= HandleADroneChanged;
                     //DelegateVM.NotifyDroneChanged(drone.Id);
