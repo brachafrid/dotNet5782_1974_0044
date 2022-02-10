@@ -47,6 +47,7 @@ namespace BL
         }
         private void MaintenanceDrone()
         {
+            
             switch (maintenance)
             {
                 case Maintenance.Starting:
@@ -63,7 +64,7 @@ namespace BL
 
                 case Maintenance.Charging:
                     {
-                        //   להטעין
+                        //להטעין
                         break;
                     }
 
