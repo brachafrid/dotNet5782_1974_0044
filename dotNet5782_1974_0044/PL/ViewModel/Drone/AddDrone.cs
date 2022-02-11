@@ -15,7 +15,7 @@ namespace PL
         public AddDroneVM()
         {
             InitDrone();
-            DelegateVM.StationChangedEvent +=(sender,e)=> InitDrone();
+            DelegateVM.StationChangedEvent += (sender, e) => InitDrone();
             drone = new();
             AddDroneCommand = new(Add, param => drone.Error == null);
             Weight = Enum.GetValues(typeof(WeightCategories));
@@ -31,24 +31,21 @@ namespace PL
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
-        public void Add(object param)
+        public async void Add(object param)
         {
             try
             {
-                PLService.AddDrone(drone);
-                //DelegateVM.NotifyDroneChanged(drone.Id ?? 0);
-                DelegateVM.NotifyDroneChanged();
-                //DelegateVM.NotifyStationChanged(drone.StationId);
-                DelegateVM.NotifyStationChanged();
                 Tabs.CloseTab(param as TabItemFormat);
-
+                await PLService.AddDrone(drone);
+                DelegateVM.NotifyDroneChanged(drone.Id ?? 0);
+                DelegateVM.NotifyStationChanged(drone.StationId);
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {
                 MessageBox.Show("id has already exist");
                 drone.Id = null;
             }
-            catch(KeyNotFoundException ex)
+            catch (KeyNotFoundException ex)
             {
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }

@@ -185,7 +185,6 @@ namespace Dal
                         newParcel.PickedUp = DateTime.Now;
                         newParcel.Delivered = DateTime.Now;
                     }
-
                 }
 
             }

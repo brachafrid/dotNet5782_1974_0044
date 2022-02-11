@@ -22,13 +22,12 @@ namespace PL
             else
                 AddCustomerCommand = new(Add, param => customer.Error == null && customer.Location.Error == null);
         }
-        void Add(object param)
+        private async void Add(object param)
         {
             try
             {
-                PLService.AddCustomer(customer);
-                //DelegateVM.NotifyCustomerChanged((int)customer.Id);
-                DelegateVM.NotifyCustomerChanged();
+                await PLService.AddCustomer(customer);
+                DelegateVM.NotifyCustomerChanged((int)customer.Id);
                 Tabs.CloseTab(param as TabItemFormat);
             }
             catch (BO.XMLFileLoadCreateException ex)
@@ -45,14 +44,14 @@ namespace PL
                 MessageBox.Show("Id has already exist");
                 customer.Id = null;
             }
-         }
-        void AddSignIn(object param)
+        }
+        private async void AddSignIn(object param)
         {
             try
             {
-                PLService.AddCustomer(customer);
-                //DelegateVM.NotifyCustomerChanged((int)customer.Id);
-                DelegateVM.NotifyCustomerChanged();
+                await PLService.AddCustomer(customer);
+
+                DelegateVM.NotifyCustomerChanged((int)customer.Id);
                 LoginScreen.Id = customer.Id;
                 LoginScreen.MyScreen = "CustomerWindow";
             }

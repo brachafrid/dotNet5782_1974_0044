@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace PL
 {
-    public class UpdateDroneVM : DependencyObject, INotifyPropertyChanged
+    public class UpdateDroneVM : INotifyPropertyChanged
     {
         private int id;
         BackgroundWorker simulatorWorker;
@@ -52,11 +52,10 @@ namespace PL
         {
             this.id = id;
             InitThisDrone();
-            droneModel = Drone.Model;
-            UpdateDroneCommand = new(UpdateModel, param => Drone.Error == null);
-            ChargingDroneCommand = new(SendToCharging, param => Drone.Error == null);
-            ParcelTreatedByDrone = new(parcelTreatedByDrone, param => Drone.Error == null);
-            DeleteDroneCommand = new(DeleteDrone, param => Drone.Error == null);
+            UpdateDroneCommand = new(UpdateModel, param => Drone?.Error == null);
+            ChargingDroneCommand = new(SendToCharging, param => Drone?.Error == null);
+            ParcelTreatedByDrone = new(parcelTreatedByDrone, param => Drone?.Error == null);
+            DeleteDroneCommand = new(DeleteDrone, param => Drone?.Error == null);
             DelegateVM.DroneChangedEvent += HandleADroneChanged;
             OpenParcelCommand = new(Tabs.OpenDetailes, null);
             OpenCustomerCommand = new(Tabs.OpenDetailes, null);
@@ -68,11 +67,12 @@ namespace PL
             if (id == e.Id || e.Id == null)
                 InitThisDrone();
         }
-        public void InitThisDrone()
+        public  async void InitThisDrone()
         {
             try
             {
-                Drone = PLService.GetDrone(id);
+                Drone = await PLService.GetDrone(id);
+                droneModel = Drone.Model;
             }
             catch (KeyNotFoundException ex)
             {
@@ -83,13 +83,13 @@ namespace PL
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
-        public void UpdateModel(object param)
+        public async void UpdateModel(object param)
         {
             try
             {
                 if (droneModel != Drone.Model)
                 {
-                    PLService.UpdateDrone(Drone.Id, Drone.Model);
+                   await PLService.UpdateDrone(Drone.Id, Drone.Model);
                     MessageBox.Show("The drone has been successfully updated");
                     droneModel = Drone.Model;
                     DelegateVM.NotifyDroneChanged();
