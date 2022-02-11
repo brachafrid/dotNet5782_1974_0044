@@ -20,11 +20,11 @@ namespace PL
             AddDroneCommand = new(Add, param => drone.Error == null);
             Weight = Enum.GetValues(typeof(WeightCategories));
         }
-        void InitDrone()
+        async void  InitDrone()
         {
             try
             {
-                StationsId = PLService.GetStaionsWithEmptyChargeSlots().Select(station => station.Id);
+                StationsId =(await PLService.GetStaionsWithEmptyChargeSlots()).Select(station => station.Id);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {

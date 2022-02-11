@@ -9,25 +9,29 @@ namespace PL
     {
         public StationToListVM()
         {
-            sourceList = new ObservableCollection<StationToList>(PLService.GetStations());
-            list = new ListCollectionView(sourceList);
+            InitList();
             DelegateVM.StationChangedEvent += HandleStationChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
-        private void HandleStationChanged(object sender, EntityChangedEventArgs e)
+        private async void InitList()
+        {
+            sourceList = new ObservableCollection<StationToList>( await PLService.GetStations());
+            list = new ListCollectionView(sourceList);
+        }
+        private async void HandleStationChanged(object sender, EntityChangedEventArgs e)
         {
             if (e.Id != null)
             {
                 var station = sourceList.FirstOrDefault(s => s.Id == e.Id);
                 if (station != default)
                     sourceList.Remove(station);
-                var newStation = PLService.GetStations().FirstOrDefault(s => s.Id == e.Id);
+                var newStation =(await PLService.GetStations()).FirstOrDefault(s => s.Id == e.Id);
                 sourceList.Add(newStation);
             }
             else
             {
                 sourceList.Clear();
-                foreach (var item in PLService.GetStations())
+                foreach (var item in await PLService.GetStations())
                     sourceList.Add(item);
             }
         }

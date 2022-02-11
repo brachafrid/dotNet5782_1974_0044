@@ -84,9 +84,9 @@ namespace PL
             VisibilityAdministratorLogin = Visibility.Collapsed;
             VisibilityCustomerSignIn = Visibility.Collapsed;
         }
-        public void AdministratorLogin(object param)
+        public async void AdministratorLogin(object param)
         {
-            if ((param as PasswordBox).Password == PLService.GetAdministorPasssword())
+            if ((param as PasswordBox).Password == await PLService.GetAdministorPasssword())
             {
                 LoginScreen.MyScreen = "AdministratorWindow";
             }
@@ -102,7 +102,7 @@ namespace PL
             try
             {
               Customer  customer = await PLService.GetCustomer((int)customerLogin.Id);
-                if (PLService.IsNotActiveCustomer(customer.Id))
+                if (await PLService.IsNotActiveCustomer(customer.Id))
                     MessageBox.Show("Deleted customer");
                 else
                 {

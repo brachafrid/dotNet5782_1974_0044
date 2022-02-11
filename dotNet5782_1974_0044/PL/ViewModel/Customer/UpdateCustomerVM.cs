@@ -114,13 +114,13 @@ namespace PL
             }
 
         }
-        public void DeleteCustomer(object param)
+        public async void DeleteCustomer(object param)
         {
             try
             {
                 if (MessageBox.Show("You're sure you want to delete this customer?", "Delete Customer", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    PLService.DeleteCustomer(Customer.Id);
+                   await PLService.DeleteCustomer(Customer.Id);
                     MessageBox.Show("The customer was successfully deleted");
 
                     if (!IsAdministor)

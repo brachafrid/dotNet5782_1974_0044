@@ -116,22 +116,20 @@ namespace PL
             //DelegateVM.NotifyDroneChanged(drone.Id);
             DelegateVM.NotifyDroneChanged();
         }
-        public void SendToCharging(object param)
+        public async void SendToCharging(object param)
         {
             try
             {
-                if (Drone.DroneState == PO.DroneState.AVAILABLE)
+                if (Drone.DroneState == DroneState.AVAILABLE)
                 {
-                    PLService.SendDroneForCharg(Drone.Id);
-                    //DelegateVM.NotifyDroneChanged(drone.Id);
-                    DelegateVM.NotifyDroneChanged();
+                   await PLService.SendDroneForCharg(Drone.Id);
+                    DelegateVM.NotifyDroneChanged(drone.Id);
                     DelegateVM.NotifyStationChanged();
                 }
                 else if (Drone.DroneState == PO.DroneState.MAINTENANCE)
                 {
-                    PLService.ReleaseDroneFromCharging(Drone.Id);
-                    //DelegateVM.NotifyDroneChanged(drone.Id);
-                    DelegateVM.NotifyDroneChanged();
+                  await PLService.ReleaseDroneFromCharging(Drone.Id);
+                    DelegateVM.NotifyDroneChanged(drone.Id);
                     DelegateVM.NotifyStationChanged();
                 }
             }
@@ -160,7 +158,7 @@ namespace PL
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
-        public void parcelTreatedByDrone(object param)
+        public async void parcelTreatedByDrone(object param)
         {
             try
             {
@@ -168,20 +166,20 @@ namespace PL
                 {
                     if (Drone.Parcel.ParcelState == true)
                     {
-                        PLService.DeliveryParcelByDrone(Drone.Id);
+                      await  PLService.DeliveryParcelByDrone(Drone.Id);
                         //DelegateVM.NotifyDroneChanged(drone.Id);
                         DelegateVM.NotifyDroneChanged();
                     }
                     else
                     {
-                        PLService.ParcelCollectionByDrone(Drone.Id);
+                       await PLService.ParcelCollectionByDrone(Drone.Id);
                         //DelegateVM.NotifyDroneChanged(drone.Id);
                         DelegateVM.NotifyDroneChanged();
                     }
                 }
                 else
                 {
-                    PLService.AssingParcelToDrone(Drone.Id);
+                  await PLService.AssingParcelToDrone(Drone.Id);
                     //DelegateVM.NotifyDroneChanged(drone.Id);
                     DelegateVM.NotifyDroneChanged();
 
@@ -208,13 +206,13 @@ namespace PL
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
-        public void DeleteDrone(object param)
+        public async void DeleteDrone(object param)
         {
             try
             {
                 if (MessageBox.Show("You're sure you want to delete this drone?", "Delete Drone", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    PLService.DeleteDrone(Drone.Id);
+                    await PLService.DeleteDrone(Drone.Id);
                     MessageBox.Show("The drone was successfully deleted");
                     DelegateVM.DroneChangedEvent -= HandleADroneChanged;
                     DelegateVM.NotifyDroneChanged(Drone.Id);
@@ -246,11 +244,10 @@ namespace PL
                 simulatorWorker.CancelAsync();
                if(simulatorWorker != null && !simulatorWorker.IsBusy)
                 {
-                    PLService.DeleteDrone(Drone.Id);
+                   await PLService.DeleteDrone(Drone.Id);
                     MessageBox.Show("The drone was successfully deleted");
                     DelegateVM.DroneChangedEvent -= HandleADroneChanged;
-                    //DelegateVM.NotifyDroneChanged(drone.Id);
-                    DelegateVM.NotifyDroneChanged();
+                    DelegateVM.NotifyDroneChanged(drone.Id);
                     Tabs.CloseTab(param as TabItemFormat);
                 }
              

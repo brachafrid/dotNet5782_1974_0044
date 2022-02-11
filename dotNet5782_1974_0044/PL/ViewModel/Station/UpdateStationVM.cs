@@ -71,11 +71,11 @@ namespace PL
             if (id == e.Id || e.Id == null)
                 initStation();
         }
-        public void initStation()
+        public async void initStation()
         {
             try
             {
-                station = PLService.GetStation(id);
+                station = await PLService.GetStation(id);
             }
             catch (KeyNotFoundException)
             {
