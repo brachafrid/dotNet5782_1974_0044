@@ -2,18 +2,18 @@
 <ArrayOfStation xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Station>
     <Id>1</Id>
-    <Name>statio</Name>
-    <Longitude>6.140777846863855</Longitude>
-    <Latitude>77.25447486213152</Latitude>
-    <ChargeSlots>92</ChargeSlots>
+    <Name>station_98</Name>
+    <Longitude>31.916364198045976</Longitude>
+    <Latitude>18.29197273742965</Latitude>
+    <ChargeSlots>33</ChargeSlots>
     <IsNotActive>false</IsNotActive>
   </Station>
   <Station>
     <Id>2</Id>
-    <Name>station</Name>
-    <Longitude>66.43900397719769</Longitude>
-    <Latitude>-3.907598608130402</Latitude>
-    <ChargeSlots>36</ChargeSlots>
+    <Name>station_99</Name>
+    <Longitude>65.96218081282554</Longitude>
+    <Latitude>30.65853015270947</Latitude>
+    <ChargeSlots>7</ChargeSlots>
     <IsNotActive>false</IsNotActive>
   </Station>
 </ArrayOfStation>
