@@ -64,10 +64,8 @@ namespace PL
                         }
                         break;
                     case "To":
-                        {
                             foreach (var item in (await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel)))
                                 sourceList.Add(await item);
-                        }
                         break;
                     default:
                         foreach (var item in await PLService.GetParcels())
