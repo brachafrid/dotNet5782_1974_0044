@@ -1,13 +1,6 @@
 ﻿using PL.PO;
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Data;
-using System.Windows.Documents;
 
 
 namespace PL
@@ -19,28 +12,25 @@ namespace PL
         public int SelectedTab
         {
             get { return selectedTab; }
-            set { selectedTab = value;
-                onPropertyChanged("SelectedTab");
-            }
+            set { Set(ref selectedTab, value); }
         }
 
-        private Customer customer=new();
+
+        private Customer customer = new();
 
         public Customer Customer
         {
             get { return customer; }
-            set { customer = value;
-                onPropertyChanged("Customer");
-            }
+            set { Set(ref customer, value); }
         }
+
         private Visibility visibilityCustomer = Visibility.Collapsed;
 
         public Visibility VisibilityCustomer
         {
             get { return visibilityCustomer; }
-            set { visibilityCustomer = value;
-                onPropertyChanged("VisibilityCustomer");
-            }
+            set => Set(ref visibilityCustomer, value);
+            
         }
         public RelayCommand DisplayParcelsCommand { get; set; }
         public RelayCommand sendParcel { get; set; }
@@ -52,7 +42,7 @@ namespace PL
         public RelayCommand DisplayCustomerCommand { get; set; }
         public ParcelAdd parcel { set; get; }
         int id;
-        public CustomerWindowVM( int Id)    
+        public CustomerWindowVM(int Id)
         {
             id = Id;
             Init();
@@ -62,16 +52,16 @@ namespace PL
             DisplayParcelsToCommand = new(DisplayParcelsTo, null);
             DisplayCustomerCommand = new(DisplayCustomer, null);
             DelegateVM.CustomerChangedEvent += HandleCustomerChanged;
-            DelegateVM.ParcelChangedEvent +=(sender,e)=> Init();
+            DelegateVM.ParcelChangedEvent += (sender, e) => Init();
         }
         private void HandleCustomerChanged(object sender, EntityChangedEventArgs e)
         {
-            if (id == e.Id||e.Id==null)
+            if (id == e.Id || e.Id == null)
                 Init();
         }
         public async void Init()
         {
-            customer = await PLService.GetCustomer(id); 
+            customer = await PLService.GetCustomer(id);
         }
 
         public void changeIndex(int index)
@@ -81,9 +71,9 @@ namespace PL
         public void DisplayCustomer(object param)
         {
             Tabs.AddTab(new TabItemFormat()
-            { 
+            {
                 Header = "Customer",
-                Content = new UpdateCustomerVM(id,false),
+                Content = new UpdateCustomerVM(id, false),
             });
         }
         public void AddParcel(object param)
@@ -91,13 +81,13 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Header = "Add Parcel",
-                Content = new AddParcelVM(false,id),
+                Content = new AddParcelVM(false, id),
             });
         }
         public void DisplayParcelsFrom(object param)
         {
             Tabs.AddTab(new TabItemFormat()
-            { 
+            {
                 Header = "Parcels From Customer",
                 Content = new ParcelToListVM(id, "From"),
             });
@@ -109,11 +99,14 @@ namespace PL
                 Header = "Parcels To Customer",
                 Content = new ParcelToListVM(id, "To"),
             });
-        }
 
-        public override void AddEntity(object param)
+
+        }
+    public override void AddEntity(object param)
         {
             throw new NotImplementedException();
         }
     }
 }
+
+

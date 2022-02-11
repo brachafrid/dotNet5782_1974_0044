@@ -20,7 +20,6 @@ namespace PL
         {
             InitList();
             IsAdministor = true;
-            //UpdateInitList();
             DelegateVM.CustomerChangedEvent += HandleParcelChanged;
             DelegateVM.ParcelChangedEvent += HandleParcelChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
@@ -37,7 +36,6 @@ namespace PL
             state = (string)State;
             InitList();
             list = new ListCollectionView(sourceList);
-            //UpdateInitList();
             DelegateVM.CustomerChangedEvent += HandleParcelChanged;
             DelegateVM.ParcelChangedEvent += HandleParcelChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
