@@ -65,15 +65,15 @@ namespace PL
             if (id == e.Id || e.Id == null)
                 InitParcel();
         }
-        public void InitParcel()
+        public async void InitParcel()
         {
-            parcel = PLService.GetParcel(id);
+            parcel = await PLService.GetParcel(id);
         }
-        public void DeleteParcel(object param)
+        public  async void DeleteParcel(object param)
         {
             if (MessageBox.Show("You're sure you want to delete this parcel?", "Delete Parcel", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
             {
-                PLService.DeleteParcel(Parcel.Id);
+               await PLService.DeleteParcel(Parcel.Id);
                 MessageBox.Show("The parcel was successfully deleted");
                 DelegateVM.ParcelChangedEvent -= HandleAParcelChanged;
                 //DelegateVM.NotifyParcelChanged(Parcel.Id);
@@ -82,7 +82,7 @@ namespace PL
             }
         }
 
-        public void parcelTreatedByDrone(object param)
+        public async void parcelTreatedByDrone(object param)
         {
             try
             {
@@ -90,15 +90,13 @@ namespace PL
                 {
                     if (Parcel.CollectionTime != null)
                     {
-                        PLService.DeliveryParcelByDrone(Parcel.Drone.Id);
-                        //DelegateVM.NotifyDroneChanged(Parcel.Drone.Id);
-                        DelegateVM.NotifyDroneChanged();
+                      await  PLService.DeliveryParcelByDrone(Parcel.Drone.Id);
+                        DelegateVM.NotifyDroneChanged(Parcel.Drone.Id);
                     }
                     else
                     {
-                        PLService.ParcelCollectionByDrone(Parcel.Drone.Id);
-                        //DelegateVM.NotifyDroneChanged(Parcel.Drone.Id);
-                        DelegateVM.NotifyDroneChanged();
+                      await  PLService.ParcelCollectionByDrone(Parcel.Drone.Id);
+                        DelegateVM.NotifyDroneChanged(Parcel.Drone.Id);
                     }
                 }
             }
