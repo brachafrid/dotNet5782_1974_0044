@@ -3,6 +3,7 @@ using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace BL
 {
@@ -13,7 +14,7 @@ namespace BL
         /// Add a parcel to the list of parcels
         /// </summary>
         /// <param name="parcelBl">The parcel for Adding</param>
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+       // [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(Parcel parcelBl)
         {
             lock (dal)
@@ -49,7 +50,7 @@ namespace BL
         /// Retrieves the list of parcels that not assigned to drone from the data and converts it to parcel to list
         /// </summary>
         /// <returns>A list of parcels to print</returns>
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+       // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone(Predicate<int> notAssign)
         {
             try
@@ -72,7 +73,7 @@ namespace BL
         /// Retrieves the list of parcels from the data and converts it to parcel to list
         /// </summary>
         /// <returns>A list of parcels to print</returns>
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+       // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelToList> GetParcels()
         {
             try
@@ -90,7 +91,7 @@ namespace BL
             }
 
         }
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+       // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelToList> GetActiveParcels()
         {
             try
@@ -126,7 +127,7 @@ namespace BL
         /// <param name="id">The requested parcel id</param>
         /// <param name="nullAble">enable null if the customer sender or reciver not found</param>
         /// <returns>A Bl parcel to print</returns>
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+       // [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int id)
         {
             try
@@ -199,7 +200,7 @@ namespace BL
         #endregion
 
         #region Delete
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+       // [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(int id)
         {
             try
@@ -236,7 +237,7 @@ namespace BL
             }
         }
         #endregion
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+       // [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsNotActiveParcel(int id)
         {
             lock (dal)

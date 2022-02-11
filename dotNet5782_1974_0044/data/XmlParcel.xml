@@ -27,32 +27,6 @@
     <IsNotActive>false</IsNotActive>
   </Parcel>
   <Parcel>
-    <Id>3</Id>
-    <SenderId>9</SenderId>
-    <TargetId>1</TargetId>
-    <Weigth>MEDIUM</Weigth>
-    <Priority>REGULAR</Priority>
-    <Requested>2022-02-11T10:25:56.3298646+02:00</Requested>
-    <DorneId>1</DorneId>
-    <Sceduled>2022-02-11T10:25:56.3333438+02:00</Sceduled>
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
-    <Id>4</Id>
-    <SenderId>8</SenderId>
-    <TargetId>10</TargetId>
-    <Weigth>LIGHT</Weigth>
-    <Priority>REGULAR</Priority>
-    <Requested>2022-02-11T10:25:56.3356095+02:00</Requested>
-    <DorneId>1</DorneId>
-    <Sceduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
     <Id>5</Id>
     <SenderId>2</SenderId>
     <TargetId>7</TargetId>
@@ -105,16 +79,16 @@
     <IsNotActive>false</IsNotActive>
   </Parcel>
   <Parcel>
-    <Id>9</Id>
-    <SenderId>7</SenderId>
+    <Id>3</Id>
+    <SenderId>9</SenderId>
     <TargetId>1</TargetId>
-    <Weigth>LIGHT</Weigth>
-    <Priority>FAST</Priority>
-    <Requested>2022-02-11T10:25:56.3655592+02:00</Requested>
+    <Weigth>MEDIUM</Weigth>
+    <Priority>REGULAR</Priority>
+    <Requested>2022-02-11T10:25:56.3298646+02:00</Requested>
     <DorneId>1</DorneId>
-    <Sceduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
+    <Sceduled>2022-02-11T10:25:56.3333438+02:00</Sceduled>
+    <PickedUp>2022-02-11T10:36:42.4746794+02:00</PickedUp>
+    <Delivered>2022-02-11T10:36:44.5636436+02:00</Delivered>
     <IsNotActive>false</IsNotActive>
   </Parcel>
   <Parcel>
@@ -124,10 +98,36 @@
     <Weigth>LIGHT</Weigth>
     <Priority>FAST</Priority>
     <Requested>2022-02-11T10:25:56.3714546+02:00</Requested>
-    <DorneId>0</DorneId>
-    <Sceduled xsi:nil="true" />
+    <DorneId>1</DorneId>
+    <Sceduled>2022-02-11T10:36:45.13964+02:00</Sceduled>
     <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
+    <Delivered>2022-02-11T10:36:45.6430771+02:00</Delivered>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>4</Id>
+    <SenderId>8</SenderId>
+    <TargetId>10</TargetId>
+    <Weigth>LIGHT</Weigth>
+    <Priority>REGULAR</Priority>
+    <Requested>2022-02-11T10:25:56.3356095+02:00</Requested>
+    <DorneId>1</DorneId>
+    <Sceduled xsi:nil="true" />
+    <PickedUp>2022-02-11T11:06:54.6728926+02:00</PickedUp>
+    <Delivered>2022-02-11T11:06:58.8633121+02:00</Delivered>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>9</Id>
+    <SenderId>7</SenderId>
+    <TargetId>1</TargetId>
+    <Weigth>LIGHT</Weigth>
+    <Priority>FAST</Priority>
+    <Requested>2022-02-11T10:25:56.3655592+02:00</Requested>
+    <DorneId>1</DorneId>
+    <Sceduled xsi:nil="true" />
+    <PickedUp>2022-02-11T11:11:50.4981427+02:00</PickedUp>
+    <Delivered>2022-02-11T11:11:52.2799957+02:00</Delivered>
     <IsNotActive>false</IsNotActive>
   </Parcel>
 </ArrayOfParcel>
