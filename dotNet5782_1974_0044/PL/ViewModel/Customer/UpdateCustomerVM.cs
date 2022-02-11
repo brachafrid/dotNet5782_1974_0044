@@ -96,7 +96,7 @@ namespace PL
                     await PLService.UpdateCustomer(customer.Id, customer.Name, customer.Phone);
                     customerName = customer.Name;
                     customerPhone = customer.Phone;
-                    DelegateVM.NotifyCustomerChanged();
+                    DelegateVM.NotifyCustomerChanged(Customer.Id);
 
                 }
             }
@@ -132,8 +132,7 @@ namespace PL
                     else
                     {
                         DelegateVM.CustomerChangedEvent -= HandleACustomerChanged;
-                        //DelegateVM.NotifyCustomerChanged(Customer.Id);
-                        DelegateVM.NotifyCustomerChanged();
+                        DelegateVM.NotifyCustomerChanged(Customer.Id);
                         Tabs.CloseTab(param as TabItemFormat);
                     }
 

@@ -49,7 +49,7 @@ namespace PL
         /// <returns>Returns visibility, visible or collapsed</returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return values[0].ToString() != new DateTime().ToString() && values[1].ToString()==new DateTime().ToString()? Visibility.Visible : Visibility.Collapsed;
+            return values[0]!=null && values[0].ToString() != new DateTime().ToString() && values[1].ToString()==new DateTime().ToString()? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace PL
         /// <returns>Returns visibility, visible or collapsed</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            return value.ToString() != new DateTime().ToString()?"Parcel delivery":"Parcel collection";
+            return value!=null && value.ToString() != new DateTime().ToString()?"Parcel delivery":"Parcel collection";
         }
 
         /// <summary>

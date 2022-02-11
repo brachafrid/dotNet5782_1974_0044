@@ -40,25 +40,11 @@ namespace PL
         {
             this.id = id;
             InitParcel();
-            DeleteParcelCommand = new(DeleteParcel, param => Parcel.Error == null);
+            DeleteParcelCommand = new(DeleteParcel, param => Parcel?.Error == null);
             OpenCustomerCommand = new(Tabs.OpenDetailes, null);
             OpenDroneCommand = new(Tabs.OpenDetailes, null);
-            ParcelTreatedByDrone = new(parcelTreatedByDrone, param => Parcel.Error == null);
+            ParcelTreatedByDrone = new(parcelTreatedByDrone, param => Parcel?.Error == null);
             DelegateVM.ParcelChangedEvent += HandleAParcelChanged;
-
-            if(Parcel.AssignmentTime == null)
-            {
-                Parcel.AssignmentTime = new DateTime();
-            }
-            if (Parcel.CollectionTime == null)
-            {
-                Parcel.CollectionTime = new DateTime();
-            }
-            if (Parcel.DeliveryTime == null)
-            {
-                Parcel.DeliveryTime = new DateTime();
-            }
-            //Parcel.CollectionTime = DateTime.Now;
         }
         private void HandleAParcelChanged(object sender, EntityChangedEventArgs e)
         {
@@ -68,6 +54,18 @@ namespace PL
         public async void InitParcel()
         {
             parcel = await PLService.GetParcel(id);
+            //if (Parcel.AssignmentTime == null)
+            //{
+            //    Parcel.AssignmentTime = new DateTime();
+            //}
+            //if (Parcel.CollectionTime == null)
+            //{
+            //    Parcel.CollectionTime = new DateTime();
+            //}
+            //if (Parcel.DeliveryTime == null)
+            //{
+            //    Parcel.DeliveryTime = new DateTime();
+            //}
         }
         public  async void DeleteParcel(object param)
         {
@@ -76,8 +74,7 @@ namespace PL
                await PLService.DeleteParcel(Parcel.Id);
                 MessageBox.Show("The parcel was successfully deleted");
                 DelegateVM.ParcelChangedEvent -= HandleAParcelChanged;
-                //DelegateVM.NotifyParcelChanged(Parcel.Id);
-                DelegateVM.NotifyParcelChanged();
+                DelegateVM.NotifyParcelChanged(Parcel.Id);
                 Tabs.CloseTab(param as TabItemFormat);
             }
         }

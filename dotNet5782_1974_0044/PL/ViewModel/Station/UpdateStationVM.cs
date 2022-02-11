@@ -58,11 +58,9 @@ namespace PL
         public UpdateStationVM(int id)
         {
             this.id = id;
-            initStation();
-            stationName = Station.Name;
-            stationEmptyChargeSlots = Station.EmptyChargeSlots;
-            UpdateStationCommand = new(UpdateStation, param => Station.Error == null);
-            DeleteStationCommand = new(DeleteStation, param => Station.Error == null);
+            initStation();          
+            UpdateStationCommand = new(UpdateStation, param => Station?.Error == null);
+            DeleteStationCommand = new(DeleteStation, param => Station?.Error == null);
             DelegateVM.StationChangedEvent += HandleAStationChanged;
             OpenDroneChargeCommand = new(Tabs.OpenDetailes, null);
         }
@@ -76,6 +74,8 @@ namespace PL
             try
             {
                 station = await PLService.GetStation(id);
+                stationName = Station.Name;
+                stationEmptyChargeSlots = Station.EmptyChargeSlots;
             }
             catch (KeyNotFoundException)
             {
@@ -112,8 +112,8 @@ namespace PL
                     PLService.DeleteStation(Station.Id);
                     MessageBox.Show("The station was successfully deleted");
                     DelegateVM.StationChangedEvent -= HandleAStationChanged;
-                    //DelegateVM.NotifyStationChanged(Station.Id);
-                    DelegateVM.NotifyStationChanged();
+                    DelegateVM.NotifyStationChanged(Station.Id);
+
                     Tabs.CloseTab(param as TabItemFormat);
                 }
             }
