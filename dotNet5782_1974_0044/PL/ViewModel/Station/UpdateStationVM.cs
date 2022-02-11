@@ -59,7 +59,6 @@ namespace PL
         {
             this.id = id;
             initStation();
-           
             UpdateStationCommand = new(UpdateStation, param => Station?.Error == null);
             DeleteStationCommand = new(DeleteStation, param => Station?.Error == null);
             DelegateVM.StationChangedEvent += HandleAStationChanged;
@@ -113,8 +112,8 @@ namespace PL
                     PLService.DeleteStation(Station.Id);
                     MessageBox.Show("The station was successfully deleted");
                     DelegateVM.StationChangedEvent -= HandleAStationChanged;
-                    //DelegateVM.NotifyStationChanged(Station.Id);
-                    DelegateVM.NotifyStationChanged();
+                    DelegateVM.NotifyStationChanged(Station.Id);
+
                     Tabs.CloseTab(param as TabItemFormat);
                 }
             }

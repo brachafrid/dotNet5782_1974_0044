@@ -87,9 +87,9 @@
             <StackPanel>
                 <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
                     <TextBlock Text="{Binding Path=DroneModel,  StringFormat= model :{0:d}}" />
-                    <TextBlock Text="{Binding Path=Weight, StringFormat= maxWeigth :{0}}"/>
+                    <TextBlock Text="{Binding Path=Weight, StringFormat= 'max Weigth :{0}'}"/>
                     <TextBlock Text="{Binding Path=DroneState, StringFormat= state :{0}}"/>
-                    <TextBlock Text="{Binding Path=BatteryState, StringFormat= batteryState :{0}%}" />
+                    <TextBlock Text="{Binding Path=BatteryState, StringFormat=' battery State :{0}%'}" />
                     <TextBlock Text="{Binding Path=ParcelId, StringFormat= parcel :{0:d}}" />
                     <Expander Header="CurrentLocation">
                         <ContentPresenter Content="{Binding Path=CurrentLocation}" />
@@ -109,7 +109,7 @@
                     </DockPanel>
                     <TextBlock Text="{Binding Path=Weight, StringFormat=Weigth :{0}}"/>
                     <TextBlock Text="{Binding Path = DroneState, StringFormat=state :{0}}" />
-                    <TextBlock Text="{Binding Path = BattaryMode, StringFormat= BattaryMode :{0}%}" />
+                    <TextBlock Text="{Binding Path = BattaryMode, StringFormat= 'Battary Mode :{0}%'}" />
                     <ProgressBar  Value="{Binding Path=BattaryMode}" Width="80" Minimum="0" Maximum="100"/>
                 </ListBox>
             </StackPanel>
@@ -136,7 +136,7 @@
                 <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
                     <TextBlock Text="{Binding Path=Weight, StringFormat = Weigth:{0}}"/>
                     <TextBlock Text="{Binding Path=Piority, StringFormat = Priority:{0}}"/>
-                    <TextBlock Text="{Binding Path = ParcelState, StringFormat= ParcelState :{0}}"/>
+                    <TextBlock Text="{Binding Path = ParcelState, StringFormat= 'Parcel State :{0}'}"/>
                 </ListBox>
             </StackPanel>
         </Expander>
@@ -147,7 +147,7 @@
             <StackPanel>
                 <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
                     <TextBlock Text="{Binding Path=Name, StringFormat=Name :{0}}"/>
-                    <TextBlock Text="{Binding Path=ChargeSlots, StringFormat=chargeSlots :{0:d}}"/>
+                    <TextBlock Text="{Binding Path=ChargeSlots, StringFormat='charge Slots :{0:d}'}"/>
                 </ListBox>
             </StackPanel>
         </Expander>
@@ -159,10 +159,10 @@
                 <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
                     <TextBlock Text="{Binding Path=Name, StringFormat=Name :{0}}"/>
                     <TextBlock Text="{Binding Path=Phone, StringFormat=Phone :{0}}"/>
-                    <TextBlock Text="{Binding Path=NumParcelSentDelivered, StringFormat=NumParcelSentDelivered :{0:d}}"/>
-                    <TextBlock Text="{Binding Path=NumParcelSentNotDelivered, StringFormat=NumParcelSentNotDelivered :{0:d}}"/>
-                    <TextBlock Text="{Binding Path=NumParcelReceived, StringFormat=NumParcelReceived :{0:d}}"/>
-                    <TextBlock Text="{Binding Path=NumParcelWayToCustomer, StringFormat=NumParcelWayToCustomer :{0:d}}"/>
+                    <TextBlock Text="{Binding Path=NumParcelSentDelivered, StringFormat='Num parcel send and delivered :{0:d}'}"/>
+                    <TextBlock Text="{Binding Path=NumParcelSentNotDelivered, StringFormat='Num parcel send and not delivered :{0:d}'}"/>
+                    <TextBlock Text="{Binding Path=NumParcelReceived, StringFormat='Num parcel received :{0:d}'}"/>
+                    <TextBlock Text="{Binding Path=NumParcelWayToCustomer, StringFormat='Num parcel way to customer :{0:d}'}"/>
                 </ListBox>
             </StackPanel>
         </Expander>
@@ -240,7 +240,7 @@
                 <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
                     <TextBlock Text="{Binding Path=Weight, StringFormat=Weight :{0}}"/>
                     <TextBlock Text="{Binding Path=Piority, StringFormat=Piority :{0}}"/>
-                    <TextBlock Text="{Binding Path=PackageMode, StringFormat=PackageMode :{0}}"/>
+                    <TextBlock Text="{Binding Path=PackageMode, StringFormat='Package mode :{0}'}"/>
                 </ListBox>
             </StackPanel>
         </Expander>
@@ -252,7 +252,7 @@
                 <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
                     <TextBlock Text="{Binding Path=Weight, StringFormat=Weight :{0}}"/>
                     <TextBlock Text="{Binding Path=Piority, StringFormat=Piority :{0}}"/>
-                    <TextBlock Text="{Binding Path=PackageMode, StringFormat=Package Mode :{0}}"/>
+                    <TextBlock Text="{Binding Path=PackageMode, StringFormat='Package mode :{0}'}"/>
                     <materialDesign:Card Margin="5" Padding="5">
                         <StackPanel>
                             <DockPanel Margin="20">
@@ -283,10 +283,10 @@
             <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
                 <TextBlock  Text ="{Binding Piority, StringFormat=Piority :{0}}" />
                 <TextBlock  Text ="{Binding Weight, StringFormat=Weight :{0} }" />
-                <TextBlock Text="{Binding Path=CreationTime, StringFormat=CreationTime :{0}}"/>
-                <TextBlock Text="{Binding Path=AssignmentTime, StringFormat=AssignmentTime :{0}}"/>
-                <TextBlock Text="{Binding Path=CollectionTime, StringFormat=CollectionTime :{0}}"/>
-                <TextBlock Text="{Binding Path=DeliveryTime, StringFormat=DeliveryTime :{0}}"/>
+                <TextBlock Text="{Binding Path=CreationTime, StringFormat='Creation Time :{0:d}'}"/>
+                <TextBlock Text="{Binding Path=AssignmentTime, StringFormat='Assignment Time :{0:d}'}"/>
+                <TextBlock Text="{Binding Path=CollectionTime, StringFormat='Collection Time :{0:d}'}"/>
+                <TextBlock Text="{Binding Path=DeliveryTime, StringFormat='Delivery Time :{0:d}'}"/>
             </ListBox>
             <materialDesign:Card Margin="5" Padding="5" >
                 <i:Interaction.Triggers>
