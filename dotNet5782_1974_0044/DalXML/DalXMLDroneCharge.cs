@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using DO;
 using DLApi;
 using System.Runtime.CompilerServices;
+using System.Collections;
 
 namespace Dal
 {
@@ -45,6 +46,18 @@ namespace Dal
         {
             try { 
                 return DalXmlService.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH).FindAll(item => inTheStation(item.Stationld)).Select(item => item.Droneld);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+        }
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<DroneCharge> GetDronescharging()
+        {
+            try
+            {
+                return DalXmlService.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH);
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
