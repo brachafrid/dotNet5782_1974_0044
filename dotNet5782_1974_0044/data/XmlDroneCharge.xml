@@ -290,4 +290,44 @@
     <Stationld>2</Stationld>
     <StartCharging>2022-02-09T21:39:30.6650299+02:00</StartCharging>
   </DroneCharge>
+  <DroneCharge>
+    <Droneld>2</Droneld>
+    <Stationld>1</Stationld>
+    <StartCharging>2022-02-11T10:02:16.6444738+02:00</StartCharging>
+  </DroneCharge>
+  <DroneCharge>
+    <Droneld>45</Droneld>
+    <Stationld>2</Stationld>
+    <StartCharging>2022-02-11T10:02:16.7390538+02:00</StartCharging>
+  </DroneCharge>
+  <DroneCharge>
+    <Droneld>87</Droneld>
+    <Stationld>2</Stationld>
+    <StartCharging>2022-02-11T10:02:16.7531431+02:00</StartCharging>
+  </DroneCharge>
+  <DroneCharge>
+    <Droneld>4</Droneld>
+    <Stationld>2</Stationld>
+    <StartCharging>2022-02-11T10:02:42.6632914+02:00</StartCharging>
+  </DroneCharge>
+  <DroneCharge>
+    <Droneld>5</Droneld>
+    <Stationld>1</Stationld>
+    <StartCharging>2022-02-11T10:31:14.7461639+02:00</StartCharging>
+  </DroneCharge>
+  <DroneCharge>
+    <Droneld>2</Droneld>
+    <Stationld>2</Stationld>
+    <StartCharging>2022-02-11T10:31:14.8248796+02:00</StartCharging>
+  </DroneCharge>
+  <DroneCharge>
+    <Droneld>3</Droneld>
+    <Stationld>2</Stationld>
+    <StartCharging>2022-02-11T10:31:14.8399201+02:00</StartCharging>
+  </DroneCharge>
+  <DroneCharge>
+    <Droneld>45</Droneld>
+    <Stationld>2</Stationld>
+    <StartCharging>2022-02-11T10:31:14.8886163+02:00</StartCharging>
+  </DroneCharge>
 </ArrayOfDroneCharge>

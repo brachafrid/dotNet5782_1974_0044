@@ -38,7 +38,7 @@ namespace PL
             else
                 changeSelectedTab?.Invoke(TabItems.IndexOf(tabItem));
         }
-        public static void OpenDetailes(object param)
+        public async static void OpenDetailes(object param)
         {
             if (param != null)
             {
@@ -47,22 +47,22 @@ namespace PL
                 TabItemFormat tab =
                 t switch
                 {
-                    { } when t.Name.StartsWith("Drone") && !PLService.IsNotActiveDrone(id) => new TabItemFormat()
+                    { } when t.Name.StartsWith("Drone") && !await PLService.IsNotActiveDrone(id) => new TabItemFormat()
                     {
                         Header = "Drone " + id,
                         Content = new UpdateDroneVM(id)
                     },
-                    { } when t.Name.StartsWith("Customer") && !PLService.IsNotActiveCustomer(id) => new TabItemFormat()
+                    { } when t.Name.StartsWith("Customer") && !await PLService.IsNotActiveCustomer(id) => new TabItemFormat()
                     {
                         Header = "Customer " + id,
                         Content = new UpdateCustomerVM(id, true)
                     },
-                    { } when t.Name.StartsWith("Station") && !PLService.IsNotActiveStation(id) => new TabItemFormat()
+                    { } when t.Name.StartsWith("Station") && ! await PLService.IsNotActiveStation(id) => new TabItemFormat()
                     {
                         Header = "Station " + id,
                         Content = new UpdateStationVM(id)
                     },
-                    { } when t.Name.StartsWith("Parcel") && !PLService.IsNotActiveParcel(id) => new TabItemFormat()
+                    { } when t.Name.StartsWith("Parcel") && !await PLService.IsNotActiveParcel(id) => new TabItemFormat()
                     {
                         Header = "Parcel " + id,
                         Content = new UpdateParcelVM(id)
