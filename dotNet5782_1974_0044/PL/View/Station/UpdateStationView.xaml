@@ -22,9 +22,9 @@
             <Button.Visibility>
                     <MultiBinding Converter="{StaticResource ConverterUpdateStation}">
                             <Binding Path="Station.Name" />
-                        <Binding Path="stationName" />
+                        <Binding Path="StationName" />
                             <Binding Path="Station.EmptyChargeSlots" />
-                        <Binding Path="stationEmptyChargeSlots" />
+                        <Binding Path="StationEmptyChargeSlots" />
                     </MultiBinding>
                 </Button.Visibility>
             </Button>

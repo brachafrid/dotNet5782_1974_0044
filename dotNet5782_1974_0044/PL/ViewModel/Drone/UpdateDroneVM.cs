@@ -41,7 +41,6 @@ namespace PL
                 PropertyChanged(this, new PropertyChangedEventArgs(properyName));
 
         }
-
         public RelayCommand OpenParcelCommand { get; set; }
         public RelayCommand OpenCustomerCommand { get; set; }
         public RelayCommand UpdateDroneCommand { get; set; }

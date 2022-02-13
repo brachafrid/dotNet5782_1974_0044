@@ -13,34 +13,25 @@ namespace PL
         public int SelectedTab
         {
             get { return selectedTab; }
-            set
-            {
-                selectedTab = value;
-                onPropertyChanged("SelectedTab");
-            }
+            set { Set(ref selectedTab, value); }
         }
+
 
         private Customer customer = new();
 
         public Customer Customer
         {
             get { return customer; }
-            set
-            {
-                customer = value;
-                onPropertyChanged("Customer");
-            }
+            set { Set(ref customer, value); }
         }
+
         private Visibility visibilityCustomer = Visibility.Collapsed;
 
         public Visibility VisibilityCustomer
         {
             get { return visibilityCustomer; }
-            set
-            {
-                visibilityCustomer = value;
-                onPropertyChanged("VisibilityCustomer");
-            }
+            set => Set(ref visibilityCustomer, value);
+            
         }
         public RelayCommand DisplayParcelsCommand { get; set; }
         public RelayCommand sendParcel { get; set; }
@@ -84,6 +75,8 @@ namespace PL
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
+            customer = await PLService.GetCustomer(id);
+        }
 
         public void changeIndex(int index)
         {
@@ -120,11 +113,14 @@ namespace PL
                 Header = "Parcels To Customer",
                 Content = new ParcelToListVM(id, "To"),
             });
-        }
 
-        public override void AddEntity(object param)
+
+        }
+    public override void AddEntity(object param)
         {
             throw new NotImplementedException();
         }
     }
 }
+
+

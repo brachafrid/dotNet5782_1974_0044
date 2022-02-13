@@ -1,4 +1,5 @@
 ﻿using PL.PO;
+using PL.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,15 +7,9 @@ using System.Windows;
 
 namespace PL
 {
-    class UpdateStationVM : INotifyPropertyChanged
+    class UpdateStationVM : NotifyPropertyChangedBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
-        }
+       
 
         private readonly int id;
         public RelayCommand OpenDroneChargeCommand { get; set; }
@@ -25,8 +20,7 @@ namespace PL
             get { return station; }
             set
             {
-                station = value;
-                onPropertyChanged("Station");
+                Set(ref station, value);
             }
         }
         private string stationName;
@@ -36,8 +30,8 @@ namespace PL
             get { return stationName; }
             set
             {
-                stationName = value;
-                onPropertyChanged("StationName");
+                Set(ref stationName, value);
+             
             }
         }
         private int stationEmptyChargeSlots = 0;
@@ -47,8 +41,7 @@ namespace PL
             get { return stationEmptyChargeSlots; }
             set
             {
-                stationEmptyChargeSlots = value;
-                onPropertyChanged("StationEmptyChargeSlots");
+                Set(ref stationEmptyChargeSlots, value);
             }
         }
 
@@ -117,14 +110,14 @@ namespace PL
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
-        public void DeleteStation(object param)
+        public async void DeleteStation(object param)
         {
             try
             {
 
-                if (MessageBox.Show("You're sure you want to delete this station?", "Delete Station", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                if (MessageBox.Show("Are You sure you want to delete this station?", "Delete Station", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                    PLService.DeleteStation(Station.Id);
+                  await  PLService.DeleteStation(Station.Id);
                     MessageBox.Show("The station was successfully deleted");
                     DelegateVM.StationChangedEvent -= HandleAStationChanged;
                     DelegateVM.NotifyStationChanged(Station.Id);

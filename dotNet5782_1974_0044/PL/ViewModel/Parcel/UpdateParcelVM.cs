@@ -1,4 +1,5 @@
 ﻿using PL.PO;
+using PL.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -10,15 +11,8 @@ using System.Windows.Controls;
 
 namespace PL
 {
-    class UpdateParcelVM : INotifyPropertyChanged
+    class UpdateParcelVM : NotifyPropertyChangedBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
-        }
         private readonly int id;
         public RelayCommand OpenCustomerCommand { get; set; }
         public RelayCommand OpenDroneCommand { get; set; }
@@ -29,8 +23,8 @@ namespace PL
         public Parcel Parcel
         {
             get { return parcel; }
-            set { parcel = value;
-                onPropertyChanged("Parcel");
+            set {
+                Set(ref parcel, value);
             }
         }
 

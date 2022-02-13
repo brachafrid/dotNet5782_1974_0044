@@ -1,4 +1,5 @@
 ﻿using PL.PO;
+using PL.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -281,29 +282,7 @@ namespace PL
             }
 
         }
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
-        }
     }
 
-    public class NotifyPropertyChangedBase : INotifyPropertyChanged
-    {
-        public virtual bool Set<T>(ref T field, T value, [CallerMemberName] string propertyName = null)
-        {
-            if (Equals(field, value))
-                return false;
-            field = value;
-            RaisePropertyChanged(propertyName);
-            return true;
-        }
-        protected void RaisePropertyChanged([CallerMemberName] string propertyName = null)
-        {
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-    }
+   
 }
