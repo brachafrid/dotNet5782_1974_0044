@@ -10,7 +10,7 @@ using PL.PO;
 
 namespace PL
 {
-    public class CustomerAddVM
+    public class CustomerAddVM : IDisposable
     {
         public CustomerAdd customer { get; set; }
         public RelayCommand AddCustomerCommand { get; set; }
@@ -70,7 +70,8 @@ namespace PL
                     MessageBox.Show(ex.ToString());
             }
         }
-
-
+        public void Dispose()
+        {
+        }
     }
 }

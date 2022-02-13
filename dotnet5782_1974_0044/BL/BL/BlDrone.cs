@@ -2,10 +2,7 @@
 using BO;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Runtime.Serialization;
 
 namespace BL
 {
@@ -83,7 +80,7 @@ namespace BL
             }
 
         }
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneToList> GetActiveDrones() => drones.Where(drone => !drone.IsNotActive);
 
         /// <summary>
@@ -135,23 +132,28 @@ namespace BL
             if (droneToList == default)
                 throw new KeyNotFoundException($"The drone id {id} not exsits in data so the updating failed");
             if (droneToList.IsNotActive)
-                throw new DeletedExeption("drone deleted",id);
-            if (droneToList.DroneState != DroneState.AVAILABLE && droneToList.DroneState != DroneState.WAYTOCHARGE)
+                throw new DeletedExeption("drone deleted", id);
+            if (droneToList.DroneState != DroneState.AVAILABLE)
                 throw new InvalidDroneStateException($"The drone {id} is {droneToList.DroneState} so it is not possible to send it for charging ");
             try
             {
                 Station station = ClosetStationPossible(droneToList.CurrentLocation, (int chargeSlots) => chargeSlots > 0, droneToList.BatteryState, out double minDistance);
                 if (station == null)
-                    throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();
+                    station = ClosetStationPossible(droneToList.CurrentLocation, (int chargeSlots) => true, droneToList.BatteryState, out minDistance);
+                if (station == null)
+                {
+                    droneToList.DroneState = DroneState.RESCUE;
+                    return;
+                }
                 droneToList.DroneState = DroneState.MAINTENANCE;
                 droneToList.BatteryState -= minDistance * available;
                 droneToList.CurrentLocation = station.Location;
                 //No charging position was subtracting because there is no point in changing a variable that is not saved after the end of the function
                 dal.AddDRoneCharge(id, station.Id);
             }
-            catch (NotExsistSuitibleStationException ex)
+            catch (NotExsistSuitibleStationException)
             {
-                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException(ex.Message, ex);//?
+                droneToList.DroneState = DroneState.RESCUE;
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
@@ -170,7 +172,7 @@ namespace BL
         {
             try
             {
-                DroneToList  droneToList = drones.FirstOrDefault(item => item.Id == id);
+                DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
                 if (droneToList == default)
                     throw new KeyNotFoundException($"The drone id {id} not exsits in data so the updating failed");
                 if (droneToList.IsNotActive)
@@ -207,7 +209,7 @@ namespace BL
                     throw new KeyNotFoundException($"The drone id {droneId} not exsits in data so the updating failed");
                 if (aviableDrone.IsNotActive)
                     throw new DeletedExeption("drone deleted", droneId);
-                if (aviableDrone.DroneState != DroneState.AVAILABLE && aviableDrone.DroneState!=DroneState.WAYTOCHARGE)
+                if (aviableDrone.DroneState != DroneState.AVAILABLE)
                     throw new InvalidDroneStateException($" The drone is {aviableDrone.DroneState} so it is not possible to assign it a parcel");
                 Dictionary<ParcelToList, double> parcels = CreatParcelDictionaryToAssign(aviableDrone);
                 ParcelToList parcel = TreatInPiority(parcels);
@@ -217,15 +219,15 @@ namespace BL
             }
             catch (ThereIsNoNearbyBaseStationThatTheDroneCanReachException ex)
             {
-                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException("",ex);//?
+                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException("", ex);//?
             }
-            catch(NotExsistSutibleParcelException ex)
+            catch (NotExsistSutibleParcelException ex)
             {
-                throw new NotExsistSutibleParcelException(ex.Message,ex);
+                throw new NotExsistSutibleParcelException(ex.Message, ex);
             }
             catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException(ex.Message,ex);
+                throw new KeyNotFoundException(ex.Message, ex);
             }
             catch (ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
@@ -267,7 +269,7 @@ namespace BL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-            catch(DO.XMLFileLoadCreateException ex)
+            catch (DO.XMLFileLoadCreateException ex)
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
@@ -313,7 +315,7 @@ namespace BL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-            catch( DO.XMLFileLoadCreateException ex)
+            catch (DO.XMLFileLoadCreateException ex)
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
@@ -321,7 +323,7 @@ namespace BL
         #endregion
 
         #region Delete
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(int id)
         {
             DroneToList drone = drones.FirstOrDefault(item => item.Id == id);
@@ -344,7 +346,7 @@ namespace BL
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
-            catch(TheDroneIsNotInChargingException)
+            catch (TheDroneIsNotInChargingException)
             {
                 drone.DroneState = DroneState.AVAILABLE;
                 drone.IsNotActive = true;
@@ -352,7 +354,7 @@ namespace BL
 
         }
         #endregion
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsNotActiveDrone(int id) => drones.Any(drone => drone.Id == id && drone.IsNotActive);
 
         private IEnumerable<DroneInCharging> CreatListDroneInCharging(int id)
@@ -374,8 +376,8 @@ namespace BL
             }
             return droneInChargings;
         }
-     
-       
+
+
         /// <summary>
         /// Find the best parcel to assigning to thev drone
         /// </summary>
@@ -390,12 +392,12 @@ namespace BL
             return suitableParcel;
         }
 
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void StartDroneSimulator(int id, Action<int?, int?, int?, int?> update, Func<bool> checkStop)
         {
             new DroneSimulator(id, this, update, checkStop);
         }
 
-        
+
     }
 }
