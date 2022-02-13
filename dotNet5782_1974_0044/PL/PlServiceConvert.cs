@@ -7,6 +7,12 @@ namespace PL
     public static class PlServiceConvert
     {
         #region customer
+
+        /// <summary>
+        /// Convert customer (BO to PO)
+        /// </summary>
+        /// <param name="customer">BO.Customer</param>
+        /// <returns>PO.Customer</returns>
         public static Customer ConvertCustomer(BO.Customer customer)
         {
             return new Customer
@@ -19,6 +25,12 @@ namespace PL
                 ToCustomer = new(customer.ToCustomer.Select(item => ConvertParcelAtCustomer(item)))
             };
         }
+
+        /// <summary>
+        /// Convert back customer (PO to BO)
+        /// </summary>
+        /// <param name="customer">PO.Customer</param>
+        /// <returns>BO.Customer</returns>
         public static BO.Customer ConvertBackCustomer(Customer customer)
         {
             return new BO.Customer
@@ -31,6 +43,12 @@ namespace PL
                 ToCustomer = customer.ToCustomer.Select(item => ConvertBackParcelAtCustomer(item))
             };
         }
+
+        /// <summary>
+        /// Convert customer to list (BO to PO)
+        /// </summary>
+        /// <param name="customerToList">BO.CustomerToList</param>
+        /// <returns>PO.CustomerToList</returns>
         public static CustomerToList ConvertCustomerToList(BO.CustomerToList customerToList)
         {
             return new CustomerToList
@@ -44,6 +62,12 @@ namespace PL
                 NumParcelWayToCustomer = customerToList.NumParcelWayToCustomer
             };
         }
+
+        /// <summary>
+        /// Convert back customer to list (PO to BO)
+        /// </summary>
+        /// <param name="customerToList">PO.CustomerToList</param>
+        /// <returns>BO.CustomerToList</returns>
         public static BO.CustomerToList ConvertBackCustomerToList(CustomerToList customerToList)
         {
             return new BO.CustomerToList
@@ -57,6 +81,12 @@ namespace PL
                 NumParcelWayToCustomer = customerToList.NumParcelWayToCustomer
             };
         }
+
+        /// <summary>
+        /// Convert add customer (PO.CustomerAdd to BO.Customer)
+        /// </summary>
+        /// <param name="customer">PO.CustomerAdd</param>
+        /// <returns>BO.Customer</returns>
         public static BO.Customer ConvertAddCustomer(CustomerAdd customer)
         {
             return new()
@@ -67,6 +97,12 @@ namespace PL
                 Phone = customer.Phone,
             };
         }
+
+        /// <summary>
+        /// Convert customer in parcel (BO.CustomerInParcel to PO.CustomerInParcel)
+        /// </summary>
+        /// <param name="customerInParcel">BO.CustomerInParcel</param>
+        /// <returns>PO.CustomerInParcel</returns>
         public static CustomerInParcel ConvertCustomerInParcel(BO.CustomerInParcel customerInParcel)
         {
             return new CustomerInParcel()
@@ -75,6 +111,12 @@ namespace PL
                 Name = customerInParcel.Name
             };
         }
+
+        /// <summary>
+        /// Convert back customer in parcel (PO.CustomerInParcel to BO.CustomerInParcel)
+        /// </summary>
+        /// <param name="customerInParcel">PO.CustomerInParcel</param>
+        /// <returns>BO.CustomerInParcel</returns>
         public static BO.CustomerInParcel ConvertBackCustomerInParcel(CustomerInParcel customerInParcel)
         {
             return new BO.CustomerInParcel()
@@ -86,6 +128,12 @@ namespace PL
         #endregion
 
         #region parcel
+
+        /// <summary>
+        /// Convert parcel in transfer (BO.ParcelInTransfer to PO.ParcelInTransfer)
+        /// </summary>
+        /// <param name="parcel">BO.ParcelInTransfer</param>
+        /// <returns>PO.ParcelInTransfer</returns>
         public static ParcelInTransfer ConvertParcelInTransfer(BO.ParcelInTransfer parcel)
         {
             return new()
@@ -101,10 +149,22 @@ namespace PL
                 Weight = (WeightCategories)parcel.WeightCategory
             };
         }
+
+        /// <summary>
+        /// Convert parcel at customer to list  (PO.ParcelAtCustomer to PO.ParcelToList)
+        /// </summary>
+        /// <param name="parcel">PO.ParcelAtCustomer</param>
+        /// <returns>PO.ParcelToList</returns>
         public static async Task<ParcelToList> ConvertParcelAtCustomerToList(ParcelAtCustomer parcel)
         {
             return (await PLService.GetParcels()).FirstOrDefault(par => par.Id == parcel.Id);
         }
+
+        /// <summary>
+        /// Convert parcel (BO.Parcel to PO.Parcel)
+        /// </summary>
+        /// <param name="parcel">BO.Parcel</param>
+        /// <returns>PO.Parcel</returns>
         public static Parcel ConvertParcel(BO.Parcel parcel)
         {
             return new Parcel()
@@ -121,6 +181,12 @@ namespace PL
                 Drone = parcel.Drone != null ? ConvertDroneWithParcel(parcel.Drone) : null,
             };
         }
+
+        /// <summary>
+        /// Convert back parcel (PO.Parcel to BO.Parcel)
+        /// </summary>
+        /// <param name="parcel"></param>
+        /// <returns></returns>
         public static BO.Parcel ConvertBackParcel(Parcel parcel)
         {
             return new()
@@ -137,6 +203,12 @@ namespace PL
                 Drone = ConvertBackDroneWithParcel(parcel.Drone)
             };
         }
+
+        /// <summary>
+        /// Convert parcel to list (BO.ParcelToList to PO.ParcelToList)
+        /// </summary>
+        /// <param name="parcel"></param>
+        /// <returns></returns>
         public static ParcelToList ConvertParcelToList(BO.ParcelToList parcel)
         {
             return new()
@@ -149,6 +221,12 @@ namespace PL
                 CustomerSender = ConvertCustomer(parcel.CustomerSender)
             };
         }
+
+        /// <summary>
+        /// Convert back parcel add (PO.ParcelAdd to BO.Parcel)
+        /// </summary>
+        /// <param name="parcel">PO.ParcelAdd</param>
+        /// <returns>BO.Parcel</returns>
         public static BO.Parcel ConvertBackParcelAdd(ParcelAdd parcel)
         {
             return new()
@@ -159,6 +237,12 @@ namespace PL
                 CustomerSender = ConvertBackCustomerInParcel(new() { Id = parcel.CustomerSender })
             };
         }
+
+        /// <summary>
+        /// Convert parcel add to parcel at customer (PO.ParcelAdd to PO.ParcelAtCustomer)
+        /// </summary>
+        /// <param name="parcelAdd"></param>
+        /// <returns></returns>
         public static ParcelAtCustomer ConvertParcelAddToParcelAtCustomer(ParcelAdd parcelAdd)
         {
             return new ParcelAtCustomer()
@@ -169,6 +253,12 @@ namespace PL
 
             };
         }
+
+        /// <summary>
+        /// Convert back parcel at customer (PO.ParcelAtCustomer to BO.ParcelAtCustomer)
+        /// </summary>
+        /// <param name="parcelAtCustomer">PO.ParcelAtCustomer</param>
+        /// <returns>BO.ParcelAtCustomer</returns>
         public static BO.ParcelAtCustomer ConvertBackParcelAtCustomer(ParcelAtCustomer parcelAtCustomer)
         {
             return new BO.ParcelAtCustomer()
@@ -180,6 +270,12 @@ namespace PL
                 Customer = ConvertBackCustomerInParcel(parcelAtCustomer.Customer)
             };
         }
+
+        /// <summary>
+        /// Convert parcel at customer (BO.ParcelAtCustomer to PO.ParcelAtCustomer)
+        /// </summary>
+        /// <param name="parcelAtCustomer">BO.ParcelAtCustomer</param>
+        /// <returns>PO.ParcelAtCustomer</returns>
         public static ParcelAtCustomer ConvertParcelAtCustomer(BO.ParcelAtCustomer parcelAtCustomer)
         {
             return new ParcelAtCustomer()
@@ -191,6 +287,12 @@ namespace PL
                 Customer = ConvertCustomerInParcel(parcelAtCustomer.Customer)
             };
         }
+
+        /// <summary>
+        /// Convert back parcel in transfer (PO.ParcelInTransfer to BO.ParcelInTransfer)
+        /// </summary>
+        /// <param name="parcel">PO.ParcelInTransfer</param>
+        /// <returns>BO.ParcelInTransfer</returns>
         public static BO.ParcelInTransfer ConvertBackParcelInTransfer(ParcelInTransfer parcel)
         {
             return new()
@@ -209,6 +311,12 @@ namespace PL
         #endregion
 
         #region station
+
+        /// <summary>
+        /// Converter  back station (PO.Station to BO.Station)
+        /// </summary>
+        /// <param name="station">PO.Station</param>
+        /// <returns>BO.Station</returns>
         public static BO.Station ConverterBackStation(Station station)
         {
             return new BO.Station()
@@ -220,6 +328,12 @@ namespace PL
                 DroneInChargings = station.DroneInChargings.Select(item => ConvertBackDroneCharging(item)).ToList()
             };
         }
+
+        /// <summary>
+        /// Converter station (BO.Station to PO.Station)
+        /// </summary>
+        /// <param name="station">BO.Station</param>
+        /// <returns>PO.Station</returns>
         public static Station ConverterStation(BO.Station station)
         {
             return new Station()
@@ -231,6 +345,12 @@ namespace PL
                 DroneInChargings = station.DroneInChargings.Select(item => ConvertDroneCharging(item))
             };
         }
+
+        /// <summary>
+        /// Converter station to list (BO.StationToList to PO.StationToList)
+        /// </summary>
+        /// <param name="station">BO.StationToList</param>
+        /// <returns>PO.StationToList</returns>
         public static StationToList ConverterStationToList(BO.StationToList station)
         {
             return new StationToList()
@@ -240,6 +360,12 @@ namespace PL
                 ChargeSlots = station.EmptyChargeSlots + station.FullChargeSlots
             };
         }
+
+        /// <summary>
+        /// Convert back station add (PO.StationAdd to BO.Station)
+        /// </summary>
+        /// <param name="station">PO.StationAdd</param>
+        /// <returns>BO.Station</returns>
         public static BO.Station ConverBackStationAdd(StationAdd station)
         {
             return new()
@@ -254,6 +380,12 @@ namespace PL
         #endregion
 
         #region drone
+
+        /// <summary>
+        /// Convert drone (BO.Drone to PO.Drone)
+        /// </summary>
+        /// <param name="drone">BO.Drone</param>
+        /// <returns>PO.Drone</returns>
         public static Drone ConvertDrone(BO.Drone drone)
         {
             return new Drone
@@ -267,6 +399,12 @@ namespace PL
                 Parcel = drone.Parcel == null ? null : ConvertParcelInTransfer(drone.Parcel)
             };
         }
+
+        /// <summary>
+        /// Convert back drone (PO.Drone to BO.Drone)
+        /// </summary>
+        /// <param name="drone">PO.Drone</param>
+        /// <returns>BO.Drone</returns>
         public static BO.Drone ConvertBackDrone(Drone drone)
         {
             return new BO.Drone
@@ -280,6 +418,12 @@ namespace PL
                 Parcel = drone.Parcel == null ? null : PlServiceConvert.ConvertBackParcelInTransfer(drone.Parcel)
             };
         }
+
+        /// <summary>
+        /// Convert drone to list (BO.DroneToList to PO.DroneToList)
+        /// </summary>
+        /// <param name="drone">BO.DroneToList</param>
+        /// <returns>PO.DroneToList</returns>
         public static DroneToList ConvertDroneToList(BO.DroneToList drone)
         {
             return new DroneToList
@@ -293,6 +437,12 @@ namespace PL
                 ParcelId = drone.ParcelId
             };
         }
+
+        /// <summary>
+        /// Convert back drone to add (PO.DroneAdd to BO.Drone)
+        /// </summary>
+        /// <param name="drone">PO.DroneAdd</param>
+        /// <returns>BO.Drone</returns>
         public static BO.Drone ConvertBackDroneToAdd(DroneAdd drone)
         {
             return new()
@@ -304,6 +454,12 @@ namespace PL
 
             };
         }
+
+        /// <summary>
+        /// Convert back drone charging (PO.DroneInCharging to BO.DroneInCharging)
+        /// </summary>
+        /// <param name="droneInCharging">PO.DroneInCharging</param>
+        /// <returns>BO.DroneInCharging</returns>
         public static BO.DroneInCharging ConvertBackDroneCharging(DroneInCharging droneInCharging)
         {
             return new BO.DroneInCharging()
@@ -312,6 +468,12 @@ namespace PL
                 ChargingMode = droneInCharging.ChargingMode
             };
         }
+
+        /// <summary>
+        /// Convert drone charging (BO.DroneInCharging to PO.DroneInCharging)
+        /// </summary>
+        /// <param name="droneInCharging">BO.DroneInCharging</param>
+        /// <returns>PO.DroneInCharging</returns>
         public static DroneInCharging ConvertDroneCharging(BO.DroneInCharging droneInCharging)
         {
             return new DroneInCharging()
@@ -320,6 +482,12 @@ namespace PL
                 ChargingMode = droneInCharging.ChargingMode
             };
         }
+
+        /// <summary>
+        /// Convert drone with parcel (BO.DroneWithParcel to PO.DroneWithParcel)
+        /// </summary>
+        /// <param name="drone">BO.DroneWithParcel</param>
+        /// <returns>PO.DroneWithParcel</returns>
         public static DroneWithParcel ConvertDroneWithParcel(BO.DroneWithParcel drone)
         {
             return new DroneWithParcel()
@@ -329,6 +497,12 @@ namespace PL
                 CurrentLocation = ConvertLocation(drone.CurrentLocation)
             };
         }
+
+        /// <summary>
+        /// Convert back drone with parcel (PO.DroneWithParcel to BO.DroneWithParcel)
+        /// </summary>
+        /// <param name="drone">PO.DroneWithParcel</param>
+        /// <returns>BO.DroneWithParcel</returns>
         public static BO.DroneWithParcel ConvertBackDroneWithParcel(DroneWithParcel drone)
         {
             return new()
@@ -341,6 +515,12 @@ namespace PL
         #endregion
 
         #region location
+
+        /// <summary>
+        /// Convert back location (PO.Location to BO.Location)
+        /// </summary>
+        /// <param name="location">PO.Location</param>
+        /// <returns>BO.Location</returns>
         public static BO.Location ConvertBackLocation(Location location)
         {
             return new BO.Location()
@@ -349,6 +529,12 @@ namespace PL
                 Latitude = (double)location.Latitude
             };
         }
+
+        /// <summary>
+        /// Convert location (BO.Location to PO.Location)
+        /// </summary>
+        /// <param name="location">BO.Location</param>
+        /// <returns>PO.Location</returns>
         public static Location ConvertLocation(BO.Location location)
         {
             return new Location()

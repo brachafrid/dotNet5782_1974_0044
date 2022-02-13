@@ -11,10 +11,19 @@ namespace PL
         public static ObservableCollection<TabItemFormat> TabItems { get; set; } = new();
         public static RelayCommand CloseCommandTab { get; set; }
         public static Action<int> changeSelectedTab;
+
+        /// <summary>
+        /// constructor
+        /// </summary>
         static Tabs()
         {
             CloseCommandTab = new(CloseTab, null);
         }
+
+        /// <summary>
+        /// Close tab
+        /// </summary>
+        /// <param name="param"></param>
         public static void CloseTab(object param)
         {
             if (param is TabItemFormat tabItem)
@@ -22,8 +31,12 @@ namespace PL
                 tabItem.Dispose();
                 TabItems.Remove(TabItems.FirstOrDefault(tab => tab.Header == tabItem.Header));
             }
-
         }
+
+        /// <summary>
+        /// Add tab
+        /// </summary>
+        /// <param name="tabItemFormat"></param>
         public static void AddTab(TabItemFormat tabItemFormat)
         {
             TabItemFormat tabItem = TabItems.FirstOrDefault(tab => tab.Header == tabItemFormat.Header);
@@ -36,6 +49,11 @@ namespace PL
             else
                 changeSelectedTab?.Invoke(TabItems.IndexOf(tabItem));
         }
+
+        /// <summary>
+        /// Open details
+        /// </summary>
+        /// <param name="param"></param>
         public async static void OpenDetailes(object param)
         {
             try
