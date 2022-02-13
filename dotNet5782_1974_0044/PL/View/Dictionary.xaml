@@ -289,7 +289,7 @@
                     <TextBlock.Style>
                         <Style TargetType="TextBlock">
                             <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=AssignmentTime}" Value="{x:Static sys:null}">
+                                <DataTrigger Binding="{Binding Path=AssignmentTime}" Value="{x:Static sys:DateTime.MinValue}">
                                     <Setter Property="Visibility" Value="Collapsed"/>
                                 </DataTrigger>
                             </Style.Triggers>
