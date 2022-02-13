@@ -43,6 +43,11 @@ namespace PL
         public RelayCommand DisplayCustomerCommand { get; set; }
         public ParcelAdd parcel { set; get; }
         int id;
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="Id">id of customer</param>
         public CustomerWindowVM(int Id)
         {
             id = Id;
@@ -55,11 +60,21 @@ namespace PL
             DelegateVM.CustomerChangedEvent += HandleCustomerChanged;
             DelegateVM.ParcelChangedEvent += (sender, e) => Init();
         }
+
+        /// <summary>
+        /// Handle customer changed
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event</param>
         private void HandleCustomerChanged(object sender, EntityChangedEventArgs e)
         {
             if (id == e.Id || e.Id == null)
                 Init();
         }
+
+        /// <summary>
+        /// Initializes the customer
+        /// </summary>
         public async void Init()
         {
             try
@@ -77,10 +92,20 @@ namespace PL
 
             customer = await PLService.GetCustomer(id);
         }
+
+        /// <summary>
+        /// Change index
+        /// </summary>
+        /// <param name="index">index</param>
         public void changeIndex(int index)
         {
             SelectedTab = index;
         }
+
+        /// <summary>
+        /// Display customer
+        /// </summary>
+        /// <param name="param"></param>
         public void DisplayCustomer(object param)
         {
             Tabs.AddTab(new TabItemFormat()
@@ -89,6 +114,11 @@ namespace PL
                 Content = new UpdateCustomerVM(id, false),
             });
         }
+
+        /// <summary>
+        /// Add parcel
+        /// </summary>
+        /// <param name="param"></param>
         public void AddParcel(object param)
         {
             Tabs.AddTab(new TabItemFormat()
@@ -97,6 +127,11 @@ namespace PL
                 Content = new AddParcelVM(false, id),
             });
         }
+
+        /// <summary>
+        /// Display parcels from customer
+        /// </summary>
+        /// <param name="param"></param>
         public void DisplayParcelsFrom(object param)
         {
             Tabs.AddTab(new TabItemFormat()
@@ -105,6 +140,11 @@ namespace PL
                 Content = new ParcelToListVM(id, "From"),
             });
         }
+
+        /// <summary>
+        /// Display parcels to customer
+        /// </summary>
+        /// <param name="param"></param>
         public void DisplayParcelsTo(object param)
         {
             Tabs.AddTab(new TabItemFormat()
@@ -112,9 +152,12 @@ namespace PL
                 Header = "Parcels To Customer",
                 Content = new ParcelToListVM(id, "To"),
             });
-
-
         }
+
+        /// <summary>
+        /// Add entity
+        /// </summary>
+        /// <param name="param"></param>
         public override void AddEntity(object param)
         {
             throw new NotImplementedException();

@@ -47,6 +47,10 @@ namespace PL
         public RelayCommand UpdateStationCommand { get; set; }
         public RelayCommand DeleteStationCommand { get; set; }
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="id">id of station</param>
         public UpdateStationVM(int id)
         {
             this.id = id;
@@ -56,11 +60,21 @@ namespace PL
             DelegateVM.StationChangedEvent += HandleAStationChanged;
             OpenDroneChargeCommand = new(Tabs.OpenDetailes, null);
         }
+
+        /// <summary>
+        /// Handle station changed
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void HandleAStationChanged(object sender, EntityChangedEventArgs e)
         {
             if (id == e.Id || e.Id == null)
                 initStation();
         }
+
+        /// <summary>
+        /// Initialize station
+        /// </summary>
         public async void initStation()
         {
             try
@@ -79,6 +93,10 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Update station
+        /// </summary>
+        /// <param name="param"></param>
         public async void UpdateStation(object param)
         {
             try
@@ -109,6 +127,11 @@ namespace PL
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
+
+        /// <summary>
+        /// Delete station
+        /// </summary>
+        /// <param name="param"></param>
         public async void DeleteStation(object param)
         {
             try
