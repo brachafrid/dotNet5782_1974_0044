@@ -16,13 +16,14 @@ namespace BL
         private const int NUM_OF_MINUTE_IN_HOUR = 60;
         private const int MIN_BATTERY = 20;
         private const int MAX_BATTERY = 40;
+
         #region Add
         /// <summary>
         /// Add a drone to the list of drones in data and also convert it to Drone To List and add it to BL list
         /// </summary>
         /// <param name="droneBl">The drone for Adding</param>
         ///<param name="stationId">The station to put the drone</param>
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone droneBl, int stationId)
         {
             try
@@ -66,7 +67,7 @@ namespace BL
         /// </summary>
         /// <param name="id">The requested drone id</param>
         /// <returns>A Bl drone to print</returns>
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public BO.Drone GetDrone(int id)
         {
             try
@@ -81,9 +82,13 @@ namespace BL
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
-
         }
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+
+        /// <summary>
+        /// Get active drones
+        /// </summary>
+        /// <returns>active drones</returns>
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneToList> GetActiveDrones() => drones.Where(drone => !drone.IsNotActive);
 
         /// <summary>
@@ -99,7 +104,7 @@ namespace BL
         /// </summary>
         /// <param name="id">The drone to update</param>
         /// <param name="name">The new name</param>
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(int id, string name)
         {
             try
@@ -128,7 +133,7 @@ namespace BL
         /// Send a drone for charging in the closet station with empty charge slots tha t the drone can arrive there
         /// </summary>
         /// <param name="id">The id of the drone</param>
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void SendDroneForCharg(int id)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
@@ -165,7 +170,7 @@ namespace BL
         /// </summary>
         /// <param name="id">The drone to realsing</param>
         /// <param name="timeOfCharg">The time of charging</param>
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void ReleaseDroneFromCharging(int id)
         {
             try
@@ -197,7 +202,7 @@ namespace BL
         /// Assign parcel to drone in according to weight and distance (call to help function)
         /// </summary>
         /// <param name="droneId">The drone to assign it a parcel</param>
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void AssingParcelToDrone(int droneId)
         {
             try
@@ -241,7 +246,7 @@ namespace BL
         /// Collecting the parcel from the sender 
         /// </summary>
         /// <param name="droneId">The drone that collect</param>
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void ParcelCollectionByDrone(int droneId)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == droneId);
@@ -279,7 +284,7 @@ namespace BL
         /// Deliverd the parcel to the reciver 
         /// </summary>
         /// <param name="droneId">The drone that deliverd</param>
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeliveryParcelByDrone(int droneId)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == droneId);
@@ -321,7 +326,11 @@ namespace BL
         #endregion
 
         #region Delete
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+        /// <summary>
+        /// Delete drone
+        /// </summary>
+        /// <param name="id">id of drone</param>
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(int id)
         {
             DroneToList drone = drones.FirstOrDefault(item => item.Id == id);
@@ -352,9 +361,20 @@ namespace BL
 
         }
         #endregion
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+
+        /// <summary>
+        /// Check if drone is not active
+        /// </summary>
+        /// <param name="id">id of drone</param>
+        /// <returns>if drone is not active</returns>
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsNotActiveDrone(int id) => drones.Any(drone => drone.Id == id && drone.IsNotActive);
 
+        /// <summary>
+        /// Create list drone in charging
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>list of drone in chargings</returns>
         private IEnumerable<DroneInCharging> CreatListDroneInCharging(int id)
         {
             IEnumerable<int> list;
@@ -375,7 +395,6 @@ namespace BL
             return droneInChargings;
         }
      
-       
         /// <summary>
         /// Find the best parcel to assigning to thev drone
         /// </summary>
@@ -390,12 +409,16 @@ namespace BL
             return suitableParcel;
         }
 
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+        /// <summary>
+        /// Start drone simulator
+        /// </summary>
+        /// <param name="id">id  </param>
+        /// <param name="update">Action update</param>
+        /// <param name="checkStop">Func Check Stop</param>
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void StartDroneSimulator(int id, Action<int?, int?, int?, int?> update, Func<bool> checkStop)
         {
             new DroneSimulator(id, this, update, checkStop);
         }
-
-        
     }
 }
