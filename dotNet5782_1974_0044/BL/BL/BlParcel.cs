@@ -91,7 +91,12 @@ namespace BL
             }
 
         }
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+
+        /// <summary>
+        /// Get active parcels
+        /// </summary>
+        /// <returns>list of active parcels</returns>
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<ParcelToList> GetActiveParcels()
         {
             try
@@ -127,7 +132,7 @@ namespace BL
         /// <param name="id">The requested parcel id</param>
         /// <param name="nullAble">enable null if the customer sender or reciver not found</param>
         /// <returns>A Bl parcel to print</returns>
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int id)
         {
             try
@@ -199,7 +204,11 @@ namespace BL
         #endregion
 
         #region Delete
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+        /// <summary>
+        /// Delete parcel according to id
+        /// </summary>
+        /// <param name="id">id of parcel</param>
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(int id)
         {
             try
@@ -223,9 +232,12 @@ namespace BL
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
-
         }
 
+        /// <summary>
+        /// Delete parcel from drone
+        /// </summary>
+        /// <param name="id">id of drone</param>
         private void DeleteParcelFromDrone(int id)
         {
             DroneToList drone = drones.FirstOrDefault(item => item.Id == id);
@@ -236,6 +248,12 @@ namespace BL
             }
         }
         #endregion
+
+        /// <summary>
+        /// Check if parcel is not active
+        /// </summary>
+        /// <param name="id">id of parcel</param>
+        /// <returns>if parcel is not active</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsNotActiveParcel(int id)
         {
