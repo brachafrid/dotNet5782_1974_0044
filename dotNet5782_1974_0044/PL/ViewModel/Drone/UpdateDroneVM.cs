@@ -222,7 +222,7 @@ namespace PL
                 if(simulatorWorker != null && !simulatorWorker.CancellationPending)
                 simulatorWorker.CancelAsync();
                if(simulatorWorker != null && !simulatorWorker.IsBusy)
-                {
+               {
                     PLService.DeleteDrone(drone.Id);
                     MessageBox.Show("The drone was successfully deleted");
                     DelegateVM.DroneChangedEvent -= HandleADroneChanged;
