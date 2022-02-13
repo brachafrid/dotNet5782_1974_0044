@@ -8,47 +8,26 @@ using System.Threading.Tasks;
 
 namespace PL.PO
 {
-    public class DroneWithParcel : INotifyPropertyChanged
+    public class DroneWithParcel : NotifyPropertyChangedBase
     {
         private int id;
         public int Id
         {
             get => id;
-            init
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
+            init => Set(ref id, value);
         }
         private double chargingMode;
 
         public double ChargingMode
         {
             get => chargingMode;
-            set
-            {
-                chargingMode = value;
-                onPropertyChanged("ChargingMode");
-            }
+            set => Set(ref chargingMode, value);
         }
         private Location currentLocation;
         public Location CurrentLocation
         {
             get => currentLocation;
-            set
-            {
-                currentLocation = value;
-                onPropertyChanged("CurrentLocation");
-            }
-        }
-
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
+            set => Set(ref currentLocation, value);
         }
         public override string ToString()
         {

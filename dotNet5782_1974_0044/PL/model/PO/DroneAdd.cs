@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace PL.PO
 {
-    public class DroneAdd : INotifyPropertyChanged, IDataErrorInfo
+    public class DroneAdd : NotifyPropertyChangedBase, IDataErrorInfo
     {
         private int? id;
         [Required(ErrorMessage = "required")]
@@ -17,11 +17,7 @@ namespace PL.PO
         public int? Id
         {
             get => id;
-            set
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
+            set => Set(ref id, value);
         }
 
         private int stationId;
@@ -29,7 +25,7 @@ namespace PL.PO
         public int StationId
         {
             get { return stationId; }
-            set { stationId = value; }
+            set => Set(ref stationId, value);
         }
 
         private string model;
@@ -37,11 +33,7 @@ namespace PL.PO
         public string Model
         {
             get => model;
-            set
-            {
-                model = value;
-                onPropertyChanged("Model");
-            }
+            set => Set(ref model, value);
         }
 
         private WeightCategories? weight;
@@ -49,11 +41,7 @@ namespace PL.PO
         public WeightCategories? Weight
         {
             get => weight;
-            set
-            {
-                weight = value;
-                onPropertyChanged("Weight");
-            }
+            set => Set(ref weight, value);
         }
 
         private DroneState droneState;
@@ -61,20 +49,10 @@ namespace PL.PO
         public DroneState DroneState
         {
             get => droneState;
-            set
-            {
-                droneState = value;
-                onPropertyChanged("DroneState");
-            }
+            set =>Set(ref droneState, value);
         }
         public string Error => Validation.ErorrCheck(this);
         public string this[string columnName] => Validation.PropError(columnName, this);
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-        }
         public override string ToString()
         {
             return this.ToStringProperties();

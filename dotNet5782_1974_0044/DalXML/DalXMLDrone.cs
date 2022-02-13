@@ -14,6 +14,13 @@ namespace Dal
     public sealed partial class DalXml:IDalDrone
     {
         const string DRONE_PATH = @"XmlDrone.xml";
+
+        /// <summary>
+        /// Add new drone
+        /// </summary>
+        /// <param name="id">new drone's id</param>
+        /// <param name="model">new drone's model</param>
+        /// <param name="MaxWeight">new drone's max weight</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(int id, string model, WeightCategories MaxWeight)
         {
@@ -36,6 +43,11 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Deletes a certain drone according to ID no.
+        /// </summary>
+        /// <param name="id">drone's id</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(int id)
         {
