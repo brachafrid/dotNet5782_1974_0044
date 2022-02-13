@@ -12,6 +12,10 @@ namespace PL
         public IEnumerable<int> StationsId { get; set; }
         public Array Weight { get; set; }
         public RelayCommand AddDroneCommand { get; set; }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
         public AddDroneVM()
         {
             InitDrone();
@@ -20,6 +24,10 @@ namespace PL
             AddDroneCommand = new(Add, param => drone.Error == null);
             Weight = Enum.GetValues(typeof(WeightCategories));
         }
+
+        /// <summary>
+        /// Initialize drone
+        /// </summary>
         async void  InitDrone()
         {
             try
@@ -31,6 +39,11 @@ namespace PL
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
+
+        /// <summary>
+        /// Add a drone
+        /// </summary>
+        /// <param name="param"></param>
         public async void Add(object param)
         {
             try
