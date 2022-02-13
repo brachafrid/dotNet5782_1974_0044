@@ -217,7 +217,7 @@ namespace BL
             }
             catch (ThereIsNoNearbyBaseStationThatTheDroneCanReachException ex)
             {
-                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();//?
+                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException(ex.Message);//?
             }
             catch(NotExsistSutibleParcelException ex)
             {
@@ -344,7 +344,7 @@ namespace BL
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
-            catch(TheDroneIsNotInChargingException ex)
+            catch(TheDroneIsNotInChargingException)
             {
                 drone.DroneState = DroneState.AVAILABLE;
                 drone.IsNotActive = true;
