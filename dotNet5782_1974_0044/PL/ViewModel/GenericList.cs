@@ -1,15 +1,17 @@
 ﻿using PL.PO;
+using PL.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Windows;
 using System.Windows.Data;
 
 namespace PL
 {
-    public abstract class GenericList<T> : INotifyPropertyChanged
+    public abstract class GenericList<T> : NotifyPropertyChangedBase
     {
         public List<string> KindOfSort { get; set; } = new() { "Range", "Single" };
         public Array WeightCategories { get; set; } = Enum.GetValues(typeof(WeightCategories));
@@ -24,91 +26,70 @@ namespace PL
         public RelayCommand CancelGroupCommand { get; set; }
         public RelayCommand GroupCommand { get; set; }
         public RelayCommand AddEntitiyCommand { get; set; }
-        public ListCollectionView list { set; get; }
-        public ObservableCollection<T> sourceList;
 
-        private Visibility visibilityKindOfSort=Visibility.Collapsed;
+        public ObservableCollection<T> sourceList;
+        public ListCollectionView list
+        {
+            get => list1;
+            set => Set(ref list1, value);
+        }
+
+        private Visibility visibilityKindOfSort = Visibility.Collapsed;
 
         public Visibility VisibilityKindOfSort
         {
             get { return visibilityKindOfSort; }
-            set { visibilityKindOfSort = value;
-                onPropertyChanged("VisibilityKindOfSort");
-            }
+            set => Set(ref visibilityKindOfSort, value);
         }
         private Visibility stringSortVisibility = Visibility.Collapsed;
 
         public Visibility StringSortVisibility
         {
             get { return stringSortVisibility; }
-            set
-            {
-                stringSortVisibility = value;
-                onPropertyChanged("StringSortVisibility");
-            }
+            set => Set(ref stringSortVisibility, value);
         }
-        private Visibility visibilityWeightCategories=Visibility.Collapsed;
+        private Visibility visibilityWeightCategories = Visibility.Collapsed;
 
         public Visibility VisibilityWeightCategories
         {
             get { return visibilityWeightCategories; }
-            set { visibilityWeightCategories = value;
-                onPropertyChanged("VisibilityWeightCategories");
-            }
+            set => Set(ref visibilityWeightCategories, value);
         }
 
-        private Visibility visibilityPriorities=Visibility.Collapsed;
+        private Visibility visibilityPriorities = Visibility.Collapsed;
 
         public Visibility VisibilityPriorities
         {
             get { return visibilityPriorities; }
-            set
-            {
-                visibilityPriorities = value;
-                onPropertyChanged("VisibilityPriorities");
-            }
+            set => Set(ref visibilityPriorities, value);
         }
-        private Visibility visibilityDroneState=Visibility.Collapsed;
+        private Visibility visibilityDroneState = Visibility.Collapsed;
 
         public Visibility VisibilityDroneState
         {
             get { return visibilityDroneState; }
-            set
-            {
-                visibilityDroneState = value;
-                onPropertyChanged("VisibilityDroneState");
-            }
+            set => Set(ref visibilityDroneState, value);
         }
-        private Visibility visbleDouble=Visibility.Collapsed;
+        private Visibility visbleDouble = Visibility.Collapsed;
 
         public Visibility VisbleDouble
         {
             get { return visbleDouble; }
-            set
-            {
-                visbleDouble = value;
-                onPropertyChanged("VisbleDouble");
-            }
+            set => Set(ref visbleDouble, value);
         }
-        private Visibility visblePackegeMode=Visibility.Collapsed;
+        private Visibility visblePackegeMode = Visibility.Collapsed;
 
         public Visibility VisblePackegeMode
         {
             get { return visblePackegeMode; }
-            set
-            {
-                visblePackegeMode = value;
-                onPropertyChanged("VisblePackegeMode");
-            }
+            set => Set(ref visblePackegeMode, value);
         }
-        private List<SortEntities> filters=new();
+        private List<SortEntities> filters = new();
 
         public List<SortEntities> Filters
         {
             get { return filters; }
-            set { filters = value;
-                onPropertyChanged("Filters");
-            }
+            set => Set(ref filters, value);
         }
 
         private int maxValue;
@@ -116,9 +97,7 @@ namespace PL
         public int MaxValue
         {
             get { return maxValue; }
-            set { maxValue = value;
-                onPropertyChanged("MaxValue");
-            }
+            set => Set(ref maxValue, value);
         }
 
 
@@ -139,17 +118,19 @@ namespace PL
                 else
                     fiterWeight.MinParameter = doubleFirstChange;
                 FilterNow();
-                
+
             }
         }
 
         private string modelContain;
+        ListCollectionView list1;
+
         public string ModelContain
         {
             get => modelContain;
             set
             {
-                modelContain = value;
+                Set(ref modelContain, value);
                 SortEntities fiterWeight = Filters.FirstOrDefault(filter => filter.NameParameter == SelectedKind);
                 if (fiterWeight == default)
                     Filters.Add(new SortEntities()
@@ -160,7 +141,6 @@ namespace PL
                 else
                     Filters[Filters.IndexOf(fiterWeight)].Value = modelContain;
                 FilterNow();
-                onPropertyChanged("ModelContain");
             }
         }
         public string SelectedKind { get; set; }
@@ -302,12 +282,7 @@ namespace PL
             }
 
         }
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
-        }
     }
+
+   
 }

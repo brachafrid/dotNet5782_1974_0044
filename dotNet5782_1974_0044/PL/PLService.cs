@@ -196,15 +196,6 @@ namespace PL
             return await taskCompletionSource.Task;
 
         }
-        //public static async Task< IEnumerable<ParcelToList>> GetParcelsNotAssignedToDrone()
-        //{
-        //    var taskCompletionSource = new TaskCompletionSource<IEnumerable<ParcelToList>>();
-        //    BackgroundWorker workerPl = new();
-        //    workerPl.DoWork += (sender, e) => e.Result = ibal.GetParcelsNotAssignedToDrone((int num) => num == 0).Select(parcel => PlServiceConvert.ConvertParcelToList(parcel));
-        //    workerPl.RunWorkerCompleted += (sender, e) => taskCompletionSource.SetResult(e.Result as IEnumerable<ParcelToList>);
-        //    workerPl.RunWorkerAsync();
-        //    return await taskCompletionSource.Task;
-        //}
 
         #endregion
 

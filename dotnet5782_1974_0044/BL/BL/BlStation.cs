@@ -14,7 +14,7 @@ namespace BL
         /// Add a station to the list of stations
         /// </summary>
         /// <param name="stationBL">The station for Adding</param>
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+       // [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station stationBL)
         {
             try
@@ -36,7 +36,7 @@ namespace BL
         /// </summary>
         /// <param name="exsitEmpty">the predicate to screen out if the station have empty charge slots</param>
         /// <returns>A list of statin to print</returns>
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+       // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
             try
@@ -57,7 +57,7 @@ namespace BL
         /// Retrieves the list of stations from the data and converts it to station to list
         /// </summary>
         /// <returns>A list of statin to print</returns>
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+       // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> GetStations()
         {
             try
@@ -73,7 +73,7 @@ namespace BL
             
         }
 
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+       // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> GetActiveStations()
         {
             try
@@ -94,7 +94,7 @@ namespace BL
         /// </summary>
         /// <param name="id">The requested station id</param>
         /// <returns>A Bl satation to print</returns>
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+       // [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int id)
         {
             try
@@ -122,7 +122,7 @@ namespace BL
         /// <param name="id">The id of the station</param>
         /// <param name="name">The new name</param>
         /// <param name="chargeSlots">A nwe number for charging slots</param>
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+       // [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(int id, string name, int chargeSlots)
         {
             if (name.Equals(string.Empty) && chargeSlots == 0)
@@ -149,7 +149,7 @@ namespace BL
         #endregion
 
         #region Delete
-        //[MethodImpl(MethodImplOptions.Synchronized)]
+       // [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(int id)
         {
             try
