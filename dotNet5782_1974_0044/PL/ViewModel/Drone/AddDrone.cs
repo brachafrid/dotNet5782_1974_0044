@@ -13,6 +13,7 @@ namespace PL
         public Array Weight { get; set; }
         public RelayCommand AddDroneCommand { get; set; }
 
+        
         /// <summary>
         /// constructor
         /// </summary>

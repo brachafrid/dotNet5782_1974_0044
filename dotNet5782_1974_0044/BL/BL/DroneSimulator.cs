@@ -169,10 +169,11 @@ namespace BL
         {
             try
             {
-                lock (bl)
-                {
-                    parcel = bl.GetParcel((int)Drone.ParcelId);
-                }
+                if (parcel == null)
+                    lock (bl)
+                    {
+                        parcel = bl.GetParcel((int)Drone.ParcelId);
+                    }
                 switch (delivery)
                 {
                     case Delivery.Starting:
@@ -224,6 +225,7 @@ namespace BL
                                 {
                                     bl.DeliveryParcelByDrone(Drone.Id);
                                     Drone.DroneState = DroneState.AVAILABLE;
+                                    parcel = null;
                                     parcelId = Drone.ParcelId;
                                 }
                             }

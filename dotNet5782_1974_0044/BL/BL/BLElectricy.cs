@@ -1,4 +1,5 @@
 ﻿using BO;
+using System.Diagnostics;
 
 namespace BL
 {
@@ -15,6 +16,7 @@ namespace BL
         /// <returns></returns>
         private double CalculateElectricity(Location aviableDroneLocation, double? batteryStatus, Location CustomerSender, Location CustomerReceives, WeightCategories weight, out double distance)
         {
+            Debug.WriteLine($"start ");
             double electricity;
             double e = weight switch
             {
@@ -45,6 +47,10 @@ namespace BL
             catch (NotExsistSuitibleStationException ex)
             {
                 throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException(ex.Message, ex);
+            }
+            finally
+            {
+                Debug.WriteLine($"end");
             }
         }
     }
