@@ -25,6 +25,14 @@ namespace BL
         private const double VELOCITY = 1000;
         private const double STEP = VELOCITY / TIME_STEP;
         double distance = 0.0;
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <param name="BL">BL</param>
+        /// <param name="update">Action - update</param>
+        /// <param name="checkStop">Func - check stop</param>
         public DroneSimulator(int id, BL BL, Action<int?, int?, int?, int?> update, Func<bool> checkStop)
         {
             try
@@ -65,6 +73,10 @@ namespace BL
                 throw new KeyNotFoundException("", ex);
             }
         }
+
+        /// <summary>
+        /// Way to charge drone
+        /// </summary>
         private void WayToChargeDrone()
         {
             switch (maintenance)
@@ -107,6 +119,10 @@ namespace BL
             }
 
         }
+
+        /// <summary>
+        /// Availble drone
+        /// </summary>
         private void AvailbleDrone()
         {
             lock (bl)
@@ -125,6 +141,10 @@ namespace BL
                 }
             }
         }
+
+        /// <summary>
+        /// Maintenance drone
+        /// </summary>
         private void MaintenanceDrone()
         {
             if (Station == null)
@@ -141,6 +161,9 @@ namespace BL
 
         }
 
+        /// <summary>
+        /// Delivery drone
+        /// </summary>
         private void DeliveryDrone()
         {
             try
@@ -231,15 +254,24 @@ namespace BL
             {
                 Drone.DroneState = DroneState.AVAILABLE;
             }
-
-
-
         }
+
+        /// <summary>
+        /// Sleep delay time
+        /// </summary>
+        /// <returns>if successed</returns>
         private static bool sleepDelayTime()
         {
             try { Thread.Sleep(DELAY); } catch (ThreadInterruptedException) { return false; }
             return true;
         }
+
+        /// <summary>
+        /// Update location and battary
+        /// </summary>
+        /// <param name="Target">location of target</param>
+        /// <param name="elec">electrecity</param>
+        /// <returns>location</returns>
         private Location UpdateLocationAndBattary(Location Target, double elec)
         {
             double delta = distance < STEP ? distance : STEP;

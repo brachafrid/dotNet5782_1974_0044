@@ -7,17 +7,30 @@ namespace PL
 {
     public class DroneToListVM : GenericList<DroneToList>
     {
+        /// <summary>
+        /// constructor
+        /// </summary>
         public DroneToListVM()
         {
             InitList();
             DoubleClick = new(Tabs.OpenDetailes, null);
             DelegateVM.DroneChangedEvent += HandleDroneChanged;
         }
+
+        /// <summary>
+        /// Initialize a list of drones
+        /// </summary>
         private async void InitList()
         {
             sourceList = new ObservableCollection<DroneToList>(await PLService.GetDrones());
             list = new ListCollectionView(sourceList);
         }
+
+        /// <summary>
+        /// Handle drone changed
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event</param>
         private async void HandleDroneChanged(object sender, EntityChangedEventArgs e)
         {
             if (e.Id != null)
@@ -37,6 +50,11 @@ namespace PL
                     sourceList.Add(item);
             }
         }
+
+        /// <summary>
+        /// Add entity
+        /// </summary>
+        /// <param name="param"></param>
         public override void AddEntity(object param)
         {
             Tabs.AddTab(new()

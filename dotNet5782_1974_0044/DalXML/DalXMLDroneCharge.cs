@@ -10,6 +10,11 @@ namespace Dal
     partial class DalXml : IDalDroneCharge
     {
         const string DRONE_CHARGE_PATH = @"XmlDroneCharge.xml";
+
+        /// <summary>
+        /// Remove drone charge
+        /// </summary>
+        /// <param name="droneId">drone's id</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDroneCharge(int droneId)
         {
@@ -24,6 +29,12 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+
+        /// <summary>
+        /// Get start time of charging
+        /// </summary>
+        /// <param name="droneId">drone's id</param>
+        /// <returns>start time of charging</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public DateTime GetTimeStartOfCharge(int droneId)
         {
@@ -39,6 +50,12 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+
+        /// <summary>
+        /// Get drone charging in station
+        /// </summary>
+        /// <param name="inTheStation">Predicate type of int inTheStation</param>
+        /// <returns>drone charging in station</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation)
         {
@@ -51,6 +68,11 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+
+        /// <summary>
+        /// Get drones charging
+        /// </summary>
+        /// <returns>drones charging</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> GetDronescharging()
         {
@@ -63,6 +85,12 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+
+        /// <summary>
+        /// Add drone charge
+        /// </summary>
+        /// <param name="droneId">drone's id</param>
+        /// <param name="stationId">station's id</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDroneCharge(int droneId, int stationId)
         {
@@ -77,6 +105,12 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+
+        /// <summary>
+        /// Count full charge slots
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>number of the full charge slots</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int CountFullChargeSlots(int id)
         {

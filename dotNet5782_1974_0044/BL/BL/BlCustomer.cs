@@ -77,6 +77,11 @@ namespace BL
             }
 
         }
+
+        /// <summary>
+        /// Get active customers
+        /// </summary>
+        /// <returns>Active customers</returns>
        // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<CustomerToList> GetActiveCustomers()
         {
@@ -119,13 +124,14 @@ namespace BL
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
-
-
         }
-
         #endregion
 
         #region Delete
+        /// <summary>
+        /// Delete customer
+        /// </summary>
+        /// <param name="id">id of customer</param>
        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(int id)
         {
@@ -145,6 +151,12 @@ namespace BL
            
         }
         #endregion
+
+        /// <summary>
+        /// Check if customer is not active
+        /// </summary>
+        /// <param name="id">id of customer</param>
+        /// <returns>if customer is not active</returns>
        // [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsNotActiveCustomer(int id)
         {

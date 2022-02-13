@@ -10,7 +10,9 @@ namespace PL
 {
     public class CustomerToListVM : GenericList<CustomerToList>
     {
-
+        /// <summary>
+        /// constructor
+        /// </summary>
         public CustomerToListVM()
         {
             InitList();
@@ -18,12 +20,20 @@ namespace PL
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
 
+        /// <summary>
+        /// Initialize a List
+        /// </summary>
         private async void InitList()
         {
             sourceList = new ObservableCollection<CustomerToList>(await PLService.GetCustomers());
             list = new ListCollectionView(sourceList);
         }
-        
+
+        /// <summary>
+        /// Handle customer changed
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event</param>
         private async void HandleCustomerChanged(object sender, EntityChangedEventArgs e)
         {
             try
@@ -55,6 +65,11 @@ namespace PL
             }
 
         }
+
+        /// <summary>
+        /// Add entity
+        /// </summary>
+        /// <param name="param"></param>
         public override void AddEntity(object param)
         {
             Tabs.AddTab(new()
