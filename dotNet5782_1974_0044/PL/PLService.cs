@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace PL
 {
@@ -167,7 +168,7 @@ namespace PL
             await taskCompletion.Task;
 
         }
-        public static async Task< bool> IsNotActiveParcel(int id)
+        public static async Task<bool> IsNotActiveParcel(int id)
         {
             TaskCompletionSource<bool> completedTask = new();
             BackgroundWorker workerPl = new();
@@ -222,21 +223,21 @@ namespace PL
         {
             TaskCompletionSource completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) =>  ibal.SendDroneForCharg(id);
+            workerPl.DoWork += (sender, e) => ibal.SendDroneForCharg(id);
             workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
             workerPl.RunWorkerAsync();
             await completedTask.Task;
-           
+
         }
         public static async Task ReleaseDroneFromCharging(int id)
         {
             TaskCompletionSource completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) =>   ibal.ReleaseDroneFromCharging(id);
+            workerPl.DoWork += (sender, e) => ibal.ReleaseDroneFromCharging(id);
             workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
             workerPl.RunWorkerAsync();
             await completedTask.Task;
-         
+
         }
         public static async Task DeleteDrone(int id)
         {
@@ -247,11 +248,11 @@ namespace PL
             await taskCompletion.Task;
 
         }
-        public static async Task< bool> IsNotActiveDrone(int id)
+        public static async Task<bool> IsNotActiveDrone(int id)
         {
             TaskCompletionSource<bool> completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => e.Result = ibal.IsNotActiveDrone(id); 
+            workerPl.DoWork += (sender, e) => e.Result = ibal.IsNotActiveDrone(id);
             workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult((bool)e.Result);
             workerPl.RunWorkerAsync();
             return await completedTask.Task;
@@ -285,13 +286,19 @@ namespace PL
         }
         public static async Task AssingParcelToDrone(int droneId)
         {
-            TaskCompletionSource completedTask = new();
-            BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => ibal.AssingParcelToDrone(droneId);
-            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
-            workerPl.RunWorkerAsync();
-            await completedTask.Task;
-            
+            try
+            {
+                TaskCompletionSource completedTask = new();
+                BackgroundWorker workerPl = new();
+                workerPl.DoWork += (sender, e) => ibal.AssingParcelToDrone(droneId);
+                workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
+                workerPl.RunWorkerAsync();
+                await completedTask.Task;
+            }
+            catch (BO.NotExsistSutibleParcelException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
         }
         public static async Task ParcelCollectionByDrone(int droneId)
         {
@@ -301,7 +308,7 @@ namespace PL
             workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
             workerPl.RunWorkerAsync();
             await completedTask.Task;
-            
+
         }
         public static async Task DeliveryParcelByDrone(int droneId)
         {
@@ -311,7 +318,7 @@ namespace PL
             workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
             workerPl.RunWorkerAsync();
             await completedTask.Task;
-            
+
         }
         public static void StartDroneSimulator(int id, Action<int?, int?, int?, int?> update, Func<bool> checkStop)
         {

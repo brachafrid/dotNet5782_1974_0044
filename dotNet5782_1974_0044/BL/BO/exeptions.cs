@@ -76,7 +76,7 @@ namespace BO
 
     }
     [Serializable]
-    internal class NotExsistSutibleParcelException : Exception
+    public class NotExsistSutibleParcelException : Exception
     {
         public NotExsistSutibleParcelException()
         {
@@ -95,7 +95,7 @@ namespace BO
         }
     }
     [Serializable]
-    internal class NotExsistSuitibleStationException : Exception
+    public class NotExsistSuitibleStationException : Exception
     {
         public NotExsistSuitibleStationException()
         {
