@@ -39,7 +39,7 @@ namespace Dal
         /// <param name="droneId">The drone to add</param>
         /// <param name="stationId">The station to add the drone</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void AddDRoneCharge(int droneId, int stationId)
+        public void AddDroneCharge(int droneId, int stationId)
         {
             DalObjectService.AddEntity(new DroneCharge() { Droneld = droneId, Stationld = stationId, StartCharging = DateTime.Now });
         }

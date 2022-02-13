@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using DO;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using System.Xml.Serialization;
-using DO;
 
 
 namespace Dal
@@ -72,12 +69,13 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-        internal static IEnumerable<Station> InitializeStation()
+        internal static XElement InitializeStation()
         {
             List<Station> Stations = new();
             for (int i = 1; i <= STATIONS_INIT; ++i)
                 Stations.Add(RandomStation(i));
-            return Stations;
+            XElement xElement = new("Stations", Stations.Select(item => DalXmlService.ConvertStationToXElement(item)));             
+            return xElement;
         }
         internal static IEnumerable<Customer> InitializeCustomer()
         {
@@ -144,11 +142,11 @@ namespace Dal
         private static Parcel RandParcel()
         {
             Parcel newParcel = new();
-            XElement config = DalXmlService.LoadConfigToXML(CONFIG);
+            XElement config = DalXmlService.LoadXElementToXML(CONFIG);
             XElement parcelId = config.Elements().Single(elem => elem.Name.ToString().Contains("Parcel"));
             newParcel.Id = int.Parse(parcelId.Value) + 1;
             config.SetElementValue(parcelId.Name, newParcel.Id);
-            DalXmlService.SaveConfigToXML(config, CONFIG);
+            DalXmlService.SaveXElementToXML(config, CONFIG);
             List<Customer> customers = DalXmlService.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
             newParcel.SenderId = customers[Rnd.Next(0, customers.Count)].Id;
             do

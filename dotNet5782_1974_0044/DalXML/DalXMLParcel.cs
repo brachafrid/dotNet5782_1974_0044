@@ -24,11 +24,11 @@ namespace Dal
                 if (!ExistsIDTaxCheckNotDelited(GetCustomers(), TargetId))
                     throw new KeyNotFoundException($"Target id {TargetId} not exist in data");
                 Parcel newParcel = new();
-                XElement config = DalXmlService.LoadConfigToXML(CONFIG);
+                XElement config = DalXmlService.LoadXElementToXML(CONFIG);
                 XElement parcelId = config.Elements().Single(elem => elem.Name.ToString().Contains("Parcel"));
                 newParcel.Id = id == 0 ? int.Parse(parcelId.Value) + 1 : id;
                 config.SetElementValue(parcelId.Name, newParcel.Id);
-                DalXmlService.SaveConfigToXML(config, CONFIG);
+                DalXmlService.SaveXElementToXML(config, CONFIG);
                 newParcel.SenderId = SenderId;
                 newParcel.TargetId = TargetId;
                 newParcel.Weigth = Weigth;
