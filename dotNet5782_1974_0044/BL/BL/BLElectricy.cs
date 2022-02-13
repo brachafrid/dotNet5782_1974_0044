@@ -28,7 +28,7 @@ namespace BL
                         Distance(CustomerSender, CustomerReceives) * e;
             try
             {
-                station = batteryStatus != null ? ClosetStationPossible(aviableDroneLocation, (double)batteryStatus - electricity, out _) : ClosetStation(aviableDroneLocation);
+                station = batteryStatus != null ? ClosetStationPossible(aviableDroneLocation, (int chargeSlots) => chargeSlots > 0,(double)batteryStatus - electricity, out _) : ClosetStation(aviableDroneLocation, (int chargeSlots) => chargeSlots > 0);
                 if (station == null)
                 {
                     distance = 0;

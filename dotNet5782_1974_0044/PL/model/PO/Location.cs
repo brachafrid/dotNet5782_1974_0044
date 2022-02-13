@@ -6,7 +6,7 @@ using PL;
 
 namespace PL.PO
 {
-    public class Location : INotifyPropertyChanged, IDataErrorInfo
+    public class Location : NotifyPropertyChangedBase, IDataErrorInfo
     {
         private double? longitude;
         [Required(ErrorMessage = "required")]
@@ -14,12 +14,7 @@ namespace PL.PO
         public double? Longitude
         {
             get => longitude;
-            set
-            {
-                longitude = value;
-                onPropertyChanged("Longitude");
-
-            }
+            set => Set(ref longitude, value);
         }
         private double? latitude;
         [Required(ErrorMessage = "required")]
@@ -27,23 +22,11 @@ namespace PL.PO
         public double? Latitude
         {
             get => latitude;
-            set
-            {
-                latitude = value;
-                onPropertyChanged("Latitude");
-            }
+            set => Set(ref latitude, value);
         }
 
         public string Error => Validation.ErorrCheck(this);
         public string this[string columnName] => Validation.PropError(columnName, this);
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
-        }
         public override string ToString()
         {
             return this.ToStringProperties();
