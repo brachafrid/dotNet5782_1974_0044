@@ -39,6 +39,11 @@ namespace PL
         public RelayCommand ParcelTreatedByDrone { get; set; }
         public RelayCommand DeleteDroneCommand { get; set; }
         public RelayCommand SimulatorCommand { get; set; }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="id">id of drone</param>
         public UpdateDroneVM(int id)
         {
             this.id = id;
@@ -53,11 +58,21 @@ namespace PL
             simulateDrone = StartSimulator;
             SimulatorCommand = new((param) => simulateDrone());
         }
+
+        /// <summary>
+        /// Handle drone changed
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event</param>
         private void HandleADroneChanged(object sender, EntityChangedEventArgs e)
         {
             if (id == e.Id || e.Id == null)
                 InitThisDrone();
         }
+
+        /// <summary>
+        /// Initialize this drone
+        /// </summary>
         public async void InitThisDrone()
         {
             try
@@ -74,6 +89,11 @@ namespace PL
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
+
+        /// <summary>
+        /// Update model of drone
+        /// </summary>
+        /// <param name="param"></param>
         public async void UpdateModel(object param)
         {
             try
@@ -106,6 +126,11 @@ namespace PL
             }
             DelegateVM.NotifyDroneChanged(drone.Id);
         }
+
+        /// <summary>
+        /// Send drone to charging
+        /// </summary>
+        /// <param name="param"></param>
         public async void SendToCharging(object param)
         {
             try
@@ -148,6 +173,11 @@ namespace PL
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
+
+        /// <summary>
+        /// parcel treated by drone
+        /// </summary>
+        /// <param name="param"></param>
         public async void parcelTreatedByDrone(object param)
         {
             try
@@ -194,6 +224,11 @@ namespace PL
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
+
+        /// <summary>
+        /// Delete drone
+        /// </summary>
+        /// <param name="param"></param>
         public async void DeleteDrone(object param)
         {
             try
@@ -253,6 +288,10 @@ namespace PL
                 Set(ref auto, value);
             }
         }
+
+        /// <summary>
+        /// Start simulator
+        /// </summary>
         private void StartSimulator()
         {
             Auto = true;
@@ -263,6 +302,12 @@ namespace PL
             simulatorWorker.ProgressChanged += HandleWorkerProgressChanged;
             simulatorWorker.RunWorkerAsync(id);
         }
+
+        /// <summary>
+        /// Handle worker progress changed
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event</param>
         private void HandleWorkerProgressChanged(object sender, ProgressChangedEventArgs e)
         {
             DelegateVM.NotifyDroneChanged(id);
@@ -276,15 +321,32 @@ namespace PL
             else if (ids.Item4 != null)
                 DelegateVM.NotifyStationChanged(ids.Item4);
         }
+
+        /// <summary>
+        /// Stop  simulator
+        /// </summary>
         private void StopSimulator()
         {
             simulateDrone = StartSimulator;
             simulatorWorker?.CancelAsync();
         }
+
+        /// <summary>
+        /// update drone
+        /// </summary>
+        /// <param name="parcelId">parcel's id</param>
+        /// <param name="senderId">sender's id</param>
+        /// <param name="receiverId">receiver's id</param>
+        /// <param name="stationId">station's id</param>
         private void updateDrone(int? parcelId, int? senderId, int? receiverId, int? stationId)
         {
             simulatorWorker.ReportProgress(0, (parcelId, senderId, receiverId, stationId));
         }
+
+        /// <summary>
+        /// Is simulator stoped
+        /// </summary>
+        /// <returns>If simulator stoped</returns>
         private bool IsSimulatorStoped() => simulatorWorker.CancellationPending;
 
         #endregion

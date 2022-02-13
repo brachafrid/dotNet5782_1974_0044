@@ -47,6 +47,11 @@ namespace PL
         public RelayCommand UpdateCustomerCommand { get; set; }
         public RelayCommand DeleteCustomerCommand { get; set; }
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="id">id of customer</param>
+        /// <param name="isAdministor">is administor</param>
         public UpdateCustomerVM(int id, bool isAdministor)
         {
             IsAdministor = isAdministor;
@@ -58,11 +63,21 @@ namespace PL
             OpenParcelCommand = new(Tabs.OpenDetailes, null);
             IsAdministor = isAdministor;
         }
+
+        /// <summary>
+        /// Handle customer changed
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event</param>
         private void HandleACustomerChanged(object sender, EntityChangedEventArgs e)
         {
             if (id == e.Id || e.Id == null)
                 InitThisCustomer();
         }
+
+        /// <summary>
+        /// Initialize this customer
+        /// </summary>
         public async void InitThisCustomer()
         {
             try
@@ -81,6 +96,10 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Update customer
+        /// </summary>
+        /// <param name="param"></param>
         public async void UpdateCustomer(object param)
         {
             try
@@ -108,6 +127,11 @@ namespace PL
             }
 
         }
+
+        /// <summary>
+        /// Delete customer
+        /// </summary>
+        /// <param name="param"></param>
         public async void DeleteCustomer(object param)
         {
             try

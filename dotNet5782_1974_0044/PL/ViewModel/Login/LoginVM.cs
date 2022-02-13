@@ -15,6 +15,10 @@ namespace PL
                 PropertyChanged(this, new PropertyChangedEventArgs(properyName));
 
         }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
         public LoginVM()
         {
             Add = new(true);
@@ -68,24 +72,43 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Show administrator login
+        /// </summary>
+        /// <param name="param"></param>
         public void ShowAdministratorLogin(object param)
         {
             VisibilityAdministratorLogin = Visibility.Visible;
             VisibilityCustomerLogin = Visibility.Collapsed;
             VisibilityCustomerSignIn = Visibility.Collapsed;
         }
+
+        /// <summary>
+        /// Show customer sign in
+        /// </summary>
+        /// <param name="param"></param>
         public void ShowCustomerSignin(object param)
         {
             VisibilityAdministratorLogin = Visibility.Collapsed;
             VisibilityCustomerLogin = Visibility.Collapsed;
             VisibilityCustomerSignIn = Visibility.Visible;
         }
+
+        /// <summary>
+        /// Show customer login
+        /// </summary>
+        /// <param name="param"></param>
         public void ShowCustomerLogin(object param)
         {
             VisibilityCustomerLogin = Visibility.Visible;
             VisibilityAdministratorLogin = Visibility.Collapsed;
             VisibilityCustomerSignIn = Visibility.Collapsed;
         }
+
+        /// <summary>
+        /// Administrator login
+        /// </summary>
+        /// <param name="param"></param>
         public async void AdministratorLogin(object param)
         {
             try
@@ -105,6 +128,11 @@ namespace PL
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
+
+        /// <summary>
+        /// Customer login
+        /// </summary>
+        /// <param name="param"></param>
         public async void CustomerLogin(object param)
         {
             try

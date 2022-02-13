@@ -14,6 +14,10 @@ namespace PL
         int? customerId = null;
         string state = string.Empty;
         public bool IsAdministor { get; set; }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
         public ParcelToListVM()
         {
             InitList();
@@ -22,11 +26,21 @@ namespace PL
             DelegateVM.ParcelChangedEvent += HandleParcelChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
+
+        /// <summary>
+        /// Initializes list of parcels
+        /// </summary>
         private async void InitList()
         {
             sourceList = new ObservableCollection<ParcelToList>(await UpdateInitList());
             list = new ListCollectionView(sourceList);
         }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="Id">id</param>
+        /// <param name="State">state</param>
         public ParcelToListVM(object Id, object State)
         {
             customerId = (int)Id;
@@ -38,6 +52,12 @@ namespace PL
             DelegateVM.ParcelChangedEvent += HandleParcelChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
+
+        /// <summary>
+        /// Handle parcel changed
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event</param>
         private async void HandleParcelChanged(object sender, EntityChangedEventArgs e)
         {
             if (e.Id != null && e.Id != 0)
@@ -71,6 +91,10 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// return the state of the list of parcels
+        /// </summary>
+        /// <returns>state</returns>
         private async Task<IEnumerable<ParcelToList>> UpdateInitList()
         {
             try
@@ -93,6 +117,11 @@ namespace PL
                 throw new KeyNotFoundException();
             }
         }
+
+        /// <summary>
+        /// Add entity
+        /// </summary>
+        /// <param name="param"></param>
         public override void AddEntity(object param)
         {
             Tabs.AddTab(new TabItemFormat()

@@ -2,12 +2,7 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace PL
 {
@@ -31,6 +26,10 @@ namespace PL
 
         public RelayCommand DeleteParcelCommand { get; set; }
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="id"></param>
         public UpdateParcelVM(int id)
         {
             this.id = id;
@@ -41,11 +40,21 @@ namespace PL
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => Parcel?.Error == null);
             DelegateVM.ParcelChangedEvent += HandleAParcelChanged;
         }
+
+        /// <summary>
+        /// Handle parcel changed
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event</param>
         private void HandleAParcelChanged(object sender, EntityChangedEventArgs e)
         {
             if (id == e.Id || e.Id == null)
                 InitParcel();
         }
+
+        /// <summary>
+        /// Initializes a parcel
+        /// </summary>
         public async void InitParcel()
         {
             try
@@ -60,19 +69,12 @@ namespace PL
             {
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
-            //if (Parcel.AssignmentTime == null)
-            //{
-            //    Parcel.AssignmentTime = new DateTime();
-            //}
-            //if (Parcel.CollectionTime == null)
-            //{
-            //    Parcel.CollectionTime = new DateTime();
-            //}
-            //if (Parcel.DeliveryTime == null)
-            //{
-            //    Parcel.DeliveryTime = new DateTime();
-            //}
         }
+
+        /// <summary>
+        /// Delete parcel
+        /// </summary>
+        /// <param name="param"></param>
         public async void DeleteParcel(object param)
         {
             try
@@ -96,6 +98,10 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// parcel treated by drone
+        /// </summary>
+        /// <param name="param"></param>
         public async void parcelTreatedByDrone(object param)
         {
             try

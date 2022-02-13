@@ -14,6 +14,10 @@ namespace PL
     {
         public CustomerAdd customer { get; set; }
         public RelayCommand AddCustomerCommand { get; set; }
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="IsSignIn">Is sign in</param>
         public CustomerAddVM(bool IsSignIn)
         {
             customer = new();
@@ -22,6 +26,11 @@ namespace PL
             else
                 AddCustomerCommand = new(Add, param => customer.Error == null && customer.Location.Error == null);
         }
+
+        /// <summary>
+        /// Add customer
+        /// </summary>
+        /// <param name="param">tab customer</param>
         private async void Add(object param)
         {
             try
@@ -45,6 +54,11 @@ namespace PL
                 customer.Id = null;
             }
         }
+
+        /// <summary>
+        /// Add sign in
+        /// </summary>
+        /// <param name="param"></param>
         private async void AddSignIn(object param)
         {
             try

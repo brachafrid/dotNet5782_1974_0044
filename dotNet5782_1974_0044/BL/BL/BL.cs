@@ -22,6 +22,8 @@ namespace BL
         internal readonly double mediumWeightBearing;
         internal readonly double carriesHeavyWeight;
         internal readonly double droneLoadingRate;
+
+        //ctor
         BL()
         {
 
@@ -92,7 +94,7 @@ namespace BL
                         tmpDroneWithParcelLocation = default;
                     }
                 }
-                else if (droneInCharging.Count() <= 0)
+                else if (droneInCharging.Any())
                 {
                     state = DroneState.MAINTENANCE;
                 }
@@ -111,14 +113,14 @@ namespace BL
                         BatteryStatus = rand.Next((int)MinBatteryForAvailAble(tmpLocaiton) + 1, FULLBATTRY);
                         break;
                     case DroneState.MAINTENANCE:
-                        if (droneInCharging.Count()<=0)
+                        if (droneInCharging.Count() <= 0)
                         {
                             var stationsToDroneCharge = from station in dal.GetSationsWithEmptyChargeSlots((int numOfEmpty) => numOfEmpty > 0)
-                                                       let stationLocation = new Location() { Latitude = station.Latitude, Longitude = station.Longitude }
-                                                       select new { Location = stationLocation, Id = station.Id };
+                                                        let stationLocation = new Location() { Latitude = station.Latitude, Longitude = station.Longitude }
+                                                        select new { Location = stationLocation, Id = station.Id };
                             var stationToDroneCharge = stationsToDroneCharge.ElementAt(rand.Next(0, stationsToDroneCharge.Count()));
                             Location = stationToDroneCharge.Location;
-                            dal.AddDRoneCharge(drone.Id, stationToDroneCharge.Id);
+                            dal.AddDroneCharge(drone.Id, stationToDroneCharge.Id);
                         }
                         else
                         {
@@ -152,8 +154,6 @@ namespace BL
             }
         }
 
-
-
         ///  <summary>
         /// Find if the id is unique in a spesific list
         /// </summary>
@@ -168,6 +168,7 @@ namespace BL
             T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item, null) == id);
             return !temp.Equals(default(T));
         }
+
         /// <summary>
         /// creates list of locations of all the customers that recived at least one parcel
         /// </summary>
@@ -182,6 +183,7 @@ namespace BL
                          Longitude = dal.GetCustomer(Customer.Id).Longitude
                      });
         }
+
         /// <summary>
         /// find the location for drone that has parcel
         /// </summary>
@@ -202,6 +204,7 @@ namespace BL
                 throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();
             return station.Location;
         }
+
         /// <summary>
         /// Calculate electricity for drone to take spesipic parcel 
         /// </summary>
@@ -237,6 +240,7 @@ namespace BL
             }
            
         }
+
         /// <summary>
         /// Calculate minimum amount of electricity for drone for arraiving to the closet statoin  
         /// </summary>
@@ -252,6 +256,10 @@ namespace BL
             return electricity > FULLBATTRY ? MININITBATTARY : electricity;
         }
 
+        /// <summary>
+        /// Get administor passsword
+        /// </summary>
+        /// <returns>administor passsword</returns>
         public string GetAdministorPasssword()
         {
             try
@@ -260,7 +268,6 @@ namespace BL
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
-
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
 

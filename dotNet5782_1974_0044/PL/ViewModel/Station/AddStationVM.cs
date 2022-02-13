@@ -8,11 +8,20 @@ namespace PL
     {
         public StationAdd station { set; get; }
         public RelayCommand AddStationCommand { get; set; }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
         public AddStationVM()
         {
             station = new();
             AddStationCommand = new(Add, param => station.Error == null && station.Location.Error == null);
         }
+
+        /// <summary>
+        /// Add station
+        /// </summary>
+        /// <param name="param"></param>
         public async void Add(object param)
         {
             try
