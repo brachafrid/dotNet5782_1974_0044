@@ -1,11 +1,12 @@
 ﻿using PL.PO;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows.Data;
 
 namespace PL
 {
-    public class DroneToListVM : GenericList<DroneToList>
+    public class DroneToListVM : GenericList<DroneToList>, IDisposable
     {
         public DroneToListVM()
         {
@@ -44,6 +45,11 @@ namespace PL
                 Header = "Drone",
                 Content = new AddDroneVM()
             });
+        }
+
+        public void Dispose()
+        {
+            DelegateVM.DroneChangedEvent -= HandleDroneChanged;
         }
     }
 }

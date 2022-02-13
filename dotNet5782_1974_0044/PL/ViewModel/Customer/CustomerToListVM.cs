@@ -1,14 +1,13 @@
 ﻿using PL.PO;
-using System.Collections.Generic;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
 namespace PL
 {
-    public class CustomerToListVM : GenericList<CustomerToList>
+    public class CustomerToListVM : GenericList<CustomerToList>, IDisposable
     {
 
         public CustomerToListVM()
@@ -23,7 +22,7 @@ namespace PL
             sourceList = new ObservableCollection<CustomerToList>(await PLService.GetCustomers());
             list = new ListCollectionView(sourceList);
         }
-        
+
         private async void HandleCustomerChanged(object sender, EntityChangedEventArgs e)
         {
             try
@@ -62,6 +61,11 @@ namespace PL
                 Header = "Customer",
                 Content = new CustomerAddVM(false)
             });
+        }
+
+        public void Dispose()
+        {
+            DelegateVM.CustomerChangedEvent -= HandleCustomerChanged;
         }
     }
 }

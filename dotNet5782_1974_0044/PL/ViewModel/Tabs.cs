@@ -19,6 +19,7 @@ namespace PL
         {
             if (param is TabItemFormat tabItem)
             {
+                tabItem.Dispose();
                 TabItems.Remove(TabItems.FirstOrDefault(tab => tab.Header == tabItem.Header));
             }
 

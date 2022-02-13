@@ -6,10 +6,8 @@ using System.Windows;
 
 namespace PL
 {
-    class UpdateStationVM : NotifyPropertyChangedBase
+    class UpdateStationVM : NotifyPropertyChangedBase,IDisposable
     {
-       
-
         private readonly int id;
         public RelayCommand OpenDroneChargeCommand { get; set; }
         private Station station;
@@ -136,6 +134,11 @@ namespace PL
             {
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
+        }
+
+        public void Dispose()
+        {
+            DelegateVM.StationChangedEvent -= HandleAStationChanged;
         }
     }
 }

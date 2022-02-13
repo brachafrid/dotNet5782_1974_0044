@@ -1,9 +1,10 @@
 ﻿using PL.PO;
+using System;
 using System.Windows;
 
 namespace PL
 {
-    public class AddStationVM
+    public class AddStationVM : IDisposable
     {
         public StationAdd station { set; get; }
         public RelayCommand AddStationCommand { get; set; }
@@ -25,6 +26,8 @@ namespace PL
                 station.Id = null;
             }
         }
-
+        public void Dispose()
+        {
+        }
     }
 }

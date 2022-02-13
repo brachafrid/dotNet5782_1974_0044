@@ -45,9 +45,6 @@ namespace BL
                             case DroneState.AVAILABLE:
                                 AvailbleDrone();
                                 break;
-                            case DroneState.WAYTOCHARGE:
-                                WayToChargeDrone();
-                                break;
                             case DroneState.MAINTENANCE:
                                 MaintenanceDrone();
                                 break;
@@ -65,11 +62,6 @@ namespace BL
                 throw new KeyNotFoundException("", ex);
             }
         }
-        private void WayToChargeDrone()
-        {
-            
-
-        }
         private void AvailbleDrone()
         {
             lock (bl)
@@ -83,7 +75,7 @@ namespace BL
                 {
                     if (Drone.BatteryState >= 100)
                         return;
-                    Drone.DroneState = DroneState.WAYTOCHARGE;
+                    Drone.DroneState = DroneState.MAINTENANCE;
                     maintenance = Maintenance.Starting;
                 }
             }
@@ -97,7 +89,7 @@ namespace BL
                         lock (bl)
                         {
                             Station = bl.ClosetStationPossible(Drone.CurrentLocation, (int chargeSlots) => chargeSlots > 0, Drone.BatteryState, out double n);
-                            if(Station==null)
+                            if (Station == null)
                             {
                                 Station = bl.ClosetStationPossible(Drone.CurrentLocation, (int chargeSlots) => true, Drone.BatteryState, out n);
                             }
@@ -109,7 +101,7 @@ namespace BL
                             }
                             else
                             {
-                                
+
 
                             }
 
@@ -119,11 +111,20 @@ namespace BL
                 case Maintenance.Going:
                     {
                         if (distance < 0.01)
-                            bl.SendDroneForCharg(Drone.Id);
+                            lock (bl)
+                            {
+                                Drone.DroneState = DroneState.AVAILABLE;
+                                bl.SendDroneForCharg(Drone.Id);
+                                maintenance = Maintenance.Charging;
+                            }
+
                         else
                         {
-                            Drone.CurrentLocation = UpdateLocationAndBattary(Station.Location, bl.available);
-                            distance = BL.Distance(Drone.CurrentLocation, Station.Location);
+                            lock (bl)
+                            {
+                                Drone.CurrentLocation = UpdateLocationAndBattary(Station.Location, bl.available);
+                                distance = BL.Distance(Drone.CurrentLocation, Station.Location);
+                            }
                         }
                         break;
                     }
@@ -140,6 +141,7 @@ namespace BL
                         else
                             lock (bl) Drone.BatteryState = Math.Min(100, Drone.BatteryState + bl.droneLoadingRate * TIME_STEP);
                         stationId = Station.Id;
+                        break;
                     }
                 default:
                     break;

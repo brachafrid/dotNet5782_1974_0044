@@ -1,17 +1,15 @@
-﻿using System;
+﻿using PL.PO;
+using System;
 using System.Collections.Generic;
-using System.Collections;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Data;
-using System.Windows;
-using PL.PO;
 using System.Collections.ObjectModel;
+using System.Linq;
+using System.Threading.Tasks;
+using System.Windows;
+using System.Windows.Data;
 
 namespace PL
 {
-    public class ParcelToListVM : GenericList<ParcelToList>
+    public class ParcelToListVM : GenericList<ParcelToList>, IDisposable
     {
         int? customerId = null;
         string state = string.Empty;
@@ -62,8 +60,8 @@ namespace PL
                         }
                         break;
                     case "To":
-                            foreach (var item in (await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel)))
-                                sourceList.Add(await item);
+                        foreach (var item in (await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel)))
+                            sourceList.Add(await item);
                         break;
                     default:
                         foreach (var item in await PLService.GetParcels())
@@ -75,7 +73,8 @@ namespace PL
 
         private async Task<IEnumerable<ParcelToList>> UpdateInitList()
         {
-            try { 
+            try
+            {
                 return state switch
                 {
                     "From" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
@@ -101,6 +100,12 @@ namespace PL
                 Header = "Parcel",
                 Content = new AddParcelVM(true)
             });
+        }
+
+        public void Dispose()
+        {
+            DelegateVM.CustomerChangedEvent -= HandleParcelChanged;
+            DelegateVM.ParcelChangedEvent -= HandleParcelChanged;
         }
     }
 }

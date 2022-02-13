@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace PL
 {
-    public class UpdateDroneVM : NotifyPropertyChangedBase
+    public class UpdateDroneVM : NotifyPropertyChangedBase, IDisposable
     {
         private int id;
         BackgroundWorker simulatorWorker;
@@ -286,6 +286,12 @@ namespace PL
             simulatorWorker.ReportProgress(0, (parcelId, senderId, receiverId, stationId));
         }
         private bool IsSimulatorStoped() => simulatorWorker.CancellationPending;
+
         #endregion
+        public void Dispose()
+        {
+            DelegateVM.DroneChangedEvent += HandleADroneChanged;
+            simulatorWorker?.CancelAsync();
+        }
     }
 }
