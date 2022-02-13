@@ -12,6 +12,9 @@ namespace Dal
     {
         const string DIR = @"..\..\data\";
         const string CONFIG = @"XmlConfig.xml";
+        /// <summary>
+        /// constructor 
+        /// </summary>
         private DalXml()
         {
             try
@@ -24,7 +27,9 @@ namespace Dal
             }
 
         }
-
+        /// <summary>
+        /// Initializes the XML files
+        /// </summary>
         private void Initilaztion()
         {
 
@@ -41,6 +46,10 @@ namespace Dal
             if (!File.Exists(DIR + DRONE_CHARGE_PATH))
                 DalXmlService.SaveListToXMLSerializer(new List<DroneCharge>(), DRONE_CHARGE_PATH);
         }
+        /// <summary>
+        /// Checks if it contains the password
+        /// </summary>
+        /// <returns>return true if contains the password</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public string GetAdministorPasssword()
         {
