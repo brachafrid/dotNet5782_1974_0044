@@ -31,7 +31,7 @@ namespace PL
         {
             get { return visibilityCustomer; }
             set => Set(ref visibilityCustomer, value);
-            
+
         }
         public RelayCommand DisplayParcelsCommand { get; set; }
         public RelayCommand sendParcel { get; set; }
@@ -74,10 +74,9 @@ namespace PL
             {
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
-        }
+
             customer = await PLService.GetCustomer(id);
         }
-
         public void changeIndex(int index)
         {
             SelectedTab = index;
@@ -116,7 +115,7 @@ namespace PL
 
 
         }
-    public override void AddEntity(object param)
+        public override void AddEntity(object param)
         {
             throw new NotImplementedException();
         }
