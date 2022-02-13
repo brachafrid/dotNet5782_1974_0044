@@ -73,19 +73,20 @@ namespace BL
                     {
                         lock (bl)
                         {
-                            try
+                            Station = bl.ClosetStationPossible(Drone.CurrentLocation, (int chargeSlots) => chargeSlots > 0, Drone.BatteryState, out double n);
+                            if(Station==null)
                             {
-
-                                Station = bl.ClosetStationPossible(Drone.CurrentLocation, Drone.BatteryState, out double n);
-                                if (Station != null)
-                                {
-
-                                    distance = BL.Distance(Drone.CurrentLocation, Station.Location);
-                                    maintenance = Maintenance.Going;
-                                }
+                                Station = bl.ClosetStationPossible(Drone.CurrentLocation, (int chargeSlots) => true, Drone.BatteryState, out n);
                             }
-                            catch (NotExsistSuitibleStationException)
+                            if (Station != null)
                             {
+
+                                distance = BL.Distance(Drone.CurrentLocation, Station.Location);
+                                maintenance = Maintenance.Going;
+                            }
+                            else
+                            {
+                                
 
                             }
 

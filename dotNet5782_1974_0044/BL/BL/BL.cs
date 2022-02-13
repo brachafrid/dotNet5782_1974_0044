@@ -187,7 +187,7 @@ namespace BL
             // if the drone hasn't picked up the parcel
             if (parcel.Delivered == null && parcel.PickedUp != null)
                 return locaiton;
-            var station = ClosetStation(locaiton);
+            var station = ClosetStation(locaiton, (int chargeSlots) => chargeSlots > 0);
             return station.Location;
         }
         /// <summary>
@@ -225,7 +225,7 @@ namespace BL
         private double MinBatteryForAvailAble(Location location)
         {
 
-            var station = ClosetStation(location);
+            var station = ClosetStation(location, (int chargeSlots) => chargeSlots > 0);
             double electricity = Distance(location, station.Location) * available;
             return electricity > FULLBATTRY ? MININITBATTARY : electricity;
         }
