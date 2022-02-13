@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using DO;
 using System.Runtime.CompilerServices;
+using System.Collections;
 
 namespace Dal
 {
@@ -23,6 +24,14 @@ namespace Dal
         /// <returns>A list of DroneCarge</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation)=> DalObjectService.GetEntities<DroneCharge>().Where(item => inTheStation(item.Stationld)).Select(item => item.Droneld);
+
+        /// <summary>
+        /// Finds all the drones that are charged at a particular station
+        /// </summary>
+        ///<param name="inTheStation">The predicate to screen out if the station id of the drone equal to a spesific station id </param>
+        /// <returns>A list of DroneCarge</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<DroneCharge> GetDronescharging() => DalObjectService.GetEntities<DroneCharge>();
 
         /// <summary>
         /// Gets parameters and create new DroneCharge 

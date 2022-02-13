@@ -17,13 +17,13 @@
     <Grid>
         <ScrollViewer>
         <StackPanel x:Name="station" >
-            <ContentPresenter Content="{Binding station}"  />
+            <ContentPresenter Content="{Binding Station}"  />
             <Button Content="update station" Command="{Binding UpdateStationCommand}">
             <Button.Visibility>
                     <MultiBinding Converter="{StaticResource ConverterUpdateStation}">
-                        <Binding Path="station.Name" />
+                            <Binding Path="Station.Name" />
                         <Binding Path="stationName" />
-                        <Binding Path="station.EmptyChargeSlots" />
+                            <Binding Path="Station.EmptyChargeSlots" />
                         <Binding Path="stationEmptyChargeSlots" />
                     </MultiBinding>
                 </Button.Visibility>

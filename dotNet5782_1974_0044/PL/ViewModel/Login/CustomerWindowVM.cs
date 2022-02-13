@@ -14,19 +14,34 @@ namespace PL
 {
     public partial class CustomerWindowVM : GenericList<ParcelAtCustomer>
     {
-        public static IntDependency SelectedTab { get; set; } = new();
-        public Customer customer
+        private int selectedTab;
+
+        public int SelectedTab
         {
-            get { return (Customer)GetValue(customerProperty); }
-            set { SetValue(customerProperty, value); }
+            get { return selectedTab; }
+            set { selectedTab = value;
+                onPropertyChanged("SelectedTab");
+            }
         }
 
-        // Using a DependencyProperty as the backing store for customer.  This enables animation, styling, binding, etc...
-        public static readonly DependencyProperty customerProperty =
-            DependencyProperty.Register("customer", typeof(Customer), typeof(CustomerWindowVM), new PropertyMetadata(new Customer()));
-        public Visble VisibilityCustomer { get; set; } = new();
+        private Customer customer=new();
 
-        //public Customer customer = new Customer();
+        public Customer Customer
+        {
+            get { return customer; }
+            set { customer = value;
+                onPropertyChanged("Customer");
+            }
+        }
+        private Visibility visibilityCustomer = Visibility.Collapsed;
+
+        public Visibility VisibilityCustomer
+        {
+            get { return visibilityCustomer; }
+            set { visibilityCustomer = value;
+                onPropertyChanged("VisibilityCustomer");
+            }
+        }
         public RelayCommand DisplayParcelsCommand { get; set; }
         public RelayCommand sendParcel { get; set; }
         public RelayCommand collectionParcel { get; set; }
@@ -54,14 +69,14 @@ namespace PL
             if (id == e.Id||e.Id==null)
                 Init();
         }
-        public void Init()
+        public async void Init()
         {
-            customer = PLService.GetCustomer(id);
+            customer = await PLService.GetCustomer(id); 
         }
 
         public void changeIndex(int index)
         {
-            SelectedTab.Instance = index;
+            SelectedTab = index;
         }
         public void DisplayCustomer(object param)
         {

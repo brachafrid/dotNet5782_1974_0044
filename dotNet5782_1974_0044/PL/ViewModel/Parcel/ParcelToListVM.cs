@@ -13,39 +13,43 @@ namespace PL
 {
     public class ParcelToListVM : GenericList<ParcelToList>
     {
-        int? customerId =null;
+        int? customerId = null;
         string state = string.Empty;
         public bool IsAdministor { get; set; }
         public ParcelToListVM()
         {
-            sourceList = new ObservableCollection<ParcelToList>(UpdateInitList());
-            list = new ListCollectionView(sourceList);
+            InitList();
             IsAdministor = true;
-            UpdateInitList();
+            //UpdateInitList();
             DelegateVM.CustomerChangedEvent += HandleParcelChanged;
             DelegateVM.ParcelChangedEvent += HandleParcelChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
+        }
+        private async void InitList()
+        {
+            sourceList = new ObservableCollection<ParcelToList>(await UpdateInitList());
+            list = new ListCollectionView(sourceList);
         }
         public ParcelToListVM(object Id, object State)
         {
             customerId = (int)Id;
             IsAdministor = false;
             state = (string)State;
-            sourceList = new ObservableCollection<ParcelToList>(UpdateInitList());
+            InitList();
             list = new ListCollectionView(sourceList);
             //UpdateInitList();
             DelegateVM.CustomerChangedEvent += HandleParcelChanged;
             DelegateVM.ParcelChangedEvent += HandleParcelChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
-        private void HandleParcelChanged(object sender, EntityChangedEventArgs e)
+        private async void HandleParcelChanged(object sender, EntityChangedEventArgs e)
         {
-            if (e.Id != null && e.Id !=0)
+            if (e.Id != null && e.Id != 0)
             {
                 var parcel = sourceList.FirstOrDefault(p => p.Id == e.Id);
                 if (parcel != default)
                     sourceList.Remove(parcel);
-                var newParcel = PLService.GetParcels().FirstOrDefault(p => p.Id == e.Id);
+                var newParcel = (await PLService.GetParcels()).FirstOrDefault(p => p.Id == e.Id);
                 sourceList.Add(newParcel);
             }
             else
@@ -54,29 +58,31 @@ namespace PL
                 switch (state)
                 {
                     case "From":
-                        foreach (var item in PLService.GetCustomer((int)customerId).FromCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)))
-                            sourceList.Add(item);
+                        {
+                            foreach (var item in (await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel)))
+                                sourceList.Add(await item);
+                        }
                         break;
                     case "To":
-                        foreach (var item in PLService.GetCustomer((int)customerId).ToCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)))
-                            sourceList.Add(item);
+                            foreach (var item in (await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel)))
+                                sourceList.Add(await item);
                         break;
                     default:
-                        foreach (var item in PLService.GetParcels())
+                        foreach (var item in await PLService.GetParcels())
                             sourceList.Add(item);
                         break;
                 }
             }
         }
 
-       private IEnumerable<ParcelToList> UpdateInitList()
+        private async Task<IEnumerable<ParcelToList>> UpdateInitList()
         {
             return state switch
             {
-                "From" => PLService.GetCustomer((int)customerId).FromCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)),
-                "To" => PLService.GetCustomer((int)customerId).ToCustomer.Select(parcel => PLService.ConvertParcelAtCustomerToList(parcel)),
-                _ => PLService.GetParcels()
-            };           
+                "From" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
+                "To" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
+                _ => await PLService.GetParcels()
+            };
         }
 
         public override void AddEntity(object param)

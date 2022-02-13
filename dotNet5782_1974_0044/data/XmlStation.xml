@@ -3,17 +3,17 @@
   <Station>
     <Id>1</Id>
     <Name>station_98</Name>
-    <Longitude>15.018658490394548</Longitude>
-    <Latitude>37.35907639533238</Latitude>
-    <ChargeSlots>43</ChargeSlots>
+    <Longitude>42.3200054258667</Longitude>
+    <Latitude>-54.684633210154544</Latitude>
+    <ChargeSlots>65</ChargeSlots>
     <IsNotActive>false</IsNotActive>
   </Station>
   <Station>
     <Id>2</Id>
     <Name>station_99</Name>
-    <Longitude>30.503455045401797</Longitude>
-    <Latitude>16.4399331735633</Latitude>
-    <ChargeSlots>21</ChargeSlots>
+    <Longitude>20.9317883443701</Longitude>
+    <Latitude>-80.40171195957889</Latitude>
+    <ChargeSlots>88</ChargeSlots>
     <IsNotActive>false</IsNotActive>
   </Station>
 </ArrayOfStation>

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,14 +10,37 @@ using PL.PO;
 
 namespace PL
 {
-   public class AddParcelVM
+   public class AddParcelVM: INotifyPropertyChanged
     {
         public ParcelAdd parcel { set; get; }
         public RelayCommand AddParcelCommand { get; set; }
         public RelayCommand VisibilityParcel { get; set; }
         public RelayCommand VisibilitySender { get; set; }
-        public Visble VisibleParcel { get; set; }
-        public Visble VisibleSender { get; set; }
+        private Visibility visibleParcel;
+
+        public Visibility VisibleParcel
+        {
+            get { return visibleParcel; }
+            set { visibleParcel = value;
+            }
+        }
+        private Visibility visibleSender;
+
+        public Visibility VisibleSender
+        {
+            get { return visibleSender; }
+            set
+            {
+                visibleSender = value;
+            }
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void onPropertyChanged(string properyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
+
+        }
         public IEnumerable<int> customers { get; set; }
         public Array piorities { get; set; }
         public Array Weight { get; set; }
@@ -24,7 +48,7 @@ namespace PL
         public AddParcelVM(bool isAdministor, int id= 0)
         {
             parcel = new( );
-            customers = PLService.GetCustomers().Select(customer => customer.Id);
+            InitCustomersList();
             AddParcelCommand = new(Add, param => parcel.Error == null);
             VisibilityParcel = new(visibilityParcel, param => parcel.Error == null);
             piorities = Enum.GetValues(typeof(Priorities));
@@ -33,15 +57,22 @@ namespace PL
            if (!isAdministor)
                 parcel.CustomerSender = id;
         }
+
+        private async void InitCustomersList()
+        {
+            customers = (await PLService.GetCustomers())
+                .Select(customer => customer.Id);
+        }
+
         public void visibilityParcel(object param)
         {
-            VisibleParcel.visibility = Visibility.Visible;
+            VisibleParcel = Visibility.Visible;
         }
-        public void Add(object param)
+        public async void Add(object param)
         {
             try
             {
-                PLService.AddParcel(parcel);
+              await  PLService.AddParcel(parcel);
                 DelegateVM.NotifyParcelChanged();
                 DelegateVM.NotifyCustomerChanged(parcel.CustomerReceives);
                 DelegateVM.NotifyCustomerChanged(parcel.CustomerSender);

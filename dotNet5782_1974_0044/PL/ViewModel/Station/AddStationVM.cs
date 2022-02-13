@@ -12,13 +12,12 @@ namespace PL
             station = new();
             AddStationCommand = new(Add, param => station.Error == null && station.Location.Error == null);
         }
-        public void Add(object param)
+        public async void Add(object param)
         {
             try
             {
-                PLService.AddStation(station);
+                await PLService.AddStation(station);
                 DelegateVM.NotifyStationChanged(station.Id ?? 0);
-                Tabs.CloseTab(param as TabItemFormat);
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {
