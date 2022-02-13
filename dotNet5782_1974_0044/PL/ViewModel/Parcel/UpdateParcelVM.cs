@@ -53,7 +53,18 @@ namespace PL
         }
         public async void InitParcel()
         {
-            parcel = await PLService.GetParcel(id);
+            try
+            {
+                parcel = await PLService.GetParcel(id);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
             //if (Parcel.AssignmentTime == null)
             //{
             //    Parcel.AssignmentTime = new DateTime();
@@ -69,13 +80,23 @@ namespace PL
         }
         public  async void DeleteParcel(object param)
         {
-            if (MessageBox.Show("You're sure you want to delete this parcel?", "Delete Parcel", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+            try {
+                if (MessageBox.Show("You're sure you want to delete this parcel?", "Delete Parcel", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
+                {
+                   await PLService.DeleteParcel(Parcel.Id);
+                    MessageBox.Show("The parcel was successfully deleted");
+                    DelegateVM.ParcelChangedEvent -= HandleAParcelChanged;
+                    DelegateVM.NotifyParcelChanged(Parcel.Id);
+                    Tabs.CloseTab(param as TabItemFormat);
+                }
+            }
+            catch (KeyNotFoundException ex)
             {
-               await PLService.DeleteParcel(Parcel.Id);
-                MessageBox.Show("The parcel was successfully deleted");
-                DelegateVM.ParcelChangedEvent -= HandleAParcelChanged;
-                DelegateVM.NotifyParcelChanged(Parcel.Id);
-                Tabs.CloseTab(param as TabItemFormat);
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
 
@@ -99,9 +120,24 @@ namespace PL
             }
             catch (KeyNotFoundException ex)
             {
-                MessageBox.Show($"{ex.Message}");
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.DeletedExeption ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.InvalidParcelStateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
-
     }
 }

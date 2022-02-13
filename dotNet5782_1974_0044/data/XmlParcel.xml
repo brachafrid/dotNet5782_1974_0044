@@ -14,19 +14,6 @@
     <IsNotActive>false</IsNotActive>
   </Parcel>
   <Parcel>
-    <Id>6</Id>
-    <SenderId>7</SenderId>
-    <TargetId>9</TargetId>
-    <Weigth>HEAVY</Weigth>
-    <Priority>REGULAR</Priority>
-    <Requested>2022-02-11T10:48:40.7410176+02:00</Requested>
-    <DorneId>0</DorneId>
-    <Sceduled xsi:nil="true" />
-    <PickedUp xsi:nil="true" />
-    <Delivered xsi:nil="true" />
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
     <Id>8</Id>
     <SenderId>10</SenderId>
     <TargetId>1</TargetId>
@@ -128,6 +115,19 @@
     <Sceduled>2022-02-11T10:48:40.7172387+02:00</Sceduled>
     <PickedUp>2022-02-11T10:48:40.7172435+02:00</PickedUp>
     <Delivered>2022-02-13T13:49:10.1257925+02:00</Delivered>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>6</Id>
+    <SenderId>7</SenderId>
+    <TargetId>9</TargetId>
+    <Weigth>HEAVY</Weigth>
+    <Priority>REGULAR</Priority>
+    <Requested>2022-02-11T10:48:40.7410176+02:00</Requested>
+    <DorneId>4</DorneId>
+    <Sceduled>2022-02-13T15:21:42.6564857+02:00</Sceduled>
+    <PickedUp>2022-02-13T15:21:45.5099863+02:00</PickedUp>
+    <Delivered>2022-02-13T15:21:47.6947783+02:00</Delivered>
     <IsNotActive>false</IsNotActive>
   </Parcel>
 </ArrayOfParcel>

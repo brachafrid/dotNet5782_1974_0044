@@ -60,8 +60,15 @@ namespace PL
 
         private async void InitCustomersList()
         {
-            customers = (await PLService.GetCustomers())
-                .Select(customer => customer.Id);
+            try
+            {
+                customers = (await PLService.GetCustomers())
+                    .Select(customer => customer.Id);
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
         }
 
         public void visibilityParcel(object param)
@@ -72,16 +79,24 @@ namespace PL
         {
             try
             {
-              await  PLService.AddParcel(parcel);
+                await PLService.AddParcel(parcel);
                 DelegateVM.NotifyParcelChanged();
                 DelegateVM.NotifyCustomerChanged(parcel.CustomerReceives);
                 DelegateVM.NotifyCustomerChanged(parcel.CustomerSender);
                 Tabs.CloseTab(param as TabItemFormat);
             }
-            catch(KeyNotFoundException)
+            catch (KeyNotFoundException)
             {
                 MessageBox.Show("sender or reciver not exist");
             }
+            catch (BO.DeletedExeption ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
         }
-    }
+   }
 }
