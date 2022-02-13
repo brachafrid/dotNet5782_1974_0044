@@ -26,7 +26,7 @@
                 <ContentPresenter Content="{Binding Drone}"/>
                 <ToggleButton
                             Style="{StaticResource MaterialDesignSwitchToggleButton}"
-                            ToolTip="MaterialDesignSwitchToggleButton"
+                            ToolTip="simulator"
                             IsChecked="{Binding Auto, Mode=TwoWay}" 
                             Command="{Binding SimulatorCommand}"/>
                 <Button Content="update drone's model" Command="{Binding UpdateDroneCommand}">
