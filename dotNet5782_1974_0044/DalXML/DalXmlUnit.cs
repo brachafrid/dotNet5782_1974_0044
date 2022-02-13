@@ -32,6 +32,11 @@ namespace Dal
         private static int CHARGE_SLOTS_MAX = 100;
         private static int PARCELS_STATE = 4;
 
+
+        /// <summary>
+        /// Initialize drones random way
+        /// </summary>
+        /// <returns>list of drones</returns>
         internal static IEnumerable<Drone> InitializeDrone()
         {
             List<Drone> Drones = new();
@@ -40,6 +45,9 @@ namespace Dal
             return Drones;
         }
 
+        /// <summary>
+        /// Initialize config
+        /// </summary>
         internal static void InitializeConfig()
         {
             new XDocument(
@@ -54,6 +62,10 @@ namespace Dal
                       ).Save(DIR + CONFIG);
         }
 
+        /// <summary>
+        /// Initialize parcels random way
+        /// </summary>
+        /// <returns>list of parcels</returns>
         internal static IEnumerable<Parcel> InitializeParcel()
         {
             try
@@ -72,6 +84,11 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Initialize stations random way
+        /// </summary>
+        /// <returns>list of stations</returns>
         internal static IEnumerable<Station> InitializeStation()
         {
             List<Station> Stations = new();
@@ -79,6 +96,11 @@ namespace Dal
                 Stations.Add(RandomStation(i));
             return Stations;
         }
+
+        /// <summary>
+        /// Initialize customers random way
+        /// </summary>
+        /// <returns>list of customers</returns>
         internal static IEnumerable<Customer> InitializeCustomer()
         {
             List<Customer> Customers = new();
@@ -87,6 +109,12 @@ namespace Dal
             return Customers;
 
         }
+
+        /// <summary>
+        /// Assign parcel to drone
+        /// </summary>
+        /// <param name="weight">weight</param>
+        /// <returns>id of drone</returns>
         private static int AssignParcelDrone(WeightCategories weight)
         {
 
@@ -97,6 +125,12 @@ namespace Dal
             }
             return 0;
         }
+
+        /// <summary>
+        /// Random drone
+        /// </summary>
+        /// <param name="id">id of drone</param>
+        /// <returns>drone</returns>
         private static Drone RandomDrone(int id)
         {
             string model = $"Model_Drone_ {'a' + id}_{id * Rnd.Next()}";
@@ -109,6 +143,12 @@ namespace Dal
                 IsNotActive = false
             };
         }
+
+        /// <summary>
+        /// Random station
+        /// </summary>
+        /// <param name="id">id of station</param>
+        /// <returns>station</returns>
         private static Station RandomStation(int id)
         {
             string name = $"station_{'a' + id}";
@@ -125,6 +165,12 @@ namespace Dal
                 IsNotActive = false
             };
         }
+
+        /// <summary>
+        /// Random customer
+        /// </summary>
+        /// <param name="id">id of customer</param>
+        /// <returns>customer</returns>
         private static Customer RandomCustomer(int id)
         {
             string name = $"Customer_ { id}_{id * Rnd.Next()}";
@@ -141,6 +187,11 @@ namespace Dal
                 IsNotActive = false
             };
         }
+
+        /// <summary>
+        /// Random parcel
+        /// </summary>
+        /// <returns>parcel</returns>
         private static Parcel RandParcel()
         {
             Parcel newParcel = new();
