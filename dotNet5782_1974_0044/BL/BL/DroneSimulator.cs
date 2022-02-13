@@ -8,7 +8,7 @@ namespace BL
 {
     internal class DroneSimulator
     {
-        enum Maintenance { Starting, Going }
+        enum Maintenance { Starting, Going, Charging }
         enum Delivery { Starting, Going, Delivery }
         int? parcelId;
         int? senderId;
@@ -67,6 +67,29 @@ namespace BL
         }
         private void WayToChargeDrone()
         {
+            
+
+        }
+        private void AvailbleDrone()
+        {
+            lock (bl)
+            {
+                try
+                {
+                    bl.AssingParcelToDrone(Drone.Id);
+                    parcelId = Drone.ParcelId;
+                }
+                catch (NotExsistSutibleParcelException)
+                {
+                    if (Drone.BatteryState >= 100)
+                        return;
+                    Drone.DroneState = DroneState.WAYTOCHARGE;
+                    maintenance = Maintenance.Starting;
+                }
+            }
+        }
+        private void MaintenanceDrone()
+        {
             switch (maintenance)
             {
                 case Maintenance.Starting:
@@ -102,42 +125,24 @@ namespace BL
                             distance = BL.Distance(Drone.CurrentLocation, Station.Location);
                         }
                         break;
-                    };
-            }
+                    }
+                case Maintenance.Charging:
+                    {
+                        if (Station == null)
+                            Station = bl.GetStations().Select(station => bl.GetStation(station.Id)).FirstOrDefault(station => station.DroneInChargings.FirstOrDefault(drone => drone.Id == Drone.Id) != null);
+                        if (Drone.BatteryState == 100)
+                        {
+                            bl.ReleaseDroneFromCharging(Drone.Id);
+                            delivery = Delivery.Starting;
+                        }
 
-        }
-        private void AvailbleDrone()
-        {
-            lock (bl)
-            {
-                try
-                {
-                    bl.AssingParcelToDrone(Drone.Id);
-                    parcelId = Drone.ParcelId;
-                }
-                catch (NotExsistSutibleParcelException)
-                {
-                    if (Drone.BatteryState >= 100)
-                        return;
-                    Drone.DroneState = DroneState.WAYTOCHARGE;
-                    maintenance = Maintenance.Starting;
-                }
+                        else
+                            lock (bl) Drone.BatteryState = Math.Min(100, Drone.BatteryState + bl.droneLoadingRate * TIME_STEP);
+                        stationId = Station.Id;
+                    }
+                default:
+                    break;
             }
-        }
-        private void MaintenanceDrone()
-        {
-            if (Station == null)
-                Station = bl.GetStations().Select(station => bl.GetStation(station.Id)).FirstOrDefault(station => station.DroneInChargings.FirstOrDefault(drone => drone.Id == Drone.Id) != null);
-            if (Drone.BatteryState == 100)
-            {
-                bl.ReleaseDroneFromCharging(Drone.Id);
-                delivery = Delivery.Starting;
-            }
-
-            else
-                lock (bl) Drone.BatteryState = Math.Min(100, Drone.BatteryState + bl.droneLoadingRate * TIME_STEP);
-            stationId = Station.Id;
-
         }
 
         private void DeliveryDrone()
