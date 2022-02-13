@@ -20,20 +20,8 @@ namespace PL.PO
         private double chargingMode;
         public double ChargingMode 
         { 
-            get=>chargingMode; 
-            set => 
-            {
-                chargingMode = value;
-                onPropertyChanged("ChargingMode");
-            } 
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
+            get=>chargingMode;
+            set => Set(ref chargingMode, value); 
         }
         public override string ToString()
         {
