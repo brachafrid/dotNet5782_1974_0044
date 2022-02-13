@@ -1,5 +1,4 @@
 ﻿using PL.PO;
-using PL.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -190,10 +189,10 @@ namespace PL
             {
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
-            //catch(BO.NotExsistSuitibleStationException ex)
-            //{
-            //    MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
-            //}
+            catch (BO.NotExsistSuitibleStationException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
         }
         public async void DeleteDrone(object param)
         {
