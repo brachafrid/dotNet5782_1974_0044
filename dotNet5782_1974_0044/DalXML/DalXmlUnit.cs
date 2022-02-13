@@ -16,10 +16,10 @@ namespace Dal
         private static string CUSTOMER_PATH = @"XmlCustomer.xml";
 
         static readonly Random Rnd = new();
-        private static int DRONE_INIT = 5;
-        private static int STATIONS_INIT = 2;
-        private static int CUSTOMERS_INIT = 10;
-        private static int PARCELS_INIT = 10;
+        private static int DRONE_INIT = 20;
+        private static int STATIONS_INIT = 10;
+        private static int CUSTOMERS_INIT = 30;
+        private static int PARCELS_INIT = 50;
         private static int RANGE_ENUM = 3;
         private static int PHONE_MIN = 100000000;
         private static int PHONE_MAX = 1000000000;
