@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections;
+﻿using DO;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Xml.Linq;
-using System.Xml.Serialization;
-using DO;
 
 
 namespace Dal
@@ -19,10 +16,10 @@ namespace Dal
         private static string CUSTOMER_PATH = @"XmlCustomer.xml";
 
         static readonly Random Rnd = new();
-        private static int DRONE_INIT = 5;
-        private static int STATIONS_INIT = 2;
-        private static int CUSTOMERS_INIT = 10;
-        private static int PARCELS_INIT = 10;
+        private static int DRONE_INIT = 20;
+        private static int STATIONS_INIT = 10;
+        private static int CUSTOMERS_INIT = 30;
+        private static int PARCELS_INIT = 50;
         private static int RANGE_ENUM = 3;
         private static int PHONE_MIN = 100000000;
         private static int PHONE_MAX = 1000000000;
@@ -89,12 +86,13 @@ namespace Dal
         /// Initialize stations random way
         /// </summary>
         /// <returns>list of stations</returns>
-        internal static IEnumerable<Station> InitializeStation()
+        internal static XElement InitializeStation()
         {
             List<Station> Stations = new();
             for (int i = 1; i <= STATIONS_INIT; ++i)
                 Stations.Add(RandomStation(i));
-            return Stations;
+            XElement xElement = new("Stations", Stations.Select(item => DalXmlService.ConvertStationToXElement(item)));             
+            return xElement;
         }
 
         /// <summary>
@@ -195,11 +193,11 @@ namespace Dal
         private static Parcel RandParcel()
         {
             Parcel newParcel = new();
-            XElement config = DalXmlService.LoadConfigToXML(CONFIG);
+            XElement config = DalXmlService.LoadXElementToXML(CONFIG);
             XElement parcelId = config.Elements().Single(elem => elem.Name.ToString().Contains("Parcel"));
             newParcel.Id = int.Parse(parcelId.Value) + 1;
             config.SetElementValue(parcelId.Name, newParcel.Id);
-            DalXmlService.SaveConfigToXML(config, CONFIG);
+            DalXmlService.SaveXElementToXML(config, CONFIG);
             List<Customer> customers = DalXmlService.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
             newParcel.SenderId = customers[Rnd.Next(0, customers.Count)].Id;
             do

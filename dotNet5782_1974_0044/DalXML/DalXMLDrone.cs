@@ -133,7 +133,7 @@ namespace Dal
         {
             try
             {
-                XElement config = DalXmlService.LoadConfigToXML(CONFIG);
+                XElement config = DalXmlService.LoadXElementToXML(CONFIG);
                 var electricity = config.Elements().Select(elem => double.Parse(elem.Value));
                 return (electricity.ElementAt(1), electricity.ElementAt(2), electricity.ElementAt(3), electricity.ElementAt(4), electricity.ElementAt(5));
             }

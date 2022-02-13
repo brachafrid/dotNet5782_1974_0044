@@ -12,7 +12,7 @@ namespace DLApi
     {
         public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation);
         public IEnumerable<DroneCharge> GetDronescharging();
-        public void AddDRoneCharge(int droneId, int stationId);
+        public void AddDroneCharge(int droneId, int stationId);
         public void RemoveDroneCharge(int droneId);
         public DateTime GetTimeStartOfCharge(int droneId);
         (double, double, double, double, double) GetElectricity();

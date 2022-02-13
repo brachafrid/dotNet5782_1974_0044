@@ -45,6 +45,28 @@ namespace Dal
                 throw new XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
+        internal static XElement ConvertStationToXElement(Station station)
+        {
+          return  new XElement("Station",
+               new XElement("Id", station.Id),
+               new XElement("Name", station.Name),
+               new XElement("Latitude", station.Latitude),
+               new XElement("Longitude", station.Longitude),
+               new XElement("ChargeSlots", station.ChargeSlots),
+               new XElement("IsNotActive", station.IsNotActive));
+        }
+        internal static Station ConvertXElementToStation(XElement xElementStation)
+        {
+            return new Station()
+            {
+                Id = int.Parse(xElementStation.Element("Id").Value),
+                Name = xElementStation.Element("Name").Value,
+                Latitude = double.Parse(xElementStation.Element("Latitude").Value),
+                Longitude = double.Parse(xElementStation.Element("Longitude").Value),
+                ChargeSlots = int.Parse(xElementStation.Element("ChargeSlots").Value),
+                IsNotActive = bool.Parse(xElementStation.Element("IsNotActive").Value)
+            };
+        }
 
         /// <summary>
         /// Load list from XML serializer
@@ -79,7 +101,7 @@ namespace Dal
         /// </summary>
         /// <param name="rootElem">root element</param>
         /// <param name="filePath">the path of file</param>
-        internal static void SaveConfigToXML(XElement rootElem, string filePath)
+        internal static void SaveXElementToXML(XElement rootElem, string filePath)
         {
             try
             {
@@ -96,7 +118,7 @@ namespace Dal
         /// </summary>
         /// <param name="filePath">the path of file</param>
         /// <returns>root of document</returns>
-        internal static XElement LoadConfigToXML(string filePath)
+        internal static XElement LoadXElementToXML(string filePath)
         {
             try
             {

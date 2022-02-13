@@ -86,7 +86,7 @@ namespace BL
                         tmpDroneWithParcelLocation = default;
                     }
                 }
-                else if (droneInCharging.Count() <= 0)
+                else if (droneInCharging.Any())
                 {
                     state = DroneState.MAINTENANCE;
                 }
@@ -112,7 +112,7 @@ namespace BL
                                                         select new { Location = stationLocation, Id = station.Id };
                             var stationToDroneCharge = stationsToDroneCharge.ElementAt(rand.Next(0, stationsToDroneCharge.Count()));
                             Location = stationToDroneCharge.Location;
-                            dal.AddDRoneCharge(drone.Id, stationToDroneCharge.Id);
+                            dal.AddDroneCharge(drone.Id, stationToDroneCharge.Id);
                         }
                         else
                         {

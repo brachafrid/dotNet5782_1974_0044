@@ -43,7 +43,7 @@ namespace BL
                     IsNotActive = false
                 });
                 lock (dal)
-                    dal.AddDRoneCharge(droneBl.Id, stationId);
+                    dal.AddDroneCharge(droneBl.Id, stationId);
             }
             catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
@@ -152,7 +152,7 @@ namespace BL
                 droneToList.BatteryState -= minDistance * available;
                 droneToList.CurrentLocation = station.Location;
                 //No charging position was subtracting because there is no point in changing a variable that is not saved after the end of the function
-                dal.AddDRoneCharge(id, station.Id);
+                dal.AddDroneCharge(id, station.Id);
             }
             catch (NotExsistSuitibleStationException ex)
             {

@@ -1,16 +1,13 @@
-﻿using System;
+﻿using DLApi;
+using DO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DO;
-using DLApi;
 using System.Runtime.CompilerServices;
-using System.Collections;
 
 namespace Dal
 {
-    partial class DalXml:IDalDroneCharge
+    partial class DalXml : IDalDroneCharge
     {
         const string DRONE_CHARGE_PATH = @"XmlDroneCharge.xml";
 
@@ -41,7 +38,8 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public DateTime GetTimeStartOfCharge(int droneId)
         {
-            try {
+            try
+            {
                 DroneCharge droneCharge = DalXmlService.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH).FirstOrDefault(drone => drone.Droneld == droneId);
                 if (droneCharge.Equals(default(DroneCharge)))
                     throw new KeyNotFoundException($"The drone id {droneId} not in charging");
@@ -61,7 +59,8 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation)
         {
-            try { 
+            try
+            {
                 return DalXmlService.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH).FindAll(item => inTheStation(item.Stationld)).Select(item => item.Droneld);
             }
             catch (DO.XMLFileLoadCreateException ex)
@@ -93,9 +92,10 @@ namespace Dal
         /// <param name="droneId">drone's id</param>
         /// <param name="stationId">station's id</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void AddDRoneCharge(int droneId, int stationId)
+        public void AddDroneCharge(int droneId, int stationId)
         {
-            try { 
+            try
+            {
                 List<DroneCharge> droneCharges = DalXmlService.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH);
                 droneCharges.Add(new DroneCharge() { Droneld = droneId, Stationld = stationId, StartCharging = DateTime.Now });
                 DalXmlService.SaveListToXMLSerializer(droneCharges, DRONE_CHARGE_PATH);
@@ -114,7 +114,8 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int CountFullChargeSlots(int id)
         {
-            try { 
+            try
+            {
                 return DalXmlService.LoadListFromXMLSerializer<DroneCharge>(DRONE_CHARGE_PATH).Count(Drone => Drone.Stationld == id);
             }
             catch (DO.XMLFileLoadCreateException ex)
