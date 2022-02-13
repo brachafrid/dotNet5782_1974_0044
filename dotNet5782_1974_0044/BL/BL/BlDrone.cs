@@ -217,19 +217,19 @@ namespace BL
             }
             catch (ThereIsNoNearbyBaseStationThatTheDroneCanReachException ex)
             {
-                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException(ex.Message);//?
+                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException("",ex);//?
             }
             catch(NotExsistSutibleParcelException ex)
             {
-                throw new NotExsistSutibleParcelException(ex.Message);
+                throw new NotExsistSutibleParcelException(ex.Message,ex);
             }
             catch (KeyNotFoundException ex)
             {
-                throw new KeyNotFoundException(ex.Message);
+                throw new KeyNotFoundException(ex.Message,ex);
             }
             catch (ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message, ex);
             }
             catch (DO.XMLFileLoadCreateException ex)
             {

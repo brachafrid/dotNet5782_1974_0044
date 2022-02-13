@@ -1,4 +1,5 @@
 ﻿using PL.PO;
+using PL.ViewModel;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,7 +7,7 @@ using System.Windows;
 
 namespace PL
 {
-    public class UpdateDroneVM : INotifyPropertyChanged
+    public class UpdateDroneVM : NotifyPropertyChangedBase
     {
         private int id;
         BackgroundWorker simulatorWorker;
@@ -18,8 +19,8 @@ namespace PL
             get { return drone; }
             set
             {
+                Set(ref drone, value);
                 drone = value;
-                onPropertyChanged("Drone");
             }
         }
 
@@ -29,17 +30,8 @@ namespace PL
             get { return droneModel; }
             set
             {
-                droneModel = value;
-                onPropertyChanged("DroneModel");
+                Set(ref droneModel, value);
             }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
         }
         public RelayCommand OpenParcelCommand { get; set; }
         public RelayCommand OpenCustomerCommand { get; set; }
@@ -259,8 +251,7 @@ namespace PL
             get { return auto; }
             set
             {
-                auto = value;
-                onPropertyChanged("Auto");
+                Set(ref auto, value);
             }
         }
         private void StartSimulator()

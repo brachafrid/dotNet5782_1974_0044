@@ -6,11 +6,12 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PL;
 
 
 namespace PL.PO
 {
-    public class Customer : INotifyPropertyChanged, IDataErrorInfo
+    public class Customer : NotifyPropertyChangedBase, IDataErrorInfo
     {
         private int id;
         public int Id
@@ -18,8 +19,7 @@ namespace PL.PO
             get => id;
             init
             {
-                id = value;
-                onPropertyChanged("Id");
+                Set(ref id, value);
             }
         }
         private string name;
@@ -29,8 +29,7 @@ namespace PL.PO
             get => name;
             set
             {
-                name = value;
-                onPropertyChanged("Name");
+                Set(ref name, value);
             }
         }
         private string phone;
@@ -41,8 +40,7 @@ namespace PL.PO
             get => phone;
             set
             {
-                phone = value;
-                onPropertyChanged("Phone");
+                Set(ref phone, value);
             }
         }
 
@@ -52,8 +50,7 @@ namespace PL.PO
             get => location;
             set
             {
-                location = value;
-                onPropertyChanged("CollectionPoint");
+                Set(ref location, value);
             }
         }
         private List<ParcelAtCustomer> fromCustomer;
@@ -62,8 +59,7 @@ namespace PL.PO
             get => fromCustomer;
             set
             {
-                fromCustomer = value;
-                onPropertyChanged("FromCustomer");
+                Set(ref fromCustomer, value);
             }
         }
         private List<ParcelAtCustomer> toCustomer;
@@ -72,8 +68,7 @@ namespace PL.PO
             get => toCustomer;
             set
             {
-                toCustomer = value;
-                onPropertyChanged("ToCustomer");
+                Set(ref toCustomer, value);
             }
         }
 
@@ -83,14 +78,6 @@ namespace PL.PO
         public override string ToString()
         {
             return this.ToStringProperties();
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
         }
     }
 }

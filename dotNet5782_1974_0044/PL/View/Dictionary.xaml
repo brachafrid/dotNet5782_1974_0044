@@ -284,18 +284,8 @@
             <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
                 <TextBlock  Text ="{Binding Piority, StringFormat=Piority :{0}}" />
                 <TextBlock  Text ="{Binding Weight, StringFormat=Weight :{0} }" />
-                <TextBlock Text="{Binding Path=CreationTime, StringFormat='Creation Time :{0:d}'}"></TextBlock>
-                <TextBlock Text="{Binding Path=AssignmentTime, StringFormat='Assignment Time :{0:d}'}" >
-                    <TextBlock.Style>
-                        <Style TargetType="TextBlock">
-                            <Style.Triggers>
-                                <DataTrigger Binding="{Binding Path=AssignmentTime}" Value="{x:Static sys:DateTime.MinValue}">
-                                    <Setter Property="Visibility" Value="Collapsed"/>
-                                </DataTrigger>
-                            </Style.Triggers>
-                        </Style>
-                    </TextBlock.Style>
-                </TextBlock>
+                <TextBlock Text="{Binding Path=CreationTime, StringFormat='Creation Time :{0:d}'}"/>
+                <TextBlock Text="{Binding Path=AssignmentTime, StringFormat='Assignment Time :{0:d}'}"/>
                 <TextBlock Text="{Binding Path=CollectionTime, StringFormat='Collection Time :{0:d}'}"/>
                 <TextBlock Text="{Binding Path=DeliveryTime, StringFormat='Delivery Time :{0:d}'}"/>
             </ListBox>

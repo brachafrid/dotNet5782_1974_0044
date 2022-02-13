@@ -23,15 +23,17 @@ namespace PL
             if (e.Id != null)
             {
                 var drone = sourceList.FirstOrDefault(d => d.Id == e.Id);
-                if (drone != default)
+                if (drone != null)
+                {
                     sourceList.Remove(drone);
-                var newDrone = (await PLService.GetDrones()).FirstOrDefault(d => d.Id == e.Id);
-                sourceList.Add(newDrone);
+                    var newDrone = (await PLService.GetDrones()).FirstOrDefault(d => d.Id == e.Id);
+                    sourceList.Add(newDrone);
+                }
             }
             else
             {
                 sourceList.Clear();
-                foreach (var item in (await PLService.GetDrones()))
+                foreach (var item in await PLService.GetDrones())
                     sourceList.Add(item);
             }
         }

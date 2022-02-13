@@ -1,4 +1,5 @@
 ﻿using PL.PO;
+
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -6,15 +7,8 @@ using System.Windows;
 
 namespace PL
 {
-    class UpdateCustomerVM : INotifyPropertyChanged
+    class UpdateCustomerVM : NotifyPropertyChangedBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
-        }
         private int id;
         public RelayCommand OpenParcelCommand { get; set; }
         private Customer customer;
@@ -22,8 +16,9 @@ namespace PL
         public Customer Customer
         {
             get { return customer; }
-            set { customer = value;
-                onPropertyChanged("Customer");
+            set {
+                Set(ref customer, value);
+                customer = value;
             }
         }
         private string customerName;
@@ -33,8 +28,7 @@ namespace PL
             get { return customerName; }
             set
             {
-                customerName = value;
-                onPropertyChanged("CustomerName");
+                Set(ref customerName, value);
             }
         }
         private string customerPhone;
@@ -42,8 +36,8 @@ namespace PL
         public string CustomerPhone
         {
             get { return customerPhone; }
-            set { customerPhone = value;
-                onPropertyChanged("CustomerPhone");
+            set {
+                Set(ref customerPhone, value);
             }
         }
 

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace PL.PO
 {
-    public class CustomerAdd : INotifyPropertyChanged, IDataErrorInfo
+    public class CustomerAdd : NotifyPropertyChangedBase, IDataErrorInfo
     {
         private int? id;
         [Required(ErrorMessage = "required")]
@@ -18,22 +18,14 @@ namespace PL.PO
         public int? Id
         {
             get => id;
-            set
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
+            set=> Set(ref id, value); 
         }
         private string name;
         [Required(ErrorMessage = "required")]
         public string Name
         {
             get => name;
-            set
-            {
-                name = value;
-                onPropertyChanged("Name");
-            }
+            set=>Set(ref name, value);
         }
         private string phone;
         [Required(ErrorMessage = "required")]
@@ -41,11 +33,7 @@ namespace PL.PO
         public string Phone
         {
             get => phone;
-            set
-            {
-                phone = value;
-                onPropertyChanged("Phone");
-            }
+            set=>Set(ref phone, value);
         }
 
         private Location location = new();
@@ -53,24 +41,15 @@ namespace PL.PO
         public Location Location
         {
             get => location;
-            set
-            {
-                location = value;
-                onPropertyChanged("CollectionPoint");
-            }
+            set=>Set(ref location, value);
+            
+                
         }
         public string Error => Validation.ErorrCheck(this);
         public string this[string columnName] => Validation.PropError(columnName, this);
         public override string ToString()
         {
             return this.ToStringProperties();
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
         }
     }
 }

@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace PL.ViewModel
+namespace PL
 {
     public class NotifyPropertyChangedBase : INotifyPropertyChanged
     {
