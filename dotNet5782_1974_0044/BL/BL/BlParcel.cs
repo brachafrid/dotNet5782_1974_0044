@@ -237,7 +237,7 @@ namespace BL
             }
         }
         #endregion
-       // [MethodImpl(MethodImplOptions.Synchronized)]
+        [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsNotActiveParcel(int id)
         {
             lock (dal)

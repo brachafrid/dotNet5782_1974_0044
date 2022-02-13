@@ -23,9 +23,9 @@
                     <Button.Visibility>
                         <MultiBinding Converter="{StaticResource ConverterUpdateCustomer}">
                             <Binding Path="Customer.Name" />
-                            <Binding Path="customerName" />
+                            <Binding Path="CustomerName" />
                             <Binding Path="Customer.Phone" />
-                            <Binding Path="customerPhone" />
+                            <Binding Path="CustomerPhone" />
                         </MultiBinding>
                     </Button.Visibility>
                 </Button>
