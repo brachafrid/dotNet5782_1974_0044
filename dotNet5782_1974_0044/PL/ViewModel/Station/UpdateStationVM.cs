@@ -70,11 +70,14 @@ namespace PL
                 stationName = Station.Name;
                 stationEmptyChargeSlots = Station.EmptyChargeSlots;
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
-
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
-
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
         }
 
         public async void UpdateStation(object param)
@@ -90,9 +93,21 @@ namespace PL
 
                 }
             }
+            catch (ArgumentNullException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
             catch (ArgumentOutOfRangeException ex)
             {
-                MessageBox.Show($"{ex.Message}");
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
         public async void DeleteStation(object param)
@@ -114,9 +129,14 @@ namespace PL
             {
                 MessageBox.Show($"{ex.Message}");
             }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
         }
-
-
-
     }
 }

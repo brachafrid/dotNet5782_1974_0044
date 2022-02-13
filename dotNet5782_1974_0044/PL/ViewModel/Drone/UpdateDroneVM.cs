@@ -158,7 +158,7 @@ namespace PL
                     if (Drone.Parcel.ParcelState == true)
                     {
                         await PLService.DeliveryParcelByDrone(Drone.Id);
-                       DelegateVM.NotifyDroneChanged(drone.Id);
+                        DelegateVM.NotifyDroneChanged(drone.Id);
                     }
                     else
                     {
@@ -168,15 +168,12 @@ namespace PL
                 }
                 else
                 {
+                    
                     await PLService.AssingParcelToDrone(Drone.Id);
                     DelegateVM.NotifyDroneChanged(drone.Id);
-
+                    
                 }
-            }
-            catch (KeyNotFoundException ex)
-            {
-                MessageBox.Show($"{ex.Message}");
-            }
+            } 
             catch (BO.DeletedExeption ex)
             {
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
@@ -193,6 +190,10 @@ namespace PL
             {
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
+            //catch(BO.NotExsistSuitibleStationException ex)
+            //{
+            //    MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            //}
         }
         public async void DeleteDrone(object param)
         {
@@ -270,9 +271,9 @@ namespace PL
             if (ids.Item1 != null)
                 DelegateVM.NotifyParcelChanged(ids.Item1);
             else if (ids.Item2 != null)
-                DelegateVM.NotifyCustomerChanged(ids.Item2);          
+                DelegateVM.NotifyCustomerChanged(ids.Item2);
             else if (ids.Item3 != null)
-                DelegateVM.NotifyCustomerChanged(ids.Item3);           
+                DelegateVM.NotifyCustomerChanged(ids.Item3);
             else if (ids.Item4 != null)
                 DelegateVM.NotifyStationChanged(ids.Item4);
         }

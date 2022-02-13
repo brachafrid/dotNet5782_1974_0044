@@ -1,5 +1,6 @@
 ﻿using PL.PO;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 
 
@@ -30,7 +31,7 @@ namespace PL
         {
             get { return visibilityCustomer; }
             set => Set(ref visibilityCustomer, value);
-            
+
         }
         public RelayCommand DisplayParcelsCommand { get; set; }
         public RelayCommand sendParcel { get; set; }
@@ -61,9 +62,21 @@ namespace PL
         }
         public async void Init()
         {
+            try
+            {
+                customer = await PLService.GetCustomer(id);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+
             customer = await PLService.GetCustomer(id);
         }
-
         public void changeIndex(int index)
         {
             SelectedTab = index;
@@ -102,7 +115,7 @@ namespace PL
 
 
         }
-    public override void AddEntity(object param)
+        public override void AddEntity(object param)
         {
             throw new NotImplementedException();
         }
