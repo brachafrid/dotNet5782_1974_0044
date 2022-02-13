@@ -1,4 +1,5 @@
 ﻿using PL.PO;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -6,7 +7,7 @@ using System.Windows.Data;
 
 namespace PL
 {
-    public class StationToListVM : GenericList<StationToList>
+    public class StationToListVM : GenericList<StationToList>, IDisposable
     {
         /// <summary>
         /// constructor
@@ -78,5 +79,9 @@ namespace PL
             });
         }
 
+        public void Dispose()
+        {
+            DelegateVM.StationChangedEvent -= HandleStationChanged;
+        }
     }
 }

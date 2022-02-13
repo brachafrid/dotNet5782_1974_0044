@@ -1,16 +1,13 @@
-﻿using System;
+﻿using PL.PO;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using PL.PO;
 
 namespace PL
 {
-   public class AddParcelVM: INotifyPropertyChanged
+    public class AddParcelVM : INotifyPropertyChanged, IDisposable
     {
         public ParcelAdd parcel { set; get; }
         public RelayCommand AddParcelCommand { get; set; }
@@ -21,7 +18,9 @@ namespace PL
         public Visibility VisibleParcel
         {
             get { return visibleParcel; }
-            set { visibleParcel = value;
+            set
+            {
+                visibleParcel = value;
             }
         }
         private Visibility visibleSender;
@@ -58,14 +57,14 @@ namespace PL
         /// <param name="id">id</param>
         public AddParcelVM(bool isAdministor, int id= 0)
         {
-            parcel = new( );
+            parcel = new();
             InitCustomersList();
             AddParcelCommand = new(Add, param => parcel.Error == null);
             VisibilityParcel = new(visibilityParcel, param => parcel.Error == null);
             piorities = Enum.GetValues(typeof(Priorities));
             Weight = Enum.GetValues(typeof(WeightCategories));
             IsAdministor = isAdministor;
-           if (!isAdministor)
+            if (!isAdministor)
                 parcel.CustomerSender = id;
         }
 
@@ -121,5 +120,8 @@ namespace PL
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
-   }
+        public void Dispose()
+        {
+        }
+    }
 }

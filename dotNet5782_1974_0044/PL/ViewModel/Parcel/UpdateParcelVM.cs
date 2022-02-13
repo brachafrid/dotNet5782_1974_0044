@@ -6,7 +6,7 @@ using System.Windows;
 
 namespace PL
 {
-    class UpdateParcelVM : NotifyPropertyChangedBase
+    class UpdateParcelVM : NotifyPropertyChangedBase, IDisposable
     {
         private readonly int id;
         public RelayCommand OpenCustomerCommand { get; set; }
@@ -59,7 +59,7 @@ namespace PL
         {
             try
             {
-                parcel = await PLService.GetParcel(id);
+                Parcel = await PLService.GetParcel(id);
             }
             catch (KeyNotFoundException ex)
             {
@@ -140,6 +140,11 @@ namespace PL
             {
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
+        }
+
+        public void Dispose()
+        {
+            DelegateVM.ParcelChangedEvent -= HandleAParcelChanged;
         }
     }
 }

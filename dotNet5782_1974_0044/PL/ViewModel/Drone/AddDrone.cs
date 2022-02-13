@@ -6,13 +6,14 @@ using System.Windows;
 
 namespace PL
 {
-    public class AddDroneVM
+    public class AddDroneVM: IDisposable
     {
         public DroneAdd drone { get; set; }
         public IEnumerable<int> StationsId { get; set; }
         public Array Weight { get; set; }
         public RelayCommand AddDroneCommand { get; set; }
 
+        
         /// <summary>
         /// constructor
         /// </summary>
@@ -66,6 +67,10 @@ namespace PL
             {
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
+        }
+
+        public void Dispose()
+        {
         }
     }
 }

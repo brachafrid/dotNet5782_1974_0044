@@ -1,14 +1,13 @@
 ﻿using PL.PO;
-using System.Collections.Generic;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 
 namespace PL
 {
-    public class CustomerToListVM : GenericList<CustomerToList>
+    public class CustomerToListVM : GenericList<CustomerToList>, IDisposable
     {
         /// <summary>
         /// constructor
@@ -77,6 +76,11 @@ namespace PL
                 Header = "Customer",
                 Content = new CustomerAddVM(false)
             });
+        }
+
+        public void Dispose()
+        {
+            DelegateVM.CustomerChangedEvent -= HandleCustomerChanged;
         }
     }
 }
