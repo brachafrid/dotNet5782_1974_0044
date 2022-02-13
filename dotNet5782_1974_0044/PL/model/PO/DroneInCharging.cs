@@ -8,23 +8,20 @@ using System.Threading.Tasks;
 
 namespace PL.PO
 {
-    public class DroneInCharging : INotifyPropertyChanged
+    public class DroneInCharging : NotifyPropertyChangedBase
     {
         private int id;
         public int Id
         {
             get => id;
-            init
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
+            init => Set(ref id, value);
+            
         }
         private double chargingMode;
         public double ChargingMode 
         { 
             get=>chargingMode; 
-            set
+            set => 
             {
                 chargingMode = value;
                 onPropertyChanged("ChargingMode");
