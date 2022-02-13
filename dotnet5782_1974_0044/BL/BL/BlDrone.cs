@@ -140,7 +140,7 @@ namespace BL
                 throw new InvalidDroneStateException($"The drone {id} is {droneToList.DroneState} so it is not possible to send it for charging ");
             try
             {
-                Station station = ClosetStationPossible(droneToList.CurrentLocation, droneToList.BatteryState, out double minDistance);
+                Station station = ClosetStationPossible(droneToList.CurrentLocation, (int chargeSlots) => chargeSlots > 0, droneToList.BatteryState, out double minDistance);
                 if (station == null)
                     throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();
                 droneToList.DroneState = DroneState.MAINTENANCE;
