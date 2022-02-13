@@ -75,14 +75,25 @@ namespace PL
 
         private async Task<IEnumerable<ParcelToList>> UpdateInitList()
         {
-            return state switch
+            try { 
+                return state switch
+                {
+                    "From" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
+                    "To" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
+                    _ => await PLService.GetParcels()
+                };
+            }
+            catch (KeyNotFoundException ex)
             {
-                "From" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
-                "To" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
-                _ => await PLService.GetParcels()
-            };
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                throw new KeyNotFoundException();
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                throw new KeyNotFoundException();
+            }
         }
-
         public override void AddEntity(object param)
         {
             Tabs.AddTab(new TabItemFormat()

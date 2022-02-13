@@ -31,12 +31,14 @@ namespace PL
         public RelayCommand ShowCustomerLoginCommand { get; set; }
         public RelayCommand ShowCustomerSigninCommand { get; set; }
         public CustomerLogin customerLogin { get; set; } = new();
-        private Visibility visibilityAdministratorLogin=Visibility.Collapsed;
+        private Visibility visibilityAdministratorLogin = Visibility.Collapsed;
 
         public Visibility VisibilityAdministratorLogin
         {
             get { return visibilityAdministratorLogin; }
-            set { visibilityAdministratorLogin = value;
+            set
+            {
+                visibilityAdministratorLogin = value;
                 onPropertyChanged("VisibilityAdministratorLogin");
             }
         }
@@ -86,22 +88,28 @@ namespace PL
         }
         public async void AdministratorLogin(object param)
         {
-            if ((param as PasswordBox).Password == await PLService.GetAdministorPasssword())
+            try
             {
-                LoginScreen.MyScreen = "AdministratorWindow";
+                if ((param as PasswordBox).Password == await PLService.GetAdministorPasssword())
+                {
+                    LoginScreen.MyScreen = "AdministratorWindow";
+                }
+                else
+                {
+                    MessageBox.Show("Incorrect Password");
+                    (param as PasswordBox).Password = string.Empty;
+                }
             }
-            else
+            catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show("Incorrect Password");
-                (param as PasswordBox).Password = string.Empty;
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
-
         }
         public async void CustomerLogin(object param)
         {
             try
             {
-              Customer  customer = await PLService.GetCustomer((int)customerLogin.Id);
+                Customer customer = await PLService.GetCustomer((int)customerLogin.Id);
                 if (await PLService.IsNotActiveCustomer(customer.Id))
                     MessageBox.Show("Deleted customer");
                 else
@@ -114,6 +122,10 @@ namespace PL
             {
                 MessageBox.Show("Incorrect Id");
                 customerLogin.Id = null;
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
     }

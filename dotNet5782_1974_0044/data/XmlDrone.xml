@@ -30,4 +30,10 @@
     <MaxWeight>MEDIUM</MaxWeight>
     <IsNotActive>false</IsNotActive>
   </Drone>
+  <Drone>
+    <Id>1</Id>
+    <Model>hhModel_Drone_ 98_2122570863</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
 </ArrayOfDrone>

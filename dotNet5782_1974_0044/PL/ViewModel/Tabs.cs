@@ -1,10 +1,7 @@
 ﻿using PL.PO;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 
 namespace PL
@@ -20,11 +17,11 @@ namespace PL
         }
         public static void CloseTab(object param)
         {
-            if(param is TabItemFormat tabItem)
+            if (param is TabItemFormat tabItem)
             {
                 TabItems.Remove(TabItems.FirstOrDefault(tab => tab.Header == tabItem.Header));
             }
-                
+
         }
         public static void AddTab(TabItemFormat tabItemFormat)
         {
@@ -40,40 +37,50 @@ namespace PL
         }
         public async static void OpenDetailes(object param)
         {
-            if (param != null)
+            try
             {
-                Type t = param.GetType();
-                int id = (int)t.GetProperty("Id").GetValue(param);
-                TabItemFormat tab =
-                t switch
+
+
+                if (param != null)
                 {
-                    { } when t.Name.StartsWith("Drone") && !await PLService.IsNotActiveDrone(id) => new TabItemFormat()
+                    Type t = param.GetType();
+                    int id = (int)t.GetProperty("Id").GetValue(param);
+                    TabItemFormat tab =
+                    t switch
                     {
-                        Header = "Drone " + id,
-                        Content = new UpdateDroneVM(id)
-                    },
-                    { } when t.Name.StartsWith("Customer") && !await PLService.IsNotActiveCustomer(id) => new TabItemFormat()
-                    {
-                        Header = "Customer " + id,
-                        Content = new UpdateCustomerVM(id, true)
-                    },
-                    { } when t.Name.StartsWith("Station") && ! await PLService.IsNotActiveStation(id) => new TabItemFormat()
-                    {
-                        Header = "Station " + id,
-                        Content = new UpdateStationVM(id)
-                    },
-                    { } when t.Name.StartsWith("Parcel") && !await PLService.IsNotActiveParcel(id) => new TabItemFormat()
-                    {
-                        Header = "Parcel " + id,
-                        Content = new UpdateParcelVM(id)
-                    },
-                    _ => null,
-                };
-                if (tab == null)
-                    MessageBox.Show("Deleted");
-                else
-                    AddTab(tab);
+                        { } when t.Name.StartsWith("Drone") && !await PLService.IsNotActiveDrone(id) => new TabItemFormat()
+                        {
+                            Header = "Drone " + id,
+                            Content = new UpdateDroneVM(id)
+                        },
+                        { } when t.Name.StartsWith("Customer") && !await PLService.IsNotActiveCustomer(id) => new TabItemFormat()
+                        {
+                            Header = "Customer " + id,
+                            Content = new UpdateCustomerVM(id, true)
+                        },
+                        { } when t.Name.StartsWith("Station") && !await PLService.IsNotActiveStation(id) => new TabItemFormat()
+                        {
+                            Header = "Station " + id,
+                            Content = new UpdateStationVM(id)
+                        },
+                        { } when t.Name.StartsWith("Parcel") && !await PLService.IsNotActiveParcel(id) => new TabItemFormat()
+                        {
+                            Header = "Parcel " + id,
+                            Content = new UpdateParcelVM(id)
+                        },
+                        _ => null,
+                    };
+                    if (tab == null)
+                        MessageBox.Show("Deleted");
+                    else
+                        AddTab(tab);
+                }
             }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+
         }
     }
 }

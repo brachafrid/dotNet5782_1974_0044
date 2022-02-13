@@ -1,6 +1,7 @@
 ﻿using PL.PO;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 
 namespace PL
@@ -15,25 +16,40 @@ namespace PL
         }
         private async void InitList()
         {
-            sourceList = new ObservableCollection<StationToList>( await PLService.GetStations());
-            list = new ListCollectionView(sourceList);
+            try
+            {
+                sourceList = new ObservableCollection<StationToList>( await PLService.GetStations());
+                list = new ListCollectionView(sourceList);
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
         }
         private async void HandleStationChanged(object sender, EntityChangedEventArgs e)
         {
-            if (e.Id != null)
+            try
             {
-                var station = sourceList.FirstOrDefault(s => s.Id == e.Id);
-                if (station != default)
-                    sourceList.Remove(station);
-                var newStation =(await PLService.GetStations()).FirstOrDefault(s => s.Id == e.Id);
-                sourceList.Add(newStation);
+                if (e.Id != null)
+                {
+                    var station = sourceList.FirstOrDefault(s => s.Id == e.Id);
+                    if (station != default)
+                        sourceList.Remove(station);
+                    var newStation =(await PLService.GetStations()).FirstOrDefault(s => s.Id == e.Id);
+                    sourceList.Add(newStation);
+                }
+                else
+                {
+                    sourceList.Clear();
+                    foreach (var item in await PLService.GetStations())
+                        sourceList.Add(item);
+                }
             }
-            else
+            catch (BO.XMLFileLoadCreateException ex)
             {
-                sourceList.Clear();
-                foreach (var item in await PLService.GetStations())
-                    sourceList.Add(item);
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
+
         }
 
         public override void AddEntity(object param)
