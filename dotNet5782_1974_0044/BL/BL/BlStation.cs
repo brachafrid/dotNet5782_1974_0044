@@ -190,9 +190,9 @@ namespace BL
         /// <param name="droneToList">The drone</param>
         /// <param name="minDistance">The distance the drone need to travel</param>
         /// <returns></returns>
-        internal Station ClosetStationPossible(Location droneToListLocation, double BatteryStatus, out double minDistance)
+        internal Station ClosetStationPossible(Location droneToListLocation, Predicate<int> emptyChargeslots, double BatteryStatus, out double minDistance)
         {
-            Station station = ClosetStation(droneToListLocation);
+            Station station = ClosetStation(droneToListLocation, emptyChargeslots);
             minDistance = Distance(droneToListLocation, station.Location);
             return minDistance * available <= BatteryStatus ? station : null;
         }
@@ -203,12 +203,12 @@ namespace BL
         /// <param name="stations">The all stations</param>
         /// <param name="location">The  particular location</param>
         /// <returns>The station</returns>
-        private Station ClosetStation(Location location)
+        private Station ClosetStation(Location location,Predicate<int> emptyChargeslots)
         {
             double minDistance = int.MaxValue;
             double curDistance;
             Station station = null;
-            foreach (var item in dal.GetStations())
+            foreach (var item in dal.GetSationsWithEmptyChargeSlots(emptyChargeslots))
             {
                 curDistance = Distance(location, new Location() { Latitude = item.Latitude, Longitude = item.Longitude });
                 if (curDistance < minDistance && !item.IsNotActive)
