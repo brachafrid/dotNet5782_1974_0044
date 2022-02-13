@@ -404,11 +404,13 @@ namespace BL
         /// <returns>The best parcel</returns>
         private ParcelToList TreatInPiority(Dictionary<ParcelToList, double> parcels)
         {
-            var orderdParcel = parcels.OrderByDescending(parcel => parcel.Key.Piority).ThenByDescending(parcel => parcel.Key.Weight).ThenBy(parcel => parcel.Value).ToDictionary(item => item.Key, item => item.Value);
-            if (!orderdParcel.Any())
+            if (!parcels.Any())
                 throw new NotExsistSutibleParcelException("There is no suitable parcel that meets all the conditions");
-            ParcelToList suitableParcel = orderdParcel.FirstOrDefault().Key;
-            return suitableParcel;
+
+            return parcels.OrderByDescending(parcel => parcel.Key.Piority)
+                .ThenByDescending(parcel => parcel.Key.Weight)
+                .ThenBy(parcel => parcel.Value)
+                .FirstOrDefault().Key;
         }
 
         /// <summary>
