@@ -8,39 +8,22 @@ using System.Threading.Tasks;
 
     namespace PL.PO
     {
-    public class CustomerInParcel : INotifyPropertyChanged
+    public class CustomerInParcel : NotifyPropertyChangedBase
     {
         private int id;
         public int Id
         {
             get => id;
-            init
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
+            init => Set(ref id, value);
+           
         }
         private string name;
 
         public string Name
         {
             get => name;
-            set
-            {
-                name = value;
-                onPropertyChanged("Name");
-            }
+            set => Set(ref name, value);
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
-        }
-
-
         public override string ToString()
             {
                 return this.ToStringProperties();

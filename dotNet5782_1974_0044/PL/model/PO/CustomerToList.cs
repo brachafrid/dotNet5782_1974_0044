@@ -9,90 +9,54 @@ using System.Threading.Tasks;
 
     namespace PL.PO
     {
-    public class CustomerToList : INotifyPropertyChanged
+    public class CustomerToList : NotifyPropertyChangedBase
     {
         private int id;
         public int Id
         {
             get => id;
-            init
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
+            init => Set(ref id, value);
         }
         private string name;
 
         public string Name
         {
             get => name;
-            set
-            {
-                name = value;
-                onPropertyChanged("Name");
-            }
+            set => Set(ref name, value);
+
         }
         private string phone;
         public string Phone
         {
             get => phone;
-            set
-            {
-                phone = value;
-                onPropertyChanged("Phone");
-            }
+            set => Set(ref phone, value);
         }
         private int numParcelSentDelivered;
         public int NumParcelSentDelivered 
         { 
             get => numParcelSentDelivered;
-            set 
-            {
-                numParcelSentDelivered = value;
-                onPropertyChanged("NumParcelSentDelivered");
-            } 
+            set => Set(ref numParcelSentDelivered, value); 
         }
         private int numParcelSentNotDelivered;
         public int NumParcelSentNotDelivered
         {
             get => numParcelSentNotDelivered;
-            set
-            {
-                numParcelSentNotDelivered = value;
-                onPropertyChanged("NumParcelSentNotDelivered");
-            }
+            set => Set(ref numParcelSentNotDelivered, value);
         }
 
         private int numParcelReceived;
         public int NumParcelReceived
         {
             get => numParcelReceived;
-            set
-            {
-                numParcelReceived = value;
-                onPropertyChanged("NumParcelReceived");
-            }
+            set => Set(ref numParcelReceived, value);
         }
 
         private int numParcelWayToCustomer;
         public int NumParcelWayToCustomer
         {
             get => numParcelWayToCustomer;
-            set
-            {
-                numParcelWayToCustomer = value;
-                onPropertyChanged("NumParcelWayToCustomer");
-            }
+            set => Set(ref numParcelWayToCustomer, value);
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
-        }
-
 
         public override string ToString()
             {
