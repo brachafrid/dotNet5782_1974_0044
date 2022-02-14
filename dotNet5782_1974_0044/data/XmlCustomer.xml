@@ -240,4 +240,36 @@
     <Latitude>2.796747607084339</Latitude>
     <IsNotActive>false</IsNotActive>
   </Customer>
+  <Customer>
+    <Id>87</Id>
+    <Name>tyutd</Name>
+    <Phone>5437756373</Phone>
+    <Longitude>54</Longitude>
+    <Latitude>34</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>57</Id>
+    <Name>56777777745</Name>
+    <Phone>3673573657</Phone>
+    <Longitude>78</Longitude>
+    <Latitude>35</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>99</Id>
+    <Name>u</Name>
+    <Phone>6784794363</Phone>
+    <Longitude>65</Longitude>
+    <Latitude>54</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>90</Id>
+    <Name>yu</Name>
+    <Phone>4745747456</Phone>
+    <Longitude>65</Longitude>
+    <Latitude>45</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
 </ArrayOfCustomer>

@@ -47,7 +47,7 @@ namespace PL
             IsAdministor = false;
             state = (string)State;
             InitList();
-            list = new ListCollectionView(sourceList);
+            //list = new ListCollectionView(sourceList);
             DelegateVM.CustomerChangedEvent += HandleParcelChanged;
             DelegateVM.ParcelChangedEvent += HandleParcelChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
@@ -97,25 +97,25 @@ namespace PL
         /// <returns>state</returns>
         private async Task<IEnumerable<ParcelToList>> UpdateInitList()
         {
-            try
-            {
+            //try
+            //{
                 return state switch
                 {
                     "From" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
                     "To" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
                     _ => await PLService.GetParcels()
                 };
-            }
-            catch (KeyNotFoundException ex)
-            {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
-                throw new KeyNotFoundException();
-            }
-            catch (BO.XMLFileLoadCreateException ex)
-            {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
-                throw new KeyNotFoundException();
-            }
+            //}
+            //catch (KeyNotFoundException ex)
+            //{
+            //    MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            //    throw new KeyNotFoundException();
+            //}
+            //catch (BO.XMLFileLoadCreateException ex)
+            //{
+            //    MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            //    throw new KeyNotFoundException();
+            //}
         }
 
         /// <summary>
