@@ -12,6 +12,7 @@ namespace PL
         public RelayCommand AddParcelToListWindowCommand { get; set; }
         public RelayCommand AddStationToListWindowCommand { get; set; }
         public RelayCommand AddCustomerToListWindowCommand { get; set; }
+        public RelayCommand RefreshCommand { get; set; }
 
         private int selectedTab;
 
@@ -29,7 +30,8 @@ namespace PL
             AddDroneToListWindowCommand = new(AddDroneToList, null);
             AddParcelToListWindowCommand = new(AddParcelToList, null);
             AddStationToListWindowCommand = new(AddStationToList, null);
-            AddCustomerToListWindowCommand = new(AddCustomerToList, null);
+            AddStationToListWindowCommand = new(AddStationToList, null);
+            RefreshCommand = new(Refresh, null);
             Tabs.changeSelectedTab += changeIndex;
         }
 
@@ -44,6 +46,13 @@ namespace PL
                 Header = "Drones",
                 Content = new DroneToListVM()
             });
+        }
+        public void Refresh(object param)
+        {
+            DelegateVM.NotifyCustomerChanged();
+            DelegateVM.NotifyDroneChanged();
+            DelegateVM.NotifyParcelChanged();
+            DelegateVM.NotifyStationChanged();
         }
 
         /// <summary>

@@ -1,0 +1,243 @@
+<?xml version="1.0"?>
+<ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  <Customer>
+    <Id>1</Id>
+    <Name>Customer_ 1_31619619</Name>
+    <Phone>0748033442</Phone>
+    <Longitude>56.97187029010237</Longitude>
+    <Latitude>-69.26390373998504</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>2</Id>
+    <Name>Customer_ 2_-2291270</Name>
+    <Phone>0154096021</Phone>
+    <Longitude>6.020874684686248</Longitude>
+    <Latitude>-74.04755135069021</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>3</Id>
+    <Name>Customer_ 3_756392879</Name>
+    <Phone>0623784033</Phone>
+    <Longitude>64.12523575179523</Longitude>
+    <Latitude>50.329553157710265</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>4</Id>
+    <Name>Customer_ 4_184978656</Name>
+    <Phone>0306062731</Phone>
+    <Longitude>11.072647526428405</Longitude>
+    <Latitude>-82.90782263777584</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>5</Id>
+    <Name>Customer_ 5_1688969958</Name>
+    <Phone>0273101721</Phone>
+    <Longitude>4.4998228729236045</Longitude>
+    <Latitude>15.312090940453155</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>6</Id>
+    <Name>Customer_ 6_1107082940</Name>
+    <Phone>0750578452</Phone>
+    <Longitude>55.95570703686946</Longitude>
+    <Latitude>-68.29313450925663</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>7</Id>
+    <Name>Customer_ 7_2025434844</Name>
+    <Phone>0422464494</Phone>
+    <Longitude>14.571469382183379</Longitude>
+    <Latitude>58.217940264948616</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>8</Id>
+    <Name>Customer_ 8_1663715136</Name>
+    <Phone>0475240374</Phone>
+    <Longitude>3.485077257028351</Longitude>
+    <Latitude>-27.96086349196772</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>9</Id>
+    <Name>Customer_ 9_-261961869</Name>
+    <Phone>0429280708</Phone>
+    <Longitude>7.95311632983066</Longitude>
+    <Latitude>34.97353488391896</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>10</Id>
+    <Name>Customer_ 10_1033371060</Name>
+    <Phone>0930292003</Phone>
+    <Longitude>70.43943706175286</Longitude>
+    <Latitude>16.043545332757546</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>11</Id>
+    <Name>Customer_ 11_533475946</Name>
+    <Phone>0718638023</Phone>
+    <Longitude>47.3445792521092</Longitude>
+    <Latitude>-88.41204823619316</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>12</Id>
+    <Name>Customer_ 12_1689268480</Name>
+    <Phone>0169487923</Phone>
+    <Longitude>56.36050057614246</Longitude>
+    <Latitude>83.826774941211</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>13</Id>
+    <Name>Customer_ 13_-166402163</Name>
+    <Phone>0373234676</Phone>
+    <Longitude>44.71305413204853</Longitude>
+    <Latitude>-76.52964257427008</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>14</Id>
+    <Name>Customer_ 14_259790378</Name>
+    <Phone>0926344969</Phone>
+    <Longitude>59.683470215035356</Longitude>
+    <Latitude>-63.899426884902375</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>15</Id>
+    <Name>Customer_ 15_176941479</Name>
+    <Phone>0501147454</Phone>
+    <Longitude>59.69659750521956</Longitude>
+    <Latitude>24.168872776519912</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>16</Id>
+    <Name>Customer_ 16_-320996896</Name>
+    <Phone>0696359191</Phone>
+    <Longitude>74.46910896174103</Longitude>
+    <Latitude>14.384066924165966</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>17</Id>
+    <Name>Customer_ 17_-1005223928</Name>
+    <Phone>0108000282</Phone>
+    <Longitude>12.96681600435023</Longitude>
+    <Latitude>69.00514153670758</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>18</Id>
+    <Name>Customer_ 18_-1287834950</Name>
+    <Phone>0843704003</Phone>
+    <Longitude>60.78407688661668</Longitude>
+    <Latitude>43.33382930994678</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>19</Id>
+    <Name>Customer_ 19_1572394751</Name>
+    <Phone>0619986397</Phone>
+    <Longitude>28.86063759720914</Longitude>
+    <Latitude>-13.123004856111018</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>20</Id>
+    <Name>Customer_ 20_-381108628</Name>
+    <Phone>0357082122</Phone>
+    <Longitude>70.08747497717266</Longitude>
+    <Latitude>-84.67270119379866</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>21</Id>
+    <Name>Customer_ 21_1926487808</Name>
+    <Phone>0757011521</Phone>
+    <Longitude>41.96076517643443</Longitude>
+    <Latitude>-14.733759421731234</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>22</Id>
+    <Name>Customer_ 22_-1756388032</Name>
+    <Phone>0925898357</Phone>
+    <Longitude>81.48644719248938</Longitude>
+    <Latitude>-5.39663491463132</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>23</Id>
+    <Name>Customer_ 23_-1988055927</Name>
+    <Phone>0746006680</Phone>
+    <Longitude>52.83264043686569</Longitude>
+    <Latitude>50.18149443398299</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>24</Id>
+    <Name>Customer_ 24_1253576992</Name>
+    <Phone>0524497309</Phone>
+    <Longitude>25.080982736815226</Longitude>
+    <Latitude>49.85111708932143</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>25</Id>
+    <Name>Customer_ 25_1577714912</Name>
+    <Phone>0539796355</Phone>
+    <Longitude>8.546073544093442</Longitude>
+    <Latitude>-28.28114238906705</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>26</Id>
+    <Name>Customer_ 26_-1162859102</Name>
+    <Phone>0310061399</Phone>
+    <Longitude>26.41023812788084</Longitude>
+    <Latitude>-49.203735598457854</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>27</Id>
+    <Name>Customer_ 27_1729841543</Name>
+    <Phone>0330398735</Phone>
+    <Longitude>49.75413827633212</Longitude>
+    <Latitude>-24.21828422333034</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>28</Id>
+    <Name>Customer_ 28_1592763184</Name>
+    <Phone>0349549477</Phone>
+    <Longitude>4.602833394241907</Longitude>
+    <Latitude>30.940763082327678</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>29</Id>
+    <Name>Customer_ 29_857052209</Name>
+    <Phone>0198668970</Phone>
+    <Longitude>34.310795100084874</Longitude>
+    <Latitude>37.19575692722376</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>30</Id>
+    <Name>Customer_ 30_-1273970990</Name>
+    <Phone>0872441368</Phone>
+    <Longitude>89.97245456323607</Longitude>
+    <Latitude>-10.662519334192629</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+</ArrayOfCustomer>
