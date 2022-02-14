@@ -1,0 +1,16 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Parcels>
+  <Parcel>
+    <Id>6</Id>
+    <SenderId>28</SenderId>
+    <TargetId>25</TargetId>
+    <Weigth>HEAVY</Weigth>
+    <Priority>REGULAR</Priority>
+    <Requested>2022-02-14T20:56:38.1757809+02:00</Requested>
+    <Sceduled />
+    <PickedUp />
+    <Delivered />
+    <DorneId>0</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+</Parcels>
