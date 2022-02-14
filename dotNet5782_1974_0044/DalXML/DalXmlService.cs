@@ -45,28 +45,7 @@ namespace Dal
                 throw new XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
-        internal static XElement ConvertStationToXElement(Station station)
-        {
-          return  new XElement("Station",
-               new XElement("Id", station.Id),
-               new XElement("Name", station.Name),
-               new XElement("Latitude", station.Latitude),
-               new XElement("Longitude", station.Longitude),
-               new XElement("ChargeSlots", station.ChargeSlots),
-               new XElement("IsNotActive", station.IsNotActive));
-        }
-        internal static Station ConvertXElementToStation(XElement xElementStation)
-        {
-            return new Station()
-            {
-                Id = int.Parse(xElementStation.Element("Id").Value),
-                Name = xElementStation.Element("Name").Value,
-                Latitude = double.Parse(xElementStation.Element("Latitude").Value),
-                Longitude = double.Parse(xElementStation.Element("Longitude").Value),
-                ChargeSlots = int.Parse(xElementStation.Element("ChargeSlots").Value),
-                IsNotActive = bool.Parse(xElementStation.Element("IsNotActive").Value)
-            };
-        }
+       
 
         /// <summary>
         /// Load list from XML serializer
@@ -95,7 +74,9 @@ namespace Dal
             }
             
         }
+        #endregion
 
+        #region SaveLOadWithXElement
         /// <summary>
         /// Save config to XML
         /// </summary>
@@ -135,6 +116,48 @@ namespace Dal
                 throw new XMLFileLoadCreateException();
             }
 
+        }
+        #endregion
+
+        #region ConverStation
+        internal static XElement ConvertStationToXElement(Station station)
+        {
+            return new XElement("Station",
+                 new XElement("Id", station.Id),
+                 new XElement("Name", station.Name),
+                 new XElement("Latitude", station.Latitude),
+                 new XElement("Longitude", station.Longitude),
+                 new XElement("ChargeSlots", station.ChargeSlots),
+                 new XElement("IsNotActive", station.IsNotActive));
+        }
+        internal static Station ConvertXElementToStation(XElement xElementStation)
+        {
+            return new Station()
+            {
+                Id = int.Parse(xElementStation.Element("Id").Value),
+                Name = xElementStation.Element("Name").Value,
+                Latitude = double.Parse(xElementStation.Element("Latitude").Value),
+                Longitude = double.Parse(xElementStation.Element("Longitude").Value),
+                ChargeSlots = int.Parse(xElementStation.Element("ChargeSlots").Value),
+                IsNotActive = bool.Parse(xElementStation.Element("IsNotActive").Value)
+            };
+        }
+        #endregion
+
+        #region ConvertParcel
+        internal static XElement ConvertParcelToXElement(Parcel parcel)
+        {
+            return new XElement("Parcel",
+                 new XElement("Id", parcel.Id),
+                 new XElement("IsNotActive", parcel.IsNotActive));
+        }
+        internal static Parcel ConvertXElementToParcel(XElement xElementParcel)
+        {
+            return new Parcel()
+            {
+                Id = int.Parse(xElementParcel.Element("Id").Value),
+                IsNotActive = bool.Parse(xElementParcel.Element("IsNotActive").Value)
+            };
         }
         #endregion
     }

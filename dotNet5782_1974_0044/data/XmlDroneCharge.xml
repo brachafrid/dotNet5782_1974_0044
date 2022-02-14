@@ -71,58 +71,13 @@
     <StartCharging>2022-02-13T20:28:25.9928844+02:00</StartCharging>
   </DroneCharge>
   <DroneCharge>
-    <Droneld>3</Droneld>
-    <Stationld>4</Stationld>
-    <StartCharging>2022-02-13T20:43:40.950033+02:00</StartCharging>
+    <Droneld>8</Droneld>
+    <Stationld>3</Stationld>
+    <StartCharging>2022-02-13T21:20:27.1138129+02:00</StartCharging>
   </DroneCharge>
   <DroneCharge>
     <Droneld>9</Droneld>
     <Stationld>2</Stationld>
-    <StartCharging>2022-02-13T20:43:41.5447869+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>2</Droneld>
-    <Stationld>10</Stationld>
-    <StartCharging>2022-02-13T20:44:19.350065+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>4</Droneld>
-    <Stationld>2</Stationld>
-    <StartCharging>2022-02-13T20:51:33.5279647+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>8</Droneld>
-    <Stationld>5</Stationld>
-    <StartCharging>2022-02-13T20:51:33.6521915+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>1</Droneld>
-    <Stationld>9</Stationld>
-    <StartCharging>2022-02-13T20:57:51.3526206+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>17</Droneld>
-    <Stationld>1</Stationld>
-    <StartCharging>2022-02-13T21:04:22.6164626+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>1</Droneld>
-    <Stationld>10</Stationld>
-    <StartCharging>2022-02-13T21:21:02.6685105+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>1</Droneld>
-    <Stationld>8</Stationld>
-    <StartCharging>2022-02-13T21:28:30.0488185+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>1</Droneld>
-    <Stationld>6</Stationld>
-    <StartCharging>2022-02-13T21:30:45.3904582+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>1</Droneld>
-    <Stationld>9</Stationld>
-    <StartCharging>2022-02-13T21:39:13.9893062+02:00</StartCharging>
+    <StartCharging>2022-02-13T21:20:27.2412285+02:00</StartCharging>
   </DroneCharge>
 </ArrayOfDroneCharge>
