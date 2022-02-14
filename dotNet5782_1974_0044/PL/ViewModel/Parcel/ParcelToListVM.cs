@@ -32,8 +32,22 @@ namespace PL
         /// </summary>
         private async void InitList()
         {
-            sourceList = new ObservableCollection<ParcelToList>(await UpdateInitList());
-            list = new ListCollectionView(sourceList);
+            try
+            {
+                sourceList = new ObservableCollection<ParcelToList>(await UpdateInitList());
+                list = new ListCollectionView(sourceList);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                throw new KeyNotFoundException();
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                throw new KeyNotFoundException();
+            }
+
         }
 
         /// <summary>
@@ -97,25 +111,12 @@ namespace PL
         /// <returns>state</returns>
         private async Task<IEnumerable<ParcelToList>> UpdateInitList()
         {
-            //try
-            //{
-                return state switch
-                {
-                    "From" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
-                    "To" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
-                    _ => await PLService.GetParcels()
-                };
-            //}
-            //catch (KeyNotFoundException ex)
-            //{
-            //    MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
-            //    throw new KeyNotFoundException();
-            //}
-            //catch (BO.XMLFileLoadCreateException ex)
-            //{
-            //    MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
-            //    throw new KeyNotFoundException();
-            //}
+            return state switch
+            {
+                "From" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
+                "To" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
+                _ => await PLService.GetParcels()
+            };
         }
 
         /// <summary>

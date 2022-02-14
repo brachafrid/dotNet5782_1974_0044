@@ -6,32 +6,19 @@ using System.Windows.Controls;
 
 namespace PL
 {
-    public class AdministratorVM: INotifyPropertyChanged
+    public class AdministratorVM: NotifyPropertyChangedBase
     {
         public RelayCommand AddDroneToListWindowCommand { get; set; }
         public RelayCommand AddParcelToListWindowCommand { get; set; }
         public RelayCommand AddStationToListWindowCommand { get; set; }
         public RelayCommand AddCustomerToListWindowCommand { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        /// On property changed
-        /// </summary>
-        /// <param name="properyName"></param>
-        protected void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
-        }
         private int selectedTab;
 
         public int SelectedTab
         {
-            get { return selectedTab; }
-            set { selectedTab = value;
-                onPropertyChanged("SelectedTab");
-            }
+            get=> selectedTab; 
+            set => Set(ref selectedTab, value);
         }
 
         /// <summary>

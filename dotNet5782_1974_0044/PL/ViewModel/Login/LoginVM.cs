@@ -6,15 +6,8 @@ using System.Windows.Controls;
 
 namespace PL
 {
-    public class LoginVM : INotifyPropertyChanged
+    public class LoginVM : NotifyPropertyChangedBase
     {
-        public event PropertyChangedEventHandler PropertyChanged;
-        protected void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
-        }
 
         /// <summary>
         /// constructor
@@ -39,24 +32,16 @@ namespace PL
 
         public Visibility VisibilityAdministratorLogin
         {
-            get { return visibilityAdministratorLogin; }
-            set
-            {
-                visibilityAdministratorLogin = value;
-                onPropertyChanged("VisibilityAdministratorLogin");
-            }
+            get => visibilityAdministratorLogin; 
+            set => Set(ref visibilityAdministratorLogin, value);
         }
 
         private Visibility visibilityCustomerLogin = Visibility.Collapsed;
 
         public Visibility VisibilityCustomerLogin
         {
-            get { return visibilityCustomerLogin; }
-            set
-            {
-                visibilityCustomerLogin = value;
-                onPropertyChanged("VisibilityCustomerLogin");
-            }
+            get =>  visibilityCustomerLogin; 
+            set => Set(ref visibilityCustomerLogin, value);
         }
 
 
@@ -64,12 +49,8 @@ namespace PL
 
         public Visibility VisibilityCustomerSignIn
         {
-            get { return visibilityCustomerSignIn; }
-            set
-            {
-                visibilityCustomerSignIn = value;
-                onPropertyChanged("VisibilityCustomerSignIn");
-            }
+            get => visibilityCustomerSignIn; 
+            set => Set(ref visibilityCustomerSignIn, value);
         }
 
         /// <summary>

@@ -8,75 +8,45 @@ using System.Threading.Tasks;
 
 namespace PL.PO
 {
-    public class ParcelToList : INotifyPropertyChanged
+    public class ParcelToList : NotifyPropertyChangedBase
     {
         private int id;
         public int Id
         {
             get => id;
-            init
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
+            init => Set(ref id, value);
         }
         private Customer customerSender;
         public Customer CustomerSender
         {
             get => customerSender;
-            set
-            {
-                customerSender = value;
-                onPropertyChanged("CustomerSender");
-            }
+            set => Set(ref customerSender, value);
         }
         private Customer customerReceives;
         public Customer CustomerReceives
         {
             get => customerReceives;
-            set
-            {
-                customerReceives = value;
-                onPropertyChanged("CustomerReceives");
-            }
+            set => Set(ref customerReceives, value);
         }
 
         private WeightCategories weight;
         public WeightCategories Weight
         {
             get => weight;
-            set
-            {
-                weight = value;
-                onPropertyChanged("Weight");
-            }
+            set => Set(ref weight, value);
         }
 
         private Priorities piority;
         public Priorities Piority {
             get => piority;
-            set
-            {
-                piority = value;
-                onPropertyChanged("Piority");
-            }
+            set => Set(ref piority, value);
         }
         private PackageModes packageMode;
         public PackageModes PackageMode {
             get => packageMode;
-            set 
-            {
-                packageMode = value;
-                onPropertyChanged("PackageMode");
-            } 
+            set => Set(ref packageMode, value);
         }
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
 
-        }
         public override string ToString()
         {
             return this.ToStringProperties();
