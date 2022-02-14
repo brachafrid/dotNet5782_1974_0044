@@ -63,7 +63,7 @@ namespace Dal
         /// Initialize parcels random way
         /// </summary>
         /// <returns>list of parcels</returns>
-        internal static IEnumerable<Parcel> InitializeParcel()
+        internal static XElement InitializeParcel()
         {
             try
             {
@@ -71,10 +71,10 @@ namespace Dal
                 for (int i = 1; i <= PARCELS_INIT; ++i)
                 {
                     Parcels.Add(RandParcel());
-                    DalXmlService.SaveListToXMLSerializer(Parcels, PARCEL_PATH);
+                    XElement xElement = new("Parcels", Parcels.Select(item => DalXmlService.ConvertParcelToXElement(item)));
+                    DalXmlService.SaveXElementToXML(xElement, PARCEL_PATH);
                 }
-
-                return Parcels;
+                return new("Parcels", Parcels.Select(item => DalXmlService.ConvertParcelToXElement(item)));
             }
             catch (XMLFileLoadCreateException ex)
             {

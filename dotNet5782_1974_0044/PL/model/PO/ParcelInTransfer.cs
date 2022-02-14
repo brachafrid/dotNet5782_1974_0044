@@ -3,104 +3,62 @@ using System.ComponentModel;
 
 namespace PL.PO
 {
-    public class ParcelInTransfer : INotifyPropertyChanged
+    public class ParcelInTransfer : NotifyPropertyChangedBase
     {
         private int id;
         public int Id
         {
             get => id;
-            init
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
+            init => Set(ref id, value);
         }
         private WeightCategories weight;
         public WeightCategories Weight
         {
             get => weight;
-            set
-            {
-                weight = value;
-                onPropertyChanged("Weight");
-            }
+            set => Set(ref weight, value);
         }
         private Priorities piority;
         public Priorities Piority
         {
             get => piority;
-            set
-            {
-                piority = value;
-                onPropertyChanged("Piority");
-            }
+            set => Set(ref piority, value);
         }
         private bool parcelState;
         public bool ParcelState {
             get => parcelState;
-            set
-            {
-                parcelState = value;
-                onPropertyChanged("ParcelState");
-            }
+            set => Set(ref parcelState, value);
         }
         private Location collectionPoint;
         public Location CollectionPoint
         {
             get => collectionPoint;
-            set
-            {
-                collectionPoint = value;
-                onPropertyChanged("CollectionPoint");
-            }
+            set => Set(ref collectionPoint, value);
         }
         private Location deliveryDestination;
         public Location DeliveryDestination
         {
             get => deliveryDestination;
-            set
-            {
-                deliveryDestination = value;
-                onPropertyChanged("DeliveryDestination");
-            }
+            set => Set(ref deliveryDestination, value);
         }
         private double transportDistance;
         public double TransportDistance {
             get => transportDistance;
-            set
-            {
-                transportDistance = value;
-                onPropertyChanged("TransportDistance");
-            }
+            set => Set(ref transportDistance, value);
         }
         private CustomerInParcel customerSender;
         public CustomerInParcel CustomerSender 
         {
             get => customerSender;
-            set
-            {
-                customerSender = value;
-                onPropertyChanged("CustomerSender");
-            } 
+            set => Set(ref customerSender, value);
         }
         private CustomerInParcel customerReceives;
         public CustomerInParcel CustomerReceives
         {
             get => customerReceives;
-            set
-            {
-                customerReceives = value;
-                onPropertyChanged("CustomerReceives");
-            }
+            set => Set(ref customerReceives, value);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
 
-        }
 
         public override string ToString()
         {

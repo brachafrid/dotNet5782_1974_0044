@@ -23,6 +23,8 @@
                 <Button ToolTip="Customers"  Content="{materialDesign:PackIcon Kind=AccountMultiple}" Command="{Binding AddCustomerToListWindowCommand}"/>
                 <Separator />
                 <Button ToolTip="Stations" Content="{materialDesign:PackIcon Kind=GasStation}" Command="{Binding AddStationToListWindowCommand}"/>
+                <Separator />
+                <Button ToolTip="Refresh" Content="{materialDesign:PackIcon Kind=Refresh}" Command="{Binding RefreshCommand}"/>
             </ToolBar>
         </ToolBarTray>
 

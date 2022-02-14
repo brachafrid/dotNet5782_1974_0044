@@ -42,7 +42,7 @@ namespace Dal
             if (!File.Exists(DIR + CUSTOMER_PATH))
                 DalXmlService.SaveListToXMLSerializer(DalXmlUnit.InitializeCustomer(), CUSTOMER_PATH);
             if (!File.Exists(DIR + PARCEL_PATH))
-                DalXmlService.SaveListToXMLSerializer(DalXmlUnit.InitializeParcel(), PARCEL_PATH);
+                DalXmlService.SaveXElementToXML(DalXmlUnit.InitializeParcel(), PARCEL_PATH);
             if (!File.Exists(DIR + DRONE_CHARGE_PATH))
                 DalXmlService.SaveListToXMLSerializer(new List<DroneCharge>(), DRONE_CHARGE_PATH);
         }

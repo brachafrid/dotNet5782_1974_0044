@@ -188,19 +188,20 @@ namespace PL
                     {
                         await PLService.DeliveryParcelByDrone(Drone.Id);
                         DelegateVM.NotifyDroneChanged(drone.Id);
+                        DelegateVM.NotifyParcelChanged(drone.Parcel.Id);
                     }
                     else
                     {
                         await PLService.ParcelCollectionByDrone(Drone.Id);
                         DelegateVM.NotifyDroneChanged(drone.Id);
+                        DelegateVM.NotifyParcelChanged(drone.Parcel.Id);
                     }
                 }
                 else
-                {
-                    
+                {                   
                     await PLService.AssingParcelToDrone(Drone.Id);
                     DelegateVM.NotifyDroneChanged(drone.Id);
-                    
+                    DelegateVM.NotifyParcelChanged();
                 }
             } 
             catch (BO.DeletedExeption ex)

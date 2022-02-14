@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace PL
 {
-    public class AddParcelVM : INotifyPropertyChanged, IDisposable
+    public class AddParcelVM : NotifyPropertyChangedBase, IDisposable
     {
         public ParcelAdd parcel { set; get; }
         public RelayCommand AddParcelCommand { get; set; }
@@ -32,19 +32,7 @@ namespace PL
             {
                 visibleSender = value;
             }
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        /// <summary>
-        /// on property changed
-        /// </summary>
-        /// <param name="properyName">property name</param>
-        protected void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
-        }
+        }       
         public IEnumerable<int> customers { get; set; }
         public Array piorities { get; set; }
         public Array Weight { get; set; }
@@ -103,8 +91,11 @@ namespace PL
             {
                 await PLService.AddParcel(parcel);
                 DelegateVM.NotifyParcelChanged();
-                DelegateVM.NotifyCustomerChanged(parcel.CustomerReceives);
-                DelegateVM.NotifyCustomerChanged(parcel.CustomerSender);
+                if (IsAdministor)
+                {
+                    DelegateVM.NotifyCustomerChanged(parcel.CustomerReceives);
+                    DelegateVM.NotifyCustomerChanged(parcel.CustomerSender);
+                }
                 Tabs.CloseTab(param as TabItemFormat);
             }
             catch (KeyNotFoundException)

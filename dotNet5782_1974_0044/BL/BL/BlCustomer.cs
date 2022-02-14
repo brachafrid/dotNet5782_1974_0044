@@ -36,7 +36,6 @@ namespace BL
 
         #region Return
 
-
         /// <summary>
         /// Retrieves the requested customer from the data and converts it to BL customer
         /// </summary>

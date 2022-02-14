@@ -6,32 +6,20 @@ using System.Windows.Controls;
 
 namespace PL
 {
-    public class AdministratorVM: INotifyPropertyChanged
+    public class AdministratorVM: NotifyPropertyChangedBase
     {
         public RelayCommand AddDroneToListWindowCommand { get; set; }
         public RelayCommand AddParcelToListWindowCommand { get; set; }
         public RelayCommand AddStationToListWindowCommand { get; set; }
         public RelayCommand AddCustomerToListWindowCommand { get; set; }
-        public event PropertyChangedEventHandler PropertyChanged;
+        public RelayCommand RefreshCommand { get; set; }
 
-        /// <summary>
-        /// On property changed
-        /// </summary>
-        /// <param name="properyName"></param>
-        protected void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
-        }
         private int selectedTab;
 
         public int SelectedTab
         {
-            get { return selectedTab; }
-            set { selectedTab = value;
-                onPropertyChanged("SelectedTab");
-            }
+            get=> selectedTab; 
+            set => Set(ref selectedTab, value);
         }
 
         /// <summary>
@@ -43,6 +31,7 @@ namespace PL
             AddParcelToListWindowCommand = new(AddParcelToList, null);
             AddStationToListWindowCommand = new(AddStationToList, null);
             AddCustomerToListWindowCommand = new(AddCustomerToList, null);
+            RefreshCommand = new(Refresh, null);
             Tabs.changeSelectedTab += changeIndex;
         }
 
@@ -57,6 +46,13 @@ namespace PL
                 Header = "Drones",
                 Content = new DroneToListVM()
             });
+        }
+        public void Refresh(object param)
+        {
+            DelegateVM.NotifyCustomerChanged();
+            DelegateVM.NotifyDroneChanged();
+            DelegateVM.NotifyParcelChanged();
+            DelegateVM.NotifyStationChanged();
         }
 
         /// <summary>
