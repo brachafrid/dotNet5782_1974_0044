@@ -149,6 +149,15 @@ namespace Dal
         {
             return new XElement("Parcel",
                  new XElement("Id", parcel.Id),
+                 new XElement("SenderId", parcel.SenderId),
+                 new XElement("TargetId", parcel.TargetId),
+                 new XElement("Weigth", parcel.Weigth),
+                 new XElement("Priority", parcel.Priority),
+                 new XElement("Requested", parcel.Requested),
+                 new XElement("Sceduled", parcel.Sceduled),
+                 new XElement("PickedUp", parcel.PickedUp),
+                 new XElement("Delivered", parcel.Delivered),
+                 new XElement("DorneId", parcel.DorneId),
                  new XElement("IsNotActive", parcel.IsNotActive));
         }
         internal static Parcel ConvertXElementToParcel(XElement xElementParcel)
@@ -156,6 +165,15 @@ namespace Dal
             return new Parcel()
             {
                 Id = int.Parse(xElementParcel.Element("Id").Value),
+                SenderId=int.Parse(xElementParcel.Element("SenderId").Value),
+                TargetId = int.Parse(xElementParcel.Element("TargetId").Value),
+                Weigth = (WeightCategories)int.Parse(xElementParcel.Element("Weigth").Value),
+                Priority =(Priorities) int.Parse(xElementParcel.Element("Priority").Value),
+                Requested = DateTime.Parse(xElementParcel.Element("Requested").Value),
+                Sceduled=DateTime.Parse(xElementParcel.Element("Sceduled").Value),
+                PickedUp=DateTime.Parse(xElementParcel.Element("PickedUp").Value),
+                Delivered=DateTime.Parse(xElementParcel.Element("Delivered").Value),
+                DorneId=int.Parse(xElementParcel.Element("DorneId").Value),
                 IsNotActive = bool.Parse(xElementParcel.Element("IsNotActive").Value)
             };
         }
