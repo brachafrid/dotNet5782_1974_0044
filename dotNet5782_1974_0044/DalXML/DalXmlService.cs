@@ -105,8 +105,9 @@ namespace Dal
             {
                 if (!File.Exists(dir + filePath))
                 {
-                    throw new XMLFileLoadCreateException($"fail to load xml file: {filePath}");
-                }
+                    //throw new XMLFileLoadCreateException($"fail to load xml file: {filePath}");
+                    new XElement("Parcels").Save(dir + filePath);
+                }                
                 XDocument document = XDocument.Load(dir + filePath);
                 return document.Root;
             }
@@ -164,15 +165,15 @@ namespace Dal
         {
             int Id = int.Parse(xElementParcel.Element("Id")?.Value);
             int SenderId = int.Parse(xElementParcel.Element("SenderId")?.Value);
-              int  TargetId = int.Parse(xElementParcel.Element("TargetId")?.Value);
-               WeightCategories Weigth = (WeightCategories)Enum.Parse(typeof( WeightCategories),xElementParcel.Element("Weigth")?.Value);
-              Priorities Priority = (Priorities)Enum.Parse(typeof(Priorities), xElementParcel.Element("Priority")?.Value);
-             DateTime   Requested = DateTime.Parse(xElementParcel.Element("Requested")?.Value);
-            DateTime?    Sceduled = xElementParcel.Element("Requested")?.Value!=null? DateTime.Parse(xElementParcel.Element("Sceduled")?.Value):null;
-          DateTime?  PickedUp = xElementParcel.Element("PickedUp")?.Value != null ? DateTime.Parse(xElementParcel.Element("PickedUp")?.Value):null;
-           DateTime?     Delivered = xElementParcel.Element("Delivered")?.Value!=null?DateTime.Parse(xElementParcel.Element("Delivered")?.Value):null;
-          int      DorneId = int.Parse(xElementParcel.Element("DorneId")?.Value);
-          bool  IsNotActive = bool.Parse(xElementParcel.Element("IsNotActive")?.Value);
+            int TargetId = int.Parse(xElementParcel.Element("TargetId")?.Value);
+            WeightCategories Weigth = (WeightCategories)Enum.Parse(typeof(WeightCategories), xElementParcel.Element("Weigth")?.Value);
+            Priorities Priority = (Priorities)Enum.Parse(typeof(Priorities), xElementParcel.Element("Priority")?.Value);
+            DateTime Requested = (DateTime)xElementParcel.Element("Requested");
+            DateTime? Sceduled = xElementParcel.Element("Sceduled").Value==string.Empty ? null:(DateTime)xElementParcel.Element("Sceduled");
+            DateTime? PickedUp = xElementParcel.Element("PickedUp").Value == string.Empty ? null:(DateTime?)xElementParcel.Element("PickedUp");
+            DateTime? Delivered = xElementParcel.Element("Delivered").Value == string.Empty ? null:(DateTime?)xElementParcel.Element("Delivered");
+            int DorneId =int.Parse(xElementParcel.Element("DorneId")?.Value);
+            bool IsNotActive = bool.Parse(xElementParcel.Element("IsNotActive")?.Value);
             return new Parcel()
             {
                 Id = int.Parse(xElementParcel.Element("Id")?.Value),
@@ -180,10 +181,10 @@ namespace Dal
                 TargetId = int.Parse(xElementParcel.Element("TargetId")?.Value),
                 Weigth = (WeightCategories)Enum.Parse(typeof(WeightCategories), xElementParcel.Element("Weigth")?.Value),
                 Priority = (Priorities)Enum.Parse(typeof(Priorities), xElementParcel.Element("Priority")?.Value),
-                Requested = DateTime.Parse(xElementParcel.Element("Requested")?.Value),
-                Sceduled= xElementParcel.Element("Requested")?.Value != null ? DateTime.Parse(xElementParcel.Element("Sceduled")?.Value) : null,
-                PickedUp = xElementParcel.Element("PickedUp")?.Value != null ? DateTime.Parse(xElementParcel.Element("PickedUp")?.Value) : null,
-                Delivered = xElementParcel.Element("Delivered")?.Value != null ? DateTime.Parse(xElementParcel.Element("Delivered")?.Value) : null,
+                Requested = (DateTime)xElementParcel.Element("Requested"),
+                Sceduled= xElementParcel.Element("Sceduled").Value == string.Empty ? null : (DateTime)xElementParcel.Element("Sceduled"),
+                PickedUp = xElementParcel.Element("PickedUp").Value == string.Empty ? null : (DateTime?)xElementParcel.Element("PickedUp"),
+                Delivered = xElementParcel.Element("Delivered").Value == string.Empty ? null : (DateTime?)xElementParcel.Element("Delivered"),
                 DorneId=int.Parse(xElementParcel.Element("DorneId")?.Value),
                 IsNotActive = bool.Parse(xElementParcel.Element("IsNotActive")?.Value)
             };

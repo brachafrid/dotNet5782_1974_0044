@@ -218,7 +218,7 @@ namespace Dal
                 newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);
                 if (newParcel.DorneId != 0)
                 {
-                    XElement xElementParcel = DalXmlService.LoadXElementToXML(PARCEL_PATH).Elements().FirstOrDefault(parcel => int.Parse(parcel.Element("DorneId").Value) == newParcel.DorneId && DateTime.Parse(parcel.Element("Delivered").Value)== null);
+                    XElement xElementParcel = DalXmlService.LoadXElementToXML(PARCEL_PATH).Elements().FirstOrDefault(parcel => int.Parse(parcel.Element("DorneId").Value) == newParcel.DorneId && parcel.Element("Delivered").Value==string.Empty);
                     if (xElementParcel==default(XElement))
                     {
                         newParcel.Sceduled = DateTime.Now;
