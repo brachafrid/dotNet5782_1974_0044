@@ -30,7 +30,7 @@ namespace PL
             AddDroneToListWindowCommand = new(AddDroneToList, null);
             AddParcelToListWindowCommand = new(AddParcelToList, null);
             AddStationToListWindowCommand = new(AddStationToList, null);
-            AddStationToListWindowCommand = new(AddStationToList, null);
+            AddCustomerToListWindowCommand = new(AddCustomerToList, null);
             RefreshCommand = new(Refresh, null);
             Tabs.changeSelectedTab += changeIndex;
         }
