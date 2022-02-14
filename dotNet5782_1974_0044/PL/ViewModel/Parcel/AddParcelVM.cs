@@ -103,8 +103,11 @@ namespace PL
             {
                 await PLService.AddParcel(parcel);
                 DelegateVM.NotifyParcelChanged();
-                //DelegateVM.NotifyCustomerChanged(parcel.CustomerReceives);
-                //DelegateVM.NotifyCustomerChanged(parcel.CustomerSender);
+                if (IsAdministor)
+                {
+                    DelegateVM.NotifyCustomerChanged(parcel.CustomerReceives);
+                    DelegateVM.NotifyCustomerChanged(parcel.CustomerSender);
+                }
                 Tabs.CloseTab(param as TabItemFormat);
             }
             catch (KeyNotFoundException)
