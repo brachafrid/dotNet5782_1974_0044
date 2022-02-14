@@ -1,4 +1,5 @@
 ﻿using PL.PO;
+using System;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -6,14 +7,21 @@ using System.Windows.Data;
 
 namespace PL
 {
-    public class StationToListVM : GenericList<StationToList>
+    public class StationToListVM : GenericList<StationToList>, IDisposable
     {
+        /// <summary>
+        /// constructor
+        /// </summary>
         public StationToListVM()
         {
             InitList();
             DelegateVM.StationChangedEvent += HandleStationChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
+
+        /// <summary>
+        /// Initializes list of stations
+        /// </summary>
         private async void InitList()
         {
             try
@@ -26,6 +34,12 @@ namespace PL
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
+
+        /// <summary>
+        /// Handle station changed
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event</param>
         private async void HandleStationChanged(object sender, EntityChangedEventArgs e)
         {
             try
@@ -52,6 +66,10 @@ namespace PL
 
         }
 
+        /// <summary>
+        /// Add entity
+        /// </summary>
+        /// <param name="param"></param>
         public override void AddEntity(object param)
         {
             Tabs.AddTab(new TabItemFormat()
@@ -61,5 +79,9 @@ namespace PL
             });
         }
 
+        public void Dispose()
+        {
+            DelegateVM.StationChangedEvent -= HandleStationChanged;
+        }
     }
 }

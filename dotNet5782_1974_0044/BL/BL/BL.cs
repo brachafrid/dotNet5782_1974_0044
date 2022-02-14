@@ -78,7 +78,15 @@ namespace BL
                 if (parcel.DorneId != 0)
                 {
                     state = DroneState.DELIVERY;
-                    tmpBatteryStatus = MinBattary(parcel, ref isAbleTakeParcel, out tmpDroneWithParcelLocation);
+                    try
+                    {
+                        tmpBatteryStatus = MinBattary(parcel, ref isAbleTakeParcel, out tmpDroneWithParcelLocation);
+                    }
+                    catch (ThereIsNoNearbyBaseStationThatTheDroneCanReachException)
+                    {
+                        state = DroneState.RESCUE;
+                    }
+                    
                     if (!isAbleTakeParcel)
                     {
                         state = default;
@@ -93,7 +101,7 @@ namespace BL
                 else if (state == default)
                 {
                     state = (DroneState)rand.Next(0, DRONESTATUSESLENGTH);
-                    if (customersGotParcelLocation.Count() <= 0 || state == DroneState.WAYTOCHARGE)
+                    if (customersGotParcelLocation.Count() <= 0 )
                         state = DroneState.MAINTENANCE;
 
                 }
@@ -190,6 +198,10 @@ namespace BL
             if (parcel.Delivered == null && parcel.PickedUp != null)
                 return locaiton;
             var station = ClosetStation(locaiton, (int chargeSlots) => chargeSlots > 0);
+            if(station==null)
+                station = ClosetStation(locaiton, (int chargeSlots) =>true);
+            if (station == null)
+                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();
             return station.Location;
         }
 
@@ -202,23 +214,31 @@ namespace BL
         /// <returns> min electricity</returns>
         private double MinBattary(DO.Parcel parcel, ref bool canTakeParcel, out Location location)
         {
-            var customerSender = dal.GetCustomer(parcel.SenderId);
-            var customerReciver = dal.GetCustomer(parcel.TargetId);
-            Location senderLocation = new() { Latitude = customerSender.Latitude, Longitude = customerSender.Longitude };
-            Location targetLocation = new() { Latitude = customerReciver.Latitude, Longitude = customerReciver.Longitude };
-            // find drone's location 
-            location = FindLocationDroneWithParcel(parcel);
-            double electrity = CalculateElectricity(location, null, senderLocation, targetLocation, (WeightCategories)parcel.Weigth, out _);
-            // if the drone need more electricity 
-            if (electrity > FULLBATTRY)
+            try
             {
-                DO.Parcel newParcel = parcel;
-                newParcel.Id = 0;
-                dal.UpdateParcel(parcel, newParcel);
-                canTakeParcel = false;
-                return 0;
+                var customerSender = dal.GetCustomer(parcel.SenderId);
+                var customerReciver = dal.GetCustomer(parcel.TargetId);
+                Location senderLocation = new() { Latitude = customerSender.Latitude, Longitude = customerSender.Longitude };
+                Location targetLocation = new() { Latitude = customerReciver.Latitude, Longitude = customerReciver.Longitude };
+                // find drone's location 
+                location = FindLocationDroneWithParcel(parcel);
+                double electrity = CalculateElectricity(location, null, senderLocation, targetLocation, (WeightCategories)parcel.Weigth, out _);
+                // if the drone need more electricity 
+                if (electrity > FULLBATTRY)
+                {
+                    DO.Parcel newParcel = parcel;
+                    newParcel.Id = 0;
+                    dal.UpdateParcel(parcel, newParcel);
+                    canTakeParcel = false;
+                    return 0;
+                }
+                return rand.NextDouble() + rand.Next((int)electrity + 1, FULLBATTRY);
             }
-            return rand.NextDouble() + rand.Next((int)electrity + 1, FULLBATTRY);
+            catch (ThereIsNoNearbyBaseStationThatTheDroneCanReachException)
+            {
+                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();
+            }
+           
         }
 
         /// <summary>
@@ -230,6 +250,8 @@ namespace BL
         {
 
             var station = ClosetStation(location, (int chargeSlots) => chargeSlots > 0);
+            if (station == null)
+                return MININITBATTARY;
             double electricity = Distance(location, station.Location) * available;
             return electricity > FULLBATTRY ? MININITBATTARY : electricity;
         }

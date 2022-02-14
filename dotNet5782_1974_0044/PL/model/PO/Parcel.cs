@@ -8,125 +8,75 @@ using System.Threading.Tasks;
 
 namespace PL.PO
 {
-    public class Parcel : INotifyPropertyChanged,IDataErrorInfo
+    public class Parcel : NotifyPropertyChangedBase,IDataErrorInfo
     {
         private int id;
         public int Id
         {
             get => id;
-            init
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
+            init => Set(ref id, value);
         }
         private CustomerInParcel customerSender;
         public CustomerInParcel CustomerSender
         {
             get => customerSender;
-            set
-            {
-                customerSender = value;
-                onPropertyChanged("CustomerSender");
-            }
+            set => Set(ref customerSender, value);
         }
         private CustomerInParcel customerReceives;
         public CustomerInParcel CustomerReceives
         {
             get => customerReceives;
-            set
-            {
-                customerReceives = value;
-                onPropertyChanged("CustomerReceives");
-            }
+            set => Set(ref customerReceives, value);
         }
         private WeightCategories weight;
         public WeightCategories Weight
         {
             get => weight;
-            set
-            {
-                weight = value;
-                onPropertyChanged("Weight");
-            }
+            set => Set(ref weight, value);
         }
         private Priorities piority;
         public Priorities Piority
         {
             get => piority;
-            set
-            {
-                piority = value;
-                onPropertyChanged("Piority");
-            }
+            set => Set(ref piority, value);
         }
         private DroneWithParcel drone;
         public DroneWithParcel Drone {
             get => drone;
-            set
-            {
-                drone = value;
-                onPropertyChanged("Drone");
-            } 
+            set => Set(ref drone, value);
+             
         }
         private DateTime? creationTime;
         public DateTime? CreationTime 
         { 
             get =>creationTime;
-            set
-            {
-                creationTime = value;
-                onPropertyChanged("CreationTime");
-            } 
+            set => Set(ref creationTime, value); 
         }
         private DateTime? assignmentTime;
         public DateTime? AssignmentTime
         {
             get => assignmentTime;
-            set
-            {
-                assignmentTime = value;
-                onPropertyChanged("AssignmentTime");
-            }
+            set => Set(ref assignmentTime, value);
+           
         }
         private DateTime? collectionTime;
         public DateTime? CollectionTime
         {
             get => collectionTime;
-            set
-            {
-                collectionTime = value;
-                onPropertyChanged("CollectionTime");
-            }
+            set => Set(ref collectionTime, value);
         }
         private DateTime? deliveryTime;
         public DateTime? DeliveryTime
         {
             get => deliveryTime;
-            set
-            {
-                deliveryTime = value;
-                onPropertyChanged("DeliveryTime");
-            }
+            set => Set(ref deliveryTime, value);
         }
         public string Error
         {
-            get
-            {
-                
-                return null;
-            }
+            get => null;
         }
 
         public string this[string columnName] =>null; 
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
-        }
 
         public override string ToString()
         {

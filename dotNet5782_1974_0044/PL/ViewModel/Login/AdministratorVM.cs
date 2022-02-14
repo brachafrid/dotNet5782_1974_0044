@@ -13,6 +13,11 @@ namespace PL
         public RelayCommand AddStationToListWindowCommand { get; set; }
         public RelayCommand AddCustomerToListWindowCommand { get; set; }
         public event PropertyChangedEventHandler PropertyChanged;
+
+        /// <summary>
+        /// On property changed
+        /// </summary>
+        /// <param name="properyName"></param>
         protected void onPropertyChanged(string properyName)
         {
             if (PropertyChanged != null)
@@ -29,7 +34,9 @@ namespace PL
             }
         }
 
-
+        /// <summary>
+        /// constructor
+        /// </summary>
         public AdministratorVM()
         {
             AddDroneToListWindowCommand = new(AddDroneToList, null);
@@ -39,7 +46,10 @@ namespace PL
             Tabs.changeSelectedTab += changeIndex;
         }
 
-
+        /// <summary>
+        /// Add tab of drone to list
+        /// </summary>
+        /// <param name="param"></param>
         public void AddDroneToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()
@@ -49,10 +59,19 @@ namespace PL
             });
         }
 
+        /// <summary>
+        /// change index
+        /// </summary>
+        /// <param name="index"></param>
         public void changeIndex(int index)
         {
             SelectedTab = index;
         }
+
+        /// <summary>
+        /// Add tab of parcel to list
+        /// </summary>
+        /// <param name="param"></param>
         public void AddParcelToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()
@@ -62,6 +81,11 @@ namespace PL
             });
 
         }
+
+        /// <summary>
+        /// Add tab of station to list
+        /// </summary>
+        /// <param name="param"></param>
         public void AddStationToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()
@@ -71,6 +95,11 @@ namespace PL
             });
 
         }
+
+        /// <summary>
+        /// Add tab of customer to list
+        /// </summary>
+        /// <param name="param"></param>
         public void AddCustomerToList(object param)
         {
             Tabs.AddTab(new TabItemFormat()

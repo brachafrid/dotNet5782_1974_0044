@@ -3,7 +3,6 @@ using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace BL
 {
@@ -68,9 +67,9 @@ namespace BL
             catch (DO.XMLFileLoadCreateException ex)
             {
 
-                throw new XMLFileLoadCreateException(ex.FilePath,ex.Message,ex.InnerException);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
-            
+
         }
 
         /// <summary>
@@ -90,7 +89,7 @@ namespace BL
 
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
-            
+
         }
 
         /// <summary>
@@ -208,6 +207,12 @@ namespace BL
         internal Station ClosetStationPossible(Location droneToListLocation, Predicate<int> emptyChargeslots, double BatteryStatus, out double minDistance)
         {
             Station station = ClosetStation(droneToListLocation, emptyChargeslots);
+            if (station == null)
+            {
+                minDistance = 0;
+                return null;
+            }
+
             minDistance = Distance(droneToListLocation, station.Location);
             return minDistance * available <= BatteryStatus ? station : null;
         }
@@ -218,7 +223,7 @@ namespace BL
         /// <param name="stations">The all stations</param>
         /// <param name="location">The  particular location</param>
         /// <returns>The station</returns>
-        private Station ClosetStation(Location location,Predicate<int> emptyChargeslots)
+        private Station ClosetStation(Location location, Predicate<int> emptyChargeslots)
         {
             double minDistance = int.MaxValue;
             double curDistance;

@@ -1,5 +1,6 @@
 ﻿using BO;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 
 namespace BL
@@ -109,14 +110,27 @@ namespace BL
         /// <returns>A dictionary of converted parcels and distance</returns>
         private Dictionary<ParcelToList, double> CreatParcelDictionaryToAssign(DroneToList aviableDrone)
         {
+            var stopwatch = Stopwatch.StartNew();
             Dictionary<ParcelToList, double> parcels = new();
             foreach (var item in dal.GetParcels())
             {
-                if (item.DorneId == 0 && (WeightCategories)item.Weigth <= aviableDrone.Weight && CalculateElectricity(aviableDrone.CurrentLocation, aviableDrone.BatteryState, MapParcelToList(item).CustomerSender.Location, MapParcelToList(item).CustomerReceives.Location, (WeightCategories)item.Weigth, out double minDistance) <= aviableDrone.BatteryState)
+                //if (item.DorneId == 0 
+                //    && (WeightCategories)item.Weigth <= aviableDrone.Weight 
+                //    && CalculateElectricity(aviableDrone.CurrentLocation, aviableDrone.BatteryState, MapParcelToList(item).CustomerSender.Location, MapParcelToList(item).CustomerReceives.Location, (WeightCategories)item.Weigth, out double minDistance) <= aviableDrone.BatteryState)
+                //{
+                //    parcels.Add(MapParcelToList(item), minDistance);
+                //}
+                if (item.DorneId == 0
+                    && (WeightCategories)item.Weigth <= aviableDrone.Weight)
                 {
-                    parcels.Add(MapParcelToList(item), minDistance);
+                    var parcelToList = MapParcelToList(item);
+                    var electricity = CalculateElectricity(aviableDrone.CurrentLocation, aviableDrone.BatteryState, parcelToList.CustomerSender.Location, parcelToList.CustomerReceives.Location, (WeightCategories)item.Weigth, out double minDistance);
+                    if (electricity <= aviableDrone.BatteryState)
+                        parcels.Add(parcelToList, minDistance);
                 }
             }
+            stopwatch.Stop();
+            Debug.WriteLine($"CreatParcelDictionaryToAssign - {stopwatch.Elapsed}");
             return parcels;
         }
 

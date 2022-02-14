@@ -7,7 +7,7 @@ using System.Windows;
 
 namespace PL
 {
-    class UpdateCustomerVM : NotifyPropertyChangedBase
+    class UpdateCustomerVM : NotifyPropertyChangedBase, IDisposable
     {
         private int id;
         public RelayCommand OpenParcelCommand { get; set; }
@@ -82,7 +82,7 @@ namespace PL
         {
             try
             {
-                customer = await PLService.GetCustomer(id);
+                Customer = await PLService.GetCustomer(id);
                 customerName = customer.Name;
                 customerPhone = customer.Phone;
             }
@@ -164,6 +164,9 @@ namespace PL
             {
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
+        }
+        public void Dispose()
+        {
         }
     }
 }

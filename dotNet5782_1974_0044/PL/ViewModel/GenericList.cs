@@ -100,7 +100,6 @@ namespace PL
             set => Set(ref maxValue, value);
         }
 
-
         private double doubleFirstChange = 0;
         public double DoubleFirstChange
         {
@@ -146,6 +145,10 @@ namespace PL
         public string SelectedKind { get; set; }
         public string SelectedGroup { get; set; }
         public string selectedValue { get; set; }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
         public GenericList()
         {
             UpdateSortOptions();
@@ -157,16 +160,34 @@ namespace PL
             AddEntitiyCommand = new(AddEntity, null);
 
         }
+
+        /// <summary>
+        /// Filter now
+        /// </summary>
         public void FilterNow()
         {
             list.Filter = InternalFilter;
             list.IsLiveFiltering = true;
         }
+
+        /// <summary>
+        /// Add entity
+        /// </summary>
+        /// <param name="param"></param>
         public abstract void AddEntity(object param);
+
+        /// <summary>
+        /// Update sort options
+        /// </summary>
         void UpdateSortOptions()
         {
             SortOption = new ObservableCollection<string>(typeof(T).GetProperties().Where(prop => !prop.Name.Contains("Id") && (prop.PropertyType.IsValueType || prop.PropertyType == typeof(string))).Select(prop => prop.Name));
         }
+
+        /// <summary>
+        /// Grouping
+        /// </summary>
+        /// <param name="param"></param>
         public void Grouping(object param)
         {
             if (param != null)
@@ -176,10 +197,21 @@ namespace PL
                 list.GroupDescriptions.Add(new PropertyGroupDescription(SelectedGroup));
             }
         }
+
+        /// <summary>
+        /// Cancels  group
+        /// </summary>
+        /// <param name="param"></param>
         public void CancelGroup(object param)
         {
             list.GroupDescriptions.Clear();
         }
+
+        /// <summary>
+        /// Internal filter
+        /// </summary>
+        /// <param name="obj"></param>
+        /// <returns>If it meets the conditions</returns>
         public bool InternalFilter(object obj)
         {
             foreach (SortEntities item in Filters)
@@ -204,6 +236,11 @@ namespace PL
             }
             return true;
         }
+
+        /// <summary>
+        /// Show kind of sort
+        /// </summary>
+        /// <param name="param"></param>
         public void ShowKindOfSort(object param)
         {
             SelectedKind = param.ToString();
@@ -215,6 +252,11 @@ namespace PL
             VisblePackegeMode = Visibility.Collapsed;
             ShowValueFilter(typeof(T).GetProperty(SelectedKind).PropertyType);
         }
+
+        /// <summary>
+        /// Cancels filter
+        /// </summary>
+        /// <param name="param"></param>
         public void CancelFilter(object param)
         {
             Filters.RemoveAll((SortEntities o) => true);
@@ -227,6 +269,11 @@ namespace PL
             VisblePackegeMode = Visibility.Collapsed;
             FilterNow();
         }
+
+        /// <summary>
+        /// Show value filter
+        /// </summary>
+        /// <param name="propertyType"></param>
         public void ShowValueFilter(Type propertyType)
         {
             switch (propertyType.Name)
@@ -258,12 +305,22 @@ namespace PL
                     break;
             }
         }
+
+        /// <summary>
+        /// Max value function
+        /// </summary>
+        /// <returns>Max value</returns>
         private int MaxValueFunc()
         {
             if (typeof(T) == typeof(DroneToList))
                 return 100;
             return (int)sourceList.Max(itm => itm.GetType().GetProperty(SelectedKind).GetValue(itm));
         }
+
+        /// <summary>
+        /// Filter Enum
+        /// </summary>
+        /// <param name="param"></param>
         public void FilterEnum(object param)
         {
             if (param != null)

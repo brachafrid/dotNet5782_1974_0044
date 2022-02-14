@@ -2,16 +2,11 @@
 
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
 
 namespace PL
 {
-    class UpdateParcelVM : NotifyPropertyChangedBase
+    class UpdateParcelVM : NotifyPropertyChangedBase, IDisposable
     {
         private readonly int id;
         public RelayCommand OpenCustomerCommand { get; set; }
@@ -23,13 +18,18 @@ namespace PL
         public Parcel Parcel
         {
             get { return parcel; }
-            set {
+            set
+            {
                 Set(ref parcel, value);
             }
         }
 
         public RelayCommand DeleteParcelCommand { get; set; }
 
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="id"></param>
         public UpdateParcelVM(int id)
         {
             this.id = id;
@@ -40,16 +40,26 @@ namespace PL
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => Parcel?.Error == null);
             DelegateVM.ParcelChangedEvent += HandleAParcelChanged;
         }
+
+        /// <summary>
+        /// Handle parcel changed
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event</param>
         private void HandleAParcelChanged(object sender, EntityChangedEventArgs e)
         {
             if (id == e.Id || e.Id == null)
                 InitParcel();
         }
+
+        /// <summary>
+        /// Initializes a parcel
+        /// </summary>
         public async void InitParcel()
         {
             try
             {
-                parcel = await PLService.GetParcel(id);
+                Parcel = await PLService.GetParcel(id);
             }
             catch (KeyNotFoundException ex)
             {
@@ -59,25 +69,19 @@ namespace PL
             {
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
-            //if (Parcel.AssignmentTime == null)
-            //{
-            //    Parcel.AssignmentTime = new DateTime();
-            //}
-            //if (Parcel.CollectionTime == null)
-            //{
-            //    Parcel.CollectionTime = new DateTime();
-            //}
-            //if (Parcel.DeliveryTime == null)
-            //{
-            //    Parcel.DeliveryTime = new DateTime();
-            //}
         }
-        public  async void DeleteParcel(object param)
+
+        /// <summary>
+        /// Delete parcel
+        /// </summary>
+        /// <param name="param"></param>
+        public async void DeleteParcel(object param)
         {
-            try {
+            try
+            {
                 if (MessageBox.Show("You're sure you want to delete this parcel?", "Delete Parcel", MessageBoxButton.YesNo, MessageBoxImage.Question, MessageBoxResult.No) == MessageBoxResult.Yes)
                 {
-                   await PLService.DeleteParcel(Parcel.Id);
+                    await PLService.DeleteParcel(Parcel.Id);
                     MessageBox.Show("The parcel was successfully deleted");
                     DelegateVM.ParcelChangedEvent -= HandleAParcelChanged;
                     DelegateVM.NotifyParcelChanged(Parcel.Id);
@@ -94,6 +98,10 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// parcel treated by drone
+        /// </summary>
+        /// <param name="param"></param>
         public async void parcelTreatedByDrone(object param)
         {
             try
@@ -102,12 +110,12 @@ namespace PL
                 {
                     if (Parcel.CollectionTime != null)
                     {
-                      await  PLService.DeliveryParcelByDrone(Parcel.Drone.Id);
+                        await PLService.DeliveryParcelByDrone(Parcel.Drone.Id);
                         DelegateVM.NotifyDroneChanged(Parcel.Drone.Id);
                     }
                     else
                     {
-                      await  PLService.ParcelCollectionByDrone(Parcel.Drone.Id);
+                        await PLService.ParcelCollectionByDrone(Parcel.Drone.Id);
                         DelegateVM.NotifyDroneChanged(Parcel.Drone.Id);
                     }
                 }
@@ -132,6 +140,11 @@ namespace PL
             {
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
+        }
+
+        public void Dispose()
+        {
+            DelegateVM.ParcelChangedEvent -= HandleAParcelChanged;
         }
     }
 }
