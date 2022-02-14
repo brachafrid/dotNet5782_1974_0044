@@ -178,12 +178,12 @@ namespace Dal
                 Id = int.Parse(xElementParcel.Element("Id")?.Value),
                 SenderId=int.Parse(xElementParcel.Element("SenderId")?.Value),
                 TargetId = int.Parse(xElementParcel.Element("TargetId")?.Value),
-                Weigth = (WeightCategories)int.Parse(xElementParcel.Element("Weigth")?.Value),
-                Priority =(Priorities) int.Parse(xElementParcel.Element("Priority")?.Value),
+                Weigth = (WeightCategories)Enum.Parse(typeof(WeightCategories), xElementParcel.Element("Weigth")?.Value),
+                Priority = (Priorities)Enum.Parse(typeof(Priorities), xElementParcel.Element("Priority")?.Value),
                 Requested = DateTime.Parse(xElementParcel.Element("Requested")?.Value),
-                Sceduled=DateTime.Parse(xElementParcel.Element("Sceduled")?.Value),
-                PickedUp=DateTime.Parse(xElementParcel.Element("PickedUp")?.Value),
-                Delivered=DateTime.Parse(xElementParcel.Element("Delivered")?.Value),
+                Sceduled= xElementParcel.Element("Requested")?.Value != null ? DateTime.Parse(xElementParcel.Element("Sceduled")?.Value) : null,
+                PickedUp = xElementParcel.Element("PickedUp")?.Value != null ? DateTime.Parse(xElementParcel.Element("PickedUp")?.Value) : null,
+                Delivered = xElementParcel.Element("Delivered")?.Value != null ? DateTime.Parse(xElementParcel.Element("Delivered")?.Value) : null,
                 DorneId=int.Parse(xElementParcel.Element("DorneId")?.Value),
                 IsNotActive = bool.Parse(xElementParcel.Element("IsNotActive")?.Value)
             };
