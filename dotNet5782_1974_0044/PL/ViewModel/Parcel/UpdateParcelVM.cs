@@ -112,11 +112,13 @@ namespace PL
                     {
                         await PLService.DeliveryParcelByDrone(Parcel.Drone.Id);
                         DelegateVM.NotifyDroneChanged(Parcel.Drone.Id);
+                        DelegateVM.NotifyParcelChanged(Parcel.Id);
                     }
                     else
                     {
                         await PLService.ParcelCollectionByDrone(Parcel.Drone.Id);
                         DelegateVM.NotifyDroneChanged(Parcel.Drone.Id);
+                        DelegateVM.NotifyParcelChanged(Parcel.Id);
                     }
                 }
             }

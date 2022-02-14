@@ -49,7 +49,7 @@ namespace PL
         /// <returns>Returns visibility, visible or collapsed</returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return values[0]!=null && values[0].ToString() != new DateTime().ToString() && ( values[1]==null||values[1].ToString()==new DateTime().ToString())? Visibility.Visible : Visibility.Collapsed;
+            return values[0]!=null  && values[1]==null? Visibility.Visible : Visibility.Collapsed;
         }
 
         /// <summary>
