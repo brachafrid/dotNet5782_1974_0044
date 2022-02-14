@@ -27,7 +27,7 @@ namespace PL
             return await completedTask.Task;
         }
 
-        #region customer
+        #region customer 
 
         /// <summary>
         /// Add customer
@@ -36,6 +36,7 @@ namespace PL
         /// <returns>task</returns>
         public static async Task AddCustomer(CustomerAdd customer)
         {
+             
             var workerCompleted = new TaskCompletionSource();
 
             BackgroundWorker workerPl = new();
@@ -43,7 +44,7 @@ namespace PL
             workerPl.RunWorkerCompleted += (sender, e) => workerCompleted.SetResult();
             workerPl.RunWorkerAsync();
 
-            await workerCompleted.Task;
+            await workerCompleted.Task; 
         }
 
         /// <summary>
@@ -52,13 +53,16 @@ namespace PL
         /// <param name="id">id of customer</param>
         /// <returns>Task of customer</returns>
         public static async Task<Customer> GetCustomer(int id)
-        {
-            var taskCompletionSource = new TaskCompletionSource<Customer>();
+        { var taskCompletionSource = new TaskCompletionSource<Customer>();
+            try { 
             BackgroundWorker workerPl = new();
             workerPl.DoWork += (sender, e) => e.Result = PlServiceConvert.ConvertCustomer(ibal.GetCustomer(id));
             workerPl.RunWorkerCompleted += (sender, e) => taskCompletionSource.SetResult(e.Result as Customer);
             workerPl.RunWorkerAsync();
-            return await taskCompletionSource.Task;
+            }
+            catch (KeyNotFoundException) {  MessageBox.Show("fdhjgd");
+               // return new();
+            } return await taskCompletionSource.Task;
         }
 
         /// <summary>
