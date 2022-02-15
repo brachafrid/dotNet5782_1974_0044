@@ -285,9 +285,42 @@
                 <TextBlock  Text ="{Binding Piority, StringFormat=Piority :{0}}" />
                 <TextBlock  Text ="{Binding Weight, StringFormat=Weight :{0} }" />
                 <TextBlock Text="{Binding Path=CreationTime, StringFormat='Creation Time :{0:d}'}"/>
-                <TextBlock Text="{Binding Path=AssignmentTime, StringFormat='Assignment Time :{0:d}'}"/>
-                <TextBlock Text="{Binding Path=CollectionTime, StringFormat='Collection Time :{0:d}'}"/>
-                <TextBlock Text="{Binding Path=DeliveryTime, StringFormat='Delivery Time :{0:d}'}"/>
+                <TextBlock >
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Text" Value="{Binding Path=AssignmentTime, StringFormat='Assignment Time :{0:d}'}"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=AssignmentTime}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock >
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Text" Value="{Binding Path=CollectionTime, StringFormat='Collection Time :{0:d}'}"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=CollectionTime}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+                <TextBlock Text="{Binding Path=DeliveryTime, StringFormat='Delivery Time :{0:d}'}">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Text" Value="{Binding Path=DeliveryTime, StringFormat='Delivery Time :{0:d}'}"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Path=DeliveryTime}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
             </ListBox>
             <materialDesign:Card Margin="5" Padding="5" >
                 <i:Interaction.Triggers>

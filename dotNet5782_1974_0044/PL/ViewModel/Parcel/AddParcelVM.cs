@@ -91,6 +91,7 @@ namespace PL
         }
         public void Dispose()
         {
+            DelegateVM.ParcelChangedEvent -= HandleCustomerListChanged;
         }
     }
 }

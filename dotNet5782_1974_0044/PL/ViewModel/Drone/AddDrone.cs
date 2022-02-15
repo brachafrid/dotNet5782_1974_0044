@@ -79,6 +79,7 @@ namespace PL
 
         public void Dispose()
         {
+            DelegateVM.StationChangedEvent -= HandleStationListChanged;
         }
     }
 }

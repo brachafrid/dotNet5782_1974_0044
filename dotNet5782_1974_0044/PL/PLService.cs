@@ -111,6 +111,7 @@ namespace PL
             BackgroundWorker worker = new();
             worker.DoWork += (sender, e) => ibal.DeleteCustomer(id);
             worker.RunWorkerCompleted += (sender, e) => taskCompletion.SetResult();
+            worker.RunWorkerAsync();
             await taskCompletion.Task;
         }
 

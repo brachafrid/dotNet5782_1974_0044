@@ -110,6 +110,7 @@ namespace PL
                     customerName = customer.Name;
                     customerPhone = customer.Phone;
                     DelegateVM.NotifyCustomerChanged(Customer.Id);
+                    DelegateVM.NotifyParcelChanged();
 
                 }
             }
@@ -140,7 +141,6 @@ namespace PL
                 {
                    await PLService.DeleteCustomer(Customer.Id);
                     MessageBox.Show("The customer was successfully deleted");
-
                     if (!IsAdministor)
                     {
                         LoginScreen.MyScreen = "LoginWindow";
@@ -167,6 +167,7 @@ namespace PL
         }
         public void Dispose()
         {
+            DelegateVM.CustomerChangedEvent -= HandleACustomerChanged;
         }
     }
 }
