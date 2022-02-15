@@ -29,8 +29,14 @@
             </TabItem>
             <TabItem x:Name="ParcelsToListTab" Header="Parcels"  Visibility="Collapsed" >
             </TabItem>
-            <TabItem x:Name="StationToListTab" Header="Stations"  Visibility="Collapsed" >
-                <local:StationToListWindow x:Name="StationToListControl" Loaded="StationViewControl_Loaded"/>
+            <TabItem x:Name="StationToListTab"   Visibility="Collapsed" >
+                <TabItem.Header >
+                    <DockPanel >
+                        <TextBlock Text="stations  "/>
+                        <Button Content="x" Margin="0"/>
+                    </DockPanel>
+                </TabItem.Header>
+                <local:StationToListWindow x:Name="StationToListControl" Loaded="StationViewControl_Loaded" />
             </TabItem>
         </TabControl>
     </DockPanel>

@@ -12,7 +12,14 @@
     </UserControl.Resources>
     <Grid>
         <Button Content="close this tab"  Command="{Binding ClickCommand}" CommandParameter="{Binding ElementName=_this,Path=mainWindow}"  />
-        <!--<ListView x:Name="StationToList" ItemsSource="{Binding Path=Stations}"/>-->
+        <!--<ListView x:Name="StationToList" ItemsSource="{Binding Path=Stations}">
+            <ListView.InputBindings>
+                <MouseBinding MouseAction="LeftDoubleClick" Command="{Binding ClickCommand,
+                                        RelativeSource={RelativeSource FindAncestor, 
+                                        AncestorType={x:Type UserControl}}}"
+                                      CommandParameter="{Binding ElementName=_this,Path=mainWindow}"/>
+            </ListView.InputBindings>
+        </ListView>-->
     </Grid>
 </UserControl>
 
