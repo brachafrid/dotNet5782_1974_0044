@@ -13,6 +13,9 @@ namespace PL
     {
         int? customerId = null;
         string state = string.Empty;
+        /// <summary>
+        /// Is administor
+        /// </summary>
         public bool IsAdministor { get; set; }
 
         /// <summary>
@@ -131,6 +134,9 @@ namespace PL
             });
         }
 
+        /// <summary>
+        /// Dispose the eventHandlers
+        /// </summary>
         public void Dispose()
         {
             DelegateVM.CustomerChangedEvent -= HandleParcelChanged;
