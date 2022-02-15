@@ -9,9 +9,23 @@ namespace DO
     {
         private double longitude;
         private double latitude;
+
+        /// <summary>
+        /// The customer Id
+        /// </summary>
         public int Id { get; set; }
+        /// <summary>
+        ///  The customer name
+        /// </summary>
         public string Name { get; set; }
+        /// <summary>
+        /// The customer phone
+        /// </summary>
         public string Phone { get; set; }
+
+        /// <summary>
+        /// The customer longitude
+        /// </summary>
         public double Longitude
         {
             get
@@ -25,6 +39,9 @@ namespace DO
                 longitude = value;
             }
         }
+        /// <summary>
+        /// The customer latitude
+        /// </summary>
         public double Latitude
         {
             get
@@ -38,7 +55,9 @@ namespace DO
                 latitude = value;
             }
         }
-
+        /// <summary>
+        /// Is the customer active
+        /// </summary>
         public bool IsNotActive { get; set; }
 
         public override string ToString()
