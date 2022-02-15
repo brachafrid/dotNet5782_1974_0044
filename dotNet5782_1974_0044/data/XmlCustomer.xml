@@ -1,22 +1,6 @@
 <?xml version="1.0"?>
 <ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Customer>
-    <Id>2</Id>
-    <Name>Customer_ 2_718347866</Name>
-    <Phone>0211319202</Phone>
-    <Longitude>11.662679760094118</Longitude>
-    <Latitude>53.35161181788501</Latitude>
-    <IsNotActive>false</IsNotActive>
-  </Customer>
-  <Customer>
-    <Id>3</Id>
-    <Name>Customer_ 3_1907492106</Name>
-    <Phone>0910561080</Phone>
-    <Longitude>43.855171051274596</Longitude>
-    <Latitude>10.011268247855487</Latitude>
-    <IsNotActive>false</IsNotActive>
-  </Customer>
-  <Customer>
     <Id>4</Id>
     <Name>Customer_ 4_1498210136</Name>
     <Phone>0738265681</Phone>
@@ -247,5 +231,21 @@
     <Longitude>53</Longitude>
     <Latitude>-76</Latitude>
     <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>2</Id>
+    <Name>Customer_ 2_718347866</Name>
+    <Phone>0211319202</Phone>
+    <Longitude>11.662679760094118</Longitude>
+    <Latitude>53.35161181788501</Latitude>
+    <IsNotActive>true</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>3</Id>
+    <Name>Customer_ 3_1907492106</Name>
+    <Phone>0910561080</Phone>
+    <Longitude>43.855171051274596</Longitude>
+    <Latitude>10.011268247855487</Latitude>
+    <IsNotActive>true</IsNotActive>
   </Customer>
 </ArrayOfCustomer>

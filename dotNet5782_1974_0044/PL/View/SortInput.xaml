@@ -63,7 +63,17 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
-            <Slider x:Name="min" Minimum="0" Maximum="{Binding Path=Parent.DataContext.MaxValue ,RelativeSource={RelativeSource Self}}" Value="{Binding Path=Parent.DataContext.DoubleFirstChange,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.VisbleDouble,RelativeSource = {RelativeSource Self}}" Style="{StaticResource MaterialDesignDiscreteSlider}" TickPlacement="BottomRight"/>
+            <Slider x:Name="min" Minimum="0" Maximum="{Binding Path=Parent.DataContext.MaxValue ,RelativeSource={RelativeSource Self}}" Value="{Binding Path=Parent.DataContext.DoubleFirstChange,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.VisbleDouble,RelativeSource = {RelativeSource Self}}"  TickPlacement="BottomRight">
+                <Slider.Style>
+                    <Style TargetType="Slider" BasedOn="{StaticResource MaterialDesignDiscreteSlider}">
+                        <Style.Triggers>
+                            <Trigger Property="IsMouseOver"  Value="True">
+                                <Setter Property="ToolTip"  Value="{Binding ElementName=min, Path=Value}"/>
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Slider.Style>
+            </Slider>
             <Button Content="Cancel Filters" IsEnabled="{Binding Path=Filters.Count ,Converter={StaticResource ConverterCancelFilterVisibility}}" Command="{Binding CancelFilterCommand}"/>
         </StackPanel>
     </Grid>
