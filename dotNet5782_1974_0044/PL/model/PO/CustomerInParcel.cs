@@ -10,15 +10,22 @@ using System.Threading.Tasks;
     {
     public class CustomerInParcel : NotifyPropertyChangedBase
     {
+       
         private int id;
+        /// <summary>
+        /// customer in parcel key
+        /// </summary>
         public int Id
         {
             get => id;
             init => Set(ref id, value);
            
         }
+        
         private string name;
-
+        /// <summary>
+        /// customer in parcel  name
+        /// </summary>
         public string Name
         {
             get => name;

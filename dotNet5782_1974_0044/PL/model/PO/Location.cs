@@ -9,6 +9,9 @@ namespace PL.PO
     public class Location : NotifyPropertyChangedBase, IDataErrorInfo
     {
         private double? longitude;
+        /// <summary>
+        /// longitude
+        /// </summary>
         [Required(ErrorMessage = "required")]
         [Range(0, 90, ErrorMessage = "enter 0 - 90 longitude")]
         public double? Longitude
@@ -17,6 +20,9 @@ namespace PL.PO
             set => Set(ref longitude, value);
         }
         private double? latitude;
+        /// <summary>
+        /// Latitude
+        /// </summary>
         [Required(ErrorMessage = "required")]
         [Range(-90, 90, ErrorMessage = "enter -90 -  90 latitude")]
         public double? Latitude

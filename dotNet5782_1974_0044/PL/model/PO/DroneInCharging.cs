@@ -11,6 +11,9 @@ namespace PL.PO
     public class DroneInCharging : NotifyPropertyChangedBase
     {
         private int id;
+        /// <summary>
+        /// Drone in charging key
+        /// </summary>
         public int Id
         {
             get => id;
@@ -18,6 +21,9 @@ namespace PL.PO
             
         }
         private double chargingMode;
+        /// <summary>
+        /// charging mode
+        /// </summary>
         public double ChargingMode 
         { 
             get=>chargingMode;

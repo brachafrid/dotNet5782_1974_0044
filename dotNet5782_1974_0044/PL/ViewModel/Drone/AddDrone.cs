@@ -9,11 +9,22 @@ namespace PL
 {
     public class AddDroneVM : IDisposable
     {
+        /// <summary>
+        /// The added drone
+        /// </summary>
         public DroneAdd drone { get; set; }
+        /// <summary>
+        /// ObservableCollection of stations keys
+        /// </summary>
         public ObservableCollection<int> StationsId { get; set; }
+        /// <summary>
+        /// Array of weights
+        /// </summary>
         public Array Weight { get; set; }
+        /// <summary>
+        /// Command of adding drone
+        /// </summary>
         public RelayCommand AddDroneCommand { get; set; }
-
 
         /// <summary>
         /// constructor
@@ -42,6 +53,11 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Handles changes to the list of stations
+        /// </summary>
+        /// <param name="sender">sender</param>
+        /// <param name="e">event</param>
         private async void HandleStationListChanged(object sender, EntityChangedEventArgs e)
         {
             StationsId.Clear();
@@ -77,6 +93,9 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Dispose the eventHandles
+        /// </summary>
         public void Dispose()
         {
             DelegateVM.StationChangedEvent -= HandleStationListChanged;
