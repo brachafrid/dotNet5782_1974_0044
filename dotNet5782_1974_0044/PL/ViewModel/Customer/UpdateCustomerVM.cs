@@ -106,11 +106,11 @@ namespace PL
             }
             catch (KeyNotFoundException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message,$"Init Customer Id:{id}",MessageBoxButton.OK,MessageBoxImage.Error);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Init Customer Id:{id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -134,15 +134,15 @@ namespace PL
             }
             catch (ArgumentNullException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Customer Id:{id}", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             catch (KeyNotFoundException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Customer Id:{id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Customer Id:{id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
         }
@@ -176,11 +176,11 @@ namespace PL
             }
             catch (KeyNotFoundException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Delete Customer Id:{id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Delete Customer Id:{id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

@@ -7,16 +7,24 @@ using System.Windows;
 
 namespace PL
 {
-    public class AddDroneVM : IDisposable
+    public class AddDroneVM : NotifyPropertyChangedBase, IDisposable
     {
         /// <summary>
         /// The added drone
         /// </summary>
         public DroneAdd drone { get; set; }
+
+        private ObservableCollection<int> stationsId;
+
         /// <summary>
         /// ObservableCollection of stations keys
         /// </summary>
-        public ObservableCollection<int> StationsId { get; set; }
+        public ObservableCollection<int> StationsId
+        {
+            get => stationsId;
+            set => Set(ref stationsId, value);
+        }
+
         /// <summary>
         /// Array of weights
         /// </summary>
@@ -49,7 +57,7 @@ namespace PL
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Adding Drone", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -60,9 +68,17 @@ namespace PL
         /// <param name="e">event</param>
         private async void HandleStationListChanged(object sender, EntityChangedEventArgs e)
         {
-            StationsId.Clear();
-            foreach (var item in (await PLService.GetStaionsWithEmptyChargeSlots()).Select(station => station.Id))
-                StationsId.Add(item);
+            try
+            {
+                StationsId.Clear();
+                foreach (var item in (await PLService.GetStaionsWithEmptyChargeSlots()).Select(station => station.Id))
+                    StationsId.Add(item);
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message, "Adding Drone", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
 
         /// <summary>
@@ -73,23 +89,24 @@ namespace PL
         {
             try
             {
-                Tabs.CloseTab(param as TabItemFormat);
                 await PLService.AddDrone(drone);
                 DelegateVM.NotifyDroneChanged(drone.Id ?? 0);
                 DelegateVM.NotifyStationChanged(drone.StationId);
+                Tabs.CloseTab(param as TabItemFormat);
             }
-            catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
+            catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                MessageBox.Show("id has already exist");
+                MessageBox.Show( ex.Message+Environment.NewLine+$"The Id: {ex.Id}", "Adding Drone", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+
                 drone.Id = null;
             }
             catch (KeyNotFoundException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, "Adding Drone", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, "Adding Drone", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

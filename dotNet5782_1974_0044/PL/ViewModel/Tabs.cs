@@ -1,5 +1,6 @@
 ﻿using PL.PO;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -8,8 +9,17 @@ namespace PL
 {
     public static class Tabs
     {
+        /// <summary>
+        /// ObservableCollection of the tabs
+        /// </summary>
         public static ObservableCollection<TabItemFormat> TabItems { get; set; } = new();
+        /// <summary>
+        /// Command of closing tab
+        /// </summary>
         public static RelayCommand CloseCommandTab { get; set; }
+        /// <summary>
+        /// Action- changes to the selected tab
+        /// </summary>
         public static Action<int> changeSelectedTab;
 
         /// <summary>
@@ -58,8 +68,6 @@ namespace PL
         {
             try
             {
-
-
                 if (param != null)
                 {
                     Type t = param.GetType();
@@ -97,17 +105,28 @@ namespace PL
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message ,"Adding Tab",MessageBoxButton.OK,MessageBoxImage.Error);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                MessageBox.Show(ex.Message, "Adding Tab", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
+        /// <summary>
+        /// Log out from the current screen
+        /// </summary>
+        /// <param name="param"></param>
         static internal void LogOut(object param)
         {
-            if(TabItems.Any())
-                foreach (var tab in TabItems)
-                    CloseTab(tab);
-            LoginScreen.MyScreen =Screen.LOGIN;
+            TabItems.ToList().ForEach(tab => CloseTab(tab));
+            LoginScreen.MyScreen = Screen.LOGIN;
         }
 
+        /// <summary>
+        /// Refresh the screen
+        /// </summary>
+        /// <param name="param"></param>
         static internal void Refresh(object param)
         {
             DelegateVM.NotifyCustomerChanged();

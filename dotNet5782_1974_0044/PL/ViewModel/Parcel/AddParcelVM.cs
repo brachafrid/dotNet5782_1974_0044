@@ -17,10 +17,18 @@ namespace PL
         /// Command of adding parcel
         /// </summary>
         public RelayCommand AddParcelCommand { get; set; }
+
+
+        private ObservableCollection<int> customers;
         /// <summary>
         /// ObservableCollection of customers keys
         /// </summary>
-        public ObservableCollection<int> customers { get; set; }
+        public ObservableCollection<int> Customers
+        {
+            get => customers;
+            set => Set(ref customers, value);
+        }
+
         /// <summary>
         /// Array of piorities
         /// </summary>
@@ -59,21 +67,27 @@ namespace PL
         {
             try
             {
-                customers = new ObservableCollection<int>((await PLService.GetCustomers())
+                Customers = new ObservableCollection<int>((await PLService.GetCustomers())
                     .Select(customer => customer.Id));
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Add Parcel", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         private async void HandleCustomerListChanged(object sender, EntityChangedEventArgs e)
         {
+            try
+            {
+                Customers.Clear();
+                foreach (var item in (await PLService.GetCustomers()).Select(customer => customer.Id))
+                    Customers.Add(item);
 
-            customers.Clear();
-            foreach (var item in (await PLService.GetCustomers()).Select(customer => customer.Id))
-                customers.Add(item);
-
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message, $"Add Parcel", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
         }
 
 
@@ -94,17 +108,17 @@ namespace PL
                 }
                 Tabs.CloseTab(param as TabItemFormat);
             }
-            catch (KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
-                MessageBox.Show("sender or reciver not exist");
+                MessageBox.Show(ex.Message, $"Add Parcel", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.DeletedExeption ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show($"{ex.Id} {ex.Message}", $"Add Parcel", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Add Parcel", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         /// <summary>

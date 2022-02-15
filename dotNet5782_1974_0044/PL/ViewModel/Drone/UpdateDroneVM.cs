@@ -109,11 +109,11 @@ namespace PL
             }
             catch (KeyNotFoundException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message,$"Init Drone Id: {id}",MessageBoxButton.OK,MessageBoxImage.Error);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Init Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -128,28 +128,27 @@ namespace PL
                 if (droneModel != Drone.Model)
                 {
                     await PLService.UpdateDrone(Drone.Id, Drone.Model);
-                    MessageBox.Show("The drone has been successfully updated");
+                    MessageBox.Show("The drone has been successfully updated","Update Drone",MessageBoxButton.OK,MessageBoxImage.Information);
                     droneModel = Drone.Model;
                     DelegateVM.NotifyDroneChanged(drone.Id);
 
                 }
                 else
                 {
-                    MessageBox.Show("Model name not updated");
+                    MessageBox.Show("Model name not updated","Update Model",MessageBoxButton.OK,MessageBoxImage.Exclamation);
                 }
             }
             catch (KeyNotFoundException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (ArgumentNullException ex)
             {
-                MessageBox.Show(ex.Message == string.Empty ? $"{ex}" : $"{ex.Message}");
-                MessageBox.Show("For updating the name must be initialized ");
+                MessageBox.Show(ex.Message+Environment.NewLine+"For updating the name must be initialized ", $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             DelegateVM.NotifyDroneChanged(drone.Id);
         }
@@ -175,29 +174,29 @@ namespace PL
                     DelegateVM.NotifyStationChanged();
                 }
             }
-            catch (BO.ThereIsNoNearbyBaseStationThatTheDroneCanReachException)
+            catch (BO.ThereIsNoNearbyBaseStationThatTheDroneCanReachException ex)
             {
-                MessageBox.Show("no available station");
+                MessageBox.Show(ex.Message==string.Empty?ex.ToString():ex.Message, $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (KeyNotFoundException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.DeletedExeption ex)
             {
-                MessageBox.Show($"{ex.Id} {ex.Message}");
+                MessageBox.Show($"{ex.Id} {ex.Message}", $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             catch (BO.InvalidDroneStateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message , $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message , $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.TheDroneIsNotInChargingException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message , $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -233,23 +232,23 @@ namespace PL
             } 
             catch (BO.DeletedExeption ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show($"{ex.Id} {ex.Message}", $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             catch (ArgumentNullException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message ,$"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.InvalidParcelStateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message , $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message , $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.NotExsistSuitibleStationException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message , $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -272,24 +271,24 @@ namespace PL
             }
             catch (KeyNotFoundException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message , $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message , $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.DeletedExeption ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show($"{ex.Id} {ex.Message}", $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             catch (BO.InvalidDroneStateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.TheDroneIsNotInChargingException ex)
             {
 
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message , $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
 
                 if (simulatorWorker != null && !simulatorWorker.CancellationPending)
                     simulatorWorker.CancelAsync();

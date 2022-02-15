@@ -83,13 +83,13 @@ namespace PL
                 }
                 else
                 {
-                    MessageBox.Show("Incorrect Password");
+                    MessageBox.Show("Incorrect Password", "Login", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     (param as PasswordBox).Password = string.Empty;
                 }
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, "Login", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -112,12 +112,12 @@ namespace PL
             }
             catch (KeyNotFoundException)
             {
-                MessageBox.Show("Incorrect Id");
+                MessageBox.Show($"Incorrect Id:{(int)customerLogin.Id}", "Login", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 customerLogin.Id = null;
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, "Login", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }

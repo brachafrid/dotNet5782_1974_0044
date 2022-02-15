@@ -11,6 +11,10 @@ namespace DLApi
 {
     public static class DLFactory
     {
+        /// <summary>
+        /// get DL
+        /// </summary>
+        /// <returns>IDal</returns>
         public static IDal GetDL()
         {
             Assembly.LoadFrom($@"{Directory.GetCurrentDirectory()}\..\net5.0\{DalConfig.DalType}.dll");

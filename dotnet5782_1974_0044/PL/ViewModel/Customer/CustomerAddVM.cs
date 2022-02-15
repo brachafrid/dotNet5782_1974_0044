@@ -48,16 +48,11 @@ namespace PL
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                if (ex.Message != string.Empty)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                else
-                    MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message, "Adding Customer", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-            catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
+            catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                MessageBox.Show("Id has already exist");
+                MessageBox.Show( ex.Message + Environment.NewLine+$"The Id {ex.Id}", "Adding Customer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 customer.Id = null;
             }
         }
@@ -71,24 +66,18 @@ namespace PL
             try
             {
                 await PLService.AddCustomer(customer);
-
                 DelegateVM.NotifyCustomerChanged((int)customer.Id);
                 LoginScreen.Id = customer.Id;
                 LoginScreen.MyScreen = Screen.CUSTOMER;
             }
-            catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
+            catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                MessageBox.Show("Id has already exist");
+                MessageBox.Show((ex.Message!=string.Empty?ex.Message:ex.ToString()) + Environment.NewLine, "Adding Customer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 customer.Id = null;
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                if (ex.Message != string.Empty)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                else
-                    MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message, "Adding Customer", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         public void Dispose()

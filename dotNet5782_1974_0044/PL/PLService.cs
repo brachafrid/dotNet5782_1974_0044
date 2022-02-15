@@ -4,7 +4,6 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 
@@ -22,8 +21,18 @@ namespace PL
         {
             TaskCompletionSource<string> completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => e.Result = ibal.GetAdministorPasssword();
-            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult(e.Result as string);
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var pasw = ibal.GetAdministorPasssword();
+                    completedTask.SetResult(pasw);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             return await completedTask.Task;
         }
@@ -40,8 +49,23 @@ namespace PL
 
             var workerCompleted = new TaskCompletionSource();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, args) => ibal.AddCustomer(PlServiceConvert.ConvertAddCustomer(customer));
-            workerPl.RunWorkerCompleted += (sender, e) => workerCompleted.SetResult();
+            workerPl.DoWork += (sender, args) =>
+            {
+                try
+                {
+                    ibal.AddCustomer(PlServiceConvert.ConvertAddCustomer(customer));
+                    workerCompleted.SetResult();
+                }
+                catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
+                {
+                    MessageBox.Show("Id has already exist");
+                    customer.Id = null;
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    workerCompleted.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             await workerCompleted.Task;
         }
@@ -67,11 +91,15 @@ namespace PL
                 {
                     taskCompletionSource.SetException(ex);
                 }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletionSource.SetException(ex);
+                }
             };
             workerPl.RunWorkerAsync();
             return await taskCompletionSource.Task;
         }
-        
+
         /// <summary>
         /// Get customers
         /// </summary>
@@ -80,8 +108,18 @@ namespace PL
         {
             var taskCompletionSource = new TaskCompletionSource<IEnumerable<CustomerToList>>();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => e.Result = ibal.GetActiveCustomers().Select(customer => PlServiceConvert.ConvertCustomerToList(customer));
-            workerPl.RunWorkerCompleted += (sender, e) => taskCompletionSource.SetResult((IEnumerable<CustomerToList>)e.Result);
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var customers = ibal.GetActiveCustomers().Select(customer => PlServiceConvert.ConvertCustomerToList(customer));
+                    taskCompletionSource.SetResult(customers);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletionSource.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             return await taskCompletionSource.Task;
         }
@@ -97,8 +135,26 @@ namespace PL
         {
             var workerCompleted = new TaskCompletionSource();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => ibal.UpdateCustomer(id, name, phone);
-            workerPl.RunWorkerCompleted += (sender, e) => workerCompleted.SetResult();
+            workerPl.DoWork += (sender, e) =>
+                {
+                    try
+                    {
+                        ibal.UpdateCustomer(id, name, phone);
+                        workerCompleted.SetResult();
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        workerCompleted.SetException(ex);
+                    }
+                    catch (KeyNotFoundException ex)
+                    {
+                        workerCompleted.SetException(ex);
+                    }
+                    catch (BO.XMLFileLoadCreateException ex)
+                    {
+                        workerCompleted.SetException(ex);
+                    }
+                };
             workerPl.RunWorkerAsync();
             await workerCompleted.Task;
         }
@@ -112,8 +168,22 @@ namespace PL
         {
             TaskCompletionSource taskCompletion = new();
             BackgroundWorker worker = new();
-            worker.DoWork += (sender, e) => ibal.DeleteCustomer(id);
-            worker.RunWorkerCompleted += (sender, e) => taskCompletion.SetResult();
+            worker.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.DeleteCustomer(id);
+                    taskCompletion.SetResult();
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+            };
             worker.RunWorkerAsync();
             await taskCompletion.Task;
         }
@@ -127,8 +197,22 @@ namespace PL
         {
             TaskCompletionSource<bool> completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => e.Result = ibal.IsNotActiveCustomer(id);
-            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult((bool)e.Result);
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var active = ibal.IsNotActiveCustomer(id);
+                    completedTask.SetResult(active);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             return await completedTask.Task;
         }
@@ -145,8 +229,22 @@ namespace PL
         {
             TaskCompletionSource completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => ibal.AddStation(PlServiceConvert.ConverBackStationAdd(station));
-            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.AddStation(PlServiceConvert.ConverBackStationAdd(station));
+                    completedTask.SetResult();
+                }
+                catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             await completedTask.Task;
         }
@@ -162,8 +260,30 @@ namespace PL
         {
             TaskCompletionSource completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => ibal.UpdateStation(id, name, chargeSlots);
-            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.UpdateStation(id, name, chargeSlots);
+                    completedTask.SetResult();
+                }
+                catch (ArgumentNullException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             await completedTask.Task;
         }
@@ -177,8 +297,22 @@ namespace PL
         {
             TaskCompletionSource<Station> completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => e.Result = PlServiceConvert.ConverterStation(ibal.GetStation(id));
-            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult(e.Result as Station);
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var stations = PlServiceConvert.ConverterStation(ibal.GetStation(id));
+                    completedTask.SetResult(stations);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             return await completedTask.Task;
         }
@@ -193,7 +327,26 @@ namespace PL
             TaskCompletionSource taskCompletion = new();
             BackgroundWorker worker = new();
             worker.DoWork += (sender, e) => ibal.DeleteStation(id);
-            worker.RunWorkerCompleted += (sender, e) => taskCompletion.SetResult();
+            worker.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.DeleteStation(id);
+                    taskCompletion.SetResult();
+                }
+                catch (BO.ThereAreAssociatedOrgansException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+            };
             await taskCompletion.Task;
         }
 
@@ -206,8 +359,22 @@ namespace PL
         {
             TaskCompletionSource<bool> completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => e.Result = ibal.IsNotActiveStation(id);
-            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult((bool)e.Result);
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var active = ibal.IsNotActiveStation(id);
+                    completedTask.SetResult(active);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             return await completedTask.Task;
         }
@@ -220,8 +387,18 @@ namespace PL
         {
             var taskCompletionSource = new TaskCompletionSource<IEnumerable<StationToList>>();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => e.Result = ibal.GetActiveStations().Select(item => PlServiceConvert.ConverterStationToList(item));
-            workerPl.RunWorkerCompleted += (sender, e) => taskCompletionSource.SetResult((IEnumerable<StationToList>)e.Result);
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var stations = ibal.GetActiveStations().Select(item => PlServiceConvert.ConverterStationToList(item));
+                    taskCompletionSource.SetResult(stations);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletionSource.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             return await taskCompletionSource.Task;
         }
@@ -234,8 +411,18 @@ namespace PL
         {
             var taskCompletionSource = new TaskCompletionSource<IEnumerable<StationToList>>();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => e.Result = ibal.GetStaionsWithEmptyChargeSlots((int chargeSlots) => chargeSlots > 0).Select(item => PlServiceConvert.ConverterStationToList(item));
-            workerPl.RunWorkerCompleted += (sender, e) => taskCompletionSource.SetResult(e.Result as IEnumerable<StationToList>);
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var stations = ibal.GetStaionsWithEmptyChargeSlots((int chargeSlots) => chargeSlots > 0).Select(item => PlServiceConvert.ConverterStationToList(item));
+                    taskCompletionSource.SetResult(stations);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletionSource.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             return await taskCompletionSource.Task;
 
@@ -253,8 +440,26 @@ namespace PL
         {
             TaskCompletionSource completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => ibal.AddParcel(PlServiceConvert.ConvertBackParcelAdd(parcel));
-            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.AddParcel(PlServiceConvert.ConvertBackParcelAdd(parcel));
+                    completedTask.SetResult();
+                }
+                catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             await completedTask.Task;
         }
@@ -268,8 +473,23 @@ namespace PL
         {
             TaskCompletionSource taskCompletion = new();
             BackgroundWorker worker = new();
-            worker.DoWork += (sender, e) => ibal.DeleteParcel(id); ;
-            worker.RunWorkerCompleted += (sender, e) => taskCompletion.SetResult();
+            worker.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.DeleteParcel(id);
+                    taskCompletion.SetResult();
+
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }              
+            };
             await taskCompletion.Task;
 
         }
@@ -283,8 +503,23 @@ namespace PL
         {
             TaskCompletionSource<bool> completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => e.Result = ibal.IsNotActiveParcel(id); ;
-            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult((bool)e.Result);
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var active = ibal.IsNotActiveParcel(id);
+                    completedTask.SetResult(active);
+
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             return await completedTask.Task;
         }
@@ -298,8 +533,22 @@ namespace PL
         {
             TaskCompletionSource<Parcel> completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => e.Result = PlServiceConvert.ConvertParcel(ibal.GetParcel(id));
-            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult(e.Result as Parcel);
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var parcel= PlServiceConvert.ConvertParcel(ibal.GetParcel(id));
+                    completedTask.SetResult(parcel);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             return await completedTask.Task;
         }
@@ -312,8 +561,18 @@ namespace PL
         {
             var taskCompletionSource = new TaskCompletionSource<IEnumerable<ParcelToList>>();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => e.Result = ibal.GetActiveParcels().Select(parcel => PlServiceConvert.ConvertParcelToList(parcel));
-            workerPl.RunWorkerCompleted += (sender, e) => taskCompletionSource.SetResult((IEnumerable<ParcelToList>)e.Result);
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var parcels = ibal.GetActiveParcels().Select(parcel => PlServiceConvert.ConvertParcelToList(parcel));
+                    taskCompletionSource.SetResult(parcels);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletionSource.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             return await taskCompletionSource.Task;
 
@@ -332,8 +591,26 @@ namespace PL
         {
             TaskCompletionSource completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => ibal.AddDrone(PlServiceConvert.ConvertBackDroneToAdd(drone), drone.StationId);
-            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.AddDrone(PlServiceConvert.ConvertBackDroneToAdd(drone), drone.StationId);
+                    completedTask.SetResult();
+                }
+                catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch(KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             await completedTask.Task;
         }
@@ -348,8 +625,27 @@ namespace PL
         {
             var workerCompleted = new TaskCompletionSource();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => ibal.UpdateDrone(id, model);
-            workerPl.RunWorkerCompleted += (sender, e) => workerCompleted.SetResult();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.UpdateDrone(id, model);
+                    workerCompleted.SetResult();
+
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    workerCompleted.SetException(ex);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    workerCompleted.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    workerCompleted.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             await workerCompleted.Task;
         }
@@ -363,8 +659,35 @@ namespace PL
         {
             TaskCompletionSource completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => ibal.SendDroneForCharg(id);
-            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.SendDroneForCharg(id);
+                    completedTask.SetResult();
+
+                }
+                catch (BO.ThereIsNoNearbyBaseStationThatTheDroneCanReachException)
+                {
+                    completedTask.SetResult();
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.DeletedExeption ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.InvalidDroneStateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             await completedTask.Task;
         }
@@ -378,8 +701,35 @@ namespace PL
         {
             TaskCompletionSource completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => ibal.ReleaseDroneFromCharging(id);
-            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.ReleaseDroneFromCharging(id);
+                    completedTask.SetResult();
+
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.DeletedExeption ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.InvalidDroneStateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.TheDroneIsNotInChargingException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             await completedTask.Task;
         }
@@ -393,8 +743,35 @@ namespace PL
         {
             TaskCompletionSource taskCompletion = new();
             BackgroundWorker worker = new();
-            worker.DoWork += (sender, e) => ibal.DeleteDrone(id); ;
-            worker.RunWorkerCompleted += (sender, e) => taskCompletion.SetResult();
+            worker.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.DeleteDrone(id);
+                    taskCompletion.SetResult();
+
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+                catch (BO.DeletedExeption ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+                catch (BO.InvalidDroneStateException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+                catch (BO.TheDroneIsNotInChargingException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+            };
             await taskCompletion.Task;
         }
 
@@ -407,8 +784,23 @@ namespace PL
         {
             TaskCompletionSource<bool> completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => e.Result = ibal.IsNotActiveDrone(id);
-            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult((bool)e.Result);
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var active = ibal.IsNotActiveDrone(id);
+                    completedTask.SetResult(active);
+
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             return await completedTask.Task;
         }
@@ -420,20 +812,27 @@ namespace PL
         /// <returns>task of drone</returns>
         public static async Task<Drone> GetDrone(int id)
         {
-            try
+            TaskCompletionSource<Drone> completedTask = new();
+            BackgroundWorker worker = new();
+            worker.DoWork += (sender, e) =>
             {
-                TaskCompletionSource<Drone> completedTask = new();
-                BackgroundWorker worker = new();
-                worker.DoWork += (sender, e) => e.Result = PlServiceConvert.ConvertDrone(ibal.GetDrone(id));
-                worker.RunWorkerCompleted += (sender, e) => completedTask.SetResult(e.Result as Drone);
-                worker.RunWorkerAsync();
-                return await completedTask.Task;
-            }
-            catch (ArgumentNullException ex)
-            {
-                throw new ArgumentNullException(ex.Message);
-            }
+                try
+                {
+                    var drone = PlServiceConvert.ConvertDrone(ibal.GetDrone(id));
+                    completedTask.SetResult(drone);
 
+                }
+                catch (ArgumentNullException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
+            worker.RunWorkerAsync();
+            return await completedTask.Task;
         }
 
         /// <summary>
@@ -444,8 +843,18 @@ namespace PL
         {
             TaskCompletionSource<IEnumerable<DroneToList>> completedTask = new();
             BackgroundWorker worker = new();
-            worker.DoWork += (sender, e) => e.Result = ibal.GetActiveDrones().Select(item => PlServiceConvert.ConvertDroneToList(item));
-            worker.RunWorkerCompleted += (sender, e) => completedTask.SetResult(e.Result as IEnumerable<DroneToList>);
+            worker.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var drone = ibal.GetActiveDrones().Select(item => PlServiceConvert.ConvertDroneToList(item));
+                    completedTask.SetResult(drone);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
             worker.RunWorkerAsync();
             return await completedTask.Task;
         }
@@ -457,19 +866,39 @@ namespace PL
         /// <returns>task</returns>
         public static async Task AssingParcelToDrone(int droneId)
         {
-            try
+            TaskCompletionSource completedTask = new();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
             {
-                TaskCompletionSource completedTask = new();
-                BackgroundWorker workerPl = new();
-                workerPl.DoWork += (sender, e) => ibal.AssingParcelToDrone(droneId);
-                workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
-                workerPl.RunWorkerAsync();
-                await completedTask.Task;
-            }
-            catch (BO.NotExsistSutibleParcelException ex)
-            {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
-            }
+                try
+                {
+                    ibal.AssingParcelToDrone(droneId);
+                    completedTask.SetResult();
+                }
+                catch (BO.NotExsistSuitibleStationException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.DeletedExeption ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.InvalidParcelStateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                };
+            };
+            workerPl.RunWorkerAsync();
+            await completedTask.Task;
+
         }
 
         /// <summary>
@@ -481,7 +910,34 @@ namespace PL
         {
             TaskCompletionSource completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => ibal.ParcelCollectionByDrone(droneId);
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.ParcelCollectionByDrone(droneId);
+                    completedTask.SetResult();
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.DeletedExeption ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.InvalidParcelStateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.NotExsistSuitibleStationException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
             workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
             workerPl.RunWorkerAsync();
             await completedTask.Task;
@@ -496,8 +952,34 @@ namespace PL
         {
             TaskCompletionSource completedTask = new();
             BackgroundWorker workerPl = new();
-            workerPl.DoWork += (sender, e) => ibal.DeliveryParcelByDrone(droneId);
-            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.DeliveryParcelByDrone(droneId);
+                    completedTask.SetResult();
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.DeletedExeption ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.InvalidParcelStateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.NotExsistSuitibleStationException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
             workerPl.RunWorkerAsync();
             await completedTask.Task;
         }
