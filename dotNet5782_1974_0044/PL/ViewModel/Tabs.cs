@@ -98,7 +98,7 @@ namespace PL
                         _ => null,
                     };
                     if (tab == null)
-                        MessageBox.Show("Deleted");
+                        MessageBox.Show("deleted", "Adding Tab", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                     else
                         AddTab(tab);
                 }
