@@ -106,5 +106,13 @@ namespace PL
                 CloseTab(tab);
             LoginScreen.MyScreen =Screen.LOGIN;
         }
+
+        static internal void Refresh(object param)
+        {
+            DelegateVM.NotifyCustomerChanged();
+            DelegateVM.NotifyDroneChanged();
+            DelegateVM.NotifyParcelChanged();
+            DelegateVM.NotifyStationChanged();
+        }
     }
 }

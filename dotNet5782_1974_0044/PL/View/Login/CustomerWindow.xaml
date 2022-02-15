@@ -23,6 +23,8 @@
                     <Separator />
                     <Button ToolTip="Add Parcel" Content="{materialDesign:PackIcon Kind=PackageVariantPlus}" Command="{Binding AddParcelCommand}"/>
                     <Separator />
+                    <Button ToolTip="Refresh" Content="{materialDesign:PackIcon Kind=Refresh}" Command="{Binding RefreshCommand}"/>
+                    <Separator />
                     <Button ToolTip="Logout" Content="{materialDesign:PackIcon Kind=Logout}" Command="{Binding LogOutCommand}"/>
                 </ToolBar>
             </ToolBarTray>

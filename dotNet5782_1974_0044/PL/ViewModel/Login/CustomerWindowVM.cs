@@ -42,6 +42,7 @@ namespace PL
         public RelayCommand DisplayParcelsToCommand { get; set; }
         public RelayCommand DisplayCustomerCommand { get; set; }
         public RelayCommand LogOutCommand { get; set; }
+        public RelayCommand RefreshCommand { get; set; }
         public ParcelAdd parcel { set; get; }
         int id;
 
@@ -61,6 +62,7 @@ namespace PL
             DelegateVM.CustomerChangedEvent += HandleCustomerChanged;
             DelegateVM.ParcelChangedEvent += (sender, e) => Init();
             LogOutCommand = new(Tabs.LogOut, null);
+            RefreshCommand = new(Tabs.Refresh, null);
         }
 
         /// <summary>

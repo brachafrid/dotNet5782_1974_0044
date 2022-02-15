@@ -33,7 +33,7 @@ namespace PL
             AddStationToListWindowCommand = new(AddStationToList, null);
             AddCustomerToListWindowCommand = new(AddCustomerToList, null);
             LogOutCommand = new(Tabs.LogOut, null);
-            RefreshCommand = new(Refresh, null);
+            RefreshCommand = new(Tabs.Refresh, null);
             Tabs.changeSelectedTab += changeIndex;
         }
 
@@ -49,13 +49,7 @@ namespace PL
                 Content = new DroneToListVM()
             });
         }
-        public void Refresh(object param)
-        {
-            DelegateVM.NotifyCustomerChanged();
-            DelegateVM.NotifyDroneChanged();
-            DelegateVM.NotifyParcelChanged();
-            DelegateVM.NotifyStationChanged();
-        }
+
 
         /// <summary>
         /// change index
