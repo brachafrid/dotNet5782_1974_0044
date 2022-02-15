@@ -13,21 +13,63 @@ namespace PL
 {
     public abstract class GenericList<T> : NotifyPropertyChangedBase
     {
+        /// <summary>
+        /// List of kind of sorts
+        /// </summary>
         public List<string> KindOfSort { get; set; } = new() { "Range", "Single" };
+        /// <summary>
+        /// Array of weight categories
+        /// </summary>
         public Array WeightCategories { get; set; } = Enum.GetValues(typeof(WeightCategories));
+        /// <summary>
+        /// Array of priorities
+        /// </summary>
         public Array PrioritiesArray { get; set; } = Enum.GetValues(typeof(Priorities));
+        /// <summary>
+        /// Array of drone states
+        /// </summary>
         public Array DroneState { get; set; } = Enum.GetValues(typeof(DroneState));
+        /// <summary>
+        /// Array of parcel modes
+        /// </summary>
         public Array PackageMode { get; set; } = Enum.GetValues(typeof(PackageModes));
+        /// <summary>
+        /// ObservableCollection of sort option
+        /// </summary>
         public ObservableCollection<string> SortOption { set; get; }
+        /// <summary>
+        /// Command of double click
+        /// </summary>
         public RelayCommand DoubleClick { set; get; }
+        /// <summary>
+        /// Command of showing kind of sort
+        /// </summary>
         public RelayCommand ShowKindOfSortCommand { get; set; }
+        /// <summary>
+        /// Command of filtering
+        /// </summary>
         public RelayCommand FilterCommand { get; set; }
+        /// <summary>
+        /// Command of canceling filter
+        /// </summary>
         public RelayCommand CancelFilterCommand { get; set; }
+        /// <summary>
+        /// Command of canceling group
+        /// </summary>
         public RelayCommand CancelGroupCommand { get; set; }
+        /// <summary>
+        /// Command of grouping
+        /// </summary>
         public RelayCommand GroupCommand { get; set; }
+        /// <summary>
+        /// Command of adding entiti
+        /// </summary>
         public RelayCommand AddEntitiyCommand { get; set; }
 
         public ObservableCollection<T> sourceList;
+        /// <summary>
+        /// Generic ListCollectionView
+        /// </summary>
         public ListCollectionView list
         {
             get => list1;
@@ -36,20 +78,29 @@ namespace PL
 
         private Visibility visibilityKindOfSort = Visibility.Collapsed;
 
+        /// <summary>
+        /// Visibility of kind of sort
+        /// </summary>
         public Visibility VisibilityKindOfSort
         {
             get { return visibilityKindOfSort; }
             set => Set(ref visibilityKindOfSort, value);
         }
-        private Visibility stringSortVisibility = Visibility.Collapsed;
 
+        private Visibility stringSortVisibility = Visibility.Collapsed;
+        /// <summary>
+        /// Visibility of string sort
+        /// </summary>
         public Visibility StringSortVisibility
         {
             get { return stringSortVisibility; }
             set => Set(ref stringSortVisibility, value);
         }
-        private Visibility visibilityWeightCategories = Visibility.Collapsed;
 
+        private Visibility visibilityWeightCategories = Visibility.Collapsed;
+        /// <summary>
+        /// Visibility of weight categories
+        /// </summary>
         public Visibility VisibilityWeightCategories
         {
             get { return visibilityWeightCategories; }
@@ -58,6 +109,9 @@ namespace PL
 
         private Visibility visibilityPriorities = Visibility.Collapsed;
 
+        /// <summary>
+        /// Visibility of priorities
+        /// </summary>
         public Visibility VisibilityPriorities
         {
             get { return visibilityPriorities; }
@@ -65,27 +119,42 @@ namespace PL
         }
         private Visibility visibilityDroneState = Visibility.Collapsed;
 
+        /// <summary>
+        /// Visibility of drone state
+        /// </summary>
         public Visibility VisibilityDroneState
         {
             get { return visibilityDroneState; }
             set => Set(ref visibilityDroneState, value);
         }
+
         private Visibility visbleDouble = Visibility.Collapsed;
 
+        /// <summary>
+        /// Visibility of slider
+        /// </summary>
         public Visibility VisbleDouble
         {
             get { return visbleDouble; }
             set => Set(ref visbleDouble, value);
         }
+
         private Visibility visblePackegeMode = Visibility.Collapsed;
 
+        /// <summary>
+        /// Visblity of parcel mode
+        /// </summary>
         public Visibility VisblePackegeMode
         {
             get { return visblePackegeMode; }
             set => Set(ref visblePackegeMode, value);
         }
+
         private List<SortEntities> filters = new();
 
+        /// <summary>
+        /// List of filters
+        /// </summary>
         public List<SortEntities> Filters
         {
             get { return filters; }
@@ -94,6 +163,9 @@ namespace PL
 
         private int maxValue;
 
+        /// <summary>
+        /// The max value
+        /// </summary>
         public int MaxValue
         {
             get { return maxValue; }
@@ -101,6 +173,9 @@ namespace PL
         }
 
         private double doubleFirstChange = 0;
+        /// <summary>
+        /// Min parameter
+        /// </summary>
         public double DoubleFirstChange
         {
             get => doubleFirstChange;
@@ -124,6 +199,9 @@ namespace PL
         private string modelContain;
         ListCollectionView list1;
 
+        /// <summary>
+        /// Model contain
+        /// </summary>
         public string ModelContain
         {
             get => modelContain;
@@ -142,12 +220,21 @@ namespace PL
                 FilterNow();
             }
         }
+        /// <summary>
+        /// The selected kind
+        /// </summary>
         public string SelectedKind { get; set; }
+        /// <summary>
+        /// The selected group
+        /// </summary>
         public string SelectedGroup { get; set; }
+        /// <summary>
+        /// The selected value
+        /// </summary>
         public string selectedValue { get; set; }
 
         /// <summary>
-        /// constructor
+        /// constructor GenericList
         /// </summary>
         public GenericList()
         {
