@@ -34,15 +34,15 @@ namespace PL
         /// </summary>
         public RelayCommand CustomerLoginCommand { get; set; }
         /// <summary>
-        /// Command of show administrator login
+        /// Command of showing administrator login
         /// </summary>
         public RelayCommand ShowAdministratorLoginCommand { get; set; }
         /// <summary>
-        /// Command of show customer login
+        /// Command of showing customer login
         /// </summary>
         public RelayCommand ShowCustomerLoginCommand { get; set; }
         /// <summary>
-        /// Command of show customer signin
+        /// Command of showing customer signin
         /// </summary>
         public RelayCommand ShowCustomerSigninCommand { get; set; }
         /// <summary>

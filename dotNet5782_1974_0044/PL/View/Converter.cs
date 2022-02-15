@@ -1,5 +1,4 @@
-﻿
-using PL.PO;
+﻿using PL.PO;
 using System;
 using System.Globalization;
 using System.Windows;

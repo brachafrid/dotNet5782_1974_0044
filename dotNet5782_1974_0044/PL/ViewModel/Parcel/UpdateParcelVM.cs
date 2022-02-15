@@ -9,12 +9,28 @@ namespace PL
     class UpdateParcelVM : NotifyPropertyChangedBase, IDisposable
     {
         private readonly int id;
+        /// <summary>
+        /// Command of openning customer
+        /// </summary>
         public RelayCommand OpenCustomerCommand { get; set; }
+        /// <summary>
+        /// Command of openning drone
+        /// </summary>
         public RelayCommand OpenDroneCommand { get; set; }
+        /// <summary>
+        /// Command of treating parcel by drone
+        /// </summary>
         public RelayCommand ParcelTreatedByDrone { get; set; }
+        /// <summary>
+        /// Command of deleting parcel
+        /// </summary>
+        public RelayCommand DeleteParcelCommand { get; set; }
 
         private Parcel parcel;
 
+        /// <summary>
+        /// Parcel
+        /// </summary>
         public Parcel Parcel
         {
             get { return parcel; }
@@ -23,8 +39,6 @@ namespace PL
                 Set(ref parcel, value);
             }
         }
-
-        public RelayCommand DeleteParcelCommand { get; set; }
 
         /// <summary>
         /// constructor
@@ -144,6 +158,9 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Dispose the eventHandlers
+        /// </summary>
         public void Dispose()
         {
             DelegateVM.ParcelChangedEvent -= HandleAParcelChanged;
