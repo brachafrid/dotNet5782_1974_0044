@@ -9,11 +9,29 @@ namespace PL
 {
     public class AddParcelVM : NotifyPropertyChangedBase, IDisposable
     {
+        /// <summary>
+        /// The Added parcel
+        /// </summary>
         public ParcelAdd parcel { set; get; }
+        /// <summary>
+        /// Command of adding parcel
+        /// </summary>
         public RelayCommand AddParcelCommand { get; set; }
+        /// <summary>
+        /// ObservableCollection of customers keys
+        /// </summary>
         public ObservableCollection<int> customers { get; set; }
+        /// <summary>
+        /// Array of piorities
+        /// </summary>
         public Array piorities { get; set; }
+        /// <summary>
+        /// Array of weights
+        /// </summary>
         public Array Weight { get; set; }
+        /// <summary>
+        /// Is administor
+        /// </summary>
         public bool IsAdministor { get; set; }
 
         /// <summary>
@@ -89,6 +107,9 @@ namespace PL
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
+        /// <summary>
+        /// Dispose the eventHandlers
+        /// </summary>
         public void Dispose()
         {
             DelegateVM.ParcelChangedEvent -= HandleCustomerListChanged;
