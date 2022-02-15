@@ -67,7 +67,7 @@ namespace PL
 
                 DelegateVM.NotifyCustomerChanged((int)customer.Id);
                 LoginScreen.Id = customer.Id;
-                LoginScreen.MyScreen = "CustomerWindow";
+                LoginScreen.MyScreen = Screen.CUSTOMER;
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {
