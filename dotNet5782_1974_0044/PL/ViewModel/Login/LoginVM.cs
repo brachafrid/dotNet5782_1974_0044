@@ -21,15 +21,39 @@ namespace PL
             CustomerLoginCommand = new RelayCommand(CustomerLogin, null);
             ShowCustomerSigninCommand = new(ShowCustomerSignin, null);
         }
+        /// <summary>
+        /// Customer Add view model
+        /// </summary>
         public CustomerAddVM Add { get; set; }
+        /// <summary>
+        /// Command of administrator login
+        /// </summary>
         public RelayCommand AdministratorLoginCommand { get; set; }
+        /// <summary>
+        /// Command of customer login
+        /// </summary>
         public RelayCommand CustomerLoginCommand { get; set; }
+        /// <summary>
+        /// Command of show administrator login
+        /// </summary>
         public RelayCommand ShowAdministratorLoginCommand { get; set; }
+        /// <summary>
+        /// Command of show customer login
+        /// </summary>
         public RelayCommand ShowCustomerLoginCommand { get; set; }
+        /// <summary>
+        /// Command of show customer signin
+        /// </summary>
         public RelayCommand ShowCustomerSigninCommand { get; set; }
+        /// <summary>
+        /// Command of customer login
+        /// </summary>
         public CustomerLogin customerLogin { get; set; } = new();
         private Visibility visibilityAdministratorLogin = Visibility.Collapsed;
 
+        /// <summary>
+        /// Visibility of administrator login
+        /// </summary>
         public Visibility VisibilityAdministratorLogin
         {
             get => visibilityAdministratorLogin; 
@@ -38,15 +62,19 @@ namespace PL
 
         private Visibility visibilityCustomerLogin = Visibility.Collapsed;
 
+        /// <summary>
+        /// Visibility of customer login
+        /// </summary>
         public Visibility VisibilityCustomerLogin
         {
             get =>  visibilityCustomerLogin; 
             set => Set(ref visibilityCustomerLogin, value);
         }
-
-
         private Visibility visibilityCustomerSignIn = Visibility.Collapsed;
 
+        /// <summary>
+        /// Visibility of customer sign in
+        /// </summary>
         public Visibility VisibilityCustomerSignIn
         {
             get => visibilityCustomerSignIn; 

@@ -62,7 +62,6 @@ namespace PL
                 else
                     MessageBox.Show(ex.ToString());
             }
-
         }
 
         /// <summary>
@@ -78,6 +77,9 @@ namespace PL
             });
         }
 
+        /// <summary>
+        /// Dispose all the eventHundlers
+        /// </summary>
         public void Dispose()
         {
             DelegateVM.CustomerChangedEvent -= HandleCustomerChanged;

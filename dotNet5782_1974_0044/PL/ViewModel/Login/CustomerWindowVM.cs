@@ -10,15 +10,20 @@ namespace PL
     {
         private int selectedTab;
 
+        /// <summary>
+        /// The selected tab
+        /// </summary>
         public int SelectedTab
         {
             get { return selectedTab; }
             set { Set(ref selectedTab, value); }
         }
 
-
         private Customer customer = new();
 
+        /// <summary>
+        /// customer
+        /// </summary>
         public Customer Customer
         {
             get { return customer; }
@@ -27,23 +32,58 @@ namespace PL
 
         private Visibility visibilityCustomer = Visibility.Collapsed;
 
+        /// <summary>
+        /// Visibility of the customer
+        /// </summary>
         public Visibility VisibilityCustomer
         {
             get { return visibilityCustomer; }
             set => Set(ref visibilityCustomer, value);
-
         }
+
+        /// <summary>
+        /// Command of displaing parcels
+        /// </summary>
         public RelayCommand DisplayParcelsCommand { get; set; }
+        /// <summary>
+        /// Command of sending parcel
+        /// </summary>
         public RelayCommand sendParcel { get; set; }
+        /// <summary>
+        /// Command of collection parcel
+        /// </summary>
         public RelayCommand collectionParcel { get; set; }
+        /// <summary>
+        /// Command of getting parcel
+        /// </summary>
         public RelayCommand gettingParcel { get; set; }
+        /// <summary>
+        /// Command of adding parcel
+        /// </summary>
         public RelayCommand AddParcelCommand { get; set; }
+        /// <summary>
+        /// Command of parcels from customer
+        /// </summary>
         public RelayCommand DisplayParcelsFromCommand { get; set; }
+        /// <summary>
+        /// Command of displaing parcels to customer
+        /// </summary>
         public RelayCommand DisplayParcelsToCommand { get; set; }
+        /// <summary>
+        /// Command of displaing customer
+        /// </summary>
         public RelayCommand DisplayCustomerCommand { get; set; }
+        /// <summary>
+        /// Command of logging out
+        /// </summary>
         public RelayCommand LogOutCommand { get; set; }
-        public RelayCommand RefreshCommand { get; set; }
+
+        /// <summary>
+        /// The added parcel
+        /// </summary>
         public ParcelAdd parcel { set; get; }
+        public RelayCommand RefreshCommand { get; set; }
+
         int id;
 
         /// <summary>

@@ -65,6 +65,9 @@ namespace PL
             });
         }
 
+        /// <summary>
+        /// Dispose the eventHandles
+        /// </summary>
         public void Dispose()
         {
             DelegateVM.DroneChangedEvent -= HandleDroneChanged;

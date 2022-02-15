@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 namespace PL.PO
 {
     public class Parcel : NotifyPropertyChangedBase,IDataErrorInfo
-    {
+    { 
         private int id;
         /// <summary>
         /// parcel key

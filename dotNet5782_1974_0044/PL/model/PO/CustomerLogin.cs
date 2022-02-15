@@ -10,6 +10,9 @@ namespace PL.PO
   public  class CustomerLogin: NotifyPropertyChangedBase, IDataErrorInfo
     {
         private int? id;
+        /// <summary>
+        /// customer login key
+        /// </summary>
         public int? Id
         {
             get => id;
