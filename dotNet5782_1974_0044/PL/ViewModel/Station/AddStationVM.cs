@@ -6,7 +6,13 @@ namespace PL
 {
     public class AddStationVM : IDisposable
     {
+        /// <summary>
+        /// The added station   
+        /// </summary>
         public StationAdd station { set; get; }
+        /// <summary>
+        /// Command of adding station
+        /// </summary>
         public RelayCommand AddStationCommand { get; set; }
 
         /// <summary>
@@ -37,6 +43,9 @@ namespace PL
                 station.Id = null;
             }
         }
+        /// <summary>
+        /// Dispose the eventHandlers
+        /// </summary>
         public void Dispose()
         {
         }

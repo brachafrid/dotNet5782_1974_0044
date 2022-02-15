@@ -79,6 +79,9 @@ namespace PL
             });
         }
 
+        /// <summary>
+        /// Dispose the eventHandlers
+        /// </summary>
         public void Dispose()
         {
             DelegateVM.StationChangedEvent -= HandleStationChanged;

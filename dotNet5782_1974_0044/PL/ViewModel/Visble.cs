@@ -9,11 +9,19 @@ namespace PL
 {
     public class Visble : DependencyObject
     {
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="visibilityTmp">visibility</param>
         public Visble(Visibility visibilityTmp = Visibility.Collapsed)
         {
             if (visibility != Visibility.Collapsed)
                 visibility = visibilityTmp;
         }
+
+        /// <summary>
+        /// Dependency property: Visibility 
+        /// </summary>
         public Visibility visibility
         {
             get { return (Visibility)GetValue(visibilityProperty); }
