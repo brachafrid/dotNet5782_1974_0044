@@ -13,6 +13,9 @@ namespace DLApi
         internal static string DalType;
         internal static string Namespace;
 
+        /// <summary>
+        /// ctor
+        /// </summary>
         static DalConfig()
         {
             XElement dalConfig = null;
