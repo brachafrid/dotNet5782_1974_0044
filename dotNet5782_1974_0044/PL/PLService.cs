@@ -61,6 +61,7 @@ namespace PL
                 workerPl.DoWork += (sender, e) => e.Result = PlServiceConvert.ConvertCustomer(ibal.GetCustomer(id));
                 workerPl.RunWorkerCompleted += (sender, e) => taskCompletionSource.SetResult(e.Result as Customer);
                 workerPl.RunWorkerAsync();
+                
                 Result = await taskCompletionSource.Task;
             }
             catch (KeyNotFoundException ex)

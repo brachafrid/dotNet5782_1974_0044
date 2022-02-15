@@ -102,10 +102,8 @@ namespace PL
         }
         static internal void LogOut(object param)
         {
-            if(TabItems.Any())
-                foreach (var tab in TabItems)
-                    CloseTab(tab);
-            LoginScreen.MyScreen =Screen.LOGIN;
+            TabItems.ToList().ForEach(tab => CloseTab(tab));
+            LoginScreen.MyScreen = Screen.LOGIN;
         }
 
         static internal void Refresh(object param)

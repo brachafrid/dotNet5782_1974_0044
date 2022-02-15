@@ -1,22 +1,6 @@
 <?xml version="1.0"?>
 <ArrayOfCustomer xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Customer>
-    <Id>3</Id>
-    <Name>Customer_ 3_1138128984</Name>
-    <Phone>0186775060</Phone>
-    <Longitude>31.863675927679836</Longitude>
-    <Latitude>-36.055180404360954</Latitude>
-    <IsNotActive>false</IsNotActive>
-  </Customer>
-  <Customer>
-    <Id>4</Id>
-    <Name>Customer_ 4_-833857796</Name>
-    <Phone>0131715717</Phone>
-    <Longitude>44.47656345343057</Longitude>
-    <Latitude>-17.297592448674884</Latitude>
-    <IsNotActive>false</IsNotActive>
-  </Customer>
-  <Customer>
     <Id>5</Id>
     <Name>Customer_ 5_-785185562</Name>
     <Phone>0317794199</Phone>
@@ -46,14 +30,6 @@
     <Phone>0681026720</Phone>
     <Longitude>43.76722931525075</Longitude>
     <Latitude>35.033855860137315</Latitude>
-    <IsNotActive>false</IsNotActive>
-  </Customer>
-  <Customer>
-    <Id>9</Id>
-    <Name>Customer_ 9_832840448</Name>
-    <Phone>0668534887</Phone>
-    <Longitude>13.461520624096282</Longitude>
-    <Latitude>0.9091336642900173</Latitude>
     <IsNotActive>false</IsNotActive>
   </Customer>
   <Customer>
@@ -239,5 +215,29 @@
     <Longitude>74.27975019779045</Longitude>
     <Latitude>14.531630990808658</Latitude>
     <IsNotActive>true</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>3</Id>
+    <Name>Customer_ 3_11381</Name>
+    <Phone>0186775060</Phone>
+    <Longitude>31.863675927679836</Longitude>
+    <Latitude>-36.055180404360954</Latitude>
+    <IsNotActive>true</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>4</Id>
+    <Name>Custo</Name>
+    <Phone>0131715717</Phone>
+    <Longitude>44.47656345343057</Longitude>
+    <Latitude>-17.297592448674884</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
+  <Customer>
+    <Id>9</Id>
+    <Name>Customer_ 9_83</Name>
+    <Phone>0668534887</Phone>
+    <Longitude>13.461520624096282</Longitude>
+    <Latitude>0.9091336642900173</Latitude>
+    <IsNotActive>false</IsNotActive>
   </Customer>
 </ArrayOfCustomer>
