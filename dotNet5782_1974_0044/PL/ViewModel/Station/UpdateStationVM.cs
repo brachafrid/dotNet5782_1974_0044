@@ -9,9 +9,16 @@ namespace PL
     class UpdateStationVM : NotifyPropertyChangedBase,IDisposable
     {
         private readonly int id;
+        /// <summary>
+        /// Command of openning of drone charghing
+        /// </summary>
         public RelayCommand OpenDroneChargeCommand { get; set; }
+
         private Station station;
 
+        /// <summary>
+        /// station
+        /// </summary>
         public Station Station
         {
             get { return station; }
@@ -22,6 +29,9 @@ namespace PL
         }
         private string stationName;
 
+        /// <summary>
+        /// Station name
+        /// </summary>
         public string StationName
         {
             get { return stationName; }
@@ -33,6 +43,9 @@ namespace PL
         }
         private int stationEmptyChargeSlots = 0;
 
+        /// <summary>
+        /// number empty charge slots in station
+        /// </summary>
         public int StationEmptyChargeSlots
         {
             get { return stationEmptyChargeSlots; }
@@ -42,7 +55,13 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Command of updating station
+        /// </summary>
         public RelayCommand UpdateStationCommand { get; set; }
+        /// <summary>
+        /// Command of deleting station
+        /// </summary>
         public RelayCommand DeleteStationCommand { get; set; }
 
         /// <summary>
@@ -159,6 +178,9 @@ namespace PL
             }
         }
 
+        /// <summary>
+        /// Dispose the eventHandlers
+        /// </summary>
         public void Dispose()
         {
             DelegateVM.StationChangedEvent -= HandleAStationChanged;
