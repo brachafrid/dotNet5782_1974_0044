@@ -7,16 +7,24 @@ using System.Windows;
 
 namespace PL
 {
-    public class AddDroneVM : IDisposable
+    public class AddDroneVM : NotifyPropertyChangedBase, IDisposable
     {
         /// <summary>
         /// The added drone
         /// </summary>
         public DroneAdd drone { get; set; }
+
+        private ObservableCollection<int> stationsId;
+
         /// <summary>
         /// ObservableCollection of stations keys
         /// </summary>
-        public ObservableCollection<int> StationsId { get; set; }
+        public ObservableCollection<int> StationsId
+        {
+            get => stationsId;
+            set => Set(ref stationsId, value);
+        }
+
         /// <summary>
         /// Array of weights
         /// </summary>

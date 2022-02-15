@@ -1,5 +1,6 @@
 ﻿using PL.PO;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
@@ -96,6 +97,10 @@ namespace PL
                 }
             }
             catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+            }
+            catch (KeyNotFoundException ex)
             {
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
