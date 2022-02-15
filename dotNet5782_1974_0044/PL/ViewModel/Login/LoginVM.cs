@@ -15,109 +15,64 @@ namespace PL
         public LoginVM()
         {
             Add = new(true);
-            ShowAdministratorLoginCommand = new RelayCommand(ShowAdministratorLogin, null);
-            ShowCustomerLoginCommand = new RelayCommand(ShowCustomerLogin, null);
-            AdministratorLoginCommand = new RelayCommand(AdministratorLogin, null);
-            CustomerLoginCommand = new RelayCommand(CustomerLogin, null);
-            ShowCustomerSigninCommand = new(ShowCustomerSignin, null);
+            state = LoginState.CLOSE;
+            ShowCommand = new RelayCommand(Show, null);
+            Command = new RelayCommand(Log, null);
         }
+        private LoginState state;
+
+        public LoginState State
+        {
+            get { return state; }
+            set { Set(ref state, value); }
+        }
+
         /// <summary>
         /// Customer Add view model
         /// </summary>
         public CustomerAddVM Add { get; set; }
-        /// <summary>
-        /// Command of administrator login
-        /// </summary>
-        public RelayCommand AdministratorLoginCommand { get; set; }
-        /// <summary>
-        /// Command of customer login
-        /// </summary>
-        public RelayCommand CustomerLoginCommand { get; set; }
+        public RelayCommand Command { get; set; }
+
         /// <summary>
         /// Command of showing administrator login
         /// </summary>
-        public RelayCommand ShowAdministratorLoginCommand { get; set; }
+        public RelayCommand ShowCommand { get; set; }
         /// <summary>
         /// Command of showing customer login
         /// </summary>
-        public RelayCommand ShowCustomerLoginCommand { get; set; }
-        /// <summary>
-        /// Command of showing customer signin
-        /// </summary>
-        public RelayCommand ShowCustomerSigninCommand { get; set; }
-        /// <summary>
-        /// Command of customer login
-        /// </summary>
         public CustomerLogin customerLogin { get; set; } = new();
-        private Visibility visibilityAdministratorLogin = Visibility.Collapsed;
-
-        /// <summary>
-        /// Visibility of administrator login
-        /// </summary>
-        public Visibility VisibilityAdministratorLogin
-        {
-            get => visibilityAdministratorLogin; 
-            set => Set(ref visibilityAdministratorLogin, value);
-        }
-
-        private Visibility visibilityCustomerLogin = Visibility.Collapsed;
-
-        /// <summary>
-        /// Visibility of customer login
-        /// </summary>
-        public Visibility VisibilityCustomerLogin
-        {
-            get =>  visibilityCustomerLogin; 
-            set => Set(ref visibilityCustomerLogin, value);
-        }
-        private Visibility visibilityCustomerSignIn = Visibility.Collapsed;
-
-        /// <summary>
-        /// Visibility of customer sign in
-        /// </summary>
-        public Visibility VisibilityCustomerSignIn
-        {
-            get => visibilityCustomerSignIn; 
-            set => Set(ref visibilityCustomerSignIn, value);
-        }
 
         /// <summary>
         /// Show administrator login
         /// </summary>
         /// <param name="param"></param>
-        public void ShowAdministratorLogin(object param)
+        public void Show(object param)
         {
-            VisibilityAdministratorLogin = Visibility.Visible;
-            VisibilityCustomerLogin = Visibility.Collapsed;
-            VisibilityCustomerSignIn = Visibility.Collapsed;
+            State = (LoginState)param;
         }
 
         /// <summary>
-        /// Show customer sign in
+        /// login
         /// </summary>
         /// <param name="param"></param>
-        public void ShowCustomerSignin(object param)
+        
+        public void Log(object param)
         {
-            VisibilityAdministratorLogin = Visibility.Collapsed;
-            VisibilityCustomerLogin = Visibility.Collapsed;
-            VisibilityCustomerSignIn = Visibility.Visible;
-        }
+            switch (State)
+            {
+                case LoginState.ADMINISTOR:
+                    AdministratorLogin(param);
+                    break;
+                case LoginState.CUSTOMER:
+                    CustomerLogin(param);
+                    break;
+                case LoginState.SIGNIN:
 
-        /// <summary>
-        /// Show customer login
-        /// </summary>
-        /// <param name="param"></param>
-        public void ShowCustomerLogin(object param)
-        {
-            VisibilityCustomerLogin = Visibility.Visible;
-            VisibilityAdministratorLogin = Visibility.Collapsed;
-            VisibilityCustomerSignIn = Visibility.Collapsed;
+                    break;
+                default:
+                    break;
+            }
         }
-
-        /// <summary>
-        /// Administrator login
-        /// </summary>
-        /// <param name="param"></param>
         public async void AdministratorLogin(object param)
         {
             try
@@ -167,4 +122,3 @@ namespace PL
         }
     }
 }
-

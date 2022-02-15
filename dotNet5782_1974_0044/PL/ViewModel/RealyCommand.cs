@@ -31,7 +31,7 @@ namespace PL
             return canExecute == null || canExecute(parameter);
         }
 
-        
+        [DebuggerStepThrough]
         public void Execute(object parameter)
         {
             execute(parameter);
