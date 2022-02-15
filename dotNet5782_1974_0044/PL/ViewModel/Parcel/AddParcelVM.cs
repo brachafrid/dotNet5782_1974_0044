@@ -17,10 +17,18 @@ namespace PL
         /// Command of adding parcel
         /// </summary>
         public RelayCommand AddParcelCommand { get; set; }
+
+
+        private ObservableCollection<int> customers;
         /// <summary>
         /// ObservableCollection of customers keys
         /// </summary>
-        public ObservableCollection<int> customers { get; set; }
+        public ObservableCollection<int> Customers
+        {
+            get => customers;
+            set => Set(ref customers, value);
+        }
+
         /// <summary>
         /// Array of piorities
         /// </summary>
@@ -59,7 +67,7 @@ namespace PL
         {
             try
             {
-                customers = new ObservableCollection<int>((await PLService.GetCustomers())
+                Customers = new ObservableCollection<int>((await PLService.GetCustomers())
                     .Select(customer => customer.Id));
             }
             catch (BO.XMLFileLoadCreateException ex)
@@ -70,9 +78,9 @@ namespace PL
         private async void HandleCustomerListChanged(object sender, EntityChangedEventArgs e)
         {
 
-            customers.Clear();
+            Customers.Clear();
             foreach (var item in (await PLService.GetCustomers()).Select(customer => customer.Id))
-                customers.Add(item);
+                Customers.Add(item);
 
         }
 
