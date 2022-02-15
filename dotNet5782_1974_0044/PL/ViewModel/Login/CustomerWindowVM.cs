@@ -30,17 +30,6 @@ namespace PL
             set { Set(ref customer, value); }
         }
 
-        private Visibility visibilityCustomer = Visibility.Collapsed;
-
-        /// <summary>
-        /// Visibility of the customer
-        /// </summary>
-        public Visibility VisibilityCustomer
-        {
-            get { return visibilityCustomer; }
-            set => Set(ref visibilityCustomer, value);
-        }
-
         /// <summary>
         /// Command of displaing parcels
         /// </summary>
