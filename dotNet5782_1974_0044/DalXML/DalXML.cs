@@ -16,11 +16,8 @@ namespace Dal
     {
         const string DIR = @"..\..\data\";
         const string CONFIG = @"XmlConfig.xml";
-        private DalXml()
-        {
-            Initilaztion();
-        }
-
+        private DalXml() => Initilaztion();
+        
         private void Initilaztion()
         {
             try { 

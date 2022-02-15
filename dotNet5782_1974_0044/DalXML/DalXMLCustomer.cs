@@ -90,7 +90,6 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
         static bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
         {
             if (!lst.Any())
