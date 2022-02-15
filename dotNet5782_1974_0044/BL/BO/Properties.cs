@@ -6,6 +6,12 @@ namespace BO
 {
     static class Properties
     {
+        /// <summary>
+        /// Return the string of the properties
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj">object</param>
+        /// <returns>string of the properties</returns>
         public static string ToStringProperties<T>(this T obj)
         {
             Type t = obj.GetType();
@@ -30,6 +36,11 @@ namespace BO
             return str;
         }
 
+        /// <summary>
+        /// Format string
+        /// </summary>
+        /// <param name="str">string</param>
+        /// <returns>string</returns>
         static string FormatString(string str)
         {
             string s = str[0].ToString();
@@ -42,8 +53,6 @@ namespace BO
                         s += str[i].ToString();
                 }
             return s;
-
-
         }
     }
 }

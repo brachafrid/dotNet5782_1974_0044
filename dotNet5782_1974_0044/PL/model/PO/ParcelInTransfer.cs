@@ -3,103 +3,86 @@ using System.ComponentModel;
 
 namespace PL.PO
 {
-    public class ParcelInTransfer : INotifyPropertyChanged
+    public class ParcelInTransfer : NotifyPropertyChangedBase
     {
         private int id;
+        /// <summary>
+        /// Parcel in transference key
+        /// </summary>
         public int Id
         {
             get => id;
-            init
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
+            init => Set(ref id, value);
         }
         private WeightCategories weight;
+        /// <summary>
+        /// Parcel in transference weight
+        /// </summary>
         public WeightCategories Weight
         {
             get => weight;
-            set
-            {
-                weight = value;
-                onPropertyChanged("Weight");
-            }
+            set => Set(ref weight, value);
         }
         private Priorities piority;
+        /// <summary>
+        /// Parcel in transference piority
+        /// </summary>
         public Priorities Piority
         {
             get => piority;
-            set
-            {
-                piority = value;
-                onPropertyChanged("Piority");
-            }
+            set => Set(ref piority, value);
         }
         private bool parcelState;
+        /// <summary>
+        /// Parcel in transference state
+        /// </summary>
         public bool ParcelState {
             get => parcelState;
-            set
-            {
-                parcelState = value;
-                onPropertyChanged("ParcelState");
-            }
+            set => Set(ref parcelState, value);
         }
         private Location collectionPoint;
+        /// <summary>
+        /// Parcel in transference collection point
+        /// </summary>
         public Location CollectionPoint
         {
             get => collectionPoint;
-            set
-            {
-                collectionPoint = value;
-                onPropertyChanged("CollectionPoint");
-            }
+            set => Set(ref collectionPoint, value);
         }
         private Location deliveryDestination;
+        /// <summary>
+        /// Delivery destination of the parcel in transference
+        /// </summary>
         public Location DeliveryDestination
         {
             get => deliveryDestination;
-            set
-            {
-                deliveryDestination = value;
-                onPropertyChanged("DeliveryDestination");
-            }
+            set => Set(ref deliveryDestination, value);
         }
         private double transportDistance;
+        /// <summary>
+        /// Transport distance
+        /// </summary>
         public double TransportDistance {
             get => transportDistance;
-            set
-            {
-                transportDistance = value;
-                onPropertyChanged("TransportDistance");
-            }
+            set => Set(ref transportDistance, value);
         }
         private CustomerInParcel customerSender;
+        /// <summary>
+        /// Customer sends of parcel in transference
+        /// </summary>
         public CustomerInParcel CustomerSender 
         {
             get => customerSender;
-            set
-            {
-                customerSender = value;
-                onPropertyChanged("CustomerSender");
-            } 
+            set => Set(ref customerSender, value);
         }
         private CustomerInParcel customerReceives;
+        /// <summary>
+        /// Customer receives of parcel in transference
+        /// </summary>
         public CustomerInParcel CustomerReceives
         {
             get => customerReceives;
-            set
-            {
-                customerReceives = value;
-                onPropertyChanged("CustomerReceives");
-            }
-        }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
+            set => Set(ref customerReceives, value);
         }
 
         public override string ToString()

@@ -5,73 +5,60 @@ using System.Linq;
 
 namespace PL.PO
 {
-    public class Station : INotifyPropertyChanged,IDataErrorInfo
+    public class Station : NotifyPropertyChangedBase,IDataErrorInfo
     {
         private int id;
+        /// <summary>
+        /// Station key
+        /// </summary>
         public int Id
         {
             get => id;
-            init
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
+            init => Set(ref id, value);
         }
         private string name;
+        /// <summary>
+        /// Station name
+        /// </summary>
         [Required(ErrorMessage = "required")]
         public string Name
         {
             get => name;
-            set
-            {
-                name = value;
-                onPropertyChanged("Name");
-            }
+            set => Set(ref name, value);
         }
         private int emptyChargeSlots;
+        /// <summary>
+        /// Station empty charge slots
+        /// </summary>
         [Required(ErrorMessage = "required")]
         [Range(1, int.MaxValue, ErrorMessage = "Only positive number allowed")]
         public int EmptyChargeSlots
         {
             get => emptyChargeSlots;
-            set
-            {
-                emptyChargeSlots = value;
-                onPropertyChanged("EmptyChargeSlots");
-            }
+            set => Set(ref emptyChargeSlots, value);
         }
 
-
         private Location location;
+        /// <summary>
+        /// Station location
+        /// </summary>
         public Location Location
         {
             get => location;
-            set
-            {
-                location = value;
-                onPropertyChanged("Location");
-            }
+            set => Set(ref location, value);
         }
 
         private IEnumerable<DroneInCharging> droneInChargings;
-
+        /// <summary>
+        /// The list of the drones in charging of the station
+        /// </summary>
         public IEnumerable<DroneInCharging> DroneInChargings
         {
-            get => droneInChargings; 
-            set {
-                droneInChargings = value;
-                onPropertyChanged("DroneInChargings");
-            }
+            get => droneInChargings;
+            set => Set(ref droneInChargings, value);
         }
         public string Error => Validation.ErorrCheck(this);
-        public string this[string columnName] => Validation.PropError(columnName, this);
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-        }
+        public string this[string columnName] => Validation.PropError(columnName, this);       
 
         public override string ToString()
         {

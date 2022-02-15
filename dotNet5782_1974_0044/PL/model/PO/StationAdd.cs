@@ -6,65 +6,54 @@ using System.Linq;
 
 namespace PL.PO
 {
-    public class StationAdd : INotifyPropertyChanged, IDataErrorInfo
+    public class StationAdd : NotifyPropertyChangedBase, IDataErrorInfo
     {
         private int? id;
+        /// <summary>
+        /// Added station key
+        /// </summary>
         [Required(ErrorMessage = "required")]
         [Range(1, int.MaxValue, ErrorMessage = "Only positive number allowed")]
         public int? Id
         {
             get => id;
-            set
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
+            set => Set(ref id, value);
         }
         private string name;
+        /// <summary>
+        /// Added station name
+        /// </summary>
         [Required(ErrorMessage = "required")]
         public string Name
         {
             get => name;
-            set
-            {
-                name = value;
-                onPropertyChanged("Name");
-            }
+            set => Set(ref name, value);
         }
         private int? emptyChargeSlots;
+        /// <summary>
+        /// Added station empty charge slots
+        /// </summary>
         [Required(ErrorMessage = "required")]
         [Range(1, int.MaxValue, ErrorMessage = "Only positive number allowed")]
         public int? EmptyChargeSlots
         {
             get => emptyChargeSlots;
-            set
-            {
-                emptyChargeSlots = value;
-                onPropertyChanged("EmptyChargeSlots");
-            }
+            set => Set(ref emptyChargeSlots, value);
         }
 
         private Location location = new();
+        /// <summary>
+        /// Added station location
+        /// </summary>
         [Required(ErrorMessage = "required")]
         public Location Location
         {
             get => location;
-            set
-            {
-                location = value;
-                onPropertyChanged("Location");
-            }
+            set => Set(ref location, value);
         }
 
         public string Error => Validation.ErorrCheck(this);
-        public string this[string columnName] =>Validation.PropError(columnName, this);
-       
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-        }
+        public string this[string columnName] =>Validation.PropError(columnName, this);              
 
         public override string ToString()
         {

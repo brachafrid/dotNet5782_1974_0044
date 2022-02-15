@@ -7,10 +7,23 @@ using System.Windows;
 
 namespace PL.PO
 {
-    public class TabItemFormat
+    public class TabItemFormat : IDisposable
     {
+        /// <summary>
+        /// Tab item format key
+        /// </summary>
         public int? Id { get; set; }
+        /// <summary>
+        /// Tab item format header
+        /// </summary>
         public string Header { get; set; }
-        public object Content { get; set; }
+        /// <summary>
+        /// Tab item format content
+        /// </summary>
+        public IDisposable Content { get; set; }
+        public void Dispose()
+        {
+            Content.Dispose();
+        }
     }
 }

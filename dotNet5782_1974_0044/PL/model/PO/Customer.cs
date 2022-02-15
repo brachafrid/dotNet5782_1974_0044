@@ -6,34 +6,42 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using PL;
 
 
 namespace PL.PO
 {
-    public class Customer : INotifyPropertyChanged, IDataErrorInfo
+    public class Customer : NotifyPropertyChangedBase, IDataErrorInfo
     {
         private int id;
+        /// <summary>
+        /// customer key
+        /// </summary>
         public int Id
         {
             get => id;
             init
             {
-                id = value;
-                onPropertyChanged("Id");
+                Set(ref id, value);
             }
         }
         private string name;
+        /// <summary>
+        /// customer name
+        /// </summary>
         [Required(ErrorMessage = "required")]
         public string Name
         {
             get => name;
             set
             {
-                name = value;
-                onPropertyChanged("Name");
+                Set(ref name, value);
             }
         }
         private string phone;
+        /// <summary>
+        /// customer phone
+        /// </summary>
         [Required(ErrorMessage = "required")]
         [RegularExpression("^(?!0+$)(\\+\\d{1,3}[- ]?)?(?!0+$)\\d{10,15}$", ErrorMessage = "Please enter valid phone no.")]
         public string Phone
@@ -41,39 +49,44 @@ namespace PL.PO
             get => phone;
             set
             {
-                phone = value;
-                onPropertyChanged("Phone");
+                Set(ref phone, value);
             }
         }
 
         private Location location;
+        /// <summary>
+        /// customer location
+        /// </summary>
         public Location Location
         {
             get => location;
             set
             {
-                location = value;
-                onPropertyChanged("CollectionPoint");
+                Set(ref location, value);
             }
         }
         private List<ParcelAtCustomer> fromCustomer;
+        /// <summary>
+        /// the list of the parcels that sender from the customer
+        /// </summary>
         public List<ParcelAtCustomer> FromCustomer
         {
             get => fromCustomer;
             set
             {
-                fromCustomer = value;
-                onPropertyChanged("FromCustomer");
+                Set(ref fromCustomer, value);
             }
         }
         private List<ParcelAtCustomer> toCustomer;
+        /// <summary>
+        /// the list of the parcels that sender to the customer
+        /// </summary>
         public List<ParcelAtCustomer> ToCustomer
         {
             get => toCustomer;
             set
             {
-                toCustomer = value;
-                onPropertyChanged("ToCustomer");
+                Set(ref toCustomer, value);
             }
         }
 
@@ -83,14 +96,6 @@ namespace PL.PO
         public override string ToString()
         {
             return this.ToStringProperties();
-        }
-        public event PropertyChangedEventHandler PropertyChanged;
-
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
         }
     }
 }

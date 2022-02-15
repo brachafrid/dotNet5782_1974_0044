@@ -21,21 +21,22 @@ namespace Dal
         public void AddParcel(int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority, int id = 0, int droneId = 0, DateTime? requested = default, DateTime? sceduled = default, DateTime? pickedUp = default, DateTime? delivered = default)
         {
             if (!ExistsIDTaxCheckNotDelited(GetCustomers(), SenderId))
-                throw new KeyNotFoundException("Sender not exist");
+                throw new KeyNotFoundException($"Sender Id: {SenderId} not exist");
             if (!ExistsIDTaxCheckNotDelited(GetCustomers(), TargetId))
-                throw new KeyNotFoundException("Target not exist");
-            Parcel newParcel = new();
-            newParcel.Id = id == 0 ? ++DataSorce.Config.IdParcel : id;
-            newParcel.SenderId = SenderId;
-            newParcel.TargetId = TargetId;
-            newParcel.Weigth = Weigth;
-            newParcel.Priority = Priority;
-            newParcel.Requested = requested == null ? DateTime.Now : requested;
-            newParcel.Sceduled = sceduled;
-            newParcel.PickedUp = pickedUp;
-            newParcel.Delivered = delivered;
-            newParcel.DorneId = droneId;
-            DalObjectService.AddEntity(newParcel);
+                throw new KeyNotFoundException($"Target id: {TargetId} not exist");
+            DalObjectService.AddEntity(new Parcel()
+            {
+                Id = id == 0 ? ++DataSorce.Config.IdParcel : id,
+                SenderId = SenderId,
+                TargetId = TargetId,
+                Weigth = Weigth,
+                Priority = Priority,
+                Requested = requested == null ? DateTime.Now : requested,
+                Sceduled = sceduled,
+                PickedUp = pickedUp,
+                Delivered = delivered,
+                DorneId = droneId,
+            });
         }
 
         //-----------------------------------------------------Display--------------------------------------
@@ -49,7 +50,7 @@ namespace Dal
         {
             Parcel parcel =DalObjectService.GetEntities<Parcel>().FirstOrDefault(item => item.Id == id);
             if (parcel.Equals(default(Parcel)) )
-                throw new KeyNotFoundException("There is not suitable parcel in data");
+                throw new KeyNotFoundException($"There is not suitable parcel in data , the wanted parcel is: {id}");
             return parcel;
         }
 
@@ -73,15 +74,18 @@ namespace Dal
         /// </summary>
         /// <param name="station"></param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RemoveParcel(Parcel parcel)
+        public void UpdateParcel(Parcel parcel,Parcel newParcel)
         {
             DalObjectService.RemoveEntity(parcel);
+            DalObjectService.AddEntity(newParcel);
         }
 
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(int id)
         {
             Parcel parcel = DalObjectService.GetEntities<Parcel>().FirstOrDefault(item => item.Id == id);
+            if (parcel.Equals(default(Parcel)))
+                throw new KeyNotFoundException($"The parcel {id} not exsits in the data");
             DalObjectService.RemoveEntity(parcel);
             parcel.IsNotActive = true;
             DalObjectService.AddEntity(parcel);

@@ -7,17 +7,16 @@ using System.Threading.Tasks;
 
 namespace PL.PO
 {
-  public  class CustomerLogin:INotifyPropertyChanged,IDataErrorInfo
+  public  class CustomerLogin: NotifyPropertyChangedBase, IDataErrorInfo
     {
         private int? id;
+        /// <summary>
+        /// customer login key
+        /// </summary>
         public int? Id
         {
             get => id;
-            set
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
+            set => Set(ref id, value);
         }
       
         public string Error
@@ -37,21 +36,8 @@ namespace PL.PO
         public string this[string columnName]
         {
 
-            get
-            {
-                //if (Validation.functions.FirstOrDefault(func => func.Key == columnName).Value == default(Predicate<object>))
-                //    return null;
-                //var func = Validation.functions[columnName];
-                //return !func.Equals(default) ? func(GetType().GetProperty(columnName).GetValue(this)) ? null : "invalid " + columnName : null;
-                return null;
-            }
-        }
+            get => null;
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
         }
     }
 }

@@ -9,90 +9,74 @@ using System.Threading.Tasks;
 
     namespace PL.PO
     {
-    public class CustomerToList : INotifyPropertyChanged
+    public class CustomerToList : NotifyPropertyChangedBase
     {
         private int id;
+        /// <summary>
+        /// customer to list key
+        /// </summary>
         public int Id
         {
             get => id;
-            init
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
+            init => Set(ref id, value);
         }
         private string name;
-
+        /// <summary>
+        /// customer to list name
+        /// </summary>
         public string Name
         {
             get => name;
-            set
-            {
-                name = value;
-                onPropertyChanged("Name");
-            }
+            set => Set(ref name, value);
+
         }
         private string phone;
+        /// <summary>
+        /// customer to list phone
+        /// </summary>
         public string Phone
         {
             get => phone;
-            set
-            {
-                phone = value;
-                onPropertyChanged("Phone");
-            }
+            set => Set(ref phone, value);
         }
         private int numParcelSentDelivered;
+        /// <summary>
+        /// Number of parcels sent and delivered
+        /// </summary>
         public int NumParcelSentDelivered 
         { 
             get => numParcelSentDelivered;
-            set 
-            {
-                numParcelSentDelivered = value;
-                onPropertyChanged("NumParcelSentDelivered");
-            } 
+            set => Set(ref numParcelSentDelivered, value); 
         }
         private int numParcelSentNotDelivered;
+        /// <summary>
+        /// Number of parcels sent and not delivered
+        /// </summary>
         public int NumParcelSentNotDelivered
         {
             get => numParcelSentNotDelivered;
-            set
-            {
-                numParcelSentNotDelivered = value;
-                onPropertyChanged("NumParcelSentNotDelivered");
-            }
+            set => Set(ref numParcelSentNotDelivered, value);
         }
 
         private int numParcelReceived;
+        /// <summary>
+        /// Number of parcels received
+        /// </summary>
         public int NumParcelReceived
         {
             get => numParcelReceived;
-            set
-            {
-                numParcelReceived = value;
-                onPropertyChanged("NumParcelReceived");
-            }
+            set => Set(ref numParcelReceived, value);
         }
 
         private int numParcelWayToCustomer;
+        /// <summary>
+        /// Number of parcels are in the way to customer
+        /// </summary>
         public int NumParcelWayToCustomer
         {
             get => numParcelWayToCustomer;
-            set
-            {
-                numParcelWayToCustomer = value;
-                onPropertyChanged("NumParcelWayToCustomer");
-            }
+            set => Set(ref numParcelWayToCustomer, value);
         }
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
-        }
-
 
         public override string ToString()
             {

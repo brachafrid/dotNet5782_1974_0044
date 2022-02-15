@@ -16,9 +16,8 @@
             <Button Content="Add Customer" Command="{Binding AddEntitiyCommand}"/>
             <ListView ItemsSource="{Binding Path=list}">
                 <ListView.GroupStyle>
-                    <GroupStyle ContainerStyle="{StaticResource ResourceKey=Group}"/>
-
-                </ListView.GroupStyle>
+                        <GroupStyle ContainerStyle="{StaticResource ResourceKey=Group}"/>
+                    </ListView.GroupStyle>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
                         <i:InvokeCommandAction Command="{Binding DoubleClick}"

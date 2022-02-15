@@ -8,65 +8,53 @@ using System.Threading.Tasks;
 
     namespace PL.PO
     {
-        public class ParcelAtCustomer : INotifyPropertyChanged
+        public class ParcelAtCustomer : NotifyPropertyChangedBase
     {
         private int id;
+        /// <summary>
+        /// Parcel at customer key
+        /// </summary>
         public int Id
         {
             get => id;
-            init
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
+            init => Set(ref id, value);
         }
         private WeightCategories weight;
+        /// <summary>
+        /// Parcel at customer weight
+        /// </summary>
         public WeightCategories Weight
         {
             get => weight;
-            set
-            {
-                weight = value;
-                onPropertyChanged("Weight");
-            }
+            set => Set(ref weight, value);
         }
         private Priorities piority;
+        /// <summary>
+        /// Parcel at customer piority
+        /// </summary>
         public Priorities Piority
         {
             get => piority;
-            set
-            {
-                piority = value;
-                onPropertyChanged("Piority");
-            }
+            set => Set(ref piority, value);
         }
         private PackageModes packageMode;
+        /// <summary>
+        /// Package mode of parcel at customer 
+        /// </summary>
         public PackageModes PackageMode
         {
             get => packageMode;
-            set
-            {
-                packageMode = value;
-                onPropertyChanged("PackageMode");
-            }
+            set => Set(ref packageMode, value);
         }
 
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-
-        }
         private CustomerInParcel customer;
+        /// <summary>
+        /// The customer of the parcel
+        /// </summary>
         public CustomerInParcel Customer
         {
             get => customer;
-            set
-            {
-                customer = value;
-                onPropertyChanged("Customer");
-            }
+            set => Set(ref customer, value);
         }
         public override string ToString()
             {

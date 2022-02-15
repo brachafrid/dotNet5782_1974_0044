@@ -10,10 +10,10 @@ namespace Dal
     {
         static readonly Random Rnd = new ();
 
-        private const int DRONE_INIT = 5;
-        private const int STATIONS_INIT = 2;
-        private const int CUSTOMERS_INIT = 10;
-        private const int PARCELS_INIT = 10;
+        private const int DRONE_INIT = 20;
+        private const int STATIONS_INIT = 9;
+        private const int CUSTOMERS_INIT = 25;
+        private const int PARCELS_INIT = 50;
         private const int RANGE_ENUM = 3;
         private const int PHONE_MIN = 100000000;
         private const int PHONE_MAX = 1000000000;
@@ -41,7 +41,7 @@ namespace Dal
             internal static double LightWeightCarrier =0.002; 
             internal static double MediumWeightBearing = 0.003;
             internal static double CarriesHeavyWeight = 0.004;
-            internal static double DroneLoadingRate=Rnd.NextDouble();
+            internal static double DroneLoadingRate=3;
         }
 
         static internal void Initialize(DalObject dal)

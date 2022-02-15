@@ -2,465 +2,998 @@
 using PL.PO;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace PL
 {
     public static class PLService
     {
         private static IBL ibal = BLFactory.GetBL();
-        public static string GetAdministorPasssword()
-        {
-            return ibal.GetAdministorPasssword();
-        }
-        public static void AddCustomer(CustomerAdd customer)
-        {
-            ibal.AddCustomer(ConvertAddCustomer(customer));
-        }
-        public static Customer GetCustomer(int id)
-        {
-            return ConvertCustomer(ibal.GetCustomer(id));
-        }
-        public static IEnumerable<CustomerToList> GetCustomers()
-        {
-            return ibal.GetActiveCustomers().Select(customer => ConvertCustomerToList(customer));
-        }
-        public static void UpdateCustomer(int id, string name, string phone)
-        {
-            ibal.UpdateCustomer(id, name, phone);
-        }
-        public static void DeleteCustomer(int id)
-        {
-            ibal.DeleteCustomer(id);
-        }
-        public static bool IsActiveCustomer(int id) => ibal.IsActiveCustomer(id);
-        
-        public static PO.Customer ConvertCustomer(BO.Customer customer)
-        {
-            return new PO.Customer
-            {
-                Id = customer.Id,
-                Name = customer.Name,
-                Phone = customer.Phone,
-                Location = ConvertLocation(customer.Location),
-                FromCustomer =new( customer.FromCustomer.Select(item => ConvertParcelAtCustomer(item))),
-                ToCustomer =  new(customer.ToCustomer.Select(item =>ConvertParcelAtCustomer(item)))
-            };
-        }
-        public static BO.Customer ConvertBackCustomer(PO.Customer customer)
-        {
-            return new BO.Customer
-            {
-                Id = customer.Id,
-                Name = customer.Name,
-                Phone = customer.Phone,
-                Location = ConvertBackLocation(customer.Location),
-                FromCustomer =new( customer.FromCustomer.Select(item => ConvertBackParcelAtCustomer(item))),
-                ToCustomer = new(customer.ToCustomer.Select(item => ConvertBackParcelAtCustomer(item)))
-            };
-        }
-        public static PO.CustomerToList ConvertCustomerToList(BO.CustomerToList customerToList)
-        {
-            return new PO.CustomerToList
-            {
-                Id = customerToList.Id,
-                Name = customerToList.Name,
-                Phone = customerToList.Phone,
-                NumParcelSentDelivered = customerToList.NumParcelSentDelivered,
-                NumParcelSentNotDelivered = customerToList.NumParcelSentNotDelivered,
-                NumParcelReceived = customerToList.NumParcelReceived,
-                NumParcelWayToCustomer = customerToList.NumParcelWayToCustomer
-            };
-        }
-        public static BO.CustomerToList ConvertBackCustomerToList(PO.CustomerToList customerToList)
-        {
-            return new BO.CustomerToList
-            {
-                Id = customerToList.Id,
-                Name = customerToList.Name,
-                Phone = customerToList.Phone,
-                NumParcelSentDelivered = customerToList.NumParcelSentDelivered,
-                NumParcelSentNotDelivered = customerToList.NumParcelSentNotDelivered,
-                NumParcelReceived = customerToList.NumParcelReceived,
-                NumParcelWayToCustomer = customerToList.NumParcelWayToCustomer
-            };
-        }
-        public static BO.Customer ConvertAddCustomer(PO.CustomerAdd customer)
-        {
-            return new()
-            {
-                Id = (int)customer.Id,
-                Location = ConvertBackLocation(customer.Location),
-                Name = customer.Name,
-                Phone = customer.Phone,
-            };
-        }
-        public static ParcelInTransfer ConvertParcelInTransfer(BO.ParcelInTransfer parcel)
-        {
-            return new()
-            {
-                Id = parcel.Id,
-                Piority = (Priorities)parcel.Priority,
-                ParcelState = parcel.ParcelState,
-                CollectionPoint = ConvertLocation(parcel.CollectionPoint),
-                CustomerReceives = ConvertCustomerInParcel(parcel.CustomerReceives),
-                CustomerSender = ConvertCustomerInParcel(parcel.CustomerSender),
-                DeliveryDestination =ConvertLocation(parcel.DeliveryDestination),
-                TransportDistance = parcel.TransportDistance,
-                Weight = (WeightCategories)parcel.WeightCategory
-            };
-        }
-        public static ParcelToList ConvertParcelAtCustomerToList(ParcelAtCustomer parcel)
-        {
-            return GetParcels().FirstOrDefault(par => par.Id == parcel.Id);
-        }
-        public static BO.ParcelInTransfer ConvertBackParcelInTransfer(ParcelInTransfer parcel)
-        {
-            return new()
-            {
-                Id = parcel.Id,
-                Priority = (BO.Priorities)parcel.Piority,
-                ParcelState = parcel.ParcelState,
-                CollectionPoint = ConvertBackLocation(parcel.CollectionPoint),
-                CustomerReceives =ConvertBackCustomerInParcel(parcel.CustomerReceives),
-                CustomerSender = ConvertBackCustomerInParcel(parcel.CustomerSender),
-                DeliveryDestination = ConvertBackLocation(parcel.DeliveryDestination),
-                TransportDistance = parcel.TransportDistance,
-                WeightCategory = (BO.WeightCategories)parcel.Weight
-            };
-        }
-        public static void AddStation(StationAdd station)
-        {
-            ibal.AddStation(ConverBackStationAdd(station));
-        }
-        public static void UpdateStation(int id, string name, int chargeSlots)
-        {
-            ibal.UpdateStation(id, name, chargeSlots);
-        }
-        public static Station GetStation(int id)
-        {
-            return ConverterStation(ibal.GetStation(id));
-        }
-        public static void DeleteStation(int id)
-        {
-            ibal.DeleteStation(id);
-        }
-        public static bool IsActiveStation(int id) => ibal.IsActiveStation(id);
-        public static IEnumerable<StationToList> GetStations()
-        {
-            return ibal.GetActiveStations().Select(item => ConverterStationToList(item));
-        }
-        public static IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots()
-        {
-            return ibal.GetStaionsWithEmptyChargeSlots((int chargeSlots) => chargeSlots > 0).Select(item => ConverterStationToList(item));
-        }
-        public static BO.Station ConverterBackStation(Station station)
-        {
-            return new BO.Station()
-            {
-                Id = station.Id,
-                Name = station.Name,
-                Location = ConvertBackLocation(station.Location),
-                AvailableChargingPorts = station.EmptyChargeSlots,
-                DroneInChargings = station.DroneInChargings.Select(item =>ConvertBackDroneCharging(item)).ToList()
-            };
-        }
-        public static Station ConverterStation(BO.Station station)
-        {
-            return new Station()
-            {
-                Id = station.Id,
-                Name = station.Name,
-                Location = ConvertLocation(station.Location),
-                EmptyChargeSlots = station.AvailableChargingPorts,
-                DroneInChargings = station.DroneInChargings.Select(item => ConvertDroneCharging(item))
-            };
-        }
-        public static StationToList ConverterStationToList(BO.StationToList station)
-        {
-            return new StationToList()
-            {
-                Id = station.Id,
-                Name = station.Name,
-                ChargeSlots = station.EmptyChargeSlots + station.FullChargeSlots
-            };
-        }
-        public static BO.Station ConverBackStationAdd(PO.StationAdd station)
-        {
-            return new()
-            {
-                Id = (int)station.Id,
-                Name = station.Name,
-                AvailableChargingPorts = (int)station.EmptyChargeSlots,
-                Location = ConvertBackLocation(station.Location)
 
-            };
-        }
-        public static Parcel ConvertParcel(BO.Parcel parcel)
+        /// <summary>
+        /// Get administor passsword
+        /// </summary>
+        /// <returns>task of string</returns>
+        public async static Task<string> GetAdministorPasssword()
         {
-            return new Parcel()
+            TaskCompletionSource<string> completedTask = new();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
             {
-                Id = parcel.Id,
-                Weight = (WeightCategories)parcel.Weight,
-                Piority = (Priorities)parcel.Priority,
-                DeliveryTime = parcel.DeliveryTime,
-                AssignmentTime = parcel.AssignmentTime,
-                CollectionTime = parcel.CollectionTime,
-                CreationTime = parcel.CreationTime,
-                CustomerReceives = ConvertCustomerInParcel(parcel.CustomerReceives),
-                CustomerSender = ConvertCustomerInParcel(parcel.CustomerSender),
-                Drone = parcel.Drone != null?ConvertDroneWithParcel(parcel.Drone):null,
+                try
+                {
+                    var pasw = ibal.GetAdministorPasssword();
+                    completedTask.SetResult(pasw);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
             };
+            workerPl.RunWorkerAsync();
+            return await completedTask.Task;
         }
-        public static BO.Parcel ConvertBackParcel(Parcel parcel)
-        {
-            return new()
-            {
-                Id = parcel.Id,
-                Weight = (BO.WeightCategories)parcel.Weight,
-                Priority = (BO.Priorities)parcel.Piority,
-                DeliveryTime = parcel.DeliveryTime,
-                AssignmentTime = parcel.AssignmentTime,
-                CollectionTime = parcel.CollectionTime,
-                CreationTime = parcel.CreationTime,
-                CustomerReceives = ConvertBackCustomerInParcel(parcel.CustomerReceives),
-                CustomerSender = ConvertBackCustomerInParcel(parcel.CustomerSender),
-                Drone = ConvertBackDroneWithParcel(parcel.Drone)
-            };
-        }
-        private static ParcelToList ConvertParcelToList(BO.ParcelToList parcel)
-        {
-            return new()
-            {
-                Id = parcel.Id,
-                PackageMode = (PackageModes)parcel.PackageMode,
-                Piority = (Priorities)parcel.Piority,
-                Weight = (WeightCategories)parcel.Weight,
-                CustomerReceives = ConvertCustomer(parcel.CustomerReceives),
-                CustomerSender = ConvertCustomer(parcel.CustomerSender)
-            };
-        }
-        public static void AddParcel(ParcelAdd parcel)
-        {
-            ibal.AddParcel(ConvertBackParcelAdd(parcel));
-        }
-        public static void DeleteParcel(int id)
-        {
-            ibal.DeleteParcel(id);
-        }
-        public static bool IsActiveParcel(int id) => ibal.IsActiveParcel(id);
-        public static Parcel GetParcel(int id) => ConvertParcel(ibal.GetParcel(id));
-        public static IEnumerable<ParcelToList> GetParcels() => ibal.GetActiveParcels().Select(parcel => ConvertParcelToList(parcel));
-        public static IEnumerable<ParcelToList> GetParcelsNotAssignedToDrone => ibal.GetParcelsNotAssignedToDrone((int num) => num == 0).Select(parcel => ConvertParcelToList(parcel));
-        public static BO.Parcel ConvertBackParcelAdd(ParcelAdd parcel)
-        {
-            return new()
-            {
-                Priority = (BO.Priorities)parcel.Piority,
-                Weight = (BO.WeightCategories)parcel.Weight,
-                CustomerReceives = ConvertBackCustomerInParcel(new() { Id = parcel.CustomerReceives }),
-                CustomerSender = ConvertBackCustomerInParcel(new() { Id = parcel.CustomerSender })
-            };
-        }
-        public static PO.ParcelAtCustomer ConvertParcelAddToParcelAtCustomer(PO.ParcelAdd parcelAdd)
-        {
-            return new PO.ParcelAtCustomer()
-            {
-                Weight = (PO.WeightCategories)parcelAdd.Weight,
-                Piority = (PO.Priorities)parcelAdd.Piority,
-                PackageMode = PO.PackageModes.ASSOCIATED,
-               
-            };
-        }
-        public static BO.ParcelAtCustomer ConvertBackParcelAtCustomer(PO.ParcelAtCustomer parcelAtCustomer)
-        {
-            return new BO.ParcelAtCustomer()
-            {
-                Id = parcelAtCustomer.Id,
-                WeightCategory = (BO.WeightCategories)parcelAtCustomer.Weight,
-                Priority = (BO.Priorities)parcelAtCustomer.Piority,
-                State = (BO.PackageModes)parcelAtCustomer.PackageMode,
-                Customer = ConvertBackCustomerInParcel(parcelAtCustomer.Customer)
-            };
-        }
-        public static PO.ParcelAtCustomer ConvertParcelAtCustomer(BO.ParcelAtCustomer parcelAtCustomer)
-        {
-            return new PO.ParcelAtCustomer()
-            {
-                Id = parcelAtCustomer.Id,
-                Weight = (PO.WeightCategories)parcelAtCustomer.WeightCategory,
-                Piority = (PO.Priorities)parcelAtCustomer.Priority,
-                PackageMode = (PO.PackageModes)parcelAtCustomer.State,
-                Customer = ConvertCustomerInParcel(parcelAtCustomer.Customer)
-            };
-        }
-        public static BO.Location ConvertBackLocation(Location location)
-        {
-            return new BO.Location()
-            {
-                Longitude = (double)location.Longitude,
-                Latitude = (double)location.Latitude
-            };
-        }
-        public static Location ConvertLocation(BO.Location location)
-        {
-            return new Location()
-            {
-                Longitude = (double)location.Longitude,
-                Latitude = (double)location.Latitude
-            };
-        }
-        public static DroneWithParcel ConvertDroneWithParcel(BO.DroneWithParcel drone)
-        {
-            return new DroneWithParcel()
-            {
-                Id = drone.Id,
-                ChargingMode = drone.ChargingMode,
-                CurrentLocation = ConvertLocation(drone.CurrentLocation)
-            };
-        }
-        public static BO.DroneWithParcel ConvertBackDroneWithParcel(DroneWithParcel drone)
-        {
-            return new()
-            {
-                Id = drone.Id,
-                ChargingMode = drone.ChargingMode,
-                CurrentLocation = ConvertBackLocation(drone.CurrentLocation)
-            };
-        }
-        public static void AddDrone(DroneAdd drone)
-        {
-            ibal.AddDrone(ConvertBackDroneToAdd(drone), drone.StationId);
-        }
-        public static void UpdateDrone(int id, string model)
-        {
-            ibal.UpdateDrone(id, model);
-        }
-        public static void SendDroneForCharg(int id)
+
+        #region customer 
+
+        /// <summary>
+        /// Add customer
+        /// </summary>
+        /// <param name="customer"></param>
+        /// <returns>task</returns>
+        public static async Task AddCustomer(CustomerAdd customer)
         {
 
-            ibal.SendDroneForCharg(id);
-        }
-        public static void ReleaseDroneFromCharging(int id)
-        {
-            ibal.ReleaseDroneFromCharging(id);
-        }
-        public static void DeleteDrone(int id)
-        {
-            ibal.DeleteDrone(id);
-        }
-        public static bool IsActiveDrone(int id) => ibal.IsActiveDrone(id);
-        public static Drone GetDrone(int id)
-        {
-            try
+            var workerCompleted = new TaskCompletionSource();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, args) =>
             {
-                return ConvertDrone(ibal.GetDrone(id));
-            }
-            catch(ArgumentNullException ex)
-            {
-                throw new ArgumentNullException(ex.Message);
-            }
-            
-        }
-        public static IEnumerable<DroneToList> GetDrones()
-        {
-            return ibal.GetActiveDrones().Select(item => ConvertDroneToList(item));
-        }
-        public static void AssingParcelToDrone(int droneId)
-        {
-            ibal.AssingParcelToDrone(droneId);
-        }
-        public static void ParcelCollectionByDrone(int droneId)
-        {
-            ibal.ParcelCollectionByDrone(droneId);
-        }
-        public static void DeliveryParcelByDrone(int droneId)
-        {
-            ibal.DeliveryParcelByDrone(droneId);
-        }
-        public static Drone ConvertDrone(BO.Drone drone)
-        {
-            return new Drone
-            {
-                Id = drone.Id,
-                Model = drone.Model,
-                BattaryMode = drone.BattaryMode,
-                DroneState = (DroneState)drone.DroneState,
-                Weight = (WeightCategories)drone.WeightCategory,
-                Location = ConvertLocation(drone.CurrentLocation),
-                Parcel = drone.Parcel == null ? null :ConvertParcelInTransfer(drone.Parcel)
+                try
+                {
+                    ibal.AddCustomer(PlServiceConvert.ConvertAddCustomer(customer));
+                    workerCompleted.SetResult();
+                }
+                catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
+                {
+                    MessageBox.Show("Id has already exist");
+                    customer.Id = null;
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    workerCompleted.SetException(ex);
+                }
             };
+            workerPl.RunWorkerAsync();
+            await workerCompleted.Task;
         }
-        public static BO.Drone ConvertBackDrone(Drone drone)
-        {
-            return new BO.Drone
-            {
-                Id = drone.Id,
-                Model = drone.Model,
-                BattaryMode = drone.BattaryMode,
-                DroneState = (BO.DroneState)drone.DroneState,
-                WeightCategory = (BO.WeightCategories)drone.Weight,
-                CurrentLocation = ConvertBackLocation(drone.Location),
-                Parcel = drone.Parcel == null ? null :ConvertBackParcelInTransfer(drone.Parcel)
-            };
-        }
-        public static DroneToList ConvertDroneToList(BO.DroneToList drone)
-        {
-            return new DroneToList
-            {
-                Id = drone.Id,
-                DroneModel = drone.DroneModel,
-                BatteryState = drone.BatteryState,
-                DroneState = (DroneState)drone.DroneState,
-                Weight = (WeightCategories)drone.Weight,
-                CurrentLocation = ConvertLocation(drone.CurrentLocation),
-                ParcelId = drone.ParcelId
-            };
-        }
-        public static BO.Drone ConvertBackDroneToAdd(DroneAdd drone)
-        {
-            return new()
-            {
-                Id = drone.Id != null ? (int)drone.Id : 0,
-                Model = drone.Model,
-                WeightCategory = (BO.WeightCategories)drone.Weight,
-                DroneState = (BO.DroneState)drone.DroneState,
 
-            };
-        }
-        public static BO.DroneInCharging ConvertBackDroneCharging(DroneInCharging droneInCharging)
+        /// <summary>
+        /// Get customer
+        /// </summary>
+        /// <param name="id">id of customer</param>
+        /// <returns>Task of customer</returns>
+        public static async Task<Customer> GetCustomer(int id)
         {
-            return new BO.DroneInCharging()
+            var taskCompletionSource = new TaskCompletionSource<Customer>();
+
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
             {
-                Id = droneInCharging.Id,
-                ChargingMode = droneInCharging.ChargingMode
+                try
+                {
+                    var customer = PlServiceConvert.ConvertCustomer(ibal.GetCustomer(id));
+                    taskCompletionSource.SetResult(customer);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    taskCompletionSource.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletionSource.SetException(ex);
+                }
             };
+            workerPl.RunWorkerAsync();
+            return await taskCompletionSource.Task;
         }
-        public static DroneInCharging ConvertDroneCharging(BO.DroneInCharging droneInCharging)
+
+        /// <summary>
+        /// Get customers
+        /// </summary>
+        /// <returns>Task of IEnumerable of CustomerToList</returns>
+        public static async Task<IEnumerable<CustomerToList>> GetCustomers()
         {
-            return new DroneInCharging()
+            var taskCompletionSource = new TaskCompletionSource<IEnumerable<CustomerToList>>();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
             {
-                Id = droneInCharging.Id,
-                ChargingMode = droneInCharging.ChargingMode
+                try
+                {
+                    var customers = ibal.GetActiveCustomers().Select(customer => PlServiceConvert.ConvertCustomerToList(customer));
+                    taskCompletionSource.SetResult(customers);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletionSource.SetException(ex);
+                }
             };
+            workerPl.RunWorkerAsync();
+            return await taskCompletionSource.Task;
         }
-        public static PO.CustomerInParcel ConvertCustomerInParcel(BO.CustomerInParcel customerInParcel)
+
+        /// <summary>
+        /// Update customer
+        /// </summary>
+        /// <param name="id">id of customer</param>
+        /// <param name="name">name of customer</param>
+        /// <param name="phone">phone of customer</param>
+        /// <returns>task</returns>
+        public static async Task UpdateCustomer(int id, string name, string phone)
         {
-            return new PO.CustomerInParcel()
-            {
-                Id = customerInParcel.Id,
-                Name = customerInParcel.Name
-            };
+            var workerCompleted = new TaskCompletionSource();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+                {
+                    try
+                    {
+                        ibal.UpdateCustomer(id, name, phone);
+                        workerCompleted.SetResult();
+                    }
+                    catch (ArgumentNullException ex)
+                    {
+                        workerCompleted.SetException(ex);
+                    }
+                    catch (KeyNotFoundException ex)
+                    {
+                        workerCompleted.SetException(ex);
+                    }
+                    catch (BO.XMLFileLoadCreateException ex)
+                    {
+                        workerCompleted.SetException(ex);
+                    }
+                };
+            workerPl.RunWorkerAsync();
+            await workerCompleted.Task;
         }
-        public static BO.CustomerInParcel ConvertBackCustomerInParcel(PO.CustomerInParcel customerInParcel)
+
+        /// <summary>
+        /// Delete customer
+        /// </summary>
+        /// <param name="id">id of cstomer</param>
+        /// <returns>task</returns>
+        public static async Task DeleteCustomer(int id)
         {
-            return new BO.CustomerInParcel()
+            TaskCompletionSource taskCompletion = new();
+            BackgroundWorker worker = new();
+            worker.DoWork += (sender, e) =>
             {
-                Id = customerInParcel.Id,
-                Name = customerInParcel.Name
+                try
+                {
+                    ibal.DeleteCustomer(id);
+                    taskCompletion.SetResult();
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
             };
+            worker.RunWorkerAsync();
+            await taskCompletion.Task;
         }
+
+        /// <summary>
+        /// Check if the customer is not active
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>if the customer is not active</returns>
+        public static async Task<bool> IsNotActiveCustomer(int id)
+        {
+            TaskCompletionSource<bool> completedTask = new();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var active = ibal.IsNotActiveCustomer(id);
+                    completedTask.SetResult(active);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerAsync();
+            return await completedTask.Task;
+        }
+        #endregion
+
+        #region station
+
+        /// <summary>
+        /// Add station
+        /// </summary>
+        /// <param name="station">station</param>
+        /// <returns>task</returns>
+        public static async Task AddStation(StationAdd station)
+        {
+            TaskCompletionSource completedTask = new();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.AddStation(PlServiceConvert.ConverBackStationAdd(station));
+                    completedTask.SetResult();
+                }
+                catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerAsync();
+            await completedTask.Task;
+        }
+
+        /// <summary>
+        /// Update station
+        /// </summary>
+        /// <param name="id">id of station</param>
+        /// <param name="name">name of station</param>
+        /// <param name="chargeSlots">charge slots of station</param>
+        /// <returns>task</returns>
+        public static async Task UpdateStation(int id, string name, int chargeSlots)
+        {
+            TaskCompletionSource completedTask = new();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.UpdateStation(id, name, chargeSlots);
+                    completedTask.SetResult();
+                }
+                catch (ArgumentNullException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (ArgumentOutOfRangeException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerAsync();
+            await completedTask.Task;
+        }
+
+        /// <summary>
+        /// Get station
+        /// </summary>
+        /// <param name="id">id of station</param>
+        /// <returns>task of station</returns>
+        public static async Task<Station> GetStation(int id)
+        {
+            TaskCompletionSource<Station> completedTask = new();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var stations = PlServiceConvert.ConverterStation(ibal.GetStation(id));
+                    completedTask.SetResult(stations);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerAsync();
+            return await completedTask.Task;
+        }
+
+        /// <summary>
+        /// Delete station
+        /// </summary>
+        /// <param name="id">id of station</param>
+        /// <returns>task</returns>
+        public static async Task DeleteStation(int id)
+        {
+            TaskCompletionSource taskCompletion = new();
+            BackgroundWorker worker = new();
+            worker.DoWork += (sender, e) => ibal.DeleteStation(id);
+            worker.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.DeleteStation(id);
+                    taskCompletion.SetResult();
+                }
+                catch (BO.ThereAreAssociatedOrgansException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+            };
+            await taskCompletion.Task;
+        }
+
+        /// <summary>
+        /// Check if station is not active
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>if station is not active</returns>
+        public static async Task<bool> IsNotActiveStation(int id)
+        {
+            TaskCompletionSource<bool> completedTask = new();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var active = ibal.IsNotActiveStation(id);
+                    completedTask.SetResult(active);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerAsync();
+            return await completedTask.Task;
+        }
+
+        /// <summary>
+        /// Get stations
+        /// </summary>
+        /// <returns>task of IEnumerable of StationToList</returns>
+        public static async Task<IEnumerable<StationToList>> GetStations()
+        {
+            var taskCompletionSource = new TaskCompletionSource<IEnumerable<StationToList>>();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var stations = ibal.GetActiveStations().Select(item => PlServiceConvert.ConverterStationToList(item));
+                    taskCompletionSource.SetResult(stations);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletionSource.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerAsync();
+            return await taskCompletionSource.Task;
+        }
+
+        /// <summary>
+        /// Get staions with empty charge slots
+        /// </summary>
+        /// <returns>Task of IEnumerable of StationToList</returns>
+        public static async Task<IEnumerable<StationToList>> GetStaionsWithEmptyChargeSlots()
+        {
+            var taskCompletionSource = new TaskCompletionSource<IEnumerable<StationToList>>();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var stations = ibal.GetStaionsWithEmptyChargeSlots((int chargeSlots) => chargeSlots > 0).Select(item => PlServiceConvert.ConverterStationToList(item));
+                    taskCompletionSource.SetResult(stations);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletionSource.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerAsync();
+            return await taskCompletionSource.Task;
+
+        }
+        #endregion
+
+        #region parcel
+
+        /// <summary>
+        /// Add parcel
+        /// </summary>
+        /// <param name="parcel">parcel</param>
+        /// <returns>task</returns>
+        public static async Task AddParcel(ParcelAdd parcel)
+        {
+            TaskCompletionSource completedTask = new();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.AddParcel(PlServiceConvert.ConvertBackParcelAdd(parcel));
+                    completedTask.SetResult();
+                }
+                catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerAsync();
+            await completedTask.Task;
+        }
+
+        /// <summary>
+        /// Delete parcel
+        /// </summary>
+        /// <param name="id">id of parcel</param>
+        /// <returns>task</returns>
+        public static async Task DeleteParcel(int id)
+        {
+            TaskCompletionSource taskCompletion = new();
+            BackgroundWorker worker = new();
+            worker.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.DeleteParcel(id);
+                    taskCompletion.SetResult();
+
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }              
+            };
+            await taskCompletion.Task;
+
+        }
+
+        /// <summary>
+        /// Check if parcel is not active
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>if parcel is not active</returns>
+        public static async Task<bool> IsNotActiveParcel(int id)
+        {
+            TaskCompletionSource<bool> completedTask = new();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var active = ibal.IsNotActiveParcel(id);
+                    completedTask.SetResult(active);
+
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerAsync();
+            return await completedTask.Task;
+        }
+
+        /// <summary>
+        /// Get parcel
+        /// </summary>
+        /// <param name="id">id of parcel</param>
+        /// <returns>task of parcel</returns>
+        public static async Task<Parcel> GetParcel(int id)
+        {
+            TaskCompletionSource<Parcel> completedTask = new();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var parcel= PlServiceConvert.ConvertParcel(ibal.GetParcel(id));
+                    completedTask.SetResult(parcel);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerAsync();
+            return await completedTask.Task;
+        }
+
+        /// <summary>
+        /// Get parcels
+        /// </summary>
+        /// <returns>Task of IEnumerable of ParcelToList</returns>
+        public static async Task<IEnumerable<ParcelToList>> GetParcels()
+        {
+            var taskCompletionSource = new TaskCompletionSource<IEnumerable<ParcelToList>>();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var parcels = ibal.GetActiveParcels().Select(parcel => PlServiceConvert.ConvertParcelToList(parcel));
+                    taskCompletionSource.SetResult(parcels);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletionSource.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerAsync();
+            return await taskCompletionSource.Task;
+
+        }
+
+        #endregion
+
+        #region drone
+
+        /// <summary>
+        /// Add drone
+        /// </summary>
+        /// <param name="drone">drone</param>
+        /// <returns>task</returns>
+        public static async Task AddDrone(DroneAdd drone)
+        {
+            TaskCompletionSource completedTask = new();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.AddDrone(PlServiceConvert.ConvertBackDroneToAdd(drone), drone.StationId);
+                    completedTask.SetResult();
+                }
+                catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch(KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerAsync();
+            await completedTask.Task;
+        }
+
+        /// <summary>
+        /// Update drone
+        /// </summary>
+        /// <param name="id">id of drone</param>
+        /// <param name="model">new model of drone</param>
+        /// <returns>task</returns>
+        public static async Task UpdateDrone(int id, string model)
+        {
+            var workerCompleted = new TaskCompletionSource();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.UpdateDrone(id, model);
+                    workerCompleted.SetResult();
+
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    workerCompleted.SetException(ex);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    workerCompleted.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    workerCompleted.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerAsync();
+            await workerCompleted.Task;
+        }
+
+        /// <summary>
+        /// Send drone for charging
+        /// </summary>
+        /// <param name="id">id of drone</param>
+        /// <returns>task</returns>
+        public static async Task SendDroneForCharg(int id)
+        {
+            TaskCompletionSource completedTask = new();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.SendDroneForCharg(id);
+                    completedTask.SetResult();
+
+                }
+                catch (BO.ThereIsNoNearbyBaseStationThatTheDroneCanReachException)
+                {
+                    completedTask.SetResult();
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.DeletedExeption ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.InvalidDroneStateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerAsync();
+            await completedTask.Task;
+        }
+
+        /// <summary>
+        /// Release drone from charging
+        /// </summary>
+        /// <param name="id">id of drone</param>
+        /// <returns>task</returns>
+        public static async Task ReleaseDroneFromCharging(int id)
+        {
+            TaskCompletionSource completedTask = new();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.ReleaseDroneFromCharging(id);
+                    completedTask.SetResult();
+
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.DeletedExeption ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.InvalidDroneStateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.TheDroneIsNotInChargingException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerAsync();
+            await completedTask.Task;
+        }
+
+        /// <summary>
+        /// Delete drone
+        /// </summary>
+        /// <param name="id">id of drone</param>
+        /// <returns>task</returns>
+        public static async Task DeleteDrone(int id)
+        {
+            TaskCompletionSource taskCompletion = new();
+            BackgroundWorker worker = new();
+            worker.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.DeleteDrone(id);
+                    taskCompletion.SetResult();
+
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+                catch (BO.DeletedExeption ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+                catch (BO.InvalidDroneStateException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+                catch (BO.TheDroneIsNotInChargingException ex)
+                {
+                    taskCompletion.SetException(ex);
+                }
+            };
+            await taskCompletion.Task;
+        }
+
+        /// <summary>
+        /// Check if drone is not active
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns>if drone is not active</returns>
+        public static async Task<bool> IsNotActiveDrone(int id)
+        {
+            TaskCompletionSource<bool> completedTask = new();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var active = ibal.IsNotActiveDrone(id);
+                    completedTask.SetResult(active);
+
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerAsync();
+            return await completedTask.Task;
+        }
+
+        /// <summary>
+        /// Get drone
+        /// </summary>
+        /// <param name="id">id of drone</param>
+        /// <returns>task of drone</returns>
+        public static async Task<Drone> GetDrone(int id)
+        {
+            TaskCompletionSource<Drone> completedTask = new();
+            BackgroundWorker worker = new();
+            worker.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var drone = PlServiceConvert.ConvertDrone(ibal.GetDrone(id));
+                    completedTask.SetResult(drone);
+
+                }
+                catch (ArgumentNullException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
+            worker.RunWorkerAsync();
+            return await completedTask.Task;
+        }
+
+        /// <summary>
+        /// Get drones
+        /// </summary>
+        /// <returns>Task of IEnumerable of DroneToList</returns>
+        public static async Task<IEnumerable<DroneToList>> GetDrones()
+        {
+            TaskCompletionSource<IEnumerable<DroneToList>> completedTask = new();
+            BackgroundWorker worker = new();
+            worker.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    var drone = ibal.GetActiveDrones().Select(item => PlServiceConvert.ConvertDroneToList(item));
+                    completedTask.SetResult(drone);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
+            worker.RunWorkerAsync();
+            return await completedTask.Task;
+        }
+
+        /// <summary>
+        /// Assing parcel to drone
+        /// </summary>
+        /// <param name="droneId">drone's id</param>
+        /// <returns>task</returns>
+        public static async Task AssingParcelToDrone(int droneId)
+        {
+            TaskCompletionSource completedTask = new();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.AssingParcelToDrone(droneId);
+                    completedTask.SetResult();
+                }
+                catch (BO.NotExsistSuitibleStationException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.DeletedExeption ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.InvalidParcelStateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                };
+            };
+            workerPl.RunWorkerAsync();
+            await completedTask.Task;
+
+        }
+
+        /// <summary>
+        /// Parcel collection by drone
+        /// </summary>
+        /// <param name="droneId">drone's id</param>
+        /// <returns>task</returns>
+        public static async Task ParcelCollectionByDrone(int droneId)
+        {
+            TaskCompletionSource completedTask = new();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.ParcelCollectionByDrone(droneId);
+                    completedTask.SetResult();
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.DeletedExeption ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.InvalidParcelStateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.NotExsistSuitibleStationException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
+            workerPl.RunWorkerAsync();
+            await completedTask.Task;
+        }
+
+        /// <summary>
+        /// Delivery parcel by drone
+        /// </summary>
+        /// <param name="droneId">drone's id</param>
+        /// <returns>task</returns>
+        public static async Task DeliveryParcelByDrone(int droneId)
+        {
+            TaskCompletionSource completedTask = new();
+            BackgroundWorker workerPl = new();
+            workerPl.DoWork += (sender, e) =>
+            {
+                try
+                {
+                    ibal.DeliveryParcelByDrone(droneId);
+                    completedTask.SetResult();
+                }
+                catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.DeletedExeption ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (ArgumentNullException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.InvalidParcelStateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch (BO.NotExsistSuitibleStationException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+            };
+            workerPl.RunWorkerAsync();
+            await completedTask.Task;
+        }
+
+        /// <summary>
+        /// Start drone simulator
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <param name="update">Action - update</param>
+        /// <param name="checkStop">Func - check stop</param>
+        public static void StartDroneSimulator(int id, Action<int?, int?, int?, int?> update, Func<bool> checkStop)
+        {
+            ibal.StartDroneSimulator(id, update, checkStop);
+        }
+        #endregion
     }
 }

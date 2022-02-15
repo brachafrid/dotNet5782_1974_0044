@@ -12,7 +12,7 @@ namespace BL
         /// <param name="sLocation">The source point</param>
         /// <param name="dLocation">The Destination point</param>
         /// <returns></returns>
-        private static double Distance(Location sLocation, Location dLocation)
+        internal static double Distance(Location sLocation, Location dLocation)
         {
             int R = 6371 * 1000; // metres
             double phi1 = sLocation.Latitude * Math.PI / 180; // φ, λ in radians

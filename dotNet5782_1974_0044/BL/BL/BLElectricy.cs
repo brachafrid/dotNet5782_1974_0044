@@ -1,4 +1,5 @@
 ﻿using BO;
+using System.Diagnostics;
 
 namespace BL
 {
@@ -13,25 +14,44 @@ namespace BL
         /// <param name="weight">The weight of the parcels</param>
         /// <param name="distance">The distance the drone traveling</param>
         /// <returns></returns>
-        private double CalculateElectricity(Location aviableDroneLocation,double? batteryStatus, Location CustomerSender, Location CustomerReceives, WeightCategories weight, out double distance)
+        private double CalculateElectricity(Location aviableDroneLocation, double? batteryStatus, Location CustomerSender, Location CustomerReceives, WeightCategories weight, out double distance)
         {
+            Debug.WriteLine($"start ");
             double electricity;
-            double e= weight switch
+            double e = weight switch
             {
                 WeightCategories.LIGHT => lightWeightCarrier,
                 WeightCategories.MEDIUM => mediumWeightBearing,
-                WeightCategories.HEAVY => carriesHeavyWeight
+                WeightCategories.HEAVY => carriesHeavyWeight,
+               _ =>0
             };
-            DO.Station station;
+            Station station;
             electricity = Distance(aviableDroneLocation, CustomerSender) * available +
                         Distance(CustomerSender, CustomerReceives) * e;
-            station =batteryStatus!=null? ClosetStationPossible(dal.GetStations(), aviableDroneLocation,(double)batteryStatus-electricity, out _ ):ClosetStation(dal.GetStations(),aviableDroneLocation);
-            electricity += Distance(CustomerReceives,
-                         new Location() { Latitude = station.Latitude, Longitude = station.Longitude }) * available;
-            distance = Distance(aviableDroneLocation, CustomerSender) +
-                Distance(CustomerSender, CustomerReceives) +
-                Distance(CustomerReceives, new Location() { Latitude = station.Latitude, Longitude = station.Longitude });
-            return electricity;
+            try
+            {
+                station = batteryStatus != null ? ClosetStationPossible(aviableDroneLocation, (int chargeSlots) => chargeSlots > 0,(double)batteryStatus - electricity, out _) : ClosetStation(aviableDroneLocation, (int chargeSlots) => chargeSlots > 0);
+                if (station == null)
+                {
+                    distance = 0;
+                    return 101d;
+                }
+
+                electricity += Distance(CustomerReceives,
+                             station.Location) * available;
+                distance = Distance(aviableDroneLocation, CustomerSender) +
+                    Distance(CustomerSender, CustomerReceives) +
+                    Distance(CustomerReceives, station.Location);
+                return electricity;
+            }
+            catch (NotExsistSuitibleStationException ex)
+            {
+                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException(ex.Message, ex);
+            }
+            finally
+            {
+                Debug.WriteLine($"end");
+            }
         }
     }
 }

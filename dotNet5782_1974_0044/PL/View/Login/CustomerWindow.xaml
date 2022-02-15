@@ -23,47 +23,28 @@
                     <Separator />
                     <Button ToolTip="Add Parcel" Content="{materialDesign:PackIcon Kind=PackageVariantPlus}" Command="{Binding AddParcelCommand}"/>
                     <Separator />
-                    <!--<Button ToolTip="Update Parcel" Content="{materialDesign:PackIcon Kind=PackageVariant}"  Command="{Binding AddParcelCommand}"/>-->
+                    <Button ToolTip="Refresh" Content="{materialDesign:PackIcon Kind=Refresh}" Command="{Binding RefreshCommand}"/>
+                    <Separator />
+                    <Button ToolTip="Logout" Content="{materialDesign:PackIcon Kind=Logout}" Command="{Binding LogOutCommand}"/>
                 </ToolBar>
             </ToolBarTray>
-     
-        <TabControl ItemsSource="{Binding Source={x:Static local:Tabs.TabItems}}"  SelectedIndex="{Binding SelectedTab.Instance}" >
-            <TabControl.ItemTemplate>
-                <DataTemplate>
+
+            <TabControl ItemsSource="{Binding Source={x:Static local:Tabs.TabItems}}"  SelectedIndex="{Binding SelectedTab}" >
+                <TabControl.ItemTemplate>
+                    <DataTemplate>
                         <DockPanel>
                             <TextBlock Text="{Binding Path=Header}"/>
                             <Button Content="x"   Style="{StaticResource MaterialDesignIconForegroundButton}" Command="{Binding Source={x:Static local:Tabs.CloseCommandTab}}" CommandParameter="{Binding}"/>
                         </DockPanel>
                     </DataTemplate>
-            </TabControl.ItemTemplate>
-            <TabControl.ContentTemplate>
+                </TabControl.ItemTemplate>
+                <TabControl.ContentTemplate>
                     <DataTemplate>
                         <ContentControl Content="{Binding Content}"/>
                     </DataTemplate>
                 </TabControl.ContentTemplate>
 
-        </TabControl>
+            </TabControl>
         </DockPanel>
-        <!--<DockPanel>
-            <StackPanel>
-                <TextBlock Text="Welcome " Height="30"/>
-                <TextBlock Text="{Binding customer.Name}" Height="30"/>
-                <Button Content="display my parcels" Command="{Binding DisplayParcelsCommand}" />
-                <Button Content="add parcel to send" Command="{Binding sendParcel}"/>
-                <Button Content="collection a parcel" Command="{Binding collectionParcel}"/>
-                <Button Content="getting a parcel" Command="{Binding gettingParcel}" Height="33"/>
-            </StackPanel>
-            <StackPanel>
-            --><!--<StackPanel Visibility="{Binding VisibilityCustomer.visibility}">-->
-                <!--<Button Content="Parcels were sent from the customer" Command="{Binding ToCustomerCommand}"/>
-                <Button Content="Parcels sent to the customer"  Command="{Binding FromCustomerCommand}"/>--><!--
-                <StackPanel  Visibility="{Binding VisibilityCustomer.visibility}">
-                    <TextBlock Text="My Parcels: " Height="30"/>
-                    <ListView x:Name="listParcelsFrom" ItemsSource="{Binding Path=list}"/>
-                </StackPanel>
-                --><!--<ListView x:Name="listParcelsFrom2" ItemsSource="{Binding Path=list}"/>-->
-                <!--<ListView x:Name="listParcelsTo" ItemsSource="{Binding Path=customer.ToCustomer}"/>--><!--
-            </StackPanel>
-        </DockPanel>-->
     </Grid>
 </UserControl>

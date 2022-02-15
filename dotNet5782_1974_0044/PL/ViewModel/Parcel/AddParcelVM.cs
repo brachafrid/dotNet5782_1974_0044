@@ -1,56 +1,132 @@
-﻿using System;
+﻿using PL.PO;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using PL.PO;
 
 namespace PL
 {
-   public class AddParcelVM
+    public class AddParcelVM : NotifyPropertyChangedBase, IDisposable
     {
+        /// <summary>
+        /// The Added parcel
+        /// </summary>
         public ParcelAdd parcel { set; get; }
+        /// <summary>
+        /// Command of adding parcel
+        /// </summary>
         public RelayCommand AddParcelCommand { get; set; }
-        public RelayCommand VisibilityParcel { get; set; }
-        public RelayCommand VisibilitySender { get; set; }
-        public Visble VisibleParcel { get; set; }
-        public Visble VisibleSender { get; set; }
-        public IEnumerable<int> customers { get; set; }
-        public Array piorities { get; set; }
-        public Array Weight { get; set; }
-        public bool IsAdministor { get; set; }
-        public AddParcelVM(bool isAdministor, int id= 0)
+
+
+        private ObservableCollection<int> customers;
+        /// <summary>
+        /// ObservableCollection of customers keys
+        /// </summary>
+        public ObservableCollection<int> Customers
         {
-            parcel = new( );
-            customers = PLService.GetCustomers().Select(customer => customer.Id);
+            get => customers;
+            set => Set(ref customers, value);
+        }
+
+        /// <summary>
+        /// Array of piorities
+        /// </summary>
+        public Array piorities { get; set; }
+        /// <summary>
+        /// Array of weights
+        /// </summary>
+        public Array Weight { get; set; }
+        /// <summary>
+        /// Is administor
+        /// </summary>
+        public bool IsAdministor { get; set; }
+
+        /// <summary>
+        /// constructor
+        /// </summary>
+        /// <param name="isAdministor">is administor</param>
+        /// <param name="id">id</param>
+        public AddParcelVM(bool isAdministor, int id = 0)
+        {
+            parcel = new();
+            InitCustomersList();
             AddParcelCommand = new(Add, param => parcel.Error == null);
-            VisibilityParcel = new(visibilityParcel, param => parcel.Error == null);
             piorities = Enum.GetValues(typeof(Priorities));
             Weight = Enum.GetValues(typeof(WeightCategories));
             IsAdministor = isAdministor;
-           if (!isAdministor)
+            DelegateVM.ParcelChangedEvent += HandleCustomerListChanged;
+            if (!isAdministor)
                 parcel.CustomerSender = id;
         }
-        public void visibilityParcel(object param)
-        {
-            VisibleParcel.visibility = Visibility.Visible;
-        }
-        public void Add(object param)
+
+        /// <summary>
+        /// Initializes the customers list
+        /// </summary>
+        private async void InitCustomersList()
         {
             try
             {
-                PLService.AddParcel(parcel);
-                DelegateVM.Parcel?.Invoke();
-                DelegateVM.NotifyCustomerChanged(parcel.CustomerReceives);
-                DelegateVM.NotifyCustomerChanged(parcel.CustomerSender);
+                Customers = new ObservableCollection<int>((await PLService.GetCustomers())
+                    .Select(customer => customer.Id));
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message, $"Add Parcel", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        private async void HandleCustomerListChanged(object sender, EntityChangedEventArgs e)
+        {
+            try
+            {
+                Customers.Clear();
+                foreach (var item in (await PLService.GetCustomers()).Select(customer => customer.Id))
+                    Customers.Add(item);
+
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message, $"Add Parcel", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+
+
+        /// <summary>
+        /// Add parcel
+        /// </summary>
+        /// <param name="param"></param>
+        public async void Add(object param)
+        {
+            try
+            {
+                await PLService.AddParcel(parcel);
+                DelegateVM.NotifyParcelChanged();
+                if (IsAdministor)
+                {
+                    DelegateVM.NotifyCustomerChanged(parcel.CustomerReceives);
+                    DelegateVM.NotifyCustomerChanged(parcel.CustomerSender);
+                }
                 Tabs.CloseTab(param as TabItemFormat);
             }
-            catch(KeyNotFoundException)
+            catch (KeyNotFoundException ex)
             {
-                MessageBox.Show("sender or reciver not exist");
+                MessageBox.Show(ex.Message, $"Add Parcel", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            catch (BO.DeletedExeption ex)
+            {
+                MessageBox.Show($"{ex.Id} {ex.Message}", $"Add Parcel", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message, $"Add Parcel", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        /// <summary>
+        /// Dispose the eventHandlers
+        /// </summary>
+        public void Dispose()
+        {
+            DelegateVM.ParcelChangedEvent -= HandleCustomerListChanged;
         }
     }
 }

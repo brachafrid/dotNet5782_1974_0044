@@ -13,6 +13,9 @@ namespace DLApi
         internal static string DalType;
         internal static string Namespace;
 
+        /// <summary>
+        /// ctor
+        /// </summary>
         static DalConfig()
         {
             XElement dalConfig = null;
@@ -29,8 +32,8 @@ namespace DLApi
             string dalName = dalConfig.Element("dal").Value;
             var dalPackage = dalConfig.Element("dal-packages")
                                       .Element(dalName);
-            DalType = dalPackage.Element("class-name").Value;
-            Namespace = dalPackage.Element("namespace").Value;
+            DalType = dalPackage.Attribute("class-name").Value;
+            Namespace = dalPackage.Attribute("namespace").Value;
         }
     }
     [Serializable]

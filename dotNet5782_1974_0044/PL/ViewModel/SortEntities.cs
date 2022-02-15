@@ -8,10 +8,18 @@ namespace PL
 {
    public class SortEntities
     {
+        /// <summary>
+        /// Name of paramter
+        /// </summary>
         public string NameParameter { get; set; }
-        public double? FirstParameter { get; set; }
-        public double? LastParameter { get; set; }
-        public string? Value { get; set; }
+        /// <summary>
+        /// Minimum parameter
+        /// </summary>
+        public double MinParameter { get; set; }
+        /// <summary>
+        /// Value
+        /// </summary>
+        public string Value { get; set; }
     }
 }
 

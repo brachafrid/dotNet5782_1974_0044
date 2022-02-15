@@ -1,79 +1,117 @@
 ﻿using PL.PO;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
 namespace PL
 {
-    public class LoginVM : DependencyObject
+    public class LoginVM : NotifyPropertyChangedBase
     {
 
+        /// <summary>
+        /// constructor
+        /// </summary>
         public LoginVM()
         {
             Add = new(true);
-            ShowAdministratorLoginCommand = new RelayCommand(ShowAdministratorLogin, null);
-            ShowCustomerLoginCommand = new RelayCommand(ShowCustomerLogin, null);
-            AdministratorLoginCommand = new RelayCommand(AdministratorLogin, null);
-            CustomerLoginCommand = new RelayCommand(CustomerLogin, null);
-            ShowCustomerSigninCommand = new(ShowCustomerSignin, null);
+            state = LoginState.CLOSE;
+            ShowCommand = new RelayCommand(Show, null);
+            Command = new RelayCommand(Log, null);
         }
+        private LoginState state;
+        public LoginState State
+        {
+            get { return state; }
+            set { Set(ref state, value); }
+        }
+        /// <summary>
+        /// Customer Add view model
+        /// </summary>
         public CustomerAddVM Add { get; set; }
-        public RelayCommand AdministratorLoginCommand { get; set; }
-        public RelayCommand CustomerLoginCommand { get; set; }
-        public RelayCommand ShowAdministratorLoginCommand { get; set; }
-        public RelayCommand ShowCustomerLoginCommand { get; set; }
-        public RelayCommand ShowCustomerSigninCommand { get; set; }
+        public RelayCommand Command { get; set; }
+        /// <summary>
+        /// Command of showing administrator login
+        /// </summary>
+        public RelayCommand ShowCommand { get; set; }
+        /// <summary>
+        /// Command of showing customer login
+        /// </summary>
         public CustomerLogin customerLogin { get; set; } = new();
-        public Visble VisibilityAdministratorLogin { get; set; } = new();
-        public Visble VisibilityCustomerLogin { get; set; } = new();
-        public Visble VisibilityCustomerSignIn { get; set; } = new();
-        public void ShowAdministratorLogin(object param)
+        /// <summary>
+        /// Show administrator login
+        /// </summary>
+        /// <param name="param"></param>
+        public void Show(object param)
         {
-            VisibilityAdministratorLogin.visibility = Visibility.Visible;
-            VisibilityCustomerLogin.visibility = Visibility.Collapsed;
-            VisibilityCustomerSignIn.visibility = Visibility.Collapsed;
+            State = (LoginState)param;
         }
-        public void ShowCustomerSignin(object param)
+        /// <summary>
+        /// login
+        /// </summary>
+        /// <param name="param"></param>  
+        public void Log(object param)
         {
-            VisibilityAdministratorLogin.visibility = Visibility.Collapsed;
-            VisibilityCustomerLogin.visibility = Visibility.Collapsed;
-            VisibilityCustomerSignIn.visibility = Visibility.Visible;
-        }
-        public void ShowCustomerLogin(object param)
-        {
-            VisibilityCustomerLogin.visibility = Visibility.Visible;
-            VisibilityAdministratorLogin.visibility = Visibility.Collapsed;
-            VisibilityCustomerSignIn.visibility = Visibility.Collapsed;
-        }
-        public void AdministratorLogin(object param)
-        {
-            if ((param as PasswordBox).Password == PLService.GetAdministorPasssword())
+            switch (State)
             {
-                LoginScreen.MyScreen = "AdministratorWindow";
-            }
-            else
-            {
-                MessageBox.Show("Incorrect Password");
-                (param as PasswordBox).Password = string.Empty;
-            }
+                case LoginState.ADMINISTOR:
+                    AdministratorLogin(param);
+                    break;
+                case LoginState.CUSTOMER:
+                    CustomerLogin(param);
+                    break;
+                case LoginState.SIGNIN:
 
+                    break;
+                default:
+                    break;
+            }
         }
-        public void CustomerLogin(object param)
+        public async void AdministratorLogin(object param)
         {
             try
             {
-                Customer customer = PLService.GetCustomer((int)customerLogin.Id);
-                if (!PLService.IsActiveCustomer(customer.Id))
+                if ((param as PasswordBox).Password == await PLService.GetAdministorPasssword())
+                {
+                    LoginScreen.MyScreen = Screen.ADMINISTOR;
+                }
+                else
+                {
+                    MessageBox.Show("Incorrect Password", "Login", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    (param as PasswordBox).Password = string.Empty;
+                }
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message, "Login", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+        }
+        /// <summary>
+        /// Customer login
+        /// </summary>
+        /// <param name="param"></param>
+        public async void CustomerLogin(object param)
+        {
+            try
+            {
+                Customer customer = await PLService.GetCustomer((int)customerLogin.Id);
+                if (await PLService.IsNotActiveCustomer(customer.Id))
                     MessageBox.Show("Deleted customer");
-                LoginScreen.Id = customer.Id;
-                LoginScreen.MyScreen = "CustomerWindow";
+                else
+                {
+                    LoginScreen.Id = customer.Id;
+                    LoginScreen.MyScreen = Screen.CUSTOMER;
+                }
             }
             catch (KeyNotFoundException)
             {
-                MessageBox.Show("Incorrect Id");
+                MessageBox.Show($"Incorrect Id:{(int)customerLogin.Id}", "Login", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 customerLogin.Id = null;
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message, "Login", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
     }
 }
-

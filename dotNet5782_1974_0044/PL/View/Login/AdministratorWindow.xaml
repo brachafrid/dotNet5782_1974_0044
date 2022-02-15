@@ -23,10 +23,14 @@
                 <Button ToolTip="Customers"  Content="{materialDesign:PackIcon Kind=AccountMultiple}" Command="{Binding AddCustomerToListWindowCommand}"/>
                 <Separator />
                 <Button ToolTip="Stations" Content="{materialDesign:PackIcon Kind=GasStation}" Command="{Binding AddStationToListWindowCommand}"/>
+                <Separator />
+                <Button ToolTip="Refresh" Content="{materialDesign:PackIcon Kind=Refresh}" Command="{Binding RefreshCommand}"/>
+                <Separator />
+                <Button ToolTip="Logout" Content="{materialDesign:PackIcon Kind=Logout}" Command="{Binding LogOutCommand}"/>
             </ToolBar>
         </ToolBarTray>
 
-        <TabControl ItemsSource="{Binding Source={x:Static local:Tabs.TabItems}}" SelectedIndex="{Binding SelectedTab.Instance}" >
+        <TabControl ItemsSource="{Binding Source={x:Static local:Tabs.TabItems}}" SelectedIndex="{Binding SelectedTab}" >
             <TabControl.ItemTemplate>
                 <DataTemplate>
                     <DockPanel>

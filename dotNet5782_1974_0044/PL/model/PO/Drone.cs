@@ -9,90 +9,77 @@ using System.Threading.Tasks;
 
 namespace PL.PO
 {
-    public class Drone : INotifyPropertyChanged,IDataErrorInfo
+    public class Drone : NotifyPropertyChangedBase, IDataErrorInfo
     {
         private int id;
+        /// <summary>
+        /// drone key
+        /// </summary>
         public int Id
         {
             get => id;
-            init
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
+            init => Set(ref id, value);
         }
         private string model;
+        /// <summary>
+        /// drone model
+        /// </summary>
         [Required(ErrorMessage = "required")]
         public string Model
         {
             get => model;
-            set
-            {
-                model = value;
-                onPropertyChanged("Model");
-            }
+            set => Set(ref model, value);
         }
         private WeightCategories weight;
+        /// <summary>
+        /// drone weight
+        /// </summary>
         public WeightCategories Weight
         {
             get => weight;
-            set
-            {
-                weight = value;
-                onPropertyChanged("Weight");
-            }
+            set => Set(ref weight, value);
         }
         private DroneState droneState;
+        /// <summary>
+        /// drone state
+        /// </summary>
         public DroneState DroneState
         {
             get => droneState;
-            set
-            {
-                droneState = value;
-                onPropertyChanged("DroneState");
-            }
+            set => Set(ref droneState, value);
         }
-        private double battaryMode;
-        public double BattaryMode
+        private float battaryMode;
+        /// <summary>
+        /// drone battery mode
+        /// </summary>
+        public float BattaryMode
         {
             get => battaryMode;
-            set
-            {
-                battaryMode = value;
-                onPropertyChanged("BattaryMode");
-            }
+            set => Set(ref battaryMode, value);
         }
         private Location location;
+        /// <summary>
+        /// drone location
+        /// </summary>
         public Location Location
         {
             get => location;
-            set
-            {
-                location = value;
-                onPropertyChanged("Location");
-            }
+            set => Set(ref location, value);
         }
         private ParcelInTransfer parcel;
+        /// <summary>
+        /// Parcel in transfer of the drone
+        /// </summary>
         public ParcelInTransfer Parcel 
         {
             get=>parcel;
-            set
-            {
-                parcel = value;
-                onPropertyChanged("Parcel");
-            }
+            set => Set(ref parcel, value);
+            
         }
 
         public string Error => Validation.ErorrCheck(this);
 
         public string this[string columnName] => Validation.PropError(columnName, this);
-
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-        }
         public override string ToString()
         {
             return this.ToStringProperties();

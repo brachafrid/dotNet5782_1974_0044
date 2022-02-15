@@ -4,6 +4,7 @@ using System;
 using System.Linq;
 using DO;
 using System.Runtime.CompilerServices;
+using System.Collections;
 
 namespace Dal
 {
@@ -22,17 +23,23 @@ namespace Dal
         ///<param name="inTheStation">The predicate to screen out if the station id of the drone equal to a spesific station id </param>
         /// <returns>A list of DroneCarge</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation)
-        {
-            return DalObjectService.GetEntities<DroneCharge>().Where(item => inTheStation(item.Stationld)).Select(item => item.Droneld);
-        }
+        public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation)=> DalObjectService.GetEntities<DroneCharge>().Where(item => inTheStation(item.Stationld)).Select(item => item.Droneld);
+
+        /// <summary>
+        /// Finds all the drones that are charged at a particular station
+        /// </summary>
+        ///<param name="inTheStation">The predicate to screen out if the station id of the drone equal to a spesific station id </param>
+        /// <returns>A list of DroneCarge</returns>
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<DroneCharge> GetDronescharging() => DalObjectService.GetEntities<DroneCharge>();
+
         /// <summary>
         /// Gets parameters and create new DroneCharge 
         /// </summary>
         /// <param name="droneId">The drone to add</param>
         /// <param name="stationId">The station to add the drone</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void AddDRoneCharge(int droneId, int stationId)
+        public void AddDroneCharge(int droneId, int stationId)
         {
             DalObjectService.AddEntity(new DroneCharge() { Droneld = droneId, Stationld = stationId, StartCharging = DateTime.Now });
         }
@@ -43,7 +50,10 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDroneCharge(int droneId)
         {
-            DalObjectService.RemoveEntity(DalObjectService.GetEntities<DroneCharge>().FirstOrDefault(droneCharge=>droneCharge.Droneld==droneId));
+            DroneCharge droneCharge = DalObjectService.GetEntities<DroneCharge>().FirstOrDefault(droneCharge => droneCharge.Droneld == droneId);
+            if (droneCharge.Equals(default(DroneCharge)))
+                throw new TheDroneIsNotInChargingException("The drone is not in charging",droneId);
+            DalObjectService.RemoveEntity(droneCharge);
         }
 
         /// <summary>
@@ -53,7 +63,10 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public DateTime GetTimeStartOfCharge(int droneId)
         {
-            return DalObjectService.GetEntities<DroneCharge>().FirstOrDefault(drone => drone.Droneld == droneId).StartCharging;
+            DroneCharge droneCharge = DalObjectService.GetEntities<DroneCharge>().FirstOrDefault(drone => drone.Droneld == droneId);
+            if (droneCharge.Equals(default(DroneCharge)))
+                throw new TheDroneIsNotInChargingException("The drone is not in charging", droneId);
+            return droneCharge.StartCharging;
         }
         /// <summary>
         /// Takes from the DataSource the electricity use data of the drone

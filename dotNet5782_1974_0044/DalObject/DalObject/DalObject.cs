@@ -1,5 +1,6 @@
 ﻿
 using DLApi;
+using DO;
 using System.Collections.Generic;
 using System.Linq;
 using Utilities;
@@ -24,14 +25,21 @@ namespace Dal
         /// <typeparam name="T">The type of list</typeparam>
         /// <param name="lst">The spesific list </param>
         /// <param name="id">The id to check</param>
-        static bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
+        static bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)where T: IIdentifyable
         {
             if (!lst.Any())
                 return false;
            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id);
             return !temp.Equals(default(T));
         }
-        static bool ExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id)
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="lst"></param>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        static bool ExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id)where T:IActiveable,IIdentifyable
         {
             if (!lst.Any())
                 return false;

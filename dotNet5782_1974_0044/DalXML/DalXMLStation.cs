@@ -1,103 +1,155 @@
-﻿using System;
+﻿using DLApi;
+using DO;
+using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using DO;
-using DLApi;
 using System.Runtime.CompilerServices;
+using System.Xml.Linq;
 
 namespace Dal
 {
-    public sealed partial class DalXml:IDalStation
+    public sealed partial class DalXml : IDalStation
     {
         const string STATION_PATH = @"XmlStation.xml";
+
+        /// <summary>
+        /// Update name and number of charge slots of station
+        /// </summary>
+        /// <param name="station">station</param>
+        /// <param name="name">station's name</param>
+        /// <param name="chargeSlots">station's charge slots</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
-        public void RemoveStation(Station station)
+        public void UpdateStation(Station station, string name, int chargeSlots)
         {
             try
             {
-                List<Station> stations = DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH);
-                stations.Remove(station);
-                DalXmlService.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
+                XElement xElementStations = DalXmlService.LoadXElementToXML(STATION_PATH);
+                XElement xElementStation = xElementStations.Elements().FirstOrDefault(elem => int.Parse(elem.Element("Id").Value) == station.Id);
+                if (xElementStation == default(XElement))
+                    throw new KeyNotFoundException($"The station id {station.Id}  not exsits in dta");
+                if (!name.Equals(string.Empty))
+                    xElementStation.SetElementValue("Name",name);
+                if (chargeSlots != 0)
+                    xElementStation.SetElementValue("ChargeSlots", chargeSlots);
+                DalXmlService.SaveXElementToXML(xElementStations, STATION_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+
+        /// <summary>
+        /// Get sations with empty charge slots
+        /// </summary>
+        /// <param name="exsitEmpty">Predicate type of int : exsitEmpty</param>
+        /// <returns>Sations with empty charge slots</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
-            try { 
-                return DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH).FindAll(item => exsitEmpty(item.ChargeSlots - CountFullChargeSlots(item.Id)) && !item.IsNotActive);
+            try
+            {
+                return DalXmlService.LoadXElementToXML(STATION_PATH).Elements()
+                    .Where(elem => !bool.Parse(elem.Element("IsNotActive").Value) && exsitEmpty(int.Parse(elem.Element("ChargeSlots").Value) - CountFullChargeSlots(int.Parse(elem.Element("Id").Value))))
+                    .Select(elem => DalXmlService.ConvertXElementToStation(elem));
             }
             catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+
+        /// <summary>
+        /// Get station
+        /// </summary>
+        /// <param name="id">station's id</param>
+        /// <returns>station</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int id)
         {
-            try { 
-                Station station = DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH).FirstOrDefault(item => item.Id == id);
-                if (station.Equals(default(Station)) )
+            try
+            {
+                XElement xElementStation = DalXmlService.LoadXElementToXML(STATION_PATH).Elements().FirstOrDefault(elem => int.Parse(elem.Element("Id").Value) == id);
+                if (xElementStation.Equals(default(XElement)))
                     throw new KeyNotFoundException("There is no suitable station in data");
-                return station;
+                return DalXmlService.ConvertXElementToStation(xElementStation);
             }
             catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+
+        /// <summary>
+        /// Get the list of the stations
+        /// </summary>
+        /// <returns>list of stations</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetStations()
         {
-            try { 
-                return DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH);
+            try
+            {
+                return DalXmlService.LoadXElementToXML(STATION_PATH).Elements().Select(elem => DalXmlService.ConvertXElementToStation(elem));
             }
             catch (XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+
+        /// <summary>
+        /// Delete station according to id
+        /// </summary>
+        /// <param name="id">station's id</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(int id)
         {
-            try { 
-                List<Station> stations = DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH);
-                Station station = stations.FirstOrDefault(item => item.Id == id);
-                stations.Remove(station);
-                station.IsNotActive = true;
-                stations.Add(station);
-                DalXmlService.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
-            }
-            catch (XMLFileLoadCreateException ex)
+            try
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                XElement xElementStations = DalXmlService.LoadXElementToXML(STATION_PATH);
+                XElement station = xElementStations.Elements().FirstOrDefault(elem => int.Parse(elem.Element("Id").Value) == id);
+                if (station == default(XElement))
+                    throw new KeyNotFoundException($"The station id {id}  not exsits in dta");
+                station.SetElementValue("IsNotActive", true);
+                DalXmlService.SaveXElementToXML(xElementStations, STATION_PATH);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+
+        /// <summary>
+        /// Add new station
+        /// </summary>
+        /// <param name="id">new station's id</param>
+        /// <param name="name">new station's name</param>
+        /// <param name="longitude">new station's longitude</param>
+        /// <param name="latitude">new station's latitude</param>
+        /// <param name="chargeSlots">new station's charge slots</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(int id, string name, double longitude, double latitude, int chargeSlots)
         {
-            try { 
-                List<Station> stations = DalXmlService.LoadListFromXMLSerializer<Station>(STATION_PATH);
-                if (ExistsIDTaxCheck(stations, id))
-                    throw new ThereIsAnObjectWithTheSameKeyInTheListException();
-                Station newStation = new();
-                newStation.Id = id;
-                newStation.Name = name;
-                newStation.Latitude = latitude;
-                newStation.Longitude = longitude;
-                newStation.ChargeSlots = chargeSlots;
-                newStation.IsNotActive = false;
-                stations.Add(newStation); 
-                DalXmlService.SaveListToXMLSerializer<Station>(stations, STATION_PATH);
-            }
-            catch (XMLFileLoadCreateException ex)
+            try
             {
-                throw new XMLFileLoadCreateException(ex.Message);
+                XElement xElementStations = DalXmlService.LoadXElementToXML(STATION_PATH);
+                if (xElementStations.Elements().FirstOrDefault(elem => int.Parse(elem.Element("Id").Value) == id) != default(XElement))
+                    throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
+                xElementStations.Add(DalXmlService.ConvertStationToXElement(new()
+                {
+                    Id = id,
+                    Name = name,
+                    Latitude = latitude,
+                    Longitude = longitude,
+                    ChargeSlots = chargeSlots,
+                    IsNotActive = false
+                }));
+                DalXmlService.SaveXElementToXML(xElementStations, STATION_PATH);
+
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
     }

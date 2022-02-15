@@ -9,72 +9,65 @@ using System.Threading.Tasks;
 
 namespace PL.PO
 {
-    public class DroneAdd : INotifyPropertyChanged, IDataErrorInfo
+    public class DroneAdd : NotifyPropertyChangedBase, IDataErrorInfo
     {
         private int? id;
+        /// <summary>
+        /// Added drone key
+        /// </summary>
         [Required(ErrorMessage = "required")]
         [Range(1, int.MaxValue, ErrorMessage = "Only positive number allowed")]
         public int? Id
         {
             get => id;
-            set
-            {
-                id = value;
-                onPropertyChanged("Id");
-            }
+            set => Set(ref id, value);
         }
 
         private int stationId;
+        /// <summary>
+        /// station key of the added drone 
+        /// </summary>
         [Required(ErrorMessage = "required")]
         public int StationId
         {
             get { return stationId; }
-            set { stationId = value; }
+            set => Set(ref stationId, value);
         }
 
         private string model;
+        /// <summary>
+        /// Added drone model
+        /// </summary>
         [Required(ErrorMessage = "required")]
         public string Model
         {
             get => model;
-            set
-            {
-                model = value;
-                onPropertyChanged("Model");
-            }
+            set => Set(ref model, value);
         }
 
         private WeightCategories? weight;
+        /// <summary>
+        /// Added drone weight
+        /// </summary>
         [Required(ErrorMessage = "required")]
         public WeightCategories? Weight
         {
             get => weight;
-            set
-            {
-                weight = value;
-                onPropertyChanged("Weight");
-            }
+            set => Set(ref weight, value);
         }
 
         private DroneState droneState;
+        /// <summary>
+        /// Added drone state
+        /// </summary>
         [Required(ErrorMessage = "required")]
         public DroneState DroneState
         {
             get => droneState;
-            set
-            {
-                droneState = value;
-                onPropertyChanged("DroneState");
-            }
+            set =>Set(ref droneState, value);
         }
         public string Error => Validation.ErorrCheck(this);
         public string this[string columnName] => Validation.PropError(columnName, this);
-        public event PropertyChangedEventHandler PropertyChanged;
-        private void onPropertyChanged(string properyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(properyName));
-        }
         public override string ToString()
         {
             return this.ToStringProperties();
