@@ -10,9 +10,15 @@ namespace PL
     class UpdateCustomerVM : NotifyPropertyChangedBase, IDisposable
     {
         private int id;
+        /// <summary>
+        /// command of opening parcel
+        /// </summary>
         public RelayCommand OpenParcelCommand { get; set; }
         private Customer customer;
 
+        /// <summary>
+        /// customer
+        /// </summary>
         public Customer Customer
         {
             get { return customer; }
@@ -23,6 +29,9 @@ namespace PL
         }
         private string customerName;
 
+        /// <summary>
+        /// The name of the customer
+        /// </summary>
         public string CustomerName
         {
             get { return customerName; }
@@ -33,6 +42,9 @@ namespace PL
         }
         private string customerPhone;
 
+        /// <summary>
+        /// The phone of the customer
+        /// </summary>
         public string CustomerPhone
         {
             get { return customerPhone; }
@@ -44,7 +56,13 @@ namespace PL
         //public Visble ListsVisble { get; set; }
         public bool IsAdministor { get; set; }
 
+        /// <summary>
+        /// command of updating customer
+        /// </summary>
         public RelayCommand UpdateCustomerCommand { get; set; }
+        /// <summary>
+        /// command of deleting customer
+        /// </summary>
         public RelayCommand DeleteCustomerCommand { get; set; }
 
         /// <summary>
@@ -165,6 +183,7 @@ namespace PL
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
+
         public void Dispose()
         {
             DelegateVM.CustomerChangedEvent -= HandleACustomerChanged;
