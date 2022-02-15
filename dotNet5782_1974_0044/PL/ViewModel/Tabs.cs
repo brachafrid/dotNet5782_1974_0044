@@ -99,7 +99,12 @@ namespace PL
             {
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
-
+        }
+        static internal void LogOut(object param)
+        {
+            foreach (var tab in TabItems)
+                CloseTab(tab);
+            LoginScreen.MyScreen =Screen.LOGIN;
         }
     }
 }

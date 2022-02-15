@@ -11,11 +11,11 @@ namespace PL.PO
 {
     public static class LoginScreen
     {
-        private static string myScreen { get; set; }
+        private static Screen myScreen { get; set; }
         /// <summary>
         /// The current screen: Login, Administrator or Customer
         /// </summary>
-        public static string MyScreen
+        public static Screen MyScreen
         {
             get { return myScreen; }
             set
@@ -42,7 +42,7 @@ namespace PL.PO
         /// </summary>
         static LoginScreen()
         {
-            MyScreen = "LoginWindow";
+            MyScreen = Screen.LOGIN;
         }
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
         private static void NotifyStaticPropertyChanged(string propertyName)
