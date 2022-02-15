@@ -12,6 +12,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <local:ConverterCancelFilterVisibility x:Key="ConverterCancelFilterVisibility" />
+            <local:ConverterFilterType x:Key="ConverterFilterType" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -34,36 +35,67 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
-            <TextBox Text="{Binding Path = Parent.DataContext.ModelContain, RelativeSource = {RelativeSource Self}, UpdateSourceTrigger=PropertyChanged}" Visibility="{Binding Path = Parent.DataContext.StringSortVisibility, RelativeSource = {RelativeSource Self} }"  />
-            <ComboBox x:Name="weight" ItemsSource="{Binding Path=Parent.DataContext.WeightCategories,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.VisibilityWeightCategories,RelativeSource = {RelativeSource Self}}"  >
+            <TextBox Text="{Binding Path = Parent.DataContext.ModelContain, RelativeSource = {RelativeSource Self}, UpdateSourceTrigger=PropertyChanged}"   >
+                <TextBox.Visibility>
+                    <MultiBinding Converter="{StaticResource ConverterFilterType}">
+                        <Binding Path="FilterType"/>
+                        <Binding Source="{x:Static po:FilterType.STRING}"/>
+                    </MultiBinding>
+                </TextBox.Visibility>
+            </TextBox>
+            <ComboBox x:Name="weight" ItemsSource="{Binding Path=Parent.DataContext.WeightCategories,RelativeSource = {RelativeSource Self}}"   >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding FilterCommand}" CommandParameter="{Binding Path=SelectedValue, ElementName=weight}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
+                <ComboBox.Visibility>
+                    <MultiBinding Converter="{StaticResource ConverterFilterType}">
+                        <Binding Path="FilterType"/>
+                        <Binding Source="{x:Static po:FilterType.WEGHIT}"/>
+                    </MultiBinding>
+                </ComboBox.Visibility>
             </ComboBox>
-            <ComboBox x:Name="Piority" ItemsSource="{Binding Path=Parent.DataContext.PrioritiesArray,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.VisibilityPriorities,RelativeSource = {RelativeSource Self}}"  >
+            <ComboBox x:Name="Piority" ItemsSource="{Binding Path=Parent.DataContext.PrioritiesArray,RelativeSource = {RelativeSource Self}}"   >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding FilterCommand}" CommandParameter="{Binding Path=SelectedValue, ElementName=Piority}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
+                <ComboBox.Visibility>
+                    <MultiBinding Converter="{StaticResource ConverterFilterType}">
+                        <Binding Path="FilterType"/>
+                        <Binding Source="{x:Static po:FilterType.PIORITY}"/>
+                    </MultiBinding>
+                </ComboBox.Visibility>
             </ComboBox>
-            <ComboBox x:Name="State" ItemsSource="{Binding Path=Parent.DataContext.DroneState,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.VisibilityDroneState,RelativeSource = {RelativeSource Self}}"  >
+            <ComboBox x:Name="State" ItemsSource="{Binding Path=Parent.DataContext.DroneState,RelativeSource = {RelativeSource Self}}"   >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding FilterCommand}" CommandParameter="{Binding Path=SelectedValue, ElementName=State}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
+                <ComboBox.Visibility>
+                    <MultiBinding Converter="{StaticResource ConverterFilterType}">
+                        <Binding Path="FilterType"/>
+                        <Binding Source="{x:Static po:FilterType.STATE}"/>
+                    </MultiBinding>
+                </ComboBox.Visibility>
             </ComboBox>
-            <ComboBox x:Name="Packege" ItemsSource="{Binding Path=Parent.DataContext.PackageMode,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.VisblePackegeMode,RelativeSource = {RelativeSource Self}}"  >
+            <ComboBox x:Name="Packege" ItemsSource="{Binding Path=Parent.DataContext.PackageMode,RelativeSource = {RelativeSource Self}}"   >
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding FilterCommand}" CommandParameter="{Binding Path=SelectedValue, ElementName=Packege}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
+                <ComboBox.Visibility>
+                    <MultiBinding Converter="{StaticResource ConverterFilterType}">
+                        <Binding Path="FilterType"/>
+                        <Binding Source="{x:Static po:FilterType.PACKEGE}"/>
+                    </MultiBinding>
+                </ComboBox.Visibility>
             </ComboBox>
-            <Slider x:Name="min" Minimum="0" Maximum="{Binding Path=Parent.DataContext.MaxValue ,RelativeSource={RelativeSource Self}}" Value="{Binding Path=Parent.DataContext.DoubleFirstChange,RelativeSource = {RelativeSource Self}}" Visibility="{Binding Path=Parent.DataContext.VisbleDouble,RelativeSource = {RelativeSource Self}}"  TickPlacement="BottomRight">
+            <Slider x:Name="min" Minimum="0" Maximum="{Binding Path=Parent.DataContext.MaxValue ,RelativeSource={RelativeSource Self}}" Value="{Binding Path=Parent.DataContext.DoubleFirstChange,RelativeSource = {RelativeSource Self}}" >
                 <Slider.Style>
                     <Style TargetType="Slider" BasedOn="{StaticResource MaterialDesignDiscreteSlider}">
                         <Style.Triggers>
@@ -73,6 +105,12 @@
                         </Style.Triggers>
                     </Style>
                 </Slider.Style>
+                <Slider.Visibility>
+                    <MultiBinding Converter="{StaticResource ConverterFilterType}">
+                        <Binding Path="FilterType"/>
+                        <Binding Source="{x:Static po:FilterType.NUMBER}"/>
+                    </MultiBinding>
+                </Slider.Visibility>
             </Slider>
             <Button Content="Cancel Filters" IsEnabled="{Binding Path=Filters.Count ,Converter={StaticResource ConverterCancelFilterVisibility}}" Command="{Binding CancelFilterCommand}"/>
         </StackPanel>

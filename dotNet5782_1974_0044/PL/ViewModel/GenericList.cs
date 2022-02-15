@@ -75,80 +75,16 @@ namespace PL
             get => list1;
             set => Set(ref list1, value);
         }
-
-        private Visibility visibilityKindOfSort = Visibility.Collapsed;
-
-        /// <summary>
-        /// Visibility of kind of sort
+        
+        private FilterType? filterType;
+        /// The type of filter now
         /// </summary>
-        public Visibility VisibilityKindOfSort
+        public FilterType? FilterType
         {
-            get { return visibilityKindOfSort; }
-            set => Set(ref visibilityKindOfSort, value);
+            get { return filterType; }
+            set { Set(ref filterType, value); }
         }
 
-        private Visibility stringSortVisibility = Visibility.Collapsed;
-        /// <summary>
-        /// Visibility of string sort
-        /// </summary>
-        public Visibility StringSortVisibility
-        {
-            get { return stringSortVisibility; }
-            set => Set(ref stringSortVisibility, value);
-        }
-
-        private Visibility visibilityWeightCategories = Visibility.Collapsed;
-        /// <summary>
-        /// Visibility of weight categories
-        /// </summary>
-        public Visibility VisibilityWeightCategories
-        {
-            get { return visibilityWeightCategories; }
-            set => Set(ref visibilityWeightCategories, value);
-        }
-
-        private Visibility visibilityPriorities = Visibility.Collapsed;
-
-        /// <summary>
-        /// Visibility of priorities
-        /// </summary>
-        public Visibility VisibilityPriorities
-        {
-            get { return visibilityPriorities; }
-            set => Set(ref visibilityPriorities, value);
-        }
-        private Visibility visibilityDroneState = Visibility.Collapsed;
-
-        /// <summary>
-        /// Visibility of drone state
-        /// </summary>
-        public Visibility VisibilityDroneState
-        {
-            get { return visibilityDroneState; }
-            set => Set(ref visibilityDroneState, value);
-        }
-
-        private Visibility visbleDouble = Visibility.Collapsed;
-
-        /// <summary>
-        /// Visibility of slider
-        /// </summary>
-        public Visibility VisbleDouble
-        {
-            get { return visbleDouble; }
-            set => Set(ref visbleDouble, value);
-        }
-
-        private Visibility visblePackegeMode = Visibility.Collapsed;
-
-        /// <summary>
-        /// Visblity of parcel mode
-        /// </summary>
-        public Visibility VisblePackegeMode
-        {
-            get { return visblePackegeMode; }
-            set => Set(ref visblePackegeMode, value);
-        }
 
         private List<SortEntities> filters = new();
 
@@ -331,12 +267,7 @@ namespace PL
         public void ShowKindOfSort(object param)
         {
             SelectedKind = param.ToString();
-            VisbleDouble = Visibility.Collapsed;
-            VisibilityDroneState = Visibility.Collapsed;
-            VisibilityPriorities = Visibility.Collapsed;
-            VisibilityWeightCategories = Visibility.Collapsed;
-            StringSortVisibility = Visibility.Collapsed;
-            VisblePackegeMode = Visibility.Collapsed;
+            FilterType = null;
             ShowValueFilter(typeof(T).GetProperty(SelectedKind).PropertyType);
         }
 
@@ -348,12 +279,7 @@ namespace PL
         {
             Filters.RemoveAll((SortEntities o) => true);
             SelectedKind = string.Empty;
-            VisbleDouble = Visibility.Collapsed;
-            VisibilityDroneState = Visibility.Collapsed;
-            VisibilityPriorities = Visibility.Collapsed;
-            VisibilityWeightCategories = Visibility.Collapsed;
-            StringSortVisibility = Visibility.Collapsed;
-            VisblePackegeMode = Visibility.Collapsed;
+            FilterType = null;
             FilterNow();
         }
 
@@ -366,26 +292,26 @@ namespace PL
             switch (propertyType.Name)
             {
                 case { } when typeof(string).Name == propertyType.Name:
-                    StringSortVisibility = Visibility.Visible;
+                    FilterType = PO.FilterType.STRING;
                     break;
                 case { } when typeof(double).Name == propertyType.Name:
-                    VisbleDouble = Visibility.Visible;
+                    FilterType = PO.FilterType.NUMBER;
                     MaxValue = MaxValueFunc();
                     break;
                 case { } when typeof(WeightCategories).Name == propertyType.Name:
-                    VisibilityWeightCategories = Visibility.Visible;
+                    FilterType = PO.FilterType.WEGHIT;
                     break;
                 case { } when typeof(Priorities).Name == propertyType.Name:
-                    VisibilityPriorities = Visibility.Visible;
+                    FilterType = PO.FilterType.PIORITY;
                     break;
                 case { } when typeof(DroneState).Name == propertyType.Name:
-                    VisibilityDroneState = Visibility.Visible;
+                    FilterType = PO.FilterType.STATE;
                     break;
                 case { } when typeof(PackageModes).Name == propertyType.Name:
-                    VisblePackegeMode = Visibility.Visible;
+                    FilterType = PO.FilterType.PACKEGE;
                     break;
                 case { } when typeof(int).Name == propertyType.Name:
-                    VisbleDouble = Visibility.Visible;
+                    FilterType = PO.FilterType.NUMBER;
                     MaxValue = MaxValueFunc();
                     break;
                 default:
