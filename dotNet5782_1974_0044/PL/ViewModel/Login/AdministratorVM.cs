@@ -8,15 +8,36 @@ namespace PL
 {
     public class AdministratorVM: NotifyPropertyChangedBase
     {
+        /// <summary>
+        /// Command of adding drone window
+        /// </summary>
         public RelayCommand AddDroneToListWindowCommand { get; set; }
+        /// <summary>
+        /// Command of adding parcel window
+        /// </summary>
         public RelayCommand AddParcelToListWindowCommand { get; set; }
+        /// <summary>
+        /// Command of adding station window
+        /// </summary>
         public RelayCommand AddStationToListWindowCommand { get; set; }
+        /// <summary>
+        /// Command of adding customer window
+        /// </summary>
         public RelayCommand AddCustomerToListWindowCommand { get; set; }
+        /// <summary>
+        /// Command of refreshing
+        /// </summary>
         public RelayCommand RefreshCommand { get; set; }
+        /// <summary>
+        /// Command of logging out
+        /// </summary>
         public RelayCommand LogOutCommand { get; set; }
 
         private int selectedTab;
 
+        /// <summary>
+        /// The selected tab
+        /// </summary>
         public int SelectedTab
         {
             get=> selectedTab; 
@@ -49,6 +70,11 @@ namespace PL
                 Content = new DroneToListVM()
             });
         }
+
+        /// <summary>
+        /// refreshing
+        /// </summary>
+        /// <param name="param"></param>
         public void Refresh(object param)
         {
             DelegateVM.NotifyCustomerChanged();
@@ -90,7 +116,6 @@ namespace PL
                 Header = "Stations",
                 Content = new StationToListVM()
             });
-
         }
 
         /// <summary>
