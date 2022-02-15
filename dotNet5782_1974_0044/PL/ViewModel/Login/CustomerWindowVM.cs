@@ -82,6 +82,7 @@ namespace PL
         /// The added parcel
         /// </summary>
         public ParcelAdd parcel { set; get; }
+        public RelayCommand RefreshCommand { get; set; }
 
         int id;
 
@@ -101,6 +102,7 @@ namespace PL
             DelegateVM.CustomerChangedEvent += HandleCustomerChanged;
             DelegateVM.ParcelChangedEvent += (sender, e) => Init();
             LogOutCommand = new(Tabs.LogOut, null);
+            RefreshCommand = new(Tabs.Refresh, null);
         }
 
         /// <summary>

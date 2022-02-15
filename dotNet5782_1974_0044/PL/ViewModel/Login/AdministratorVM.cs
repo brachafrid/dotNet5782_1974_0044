@@ -54,7 +54,7 @@ namespace PL
             AddStationToListWindowCommand = new(AddStationToList, null);
             AddCustomerToListWindowCommand = new(AddCustomerToList, null);
             LogOutCommand = new(Tabs.LogOut, null);
-            RefreshCommand = new(Refresh, null);
+            RefreshCommand = new(Tabs.Refresh, null);
             Tabs.changeSelectedTab += changeIndex;
         }
 

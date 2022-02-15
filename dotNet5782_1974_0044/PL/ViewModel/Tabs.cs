@@ -102,9 +102,18 @@ namespace PL
         }
         static internal void LogOut(object param)
         {
-            foreach (var tab in TabItems)
-                CloseTab(tab);
+            if(TabItems.Any())
+                foreach (var tab in TabItems)
+                    CloseTab(tab);
             LoginScreen.MyScreen =Screen.LOGIN;
+        }
+
+        static internal void Refresh(object param)
+        {
+            DelegateVM.NotifyCustomerChanged();
+            DelegateVM.NotifyDroneChanged();
+            DelegateVM.NotifyParcelChanged();
+            DelegateVM.NotifyStationChanged();
         }
     }
 }
