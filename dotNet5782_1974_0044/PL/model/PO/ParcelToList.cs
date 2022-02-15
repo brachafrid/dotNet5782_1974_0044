@@ -11,18 +11,27 @@ namespace PL.PO
     public class ParcelToList : NotifyPropertyChangedBase
     {
         private int id;
+        /// <summary>
+        /// Parcel to list key
+        /// </summary>
         public int Id
         {
             get => id;
             init => Set(ref id, value);
         }
         private Customer customerSender;
+        /// <summary>
+        /// Customer sends of parcel to list 
+        /// </summary>
         public Customer CustomerSender
         {
             get => customerSender;
             set => Set(ref customerSender, value);
         }
         private Customer customerReceives;
+        /// <summary>
+        /// Customer receives of parcel to list 
+        /// </summary>
         public Customer CustomerReceives
         {
             get => customerReceives;
@@ -30,6 +39,9 @@ namespace PL.PO
         }
 
         private WeightCategories weight;
+        /// <summary>
+        /// parcel to list weight
+        /// </summary>
         public WeightCategories Weight
         {
             get => weight;
@@ -37,11 +49,17 @@ namespace PL.PO
         }
 
         private Priorities piority;
+        /// <summary>
+        /// parcel to list piority
+        /// </summary>
         public Priorities Piority {
             get => piority;
             set => Set(ref piority, value);
         }
         private PackageModes packageMode;
+        /// <summary>
+        /// Package mode of parcel to list 
+        /// </summary>
         public PackageModes PackageMode {
             get => packageMode;
             set => Set(ref packageMode, value);

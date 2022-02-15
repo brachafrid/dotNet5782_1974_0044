@@ -6,6 +6,12 @@ namespace PL.PO
 {
     static class Properties 
     {
+        /// <summary>
+        /// To string properties
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="obj">object to string the properties</param>
+        /// <returns>properties</returns>
         public static string ToStringProperties<T>(this T obj)
         {
             Type t = obj.GetType();
@@ -30,6 +36,11 @@ namespace PL.PO
             return str;
         }
 
+        /// <summary>
+        /// Format string - return lower string
+        /// </summary>
+        /// <param name="str">string</param>
+        /// <returns>lower string</returns>
         static string FormatString(string str)
         {
             string s = str[0].ToString();
@@ -42,8 +53,6 @@ namespace PL.PO
                         s += str[i].ToString();
                 }
             return s;
-
-
         }
     }
 }

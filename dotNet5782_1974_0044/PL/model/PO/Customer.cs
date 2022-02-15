@@ -14,6 +14,9 @@ namespace PL.PO
     public class Customer : NotifyPropertyChangedBase, IDataErrorInfo
     {
         private int id;
+        /// <summary>
+        /// customer key
+        /// </summary>
         public int Id
         {
             get => id;
@@ -23,6 +26,9 @@ namespace PL.PO
             }
         }
         private string name;
+        /// <summary>
+        /// customer name
+        /// </summary>
         [Required(ErrorMessage = "required")]
         public string Name
         {
@@ -33,6 +39,9 @@ namespace PL.PO
             }
         }
         private string phone;
+        /// <summary>
+        /// customer phone
+        /// </summary>
         [Required(ErrorMessage = "required")]
         [RegularExpression("^(?!0+$)(\\+\\d{1,3}[- ]?)?(?!0+$)\\d{10,15}$", ErrorMessage = "Please enter valid phone no.")]
         public string Phone
@@ -45,6 +54,9 @@ namespace PL.PO
         }
 
         private Location location;
+        /// <summary>
+        /// customer location
+        /// </summary>
         public Location Location
         {
             get => location;
@@ -54,6 +66,9 @@ namespace PL.PO
             }
         }
         private List<ParcelAtCustomer> fromCustomer;
+        /// <summary>
+        /// the list of the parcels that sender from the customer
+        /// </summary>
         public List<ParcelAtCustomer> FromCustomer
         {
             get => fromCustomer;
@@ -63,6 +78,9 @@ namespace PL.PO
             }
         }
         private List<ParcelAtCustomer> toCustomer;
+        /// <summary>
+        /// the list of the parcels that sender to the customer
+        /// </summary>
         public List<ParcelAtCustomer> ToCustomer
         {
             get => toCustomer;

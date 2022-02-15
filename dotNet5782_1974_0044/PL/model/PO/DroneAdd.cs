@@ -12,6 +12,9 @@ namespace PL.PO
     public class DroneAdd : NotifyPropertyChangedBase, IDataErrorInfo
     {
         private int? id;
+        /// <summary>
+        /// Added drone key
+        /// </summary>
         [Required(ErrorMessage = "required")]
         [Range(1, int.MaxValue, ErrorMessage = "Only positive number allowed")]
         public int? Id
@@ -21,6 +24,9 @@ namespace PL.PO
         }
 
         private int stationId;
+        /// <summary>
+        /// station key of the added drone 
+        /// </summary>
         [Required(ErrorMessage = "required")]
         public int StationId
         {
@@ -29,6 +35,9 @@ namespace PL.PO
         }
 
         private string model;
+        /// <summary>
+        /// Added drone model
+        /// </summary>
         [Required(ErrorMessage = "required")]
         public string Model
         {
@@ -37,6 +46,9 @@ namespace PL.PO
         }
 
         private WeightCategories? weight;
+        /// <summary>
+        /// Added drone weight
+        /// </summary>
         [Required(ErrorMessage = "required")]
         public WeightCategories? Weight
         {
@@ -45,6 +57,9 @@ namespace PL.PO
         }
 
         private DroneState droneState;
+        /// <summary>
+        /// Added drone state
+        /// </summary>
         [Required(ErrorMessage = "required")]
         public DroneState DroneState
         {

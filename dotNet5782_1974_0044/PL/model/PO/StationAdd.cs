@@ -9,6 +9,9 @@ namespace PL.PO
     public class StationAdd : NotifyPropertyChangedBase, IDataErrorInfo
     {
         private int? id;
+        /// <summary>
+        /// Added station key
+        /// </summary>
         [Required(ErrorMessage = "required")]
         [Range(1, int.MaxValue, ErrorMessage = "Only positive number allowed")]
         public int? Id
@@ -17,6 +20,9 @@ namespace PL.PO
             set => Set(ref id, value);
         }
         private string name;
+        /// <summary>
+        /// Added station name
+        /// </summary>
         [Required(ErrorMessage = "required")]
         public string Name
         {
@@ -24,6 +30,9 @@ namespace PL.PO
             set => Set(ref name, value);
         }
         private int? emptyChargeSlots;
+        /// <summary>
+        /// Added station empty charge slots
+        /// </summary>
         [Required(ErrorMessage = "required")]
         [Range(1, int.MaxValue, ErrorMessage = "Only positive number allowed")]
         public int? EmptyChargeSlots
@@ -33,6 +42,9 @@ namespace PL.PO
         }
 
         private Location location = new();
+        /// <summary>
+        /// Added station location
+        /// </summary>
         [Required(ErrorMessage = "required")]
         public Location Location
         {

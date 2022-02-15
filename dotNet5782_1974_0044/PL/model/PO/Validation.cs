@@ -12,6 +12,12 @@ namespace PL.PO
 {
     public static class Validation
     {
+        /// <summary>
+        /// Properties error
+        /// </summary>
+        /// <param name="columnName">column name</param>
+        /// <param name="obj">object</param>
+        /// <returns>error message</returns>
         public static string PropError(string columnName, object obj)
         {
             var validationResults = new List<ValidationResult>();
@@ -23,6 +29,11 @@ namespace PL.PO
 
             return validationResults.First().ErrorMessage;
         }
+        /// <summary>
+        /// Erorr check
+        /// </summary>
+        /// <param name="obj">object</param>
+        /// <returns>error message or null</returns>
         public static string ErorrCheck(IDataErrorInfo obj)
         {
             foreach (var prop in obj.GetType().GetProperties())

@@ -12,6 +12,9 @@ namespace PL.PO
     public static class LoginScreen
     {
         private static string myScreen { get; set; }
+        /// <summary>
+        /// The current screen: Login, Administrator or Customer
+        /// </summary>
         public static string MyScreen
         {
             get { return myScreen; }
@@ -22,7 +25,9 @@ namespace PL.PO
             }
         }
         private static int? id = null;
-
+        /// <summary>
+        /// The current screen key
+        /// </summary>
         public static int? Id
         {
             get { return id; }
@@ -32,7 +37,9 @@ namespace PL.PO
             }
         }
 
-
+        /// <summary>
+        /// constructor
+        /// </summary>
         static LoginScreen()
         {
             MyScreen = "LoginWindow";
