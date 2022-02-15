@@ -28,6 +28,8 @@ namespace PL
             {
                 await PLService.AddStation(station);
                 DelegateVM.NotifyStationChanged(station.Id ?? 0);
+                DelegateVM.NotifyDroneChanged();
+                Tabs.CloseTab(param as TabItemFormat);
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
             {

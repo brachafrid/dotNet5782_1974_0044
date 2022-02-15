@@ -1,7 +1,7 @@
 ﻿using PL.PO;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 
@@ -11,29 +11,7 @@ namespace PL
     {
         public ParcelAdd parcel { set; get; }
         public RelayCommand AddParcelCommand { get; set; }
-        public RelayCommand VisibilityParcel { get; set; }
-        public RelayCommand VisibilitySender { get; set; }
-        private Visibility visibleParcel;
-
-        public Visibility VisibleParcel
-        {
-            get { return visibleParcel; }
-            set
-            {
-                visibleParcel = value;
-            }
-        }
-        private Visibility visibleSender;
-
-        public Visibility VisibleSender
-        {
-            get { return visibleSender; }
-            set
-            {
-                visibleSender = value;
-            }
-        }       
-        public IEnumerable<int> customers { get; set; }
+        public ObservableCollection<int> customers { get; set; }
         public Array piorities { get; set; }
         public Array Weight { get; set; }
         public bool IsAdministor { get; set; }
@@ -43,15 +21,15 @@ namespace PL
         /// </summary>
         /// <param name="isAdministor">is administor</param>
         /// <param name="id">id</param>
-        public AddParcelVM(bool isAdministor, int id= 0)
+        public AddParcelVM(bool isAdministor, int id = 0)
         {
             parcel = new();
             InitCustomersList();
             AddParcelCommand = new(Add, param => parcel.Error == null);
-            VisibilityParcel = new(visibilityParcel, param => parcel.Error == null);
             piorities = Enum.GetValues(typeof(Priorities));
             Weight = Enum.GetValues(typeof(WeightCategories));
             IsAdministor = isAdministor;
+            DelegateVM.ParcelChangedEvent += HandleCustomerListChanged;
             if (!isAdministor)
                 parcel.CustomerSender = id;
         }
@@ -63,23 +41,23 @@ namespace PL
         {
             try
             {
-                customers = (await PLService.GetCustomers())
-                    .Select(customer => customer.Id);
+                customers = new ObservableCollection<int>((await PLService.GetCustomers())
+                    .Select(customer => customer.Id));
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
                 MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
             }
         }
-
-        /// <summary>
-        /// visibility of parcel
-        /// </summary>
-        /// <param name="param"></param>
-        public void visibilityParcel(object param)
+        private async void HandleCustomerListChanged(object sender, EntityChangedEventArgs e)
         {
-            VisibleParcel = Visibility.Visible;
+
+            customers.Clear();
+            foreach (var item in (await PLService.GetCustomers()).Select(customer => customer.Id))
+                customers.Add(item);
+
         }
+
 
         /// <summary>
         /// Add parcel
