@@ -5,17 +5,23 @@ using System.Text;
 using System.Threading.Tasks;
 
 
-    namespace BO
+namespace BO
+{
+    public class DroneInCharging
     {
-        public class DroneInCharging
+        /// <summary>
+        /// Drone in charging key
+        /// </summary>
+        public int Id { get; init; }
+        /// <summary>
+        /// Drone in charging charging mode
+        /// </summary>
+        public double ChargingMode { get; set; }
+        public override string ToString()
         {
-            public int Id { get; init; }
-            public double ChargingMode { get; set; }
-            public override string ToString()
-            {
-                return this.ToStringProperties();
-            }
+            return this.ToStringProperties();
         }
     }
+}
 
 

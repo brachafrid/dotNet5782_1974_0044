@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="PL.AddStationView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:PL"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <Grid>
+        <ScrollViewer>
+        <StackPanel>
+        <TextBox Text="{Binding station.Id, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Id" Margin="5"/>
+        <TextBox Text="{Binding station.Name, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Name" Margin="5"/>
+        <TextBox Text="{Binding station.EmptyChargeSlots, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Empty charge slots" Margin="5"/>
+        <TextBox Text="{Binding station.Location.Latitude, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Latitude" Margin="5"/>
+        <TextBox Text="{Binding station.Location.Longitude, ValidatesOnDataErrors=true, NotifyOnValidationError=true, UpdateSourceTrigger=PropertyChanged}" materialDesign:HintAssist.Hint="Longitude" Margin="5"/>
+            <Button Style="{StaticResource MaterialDesignFlatButton}" HorizontalAlignment="Center" Content="ADD" Command ="{Binding AddStationCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
+        </StackPanel>
+        </ScrollViewer>
+    </Grid>
+</UserControl>

@@ -1,22 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-    namespace BO
+﻿namespace BO
+{
+    public class DroneWithParcel
     {
-       public class DroneWithParcel
+        /// <summary>
+        /// Drone with parcel key
+        /// </summary>
+        public int Id { get; init; }
+        /// <summary>
+        /// Drone with parcel charging mode
+        /// </summary>
+        public double ChargingMode { get; set; }
+        /// <summary>
+        /// Drone with parcel current location
+        /// </summary>
+        public Location CurrentLocation { get; set; }
+        public override string ToString()
         {
-            public int Id { get; init; }
-            public double ChargingMode { get; set; }
-            public Location CurrentLocation { get; set; }
-            public override string ToString()
-            {
-                return this.ToStringProperties();
-            }
-
+            return this.ToStringProperties();
         }
+
     }
-    
+}
+

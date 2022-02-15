@@ -1,121 +1,199 @@
-﻿using BO;
+﻿using BLApi;
+using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using BLApi;
 
 namespace BL
 {
-    public partial class BL:IBlStations
+    public partial class BL : IBlStations
     {
-        //-----------------------------------------------------------Adding------------------------------------------------------------------------
+        #region ADD
         /// <summary>
         /// Add a station to the list of stations
         /// </summary>
         /// <param name="stationBL">The station for Adding</param>
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station stationBL)
         {
             try
             {
-                dal.AddStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);
+                lock (dal)
+                    dal.AddStation(stationBL.Id, stationBL.Name, stationBL.Location.Longitude, stationBL.Location.Longitude, stationBL.AvailableChargingPorts);
             }
             catch (DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message);
+                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message, ex.Id);
             }
-           
-        }
 
-        //-------------------------------------------------------Updating-----------------------------------------------------------------------------
-        /// <summary>
-        /// Update a station in the Stations list
-        /// </summary>
-        /// <param name="id">The id of the station</param>
-        /// <param name="name">The new name</param>
-        /// <param name="chargeSlots">A nwe number for charging slots</param>
-        public void UpdateStation(int id, string name, int chargeSlots)
-        {
-            if (name.Equals(string.Empty) && chargeSlots ==0)
-                throw new ArgumentNullException("For updating at least one parameter must be initialized ");
-            try
-            {
-                DO.Station satationDl = dal.GetStation(id);
-                if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(satationDl.Id))
-                    throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
-                dal.RemoveStation(satationDl);
-                dal.AddStation(id, name.Equals(string.Empty) ? satationDl.Name : name, satationDl.Longitude, satationDl.Latitude, chargeSlots==0 ? satationDl.ChargeSlots : chargeSlots);
-            }
-            catch (KeyNotFoundException ex)
-            {
-                throw new KeyNotFoundException(ex.Message);
-            }
-            catch(DO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
-            {
-                throw new ThereIsAnObjectWithTheSameKeyInTheListException(ex.Message );
-            }
-           
         }
+        #endregion
 
-        //-------------------------------------------------Return List-----------------------------------------------------------------------------
+        #region Return
         /// <summary>
         /// Retrieves the list of stations with empty charge slots  from the data and converts it to station to list
         /// </summary>
         /// <param name="exsitEmpty">the predicate to screen out if the station have empty charge slots</param>
         /// <returns>A list of statin to print</returns>
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
-            IEnumerable<DO.Station> list = dal.GetSationsWithEmptyChargeSlots(exsitEmpty);
-            List<StationToList> stations = new ();
-            foreach (var item in list)
+            try
             {
-                stations.Add(MapStationToList(item));
+                IEnumerable<DO.Station> list;
+                lock (dal)
+                    list = dal.GetSationsWithEmptyChargeSlots(exsitEmpty);
+                return list.Select(item => MapStationToList(item));
             }
-            return stations;
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
         }
 
         /// <summary>
         /// Retrieves the list of stations from the data and converts it to station to list
         /// </summary>
         /// <returns>A list of statin to print</returns>
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> GetStations()
         {
-            return dal.GetStations().Select(item=>MapStationToList(item));
+            try
+            {
+                lock (dal)
+                    return dal.GetStations().Select(item => MapStationToList(item));
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
         }
 
-        //--------------------------------------------------Return-----------------------------------------------------------------------------------
+        /// <summary>
+        /// Get active stations
+        /// </summary>
+        /// <returns>A list of active stations</returns>
+        // [MethodImpl(MethodImplOptions.Synchronized)]
+        public IEnumerable<StationToList> GetActiveStations()
+        {
+            try
+            {
+                lock (dal)
+                    return dal.GetStations().Where(item => !item.IsNotActive).Select(item => MapStationToList(item));
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
+        }
+
         /// <summary>
         /// Retrieves the requested station from the data and converts it to BL station
         /// </summary>
         /// <param name="id">The requested station id</param>
         /// <returns>A Bl satation to print</returns>
+        // [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int id)
         {
             try
             {
-                return MapStation(dal.GetStation(id));
+                lock (dal)
+                    return ConvertStation(dal.GetStation(id));
             }
             catch (KeyNotFoundException ex)
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-            
-        }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
 
-        //-----------------------------------------------Help function-----------------------------------------------------------------------------------
+
+        }
+        #endregion
+
+        #region Update
         /// <summary>
-        /// Convert a DAL station to BL satation
+        /// Update a station in the Stations list
         /// </summary>
-        /// <param name="station">The sation to convert</param>
-        /// <returns>The converted station</returns>
-        private BO.Station MapStation(DO.Station station)
+        /// <param name="id">The id of the station</param>
+        /// <param name="name">The new name</param>
+        /// <param name="chargeSlots">A nwe number for charging slots</param>
+        // [MethodImpl(MethodImplOptions.Synchronized)]
+        public void UpdateStation(int id, string name, int chargeSlots)
         {
-            return new Station() {
-                Id = station.Id,
-                Name = station.Name,
-                Location = new Location() { Latitude=station.Latitude,Longitude=station.Longitude },
-                AvailableChargingPorts=station.ChargeSlots-dal.CountFullChargeSlots(station.Id),
-                DroneInChargings=CreatListDroneInCharging(station.Id)
-            };
+            if (name.Equals(string.Empty) && chargeSlots == 0)
+                throw new ArgumentNullException("For updating at least one parameter must be initialized ");
+            try
+            {
+                DO.Station stationDl;
+                lock (dal)
+                    stationDl = dal.GetStation(id);
+                if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(stationDl.Id))
+                    throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
+                dal.UpdateStation(stationDl, name, chargeSlots);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException(ex.Message);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
+        }
+        #endregion
+
+        #region Delete
+
+        /// <summary>
+        /// Delete station according to id
+        /// </summary>
+        /// <param name="id">id of station</param>
+        // [MethodImpl(MethodImplOptions.Synchronized)]
+        public void DeleteStation(int id)
+        {
+            try
+            {
+                lock (dal)
+                    dal.DeleteStation(id);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+            catch (KeyNotFoundException ex)
+            {
+                throw new KeyNotFoundException(ex.Message);
+            }
+
+        }
+        #endregion
+
+        /// <summary>
+        /// Check if station is not active
+        /// </summary>
+        /// <param name="id">id of stations</param>
+        /// <returns>if station is not active</returns>
+        public bool IsNotActiveStation(int id)
+        {
+            try
+            {
+                lock (dal)
+                    return dal.GetStations().Any(station => station.Id == id && station.IsNotActive);
+            }
+            catch (DO.XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+            }
+
         }
 
         /// <summary>
@@ -126,11 +204,17 @@ namespace BL
         /// <param name="droneToList">The drone</param>
         /// <param name="minDistance">The distance the drone need to travel</param>
         /// <returns></returns>
-        private DO.Station ClosetStationPossible(IEnumerable<DO.Station> stations, Location droneToListLocation,double BatteryStatus, out double minDistance)
+        internal Station ClosetStationPossible(Location droneToListLocation, Predicate<int> emptyChargeslots, double BatteryStatus, out double minDistance)
         {
-            DO.Station station = ClosetStation(stations, droneToListLocation);
-            minDistance = Distance( droneToListLocation, new Location() { Longitude = station.Longitude, Latitude = station.Latitude });
-            return minDistance * available <= BatteryStatus ? station : default(DO.Station);
+            Station station = ClosetStation(droneToListLocation, emptyChargeslots);
+            if (station == null)
+            {
+                minDistance = 0;
+                return null;
+            }
+
+            minDistance = Distance(droneToListLocation, station.Location);
+            return minDistance * available <= BatteryStatus ? station : null;
         }
 
         /// <summary>
@@ -139,19 +223,18 @@ namespace BL
         /// <param name="stations">The all stations</param>
         /// <param name="location">The  particular location</param>
         /// <returns>The station</returns>
-        private DO.Station ClosetStation(IEnumerable<DO.Station> stations, Location location)
+        private Station ClosetStation(Location location, Predicate<int> emptyChargeslots)
         {
-            double minDistance = double.MaxValue;
+            double minDistance = int.MaxValue;
             double curDistance;
-            DO.Station station = default;
-            foreach (var item in stations)
+            Station station = null;
+            foreach (var item in dal.GetSationsWithEmptyChargeSlots(emptyChargeslots))
             {
-                curDistance = Distance(location,
-                    new Location() { Latitude = item.Latitude, Longitude = item.Longitude });
-                if (curDistance < minDistance)
+                curDistance = Distance(location, new Location() { Latitude = item.Latitude, Longitude = item.Longitude });
+                if (curDistance < minDistance && !item.IsNotActive)
                 {
                     minDistance = curDistance;
-                    station = item;
+                    station = ConvertStation(item);
                 }
             }
             return station;

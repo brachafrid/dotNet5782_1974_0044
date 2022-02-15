@@ -1,21 +1,20 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-    namespace BO
+﻿namespace BO
+{
+    public class CustomerInParcel
     {
-      public class CustomerInParcel
+        /// <summary>
+        /// Key of customer in parcel
+        /// </summary>
+        public int Id { get; init; }
+        /// <summary>
+        /// Name of customer in parcel
+        /// </summary>
+        public string Name { get; set; }
+        public override string ToString()
         {
-            public int Id { get; init; }
-            public string Name { get; set; }
-            public override string ToString()
-            {
-                return this.ToStringProperties();
-            }
+            return this.ToStringProperties();
         }
     }
+}
 
 

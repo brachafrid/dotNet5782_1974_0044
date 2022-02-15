@@ -1,0 +1,49 @@
+﻿<UserControl x:Class="PL.AdministratorWindow"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:PL" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <UserControl.DataContext>
+        <local:AdministratorVM/>
+    </UserControl.DataContext>
+    <UserControl.Resources>
+        <ResourceDictionary Source="../Dictionary.xaml" />
+    </UserControl.Resources>
+    <DockPanel>
+        <ToolBarTray Orientation="Vertical">
+            <ToolBar  ClipToBounds="False" Style="{DynamicResource MaterialDesignToolBar}">
+                <Button ToolTip="Drones" Content="{materialDesign:PackIcon Kind=Drone}" Command="{Binding AddDroneToListWindowCommand}"/>
+                <Separator />
+                <Button  ToolTip="Parcels" Content="{materialDesign:PackIcon Kind=PackageVariant}" Command="{Binding AddParcelToListWindowCommand}"/>
+                <Separator />
+                <Button ToolTip="Customers"  Content="{materialDesign:PackIcon Kind=AccountMultiple}" Command="{Binding AddCustomerToListWindowCommand}"/>
+                <Separator />
+                <Button ToolTip="Stations" Content="{materialDesign:PackIcon Kind=GasStation}" Command="{Binding AddStationToListWindowCommand}"/>
+                <Separator />
+                <Button ToolTip="Refresh" Content="{materialDesign:PackIcon Kind=Refresh}" Command="{Binding RefreshCommand}"/>
+                <Separator />
+                <Button ToolTip="Logout" Content="{materialDesign:PackIcon Kind=Logout}" Command="{Binding LogOutCommand}"/>
+            </ToolBar>
+        </ToolBarTray>
+
+        <TabControl ItemsSource="{Binding Source={x:Static local:Tabs.TabItems}}" SelectedIndex="{Binding SelectedTab}" >
+            <TabControl.ItemTemplate>
+                <DataTemplate>
+                    <DockPanel>
+                        <TextBlock Text="{Binding Path=Header}"/>
+                        <Button Content="x"   Style="{StaticResource MaterialDesignIconForegroundButton}" Command="{Binding Source={x:Static local:Tabs.CloseCommandTab}}" CommandParameter="{Binding}"/>
+                    </DockPanel>
+                </DataTemplate>
+            </TabControl.ItemTemplate>
+            <TabControl.ContentTemplate>
+                <DataTemplate>
+                    <ContentControl Content="{Binding Content}"/>
+                </DataTemplate>
+            </TabControl.ContentTemplate>
+        </TabControl>
+    </DockPanel>
+</UserControl>

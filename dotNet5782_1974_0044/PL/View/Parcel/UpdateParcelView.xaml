@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="PL.UpdateParcelView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:PL" 
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+
+        <ResourceDictionary>
+            <local:parcelWasTreatedByDroneVisibility x:Key="parcelWasTreatedByDroneVisibility" />
+            <local:parcelButtunsContent x:Key="parcelButtunsContent" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="../Dictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </UserControl.Resources>
+    <ScrollViewer>
+        <StackPanel>
+            <StackPanel>
+                <ContentPresenter Content="{Binding Parcel}"/>
+                <Button x:Name="parcelTreatedByDRone"  Command="{Binding ParcelTreatedByDrone}"
+                        Content="{Binding Path=Parcel.CollectionTime ,Converter={StaticResource parcelButtunsContent}}">
+                    <Button.Visibility>
+                        <MultiBinding Converter="{StaticResource parcelWasTreatedByDroneVisibility}">
+                            <Binding Path="Parcel.AssignmentTime" />
+                            <Binding Path="Parcel.DeliveryTime" />
+                            <Binding Path="Parcel" />
+                        </MultiBinding>
+                    </Button.Visibility>
+                </Button>
+                <Button Content="delete parcel" Command="{Binding DeleteParcelCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}"/>
+            </StackPanel>
+        </StackPanel>
+    </ScrollViewer>
+</UserControl>
