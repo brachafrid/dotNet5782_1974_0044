@@ -75,7 +75,6 @@ namespace PL
                 Header = "Parcels",
                 Content = new ParcelToListVM()
             });
-
         }
 
         /// <summary>

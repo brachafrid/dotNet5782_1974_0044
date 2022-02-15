@@ -101,5 +101,11 @@ namespace PL
             }
 
         }
+        static internal void LogOut()
+        {
+            foreach (var tab in TabItems)
+                CloseTab(tab);
+            LoginScreen.MyScreen =Screen.LOGIN;
+        }
     }
 }

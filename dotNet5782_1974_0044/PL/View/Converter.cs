@@ -1,4 +1,5 @@
 ﻿using BO;
+using PL.PO;
 using System;
 using System.Globalization;
 using System.Windows;
@@ -319,9 +320,9 @@ namespace PL
         {
             return value switch
             {
-                "LoginWindow" => new LoginWindow(),
-                "AdministratorWindow" => new AdministratorVM(),
-                "CustomerWindow" => new CustomerWindowVM((int)PO.LoginScreen.Id),
+                Screen.LOGIN => new LoginWindow(),
+                Screen.ADMINISTOR => new AdministratorVM(),
+                Screen.CUSTOMER => new CustomerWindowVM((int)PO.LoginScreen.Id),
                 _=>null
             };
         }
@@ -401,7 +402,6 @@ namespace PL
             throw new NotImplementedException();
         }
     }
-
     public class ConverterCancelFilterVisibility : IValueConverter
     {
         /// <summary>

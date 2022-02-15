@@ -11,8 +11,8 @@ namespace PL.PO
 {
     public static class LoginScreen
     {
-        private static string myScreen { get; set; }
-        public static string MyScreen
+        private static Screen myScreen { get; set; }
+        public static Screen MyScreen
         {
             get { return myScreen; }
             set
@@ -35,7 +35,7 @@ namespace PL.PO
 
         static LoginScreen()
         {
-            MyScreen = "LoginWindow";
+            MyScreen = Screen.LOGIN;
         }
         public static event EventHandler<PropertyChangedEventArgs> StaticPropertyChanged;
         private static void NotifyStaticPropertyChanged(string propertyName)

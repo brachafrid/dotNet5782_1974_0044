@@ -51,27 +51,42 @@ namespace PL
         /// </summary>
         /// <param name="id">id of customer</param>
         /// <returns>Task of customer</returns>
-        public static async  Task<Customer> GetCustomer(int id)
+        public static   Task<Customer> GetCustomer(int id)
         {
-           Customer Result =null;
             var taskCompletionSource = new TaskCompletionSource<Customer>();
-            try
+            ThreadPool.QueueUserWorkItem(_ =>
             {
-                BackgroundWorker workerPl = new();
-                workerPl.DoWork += (sender, e) => e.Result = PlServiceConvert.ConvertCustomer(ibal.GetCustomer(id));
-                workerPl.RunWorkerCompleted += (sender, e) => taskCompletionSource.SetResult(e.Result as Customer);
-                workerPl.RunWorkerAsync();
-                Result = await taskCompletionSource.Task;
-            }
-            catch (KeyNotFoundException ex)
-            {
+                try
+                {
+                    var Result = PlServiceConvert.ConvertCustomer(ibal.GetCustomer(id));
+                    taskCompletionSource.SetResult(Result);
+                }
+                catch (KeyNotFoundException ex)
+                {
+                    MessageBox.Show("jkjjkkj");
+                }
+               
+            });
+            return taskCompletionSource.Task;
+            //try
+            //{
+            //    BackgroundWorker workerPl = new();
 
-                MessageBox.Show(ex.Message);
+            //    workerPl.DoWork += (sender, e) => e.Result = PlServiceConvert.ConvertCustomer(ibal.GetCustomer(id));
+            //    workerPl.RunWorkerCompleted += (sender, e) => taskCompletionSource.SetResult(e.Result as Customer);
+            //    workerPl.RunWorkerAsync();
+            //    //return await taskCompletionSource.Task;
 
-            }
-            return Result;
-            }
-        
+            //}
+            //catch (taskCompletionSource.SetException(ex))
+            //{
+
+            //    MessageBox.Show(ex.Message);
+            //    throw new Exception();
+            //}
+
+            //}
+        }
             /// <summary>
             /// Get customers
             /// </summary>
@@ -514,3 +529,4 @@ namespace PL
             #endregion
         }
     }
+
