@@ -20,19 +20,16 @@ namespace PL
             Command = new RelayCommand(Log, null);
         }
         private LoginState state;
-
         public LoginState State
         {
             get { return state; }
             set { Set(ref state, value); }
         }
-
         /// <summary>
         /// Customer Add view model
         /// </summary>
         public CustomerAddVM Add { get; set; }
         public RelayCommand Command { get; set; }
-
         /// <summary>
         /// Command of showing administrator login
         /// </summary>
@@ -41,7 +38,6 @@ namespace PL
         /// Command of showing customer login
         /// </summary>
         public CustomerLogin customerLogin { get; set; } = new();
-
         /// <summary>
         /// Show administrator login
         /// </summary>
@@ -50,12 +46,10 @@ namespace PL
         {
             State = (LoginState)param;
         }
-
         /// <summary>
         /// login
         /// </summary>
-        /// <param name="param"></param>
-        
+        /// <param name="param"></param>  
         public void Log(object param)
         {
             switch (State)
@@ -92,7 +86,6 @@ namespace PL
                 MessageBox.Show(ex.Message, "Login", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
-
         /// <summary>
         /// Customer login
         /// </summary>
