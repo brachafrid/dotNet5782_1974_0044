@@ -37,9 +37,9 @@ namespace PL
                 DelegateVM.NotifyDroneChanged();
                 Tabs.CloseTab(param as TabItemFormat);
             }
-            catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException)
+            catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                MessageBox.Show("Id has already exsist");
+                MessageBox.Show(ex.Message+Environment.NewLine+$"The Id :{ex.Id}", "Adding Station", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 station.Id = null;
             }
         }

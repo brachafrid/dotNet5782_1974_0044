@@ -42,13 +42,11 @@ namespace PL
             }
             catch (KeyNotFoundException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
-                throw new KeyNotFoundException();
+                MessageBox.Show(ex.Message, $"Init Parcels List", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
-                throw new KeyNotFoundException();
+                MessageBox.Show(ex.Message, $"Init Parcels List", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
         }
@@ -76,35 +74,43 @@ namespace PL
         /// <param name="e">event</param>
         private async void HandleParcelChanged(object sender, EntityChangedEventArgs e)
         {
-            if (e.Id != null && e.Id != 0)
+            try
             {
-                var parcel = sourceList.FirstOrDefault(p => p.Id == e.Id);
-                if (parcel != default)
-                    sourceList.Remove(parcel);
-                var newParcel = (await PLService.GetParcels()).FirstOrDefault(p => p.Id == e.Id);
-                sourceList.Add(newParcel);
-            }
-            else
-            {
-                sourceList.Clear();
-                switch (state)
+                if (e.Id != null && e.Id != 0)
                 {
-                    case "From":
-                        {
-                            foreach (var item in (await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel)))
+                    var parcel = sourceList.FirstOrDefault(p => p.Id == e.Id);
+                    if (parcel != default)
+                        sourceList.Remove(parcel);
+                    var newParcel = (await PLService.GetParcels()).FirstOrDefault(p => p.Id == e.Id);
+                    sourceList.Add(newParcel);
+                }
+                else
+                {
+                    sourceList.Clear();
+                    switch (state)
+                    {
+                        case "From":
+                            {
+                                foreach (var item in (await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel)))
+                                    sourceList.Add(await item);
+                            }
+                            break;
+                        case "To":
+                            foreach (var item in (await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel)))
                                 sourceList.Add(await item);
-                        }
-                        break;
-                    case "To":
-                        foreach (var item in (await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel)))
-                            sourceList.Add(await item);
-                        break;
-                    default:
-                        foreach (var item in await PLService.GetParcels())
-                            sourceList.Add(item);
-                        break;
+                            break;
+                        default:
+                            foreach (var item in await PLService.GetParcels())
+                                sourceList.Add(item);
+                            break;
+                    }
                 }
             }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message, $"Init Parcels List", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
 
         /// <summary>
@@ -113,12 +119,21 @@ namespace PL
         /// <returns>state</returns>
         private async Task<IEnumerable<ParcelToList>> UpdateInitList()
         {
-            return state switch
+            try
             {
-                "From" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
-                "To" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
-                _ => await PLService.GetParcels()
-            };
+                return state switch
+                {
+                    "From" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
+                    "To" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
+                    _ => await PLService.GetParcels()
+                };
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message, $"Init Parcels List", MessageBoxButton.OK, MessageBoxImage.Error);
+                return new List<ParcelToList>();
+            }
+
         }
 
         /// <summary>

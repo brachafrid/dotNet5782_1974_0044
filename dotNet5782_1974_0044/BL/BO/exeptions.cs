@@ -8,15 +8,10 @@ namespace BO
     [Serializable]
     public class ThereIsNoNearbyBaseStationThatTheDroneCanReachException : Exception
     {
-        public ThereIsNoNearbyBaseStationThatTheDroneCanReachException() : base() { }
+        public ThereIsNoNearbyBaseStationThatTheDroneCanReachException() : base("There is no nearby base station that the drone can reach exception" ) {}
         public ThereIsNoNearbyBaseStationThatTheDroneCanReachException(string message) : base(message) { }
         public ThereIsNoNearbyBaseStationThatTheDroneCanReachException(string message, Exception inner) : base(message, inner) { }
         protected ThereIsNoNearbyBaseStationThatTheDroneCanReachException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
-        public override string ToString()
-        {
-            return Message + "There is no nearby base station that the drone can reach exception";
-        }
 
     }
 
@@ -25,7 +20,7 @@ namespace BO
     {
         public int Id { get; set; }
 
-        public ThereIsAnObjectWithTheSameKeyInTheListException() : base() { }
+        public ThereIsAnObjectWithTheSameKeyInTheListException() : base( "An element with the same key already exists in the list") { }
         public ThereIsAnObjectWithTheSameKeyInTheListException(int id) : base() { Id = id; }
         public ThereIsAnObjectWithTheSameKeyInTheListException(string message) : base(message) { }
         public ThereIsAnObjectWithTheSameKeyInTheListException(string message, Exception inner) : base(message, inner) { }
@@ -34,51 +29,34 @@ namespace BO
 
         protected ThereIsAnObjectWithTheSameKeyInTheListException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        public override string ToString()
-        {
-            if(Id!=default)
-                return Message + $"An element with the same key already exists in the list , the key: {Id}";
-            return Message + "An element with the same key already exists in the list  ";
-
-        }
 
     }
     [Serializable]
     public class ThereAreAssociatedOrgansException : Exception
     {
 
-        public ThereAreAssociatedOrgansException() : base() { }
+        public ThereAreAssociatedOrgansException() : base("There are associated organs, Cant delete") { }
         public ThereAreAssociatedOrgansException(string message) : base(message) { }
         public ThereAreAssociatedOrgansException(string message, Exception inner) : base(message, inner) { }
         protected ThereAreAssociatedOrgansException(SerializationInfo info, StreamingContext context) : base(info, context) { }
-
-        public override string ToString()
-        {
-            return Message + "There are associated organs, Cant delete";
-        }
 
     }
     [Serializable]
     public class DeletedExeption : Exception
     {
         public int Id { get; set; }
-        public DeletedExeption() : base() { }
+        public DeletedExeption() : base("The element was deleted") { }
         public DeletedExeption(int id) : base() { Id = id; }
         public DeletedExeption(string message) : base(message) { }
         public DeletedExeption(string message,int id) : base(message) { Id = id; }
         public DeletedExeption(string message, Exception inner) : base(message, inner) { }
         protected DeletedExeption(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        public override string ToString()
-        {
-            return "the element was deleted";
-        }
-
     }
     [Serializable]
     public class NotExsistSutibleParcelException : Exception
     {
-        public NotExsistSutibleParcelException()
+        public NotExsistSutibleParcelException():base("Not Exsist Sutible Parcel")
         {
         }
 
@@ -97,7 +75,7 @@ namespace BO
     [Serializable]
     public class NotExsistSuitibleStationException : Exception
     {
-        public NotExsistSuitibleStationException()
+        public NotExsistSuitibleStationException() : base("Not Exsist Sutible Station")
         {
         }
 
@@ -139,25 +117,19 @@ namespace BO
     public class TheDroneIsNotInChargingException : Exception
     {
         public int DroneId { get; set; }
-        public TheDroneIsNotInChargingException() : base() { }
+        public TheDroneIsNotInChargingException() : base("An element with the same key already exists in the list") { }
         public TheDroneIsNotInChargingException(int droneId) : base() { DroneId = droneId; }
         public TheDroneIsNotInChargingException(string message) : base(message) { }
         public TheDroneIsNotInChargingException(string message, int droneId) : base(message) { DroneId = droneId; }
         public TheDroneIsNotInChargingException(string message, Exception inner) : base(message, inner) { }
         protected TheDroneIsNotInChargingException(SerializationInfo info, StreamingContext context) : base(info, context) { }
 
-        public override string ToString()
-        {
-            if (DroneId != default)
-                return "An element with the same key already exists in the list";
-            return $"An element with the same key already exists in the list , the drone id is:{DroneId} ";
-        }
 
     }
     [Serializable]
     public class InvalidDroneStateException : Exception
     {
-        public InvalidDroneStateException()
+        public InvalidDroneStateException():base("Invalid Drone State")
         {
         }
 
@@ -177,7 +149,7 @@ namespace BO
     [Serializable]
     public class InvalidParcelStateException : Exception
     {
-        public InvalidParcelStateException()
+        public InvalidParcelStateException():base("Invalid Parcel State")
         {
         }
 

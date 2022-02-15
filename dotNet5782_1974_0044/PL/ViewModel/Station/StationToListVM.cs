@@ -31,7 +31,7 @@ namespace PL
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, "Init Stations List", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -61,7 +61,7 @@ namespace PL
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, "Init Stations List", MessageBoxButton.OK, MessageBoxImage.Error);
             }
 
         }

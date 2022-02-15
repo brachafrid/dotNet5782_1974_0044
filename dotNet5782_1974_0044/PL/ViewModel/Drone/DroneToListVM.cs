@@ -2,6 +2,7 @@
 using System;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Windows;
 using System.Windows.Data;
 
 namespace PL
@@ -23,8 +24,16 @@ namespace PL
         /// </summary>
         private async void InitList()
         {
+            try
+            {
             sourceList = new ObservableCollection<DroneToList>(await PLService.GetDrones());
             list = new ListCollectionView(sourceList);
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message, "Init Drones List", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
 
         /// <summary>
@@ -34,21 +43,28 @@ namespace PL
         /// <param name="e">event</param>
         private async void HandleDroneChanged(object sender, EntityChangedEventArgs e)
         {
-            if (e.Id != null)
+            try
             {
-                var drone = sourceList.FirstOrDefault(d => d.Id == e.Id);
-                if (drone != null)
+                if (e.Id != null)
                 {
-                    sourceList.Remove(drone);
-                    var newDrone = (await PLService.GetDrones()).FirstOrDefault(d => d.Id == e.Id);
-                    sourceList.Add(newDrone);
+                    var drone = sourceList.FirstOrDefault(d => d.Id == e.Id);
+                    if (drone != null)
+                    {
+                        sourceList.Remove(drone);
+                        var newDrone = (await PLService.GetDrones()).FirstOrDefault(d => d.Id == e.Id);
+                        sourceList.Add(newDrone);
+                    }
+                }
+                else
+                {
+                    sourceList.Clear();
+                    foreach (var item in await PLService.GetDrones())
+                        sourceList.Add(item);
                 }
             }
-            else
+            catch (BO.XMLFileLoadCreateException ex)
             {
-                sourceList.Clear();
-                foreach (var item in await PLService.GetDrones())
-                    sourceList.Add(item);
+                MessageBox.Show(ex.Message, "Init Drones List", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

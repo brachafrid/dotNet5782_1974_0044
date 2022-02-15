@@ -102,11 +102,11 @@ namespace PL
             }
             catch (KeyNotFoundException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Station Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Station Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -129,19 +129,19 @@ namespace PL
             }
             catch (ArgumentNullException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Station Id: {id}", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             catch (ArgumentOutOfRangeException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Station Id: {id}", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             catch (KeyNotFoundException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Station Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Station Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -166,15 +166,15 @@ namespace PL
             }
             catch (BO.ThereAreAssociatedOrgansException ex)
             {
-                MessageBox.Show($"{ex.Message}");
+                MessageBox.Show(ex.Message, $"Update Station Id: {id}", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Station Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (KeyNotFoundException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Station Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

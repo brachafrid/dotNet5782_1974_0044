@@ -24,8 +24,16 @@ namespace PL
         /// </summary>
         private async void InitList()
         {
-            sourceList = new ObservableCollection<CustomerToList>(await PLService.GetCustomers());
-            list = new ListCollectionView(sourceList);
+            try
+            {
+                sourceList = new ObservableCollection<CustomerToList>(await PLService.GetCustomers());
+                list = new ListCollectionView(sourceList);
+            }
+            catch (BO.XMLFileLoadCreateException ex)
+            {
+                MessageBox.Show(ex.Message, "Init Custoners List", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
+
         }
 
         /// <summary>
@@ -55,12 +63,7 @@ namespace PL
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                if (ex.Message != string.Empty)
-                {
-                    MessageBox.Show(ex.Message);
-                }
-                else
-                    MessageBox.Show(ex.ToString());
+                MessageBox.Show(ex.Message, "Changed Customer", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

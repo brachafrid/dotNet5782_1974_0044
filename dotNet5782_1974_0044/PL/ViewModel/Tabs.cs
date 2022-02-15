@@ -105,11 +105,11 @@ namespace PL
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message ,"Adding Tab",MessageBoxButton.OK,MessageBoxImage.Error);
             }
             catch (KeyNotFoundException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, "Adding Tab", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 

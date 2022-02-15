@@ -77,11 +77,11 @@ namespace PL
             }
             catch (KeyNotFoundException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Parcel Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Parcel Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -104,11 +104,11 @@ namespace PL
             }
             catch (KeyNotFoundException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Parcel Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Parcel Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
@@ -138,23 +138,23 @@ namespace PL
             }
             catch (KeyNotFoundException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Parcel Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.DeletedExeption ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show($"{ex.Id} {ex.Message}", $"Update Parcel Id: {id}", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             catch (ArgumentNullException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Parcel Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.InvalidParcelStateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message , $"Update Parcel Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message != string.Empty ? ex.Message : ex.ToString());
+                MessageBox.Show(ex.Message, $"Update Parcel Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
 
