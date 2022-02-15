@@ -13,6 +13,9 @@ namespace PL
         Action simulateDrone;
 
         private Drone drone;
+        /// <summary>
+        /// drone
+        /// </summary>
         public Drone Drone
         {
             get { return drone; }
@@ -24,6 +27,9 @@ namespace PL
         }
 
         private string droneModel;
+        /// <summary>
+        /// drone model
+        /// </summary>
         public string DroneModel
         {
             get { return droneModel; }
@@ -32,12 +38,33 @@ namespace PL
                 Set(ref droneModel, value);
             }
         }
+        /// <summary>
+        /// Command of openning parcel
+        /// </summary>
         public RelayCommand OpenParcelCommand { get; set; }
+        /// <summary>
+        /// Command of openning customer
+        /// </summary>
         public RelayCommand OpenCustomerCommand { get; set; }
+        /// <summary>
+        /// Command of updating drone
+        /// </summary>
         public RelayCommand UpdateDroneCommand { get; set; }
+        /// <summary>
+        /// Command of charging drone
+        /// </summary>
         public RelayCommand ChargingDroneCommand { get; set; }
+        /// <summary>
+        /// Command of treating parcel by drone
+        /// </summary>
         public RelayCommand ParcelTreatedByDrone { get; set; }
+        /// <summary>
+        /// Command of deleting drone
+        /// </summary>
         public RelayCommand DeleteDroneCommand { get; set; }
+        /// <summary>
+        /// Command of simulator
+        /// </summary>
         public RelayCommand SimulatorCommand { get; set; }
 
         /// <summary>
@@ -281,6 +308,9 @@ namespace PL
         #region simulator
         private bool auto;
 
+        /// <summary>
+        /// Aotomatic
+        /// </summary>
         public bool Auto
         {
             get { return auto; }
@@ -351,6 +381,10 @@ namespace PL
         private bool IsSimulatorStoped() => simulatorWorker.CancellationPending;
 
         #endregion
+
+        /// <summary>
+        /// Dispose the eventHandles
+        /// </summary>
         public void Dispose()
         {
             DelegateVM.DroneChangedEvent += HandleADroneChanged;

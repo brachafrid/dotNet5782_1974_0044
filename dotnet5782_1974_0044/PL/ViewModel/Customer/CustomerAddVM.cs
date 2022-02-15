@@ -12,7 +12,13 @@ namespace PL
 {
     public class CustomerAddVM : IDisposable
     {
+        /// <summary>
+        /// The added customer
+        /// </summary>
         public CustomerAdd customer { get; set; }
+        /// <summary>
+        /// Command of adding customer
+        /// </summary>
         public RelayCommand AddCustomerCommand { get; set; }
         /// <summary>
         /// constructor
