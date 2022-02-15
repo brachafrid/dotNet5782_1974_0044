@@ -13,6 +13,7 @@ namespace PL
         public RelayCommand AddStationToListWindowCommand { get; set; }
         public RelayCommand AddCustomerToListWindowCommand { get; set; }
         public RelayCommand RefreshCommand { get; set; }
+        public RelayCommand LogOutCommand { get; set; }
 
         private int selectedTab;
 
@@ -31,6 +32,7 @@ namespace PL
             AddParcelToListWindowCommand = new(AddParcelToList, null);
             AddStationToListWindowCommand = new(AddStationToList, null);
             AddCustomerToListWindowCommand = new(AddCustomerToList, null);
+            LogOutCommand = new(Tabs.LogOut, null);
             RefreshCommand = new(Refresh, null);
             Tabs.changeSelectedTab += changeIndex;
         }
@@ -75,7 +77,6 @@ namespace PL
                 Header = "Parcels",
                 Content = new ParcelToListVM()
             });
-
         }
 
         /// <summary>

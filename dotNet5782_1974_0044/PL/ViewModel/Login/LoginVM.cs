@@ -96,7 +96,7 @@ namespace PL
             {
                 if ((param as PasswordBox).Password == await PLService.GetAdministorPasssword())
                 {
-                    LoginScreen.MyScreen = "AdministratorWindow";
+                    LoginScreen.MyScreen = Screen.ADMINISTOR;
                 }
                 else
                 {
@@ -124,7 +124,7 @@ namespace PL
                 else
                 {
                     LoginScreen.Id = customer.Id;
-                    LoginScreen.MyScreen = "CustomerWindow";
+                    LoginScreen.MyScreen = Screen.CUSTOMER;
                 }
             }
             catch (KeyNotFoundException)

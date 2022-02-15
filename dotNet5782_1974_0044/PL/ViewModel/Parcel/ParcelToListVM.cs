@@ -61,7 +61,6 @@ namespace PL
             IsAdministor = false;
             state = (string)State;
             InitList();
-            //list = new ListCollectionView(sourceList);
             DelegateVM.CustomerChangedEvent += HandleParcelChanged;
             DelegateVM.ParcelChangedEvent += HandleParcelChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);

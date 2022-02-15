@@ -143,7 +143,7 @@ namespace PL
                     MessageBox.Show("The customer was successfully deleted");
                     if (!IsAdministor)
                     {
-                        LoginScreen.MyScreen = "LoginWindow";
+                        LoginScreen.MyScreen = Screen.LOGIN;
                         Tabs.TabItems.Clear();
                         DelegateVM.Reset();
                     }
