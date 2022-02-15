@@ -37,6 +37,7 @@ namespace PL
             {
                 await PLService.AddCustomer(customer);
                 DelegateVM.NotifyCustomerChanged((int)customer.Id);
+                DelegateVM.NotifyParcelChanged();
                 Tabs.CloseTab(param as TabItemFormat);
             }
             catch (BO.XMLFileLoadCreateException ex)

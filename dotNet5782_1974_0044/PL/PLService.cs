@@ -103,19 +103,20 @@ namespace PL
                 await workerCompleted.Task;
             }
 
-            /// <summary>
-            /// Delete customer
-            /// </summary>
-            /// <param name="id">id of cstomer</param>
-            /// <returns>task</returns>
-            public static async Task DeleteCustomer(int id)
-            {
-                TaskCompletionSource taskCompletion = new();
-                BackgroundWorker worker = new();
-                worker.DoWork += (sender, e) => ibal.DeleteCustomer(id);
-                worker.RunWorkerCompleted += (sender, e) => taskCompletion.SetResult();
-                await taskCompletion.Task;
-            }
+        /// <summary>
+        /// Delete customer
+        /// </summary>
+        /// <param name="id">id of cstomer</param>
+        /// <returns>task</returns>
+        public static async Task DeleteCustomer(int id)
+        {
+            TaskCompletionSource taskCompletion = new();
+            BackgroundWorker worker = new();
+            worker.DoWork += (sender, e) => ibal.DeleteCustomer(id);
+            worker.RunWorkerCompleted += (sender, e) => taskCompletion.SetResult();
+            worker.RunWorkerAsync();
+            await taskCompletion.Task;
+        }
 
             /// <summary>
             /// Check if the customer is not active

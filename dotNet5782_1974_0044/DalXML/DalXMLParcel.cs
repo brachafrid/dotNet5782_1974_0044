@@ -153,8 +153,9 @@ namespace Dal
                 XElement xElementParcel = xElementParcels.Elements().FirstOrDefault(elem => int.Parse(elem.Element("Id").Value) == parcel.Id);
                 if (xElementParcels == default(XElement))
                     throw new KeyNotFoundException($"The parcel id {parcel.Id}  not exsits in data");
-                xElementParcel.SetValue(DalXmlService.ConvertParcelToXElement(newParcel));
-                DalXmlService.SaveXElementToXML(xElementParcel, PARCEL_PATH);
+                xElementParcel.Remove();                   
+                xElementParcels.Add(DalXmlService.ConvertParcelToXElement(newParcel));
+                DalXmlService.SaveXElementToXML(xElementParcels, PARCEL_PATH);
             }
             catch (XMLFileLoadCreateException ex)
             {
