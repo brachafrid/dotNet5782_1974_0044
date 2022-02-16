@@ -213,9 +213,9 @@ namespace BL
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public void AssingParcelToDrone(int droneId)
         {
+            DroneToList aviableDrone = drones.FirstOrDefault(item => item.Id == droneId);
             try
             {
-                DroneToList aviableDrone = drones.FirstOrDefault(item => item.Id == droneId);
                 if (aviableDrone == default)
                     throw new KeyNotFoundException($"The drone id {droneId} not exsits in data so the updating failed");
                 if (aviableDrone.IsNotActive)
@@ -230,7 +230,7 @@ namespace BL
             }
             catch (ThereIsNoNearbyBaseStationThatTheDroneCanReachException ex)
             {
-                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException("", ex);//?
+                aviableDrone.DroneState = DroneState.RESCUE;
             }
             catch (NotExsistSutibleParcelException ex)
             {
@@ -274,7 +274,6 @@ namespace BL
                 droneToList.BatteryState -= Distance(droneToList.CurrentLocation, senderLocation) * available;
                 droneToList.CurrentLocation = senderLocation;
                 ParcelcollectionDrone(parcel);
-
             }
             catch (KeyNotFoundException ex)
             {
@@ -368,6 +367,21 @@ namespace BL
             }
 
         }
+
+
+        /// <summary>
+        /// Delete parcel from drone
+        /// </summary>
+        /// <param name="id">id of drone</param>
+        private void DeleteParcelFromDrone(int id)
+        {
+            DroneToList drone = drones.FirstOrDefault(item => item.Id == id);
+            if (drone != default)
+            {
+                drone.ParcelId = null;
+                drone.DroneState = DroneState.AVAILABLE;
+            }
+        }
         #endregion
 
         /// <summary>
@@ -412,7 +426,6 @@ namespace BL
         {
             if (!parcels.Any())
                 throw new NotExsistSutibleParcelException("There is no suitable parcel that meets all the conditions");
-
             return parcels.OrderByDescending(parcel => parcel.Key.Piority)
                 .ThenByDescending(parcel => parcel.Key.Weight)
                 .ThenBy(parcel => parcel.Value)

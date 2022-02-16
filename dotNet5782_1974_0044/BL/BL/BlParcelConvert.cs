@@ -113,12 +113,6 @@ namespace BL
             Dictionary<ParcelToList, double> parcels = new();
             foreach (var item in dal.GetParcels())
             {
-                //if (item.DorneId == 0 
-                //    && (WeightCategories)item.Weigth <= aviableDrone.Weight 
-                //    && CalculateElectricity(aviableDrone.CurrentLocation, aviableDrone.BatteryState, MapParcelToList(item).CustomerSender.Location, MapParcelToList(item).CustomerReceives.Location, (WeightCategories)item.Weigth, out double minDistance) <= aviableDrone.BatteryState)
-                //{
-                //    parcels.Add(MapParcelToList(item), minDistance);
-                //}
                 if (item.DorneId == 0
                     && (WeightCategories)item.Weigth <= aviableDrone.Weight)
                 {
@@ -128,7 +122,6 @@ namespace BL
                         parcels.Add(parcelToList, minDistance);
                 }
             }
-
             return parcels;
         }
 
