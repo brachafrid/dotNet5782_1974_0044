@@ -121,6 +121,7 @@ namespace PL
         {
             TabItems.ToList().ForEach(tab => CloseTab(tab));
             LoginScreen.MyScreen = Screen.LOGIN;
+            LoginScreen.Id = null;
         }
 
         /// <summary>

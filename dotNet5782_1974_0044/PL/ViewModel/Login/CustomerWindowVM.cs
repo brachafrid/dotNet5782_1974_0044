@@ -168,7 +168,7 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Header = "Parcels From Customer",
-                Content = new ParcelToListVM(id, "From"),
+                Content = new ParcelToListVM(id, ParcelListWindowState.FROM_CUSTOMER),
             });
         }
 
@@ -181,7 +181,7 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Header = "Parcels To Customer",
-                Content = new ParcelToListVM(id, "To"),
+                Content = new ParcelToListVM(id, ParcelListWindowState.TO_CUSTOMER),
             });
         }
 
