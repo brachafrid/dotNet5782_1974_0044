@@ -110,7 +110,6 @@ namespace BL
         /// <returns>A dictionary of converted parcels and distance</returns>
         private Dictionary<ParcelToList, double> CreatParcelDictionaryToAssign(DroneToList aviableDrone)
         {
-            var stopwatch = Stopwatch.StartNew();
             Dictionary<ParcelToList, double> parcels = new();
             foreach (var item in dal.GetParcels())
             {
@@ -129,8 +128,7 @@ namespace BL
                         parcels.Add(parcelToList, minDistance);
                 }
             }
-            stopwatch.Stop();
-            Debug.WriteLine($"CreatParcelDictionaryToAssign - {stopwatch.Elapsed}");
+
             return parcels;
         }
 

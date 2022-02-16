@@ -16,14 +16,14 @@ namespace BL
         /// <returns></returns>
         private double CalculateElectricity(Location aviableDroneLocation, double? batteryStatus, Location CustomerSender, Location CustomerReceives, WeightCategories weight, out double distance)
         {
-            Debug.WriteLine($"start ");
+           
             double electricity;
             double e = weight switch
             {
                 WeightCategories.LIGHT => lightWeightCarrier,
                 WeightCategories.MEDIUM => mediumWeightBearing,
                 WeightCategories.HEAVY => carriesHeavyWeight,
-               _ =>0
+               _ => 0
             };
             Station station;
             electricity = Distance(aviableDroneLocation, CustomerSender) * available +
@@ -47,10 +47,6 @@ namespace BL
             catch (NotExsistSuitibleStationException ex)
             {
                 throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException(ex.Message, ex);
-            }
-            finally
-            {
-                Debug.WriteLine($"end");
             }
         }
     }
