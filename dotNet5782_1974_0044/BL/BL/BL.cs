@@ -62,7 +62,7 @@ namespace BL
         {
             var tmpDrones = dal.GetDrones();
             var parcels = dal.GetParcels();
-            // create list of stations' location
+            // create list of customers' location
             var customersGotParcelLocation = GetLocationsCustomersGotParcels((int recivedparcels) => recivedparcels > 0);
             foreach (var drone in tmpDrones)
             {
@@ -100,14 +100,14 @@ namespace BL
                         parcel = newParcel;
                     }
                 }
-                else if (droneInCharging.Any())
+                else if (!droneInCharging.Any())
                 {
                     state = DroneState.MAINTENANCE;
                 }
                 if (state == default)
                 {
                     state = (DroneState)rand.Next(0, DRONESTATUSESLENGTH);
-                    if (customersGotParcelLocation.Count() <= 0)
+                    if (customersGotParcelLocation.Any())
                         state = DroneState.MAINTENANCE;
 
                 }
@@ -119,7 +119,7 @@ namespace BL
                         BatteryStatus = rand.Next((int)MinBatteryForAvailAble(tmpLocaiton) + 1, FULLBATTRY);
                         break;
                     case DroneState.MAINTENANCE:
-                        if (droneInCharging.Count() <= 0)
+                        if (!droneInCharging.Any())
                         {
                             var stationsToDroneCharge = from station in dal.GetSationsWithEmptyChargeSlots((int numOfEmpty) => numOfEmpty > 0)
                                                         let stationLocation = new Location() { Latitude = station.Latitude, Longitude = station.Longitude }
@@ -142,7 +142,7 @@ namespace BL
                         BatteryStatus = tmpBatteryStatus;
                         break;
                     default:
-                        Location = null;
+                        Location = new() { Longitude = rand.Next(-1, 91), Latitude = rand.Next(-91, 91) };
                         BatteryStatus = 0;
                         break;
                 }
@@ -157,7 +157,7 @@ namespace BL
                     CurrentLocation = Location,
                     ParcelId = parcel.DorneId == 0 ? 0 : parcel.Id,
                     BatteryState = BatteryStatus,
-                    IsNotActive = false
+                    IsNotActive = drone.IsNotActive
                 });
             }
         }
@@ -234,7 +234,6 @@ namespace BL
                 // if the drone need more electricity 
                 if (electrity > FULLBATTRY)
                 {
-
                     canTakeParcel = false;
                     return 0;
                 }
@@ -254,7 +253,6 @@ namespace BL
         /// <returns> min electricity</returns>
         private double MinBatteryForAvailAble(Location location)
         {
-
             var station = ClosetStation(location, (int chargeSlots) => chargeSlots > 0);
             if (station == null)
                 return MININITBATTARY;
