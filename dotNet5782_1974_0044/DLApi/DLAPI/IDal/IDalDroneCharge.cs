@@ -7,43 +7,45 @@ namespace DLApi
     public interface IDalDroneCharge
     {
         /// <summary>
-        /// Get drone charging in station
+        /// Finds all the drones that are charged at a particular station
         /// </summary>
-        /// <param name="inTheStation">Predicate type of int inTheStation</param>
-        /// <returns>drone charging in station</returns>
+        ///<param name="inTheStation">The predicate to screen out if the station id of the drone equal to a spesific station id </param>
+        /// <returns>A list of DroneCarge</returns>
         public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation);
         /// <summary>
         /// Get drones charging
         /// </summary>
         /// <returns>drones charging</returns>
         public IEnumerable<DroneCharge> GetDronescharging();
+
         /// <summary>
-        /// Add drone charge
+        /// Gets parameters and create new DroneCharge 
         /// </summary>
-        /// <param name="droneId">drone's id</param>
-        /// <param name="stationId">station's id</param>
+        /// <param name="droneId">The drone to add</param>
+        /// <param name="stationId">The station to add the drone</param>
         public void AddDroneCharge(int droneId, int stationId);
 
         /// <summary>
-        /// Remove drone charge
+        /// Remove DroneCharge object from the list
         /// </summary>
-        /// <param name="droneId">drone's id</param>
+        /// <param name="droneId">The drone to remove</param>
         public void RemoveDroneCharge(int droneId);
+
         /// <summary>
-        /// Get start time of charging
+        /// Get the time of start charging
         /// </summary>
-        /// <param name="droneId">drone's id</param>
-        /// <returns>start time of charging</returns>
+        /// <param name="droneId">The drone in charging</param>
         public DateTime GetTimeStartOfCharge(int droneId);
+
         /// <summary>
-        /// Count full charge slots
+        /// Finds all the drones that are charged at a particular station
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns>number of the full charge slots</returns>
+        ///<param name="inTheStation">The predicate to screen out if the station id of the drone equal to a spesific station id </param>
+        /// <returns>A list of DroneCarge</returns>
         public int CountFullChargeSlots(int id);
 
         /// <summary>
-        /// Get Electricity
+        /// Return Electricity
         /// </summary>
         /// <returns>5 Electricity ratings </returns>
         (double, double, double, double, double) GetElectricity();

@@ -104,19 +104,6 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Return if specific ID is on the generic list
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="lst">generic list</param>
-        /// <param name="id"></param>
-        /// <returns>If the requested ID is on the list</returns>
-        static bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id) where T : IIdentifyable
-        {
-            if (!lst.Any())
-                return false;
-            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id);
-            return !temp.Equals(default(T));
-        }
+       
     }
 }

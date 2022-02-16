@@ -102,6 +102,7 @@ namespace Dal
             }
 
         }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public (double, double, double, double, double) GetElectricity()
         {

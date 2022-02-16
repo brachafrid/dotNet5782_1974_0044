@@ -8,14 +8,7 @@ namespace Dal
 {
     public partial class DalObject:IDalCustomer
     {
-        //----------------------------------------------Adding-----------------------------------
-        /// <summary>
-        /// Gets parameters and create new customer 
-        /// </summary>
-        /// <param name="phone">The customer`s number phone</param>
-        /// <param name="name">The customer`s name</param>
-        /// <param name="longitude">>The position of the customer in relation to the longitude</param>
-        /// <param name="latitude">>The position of the customer in relation to the latitude</param>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(int id, string phone, string name, double longitude, double latitude)
         {
@@ -31,19 +24,10 @@ namespace Dal
                 IsNotActive = false
             });
         }
-        //-----------------------------------------Display----------------------------------
-        /// <summary>
-        /// Prepares the list of customer for display
-        /// </summary>
-        /// <returns>A list of customer</returns>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> GetCustomers() => DalObjectService.GetEntities<Customer>();
 
-        /// <summary>
-        /// Find a customer that has tha same id number as the parameter
-        /// </summary>
-        /// <param name="id">The id number of the requested customer</param>
-        /// <returns>A customer for display</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomer(int id)
         {
@@ -52,6 +36,7 @@ namespace Dal
                  throw new KeyNotFoundException($"There is no suitable customer in data , the id: {id}"); 
             return customer;
         }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer customer, string name,string phone)
         {
@@ -62,6 +47,7 @@ namespace Dal
                 customer.Phone = phone;
             DalObjectService.AddEntity(customer);
         }
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(int id)
         {
