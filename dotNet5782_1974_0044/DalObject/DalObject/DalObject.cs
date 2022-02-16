@@ -53,7 +53,7 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public string GetAdministorPasssword()
         {
-            return DataSorce.Administrator_Password;
+            return DataSorce.ADMINISTOR_PASSWORD;
         }
 
        
