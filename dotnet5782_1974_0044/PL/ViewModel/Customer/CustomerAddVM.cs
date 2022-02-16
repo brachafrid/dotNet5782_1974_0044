@@ -42,8 +42,8 @@ namespace PL
             try
             {
                 await PLService.AddCustomer(customer);
-                DelegateVM.NotifyCustomerChanged((int)customer.Id);
-                DelegateVM.NotifyParcelChanged();
+                RefreshEvents.NotifyCustomerChanged((int)customer.Id);
+                RefreshEvents.NotifyParcelChanged();
                 Tabs.CloseTab(param as TabItemFormat);
             }
             catch (BO.XMLFileLoadCreateException ex)
@@ -66,18 +66,18 @@ namespace PL
             try
             {
                 await PLService.AddCustomer(customer);
-                DelegateVM.NotifyCustomerChanged((int)customer.Id);
+                RefreshEvents.NotifyCustomerChanged((int)customer.Id);
                 LoginScreen.Id = customer.Id;
                 LoginScreen.MyScreen = Screen.CUSTOMER;
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
             {
-                MessageBox.Show((ex.Message!=string.Empty?ex.Message:ex.ToString()) + Environment.NewLine, "Adding Customer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                MessageBox.Show((ex.Message!=string.Empty?ex.Message:ex.ToString()) + Environment.NewLine, "Sign In Customer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 customer.Id = null;
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message, "Adding Customer", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, "Sign In Customer", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
         public void Dispose()

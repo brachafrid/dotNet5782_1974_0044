@@ -9,15 +9,15 @@ namespace PL
    public class SortEntities
     {
         /// <summary>
-        /// Name of paramter
+        /// Name of paramter to sort
         /// </summary>
         public string NameParameter { get; set; }
         /// <summary>
-        /// Minimum parameter
+        /// The parameter of slider
         /// </summary>
         public double MinParameter { get; set; }
         /// <summary>
-        /// Value
+        /// The Value of parameter
         /// </summary>
         public string Value { get; set; }
     }

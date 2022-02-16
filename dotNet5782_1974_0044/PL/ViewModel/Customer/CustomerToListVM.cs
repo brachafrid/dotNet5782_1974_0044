@@ -15,8 +15,7 @@ namespace PL
         public CustomerToListVM()
         {
             InitList();
-            DelegateVM.CustomerChangedEvent += HandleCustomerChanged;
-            DoubleClick = new(Tabs.OpenDetailes, null);
+            RefreshEvents.CustomerChangedEvent += HandleCustomerChanged;
         }
 
         /// <summary>
@@ -84,7 +83,7 @@ namespace PL
         /// </summary>
         public void Dispose()
         {
-            DelegateVM.CustomerChangedEvent -= HandleCustomerChanged;
+            RefreshEvents.CustomerChangedEvent -= HandleCustomerChanged;
         }
     }
 }
