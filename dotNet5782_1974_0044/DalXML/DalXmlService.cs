@@ -163,17 +163,6 @@ namespace Dal
         }
         internal static Parcel ConvertXElementToParcel(XElement xElementParcel)
         {
-            int Id = int.Parse(xElementParcel.Element("Id")?.Value);
-            int SenderId = int.Parse(xElementParcel.Element("SenderId")?.Value);
-            int TargetId = int.Parse(xElementParcel.Element("TargetId")?.Value);
-            WeightCategories Weigth = (WeightCategories)Enum.Parse(typeof(WeightCategories), xElementParcel.Element("Weigth")?.Value);
-            Priorities Priority = (Priorities)Enum.Parse(typeof(Priorities), xElementParcel.Element("Priority")?.Value);
-            DateTime Requested = (DateTime)xElementParcel.Element("Requested");
-            DateTime? Sceduled = xElementParcel.Element("Sceduled").Value==string.Empty ? null:(DateTime)xElementParcel.Element("Sceduled");
-            DateTime? PickedUp = xElementParcel.Element("PickedUp").Value == string.Empty ? null:(DateTime?)xElementParcel.Element("PickedUp");
-            DateTime? Delivered = xElementParcel.Element("Delivered").Value == string.Empty ? null:(DateTime?)xElementParcel.Element("Delivered");
-            int DorneId =int.Parse(xElementParcel.Element("DorneId")?.Value);
-            bool IsNotActive = bool.Parse(xElementParcel.Element("IsNotActive")?.Value);
             return new Parcel()
             {
                 Id = int.Parse(xElementParcel.Element("Id")?.Value),

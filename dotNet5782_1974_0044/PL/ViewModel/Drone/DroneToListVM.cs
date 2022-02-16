@@ -48,12 +48,12 @@ namespace PL
                 if (e.Id != null)
                 {
                     var drone = sourceList.FirstOrDefault(d => d.Id == e.Id);
-                    if (drone != null)
+                    if (drone != default)
                     {
                         sourceList.Remove(drone);
-                        var newDrone = (await PLService.GetDrones()).FirstOrDefault(d => d.Id == e.Id);
-                        sourceList.Add(newDrone);
                     }
+                    var newDrone = (await PLService.GetDrones()).FirstOrDefault(d => d.Id == e.Id);
+                    sourceList.Add(newDrone);
                 }
                 else
                 {
