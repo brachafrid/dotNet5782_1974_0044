@@ -25,11 +25,11 @@ namespace Dal
 
         #region SaveLoadWithXMLSerializer
         /// <summary>
-        /// Save list to XML serializer
+        /// Save list with XML serializer
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="list">generic list</param>
-        /// <param name="filePath">the path of file</param>
+        /// <typeparam name="T">The type of the list to save</typeparam>
+        /// <param name="list">The list to save</param>
+        /// <param name="filePath">The path of the list file</param>
         internal static void SaveListToXMLSerializer<T>(IEnumerable<T> list, string filePath)
         {
             try
@@ -41,18 +41,17 @@ namespace Dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
                 throw new XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
        
 
         /// <summary>
-        /// Load list from XML serializer
+        /// Load list with XML serializer
         /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="filePath">the path of file</param>
-        /// <returns>generic list</returns>
+        /// <typeparam name="T">The ttype of list to load</typeparam>
+        /// <param name="filePath">The path of the list file</param>
+        /// <returns>The list to load</returns>
         internal static List<T> LoadListFromXMLSerializer<T>(string filePath)
         {
             try
@@ -76,11 +75,11 @@ namespace Dal
         }
         #endregion
 
-        #region SaveLOadWithXElement
+        #region SaveLoadWithXElement
         /// <summary>
-        /// Save config to XML
+        /// Save xelement to XML 
         /// </summary>
-        /// <param name="rootElem">root element</param>
+        /// <param name="rootElem">root element to save</param>
         /// <param name="filePath">the path of file</param>
         internal static void SaveXElementToXML(XElement rootElem, string filePath)
         {
@@ -95,7 +94,7 @@ namespace Dal
         }
 
         /// <summary>
-        /// Load config to XML
+        /// Load xelement from XML
         /// </summary>
         /// <param name="filePath">the path of file</param>
         /// <returns>root of document</returns>
@@ -105,7 +104,6 @@ namespace Dal
             {
                 if (!File.Exists(dir + filePath))
                 {
-                    //throw new XMLFileLoadCreateException($"fail to load xml file: {filePath}");
                     new XElement("Parcels").Save(dir + filePath);
                 }                
                 XDocument document = XDocument.Load(dir + filePath);
@@ -146,21 +144,32 @@ namespace Dal
         #endregion
 
         #region ConvertParcel
+        /// <summary>
+        /// Convert parcel to xelement parcel
+        /// </summary>
+        /// <param name="parcel">The parcel to convert</param>
+        /// <returns>DO.Parcel</returns>
         internal static XElement ConvertParcelToXElement(Parcel parcel)
         {
             return new XElement("Parcel",
-                 new XElement("Id", parcel.Id),
-                 new XElement("SenderId", parcel.SenderId),
-                 new XElement("TargetId", parcel.TargetId),
-                 new XElement("Weigth", parcel.Weigth),
-                 new XElement("Priority", parcel.Priority),
-                 new XElement("Requested", parcel.Requested),
-                 new XElement("Sceduled", parcel.Sceduled),
-                 new XElement("PickedUp", parcel.PickedUp),
-                 new XElement("Delivered", parcel.Delivered),
-                 new XElement("DorneId", parcel.DorneId),
-                 new XElement("IsNotActive", parcel.IsNotActive));
+                 new XElement(nameof(parcel.Id), parcel.Id),
+                 new XElement(nameof(parcel.SenderId), parcel.SenderId),
+                 new XElement(nameof(parcel.TargetId), parcel.TargetId),
+                 new XElement(nameof(parcel.Weigth), parcel.Weigth),
+                 new XElement(nameof(parcel.Priority), parcel.Priority),
+                 new XElement(nameof(parcel.Requested), parcel.Requested),
+                 new XElement(nameof(parcel.Sceduled), parcel.Sceduled),
+                 new XElement(nameof(parcel.PickedUp), parcel.PickedUp),
+                 new XElement(nameof(parcel.Delivered), parcel.Delivered),
+                 new XElement(nameof(parcel.DorneId), parcel.DorneId),
+                 new XElement(nameof(parcel.IsNotActive), parcel.IsNotActive));
         }
+
+        /// <summary>
+        /// convert xelement of parcel to DO.Parcel
+        /// </summary>
+        /// <param name="xElementParcel">the Xelement Parcel to convert</param>
+        /// <returns>xelement</returns>
         internal static Parcel ConvertXElementToParcel(XElement xElementParcel)
         {
             return new Parcel()

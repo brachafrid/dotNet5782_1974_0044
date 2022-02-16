@@ -108,7 +108,7 @@ namespace Dal
         /// <summary>
         /// Assign parcel to drone
         /// </summary>
-        /// <param name="weight">weight</param>
+        /// <param name="weight">weight of parcel</param>
         /// <returns>id of drone</returns>
         private static int AssignParcelDrone(WeightCategories weight)
         {
@@ -186,6 +186,8 @@ namespace Dal
         /// <summary>
         /// Random parcel
         /// </summary>
+        /// <param name="customers">The customers list in datd</param>
+        ///<param name="parcels">The par els that alredy exsits in data</param>
         /// <returns>parcel</returns>
         private static Parcel RandParcel(List<Parcel> parcels,List<Customer> customers)
         {

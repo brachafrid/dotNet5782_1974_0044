@@ -13,7 +13,7 @@ namespace Dal
         const string DIR = @"..\..\..\..\data\";
         const string CONFIG = "XmlConfig.xml";
         /// <summary>
-        /// constructor 
+        /// constructor initilaztion The Xml file if they not exsits
         /// </summary>
         private DalXml()
         {
@@ -28,7 +28,7 @@ namespace Dal
 
         }
         /// <summary>
-        /// Initializes the XML files
+        /// Initializes the XML files and save them
         /// </summary>
         private void Initilaztion()
         {
@@ -47,7 +47,7 @@ namespace Dal
                 DalXmlService.SaveListToXMLSerializer(new List<DroneCharge>(), DRONE_CHARGE_PATH);
         }
         /// <summary>
-        /// Checks if it contains the password
+        /// Rerurn the administor password
         /// </summary>
         /// <returns>return true if contains the password</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
