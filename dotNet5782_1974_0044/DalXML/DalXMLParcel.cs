@@ -53,6 +53,7 @@ namespace Dal
                     DorneId = droneId,
                 }));
                 config.SetElementValue(parcelId.Name, int.Parse(parcelId.Value) + 1);
+                DalXmlService.SaveXElementToXML(config, CONFIG);
                 DalXmlService.SaveXElementToXML(xElementParcel, PARCEL_PATH);
             }
             catch (XMLFileLoadCreateException ex)

@@ -50,7 +50,6 @@ namespace PL
                     var customer = sourceList.FirstOrDefault(c => c.Id == e.Id);
                     if (customer != default)
                         sourceList.Remove(customer);
-
                     var newCustomer = (await PLService.GetCustomers()).FirstOrDefault(c => c.Id == e.Id);
                     sourceList.Add(newCustomer);
                 }

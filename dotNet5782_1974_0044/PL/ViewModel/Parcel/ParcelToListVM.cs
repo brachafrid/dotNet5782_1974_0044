@@ -80,9 +80,11 @@ namespace PL
                 {
                     var parcel = sourceList.FirstOrDefault(p => p.Id == e.Id);
                     if (parcel != default)
+                    {
                         sourceList.Remove(parcel);
-                    var newParcel = (await PLService.GetParcels()).FirstOrDefault(p => p.Id == e.Id);
-                    sourceList.Add(newParcel);
+                        var newParcel = (await PLService.GetParcels()).FirstOrDefault(p => p.Id == e.Id);
+                        sourceList.Add(newParcel);
+                    }                       
                 }
                 else
                 {
