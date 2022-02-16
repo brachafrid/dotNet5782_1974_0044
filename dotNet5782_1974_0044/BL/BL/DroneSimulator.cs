@@ -68,9 +68,9 @@ namespace BL
             {
                 throw new KeyNotFoundException("", ex);
             }
-            catch(NotExsistSuitibleStationException )
+            catch (NotExsistSuitibleStationException)
             {
-                
+
             }
         }
         /// <summary>
@@ -99,7 +99,7 @@ namespace BL
         /// </summary>
         private void MaintenanceDrone()
         {
-            
+
             switch (maintenance)
             {
                 case Maintenance.Starting:
@@ -188,37 +188,36 @@ namespace BL
                         }
                     case Delivery.Going:
                         {
-                                if (distance > 0.01)
+                            if (distance > 0.01)
+                            {
+                                lock (bl)
                                 {
-                                    lock (bl)
-                                    {
-                                        Drone.CurrentLocation = UpdateLocationAndBattary(bl.GetCustomer(parcel.CustomerSender.Id).Location, bl.available);
-                                        distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerSender.Id).Location);
-                                    }
+                                    Drone.CurrentLocation = UpdateLocationAndBattary(bl.GetCustomer(parcel.CustomerSender.Id).Location, bl.available);
+                                    distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerSender.Id).Location);
                                 }
-
-                                else
-                                {
-                                    lock (bl)
-                                    {
-                                        try
-                                        {
-                                            delivery = Delivery.Delivery;
-                                            Drone.CurrentLocation = bl.GetCustomer(parcel.CustomerSender.Id).Location;
-                                            distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerReceives.Id).Location);
-                                            bl.ParcelCollectionByDrone(Drone.Id);
-                                            parcelId = Drone.ParcelId;
-                                            delivery = Delivery.Delivery;
-                                        }
-                                        catch (ArgumentNullException)
-                                        {
-                                            delivery = Delivery.Delivery;
-                                        }
-                                    }
-                                }
-
-                                break;
                             }
+
+                            else
+                            {
+                                lock (bl)
+                                {
+                                    try
+                                    {
+                                        delivery = Delivery.Delivery;
+                                        Drone.CurrentLocation = bl.GetCustomer(parcel.CustomerSender.Id).Location;
+                                        distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerReceives.Id).Location);
+                                        bl.ParcelCollectionByDrone(Drone.Id);
+                                        parcelId = Drone.ParcelId;
+                                        delivery = Delivery.Delivery;
+                                    }
+                                    catch (ArgumentNullException)
+                                    {
+                                        delivery = Delivery.Delivery;
+                                    }
+                                }
+                            }
+
+                            break;
                         }
                     case Delivery.Delivery:
                         {
