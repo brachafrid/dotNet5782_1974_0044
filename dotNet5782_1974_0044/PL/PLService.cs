@@ -112,7 +112,7 @@ namespace PL
             {
                 try
                 {
-                    var customers = ibal.GetActiveCustomers().Select(customer => PlServiceConvert.ConvertCustomerToList(customer));
+                    var customers = ibal.GetCustomers().Select(customer => PlServiceConvert.ConvertCustomerToList(customer));
                     taskCompletionSource.SetResult(customers);
                 }
                 catch (BO.XMLFileLoadCreateException ex)
@@ -847,7 +847,7 @@ namespace PL
             {
                 try
                 {
-                    var drone = ibal.GetActiveDrones().Select(item => PlServiceConvert.ConvertDroneToList(item));
+                    var drone = ibal.GetDrones().Select(item => PlServiceConvert.ConvertDroneToList(item));
                     completedTask.SetResult(drone);
                 }
                 catch (BO.XMLFileLoadCreateException ex)

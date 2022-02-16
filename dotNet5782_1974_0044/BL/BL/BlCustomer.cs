@@ -63,7 +63,7 @@ namespace BL
         /// </summary>
         /// <returns>A list of statin to print</returns>
        // [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<CustomerToList> GetCustomers()
+        public IEnumerable<CustomerToList> GetAllCustomers()
         {
             try
             {
@@ -82,7 +82,7 @@ namespace BL
         /// </summary>
         /// <returns>Active customers</returns>
        // [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<CustomerToList> GetActiveCustomers()
+        public IEnumerable<CustomerToList> GetCustomers()
         {
             try
             {
