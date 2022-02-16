@@ -88,11 +88,7 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Count full charge slots
-        /// </summary>
-        /// <param name="id"></param>
-        /// <returns>number of the full charge slots</returns>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public int CountFullChargeSlots(int id)
         {
