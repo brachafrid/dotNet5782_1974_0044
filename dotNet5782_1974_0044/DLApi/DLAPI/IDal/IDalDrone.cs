@@ -31,7 +31,7 @@ namespace DLApi
         /// Update model name of drone
         /// </summary>
         /// <param name="drone">drone</param>
-        /// <param name="model">model name</param>
+        /// <param name="model">drone's model name</param>
         public void UpdateDrone(Drone drone,string model);
 
         /// <summary>
