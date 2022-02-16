@@ -228,6 +228,7 @@ namespace BL
                 {
                     DO.Parcel newParcel = parcel;
                     newParcel.Id = 0;
+                    
                     dal.UpdateParcel(parcel, newParcel);
                     canTakeParcel = false;
                     return 0;

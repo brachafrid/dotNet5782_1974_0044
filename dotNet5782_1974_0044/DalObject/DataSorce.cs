@@ -63,7 +63,6 @@ namespace Dal
                 return tmpDrone.Id;
             }
             return 0;
-
         }
         private static void RandomDrone(DalObject dal, int id)
         {
