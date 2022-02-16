@@ -153,15 +153,15 @@ namespace PL
             }
         }
         /// <summary>
-        /// The selected kind
+        /// The selected parameter to screen out according it
         /// </summary>
         public string SelectedKind { get; set; }
         /// <summary>
-        /// The selected group
+        /// The selected parameter to group according it
         /// </summary>
         public string SelectedGroup { get; set; }
         /// <summary>
-        /// The selected value
+        /// The selected value to screen out
         /// </summary>
         public string selectedValue { get; set; }
 
@@ -251,6 +251,7 @@ namespace PL
                     if ((int)obj.GetType().GetProperty(item.NameParameter).GetValue(obj) < item.MinParameter)
                         return false;
                 }
+                // for enums 
                 else if (obj.GetType().GetProperty(item.NameParameter).GetValue(obj).ToString() != item.Value)
                     return false;
             }
@@ -344,7 +345,7 @@ namespace PL
                         Value = selectedValue
                     });
                 else
-                    Filters[Filters.IndexOf(fiterEnum)].Value = selectedValue;
+                    fiterEnum.Value = selectedValue;
                 FilterNow();
             }
 
