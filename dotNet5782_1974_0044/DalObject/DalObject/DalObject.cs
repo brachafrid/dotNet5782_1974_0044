@@ -33,7 +33,7 @@ namespace Dal
             return !temp.Equals(default(T));
         }
         /// <summary>
-        /// Check if exists id in list
+        /// Check if exists id in list and not deleted
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <param name="lst">list</param>
