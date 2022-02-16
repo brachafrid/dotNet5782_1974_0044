@@ -12,7 +12,7 @@ namespace Dal
 
     internal static class DalXmlService
     {
-        static string dir = @"..\..\data\";
+        static string dir = @"..\..\..\data\";
 
         /// <summary>
         /// constructor
