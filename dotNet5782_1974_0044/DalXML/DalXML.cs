@@ -46,10 +46,7 @@ namespace Dal
             if (!File.Exists(DIR + DRONE_CHARGE_PATH))
                 DalXmlService.SaveListToXMLSerializer(new List<DroneCharge>(), DRONE_CHARGE_PATH);
         }
-        /// <summary>
-        /// Rerurn the administor password
-        /// </summary>
-        /// <returns>return true if contains the password</returns>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public string GetAdministorPasssword()
         {
