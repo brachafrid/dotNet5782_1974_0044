@@ -12,10 +12,6 @@ namespace Dal
     {
         const string DRONE_CHARGE_PATH = @"XmlDroneCharge.xml";
 
-        /// <summary>
-        /// Remove drone charge
-        /// </summary>
-        /// <param name="droneId">drone's id</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void RemoveDroneCharge(int droneId)
         {
@@ -31,11 +27,7 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Get start time of charging
-        /// </summary>
-        /// <param name="droneId">drone's id</param>
-        /// <returns>start time of charging</returns>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public DateTime GetTimeStartOfCharge(int droneId)
         {
@@ -52,11 +44,7 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Get drone charging in station
-        /// </summary>
-        /// <param name="inTheStation">Predicate type of int inTheStation</param>
-        /// <returns>drone charging in station</returns>
+    
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<int> GetDronechargingInStation(Predicate<int> inTheStation)
         {
@@ -70,10 +58,7 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Get drones charging
-        /// </summary>
-        /// <returns>drones charging</returns>
+        
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneCharge> GetDronescharging()
         {
@@ -87,11 +72,7 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Add drone charge
-        /// </summary>
-        /// <param name="droneId">drone's id</param>
-        /// <param name="stationId">station's id</param>
+       
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDroneCharge(int droneId, int stationId)
         {
