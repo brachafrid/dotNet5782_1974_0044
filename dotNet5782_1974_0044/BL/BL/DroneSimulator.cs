@@ -219,7 +219,7 @@ namespace BL
 
                                 break;
                             }
-                        }
+                        
                     case Delivery.Delivery:
                         {
                             if (distance < 0.001)
