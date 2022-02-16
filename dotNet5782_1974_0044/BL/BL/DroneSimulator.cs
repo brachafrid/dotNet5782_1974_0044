@@ -188,8 +188,6 @@ namespace BL
                         }
                     case Delivery.Going:
                         {
-                            lock (bl)
-                            {
                                 if (distance > 0.01)
                                 {
                                     lock (bl)
