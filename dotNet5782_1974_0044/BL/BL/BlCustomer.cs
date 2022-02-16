@@ -83,7 +83,7 @@ namespace BL
         /// </summary>
         /// <returns>Active customers</returns>
        // [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<CustomerToList> GetCustomers()
+        public IEnumerable<CustomerToList> GetActiveCustomers()
         {
             try
             {

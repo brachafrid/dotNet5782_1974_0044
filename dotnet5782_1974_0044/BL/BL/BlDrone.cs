@@ -84,7 +84,7 @@ namespace BL
         /// </summary>
         /// <returns>active drones</returns>
         // [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<DroneToList> GetDrones() => drones.Where(drone => !drone.IsNotActive);
+        public IEnumerable<DroneToList> GetActiveDrones() => drones.Where(drone => !drone.IsNotActive);
 
         /// <summary>
         /// Recrieves the list of drones from BL
@@ -200,9 +200,8 @@ namespace BL
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message,ex);
             }
-
         }
 
         /// <summary>
@@ -212,9 +211,9 @@ namespace BL
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public void AssingParcelToDrone(int droneId)
         {
+            DroneToList aviableDrone = drones.FirstOrDefault(item => item.Id == droneId);
             try
             {
-                DroneToList aviableDrone = drones.FirstOrDefault(item => item.Id == droneId);
                 if (aviableDrone == default)
                     throw new KeyNotFoundException($"The drone id {droneId} not exsits in data so the updating failed");
                 if (aviableDrone.IsNotActive)
@@ -229,7 +228,7 @@ namespace BL
             }
             catch (ThereIsNoNearbyBaseStationThatTheDroneCanReachException ex)
             {
-                throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException("", ex);//?
+                aviableDrone.DroneState = DroneState.RESCUE;
             }
             catch (NotExsistSutibleParcelException ex)
             {
@@ -273,7 +272,6 @@ namespace BL
                 droneToList.BatteryState -= Distance(droneToList.CurrentLocation, senderLocation) * available;
                 droneToList.CurrentLocation = senderLocation;
                 ParcelcollectionDrone(parcel);
-
             }
             catch (KeyNotFoundException ex)
             {
@@ -283,8 +281,6 @@ namespace BL
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
-
-
         }
 
         /// <summary>
@@ -367,6 +363,21 @@ namespace BL
             }
 
         }
+
+
+        /// <summary>
+        /// Delete parcel from drone
+        /// </summary>
+        /// <param name="id">id of drone</param>
+        private void DeleteParcelFromDrone(int id)
+        {
+            DroneToList drone = drones.FirstOrDefault(item => item.Id == id);
+            if (drone != default)
+            {
+                drone.ParcelId = null;
+                drone.DroneState = DroneState.AVAILABLE;
+            }
+        }
         #endregion
 
         /// <summary>
@@ -389,17 +400,7 @@ namespace BL
                 list = dal.GetDronechargingInStation((int stationIdOfDrone) => stationIdOfDrone == id);
             if (list.Count() == 0)
                 return new List<DroneInCharging>();
-            List<DroneInCharging> droneInChargings = new();
-            DroneToList droneToList;
-            foreach (var idDrone in list)
-            {
-                droneToList = drones.FirstOrDefault(item => (item.Id == idDrone));
-                if (droneToList != default)
-                {
-                    droneInChargings.Add(new DroneInCharging() { Id = idDrone, ChargingMode = droneToList.BatteryState });
-                }
-            }
-            return droneInChargings;
+            return list.Select(dron=>new DroneInCharging() { Id = dron, ChargingMode = drones.FirstOrDefault(item => (item.Id == dron)).BatteryState });            
         }
 
         /// <summary>
@@ -411,7 +412,6 @@ namespace BL
         {
             if (!parcels.Any())
                 throw new NotExsistSutibleParcelException("There is no suitable parcel that meets all the conditions");
-
             return parcels.OrderByDescending(parcel => parcel.Key.Piority)
                 .ThenByDescending(parcel => parcel.Key.Weight)
                 .ThenBy(parcel => parcel.Value)

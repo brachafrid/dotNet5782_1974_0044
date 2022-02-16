@@ -66,7 +66,6 @@ namespace BL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-
         }
 
         /// <summary>
@@ -123,7 +122,7 @@ namespace BL
         private IEnumerable<Parcel> GetAllParcels()
         {
             lock (dal)
-                return dal.GetParcels().Select(Parcel => GetParcel(Parcel.Id));
+                return dal.GetParcels().Select(Parcel =>MapParcel(Parcel));
         }
 
         /// <summary>
@@ -174,7 +173,6 @@ namespace BL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-
         }
 
         /// <summary>
@@ -234,19 +232,6 @@ namespace BL
             }
         }
 
-        /// <summary>
-        /// Delete parcel from drone
-        /// </summary>
-        /// <param name="id">id of drone</param>
-        private void DeleteParcelFromDrone(int id)
-        {
-            DroneToList drone = drones.FirstOrDefault(item => item.Id == id);
-            if (drone != default)
-            {
-                drone.ParcelId = null;
-                drone.DroneState = DroneState.AVAILABLE;
-            }
-        }
         #endregion
 
         /// <summary>
@@ -260,6 +245,5 @@ namespace BL
             lock (dal)
                return dal.GetParcels().Any(parcel => parcel.Id == id && parcel.IsNotActive);
         }
-
     }
 }
