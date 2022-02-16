@@ -266,7 +266,7 @@ namespace BL
         /// <summary>
         /// Sleep delay time
         /// </summary>
-        /// <returns>if successed</returns>
+        /// <returns>if succeeded</returns>
         private static bool sleepDelayTime()
         {
             try { Thread.Sleep(DELAY); } catch (ThreadInterruptedException) { return false; }
