@@ -23,7 +23,7 @@ namespace BL
                 WeightCategories.LIGHT => lightWeightCarrier,
                 WeightCategories.MEDIUM => mediumWeightBearing,
                 WeightCategories.HEAVY => carriesHeavyWeight,
-               _ =>0
+               _ => 0
             };
             Station station;
             electricity = Distance(aviableDroneLocation, CustomerSender) * available +
@@ -47,10 +47,6 @@ namespace BL
             catch (NotExsistSuitibleStationException ex)
             {
                 throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException(ex.Message, ex);
-            }
-            finally
-            {
-           
             }
         }
     }
