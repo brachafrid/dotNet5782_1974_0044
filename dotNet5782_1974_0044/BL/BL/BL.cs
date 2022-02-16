@@ -123,13 +123,15 @@ namespace BL
                             var stationToDroneCharge = stationsToDroneCharge.ElementAt(rand.Next(0, stationsToDroneCharge.Count()));
                             Location = stationToDroneCharge.Location;
                             dal.AddDroneCharge(drone.Id, stationToDroneCharge.Id);
+                            BatteryStatus = rand.NextDouble() + rand.Next(MININITBATTARY, MAXINITBATTARY);
                         }
                         else
                         {
                             var stationToDroneCharge = dal.GetStation(droneInCharging.First().Stationld);
                             Location = new() { Latitude = stationToDroneCharge.Latitude, Longitude = stationToDroneCharge.Longitude };
+                            BatteryStatus=(DateTime.Now-droneInCharging.First().StartCharging).TotalMinutes / NUM_OF_MINUTE_IN_HOUR * droneLoadingRate;
                         }
-                        BatteryStatus = rand.NextDouble() + rand.Next(MININITBATTARY, MAXINITBATTARY);
+
                         break;
                     case DroneState.DELIVERY:
                         Location = tmpDroneWithParcelLocation;
