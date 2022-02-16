@@ -23,7 +23,9 @@ namespace BL
         internal readonly double carriesHeavyWeight;
         internal readonly double droneLoadingRate;
 
-        //ctor
+        /// <summary>
+        /// constructor init logig drone list
+        /// </summary>
         BL()
         {
 
@@ -54,7 +56,7 @@ namespace BL
         }
 
         /// <summary>
-        /// init drones list
+        /// init logic drones list
         /// </summary>
         private void Initialize()
         {
@@ -228,7 +230,7 @@ namespace BL
                 {
                     DO.Parcel newParcel = parcel;
                     newParcel.Id = 0;
-                    
+                    newParcel.PickedUp = newParcel.Sceduled = default;
                     dal.UpdateParcel(parcel, newParcel);
                     canTakeParcel = false;
                     return 0;

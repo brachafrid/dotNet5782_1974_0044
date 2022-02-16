@@ -126,7 +126,7 @@
     <Requested>2022-02-16T12:06:48.5983348+02:00</Requested>
     <Sceduled>2022-02-16T12:06:48.6036042+02:00</Sceduled>
     <PickedUp>2022-02-16T12:06:48.6036114+02:00</PickedUp>
-    <Delivered>2022-02-16T12:45:32.3101766+02:00</Delivered>
+    <Delivered>2022-02-16T12:55:24.6793133+02:00</Delivered>
     <DorneId>1</DorneId>
     <IsNotActive>false</IsNotActive>
   </Parcel>
@@ -137,9 +137,9 @@
     <Weigth>MEDIUM</Weigth>
     <Priority>FAST</Priority>
     <Requested>2022-02-16T12:06:48.6309238+02:00</Requested>
-    <Sceduled>2022-02-16T12:45:33.1508017+02:00</Sceduled>
+    <Sceduled>2022-02-16T12:55:25.4223905+02:00</Sceduled>
     <PickedUp />
-    <Delivered>2022-02-16T12:45:33.6834225+02:00</Delivered>
+    <Delivered>2022-02-16T12:55:25.9250898+02:00</Delivered>
     <DorneId>1</DorneId>
     <IsNotActive>false</IsNotActive>
   </Parcel>
@@ -150,9 +150,9 @@
     <Weigth>LIGHT</Weigth>
     <Priority>FAST</Priority>
     <Requested>2022-02-16T12:06:48.6126543+02:00</Requested>
-    <Sceduled>2022-02-16T12:45:34.5418882+02:00</Sceduled>
+    <Sceduled>2022-02-16T12:55:26.5831742+02:00</Sceduled>
     <PickedUp />
-    <Delivered>2022-02-16T12:45:35.0649197+02:00</Delivered>
+    <Delivered>2022-02-16T12:55:27.0857732+02:00</Delivered>
     <DorneId>1</DorneId>
     <IsNotActive>false</IsNotActive>
   </Parcel>
@@ -163,9 +163,9 @@
     <Weigth>LIGHT</Weigth>
     <Priority>REGULAR</Priority>
     <Requested>2022-02-16T12:06:48.6341147+02:00</Requested>
-    <Sceduled>2022-02-16T12:45:35.8744775+02:00</Sceduled>
+    <Sceduled>2022-02-16T12:55:27.699577+02:00</Sceduled>
     <PickedUp />
-    <Delivered>2022-02-16T12:45:36.3904752+02:00</Delivered>
+    <Delivered>2022-02-16T12:55:28.2021293+02:00</Delivered>
     <DorneId>1</DorneId>
     <IsNotActive>false</IsNotActive>
   </Parcel>
@@ -176,9 +176,9 @@
     <Weigth>LIGHT</Weigth>
     <Priority>REGULAR</Priority>
     <Requested>2022-02-16T12:06:48.6360743+02:00</Requested>
-    <Sceduled>2022-02-16T12:45:37.1585732+02:00</Sceduled>
+    <Sceduled>2022-02-16T12:55:28.7792771+02:00</Sceduled>
     <PickedUp />
-    <Delivered>2022-02-16T12:45:37.6796639+02:00</Delivered>
+    <Delivered>2022-02-16T12:55:29.2828794+02:00</Delivered>
     <DorneId>1</DorneId>
     <IsNotActive>false</IsNotActive>
   </Parcel>
@@ -189,9 +189,9 @@
     <Weigth>LIGHT</Weigth>
     <Priority>REGULAR</Priority>
     <Requested>2022-02-16T12:06:48.6057088+02:00</Requested>
-    <Sceduled>2022-02-16T12:45:38.3209304+02:00</Sceduled>
+    <Sceduled>2022-02-16T12:55:29.8235942+02:00</Sceduled>
     <PickedUp />
-    <Delivered>2022-02-16T12:45:38.8395438+02:00</Delivered>
+    <Delivered>2022-02-16T12:55:30.3268631+02:00</Delivered>
     <DorneId>1</DorneId>
     <IsNotActive>false</IsNotActive>
   </Parcel>
