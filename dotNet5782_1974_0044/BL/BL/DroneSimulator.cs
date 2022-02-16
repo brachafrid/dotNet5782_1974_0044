@@ -114,7 +114,6 @@ namespace BL
                             }
                             if (Station != null)
                             {
-
                                 distance = BL.Distance(Drone.CurrentLocation, Station.Location);
                                 maintenance = Maintenance.Going;
                             }
