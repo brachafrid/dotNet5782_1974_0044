@@ -15,7 +15,7 @@ namespace Dal
         static string dir = @"..\..\..\..\data\";
 
         /// <summary>
-        /// constructor
+        /// constructor check if folder exist create if not
         /// </summary>
         static DalXmlService()
         {
@@ -41,7 +41,6 @@ namespace Dal
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
                 throw new XMLFileLoadCreateException(filePath, $"fail to create xml file: {filePath}", ex);
             }
         }
@@ -105,7 +104,6 @@ namespace Dal
             {
                 if (!File.Exists(dir + filePath))
                 {
-                    //throw new XMLFileLoadCreateException($"fail to load xml file: {filePath}");
                     new XElement("Parcels").Save(dir + filePath);
                 }                
                 XDocument document = XDocument.Load(dir + filePath);
@@ -121,16 +119,26 @@ namespace Dal
         #endregion
 
         #region ConverStation
+        /// <summary>
+        /// convert station to xelement
+        /// </summary>
+        /// <param name="station"> the station to convert</param>
+        /// <returns>xelment</returns>
         internal static XElement ConvertStationToXElement(Station station)
         {
             return new XElement("Station",
-                 new XElement("Id", station.Id),
-                 new XElement("Name", station.Name),
-                 new XElement("Latitude", station.Latitude),
-                 new XElement("Longitude", station.Longitude),
-                 new XElement("ChargeSlots", station.ChargeSlots),
-                 new XElement("IsNotActive", station.IsNotActive));
+                 new XElement(nameof( station.Id), station.Id),
+                 new XElement(nameof(station.Name), station.Name),
+                 new XElement(nameof(station.Latitude), station.Latitude),
+                 new XElement(nameof(station.Latitude), station.Longitude),
+                 new XElement(nameof(station.ChargeSlots), station.ChargeSlots),
+                 new XElement(nameof(station.IsNotActive), station.IsNotActive));
         }
+        /// <summary>
+        /// conver xelement to station
+        /// </summary>
+        /// <param name="xElementStation">the element to convert</param>
+        /// <returns> station</returns>
         internal static Station ConvertXElementToStation(XElement xElementStation)
         {
             return new Station()
