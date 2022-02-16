@@ -88,7 +88,7 @@ namespace BL
                     {
                         state = DroneState.RESCUE;
                     }
-                    
+
                     if (!isAbleTakeParcel)
                     {
                         DO.Parcel newParcel = parcel;
@@ -104,10 +104,10 @@ namespace BL
                 {
                     state = DroneState.MAINTENANCE;
                 }
-                else if (state == default)
+                if (state == default)
                 {
                     state = (DroneState)rand.Next(0, DRONESTATUSESLENGTH);
-                    if (customersGotParcelLocation.Count() <= 0 )
+                    if (customersGotParcelLocation.Count() <= 0)
                         state = DroneState.MAINTENANCE;
 
                 }
@@ -133,7 +133,7 @@ namespace BL
                         {
                             var stationToDroneCharge = dal.GetStation(droneInCharging.First().Stationld);
                             Location = new() { Latitude = stationToDroneCharge.Latitude, Longitude = stationToDroneCharge.Longitude };
-                            BatteryStatus=(DateTime.Now-droneInCharging.First().StartCharging).TotalMinutes / NUM_OF_MINUTE_IN_HOUR * droneLoadingRate;
+                            BatteryStatus = (DateTime.Now - droneInCharging.First().StartCharging).TotalMinutes / NUM_OF_MINUTE_IN_HOUR * droneLoadingRate;
                         }
 
                         break;
@@ -206,8 +206,8 @@ namespace BL
             if (parcel.Delivered == null && parcel.PickedUp != null)
                 return locaiton;
             var station = ClosetStation(locaiton, (int chargeSlots) => chargeSlots > 0);
-            if(station==null)
-                station = ClosetStation(locaiton, (int chargeSlots) =>true);
+            if (station == null)
+                station = ClosetStation(locaiton, (int chargeSlots) => true);
             if (station == null)
                 throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();
             return station.Location;
@@ -234,7 +234,7 @@ namespace BL
                 // if the drone need more electricity 
                 if (electrity > FULLBATTRY)
                 {
-                
+
                     canTakeParcel = false;
                     return 0;
                 }
@@ -244,7 +244,7 @@ namespace BL
             {
                 throw new ThereIsNoNearbyBaseStationThatTheDroneCanReachException();
             }
-           
+
         }
 
         /// <summary>
