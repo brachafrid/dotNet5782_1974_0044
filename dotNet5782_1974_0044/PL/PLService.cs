@@ -14,7 +14,7 @@ namespace PL
         private static IBL ibal = BLFactory.GetBL();
 
         /// <summary>
-        /// Get administor passsword
+        /// Get administor passsword 
         /// </summary>
         /// <returns>task of string</returns>
         public async static Task<string> GetAdministorPasssword()

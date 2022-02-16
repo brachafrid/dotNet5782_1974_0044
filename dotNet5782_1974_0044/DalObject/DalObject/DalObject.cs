@@ -33,12 +33,12 @@ namespace Dal
             return !temp.Equals(default(T));
         }
         /// <summary>
-        /// 
+        /// Check if exists id in list
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="lst"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="lst">list</param>
+        /// <param name="id">id</param>
+        /// <returns>if exists id </returns>
         static bool ExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id)where T:IActiveable,IIdentifyable
         {
             if (!lst.Any())
@@ -46,6 +46,10 @@ namespace Dal
             T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id&& !(bool)item.GetType().GetProperty("IsNotActive").GetValue(item));
             return !temp.Equals(default(T));
         }
+        /// <summary>
+        ///  return the password of the administrator;
+        /// </summary>
+        /// <returns>password of the administrator</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public string GetAdministorPasssword()
         {
