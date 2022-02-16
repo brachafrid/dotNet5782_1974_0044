@@ -10,7 +10,7 @@ namespace Dal
     internal static class DalXmlUnit
     {
         private static string PARCEL_PATH = @"XmlParcel.xml";
-        private static string DIR = @"..\..\data\";
+        private static string DIR = @"..\..\..\..\data\";
         private static string CONFIG = @"XmlConfig.xml";
         private static string DRONE_PATH = @"XmlDrone.xml";
         private static string CUSTOMER_PATH = @"XmlCustomer.xml";
