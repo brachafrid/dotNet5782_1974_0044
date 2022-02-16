@@ -21,15 +21,14 @@ namespace BL
         private const int DELAY = 500;
         private Maintenance maintenance = Maintenance.Starting;
         private Delivery delivery = Delivery.Starting;
-        private const double TIME_STEP = DELAY / 1000.0;
-        private const double VELOCITY = 1000;
-        private const double STEP = VELOCITY / TIME_STEP;
+        private const double TIME = 0.5;
+        private const double STEP = 2000;
         double distance = 0.0;
 
         /// <summary>
         /// constructor
         /// </summary>
-        /// <param name="id">id</param>
+        /// <param name="id">drone id</param>
         /// <param name="BL">BL</param>
         /// <param name="update">Action - update</param>
         /// <param name="checkStop">Func - check stop</param>
@@ -128,7 +127,7 @@ namespace BL
                     }
                 case Maintenance.Going:
                     {
-                        if (distance < 0.01)
+                        if (distance < 0.001)
                             lock (bl)
                             {
                                 Drone.DroneState = DroneState.AVAILABLE;
@@ -154,9 +153,8 @@ namespace BL
                             bl.ReleaseDroneFromCharging(Drone.Id);
                             delivery = Delivery.Starting;
                         }
-
                         else
-                            lock (bl) Drone.BatteryState = Math.Min(100, Drone.BatteryState + bl.droneLoadingRate * TIME_STEP);
+                            lock (bl) Drone.BatteryState = Math.Min(100, Drone.BatteryState + bl.droneLoadingRate * TIME);
                         stationId = Station.Id;
                         break;
                     }
