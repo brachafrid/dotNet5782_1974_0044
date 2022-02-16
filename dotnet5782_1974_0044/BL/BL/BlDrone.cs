@@ -84,7 +84,7 @@ namespace BL
         /// </summary>
         /// <returns>active drones</returns>
         // [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<DroneToList> GetDrones() => drones.Where(drone => !drone.IsNotActive);
+        public IEnumerable<DroneToList> GetActiveDrones() => drones.Where(drone => !drone.IsNotActive);
 
         /// <summary>
         /// Recrieves the list of drones from BL
@@ -170,7 +170,6 @@ namespace BL
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
-
         }
 
         /// <summary>
@@ -201,9 +200,8 @@ namespace BL
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message,ex);
             }
-
         }
 
         /// <summary>
@@ -283,8 +281,6 @@ namespace BL
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
-
-
         }
 
         /// <summary>
@@ -404,17 +400,7 @@ namespace BL
                 list = dal.GetDronechargingInStation((int stationIdOfDrone) => stationIdOfDrone == id);
             if (list.Count() == 0)
                 return new List<DroneInCharging>();
-            List<DroneInCharging> droneInChargings = new();
-            DroneToList droneToList;
-            foreach (var idDrone in list)
-            {
-                droneToList = drones.FirstOrDefault(item => (item.Id == idDrone));
-                if (droneToList != default)
-                {
-                    droneInChargings.Add(new DroneInCharging() { Id = idDrone, ChargingMode = droneToList.BatteryState });
-                }
-            }
-            return droneInChargings;
+            return list.Select(dron=>new DroneInCharging() { Id = dron, ChargingMode = drones.FirstOrDefault(item => (item.Id == dron)).BatteryState });            
         }
 
         /// <summary>

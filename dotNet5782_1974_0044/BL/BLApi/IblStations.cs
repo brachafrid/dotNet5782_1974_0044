@@ -10,7 +10,7 @@ namespace BLApi
         public void AddStation(BO.Station station);
         public void UpdateStation(int id, string name, int chargeSlots);
         public Station GetStation(int id);
-        public IEnumerable<StationToList> GetStations();
+        public IEnumerable<StationToList> GetAllStations();
         public IEnumerable<StationToList> GetActiveStations();
         public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots(Predicate<int> exsitEmpty);
         public void DeleteStation(int id);

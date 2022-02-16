@@ -57,7 +57,7 @@ namespace BL
         /// </summary>
         /// <returns>A list of statin to print</returns>
         // [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<StationToList> GetStations()
+        public IEnumerable<StationToList> GetAllStations()
         {
             try
             {
@@ -212,7 +212,6 @@ namespace BL
                 minDistance = 0;
                 return null;
             }
-
             minDistance = Distance(droneToListLocation, station.Location);
             return minDistance * available <= BatteryStatus ? station : null;
         }
