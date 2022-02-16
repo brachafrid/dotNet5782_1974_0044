@@ -30,7 +30,7 @@ namespace BL
         {
 
             // set electricty variablses
-            drones = new List<DroneToList>();
+            drones = new();
             (
                 available,
                 lightWeightCarrier,
@@ -62,7 +62,7 @@ namespace BL
         {
             var tmpDrones = dal.GetDrones();
             var parcels = dal.GetParcels();
-            // create list of stations' location
+            // create list of customers' location
             var customersGotParcelLocation = GetLocationsCustomersGotParcels((int recivedparcels) => recivedparcels > 0);
             foreach (var drone in tmpDrones)
             {
@@ -87,8 +87,7 @@ namespace BL
                     catch (ThereIsNoNearbyBaseStationThatTheDroneCanReachException)
                     {
                         state = DroneState.RESCUE;
-                    }
-                    
+                    }                    
                     if (!isAbleTakeParcel)
                     {
                         state = default;
@@ -100,10 +99,10 @@ namespace BL
                 {
                     state = DroneState.MAINTENANCE;
                 }
-                else if (state == default)
+                if (state == default)
                 {
                     state = (DroneState)rand.Next(0, DRONESTATUSESLENGTH);
-                    if (customersGotParcelLocation.Count() <= 0 )
+                    if (customersGotParcelLocation.Any() )
                         state = DroneState.MAINTENANCE;
 
                 }
