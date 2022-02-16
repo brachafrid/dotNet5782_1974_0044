@@ -3,81 +3,81 @@
   <Station>
     <Id>1</Id>
     <Name>station_98</Name>
-    <Latitude>-1.6231128674108128</Latitude>
-    <Longitude>73.19503841604806</Longitude>
-    <ChargeSlots>27</ChargeSlots>
+    <Latitude>89.27868313588141</Latitude>
+    <Longitude>60.579060995289616</Longitude>
+    <ChargeSlots>61</ChargeSlots>
     <IsNotActive>false</IsNotActive>
   </Station>
   <Station>
     <Id>2</Id>
     <Name>station_99</Name>
-    <Latitude>76.71823961321182</Latitude>
-    <Longitude>25.599237363598885</Longitude>
-    <ChargeSlots>35</ChargeSlots>
+    <Latitude>-74.78562374356464</Latitude>
+    <Longitude>43.68577858092532</Longitude>
+    <ChargeSlots>25</ChargeSlots>
     <IsNotActive>false</IsNotActive>
   </Station>
   <Station>
     <Id>3</Id>
     <Name>station_100</Name>
-    <Latitude>-73.94887934715901</Latitude>
-    <Longitude>37.31460549790161</Longitude>
-    <ChargeSlots>29</ChargeSlots>
+    <Latitude>-29.15168965568379</Latitude>
+    <Longitude>86.33056190113098</Longitude>
+    <ChargeSlots>95</ChargeSlots>
     <IsNotActive>false</IsNotActive>
   </Station>
   <Station>
     <Id>4</Id>
     <Name>station_101</Name>
-    <Latitude>-1.4071751420419547</Latitude>
-    <Longitude>81.76112915052154</Longitude>
-    <ChargeSlots>14</ChargeSlots>
+    <Latitude>1.6964025780076173</Latitude>
+    <Longitude>53.7057343328864</Longitude>
+    <ChargeSlots>66</ChargeSlots>
     <IsNotActive>false</IsNotActive>
   </Station>
   <Station>
     <Id>5</Id>
     <Name>station_102</Name>
-    <Latitude>-34.80100059732841</Latitude>
-    <Longitude>6.841904757470779</Longitude>
-    <ChargeSlots>64</ChargeSlots>
+    <Latitude>-0.04251309113694035</Latitude>
+    <Longitude>87.65443800233977</Longitude>
+    <ChargeSlots>75</ChargeSlots>
     <IsNotActive>false</IsNotActive>
   </Station>
   <Station>
     <Id>6</Id>
     <Name>station_103</Name>
-    <Latitude>-23.836164699325415</Latitude>
-    <Longitude>79.53404738546072</Longitude>
-    <ChargeSlots>40</ChargeSlots>
+    <Latitude>74.44245543630907</Latitude>
+    <Longitude>47.554931226910526</Longitude>
+    <ChargeSlots>87</ChargeSlots>
     <IsNotActive>false</IsNotActive>
   </Station>
   <Station>
     <Id>7</Id>
     <Name>station_104</Name>
-    <Latitude>-47.56845615970364</Latitude>
-    <Longitude>72.22767213230378</Longitude>
-    <ChargeSlots>52</ChargeSlots>
+    <Latitude>66.70459889653353</Latitude>
+    <Longitude>19.893881932782886</Longitude>
+    <ChargeSlots>71</ChargeSlots>
     <IsNotActive>false</IsNotActive>
   </Station>
   <Station>
     <Id>8</Id>
     <Name>station_105</Name>
-    <Latitude>-49.722812645473894</Latitude>
-    <Longitude>72.90243509360702</Longitude>
-    <ChargeSlots>20</ChargeSlots>
+    <Latitude>10.797026724925743</Latitude>
+    <Longitude>52.290782983084576</Longitude>
+    <ChargeSlots>82</ChargeSlots>
     <IsNotActive>false</IsNotActive>
   </Station>
   <Station>
     <Id>9</Id>
     <Name>station_106</Name>
-    <Latitude>80.57238530208002</Latitude>
-    <Longitude>10.454568137160766</Longitude>
-    <ChargeSlots>86</ChargeSlots>
+    <Latitude>85.04864452409029</Latitude>
+    <Longitude>69.45780491989935</Longitude>
+    <ChargeSlots>61</ChargeSlots>
     <IsNotActive>false</IsNotActive>
   </Station>
   <Station>
     <Id>10</Id>
     <Name>station_107</Name>
-    <Latitude>22.093162384858896</Latitude>
-    <Longitude>32.36668594943671</Longitude>
-    <ChargeSlots>29</ChargeSlots>
+    <Latitude>-0.882146722116576</Latitude>
+    <Longitude>54.03978408781801</Longitude>
+    <ChargeSlots>62</ChargeSlots>
     <IsNotActive>false</IsNotActive>
   </Station>
 </Stations>
