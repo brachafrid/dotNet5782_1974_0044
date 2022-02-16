@@ -84,13 +84,13 @@ namespace BL
         /// </summary>
         /// <returns>active drones</returns>
         // [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<DroneToList> GetActiveDrones() => drones.Where(drone => !drone.IsNotActive);
+        public IEnumerable<DroneToList> GetDrones() => drones.Where(drone => !drone.IsNotActive);
 
         /// <summary>
         /// Recrieves the list of drones from BL
         /// </summary>
         /// <returns>A list of drones to print</returns>
-        public IEnumerable<DroneToList> GetDrones() => drones;
+        public IEnumerable<DroneToList> GetAllDrones() => drones;
         #endregion
 
         #region Update

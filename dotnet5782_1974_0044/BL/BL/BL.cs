@@ -183,7 +183,7 @@ namespace BL
         /// <returns>list of locations</returns>
         private IEnumerable<Location> GetLocationsCustomersGotParcels(Predicate<int> exsitParcelRecived)
         {
-            return GetCustomers().Where(customer => exsitParcelRecived(customer.NumParcelReceived))
+            return GetAllCustomers().Where(customer => exsitParcelRecived(customer.NumParcelReceived))
                      .Select(Customer => new Location()
                      {
                          Latitude = dal.GetCustomer(Customer.Id).Latitude,
