@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DO;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -36,12 +37,6 @@ namespace DLApi
             Namespace = dalPackage.Attribute("namespace").Value;
         }
     }
-    [Serializable]
-    public class DalConfigException : Exception
-    {
-        public DalConfigException(){}
-        public DalConfigException(string message) : base(message) { }
-        public DalConfigException(string message, Exception inner) : base(message, inner) { }
-    }
+   
     
 }
