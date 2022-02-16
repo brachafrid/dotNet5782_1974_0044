@@ -47,7 +47,6 @@ namespace Dal
         /// </summary>
         internal static XElement InitializeConfig()
         {
-
             return new("Config",
                               new XElement("IdParcel", 0),
                               new XElement("Available", 0.001),
@@ -56,7 +55,6 @@ namespace Dal
                               new XElement("CarriesHeavyWeight", 0.004),
                               new XElement("DroneLoadingRate",3),
                               new XElement("AdministratorPassword", ""));
-
         }
 
         /// <summary>
@@ -67,12 +65,11 @@ namespace Dal
         {
             try
             {
+                List<Customer> customers = DalXmlService.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
                 List<Parcel> Parcels = new();
                 for (int i = 1; i <= PARCELS_INIT; ++i)
                 {
-                    Parcels.Add(RandParcel());
-                    XElement xElement = new("Parcels", Parcels.Select(item => DalXmlService.ConvertParcelToXElement(item)));
-                    DalXmlService.SaveXElementToXML(xElement, PARCEL_PATH);
+                    Parcels.Add(RandParcel(Parcels,customers));
                 }
                 return new("Parcels", Parcels.Select(item => DalXmlService.ConvertParcelToXElement(item)));
             }
@@ -190,7 +187,7 @@ namespace Dal
         /// Random parcel
         /// </summary>
         /// <returns>parcel</returns>
-        private static Parcel RandParcel()
+        private static Parcel RandParcel(List<Parcel> parcels,List<Customer> customers)
         {
             Parcel newParcel = new();
             XElement config = DalXmlService.LoadXElementToXML(CONFIG);
@@ -198,7 +195,6 @@ namespace Dal
             newParcel.Id = int.Parse(parcelId.Value) + 1;
             config.SetElementValue(parcelId.Name, newParcel.Id);
             DalXmlService.SaveXElementToXML(config, CONFIG);
-            List<Customer> customers = DalXmlService.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
             newParcel.SenderId = customers[Rnd.Next(0, customers.Count)].Id;
             do
             {
@@ -218,8 +214,8 @@ namespace Dal
                 newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);
                 if (newParcel.DorneId != 0)
                 {
-                    XElement xElementParcel = DalXmlService.LoadXElementToXML(PARCEL_PATH).Elements().FirstOrDefault(parcel => int.Parse(parcel.Element("DorneId").Value) == newParcel.DorneId && parcel.Element("Delivered").Value == string.Empty);
-                    if (xElementParcel == default(XElement))
+                    Parcel parcel = parcels.FirstOrDefault(parcel => parcel.DorneId == newParcel.DorneId && parcel.Delivered==default);
+                    if (parcel.Equals(default(Parcel)))
                     {
                         newParcel.Sceduled = DateTime.Now;
                         if (state == 2)
