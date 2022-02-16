@@ -170,7 +170,6 @@ namespace BL
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
-
         }
 
         /// <summary>
