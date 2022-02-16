@@ -79,7 +79,7 @@ namespace PL
             ChargingDroneCommand = new(SendToCharging, param => Drone?.Error == null);
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => Drone?.Error == null);
             DeleteDroneCommand = new(DeleteDrone, param => Drone?.Error == null);
-            DelegateVM.DroneChangedEvent += HandleADroneChanged;
+            RefreshEvents.DroneChangedEvent += HandleADroneChanged;
             OpenParcelCommand = new(Tabs.OpenDetailes, null);
             OpenCustomerCommand = new(Tabs.OpenDetailes, null);
             simulateDrone = StartSimulator;
@@ -130,7 +130,7 @@ namespace PL
                     await PLService.UpdateDrone(Drone.Id, Drone.Model);
                     MessageBox.Show("The drone has been successfully updated","Update Drone",MessageBoxButton.OK,MessageBoxImage.Information);
                     droneModel = Drone.Model;
-                    DelegateVM.NotifyDroneChanged(drone.Id);
+                    RefreshEvents.NotifyDroneChanged(drone.Id);
 
                 }
                 else
@@ -150,7 +150,7 @@ namespace PL
             {
                 MessageBox.Show(ex.Message+Environment.NewLine+"For updating the name must be initialized ", $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
-            DelegateVM.NotifyDroneChanged(drone.Id);
+            RefreshEvents.NotifyDroneChanged(drone.Id);
         }
 
         /// <summary>
@@ -164,14 +164,14 @@ namespace PL
                 if (Drone.DroneState == DroneState.AVAILABLE)
                 {
                     await PLService.SendDroneForCharg(Drone.Id);
-                    DelegateVM.NotifyDroneChanged(drone.Id);
-                    DelegateVM.NotifyStationChanged();
+                    RefreshEvents.NotifyDroneChanged(drone.Id);
+                    RefreshEvents.NotifyStationChanged();
                 }
                 else if (Drone.DroneState == PO.DroneState.MAINTENANCE)
                 {
                     await PLService.ReleaseDroneFromCharging(Drone.Id);
-                    DelegateVM.NotifyDroneChanged(drone.Id);
-                    DelegateVM.NotifyStationChanged();
+                    RefreshEvents.NotifyDroneChanged(drone.Id);
+                    RefreshEvents.NotifyStationChanged();
                 }
             }
             catch (BO.ThereIsNoNearbyBaseStationThatTheDroneCanReachException ex)
@@ -217,21 +217,21 @@ namespace PL
                     if (Drone.Parcel.ParcelState == true)
                     {
                         await PLService.DeliveryParcelByDrone(Drone.Id);
-                        DelegateVM.NotifyDroneChanged(drone.Id);
-                        DelegateVM.NotifyParcelChanged(drone.Parcel.Id);
+                        RefreshEvents.NotifyDroneChanged(drone.Id);
+                        RefreshEvents.NotifyParcelChanged(drone.Parcel.Id);
                     }
                     else
                     {
                         await PLService.ParcelCollectionByDrone(Drone.Id);
-                        DelegateVM.NotifyDroneChanged(drone.Id);
-                        DelegateVM.NotifyParcelChanged(drone.Parcel.Id);
+                        RefreshEvents.NotifyDroneChanged(drone.Id);
+                        RefreshEvents.NotifyParcelChanged(drone.Parcel.Id);
                     }
                 }
                 else
                 {                   
                     await PLService.AssingParcelToDrone(Drone.Id);
-                    DelegateVM.NotifyDroneChanged(drone.Id);
-                    DelegateVM.NotifyParcelChanged();
+                    RefreshEvents.NotifyDroneChanged(drone.Id);
+                    RefreshEvents.NotifyParcelChanged();
                 }
             } 
             catch (BO.DeletedExeption ex)
@@ -268,8 +268,8 @@ namespace PL
                 {
                     await PLService.DeleteDrone(Drone.Id);
                     MessageBox.Show("The drone was successfully deleted");
-                    DelegateVM.DroneChangedEvent -= HandleADroneChanged;
-                    DelegateVM.NotifyDroneChanged(Drone.Id);
+                    RefreshEvents.DroneChangedEvent -= HandleADroneChanged;
+                    RefreshEvents.NotifyDroneChanged(Drone.Id);
                     Tabs.CloseTab(param as TabItemFormat);
                 }
             }
@@ -300,8 +300,8 @@ namespace PL
                 {
                     await PLService.DeleteDrone(Drone.Id);
                     MessageBox.Show("The drone was successfully deleted");
-                    DelegateVM.DroneChangedEvent -= HandleADroneChanged;
-                    DelegateVM.NotifyDroneChanged(drone.Id);
+                    RefreshEvents.DroneChangedEvent -= HandleADroneChanged;
+                    RefreshEvents.NotifyDroneChanged(drone.Id);
                     Tabs.CloseTab(param as TabItemFormat);
                 }
 
@@ -344,16 +344,16 @@ namespace PL
         /// <param name="e">event</param>
         private void HandleWorkerProgressChanged(object sender, ProgressChangedEventArgs e)
         {
-            DelegateVM.NotifyDroneChanged(id);
+            RefreshEvents.NotifyDroneChanged(id);
             var ids = (ValueTuple<int?, int?, int?, int?>)e.UserState;
             if (ids.Item1 != null)
-                DelegateVM.NotifyParcelChanged(ids.Item1);
+                RefreshEvents.NotifyParcelChanged(ids.Item1);
             else if (ids.Item2 != null)
-                DelegateVM.NotifyCustomerChanged(ids.Item2);
+                RefreshEvents.NotifyCustomerChanged(ids.Item2);
             else if (ids.Item3 != null)
-                DelegateVM.NotifyCustomerChanged(ids.Item3);
+                RefreshEvents.NotifyCustomerChanged(ids.Item3);
             else if (ids.Item4 != null)
-                DelegateVM.NotifyStationChanged(ids.Item4);
+                RefreshEvents.NotifyStationChanged(ids.Item4);
         }
 
         /// <summary>
@@ -390,7 +390,7 @@ namespace PL
         /// </summary>
         public void Dispose()
         {
-            DelegateVM.DroneChangedEvent += HandleADroneChanged;
+            RefreshEvents.DroneChangedEvent += HandleADroneChanged;
             simulatorWorker?.CancelAsync();
         }
     }

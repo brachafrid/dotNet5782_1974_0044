@@ -88,8 +88,8 @@ namespace PL
             DisplayParcelsFromCommand = new(DisplayParcelsFrom, null);
             DisplayParcelsToCommand = new(DisplayParcelsTo, null);
             DisplayCustomerCommand = new(DisplayCustomer, null);
-            DelegateVM.CustomerChangedEvent += HandleCustomerChanged;
-            DelegateVM.ParcelChangedEvent += (sender, e) => Init();
+            RefreshEvents.CustomerChangedEvent += HandleCustomerChanged;
+            RefreshEvents.ParcelChangedEvent += (sender, e) => Init();
             LogOutCommand = new(Tabs.LogOut, null);
             RefreshCommand = new(Tabs.Refresh, null);
         }

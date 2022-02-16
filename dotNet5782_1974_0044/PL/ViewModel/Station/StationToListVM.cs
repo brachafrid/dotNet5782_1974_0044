@@ -15,7 +15,7 @@ namespace PL
         public StationToListVM()
         {
             InitList();
-            DelegateVM.StationChangedEvent += HandleStationChanged;
+            RefreshEvents.StationChangedEvent += HandleStationChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
 
@@ -84,7 +84,7 @@ namespace PL
         /// </summary>
         public void Dispose()
         {
-            DelegateVM.StationChangedEvent -= HandleStationChanged;
+            RefreshEvents.StationChangedEvent -= HandleStationChanged;
         }
     }
 }

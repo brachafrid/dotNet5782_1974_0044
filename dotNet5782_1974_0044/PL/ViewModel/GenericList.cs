@@ -181,6 +181,7 @@ namespace PL
             CancelGroupCommand = new(CancelGroup, null);
             GroupCommand = new(Grouping, null);
             AddEntitiyCommand = new(AddEntity, null);
+            DoubleClick = new(Tabs.OpenDetailes, null);
 
         }
 

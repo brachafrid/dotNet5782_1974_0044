@@ -16,7 +16,7 @@ namespace PL
         {
             InitList();
             DoubleClick = new(Tabs.OpenDetailes, null);
-            DelegateVM.DroneChangedEvent += HandleDroneChanged;
+            RefreshEvents.DroneChangedEvent += HandleDroneChanged;
         }
 
         /// <summary>
@@ -86,7 +86,7 @@ namespace PL
         /// </summary>
         public void Dispose()
         {
-            DelegateVM.DroneChangedEvent -= HandleDroneChanged;
+            RefreshEvents.DroneChangedEvent -= HandleDroneChanged;
         }
     }
 }

@@ -25,8 +25,8 @@ namespace PL
         {
             InitList();
             IsAdministor = true;
-            DelegateVM.CustomerChangedEvent += HandleParcelChanged;
-            DelegateVM.ParcelChangedEvent += HandleParcelChanged;
+            RefreshEvents.CustomerChangedEvent += HandleParcelChanged;
+            RefreshEvents.ParcelChangedEvent += HandleParcelChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
 
@@ -62,8 +62,8 @@ namespace PL
             IsAdministor = false;
             state = (string)State;
             InitList();
-            DelegateVM.CustomerChangedEvent += HandleParcelChanged;
-            DelegateVM.ParcelChangedEvent += HandleParcelChanged;
+            RefreshEvents.CustomerChangedEvent += HandleParcelChanged;
+            RefreshEvents.ParcelChangedEvent += HandleParcelChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
 
@@ -156,8 +156,8 @@ namespace PL
         /// </summary>
         public void Dispose()
         {
-            DelegateVM.CustomerChangedEvent -= HandleParcelChanged;
-            DelegateVM.ParcelChangedEvent -= HandleParcelChanged;
+            RefreshEvents.CustomerChangedEvent -= HandleParcelChanged;
+            RefreshEvents.ParcelChangedEvent -= HandleParcelChanged;
         }
     }
 }
