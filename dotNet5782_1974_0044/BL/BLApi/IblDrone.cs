@@ -14,8 +14,8 @@ namespace BLApi
         public void SendDroneForCharg(int id);
         public void ReleaseDroneFromCharging(int id);
         public BO.Drone GetDrone(int id);
+        public IEnumerable<BO.DroneToList> GetAllDrones();
         public IEnumerable<BO.DroneToList> GetDrones();
-        public IEnumerable<BO.DroneToList> GetActiveDrones();
         public void AssingParcelToDrone(int droneId);
         public void ParcelCollectionByDrone(int DroneId);
         public void DeliveryParcelByDrone(int droneId);

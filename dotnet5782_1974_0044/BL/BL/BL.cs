@@ -87,6 +87,7 @@ namespace BL
                     {
                         state = DroneState.RESCUE;
                     }
+
                     if (!isAbleTakeParcel)
                     {
                         DO.Parcel newParcel = parcel;
@@ -182,7 +183,7 @@ namespace BL
         /// <returns>list of locations</returns>
         private IEnumerable<Location> GetLocationsCustomersGotParcels(Predicate<int> exsitParcelRecived)
         {
-            return GetCustomers().Where(customer => exsitParcelRecived(customer.NumParcelReceived))
+            return GetAllCustomers().Where(customer => exsitParcelRecived(customer.NumParcelReceived))
                      .Select(Customer => new Location()
                      {
                          Latitude = dal.GetCustomer(Customer.Id).Latitude,
@@ -232,7 +233,6 @@ namespace BL
                 // if the drone need more electricity 
                 if (electrity > FULLBATTRY)
                 {
-
                     canTakeParcel = false;
                     return 0;
                 }
@@ -252,7 +252,6 @@ namespace BL
         /// <returns> min electricity</returns>
         private double MinBatteryForAvailAble(Location location)
         {
-
             var station = ClosetStation(location, (int chargeSlots) => chargeSlots > 0);
             if (station == null)
                 return MININITBATTARY;
