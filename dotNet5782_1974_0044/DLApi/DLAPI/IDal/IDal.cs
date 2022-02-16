@@ -9,7 +9,7 @@ namespace DLApi
         /// <summary>
         /// Rerurn the administor password
         /// </summary>
-        /// <returns>return true if contains the password</returns>
+        /// <returns>return the password</returns>
         public string GetAdministorPasssword();
     }
 }

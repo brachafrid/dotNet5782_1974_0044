@@ -130,7 +130,7 @@ namespace Dal
                  new XElement(nameof( station.Id), station.Id),
                  new XElement(nameof(station.Name), station.Name),
                  new XElement(nameof(station.Latitude), station.Latitude),
-                 new XElement(nameof(station.Latitude), station.Longitude),
+                 new XElement(nameof(station.Longitude), station.Longitude),
                  new XElement(nameof(station.ChargeSlots), station.ChargeSlots),
                  new XElement(nameof(station.IsNotActive), station.IsNotActive));
         }
