@@ -94,6 +94,8 @@ namespace PL
         {
             try
             {
+                if (customerLogin.Id == null)
+                    return;
                 Customer customer = await PLService.GetCustomer((int)customerLogin.Id);
                 if (await PLService.IsNotActiveCustomer(customer.Id))
                     MessageBox.Show("Deleted customer");
