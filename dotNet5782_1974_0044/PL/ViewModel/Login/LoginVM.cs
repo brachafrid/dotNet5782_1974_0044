@@ -16,7 +16,7 @@ namespace PL
             Add = new(true);
             state = LoginState.CLOSE;
             ShowCommand = new RelayCommand(Show, null);
-            Command = new RelayCommand(Log,(param)=> customerLogin.Error == null|| state != LoginState.CUSTOMER );
+            Command = new RelayCommand(Log,(param)=> customerLogin.Error != null|| state != LoginState.CUSTOMER );
         }
         private LoginState state;
         public LoginState State
