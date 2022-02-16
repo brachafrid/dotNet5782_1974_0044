@@ -1,10 +1,6 @@
-﻿using System;
-using DO;
-using System.Collections;
+﻿using DO;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DLApi
 {
@@ -15,6 +11,12 @@ namespace DLApi
         public void AddDroneCharge(int droneId, int stationId);
         public void RemoveDroneCharge(int droneId);
         public DateTime GetTimeStartOfCharge(int droneId);
+        /// <summary>
+        /// Count full charge slots
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>number of the full charge slots</returns>
+        public int CountFullChargeSlots(int id);
 
         /// <summary>
         /// Get Electricity

@@ -12,12 +12,7 @@ namespace Dal
     {
         const string STATION_PATH = @"XmlStation.xml";
 
-        /// <summary>
-        /// Update name and number of charge slots of station
-        /// </summary>
-        /// <param name="station">station</param>
-        /// <param name="name">station's name</param>
-        /// <param name="chargeSlots">station's charge slots</param>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(Station station, string name, int chargeSlots)
         {
@@ -39,11 +34,7 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Get sations with empty charge slots
-        /// </summary>
-        /// <param name="exsitEmpty">Predicate type of int : exsitEmpty</param>
-        /// <returns>Sations with empty charge slots</returns>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetSationsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
@@ -59,11 +50,7 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Get station
-        /// </summary>
-        /// <param name="id">station's id</param>
-        /// <returns>station</returns>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int id)
         {
@@ -80,10 +67,7 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Get the list of the stations
-        /// </summary>
-        /// <returns>list of stations</returns>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Station> GetStations()
         {
@@ -97,10 +81,6 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Delete station according to id
-        /// </summary>
-        /// <param name="id">station's id</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(int id)
         {
@@ -119,14 +99,7 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Add new station
-        /// </summary>
-        /// <param name="id">new station's id</param>
-        /// <param name="name">new station's name</param>
-        /// <param name="longitude">new station's longitude</param>
-        /// <param name="latitude">new station's latitude</param>
-        /// <param name="chargeSlots">new station's charge slots</param>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(int id, string name, double longitude, double latitude, int chargeSlots)
         {
