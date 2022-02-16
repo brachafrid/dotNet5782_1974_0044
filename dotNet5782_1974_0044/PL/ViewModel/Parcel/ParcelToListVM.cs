@@ -27,7 +27,6 @@ namespace PL
             IsAdministor = true;
             RefreshEvents.CustomerChangedEvent += HandleParcelChanged;
             RefreshEvents.ParcelChangedEvent += HandleParcelChanged;
-            DoubleClick = new(Tabs.OpenDetailes, null);
         }
 
         /// <summary>

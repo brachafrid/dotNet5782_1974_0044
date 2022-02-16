@@ -15,7 +15,6 @@ namespace PL
         public DroneToListVM()
         {
             InitList();
-            DoubleClick = new(Tabs.OpenDetailes, null);
             RefreshEvents.DroneChangedEvent += HandleDroneChanged;
         }
 

@@ -16,7 +16,6 @@ namespace PL
         {
             InitList();
             RefreshEvents.StationChangedEvent += HandleStationChanged;
-            DoubleClick = new(Tabs.OpenDetailes, null);
         }
 
         /// <summary>
