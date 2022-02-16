@@ -62,5 +62,19 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+        /// <summary>
+        /// check if id exist and not delited
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="lst">generic list</param>
+        /// <param name="id">id</param>
+        /// <returns>if id exist and active</returns>
+        static bool ExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id) where T : IIdentifyable, IActiveable
+        {
+            if (!lst.Any())
+                return false;
+            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id && !(bool)item.GetType().GetProperty("IsNotActive").GetValue(item));
+            return !temp.Equals(default(T));
+        }
     }
 }
