@@ -1,6 +1,5 @@
 ﻿using PL.PO;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -94,11 +93,14 @@ namespace PL
         {
             try
             {
-                if (customerLogin.Id == null)
-                    return;
                 Customer customer = await PLService.GetCustomer((int)customerLogin.Id);
+                if (customer.Phone != customerLogin.Phone)
+                {
+                    MessageBox.Show("Incorrcet phone or Id", "Login Customer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
                 if (await PLService.IsNotActiveCustomer(customer.Id))
-                    MessageBox.Show("Deleted customer");
+                    MessageBox.Show($"The customer {customer.Id} is deleted", "Login Customer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 else
                 {
                     LoginScreen.Id = customer.Id;
