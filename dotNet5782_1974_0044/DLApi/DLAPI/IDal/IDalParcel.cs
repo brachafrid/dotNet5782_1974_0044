@@ -30,11 +30,16 @@ namespace DLApi
         /// <param name="id">parcel'sid</param>
         /// <returns>parcel</returns>
         public Parcel GetParcel(int id);
+
+        /// <summary>
+        /// Get the list of the parcels
+        /// </summary>
+        /// <returns>list of parcels</returns>
         public IEnumerable<Parcel> GetParcels();
         /// <summary>
         /// Get parcels not assigned to drone
         /// </summary>
-        /// <param name="notAssign">(Predicate type of int: notAssign</param>
+        /// <param name="notAssign">(Predicate type of int: notAssign return true if the drone id 0</param>
         /// <returns>parcels not assigned to drone</returns>
         public IEnumerable<Parcel> GetParcelsNotAssignedToDrone(Predicate<int> notAssign);
         /// <summary>

@@ -84,10 +84,7 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Get the list of the parcels
-        /// </summary>
-        /// <returns>list of parcels</returns>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetParcels()
         {
