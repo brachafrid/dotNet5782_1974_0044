@@ -14,10 +14,6 @@ namespace PL
     public abstract class GenericList<T> : NotifyPropertyChangedBase
     {
         /// <summary>
-        /// List of kind of sorts
-        /// </summary>
-        public List<string> KindOfSort { get; set; } = new() { "Range", "Single" };
-        /// <summary>
         /// Array of weight categories
         /// </summary>
         public Array WeightCategories { get; set; } = Enum.GetValues(typeof(WeightCategories));
@@ -110,7 +106,7 @@ namespace PL
 
         private double doubleFirstChange = 0;
         /// <summary>
-        /// Min parameter
+        /// The value that selected in the slider
         /// </summary>
         public double DoubleFirstChange
         {
@@ -152,7 +148,7 @@ namespace PL
                         Value = modelContain
                     });
                 else
-                    Filters[Filters.IndexOf(fiterWeight)].Value = modelContain;
+                    fiterWeight.Value = modelContain;
                 FilterNow();
             }
         }
