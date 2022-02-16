@@ -1,5 +1,4 @@
 ﻿using BO;
-using System.Diagnostics;
 
 namespace BL
 {
@@ -16,21 +15,23 @@ namespace BL
         /// <returns></returns>
         private double CalculateElectricity(Location aviableDroneLocation, double? batteryStatus, Location CustomerSender, Location CustomerReceives, WeightCategories weight, out double distance)
         {
-           
+
             double electricity;
             double e = weight switch
             {
                 WeightCategories.LIGHT => lightWeightCarrier,
                 WeightCategories.MEDIUM => mediumWeightBearing,
                 WeightCategories.HEAVY => carriesHeavyWeight,
-               _ => 0
+                _ => 0
             };
             Station station;
             electricity = Distance(aviableDroneLocation, CustomerSender) * available +
                         Distance(CustomerSender, CustomerReceives) * e;
             try
             {
-                station = batteryStatus != null ? ClosetStationPossible(aviableDroneLocation, (int chargeSlots) => chargeSlots > 0,(double)batteryStatus - electricity, out _) : ClosetStation(aviableDroneLocation, (int chargeSlots) => chargeSlots > 0);
+                station = batteryStatus != null ?
+                    ClosetStationPossible(aviableDroneLocation, (int chargeSlots) => chargeSlots > 0, (double)batteryStatus - electricity, out _)
+                    : ClosetStation(aviableDroneLocation, (int chargeSlots) => chargeSlots > 0);
                 if (station == null)
                 {
                     distance = 0;

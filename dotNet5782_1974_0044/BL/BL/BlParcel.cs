@@ -66,7 +66,6 @@ namespace BL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-
         }
 
         /// <summary>
@@ -174,7 +173,6 @@ namespace BL
             {
                 throw new KeyNotFoundException(ex.Message);
             }
-
         }
 
         /// <summary>
@@ -260,6 +258,5 @@ namespace BL
             lock (dal)
                return dal.GetParcels().Any(parcel => parcel.Id == id && parcel.IsNotActive);
         }
-
     }
 }

@@ -150,7 +150,7 @@ namespace BL
                 case Maintenance.Charging:
                     {
                         if (Station == null)
-                            Station = bl.GetStations().Select(station => bl.GetStation(station.Id)).FirstOrDefault(station => station.DroneInChargings.FirstOrDefault(drone => drone.Id == Drone.Id) != null);
+                            Station = bl.GetAllStations().Select(station => bl.GetStation(station.Id)).FirstOrDefault(station => station.DroneInChargings.FirstOrDefault(drone => drone.Id == Drone.Id) != null);
                         if (Drone.BatteryState == 100)
                         {
                             bl.ReleaseDroneFromCharging(Drone.Id);

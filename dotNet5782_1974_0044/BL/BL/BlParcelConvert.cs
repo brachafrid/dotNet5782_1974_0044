@@ -1,6 +1,5 @@
 ﻿using BO;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 
 namespace BL
@@ -20,7 +19,10 @@ namespace BL
                 Id = parcel.Id,
                 WeightCategory = parcel.Weight,
                 Priority = parcel.Priority,
-                State = parcel.AssignmentTime == null ? PackageModes.DEFINED : parcel.CollectionTime == null ? PackageModes.ASSOCIATED : parcel.DeliveryTime == null ? PackageModes.COLLECTED : PackageModes.PROVIDED
+                State = parcel.AssignmentTime == null ? PackageModes.DEFINED :
+                parcel.CollectionTime == null ? PackageModes.ASSOCIATED :
+                 parcel.DeliveryTime == null ? PackageModes.COLLECTED :
+                PackageModes.PROVIDED
             };
 
 
@@ -113,22 +115,16 @@ namespace BL
             Dictionary<ParcelToList, double> parcels = new();
             foreach (var item in dal.GetParcels())
             {
-                //if (item.DorneId == 0 
-                //    && (WeightCategories)item.Weigth <= aviableDrone.Weight 
-                //    && CalculateElectricity(aviableDrone.CurrentLocation, aviableDrone.BatteryState, MapParcelToList(item).CustomerSender.Location, MapParcelToList(item).CustomerReceives.Location, (WeightCategories)item.Weigth, out double minDistance) <= aviableDrone.BatteryState)
-                //{
-                //    parcels.Add(MapParcelToList(item), minDistance);
-                //}
                 if (item.DorneId == 0
                     && (WeightCategories)item.Weigth <= aviableDrone.Weight)
                 {
                     var parcelToList = MapParcelToList(item);
-                    var electricity = CalculateElectricity(aviableDrone.CurrentLocation, aviableDrone.BatteryState, parcelToList.CustomerSender.Location, parcelToList.CustomerReceives.Location, (WeightCategories)item.Weigth, out double minDistance);
+                    var electricity = CalculateElectricity(aviableDrone.CurrentLocation, aviableDrone.BatteryState, parcelToList.CustomerSender.Location,
+                        parcelToList.CustomerReceives.Location, (WeightCategories)item.Weigth, out double minDistance);
                     if (electricity <= aviableDrone.BatteryState)
                         parcels.Add(parcelToList, minDistance);
                 }
             }
-
             return parcels;
         }
 
