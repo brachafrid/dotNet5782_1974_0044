@@ -8,16 +8,7 @@ namespace Dal
 {
     public sealed partial class DalXml : IDalCustomer
     {
-        const string CUSTOMER_PATH = @"XmlCustomer.xml";
-
-        /// <summary>
-        /// Add new customer
-        /// </summary>
-        /// <param name="id">customer's id</param>
-        /// <param name="phone">customer's phone</param>
-        /// <param name="name">customer's name</param>
-        /// <param name="longitude">customer's longitude</param>
-        /// <param name="latitude">customer's latitude</param>
+        const string CUSTOMER_PATH = "XmlCustomer.xml";
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(int id, string phone, string name, double longitude, double latitude)
         {
@@ -42,11 +33,6 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
-
-        /// <summary>
-        /// Deletes a customer according to id
-        /// </summary>
-        /// <param name="id">customer's id</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(int id)
         {
@@ -67,11 +53,6 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Returns to a specific customer according to id
-        /// </summary>
-        /// <param name="id">customer's id</param>
-        /// <returns>customer</returns>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomer(int id)
         {
@@ -88,10 +69,7 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Gets the list of the customers
-        /// </summary>
-        /// <returns>The list of the customers</returns>
+        
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> GetCustomers()
         {
@@ -105,12 +83,7 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Update customer
-        /// </summary>
-        /// <param name="customer">customer</param>
-        /// <param name="name">new name</param>
-        /// <param name="phone">new phone</param>
+       
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer customer, string name, string phone)
         {
