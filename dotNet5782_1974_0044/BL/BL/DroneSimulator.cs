@@ -110,18 +110,17 @@ namespace BL
                             if (Station == null)
                             {
                                 Station = bl.ClosetStationPossible(Drone.CurrentLocation, (int chargeSlots) => true, Drone.BatteryState, out n);
+                                if (Station != null)
+                                    Drone.DroneState = DroneState.AVAILABLE;
+                                break;
                             }
-                            if (Station != null)
+                            if (Station == null)
                             {
-
-                                distance = BL.Distance(Drone.CurrentLocation, Station.Location);
-                                maintenance = Maintenance.Going;
+                                Drone.DroneState = DroneState.RESCUE;
+                                break;
                             }
-                            else
-                            {
-
-
-                            }
+                            distance = BL.Distance(Drone.CurrentLocation, Station.Location);
+                            maintenance = Maintenance.Going;
 
                         }
                         break;
@@ -135,7 +134,6 @@ namespace BL
                                 bl.SendDroneForCharg(Drone.Id);
                                 maintenance = Maintenance.Charging;
                             }
-
                         else
                         {
                             lock (bl)
@@ -194,8 +192,11 @@ namespace BL
                             {
                                 if (distance > 0.01)
                                 {
-                                    Drone.CurrentLocation = UpdateLocationAndBattary(bl.GetCustomer(parcel.CustomerSender.Id).Location, bl.available);
-                                    distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerSender.Id).Location);
+                                    lock (bl)
+                                    {
+                                        Drone.CurrentLocation = UpdateLocationAndBattary(bl.GetCustomer(parcel.CustomerSender.Id).Location, bl.available);
+                                        distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerSender.Id).Location);
+                                    }
                                 }
 
                                 else
@@ -217,7 +218,7 @@ namespace BL
                                         }
                                     }
                                 }
-                            }
+
                             break;
                         }
                     case Delivery.Delivery:

@@ -17,7 +17,7 @@ namespace BL
         {
 
             double electricity;
-            double e = weight switch
+            double elect = weight switch
             {
                 WeightCategories.LIGHT => lightWeightCarrier,
                 WeightCategories.MEDIUM => mediumWeightBearing,
@@ -26,7 +26,7 @@ namespace BL
             };
             Station station;
             electricity = Distance(aviableDroneLocation, CustomerSender) * available +
-                        Distance(CustomerSender, CustomerReceives) * e;
+                        Distance(CustomerSender, CustomerReceives) * elect;
             try
             {
                 station = batteryStatus != null ?
@@ -35,7 +35,7 @@ namespace BL
                 if (station == null)
                 {
                     distance = 0;
-                    return 101d;
+                    return 101;
                 }
 
                 electricity += Distance(CustomerReceives,
