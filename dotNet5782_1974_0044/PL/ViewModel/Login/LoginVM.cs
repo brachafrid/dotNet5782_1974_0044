@@ -60,7 +60,6 @@ namespace PL
                     CustomerLogin(param);
                     break;
                 case LoginState.SIGNIN:
-
                     break;
                 default:
                     break;
