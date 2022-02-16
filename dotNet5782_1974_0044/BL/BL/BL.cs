@@ -228,7 +228,7 @@ namespace BL
                 {
                     DO.Parcel newParcel = parcel;
                     newParcel.Id = 0;
-                    
+                    newParcel.PickedUp = newParcel.Sceduled = default;
                     dal.UpdateParcel(parcel, newParcel);
                     canTakeParcel = false;
                     return 0;

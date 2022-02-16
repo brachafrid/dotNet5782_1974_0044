@@ -69,7 +69,7 @@ namespace Dal
             }
         }
 
-        
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Customer> GetCustomers()
         {
@@ -83,7 +83,7 @@ namespace Dal
             }
         }
 
-       
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(Customer customer, string name, string phone)
         {
