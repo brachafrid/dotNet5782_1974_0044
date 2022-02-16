@@ -32,14 +32,14 @@ namespace DLApi
         /// <summary>
         /// Get start time of charging
         /// </summary>
-        /// <param name="droneId">drone's id</param>
+        /// <param name="droneId">drone's id /param>
         /// <returns>start time of charging</returns>
         public DateTime GetTimeStartOfCharge(int droneId);
         /// <summary>
         /// Count full charge slots
         /// </summary>
-        /// <param name="id"></param>
-        /// <returns>number of the full charge slots</returns>
+        /// <param name="id">The station Id</param>
+        /// <returns>Number of the full charge slots in the spesific station</returns>
         public int CountFullChargeSlots(int id);
 
         /// <summary>
