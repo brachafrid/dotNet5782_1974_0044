@@ -104,25 +104,25 @@ namespace PL
             set => Set(ref maxValue, value);
         }
 
-        private double doubleFirstChange = 0;
+        private double sliderParameter = 0;
         /// <summary>
         /// The value that selected in the slider
         /// </summary>
-        public double DoubleFirstChange
+        public double SliderParameter
         {
-            get => doubleFirstChange;
+            get => sliderParameter;
             set
             {
-                doubleFirstChange = value;
+                sliderParameter = value;
                 SortEntities fiterWeight = Filters.FirstOrDefault(filter => filter.NameParameter == SelectedKind);
                 if (fiterWeight == default)
                     Filters.Add(new SortEntities()
                     {
                         NameParameter = SelectedKind,
-                        MinParameter = doubleFirstChange
+                        NumberParameter = sliderParameter
                     });
                 else
-                    fiterWeight.MinParameter = doubleFirstChange;
+                    fiterWeight.NumberParameter = sliderParameter;
                 FilterNow();
 
             }
@@ -243,12 +243,12 @@ namespace PL
                 }
                 else if (obj.GetType().GetProperty(item.NameParameter).PropertyType.Name == typeof(double).Name)
                 {
-                    if ((double)obj.GetType().GetProperty(item.NameParameter).GetValue(obj) < item.MinParameter)
+                    if ((double)obj.GetType().GetProperty(item.NameParameter).GetValue(obj) < item.NumberParameter)
                         return false;
                 }
                 else if (obj.GetType().GetProperty(item.NameParameter).PropertyType.Name == typeof(int).Name)
                 {
-                    if ((int)obj.GetType().GetProperty(item.NameParameter).GetValue(obj) < item.MinParameter)
+                    if ((int)obj.GetType().GetProperty(item.NameParameter).GetValue(obj) < item.NumberParameter)
                         return false;
                 }
                 // for enums 

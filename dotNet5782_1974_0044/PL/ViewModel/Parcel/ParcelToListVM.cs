@@ -83,7 +83,7 @@ namespace PL
                         sourceList.Remove(parcel);
                         var newParcel = (await PLService.GetParcels()).FirstOrDefault(p => p.Id == e.Id);
                         sourceList.Add(newParcel);
-                    }                       
+                    }
                 }
                 else
                 {
@@ -124,9 +124,9 @@ namespace PL
             {
                 return state switch
                 {
-                    "From" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
-                    "To" => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
-                    _ => await PLService.GetParcels()
+                    ParcelListWindowState.FROM_CUSTOMER => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
+                    ParcelListWindowState.TO_CUSTOMER => await Task.WhenAll((await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel))),
+                    ParcelListWindowState.ALL => await PLService.GetParcels()
                 };
             }
             catch (BO.XMLFileLoadCreateException ex)

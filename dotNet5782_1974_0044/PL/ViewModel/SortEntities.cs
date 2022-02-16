@@ -15,7 +15,7 @@ namespace PL
         /// <summary>
         /// The parameter of slider
         /// </summary>
-        public double MinParameter { get; set; }
+        public double NumberParameter { get; set; }
         /// <summary>
         /// The Value of parameter
         /// </summary>

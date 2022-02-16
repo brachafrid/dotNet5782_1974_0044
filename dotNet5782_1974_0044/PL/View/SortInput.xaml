@@ -95,7 +95,7 @@
                     </MultiBinding>
                 </ComboBox.Visibility>
             </ComboBox>
-            <Slider x:Name="min" Minimum="0" Maximum="{Binding Path=Parent.DataContext.MaxValue ,RelativeSource={RelativeSource Self}}" Value="{Binding Path=Parent.DataContext.DoubleFirstChange,RelativeSource = {RelativeSource Self}}" >
+            <Slider x:Name="min" Minimum="0" Maximum="{Binding Path=Parent.DataContext.MaxValue ,RelativeSource={RelativeSource Self}}" Value="{Binding Path=Parent.DataContext.SliderParameter,RelativeSource = {RelativeSource Self}}" >
                 <Slider.Style>
                     <Style TargetType="Slider" BasedOn="{StaticResource MaterialDesignDiscreteSlider}">
                         <Style.Triggers>
