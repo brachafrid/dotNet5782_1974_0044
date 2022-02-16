@@ -58,12 +58,13 @@ namespace BL
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+
         /// <summary>
         /// Retrieves the list of customers  from the data and converts it to station to list
         /// </summary>
         /// <returns>A list of statin to print</returns>
        // [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<CustomerToList> GetCustomers()
+        public IEnumerable<CustomerToList> GetAllCustomers()
         {
             try
             {
@@ -82,7 +83,7 @@ namespace BL
         /// </summary>
         /// <returns>Active customers</returns>
        // [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<CustomerToList> GetActiveCustomers()
+        public IEnumerable<CustomerToList> GetCustomers()
         {
             try
             {

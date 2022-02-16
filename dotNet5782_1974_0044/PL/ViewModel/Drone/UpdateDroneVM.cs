@@ -198,6 +198,10 @@ namespace PL
             {
                 MessageBox.Show(ex.Message , $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+            catch(BO.NotExsistSutibleParcelException )
+            {
+                MessageBox.Show("The drone is in the station but not in charge", "Sending the drone to charge", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         /// <summary>

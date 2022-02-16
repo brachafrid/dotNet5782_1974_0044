@@ -84,13 +84,13 @@ namespace BL
         /// </summary>
         /// <returns>active drones</returns>
         // [MethodImpl(MethodImplOptions.Synchronized)]
-        public IEnumerable<DroneToList> GetActiveDrones() => drones.Where(drone => !drone.IsNotActive);
+        public IEnumerable<DroneToList> GetDrones() => drones.Where(drone => !drone.IsNotActive);
 
         /// <summary>
         /// Recrieves the list of drones from BL
         /// </summary>
         /// <returns>A list of drones to print</returns>
-        public IEnumerable<DroneToList> GetDrones() => drones;
+        public IEnumerable<DroneToList> GetAllDrones() => drones;
         #endregion
 
         #region Update
@@ -142,7 +142,15 @@ namespace BL
             {
                 Station station = ClosetStationPossible(droneToList.CurrentLocation, (int chargeSlots) => chargeSlots > 0, droneToList.BatteryState, out double minDistance);
                 if (station == null)
+                {
                     station = ClosetStationPossible(droneToList.CurrentLocation, (int chargeSlots) => true, droneToList.BatteryState, out minDistance);
+                    if(station!=null)
+                    {
+                        droneToList.BatteryState -= minDistance * available;
+                        droneToList.CurrentLocation = station.Location;
+                        throw new NotExsistSuitibleStationException();
+                    }
+                }
                 if (station == null)
                 {
                     droneToList.DroneState = DroneState.RESCUE;
@@ -154,7 +162,7 @@ namespace BL
                 //No charging position was subtracting because there is no point in changing a variable that is not saved after the end of the function
                 dal.AddDroneCharge(id, station.Id);
             }
-            catch (NotExsistSuitibleStationException)
+            catch (NotExsistSuitibleStationException )
             {
                 droneToList.DroneState = DroneState.RESCUE;
             }
@@ -393,7 +401,7 @@ namespace BL
             }
             return droneInChargings;
         }
-     
+
         /// <summary>
         /// Find the best parcel to assigning to thev drone
         /// </summary>

@@ -69,6 +69,10 @@ namespace BL
             {
                 throw new KeyNotFoundException("", ex);
             }
+            catch(NotExsistSuitibleStationException )
+            {
+                
+            }
         }
         /// <summary>
         /// Availble drone
