@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Xml.Linq;
 
 namespace Dal
 {
@@ -122,6 +123,24 @@ namespace Dal
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
+
         }
+        [MethodImpl(MethodImplOptions.Synchronized)]
+        public (double, double, double, double, double) GetElectricity()
+        {
+            try
+            {
+                XElement config = DalXmlService.LoadXElementToXML(CONFIG);
+                var electricity = config.Elements().Select(elem => double.Parse(elem.Value));
+                return (electricity.ElementAt(1), electricity.ElementAt(2), electricity.ElementAt(3), electricity.ElementAt(4), electricity.ElementAt(5));
+            }
+            catch (XMLFileLoadCreateException ex)
+            {
+                throw new XMLFileLoadCreateException(ex.Message);
+            }
+
+        }
+
     }
+
 }

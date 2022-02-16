@@ -15,12 +15,7 @@ namespace Dal
     {
         const string DRONE_PATH = @"XmlDrone.xml";
 
-        /// <summary>
-        /// Add new drone
-        /// </summary>
-        /// <param name="id">new drone's id</param>
-        /// <param name="model">new drone's model</param>
-        /// <param name="MaxWeight">new drone's max weight</param>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(int id, string model, WeightCategories MaxWeight)
         {
@@ -44,10 +39,6 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Deletes a certain drone according to ID no.
-        /// </summary>
-        /// <param name="id">drone's id</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(int id)
         {
@@ -67,11 +58,7 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Returns drone according to id
-        /// </summary>
-        /// <param name="id">drone's id</param>
-        /// <returns>drone</returns>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Drone GetDrone(int id)
         {
@@ -87,10 +74,7 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Returns the list of the drones
-        /// </summary>
-        /// <returns>list of drones</returns>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Drone> GetDrones()
         {
@@ -103,11 +87,7 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Update model name of drone
-        /// </summary>
-        /// <param name="drone">drone</param>
-        /// <param name="model">model name</param>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(Drone drone, string model)
         {
@@ -123,25 +103,6 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
-        /// <summary>
-        /// Get Electricity
-        /// </summary>
-        /// <returns>5 Electricity ratings </returns>
-        [MethodImpl(MethodImplOptions.Synchronized)]
-        public (double, double, double, double, double) GetElectricity()
-        {
-            try
-            {
-                XElement config = DalXmlService.LoadXElementToXML(CONFIG);
-                var electricity = config.Elements().Select(elem => double.Parse(elem.Value));
-                return (electricity.ElementAt(1), electricity.ElementAt(2), electricity.ElementAt(3), electricity.ElementAt(4), electricity.ElementAt(5));
-            }
-            catch (XMLFileLoadCreateException ex)
-            {
-                throw new XMLFileLoadCreateException(ex.Message);
-            }
-           
-        }
+       
     }
 }
