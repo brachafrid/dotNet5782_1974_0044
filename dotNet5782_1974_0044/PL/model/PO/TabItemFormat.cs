@@ -18,7 +18,7 @@ namespace PL.PO
         /// </summary>
         public string Header { get; set; }
         /// <summary>
-        /// Tab item format content
+        /// Tab item format content the VM
         /// </summary>
         public IDisposable Content { get; set; }
         public void Dispose()

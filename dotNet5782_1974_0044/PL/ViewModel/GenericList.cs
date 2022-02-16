@@ -14,10 +14,6 @@ namespace PL
     public abstract class GenericList<T> : NotifyPropertyChangedBase
     {
         /// <summary>
-        /// List of kind of sorts
-        /// </summary>
-        public List<string> KindOfSort { get; set; } = new() { "Range", "Single" };
-        /// <summary>
         /// Array of weight categories
         /// </summary>
         public Array WeightCategories { get; set; } = Enum.GetValues(typeof(WeightCategories));
@@ -110,7 +106,7 @@ namespace PL
 
         private double doubleFirstChange = 0;
         /// <summary>
-        /// Min parameter
+        /// The value that selected in the slider
         /// </summary>
         public double DoubleFirstChange
         {
@@ -152,20 +148,20 @@ namespace PL
                         Value = modelContain
                     });
                 else
-                    Filters[Filters.IndexOf(fiterWeight)].Value = modelContain;
+                    fiterWeight.Value = modelContain;
                 FilterNow();
             }
         }
         /// <summary>
-        /// The selected kind
+        /// The selected parameter to screen out according it
         /// </summary>
         public string SelectedKind { get; set; }
         /// <summary>
-        /// The selected group
+        /// The selected parameter to group according it
         /// </summary>
         public string SelectedGroup { get; set; }
         /// <summary>
-        /// The selected value
+        /// The selected value to screen out
         /// </summary>
         public string selectedValue { get; set; }
 
@@ -181,6 +177,7 @@ namespace PL
             CancelGroupCommand = new(CancelGroup, null);
             GroupCommand = new(Grouping, null);
             AddEntitiyCommand = new(AddEntity, null);
+            DoubleClick = new(Tabs.OpenDetailes, null);
 
         }
 
@@ -254,6 +251,7 @@ namespace PL
                     if ((int)obj.GetType().GetProperty(item.NameParameter).GetValue(obj) < item.MinParameter)
                         return false;
                 }
+                // for enums 
                 else if (obj.GetType().GetProperty(item.NameParameter).GetValue(obj).ToString() != item.Value)
                     return false;
             }
@@ -347,7 +345,7 @@ namespace PL
                         Value = selectedValue
                     });
                 else
-                    Filters[Filters.IndexOf(fiterEnum)].Value = selectedValue;
+                    fiterEnum.Value = selectedValue;
                 FilterNow();
             }
 

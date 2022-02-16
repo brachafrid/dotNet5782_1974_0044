@@ -21,15 +21,14 @@ namespace BL
         private const int DELAY = 500;
         private Maintenance maintenance = Maintenance.Starting;
         private Delivery delivery = Delivery.Starting;
-        private const double TIME_STEP = DELAY / 1000.0;
-        private const double VELOCITY = 1000;
-        private const double STEP = VELOCITY / TIME_STEP;
+        private const double TIME = 0.5;
+        private const double STEP = 2000;
         double distance = 0.0;
 
         /// <summary>
         /// constructor
         /// </summary>
-        /// <param name="id">id</param>
+        /// <param name="id">drone id</param>
         /// <param name="BL">BL</param>
         /// <param name="update">Action - update</param>
         /// <param name="checkStop">Func - check stop</param>
@@ -69,9 +68,9 @@ namespace BL
             {
                 throw new KeyNotFoundException("", ex);
             }
-            catch(NotExsistSuitibleStationException )
+            catch (NotExsistSuitibleStationException)
             {
-                
+
             }
         }
         /// <summary>
@@ -100,7 +99,7 @@ namespace BL
         /// </summary>
         private void MaintenanceDrone()
         {
-            
+
             switch (maintenance)
             {
                 case Maintenance.Starting:
@@ -111,31 +110,30 @@ namespace BL
                             if (Station == null)
                             {
                                 Station = bl.ClosetStationPossible(Drone.CurrentLocation, (int chargeSlots) => true, Drone.BatteryState, out n);
+                                if (Station != null)
+                                    Drone.DroneState = DroneState.AVAILABLE;
+                                break;
                             }
-                            if (Station != null)
+                            if (Station == null)
                             {
-                                distance = BL.Distance(Drone.CurrentLocation, Station.Location);
-                                maintenance = Maintenance.Going;
+                                Drone.DroneState = DroneState.RESCUE;
+                                break;
                             }
-                            else
-                            {
-
-
-                            }
+                            distance = BL.Distance(Drone.CurrentLocation, Station.Location);
+                            maintenance = Maintenance.Going;
 
                         }
                         break;
                     }
                 case Maintenance.Going:
                     {
-                        if (distance < 0.01)
+                        if (distance < 0.001)
                             lock (bl)
                             {
                                 Drone.DroneState = DroneState.AVAILABLE;
                                 bl.SendDroneForCharg(Drone.Id);
                                 maintenance = Maintenance.Charging;
                             }
-
                         else
                         {
                             lock (bl)
@@ -155,9 +153,8 @@ namespace BL
                             bl.ReleaseDroneFromCharging(Drone.Id);
                             delivery = Delivery.Starting;
                         }
-
                         else
-                            lock (bl) Drone.BatteryState = Math.Min(100, Drone.BatteryState + bl.droneLoadingRate * TIME_STEP);
+                            lock (bl) Drone.BatteryState = Math.Min(100, Drone.BatteryState + bl.droneLoadingRate * TIME);
                         stationId = Station.Id;
                         break;
                     }
@@ -191,36 +188,38 @@ namespace BL
                         }
                     case Delivery.Going:
                         {
-                            lock (bl)
+                            if (distance > 0.01)
                             {
-                                if (distance > 0.01)
+                                lock (bl)
                                 {
                                     Drone.CurrentLocation = UpdateLocationAndBattary(bl.GetCustomer(parcel.CustomerSender.Id).Location, bl.available);
                                     distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerSender.Id).Location);
                                 }
+                            }
 
-                                else
+                            else
+                            {
+                                lock (bl)
                                 {
-                                    lock (bl)
+                                    try
                                     {
-                                        try
-                                        {
-                                            delivery = Delivery.Delivery;
-                                            Drone.CurrentLocation = bl.GetCustomer(parcel.CustomerSender.Id).Location;
-                                            distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerReceives.Id).Location);
-                                            bl.ParcelCollectionByDrone(Drone.Id);
-                                            parcelId = Drone.ParcelId;
-                                            delivery = Delivery.Delivery;
-                                        }
-                                        catch (ArgumentNullException)
-                                        {
-                                            delivery = Delivery.Delivery;
-                                        }
+                                        delivery = Delivery.Delivery;
+                                        Drone.CurrentLocation = bl.GetCustomer(parcel.CustomerSender.Id).Location;
+                                        distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerReceives.Id).Location);
+                                        bl.ParcelCollectionByDrone(Drone.Id);
+                                        parcelId = Drone.ParcelId;
+                                        delivery = Delivery.Delivery;
+                                    }
+                                    catch (ArgumentNullException)
+                                    {
+                                        delivery = Delivery.Delivery;
                                     }
                                 }
                             }
-                            break;
-                        }
+
+                                break;
+                            }
+                        
                     case Delivery.Delivery:
                         {
                             if (distance < 0.001)

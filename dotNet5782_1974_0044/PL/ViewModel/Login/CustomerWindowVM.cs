@@ -88,8 +88,8 @@ namespace PL
             DisplayParcelsFromCommand = new(DisplayParcelsFrom, null);
             DisplayParcelsToCommand = new(DisplayParcelsTo, null);
             DisplayCustomerCommand = new(DisplayCustomer, null);
-            DelegateVM.CustomerChangedEvent += HandleCustomerChanged;
-            DelegateVM.ParcelChangedEvent += (sender, e) => Init();
+            RefreshEvents.CustomerChangedEvent += HandleCustomerChanged;
+            RefreshEvents.ParcelChangedEvent += (sender, e) => Init();
             LogOutCommand = new(Tabs.LogOut, null);
             RefreshCommand = new(Tabs.Refresh, null);
         }
@@ -168,7 +168,7 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Header = "Parcels From Customer",
-                Content = new ParcelToListVM(id, "From"),
+                Content = new ParcelToListVM(id, ParcelListWindowState.FROM_CUSTOMER),
             });
         }
 
@@ -181,7 +181,7 @@ namespace PL
             Tabs.AddTab(new TabItemFormat()
             {
                 Header = "Parcels To Customer",
-                Content = new ParcelToListVM(id, "To"),
+                Content = new ParcelToListVM(id, ParcelListWindowState.TO_CUSTOMER),
             });
         }
 

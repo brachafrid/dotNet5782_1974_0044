@@ -74,7 +74,7 @@ namespace PL
             initStation();
             UpdateStationCommand = new(UpdateStation, param => Station?.Error == null);
             DeleteStationCommand = new(DeleteStation, param => Station?.Error == null);
-            DelegateVM.StationChangedEvent += HandleAStationChanged;
+            RefreshEvents.StationChangedEvent += HandleAStationChanged;
             OpenDroneChargeCommand = new(Tabs.OpenDetailes, null);
         }
 
@@ -121,7 +121,7 @@ namespace PL
                 if (stationName != Station.Name || stationEmptyChargeSlots != Station.EmptyChargeSlots)
                 {
                     await PLService.UpdateStation(station.Id, station.Name, station.EmptyChargeSlots);
-                    DelegateVM.NotifyStationChanged(station.Id);
+                    RefreshEvents.NotifyStationChanged(station.Id);
                     stationName = station.Name;
                     stationEmptyChargeSlots = station.EmptyChargeSlots;
 
@@ -158,8 +158,8 @@ namespace PL
                 {
                   await  PLService.DeleteStation(Station.Id);
                     MessageBox.Show("The station was successfully deleted");
-                    DelegateVM.StationChangedEvent -= HandleAStationChanged;
-                    DelegateVM.NotifyStationChanged(Station.Id);
+                    RefreshEvents.StationChangedEvent -= HandleAStationChanged;
+                    RefreshEvents.NotifyStationChanged(Station.Id);
 
                     Tabs.CloseTab(param as TabItemFormat);
                 }
@@ -183,7 +183,7 @@ namespace PL
         /// </summary>
         public void Dispose()
         {
-            DelegateVM.StationChangedEvent -= HandleAStationChanged;
+            RefreshEvents.StationChangedEvent -= HandleAStationChanged;
         }
     }
 }

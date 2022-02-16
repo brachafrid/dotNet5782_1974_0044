@@ -55,7 +55,7 @@ namespace PL
             piorities = Enum.GetValues(typeof(Priorities));
             Weight = Enum.GetValues(typeof(WeightCategories));
             IsAdministor = isAdministor;
-            DelegateVM.ParcelChangedEvent += HandleCustomerListChanged;
+            RefreshEvents.ParcelChangedEvent += HandleCustomerListChanged;
             if (!isAdministor)
                 parcel.CustomerSender = id;
         }
@@ -100,11 +100,11 @@ namespace PL
             try
             {
                 await PLService.AddParcel(parcel);
-                DelegateVM.NotifyParcelChanged();
+                RefreshEvents.NotifyParcelChanged();
                 if (IsAdministor)
                 {
-                    DelegateVM.NotifyCustomerChanged(parcel.CustomerReceives);
-                    DelegateVM.NotifyCustomerChanged(parcel.CustomerSender);
+                    RefreshEvents.NotifyCustomerChanged(parcel.CustomerReceives);
+                    RefreshEvents.NotifyCustomerChanged(parcel.CustomerSender);
                 }
                 Tabs.CloseTab(param as TabItemFormat);
             }
@@ -126,7 +126,7 @@ namespace PL
         /// </summary>
         public void Dispose()
         {
-            DelegateVM.ParcelChangedEvent -= HandleCustomerListChanged;
+            RefreshEvents.ParcelChangedEvent -= HandleCustomerListChanged;
         }
     }
 }

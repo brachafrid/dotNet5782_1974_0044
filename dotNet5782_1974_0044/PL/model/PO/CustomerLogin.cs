@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,31 +14,27 @@ namespace PL.PO
         /// <summary>
         /// customer login key
         /// </summary>
+        [Required(ErrorMessage = "required")]
+        [Range(1, int.MaxValue, ErrorMessage = "Only positive number allowed")]
         public int? Id
         {
             get => id;
             set => Set(ref id, value);
         }
-      
-        public string Error
+        private string phone;
+
+        [Range(1, int.MaxValue, ErrorMessage = "Only positive number allowed")]
+        public string Phone
         {
-            get
-            {
-                foreach (var item in GetType().GetProperties())
-                {
-                    if (this[item.Name] != null)
-                        return "invalid" + item.Name;
-                }
-                return
-                    null;
-            }
+            get { return phone; }
+            set { Set(ref phone, value); }
         }
 
-        public string this[string columnName]
+        public string Error => Validation.ErorrCheck(this);
+        public string this[string columnName] => Validation.PropError(columnName, this);
+        public override string ToString()
         {
-
-            get => null;
-
+            return this.ToStringProperties();
         }
     }
 }

@@ -40,7 +40,7 @@ namespace PL
         public AddDroneVM()
         {
             InitDrone();
-            DelegateVM.StationChangedEvent += HandleStationListChanged;
+            RefreshEvents.StationChangedEvent += HandleStationListChanged;
             drone = new();
             AddDroneCommand = new(Add, param => drone.Error == null);
             Weight = Enum.GetValues(typeof(WeightCategories));
@@ -90,8 +90,8 @@ namespace PL
             try
             {
                 await PLService.AddDrone(drone);
-                DelegateVM.NotifyDroneChanged(drone.Id ?? 0);
-                DelegateVM.NotifyStationChanged(drone.StationId);
+                RefreshEvents.NotifyDroneChanged(drone.Id ?? 0);
+                RefreshEvents.NotifyStationChanged(drone.StationId);
                 Tabs.CloseTab(param as TabItemFormat);
             }
             catch (BO.ThereIsAnObjectWithTheSameKeyInTheListException ex)
@@ -115,7 +115,7 @@ namespace PL
         /// </summary>
         public void Dispose()
         {
-            DelegateVM.StationChangedEvent -= HandleStationListChanged;
+            RefreshEvents.StationChangedEvent -= HandleStationListChanged;
         }
     }
 }

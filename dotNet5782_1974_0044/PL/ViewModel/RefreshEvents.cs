@@ -2,7 +2,7 @@
 
 namespace PL
 {
-    public static class DelegateVM
+    public static class RefreshEvents
     {
         /// <summary>
         /// Notify drone changed

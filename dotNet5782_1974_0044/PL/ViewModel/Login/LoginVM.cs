@@ -1,6 +1,5 @@
 ﻿using PL.PO;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 
@@ -17,7 +16,7 @@ namespace PL
             Add = new(true);
             state = LoginState.CLOSE;
             ShowCommand = new RelayCommand(Show, null);
-            Command = new RelayCommand(Log, null);
+            Command = new RelayCommand(Log,(param)=> customerLogin.Error == null|| state != LoginState.CUSTOMER );
         }
         private LoginState state;
         public LoginState State
@@ -61,7 +60,6 @@ namespace PL
                     CustomerLogin(param);
                     break;
                 case LoginState.SIGNIN:
-
                     break;
                 default:
                     break;
@@ -95,8 +93,13 @@ namespace PL
             try
             {
                 Customer customer = await PLService.GetCustomer((int)customerLogin.Id);
+                if (customer.Phone != customerLogin.Phone)
+                {
+                    MessageBox.Show("Incorrcet phone or Id", "Login Customer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
+                    return;
+                }
                 if (await PLService.IsNotActiveCustomer(customer.Id))
-                    MessageBox.Show("Deleted customer");
+                    MessageBox.Show($"The customer {customer.Id} is deleted", "Login Customer", MessageBoxButton.OK, MessageBoxImage.Exclamation);
                 else
                 {
                     LoginScreen.Id = customer.Id;

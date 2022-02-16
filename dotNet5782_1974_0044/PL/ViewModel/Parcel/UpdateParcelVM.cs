@@ -52,7 +52,7 @@ namespace PL
             OpenCustomerCommand = new(Tabs.OpenDetailes, null);
             OpenDroneCommand = new(Tabs.OpenDetailes, null);
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => Parcel?.Error == null);
-            DelegateVM.ParcelChangedEvent += HandleAParcelChanged;
+            RefreshEvents.ParcelChangedEvent += HandleAParcelChanged;
         }
 
         /// <summary>
@@ -97,8 +97,8 @@ namespace PL
                 {
                     await PLService.DeleteParcel(Parcel.Id);
                     MessageBox.Show("The parcel was successfully deleted");
-                    DelegateVM.ParcelChangedEvent -= HandleAParcelChanged;
-                    DelegateVM.NotifyParcelChanged(Parcel.Id);
+                    RefreshEvents.ParcelChangedEvent -= HandleAParcelChanged;
+                    RefreshEvents.NotifyParcelChanged(Parcel.Id);
                     Tabs.CloseTab(param as TabItemFormat);
                 }
             }
@@ -125,14 +125,14 @@ namespace PL
                     if (Parcel.CollectionTime != null)
                     {
                         await PLService.DeliveryParcelByDrone(Parcel.Drone.Id);
-                        DelegateVM.NotifyDroneChanged(Parcel.Drone.Id);
-                        DelegateVM.NotifyParcelChanged(Parcel.Id);
+                        RefreshEvents.NotifyDroneChanged(Parcel.Drone.Id);
+                        RefreshEvents.NotifyParcelChanged(Parcel.Id);
                     }
                     else
                     {
                         await PLService.ParcelCollectionByDrone(Parcel.Drone.Id);
-                        DelegateVM.NotifyDroneChanged(Parcel.Drone.Id);
-                        DelegateVM.NotifyParcelChanged(Parcel.Id);
+                        RefreshEvents.NotifyDroneChanged(Parcel.Drone.Id);
+                        RefreshEvents.NotifyParcelChanged(Parcel.Id);
                     }
                 }
             }
@@ -163,7 +163,7 @@ namespace PL
         /// </summary>
         public void Dispose()
         {
-            DelegateVM.ParcelChangedEvent -= HandleAParcelChanged;
+            RefreshEvents.ParcelChangedEvent -= HandleAParcelChanged;
         }
     }
 }

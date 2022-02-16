@@ -12,7 +12,7 @@ namespace PL
     public class ParcelToListVM : GenericList<ParcelToList>, IDisposable
     {
         int? customerId = null;
-        string state = string.Empty;
+        ParcelListWindowState state = ParcelListWindowState.ALL;
         /// <summary>
         /// Is administor
         /// </summary>
@@ -25,9 +25,8 @@ namespace PL
         {
             InitList();
             IsAdministor = true;
-            DelegateVM.CustomerChangedEvent += HandleParcelChanged;
-            DelegateVM.ParcelChangedEvent += HandleParcelChanged;
-            DoubleClick = new(Tabs.OpenDetailes, null);
+            RefreshEvents.CustomerChangedEvent += HandleParcelChanged;
+            RefreshEvents.ParcelChangedEvent += HandleParcelChanged;
         }
 
         /// <summary>
@@ -60,10 +59,10 @@ namespace PL
         {
             customerId = (int)Id;
             IsAdministor = false;
-            state = (string)State;
+            state = (ParcelListWindowState)State;
             InitList();
-            DelegateVM.CustomerChangedEvent += HandleParcelChanged;
-            DelegateVM.ParcelChangedEvent += HandleParcelChanged;
+            RefreshEvents.CustomerChangedEvent += HandleParcelChanged;
+            RefreshEvents.ParcelChangedEvent += HandleParcelChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
 
@@ -91,13 +90,13 @@ namespace PL
                     sourceList.Clear();
                     switch (state)
                     {
-                        case "From":
+                        case ParcelListWindowState.FROM_CUSTOMER:
                             {
                                 foreach (var item in (await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel)))
                                     sourceList.Add(await item);
                             }
                             break;
-                        case "To":
+                        case ParcelListWindowState.TO_CUSTOMER:
                             foreach (var item in (await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel)))
                                 sourceList.Add(await item);
                             break;
@@ -156,8 +155,8 @@ namespace PL
         /// </summary>
         public void Dispose()
         {
-            DelegateVM.CustomerChangedEvent -= HandleParcelChanged;
-            DelegateVM.ParcelChangedEvent -= HandleParcelChanged;
+            RefreshEvents.CustomerChangedEvent -= HandleParcelChanged;
+            RefreshEvents.ParcelChangedEvent -= HandleParcelChanged;
         }
     }
 }

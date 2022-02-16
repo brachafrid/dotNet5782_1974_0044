@@ -77,9 +77,8 @@ namespace PL
             InitThisCustomer();
             UpdateCustomerCommand = new(UpdateCustomer, param => customer?.Error == null);
             DeleteCustomerCommand = new(DeleteCustomer, param => customer?.Error == null);
-            DelegateVM.CustomerChangedEvent += HandleACustomerChanged;
+            RefreshEvents.CustomerChangedEvent += HandleACustomerChanged;
             OpenParcelCommand = new(Tabs.OpenDetailes, null);
-            IsAdministor = isAdministor;
         }
 
         /// <summary>
@@ -127,8 +126,8 @@ namespace PL
                     await PLService.UpdateCustomer(customer.Id, customer.Name, customer.Phone);
                     customerName = customer.Name;
                     customerPhone = customer.Phone;
-                    DelegateVM.NotifyCustomerChanged(Customer.Id);
-                    DelegateVM.NotifyParcelChanged();
+                    RefreshEvents.NotifyCustomerChanged(Customer.Id);
+                    RefreshEvents.NotifyParcelChanged();
 
                 }
             }
@@ -163,12 +162,12 @@ namespace PL
                     {
                         LoginScreen.MyScreen = Screen.LOGIN;
                         Tabs.TabItems.Clear();
-                        DelegateVM.Reset();
+                        RefreshEvents.Reset();
                     }
                     else
                     {
-                        DelegateVM.CustomerChangedEvent -= HandleACustomerChanged;
-                        DelegateVM.NotifyCustomerChanged(Customer.Id);
+                        RefreshEvents.CustomerChangedEvent -= HandleACustomerChanged;
+                        RefreshEvents.NotifyCustomerChanged(Customer.Id);
                         Tabs.CloseTab(param as TabItemFormat);
                     }
 
@@ -186,7 +185,7 @@ namespace PL
 
         public void Dispose()
         {
-            DelegateVM.CustomerChangedEvent -= HandleACustomerChanged;
+            RefreshEvents.CustomerChangedEvent -= HandleACustomerChanged;
         }
     }
 }

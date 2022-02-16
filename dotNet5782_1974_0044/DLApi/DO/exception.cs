@@ -32,6 +32,13 @@ namespace DO
 
 
     }
+    [Serializable]
+    public class DalConfigException : Exception
+    {
+        public DalConfigException() { }
+        public DalConfigException(string message) : base(message) { }
+        public DalConfigException(string message, Exception inner) : base(message, inner) { }
+    }
 
 
 }
