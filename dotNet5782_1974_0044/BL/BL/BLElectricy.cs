@@ -16,7 +16,7 @@ namespace BL
         /// <returns></returns>
         private double CalculateElectricity(Location aviableDroneLocation, double? batteryStatus, Location CustomerSender, Location CustomerReceives, WeightCategories weight, out double distance)
         {
-            Debug.WriteLine($"start ");
+           
             double electricity;
             double e = weight switch
             {
@@ -50,7 +50,7 @@ namespace BL
             }
             finally
             {
-                Debug.WriteLine($"end");
+           
             }
         }
     }
