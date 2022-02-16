@@ -18,7 +18,14 @@ namespace PL.PO
             get => id;
             set => Set(ref id, value);
         }
-      
+        private string? phone;
+
+        public string? Phone
+        {
+            get { return phone; }
+            set { Set(ref phone, value); }
+        }
+
         public string Error
         {
             get
