@@ -7,7 +7,7 @@ namespace BLApi
         /// <summary>
         /// Return instance of BL
         /// </summary>
-        /// <returns></returns>
+        /// <returns>IBL</returns>
         public static IBL GetBL()
         {
             return BL.BL.Instance;
