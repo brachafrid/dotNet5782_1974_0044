@@ -10,7 +10,7 @@ namespace BL
 {
     public sealed partial class BL : Singletone<BL>, IBL
     {
-        internal IDal dal { get; } = DLFactory.GetDL();
+        private IDal dal { get; } = DLFactory.GetDL();
         private const int DRONESTATUSESLENGTH = 2;
         public const int MAXINITBATTARY = 20;
         public const int MININITBATTARY = 0;
@@ -90,9 +90,13 @@ namespace BL
                     }                    
                     if (!isAbleTakeParcel)
                     {
+                        DO.Parcel newParcel = parcel;
+                        newParcel.Id = 0;
+                        newParcel.PickedUp = newParcel.Sceduled = default;
+                        dal.UpdateParcel(parcel, newParcel);
                         state = default;
-                        parcel.DorneId = 0;
                         tmpDroneWithParcelLocation = default;
+                        parcel = newParcel;
                     }
                 }
                 else if (droneInCharging.Any())
@@ -229,10 +233,7 @@ namespace BL
                 // if the drone need more electricity 
                 if (electrity > FULLBATTRY)
                 {
-                    DO.Parcel newParcel = parcel;
-                    newParcel.Id = 0;
-                    newParcel.PickedUp = newParcel.Sceduled = default;
-                    dal.UpdateParcel(parcel, newParcel);
+                
                     canTakeParcel = false;
                     return 0;
                 }

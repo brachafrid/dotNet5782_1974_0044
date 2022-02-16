@@ -70,7 +70,7 @@ namespace Dal
         {
             if (!lst.Any())
                 return false;
-            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id && !(bool)item.GetType().GetProperty("IsNotActive").GetValue(item));
+            T temp = lst.FirstOrDefault(item => item.Id == id && !item.IsNotActive);
             return !temp.Equals(default(T));
         }
 
@@ -85,7 +85,7 @@ namespace Dal
         {
             if (!lst.Any())
                 return false;
-            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id);
+            T temp = lst.FirstOrDefault(item => item.Id == id);
             return !temp.Equals(default(T));
         }
     }
