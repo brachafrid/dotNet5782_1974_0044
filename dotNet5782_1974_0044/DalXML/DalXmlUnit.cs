@@ -45,18 +45,18 @@ namespace Dal
         /// <summary>
         /// Initialize config
         /// </summary>
-        internal static void InitializeConfig()
+        internal static XElement InitializeConfig()
         {
-            new XDocument(
-            new XElement("Config",
-                            new XElement("IdParcel", 0),
-                            new XElement("Available", 0.001),
-                            new XElement("LightWeightCarrier", 0.002),
-                            new XElement("MediumWeightBearing", 0.003),
-                            new XElement("CarriesHeavyWeight", 0.004),
-                            new XElement("DroneLoadingRate", Rnd.NextDouble()),
-                            new XElement("AdministratorPassword", ""))
-                      ).Save(DIR + CONFIG);
+
+            return new("Config",
+                              new XElement("IdParcel", 0),
+                              new XElement("Available", 0.001),
+                              new XElement("LightWeightCarrier", 0.002),
+                              new XElement("MediumWeightBearing", 0.003),
+                              new XElement("CarriesHeavyWeight", 0.004),
+                              new XElement("DroneLoadingRate",3),
+                              new XElement("AdministratorPassword", ""));
+
         }
 
         /// <summary>
@@ -91,7 +91,7 @@ namespace Dal
             List<Station> Stations = new();
             for (int i = 1; i <= STATIONS_INIT; ++i)
                 Stations.Add(RandomStation(i));
-            XElement xElement = new("Stations", Stations.Select(item => DalXmlService.ConvertStationToXElement(item)));             
+            XElement xElement = new("Stations", Stations.Select(item => DalXmlService.ConvertStationToXElement(item)));
             return xElement;
         }
 
@@ -218,8 +218,8 @@ namespace Dal
                 newParcel.DorneId = AssignParcelDrone(newParcel.Weigth);
                 if (newParcel.DorneId != 0)
                 {
-                    XElement xElementParcel = DalXmlService.LoadXElementToXML(PARCEL_PATH).Elements().FirstOrDefault(parcel => int.Parse(parcel.Element("DorneId").Value) == newParcel.DorneId && parcel.Element("Delivered").Value==string.Empty);
-                    if (xElementParcel==default(XElement))
+                    XElement xElementParcel = DalXmlService.LoadXElementToXML(PARCEL_PATH).Elements().FirstOrDefault(parcel => int.Parse(parcel.Element("DorneId").Value) == newParcel.DorneId && parcel.Element("Delivered").Value == string.Empty);
+                    if (xElementParcel == default(XElement))
                     {
                         newParcel.Sceduled = DateTime.Now;
                         if (state == 2)

@@ -11,7 +11,7 @@ namespace Dal
     public sealed partial class DalXml : Singletone<DalXml>, IDal
     {
         const string DIR = @"..\..\..\..\data\";
-        const string CONFIG = @"XmlConfig.xml";
+        const string CONFIG = "XmlConfig.xml";
         /// <summary>
         /// constructor 
         /// </summary>
@@ -34,7 +34,7 @@ namespace Dal
         {
 
             if (!File.Exists(DIR + CONFIG))
-                DalXmlUnit.InitializeConfig();
+                DalXmlService.SaveXElementToXML(DalXmlUnit.InitializeConfig(),CONFIG);
             if (!File.Exists(DIR + DRONE_PATH))
                 DalXmlService.SaveListToXMLSerializer(DalXmlUnit.InitializeDrone(), DRONE_PATH);
             if (!File.Exists(DIR + STATION_PATH))
