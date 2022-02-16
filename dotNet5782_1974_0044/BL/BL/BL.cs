@@ -156,7 +156,7 @@ namespace BL
                     CurrentLocation = Location,
                     ParcelId = parcel.DorneId == 0 ? 0 : parcel.Id,
                     BatteryState = BatteryStatus,
-                    IsNotActive = false
+                    IsNotActive = drone.IsNotActive,
                 });
             }
         }
