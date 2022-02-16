@@ -37,7 +37,10 @@ namespace Dal
             internal static double CarriesHeavyWeight = 0.004;
             internal static double DroneLoadingRate = 3;
         }
-
+        /// <summary>
+        /// init datasource lists
+        /// </summary>
+        /// <param name="dal">dal object</param>
         static internal void Initialize(DalObject dal)
         {
             for (int i = 1; i <= DRONE_INIT; ++i)
@@ -49,17 +52,32 @@ namespace Dal
             for (int i = 1; i <= PARCELS_INIT; ++i)
                 RandParcel();
         }
+        /// <summary>
+        /// find suitable drone for parcel
+        /// </summary>
+        /// <param name="weight"> parcel weight</param>
+        /// <returns>sutibale drone</returns>
         public static int AssignParcelDrone(WeightCategories weight)
         {
             Drone tmpDrone = Drones.FirstOrDefault(item => (weight <= item.MaxWeight));
             return !tmpDrone.Equals(default(Drone)) ? tmpDrone.Id : 0;
         }
+        /// <summary>
+        /// random drone
+        /// </summary>
+        /// <param name="dal"> dal object</param>
+        /// <param name="id"> drone id</param>
         private static void RandomDrone(DalObject dal, int id)
         {
             string model = $"Model_Drone_ {'a' + id}_{id * Rnd.Next()}";
             WeightCategories maxWeight = (WeightCategories)Rnd.Next(RANGE_ENUM);
             dal.AddDrone(id, model, maxWeight);
         }
+        /// <summary>
+        /// random station
+        /// </summary>
+        /// <param name="dal"> dal object</param>
+        /// <param name="id"> station id</param>
         private static void RandomStation(DalObject dal, int id)
         {
             string name = $"station_{'a' + id}";
@@ -68,6 +86,11 @@ namespace Dal
             int chargeSlots = Rnd.Next(1, CHARGE_SLOTS_MAX);
             dal.AddStation(id, name, longitude, latitude, chargeSlots);
         }
+        /// <summary>
+        /// rand customer details
+        /// </summary>
+        /// <param name="dal">dal object</param>
+        /// <param name="id">customer id</param>
         private static void RandomCustomer(DalObject dal, int id)
         {
             string name = $"Customer_ { id}_{id * Rnd.Next()}";
@@ -76,6 +99,9 @@ namespace Dal
             double longitude = Rnd.Next(LONGITUDE_MAX) + Rnd.NextDouble();
             dal.AddCustomer(id, phone, name, longitude, latitude);
         }
+        /// <summary>
+        /// rand parcel details
+        /// </summary>
         private static void RandParcel()
         {
             Parcel newParcel = new();
