@@ -1,32 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Parcels>
   <Parcel>
-    <Id>1</Id>
-    <SenderId>14</SenderId>
-    <TargetId>9</TargetId>
-    <Weigth>MEDIUM</Weigth>
-    <Priority>FAST</Priority>
-    <Requested>2022-02-16T10:58:09.4998508+02:00</Requested>
-    <Sceduled />
-    <PickedUp />
-    <Delivered />
-    <DorneId>0</DorneId>
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
-    <Id>2</Id>
-    <SenderId>15</SenderId>
-    <TargetId>1</TargetId>
-    <Weigth>MEDIUM</Weigth>
-    <Priority>EMERGENCY</Priority>
-    <Requested>2022-02-16T10:58:09.5090402+02:00</Requested>
-    <Sceduled>2022-02-16T10:58:09.5137529+02:00</Sceduled>
-    <PickedUp>2022-02-16T10:58:09.5137591+02:00</PickedUp>
-    <Delivered />
-    <DorneId>1</DorneId>
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
     <Id>3</Id>
     <SenderId>19</SenderId>
     <TargetId>12</TargetId>
@@ -206,6 +180,32 @@
     <PickedUp />
     <Delivered />
     <DorneId>0</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>2</Id>
+    <SenderId>15</SenderId>
+    <TargetId>1</TargetId>
+    <Weigth>MEDIUM</Weigth>
+    <Priority>EMERGENCY</Priority>
+    <Requested>2022-02-16T10:58:09.5090402+02:00</Requested>
+    <Sceduled>2022-02-16T10:58:09.5137529+02:00</Sceduled>
+    <PickedUp>2022-02-16T10:58:09.5137591+02:00</PickedUp>
+    <Delivered>2022-02-16T11:48:16.0421365+02:00</Delivered>
+    <DorneId>1</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>1</Id>
+    <SenderId>14</SenderId>
+    <TargetId>9</TargetId>
+    <Weigth>MEDIUM</Weigth>
+    <Priority>FAST</Priority>
+    <Requested>2022-02-16T10:58:09.4998508+02:00</Requested>
+    <Sceduled>2022-02-16T11:48:16.6497484+02:00</Sceduled>
+    <PickedUp />
+    <Delivered>2022-02-16T11:48:17.1525175+02:00</Delivered>
+    <DorneId>1</DorneId>
     <IsNotActive>false</IsNotActive>
   </Parcel>
 </Parcels>
