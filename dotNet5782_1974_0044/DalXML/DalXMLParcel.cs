@@ -12,19 +12,6 @@ namespace Dal
     {
         const string PARCEL_PATH = @"XmlParcel.xml";
 
-        /// <summary>
-        /// Add new parcel
-        /// </summary>
-        /// <param name="SenderId">Sender Id</param>
-        /// <param name="TargetId">Target Id</param>
-        /// <param name="Weigth">Parcel Weigth</param>
-        /// <param name="Priority">Parcel Priority</param>
-        /// <param name="id">Parcel id</param>
-        /// <param name="droneId">drone Id</param>
-        /// <param name="requested">requested</param>
-        /// <param name="sceduled">sceduled</param>
-        /// <param name="pickedUp">pickedUp</param>
-        /// <param name="delivered">delivered</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority, int id = 0, int droneId = 0, DateTime? requested = null, DateTime? sceduled = null, DateTime? pickedUp = null, DateTime? delivered = null)
         {
@@ -62,10 +49,6 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Delete parcel
-        /// </summary>
-        /// <param name="id">parcel's id</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteParcel(int id)
         {
@@ -84,11 +67,7 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Get parcel
-        /// </summary>
-        /// <param name="id">parcel'sid</param>
-        /// <returns>parcel</returns>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public Parcel GetParcel(int id)
         {
@@ -122,11 +101,7 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// Get parcels not assigned to drone
-        /// </summary>
-        /// <param name="notAssign">(Predicate type of int: notAssign</param>
-        /// <returns>parcels not assigned to drone</returns>
+
         [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<Parcel> GetParcelsNotAssignedToDrone(Predicate<int> notAssign)
         {
@@ -139,12 +114,6 @@ namespace Dal
                 throw new XMLFileLoadCreateException(ex.Message);
             }
         }
-
-        /// <summary>
-        /// Update parcel
-        /// </summary>
-        /// <param name="parcel">parcel</param>
-        /// <param name="newParcel">new parcel</param>
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateParcel(Parcel parcel, Parcel newParcel)
         {
@@ -164,19 +133,5 @@ namespace Dal
             }
         }
 
-        /// <summary>
-        /// check if id exist and not delited
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <param name="lst">generic list</param>
-        /// <param name="id">id</param>
-        /// <returns>if id exist and active</returns>
-        static bool ExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id) where T : IIdentifyable, IActiveable
-        {
-            if (!lst.Any())
-                return false;
-            T temp = lst.FirstOrDefault(item => (int)item.GetType().GetProperty("Id")?.GetValue(item) == id && !(bool)item.GetType().GetProperty("IsNotActive").GetValue(item));
-            return !temp.Equals(default(T));
-        }
     }
 }
