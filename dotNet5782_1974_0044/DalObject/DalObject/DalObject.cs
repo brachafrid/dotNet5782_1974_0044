@@ -33,12 +33,12 @@ namespace Dal
             return !temp.Equals(default(T));
         }
         /// <summary>
-        /// C
+        /// Check if exists id in list
         /// </summary>
         /// <typeparam name="T"></typeparam>
-        /// <param name="lst"></param>
-        /// <param name="id"></param>
-        /// <returns></returns>
+        /// <param name="lst">list</param>
+        /// <param name="id">id</param>
+        /// <returns>if exists id </returns>
         static bool ExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id)where T:IActiveable,IIdentifyable
         {
             if (!lst.Any())
