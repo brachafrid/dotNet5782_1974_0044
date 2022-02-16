@@ -12,7 +12,7 @@ namespace DLApi
     public static class DLFactory
     {
         /// <summary>
-        /// get DL
+        /// get DL instance
         /// </summary>
         /// <returns>IDal</returns>
         public static IDal GetDL()
