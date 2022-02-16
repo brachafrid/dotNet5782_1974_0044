@@ -488,7 +488,7 @@ namespace PL
                 catch (BO.XMLFileLoadCreateException ex)
                 {
                     taskCompletion.SetException(ex);
-                }              
+                }
             };
             await taskCompletion.Task;
 
@@ -537,7 +537,7 @@ namespace PL
             {
                 try
                 {
-                    var parcel= PlServiceConvert.ConvertParcel(ibal.GetParcel(id));
+                    var parcel = PlServiceConvert.ConvertParcel(ibal.GetParcel(id));
                     completedTask.SetResult(parcel);
                 }
                 catch (KeyNotFoundException ex)
@@ -602,7 +602,7 @@ namespace PL
                 {
                     completedTask.SetException(ex);
                 }
-                catch(KeyNotFoundException ex)
+                catch (KeyNotFoundException ex)
                 {
                     completedTask.SetException(ex);
                 }
@@ -684,6 +684,10 @@ namespace PL
                     completedTask.SetException(ex);
                 }
                 catch (BO.XMLFileLoadCreateException ex)
+                {
+                    completedTask.SetException(ex);
+                }
+                catch(BO.NotExsistSutibleParcelException ex)
                 {
                     completedTask.SetException(ex);
                 }
@@ -992,6 +996,7 @@ namespace PL
         /// <param name="checkStop">Func - check stop</param>
         public static void StartDroneSimulator(int id, Action<int?, int?, int?, int?> update, Func<bool> checkStop)
         {
+
             ibal.StartDroneSimulator(id, update, checkStop);
         }
         #endregion

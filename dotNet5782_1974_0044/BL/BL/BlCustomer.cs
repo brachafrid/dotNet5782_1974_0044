@@ -58,6 +58,7 @@ namespace BL
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
         }
+
         /// <summary>
         /// Retrieves the list of customers  from the data and converts it to station to list
         /// </summary>
