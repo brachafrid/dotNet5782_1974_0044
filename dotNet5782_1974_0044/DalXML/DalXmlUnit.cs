@@ -54,7 +54,7 @@ namespace Dal
                             new XElement("LightWeightCarrier", 0.002),
                             new XElement("MediumWeightBearing", 0.003),
                             new XElement("CarriesHeavyWeight", 0.004),
-                            new XElement("DroneLoadingRate", Rnd.NextDouble()),
+                            new XElement("DroneLoadingRate", 3),
                             new XElement("AdministratorPassword", ""))
                       ).Save(DIR + CONFIG);
         }

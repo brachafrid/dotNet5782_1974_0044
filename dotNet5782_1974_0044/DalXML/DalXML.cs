@@ -11,7 +11,7 @@ namespace Dal
     public sealed partial class DalXml : Singletone<DalXml>, IDal
     {
         const string DIR = @"..\..\..\..\data\";
-        const string CONFIG = @"XmlConfig.xml";
+        const string CONFIG = "XmlConfig.xml";
         /// <summary>
         /// constructor 
         /// </summary>
