@@ -217,7 +217,8 @@ namespace BL
                                     }
                                 }
 
-                            break;
+                                break;
+                            }
                         }
                     case Delivery.Delivery:
                         {
