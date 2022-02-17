@@ -214,7 +214,7 @@ namespace PL
             {
                 if (Drone.DroneState == PO.DroneState.DELIVERY)
                 {
-                    if (Drone.Parcel.ParcelState == true)
+                    if (Drone.Parcel.IsParcelCollect == true)
                     {
                         await PLService.DeliveryParcelByDrone(Drone.Id);
                         RefreshEvents.NotifyDroneChanged(drone.Id);

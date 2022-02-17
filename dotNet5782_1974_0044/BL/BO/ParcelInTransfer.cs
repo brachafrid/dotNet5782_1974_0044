@@ -18,7 +18,7 @@ namespace BO
         /// <summary>
         /// Parcel in transference state
         /// </summary>
-        public bool ParcelState { get; set; }
+        public bool IsParcelCollect { get; set; }
         /// <summary>
         /// Parcel in transference collection point
         /// </summary>

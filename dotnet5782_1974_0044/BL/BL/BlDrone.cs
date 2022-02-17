@@ -177,7 +177,7 @@ namespace BL
         /// Sleep delay time
         /// </summary>
         /// <returns>if succeeded</returns>
-        private static bool sleepDelayTime()
+        private static bool IsSleepDelayTime()
         {
             try { Thread.Sleep(500); } catch (ThreadInterruptedException) { return false; }
             return true;
@@ -435,14 +435,14 @@ namespace BL
         /// </summary>
         /// <param name="id">id  </param>
         /// <param name="update">Action update</param>
-        /// <param name="checkStop">Func Check Stop</param>
+        /// <param name="IsCheckStop">Func Check Stop</param>
         // [MethodImpl(MethodImplOptions.Synchronized)]
-        public void StartDroneSimulator(int id, Action<int?, int?, int?, int?> update, Func<bool> checkStop)
+        public void StartDroneSimulator(int id, Action<int?, int?, int?, int?> update, Func<bool> IsCheckStop)
         {
             DroneToList drone = drones.FirstOrDefault(drone => drone.Id == id);
             if (drone != default)
                 drone.IsStopCharge = true;
-            new DroneSimulator(id, this, update, checkStop);
+            new DroneSimulator(id, this, update, IsCheckStop);
         }
     }
 }

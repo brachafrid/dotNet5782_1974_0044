@@ -17,9 +17,9 @@ namespace Dal
         {
             try
             {
-                if (!ExistsIDTaxCheckNotDelited(GetCustomers(), SenderId))
+                if (!IsExistsIDTaxCheckNotDelited(GetCustomers(), SenderId))
                     throw new KeyNotFoundException($"Sender id {SenderId} not exist in data");
-                if (!ExistsIDTaxCheckNotDelited(GetCustomers(), TargetId))
+                if (!IsExistsIDTaxCheckNotDelited(GetCustomers(), TargetId))
                     throw new KeyNotFoundException($"Target id {TargetId} not exist in data");
 
                 XElement xElementParcel = DalXmlService.LoadXElementToXML(PARCEL_PATH);

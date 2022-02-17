@@ -20,9 +20,9 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddParcel(int SenderId, int TargetId, WeightCategories Weigth, Priorities Priority, int id = 0, int droneId = 0, DateTime? requested = default, DateTime? sceduled = default, DateTime? pickedUp = default, DateTime? delivered = default)
         {
-            if (!ExistsIDTaxCheckNotDelited(GetCustomers(), SenderId))
+            if (!IsExistsIDTaxCheckNotDelited(GetCustomers(), SenderId))
                 throw new KeyNotFoundException($"Sender Id: {SenderId} not exist");
-            if (!ExistsIDTaxCheckNotDelited(GetCustomers(), TargetId))
+            if (!IsExistsIDTaxCheckNotDelited(GetCustomers(), TargetId))
                 throw new KeyNotFoundException($"Target id: {TargetId} not exist");
             DalObjectService.AddEntity(new Parcel()
             {

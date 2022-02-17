@@ -137,7 +137,7 @@
                 <ListBox materialDesign:ListBoxItemAssist.ShowSelection="False">
                     <TextBlock Text="{Binding Path=Weight, StringFormat = Weigth:{0}}"/>
                     <TextBlock Text="{Binding Path=Piority, StringFormat = Priority:{0}}"/>
-                    <TextBlock Text="{Binding Path = ParcelState, StringFormat= 'Parcel State :{0}'}"/>
+                    <TextBlock Text="{Binding Path = IsParcelCollect, StringFormat= 'Parcel State :{0}'}"/>
                 </ListBox>
             </StackPanel>
         </Expander>

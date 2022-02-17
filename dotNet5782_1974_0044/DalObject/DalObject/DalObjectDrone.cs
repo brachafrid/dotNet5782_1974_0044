@@ -13,7 +13,7 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(int id, string model, WeightCategories MaxWeight)
         {
-            if (ExistsIDTaxCheck(DataSorce.Drones, id))
+            if (IsExistsIDTaxCheck(DataSorce.Drones, id))
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
             DalObjectService.AddEntity(new Drone()
             {

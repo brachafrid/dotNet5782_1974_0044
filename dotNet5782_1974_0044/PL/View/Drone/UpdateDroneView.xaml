@@ -54,7 +54,7 @@
                             <Button.Content>
                                 <MultiBinding Converter="{StaticResource parcelTreatedByDroneContent}">
                                     <Binding Path="Drone.DroneState" />
-                                    <Binding Path="Drone.Parcel.ParcelState" />
+                                    <Binding Path="Drone.Parcel.IsParcelCollect" />
                                 </MultiBinding>
                             </Button.Content>
                             <Button.Visibility>

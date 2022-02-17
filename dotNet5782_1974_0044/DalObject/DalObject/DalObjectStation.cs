@@ -21,7 +21,7 @@ namespace Dal
          [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(int id, string name, double longitude, double latitude, int chargeSlots)
         {
-            if (ExistsIDTaxCheck(DataSorce.Stations, id))
+            if (IsExistsIDTaxCheck(DataSorce.Stations, id))
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
             DalObjectService.AddEntity(new Station()
             {

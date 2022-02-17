@@ -19,9 +19,9 @@ namespace BL
         {
             lock (dal)
             {
-                if (!ExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerSender.Id))
+                if (!IsExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerSender.Id))
                     throw new KeyNotFoundException($"Sender Id: {parcelBl.CustomerSender.Id} not exist");
-                if (!ExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerReceives.Id))
+                if (!IsExistsIDTaxCheck(dal.GetCustomers(), parcelBl.CustomerReceives.Id))
                     throw new KeyNotFoundException($"Target id: { parcelBl.CustomerReceives.Id} not exist");
             }
             if (IsNotActiveCustomer(parcelBl.CustomerSender.Id))

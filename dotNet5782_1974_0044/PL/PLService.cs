@@ -202,8 +202,8 @@ namespace PL
             {
                 try
                 {
-                    var active = ibal.IsNotActiveCustomer(id);
-                    completedTask.SetResult(active);
+                    var IsActive = ibal.IsNotActiveCustomer(id);
+                    completedTask.SetResult(IsActive);
                 }
                 catch (KeyNotFoundException ex)
                 {
@@ -364,8 +364,8 @@ namespace PL
             {
                 try
                 {
-                    var active = ibal.IsNotActiveStation(id);
-                    completedTask.SetResult(active);
+                    var IsActive = ibal.IsNotActiveStation(id);
+                    completedTask.SetResult(IsActive);
                 }
                 catch (KeyNotFoundException ex)
                 {
@@ -509,8 +509,8 @@ namespace PL
             {
                 try
                 {
-                    var active = ibal.IsNotActiveParcel(id);
-                    completedTask.SetResult(active);
+                    var IsActive = ibal.IsNotActiveParcel(id);
+                    completedTask.SetResult(IsActive);
 
                 }
                 catch (KeyNotFoundException ex)
@@ -794,8 +794,8 @@ namespace PL
             {
                 try
                 {
-                    var active = ibal.IsNotActiveDrone(id);
-                    completedTask.SetResult(active);
+                    var IsActive = ibal.IsNotActiveDrone(id);
+                    completedTask.SetResult(IsActive);
 
                 }
                 catch (KeyNotFoundException ex)
@@ -944,7 +944,6 @@ namespace PL
                     completedTask.SetException(ex);
                 }
             };
-            workerPl.RunWorkerCompleted += (sender, e) => completedTask.SetResult();
             workerPl.RunWorkerAsync();
             await completedTask.Task;
         }

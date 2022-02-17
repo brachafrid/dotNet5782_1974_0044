@@ -12,7 +12,7 @@ namespace Dal
         [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(int id, string phone, string name, double longitude, double latitude)
         {
-            if (ExistsIDTaxCheck(DataSorce.Customers, id))
+            if (IsExistsIDTaxCheck(DataSorce.Customers, id))
                 throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
             DalObjectService.AddEntity(new Customer()
             {

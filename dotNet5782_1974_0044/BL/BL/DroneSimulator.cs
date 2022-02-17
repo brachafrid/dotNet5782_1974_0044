@@ -31,8 +31,8 @@ namespace BL
         /// <param name="id">drone id</param>
         /// <param name="BL">BL</param>
         /// <param name="update">Action - update</param>
-        /// <param name="checkStop">Func - check stop</param>
-        public DroneSimulator(int id, BL BL, Action<int?, int?, int?, int?> update, Func<bool> checkStop)
+        /// <param name="IsCheckStop">Func - check stop</param>
+        public DroneSimulator(int id, BL BL, Action<int?, int?, int?, int?> update, Func<bool> IsCheckStop)
         {
             try
             {
@@ -43,10 +43,10 @@ namespace BL
                     if (Drone.DroneState == DroneState.DELIVERY && bl.GetParcel((int)Drone.ParcelId).CollectionTime != null)
                         delivery = Delivery.Delivery;
                 }
-                while (!checkStop())
+                while (!IsCheckStop())
                 {
                     parcelId = senderId = reciverId = stationId = null;
-                    if (sleepDelayTime())
+                    if (IsSleepDelayTime())
                         switch (Drone.DroneState)
                         {
                             case DroneState.AVAILABLE:
@@ -266,7 +266,7 @@ namespace BL
         /// Sleep delay time
         /// </summary>
         /// <returns>if succeeded</returns>
-        private static bool sleepDelayTime()
+        private static bool IsSleepDelayTime()
         {
             try { Thread.Sleep(DELAY); } catch (ThreadInterruptedException) { return false; }
             return true;

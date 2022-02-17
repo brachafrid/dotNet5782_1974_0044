@@ -66,7 +66,7 @@ namespace Dal
         /// <param name="lst">generic list</param>
         /// <param name="id">id</param>
         /// <returns>if id exist and active</returns>
-        static bool ExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id) where T : IIdentifyable, IActiveable
+        static bool IsExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id) where T : IIdentifyable, IActiveable
         {
             if (!lst.Any())
                 return false;
@@ -81,7 +81,7 @@ namespace Dal
         /// <param name="lst">generic list</param>
         /// <param name="id"></param>
         /// <returns>If the requested ID is on the list</returns>
-        static bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id) where T : IIdentifyable
+        static bool IsExistsIDTaxCheck<T>(IEnumerable<T> lst, int id) where T : IIdentifyable
         {
             if (!lst.Any())
                 return false;

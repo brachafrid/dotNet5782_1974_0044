@@ -25,7 +25,7 @@ namespace Dal
         /// <typeparam name="T">The type of list</typeparam>
         /// <param name="lst">The spesific list </param>
         /// <param name="id">The id to check</param>
-        static bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)where T: IIdentifyable
+        static bool IsExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)where T: IIdentifyable
         {
             if (!lst.Any())
                 return false;
@@ -39,7 +39,7 @@ namespace Dal
         /// <param name="lst">list</param>
         /// <param name="id">id</param>
         /// <returns>if exists id </returns>
-        static bool ExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id)where T:IActiveable,IIdentifyable
+        static bool IsExistsIDTaxCheckNotDelited<T>(IEnumerable<T> lst, int id)where T:IActiveable,IIdentifyable
         {
             if (!lst.Any())
                 return false;

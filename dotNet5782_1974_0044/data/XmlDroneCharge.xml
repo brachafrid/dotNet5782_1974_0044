@@ -46,11 +46,6 @@
     <StartCharging>2022-02-16T14:54:16.2739469+02:00</StartCharging>
   </DroneCharge>
   <DroneCharge>
-    <Droneld>3</Droneld>
-    <Stationld>7</Stationld>
-    <StartCharging>2022-02-16T14:56:08.6165059+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
     <Droneld>8</Droneld>
     <Stationld>8</Stationld>
     <StartCharging>2022-02-16T14:56:08.7613193+02:00</StartCharging>
@@ -94,15 +89,5 @@
     <Droneld>2</Droneld>
     <Stationld>2</Stationld>
     <StartCharging>2022-02-17T11:38:12.1609356+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>3</Droneld>
-    <Stationld>7</Stationld>
-    <StartCharging>2022-02-17T11:38:18.9138236+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>3</Droneld>
-    <Stationld>7</Stationld>
-    <StartCharging>2022-02-17T11:38:34.8005784+02:00</StartCharging>
   </DroneCharge>
 </ArrayOfDroneCharge>

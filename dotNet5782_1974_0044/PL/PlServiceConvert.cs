@@ -140,7 +140,7 @@ namespace PL
             {
                 Id = parcel.Id,
                 Piority = (Priorities)parcel.Priority,
-                ParcelState = parcel.ParcelState,
+                IsParcelCollect = parcel.IsParcelCollect,
                 CollectionPoint = ConvertLocation(parcel.CollectionPoint),
                 CustomerReceives = ConvertCustomerInParcel(parcel.CustomerReceives),
                 CustomerSender = ConvertCustomerInParcel(parcel.CustomerSender),
@@ -299,7 +299,7 @@ namespace PL
             {
                 Id = parcel.Id,
                 Priority = (BO.Priorities)parcel.Piority,
-                ParcelState = parcel.ParcelState,
+                IsParcelCollect = parcel.IsParcelCollect,
                 CollectionPoint = PlServiceConvert.ConvertBackLocation(parcel.CollectionPoint),
                 CustomerReceives = PlServiceConvert.ConvertBackCustomerInParcel(parcel.CustomerReceives),
                 CustomerSender = PlServiceConvert.ConvertBackCustomerInParcel(parcel.CustomerSender),

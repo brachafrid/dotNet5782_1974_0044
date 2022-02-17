@@ -32,13 +32,13 @@ namespace PL.PO
             get => piority;
             set => Set(ref piority, value);
         }
-        private bool parcelState;
+        private bool isParcelCollect;
         /// <summary>
         /// Parcel in transference state
         /// </summary>
-        public bool ParcelState {
-            get => parcelState;
-            set => Set(ref parcelState, value);
+        public bool IsParcelCollect {
+            get => isParcelCollect;
+            set => Set(ref isParcelCollect, value);
         }
         private Location collectionPoint;
         /// <summary>

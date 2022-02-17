@@ -215,10 +215,10 @@
     <Weigth>LIGHT</Weigth>
     <Priority>EMERGENCY</Priority>
     <Requested>2022-02-17T11:41:15.9140449+02:00</Requested>
-    <Sceduled />
-    <PickedUp />
-    <Delivered />
-    <DorneId>0</DorneId>
+    <Sceduled>2022-02-17T12:02:02.0057944+02:00</Sceduled>
+    <PickedUp>2022-02-17T12:02:08.0177711+02:00</PickedUp>
+    <Delivered>2022-02-17T12:03:09.3256157+02:00</Delivered>
+    <DorneId>3</DorneId>
     <IsNotActive>false</IsNotActive>
   </Parcel>
 </Parcels>

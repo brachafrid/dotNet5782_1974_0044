@@ -15,7 +15,7 @@ namespace Dal
             try
             {
                 List<Customer> customers = DalXmlService.LoadListFromXMLSerializer<Customer>(CUSTOMER_PATH);
-                if (ExistsIDTaxCheck(customers, id))
+                if (IsExistsIDTaxCheck(customers, id))
                     throw new ThereIsAnObjectWithTheSameKeyInTheListException(id);
                 customers.Add(new()
                 {
