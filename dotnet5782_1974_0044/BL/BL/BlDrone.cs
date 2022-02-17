@@ -3,6 +3,7 @@ using BO;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 
 namespace BL
 {
@@ -144,7 +145,7 @@ namespace BL
                 if (station == null)
                 {
                     station = ClosetStationPossible(droneToList.CurrentLocation, (int chargeSlots) => true, droneToList.BatteryState, out minDistance);
-                    if(station!=null)
+                    if (station != null)
                     {
                         droneToList.BatteryState -= minDistance * available;
                         droneToList.CurrentLocation = station.Location;
@@ -162,7 +163,7 @@ namespace BL
                 //No charging position was subtracting because there is no point in changing a variable that is not saved after the end of the function
                 dal.AddDroneCharge(id, station.Id);
             }
-            catch (NotExsistSuitibleStationException )
+            catch (NotExsistSuitibleStationException)
             {
                 droneToList.DroneState = DroneState.RESCUE;
             }
@@ -170,6 +171,16 @@ namespace BL
             {
                 throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex.InnerException);
             }
+        }
+
+        /// <summary>
+        /// Sleep delay time
+        /// </summary>
+        /// <returns>if succeeded</returns>
+        private static bool sleepDelayTime()
+        {
+            try { Thread.Sleep(500); } catch (ThreadInterruptedException) { return false; }
+            return true;
         }
 
         /// <summary>
@@ -189,6 +200,7 @@ namespace BL
                     throw new DeletedExeption("drone deleted", id);
                 if (droneToList.DroneState != DroneState.MAINTENANCE)
                     throw new InvalidDroneStateException($" The drone is {droneToList.DroneState} so it is not possible to release it form charging ");
+                droneToList.IsStopCharge = false;
                 droneToList.DroneState = DroneState.AVAILABLE;
                 droneToList.BatteryState += (DateTime.Now - dal.GetTimeStartOfCharge(id)).TotalMinutes / NUM_OF_MINUTE_IN_HOUR * droneLoadingRate;
                 //No charging position was adding because there is no point in changing a variable that is not saved after the end of the function
@@ -200,7 +212,7 @@ namespace BL
             }
             catch (DO.XMLFileLoadCreateException ex)
             {
-                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message,ex);
+                throw new XMLFileLoadCreateException(ex.FilePath, ex.Message, ex);
             }
         }
 
@@ -400,7 +412,7 @@ namespace BL
                 list = dal.GetDronechargingInStation((int stationIdOfDrone) => stationIdOfDrone == id);
             if (list.Count() == 0)
                 return new List<DroneInCharging>();
-            return list.Select(dron=>new DroneInCharging() { Id = dron, ChargingMode = drones.FirstOrDefault(item => (item.Id == dron)).BatteryState });            
+            return list.Select(dron => new DroneInCharging() { Id = dron, ChargingMode = drones.FirstOrDefault(item => (item.Id == dron)).BatteryState });
         }
 
         /// <summary>
@@ -427,6 +439,9 @@ namespace BL
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public void StartDroneSimulator(int id, Action<int?, int?, int?, int?> update, Func<bool> checkStop)
         {
+            DroneToList drone = drones.FirstOrDefault(drone => drone.Id == id);
+            if (drone != default)
+                drone.IsStopCharge = true;
             new DroneSimulator(id, this, update, checkStop);
         }
     }
