@@ -14,136 +14,6 @@
     <IsNotActive>false</IsNotActive>
   </Parcel>
   <Parcel>
-    <Id>2</Id>
-    <SenderId>27</SenderId>
-    <TargetId>6</TargetId>
-    <Weigth>LIGHT</Weigth>
-    <Priority>FAST</Priority>
-    <Requested>2022-02-17T23:57:18.6749689+02:00</Requested>
-    <Sceduled />
-    <PickedUp />
-    <Delivered />
-    <DorneId>0</DorneId>
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
-    <Id>3</Id>
-    <SenderId>6</SenderId>
-    <TargetId>11</TargetId>
-    <Weigth>HEAVY</Weigth>
-    <Priority>REGULAR</Priority>
-    <Requested>2022-02-17T23:57:18.6763355+02:00</Requested>
-    <Sceduled>2022-02-17T23:57:18.6774865+02:00</Sceduled>
-    <PickedUp>2022-02-17T23:57:18.677492+02:00</PickedUp>
-    <Delivered />
-    <DorneId>1</DorneId>
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
-    <Id>4</Id>
-    <SenderId>25</SenderId>
-    <TargetId>10</TargetId>
-    <Weigth>MEDIUM</Weigth>
-    <Priority>REGULAR</Priority>
-    <Requested>2022-02-17T23:57:18.6783623+02:00</Requested>
-    <Sceduled />
-    <PickedUp />
-    <Delivered />
-    <DorneId>0</DorneId>
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
-    <Id>5</Id>
-    <SenderId>28</SenderId>
-    <TargetId>1</TargetId>
-    <Weigth>LIGHT</Weigth>
-    <Priority>EMERGENCY</Priority>
-    <Requested>2022-02-17T23:57:18.6793404+02:00</Requested>
-    <Sceduled />
-    <PickedUp />
-    <Delivered />
-    <DorneId>0</DorneId>
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
-    <Id>6</Id>
-    <SenderId>4</SenderId>
-    <TargetId>1</TargetId>
-    <Weigth>LIGHT</Weigth>
-    <Priority>REGULAR</Priority>
-    <Requested>2022-02-17T23:57:18.6804793+02:00</Requested>
-    <Sceduled />
-    <PickedUp />
-    <Delivered />
-    <DorneId>1</DorneId>
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
-    <Id>7</Id>
-    <SenderId>30</SenderId>
-    <TargetId>16</TargetId>
-    <Weigth>HEAVY</Weigth>
-    <Priority>EMERGENCY</Priority>
-    <Requested>2022-02-17T23:57:18.6817539+02:00</Requested>
-    <Sceduled />
-    <PickedUp />
-    <Delivered />
-    <DorneId>1</DorneId>
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
-    <Id>8</Id>
-    <SenderId>17</SenderId>
-    <TargetId>4</TargetId>
-    <Weigth>HEAVY</Weigth>
-    <Priority>EMERGENCY</Priority>
-    <Requested>2022-02-17T23:57:18.6827957+02:00</Requested>
-    <Sceduled />
-    <PickedUp />
-    <Delivered />
-    <DorneId>0</DorneId>
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
-    <Id>9</Id>
-    <SenderId>1</SenderId>
-    <TargetId>14</TargetId>
-    <Weigth>LIGHT</Weigth>
-    <Priority>EMERGENCY</Priority>
-    <Requested>2022-02-17T23:57:18.6836969+02:00</Requested>
-    <Sceduled />
-    <PickedUp />
-    <Delivered />
-    <DorneId>1</DorneId>
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
-    <Id>10</Id>
-    <SenderId>30</SenderId>
-    <TargetId>7</TargetId>
-    <Weigth>LIGHT</Weigth>
-    <Priority>FAST</Priority>
-    <Requested>2022-02-17T23:57:18.6847208+02:00</Requested>
-    <Sceduled />
-    <PickedUp />
-    <Delivered />
-    <DorneId>1</DorneId>
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
-    <Id>11</Id>
-    <SenderId>26</SenderId>
-    <TargetId>25</TargetId>
-    <Weigth>LIGHT</Weigth>
-    <Priority>EMERGENCY</Priority>
-    <Requested>2022-02-17T23:57:18.6856836+02:00</Requested>
-    <Sceduled />
-    <PickedUp />
-    <Delivered />
-    <DorneId>0</DorneId>
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
     <Id>12</Id>
     <SenderId>21</SenderId>
     <TargetId>23</TargetId>
@@ -154,19 +24,6 @@
     <PickedUp>2022-02-17T23:57:18.6869718+02:00</PickedUp>
     <Delivered>2022-02-17T23:57:18.6869721+02:00</Delivered>
     <DorneId>1</DorneId>
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
-    <Id>13</Id>
-    <SenderId>26</SenderId>
-    <TargetId>1</TargetId>
-    <Weigth>LIGHT</Weigth>
-    <Priority>EMERGENCY</Priority>
-    <Requested>2022-02-17T23:57:18.6875348+02:00</Requested>
-    <Sceduled />
-    <PickedUp />
-    <Delivered />
-    <DorneId>0</DorneId>
     <IsNotActive>false</IsNotActive>
   </Parcel>
   <Parcel>
@@ -183,16 +40,159 @@
     <IsNotActive>false</IsNotActive>
   </Parcel>
   <Parcel>
+    <Id>3</Id>
+    <SenderId>6</SenderId>
+    <TargetId>11</TargetId>
+    <Weigth>HEAVY</Weigth>
+    <Priority>REGULAR</Priority>
+    <Requested>2022-02-17T23:57:18.6763355+02:00</Requested>
+    <Sceduled>2022-02-17T23:57:18.6774865+02:00</Sceduled>
+    <PickedUp>2022-02-17T23:57:18.677492+02:00</PickedUp>
+    <Delivered>2022-02-18T01:29:29.2316005+02:00</Delivered>
+    <DorneId>1</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
     <Id>15</Id>
     <SenderId>22</SenderId>
     <TargetId>14</TargetId>
     <Weigth>HEAVY</Weigth>
     <Priority>REGULAR</Priority>
     <Requested>2022-02-17T23:57:18.6893779+02:00</Requested>
-    <Sceduled />
+    <Sceduled>2022-02-18T01:29:30.0173746+02:00</Sceduled>
     <PickedUp />
-    <Delivered />
-    <DorneId>0</DorneId>
+    <Delivered>2022-02-18T01:29:30.5227303+02:00</Delivered>
+    <DorneId>1</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>6</Id>
+    <SenderId>4</SenderId>
+    <TargetId>1</TargetId>
+    <Weigth>LIGHT</Weigth>
+    <Priority>REGULAR</Priority>
+    <Requested>2022-02-17T23:57:18.6804793+02:00</Requested>
+    <Sceduled />
+    <PickedUp>2022-02-18T01:32:20.0015409+02:00</PickedUp>
+    <Delivered>2022-02-18T01:32:21.6184648+02:00</Delivered>
+    <DorneId>1</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>5</Id>
+    <SenderId>28</SenderId>
+    <TargetId>1</TargetId>
+    <Weigth>LIGHT</Weigth>
+    <Priority>EMERGENCY</Priority>
+    <Requested>2022-02-17T23:57:18.6793404+02:00</Requested>
+    <Sceduled>2022-02-18T01:32:22.364302+02:00</Sceduled>
+    <PickedUp />
+    <Delivered>2022-02-18T01:32:22.871243+02:00</Delivered>
+    <DorneId>1</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>13</Id>
+    <SenderId>26</SenderId>
+    <TargetId>1</TargetId>
+    <Weigth>LIGHT</Weigth>
+    <Priority>EMERGENCY</Priority>
+    <Requested>2022-02-17T23:57:18.6875348+02:00</Requested>
+    <Sceduled>2022-02-18T01:32:23.5606891+02:00</Sceduled>
+    <PickedUp />
+    <Delivered>2022-02-18T01:32:24.0643021+02:00</Delivered>
+    <DorneId>1</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>11</Id>
+    <SenderId>26</SenderId>
+    <TargetId>25</TargetId>
+    <Weigth>LIGHT</Weigth>
+    <Priority>EMERGENCY</Priority>
+    <Requested>2022-02-17T23:57:18.6856836+02:00</Requested>
+    <Sceduled>2022-02-18T01:32:24.7406313+02:00</Sceduled>
+    <PickedUp />
+    <Delivered>2022-02-18T01:32:25.2446575+02:00</Delivered>
+    <DorneId>1</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>2</Id>
+    <SenderId>27</SenderId>
+    <TargetId>6</TargetId>
+    <Weigth>LIGHT</Weigth>
+    <Priority>FAST</Priority>
+    <Requested>2022-02-17T23:57:18.6749689+02:00</Requested>
+    <Sceduled>2022-02-18T01:32:25.8809714+02:00</Sceduled>
+    <PickedUp />
+    <Delivered>2022-02-18T01:32:26.387457+02:00</Delivered>
+    <DorneId>1</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>8</Id>
+    <SenderId>17</SenderId>
+    <TargetId>4</TargetId>
+    <Weigth>HEAVY</Weigth>
+    <Priority>EMERGENCY</Priority>
+    <Requested>2022-02-17T23:57:18.6827957+02:00</Requested>
+    <Sceduled>2022-02-18T01:32:58.744317+02:00</Sceduled>
+    <PickedUp>2022-02-18T01:33:02.042238+02:00</PickedUp>
+    <Delivered>2022-02-18T01:33:04.7474821+02:00</Delivered>
+    <DorneId>1</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>4</Id>
+    <SenderId>25</SenderId>
+    <TargetId>10</TargetId>
+    <Weigth>MEDIUM</Weigth>
+    <Priority>REGULAR</Priority>
+    <Requested>2022-02-17T23:57:18.6783623+02:00</Requested>
+    <Sceduled>2022-02-18T01:33:05.3095473+02:00</Sceduled>
+    <PickedUp />
+    <Delivered>2022-02-18T01:33:05.817878+02:00</Delivered>
+    <DorneId>1</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>7</Id>
+    <SenderId>30</SenderId>
+    <TargetId>16</TargetId>
+    <Weigth>HEAVY</Weigth>
+    <Priority>EMERGENCY</Priority>
+    <Requested>2022-02-17T23:57:18.6817539+02:00</Requested>
+    <Sceduled />
+    <PickedUp>2022-02-18T01:37:13.8799457+02:00</PickedUp>
+    <Delivered>2022-02-18T01:37:16.048162+02:00</Delivered>
+    <DorneId>1</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>9</Id>
+    <SenderId>1</SenderId>
+    <TargetId>14</TargetId>
+    <Weigth>LIGHT</Weigth>
+    <Priority>EMERGENCY</Priority>
+    <Requested>2022-02-17T23:57:18.6836969+02:00</Requested>
+    <Sceduled />
+    <PickedUp>2022-02-18T01:38:35.8299523+02:00</PickedUp>
+    <Delivered>2022-02-18T01:38:38.0165641+02:00</Delivered>
+    <DorneId>1</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>10</Id>
+    <SenderId>30</SenderId>
+    <TargetId>7</TargetId>
+    <Weigth>LIGHT</Weigth>
+    <Priority>FAST</Priority>
+    <Requested>2022-02-17T23:57:18.6847208+02:00</Requested>
+    <Sceduled />
+    <PickedUp>2022-02-18T01:40:13.6641901+02:00</PickedUp>
+    <Delivered>2022-02-18T01:40:15.2795878+02:00</Delivered>
+    <DorneId>1</DorneId>
     <IsNotActive>false</IsNotActive>
   </Parcel>
 </Parcels>
