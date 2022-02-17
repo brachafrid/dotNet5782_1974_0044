@@ -46,8 +46,9 @@ namespace BO
         /// </summary>
         public double BatteryState 
         { 
-            get => batteryState; 
-            set=> batteryState = value<100? value<0?0:value:100;       
+            get => batteryState;
+            set {
+                batteryState = value < 100 ? value < 0 ? 1 : value : 100; }       
         }
 
         public bool IsStopCharge { get; set; }

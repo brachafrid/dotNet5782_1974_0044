@@ -43,7 +43,8 @@ namespace PL.PO
         /// </summary>
         public double BatteryState {
             get => batteryState;
-            set => Set(ref batteryState, value); 
+            set =>
+                Set(ref batteryState, value);
         }
         private DroneState droneState;
         /// <summary>
