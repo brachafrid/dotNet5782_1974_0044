@@ -25,8 +25,11 @@ namespace PL
         {
             try
             {
-            sourceList = new ObservableCollection<DroneToList>(await PLService.GetDrones());
-            list = new ListCollectionView(sourceList);
+                sourceList = new ObservableCollection<DroneToList>(await PLService.GetDrones());
+                List = new ListCollectionView(sourceList);
+                Count = (uint)List.Count;
+                if (List.Count == 0)
+                    Count = 0;
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
@@ -42,6 +45,7 @@ namespace PL
         /// <param name="e">event</param>
         private async void HandleDroneChanged(object sender, EntityChangedEventArgs e)
         {
+
             try
             {
                 if (e.Id != null)
@@ -50,9 +54,10 @@ namespace PL
                     if (drone != default)
                     {
                         sourceList.Remove(drone);
-                    }
-                    var newDrone = (await PLService.GetDrones()).FirstOrDefault(d => d.Id == e.Id);
-                    sourceList.Add(newDrone);
+                        var newDrone = (await PLService.GetDrones()).FirstOrDefault(d => d.Id == e.Id);
+                        if (newDrone != null)
+                            sourceList.Add(newDrone);
+                    }                  
                 }
                 else
                 {
@@ -60,6 +65,9 @@ namespace PL
                     foreach (var item in await PLService.GetDrones())
                         sourceList.Add(item);
                 }
+                Count = (uint)List.Count;
+                if (List.Count == 0)
+                    Count = 0;
             }
             catch (BO.XMLFileLoadCreateException ex)
             {

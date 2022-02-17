@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              xmlns:local="clr-namespace:PL"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              xmlns:po="clr-namespace:PL.PO" 
@@ -13,22 +14,42 @@
         <ResourceDictionary>
             <local:ConverterCancelFilterVisibility x:Key="ConverterCancelFilterVisibility" />
             <local:ConverterEqualsVisibility x:Key="ConverterEqualsVisibility" />
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="Dictionary.xaml" />
+            </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </UserControl.Resources>
 
     <Grid>
         <StackPanel>
-            <Label Content="Group By:"/>
-            <ComboBox  ItemsSource="{Binding Path=SortOption}" x:Name="Group" >
+            <TextBlock>
+                 <TextBlock.Style>
+                    <Style TargetType="TextBlock">
+                        <Setter Property="Text" Value=""/>
+                        <Setter Property="FontSize" Value="20"/>
+                        <Setter Property="FontStyle" Value="Oblique"/>
+                        <Setter Property="Foreground" Value="Red"/>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding Path=Count}" Value="{x:Static sys:UInt32.MinValue}">
+                                <Setter Property="Text" Value="There is no item in  the list"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </TextBlock.Style>
+            </TextBlock>
+            <Label Content="Group By:" Style="{StaticResource visibileLable}"/>
+
+            <ComboBox  ItemsSource="{Binding Path=SortOption}" x:Name="Group" Style="{StaticResource visibileCombobox}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding GroupCommand}" CommandParameter="{Binding Path=SelectedValue, ElementName=Group}"/>
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
             </ComboBox>
-            <Button Content="Cancel Group by"  Command="{Binding CancelGroupCommand}"/>
-            <Label Content="Filter By:"/>
-            <ComboBox  ItemsSource="{Binding Path=SortOption}" x:Name="sort">
+            <Button Content="Cancel Group by"  Command="{Binding CancelGroupCommand}" Style="{StaticResource visibileButton}">
+            </Button>
+            <Label Content="Filter By:" Style="{StaticResource visibileLable}"/>
+            <ComboBox  ItemsSource="{Binding Path=SortOption}" x:Name="sort" Style="{StaticResource visibileCombobox}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="SelectionChanged">
                         <i:InvokeCommandAction Command="{Binding ShowKindOfSortCommand}" CommandParameter="{Binding Path=SelectedValue, ElementName=sort}"/>
@@ -112,7 +133,7 @@
                     </MultiBinding>
                 </Slider.Visibility>
             </Slider>
-            <Button Content="Cancel Filters" IsEnabled="{Binding Path=Filters.Count ,Converter={StaticResource ConverterCancelFilterVisibility}}" Command="{Binding CancelFilterCommand}"/>
+            <Button Content="Cancel Filters" IsEnabled="{Binding Path=Filters.Count ,Converter={StaticResource ConverterCancelFilterVisibility}}" Command="{Binding CancelFilterCommand}" Style="{StaticResource visibileButton}"/>
         </StackPanel>
     </Grid>
 </UserControl>

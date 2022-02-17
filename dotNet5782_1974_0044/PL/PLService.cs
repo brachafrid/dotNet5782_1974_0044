@@ -327,7 +327,6 @@ namespace PL
         {
             TaskCompletionSource taskCompletion = new();
             BackgroundWorker worker = new();
-            worker.DoWork += (sender, e) => ibal.DeleteStation(id);
             worker.DoWork += (sender, e) =>
             {
                 try
@@ -348,6 +347,7 @@ namespace PL
                     taskCompletion.SetException(ex);
                 }
             };
+            worker.RunWorkerAsync();
             await taskCompletion.Task;
         }
 
@@ -694,7 +694,7 @@ namespace PL
                     completedTask.SetException(ex);
                 }
             };
-            workerPl.RunWorkerAsync(id);
+            workerPl.RunWorkerAsync();
             await completedTask.Task;
         }
 
@@ -778,6 +778,7 @@ namespace PL
                     taskCompletion.SetException(ex);
                 }
             };
+            worker.RunWorkerAsync();
             await taskCompletion.Task;
         }
 

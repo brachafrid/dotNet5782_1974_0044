@@ -26,7 +26,10 @@ namespace PL
             try
             {
                 sourceList = new ObservableCollection<CustomerToList>(await PLService.GetCustomers());
-                list = new ListCollectionView(sourceList);
+                List = new ListCollectionView(sourceList);
+                Count = (uint)List.Count;
+                if (List.Count == 0)
+                    Count = 0;
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
@@ -42,15 +45,20 @@ namespace PL
         /// <param name="e">event</param>
         private async void HandleCustomerChanged(object sender, EntityChangedEventArgs e)
         {
+
             try
             {
                 if (e.Id != null)
                 {
                     var customer = sourceList.FirstOrDefault(c => c.Id == e.Id);
                     if (customer != default)
+                    {
                         sourceList.Remove(customer);
-                    var newCustomer = (await PLService.GetCustomers()).FirstOrDefault(c => c.Id == e.Id);
-                    sourceList.Add(newCustomer);
+                        var newCustomer = (await PLService.GetCustomers()).FirstOrDefault(c => c.Id == e.Id);
+                        if (newCustomer != null)
+                            sourceList.Add(newCustomer);
+                    }
+
                 }
                 else
                 {
@@ -58,6 +66,10 @@ namespace PL
                     foreach (var item in await PLService.GetCustomers())
                         sourceList.Add(item);
                 }
+                Count = (uint)List.Count;
+                if (List.Count == 0)
+                    Count = 0;
+                MessageBox.Show(Count.ToString());
             }
             catch (BO.XMLFileLoadCreateException ex)
             {

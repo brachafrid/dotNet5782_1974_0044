@@ -1,123 +1,123 @@
 <?xml version="1.0"?>
 <ArrayOfDrone xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <Drone>
-    <Id>3</Id>
-    <Model>Model_Drone_ 100_600013674</Model>
-    <MaxWeight>MEDIUM</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
-    <Id>4</Id>
-    <Model>Model_Drone_ 101_-286202500</Model>
-    <MaxWeight>LIGHT</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
-    <Id>5</Id>
-    <Model>Model_Drone_ 102_323766999</Model>
-    <MaxWeight>MEDIUM</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
-    <Id>6</Id>
-    <Model>Model_Drone_ 103_-533856324</Model>
-    <MaxWeight>LIGHT</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
-    <Id>7</Id>
-    <Model>Model_Drone_ 104_-557748034</Model>
-    <MaxWeight>MEDIUM</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
-    <Id>8</Id>
-    <Model>Model_Drone_ 105_927528312</Model>
-    <MaxWeight>LIGHT</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
-    <Id>9</Id>
-    <Model>Model_Drone_ 106_-568424303</Model>
-    <MaxWeight>HEAVY</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
-    <Id>10</Id>
-    <Model>Model_Drone_ 107_1019673804</Model>
-    <MaxWeight>HEAVY</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
-    <Id>11</Id>
-    <Model>Model_Drone_ 108_1279872575</Model>
-    <MaxWeight>HEAVY</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
-    <Id>12</Id>
-    <Model>Model_Drone_ 109_-59284904</Model>
-    <MaxWeight>MEDIUM</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
-    <Id>13</Id>
-    <Model>Model_Drone_ 110_2122454672</Model>
-    <MaxWeight>LIGHT</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
-    <Id>14</Id>
-    <Model>Model_Drone_ 111_471928680</Model>
-    <MaxWeight>MEDIUM</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
-    <Id>15</Id>
-    <Model>Model_Drone_ 112_557764243</Model>
-    <MaxWeight>MEDIUM</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
-    <Id>16</Id>
-    <Model>Model_Drone_ 113_-1299415872</Model>
-    <MaxWeight>LIGHT</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
-    <Id>17</Id>
-    <Model>Model_Drone_ 114_-627219425</Model>
-    <MaxWeight>MEDIUM</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
-    <Id>18</Id>
-    <Model>Model_Drone_ 115_56613694</Model>
-    <MaxWeight>HEAVY</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
-    <Id>19</Id>
-    <Model>Model_Drone_ 116_1584461094</Model>
-    <MaxWeight>LIGHT</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
-    <Id>20</Id>
-    <Model>Model_Drone_ 117_1579425348</Model>
-    <MaxWeight>HEAVY</MaxWeight>
-    <IsNotActive>false</IsNotActive>
-  </Drone>
-  <Drone>
     <Id>1</Id>
-    <Model>tModel_Drone_ 98_95125790</Model>
+    <Model>Model_Drone_ 98_1301224668</Model>
     <MaxWeight>HEAVY</MaxWeight>
     <IsNotActive>false</IsNotActive>
   </Drone>
   <Drone>
     <Id>2</Id>
-    <Model>fffffffffModel_tttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttttt</Model>
+    <Model>Model_Drone_ 99_-185454256</Model>
+    <MaxWeight>MEDIUM</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>3</Id>
+    <Model>Model_Drone_ 100_334770255</Model>
+    <MaxWeight>MEDIUM</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>4</Id>
+    <Model>Model_Drone_ 101_-301269180</Model>
     <MaxWeight>LIGHT</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>5</Id>
+    <Model>Model_Drone_ 102_45123759</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>6</Id>
+    <Model>Model_Drone_ 103_329860802</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>7</Id>
+    <Model>Model_Drone_ 104_-1007635585</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>8</Id>
+    <Model>Model_Drone_ 105_45706328</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>9</Id>
+    <Model>Model_Drone_ 106_1903734056</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>10</Id>
+    <Model>Model_Drone_ 107_1447632578</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>11</Id>
+    <Model>Model_Drone_ 108_-2040350977</Model>
+    <MaxWeight>MEDIUM</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>12</Id>
+    <Model>Model_Drone_ 109_-1446749276</Model>
+    <MaxWeight>HEAVY</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>13</Id>
+    <Model>Model_Drone_ 110_663870894</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>14</Id>
+    <Model>Model_Drone_ 111_-603580464</Model>
+    <MaxWeight>MEDIUM</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>15</Id>
+    <Model>Model_Drone_ 112_1481192634</Model>
+    <MaxWeight>MEDIUM</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>16</Id>
+    <Model>Model_Drone_ 113_1049917744</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>17</Id>
+    <Model>Model_Drone_ 114_1005693427</Model>
+    <MaxWeight>MEDIUM</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>18</Id>
+    <Model>Model_Drone_ 115_-1987543164</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>19</Id>
+    <Model>Model_Drone_ 116_1518572683</Model>
+    <MaxWeight>LIGHT</MaxWeight>
+    <IsNotActive>false</IsNotActive>
+  </Drone>
+  <Drone>
+    <Id>20</Id>
+    <Model>Model_Drone_ 117_96166528</Model>
+    <MaxWeight>HEAVY</MaxWeight>
     <IsNotActive>false</IsNotActive>
   </Drone>
 </ArrayOfDrone>

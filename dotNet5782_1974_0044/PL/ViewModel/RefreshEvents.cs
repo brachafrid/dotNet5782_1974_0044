@@ -40,6 +40,7 @@ namespace PL
             ParcelChangedEvent?.Invoke(null, new EntityChangedEventArgs(parcelId));
         }
 
+
         /// <summary>
         /// Reset
         /// </summary>

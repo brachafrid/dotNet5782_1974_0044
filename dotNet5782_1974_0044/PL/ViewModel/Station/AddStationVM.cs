@@ -33,7 +33,7 @@ namespace PL
             try
             {
                 await PLService.AddStation(station);
-                RefreshEvents.NotifyStationChanged(station.Id ?? 0);
+                RefreshEvents.NotifyStationChanged();
                 RefreshEvents.NotifyDroneChanged();
                 Tabs.CloseTab(param as TabItemFormat);
             }

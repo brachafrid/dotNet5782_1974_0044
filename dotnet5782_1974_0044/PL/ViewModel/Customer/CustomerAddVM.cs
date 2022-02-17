@@ -42,7 +42,7 @@ namespace PL
             try
             {
                 await PLService.AddCustomer(customer);
-                RefreshEvents.NotifyCustomerChanged((int)customer.Id);
+                RefreshEvents.NotifyCustomerChanged();
                 RefreshEvents.NotifyParcelChanged();
                 Tabs.CloseTab(param as TabItemFormat);
             }

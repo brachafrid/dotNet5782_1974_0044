@@ -259,10 +259,7 @@ namespace BL
             return electricity > FULLBATTRY ? MININITBATTARY : electricity;
         }
 
-        /// <summary>
-        /// Get administor passsword
-        /// </summary>
-        /// <returns>administor passsword</returns>
+
         public string GetAdministorPasssword()
         {
             try

@@ -63,13 +63,15 @@ namespace PL
         public RelayCommand AddEntitiyCommand { get; set; }
 
         public ObservableCollection<T> sourceList;
+
+        ListCollectionView list;
         /// <summary>
         /// Generic ListCollectionView
         /// </summary>
-        public ListCollectionView list
+        public ListCollectionView List
         {
-            get => list1;
-            set => Set(ref list1, value);
+            get => list;
+            set => Set(ref list, value);
         }
         
         private FilterType? filterType;
@@ -129,7 +131,6 @@ namespace PL
         }
 
         private string modelContain;
-        ListCollectionView list1;
 
         /// <summary>
         /// Model contain
@@ -151,6 +152,7 @@ namespace PL
                     fiterWeight.Value = modelContain;
                 FilterNow();
             }
+            
         }
         /// <summary>
         /// The selected parameter to screen out according it
@@ -165,6 +167,15 @@ namespace PL
         /// </summary>
         public string selectedValue { get; set; }
 
+        private uint count=0;
+
+        public uint Count
+        {
+            get { return count; }
+            set { Set(ref count, value); }
+        }
+
+
         /// <summary>
         /// constructor GenericList
         /// </summary>
@@ -178,7 +189,6 @@ namespace PL
             GroupCommand = new(Grouping, null);
             AddEntitiyCommand = new(AddEntity, null);
             DoubleClick = new(Tabs.OpenDetailes, null);
-
         }
 
         /// <summary>
@@ -186,8 +196,8 @@ namespace PL
         /// </summary>
         public void FilterNow()
         {
-            list.Filter = InternalFilter;
-            list.IsLiveFiltering = true;
+            List.Filter = InternalFilter;
+            List.IsLiveFiltering = true;
         }
 
         /// <summary>
@@ -214,7 +224,7 @@ namespace PL
             {
                 SelectedGroup = param?.ToString();
                 CancelGroup(param);
-                list.GroupDescriptions.Add(new PropertyGroupDescription(SelectedGroup));
+                List.GroupDescriptions.Add(new PropertyGroupDescription(SelectedGroup));
             }
         }
 
@@ -224,7 +234,7 @@ namespace PL
         /// <param name="param"></param>
         public void CancelGroup(object param)
         {
-            list.GroupDescriptions.Clear();
+            List.GroupDescriptions.Clear();
         }
 
         /// <summary>
