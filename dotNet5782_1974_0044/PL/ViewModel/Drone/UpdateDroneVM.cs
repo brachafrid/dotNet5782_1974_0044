@@ -254,7 +254,10 @@ namespace PL
             {
                 MessageBox.Show(ex.Message , $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
-        }
+            catch (BO.NotExsistSutibleParcelException ex)
+            {
+                MessageBox.Show(ex.Message, $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
+            }
 
         /// <summary>
         /// Delete drone
