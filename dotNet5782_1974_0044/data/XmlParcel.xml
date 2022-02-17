@@ -34,8 +34,8 @@
     <Priority>REGULAR</Priority>
     <Requested>2022-02-18T01:36:24.2650616+02:00</Requested>
     <Sceduled />
-    <PickedUp />
-    <Delivered />
+    <PickedUp>2022-02-18T01:32:20.0015409+02:00</PickedUp>
+    <Delivered>2022-02-18T01:32:21.6184648+02:00</Delivered>
     <DorneId>1</DorneId>
     <IsNotActive>false</IsNotActive>
   </Parcel>
@@ -48,7 +48,7 @@
     <Requested>2022-02-18T01:36:24.2660587+02:00</Requested>
     <Sceduled />
     <PickedUp />
-    <Delivered />
+    <Delivered>2022-02-18T01:32:22.871243+02:00</Delivered>
     <DorneId>1</DorneId>
     <IsNotActive>false</IsNotActive>
   </Parcel>
