@@ -256,7 +256,7 @@ namespace PL
             }
             catch (BO.NotExsistSutibleParcelException ex)
             {
-                MessageBox.Show(ex.Message, $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
 
