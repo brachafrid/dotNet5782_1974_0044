@@ -1,19 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Parcels>
   <Parcel>
-    <Id>4</Id>
-    <SenderId>4</SenderId>
-    <TargetId>5</TargetId>
-    <Weigth>MEDIUM</Weigth>
-    <Priority>EMERGENCY</Priority>
-    <Requested>2022-02-16T14:54:15.2422995+02:00</Requested>
-    <Sceduled />
-    <PickedUp />
-    <Delivered />
-    <DorneId>1</DorneId>
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
     <Id>7</Id>
     <SenderId>29</SenderId>
     <TargetId>6</TargetId>
@@ -24,7 +11,7 @@
     <PickedUp>2022-02-16T14:54:15.2457066+02:00</PickedUp>
     <Delivered>2022-02-16T14:54:15.2457068+02:00</Delivered>
     <DorneId>1</DorneId>
-    <IsNotActive>false</IsNotActive>
+    <IsNotActive>true</IsNotActive>
   </Parcel>
   <Parcel>
     <Id>8</Id>
@@ -193,6 +180,45 @@
     <PickedUp />
     <Delivered>2022-02-16T16:31:51.1239881+02:00</Delivered>
     <DorneId>1</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>4</Id>
+    <SenderId>4</SenderId>
+    <TargetId>5</TargetId>
+    <Weigth>MEDIUM</Weigth>
+    <Priority>EMERGENCY</Priority>
+    <Requested>2022-02-16T14:54:15.2422995+02:00</Requested>
+    <Sceduled />
+    <PickedUp>2022-02-16T23:35:31.9277047+02:00</PickedUp>
+    <Delivered>2022-02-16T23:35:33.5176041+02:00</Delivered>
+    <DorneId>1</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>16</Id>
+    <SenderId>2</SenderId>
+    <TargetId>3</TargetId>
+    <Weigth>LIGHT</Weigth>
+    <Priority>EMERGENCY</Priority>
+    <Requested>2022-02-17T11:40:44.7123014+02:00</Requested>
+    <Sceduled />
+    <PickedUp />
+    <Delivered />
+    <DorneId>0</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>17</Id>
+    <SenderId>2</SenderId>
+    <TargetId>4</TargetId>
+    <Weigth>LIGHT</Weigth>
+    <Priority>EMERGENCY</Priority>
+    <Requested>2022-02-17T11:41:15.9140449+02:00</Requested>
+    <Sceduled />
+    <PickedUp />
+    <Delivered />
+    <DorneId>0</DorneId>
     <IsNotActive>false</IsNotActive>
   </Parcel>
 </Parcels>

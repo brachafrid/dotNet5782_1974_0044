@@ -27,13 +27,14 @@
                 <ToggleButton
                             Style="{StaticResource MaterialDesignSwitchToggleButton}"
                             ToolTip="simulator"
-                            IsChecked="{Binding Auto, Mode=TwoWay}" 
+                            IsChecked="{Binding IsAuto, Mode=TwoWay}" 
                             Command="{Binding SimulatorCommand}"/>
                 <Button Content="update drone's model" Command="{Binding UpdateDroneCommand}">
                     <Button.Visibility>
                         <MultiBinding Converter="{StaticResource ConverterUpdateModel}">
                             <Binding Path="Drone.Model" />
                             <Binding Path="DroneModel" />
+                            <Binding Path="IsAuto" />
                         </MultiBinding>
                     </Button.Visibility>
                 </Button>
@@ -43,7 +44,7 @@
                             <Button.Visibility>
                                 <MultiBinding Converter="{StaticResource ConvertDroneChargingVisibility}">
                                     <Binding Path="Drone.DroneState" />
-                                    <Binding Path="Auto" />
+                                    <Binding Path="IsAuto" />
                                 </MultiBinding>
                             </Button.Visibility>
                         </Button>
@@ -59,11 +60,11 @@
                             <Button.Visibility>
                                 <MultiBinding Converter="{StaticResource parcelTreatedByDroneVisibility}">
                                     <Binding Path="Drone.DroneState" />
-                                    <Binding Path="Auto" />
+                                    <Binding Path="IsAuto" />
                                 </MultiBinding>
                             </Button.Visibility>
                         </Button>
-                        <Button Content="delete drone" Visibility="{Binding Path=Auto , Converter={StaticResource DeleteDroneVisibility}}" Command="{Binding DeleteDroneCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}">
+                        <Button Content="delete drone" Visibility="{Binding Path=IsAuto , Converter={StaticResource DeleteDroneVisibility}}" Command="{Binding DeleteDroneCommand}" CommandParameter="{Binding Path=SelectedItem, RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type TabControl}}}">
                         </Button>
                     </StackPanel>
             </StackPanel>

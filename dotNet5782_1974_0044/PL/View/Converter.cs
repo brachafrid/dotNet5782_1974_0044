@@ -141,7 +141,7 @@ namespace PL
         /// <returns>Returns visibility: visible or collapsed</returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return values[0] as string != values[1] as string?Visibility.Visible:Visibility.Collapsed;
+            return !(values[2] is bool) && values[0] as string != values[1] as string?Visibility.Visible:Visibility.Collapsed;
         }
 
         /// <summary>

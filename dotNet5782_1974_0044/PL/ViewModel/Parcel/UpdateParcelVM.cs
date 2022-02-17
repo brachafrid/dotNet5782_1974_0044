@@ -49,11 +49,20 @@ namespace PL
             this.id = id;
             InitParcel();
             DeleteParcelCommand = new(DeleteParcel, param => Parcel?.Error == null);
-            OpenCustomerCommand = new(Tabs.OpenDetailes, null);
-            OpenDroneCommand = new(Tabs.OpenDetailes, null);
+            OpenCustomerCommand = new(openDroneOrCustomer, null);
+            OpenDroneCommand = new(openDroneOrCustomer, null);
             ParcelTreatedByDrone = new(parcelTreatedByDrone, param => Parcel?.Error == null);
             RefreshEvents.ParcelChangedEvent += HandleAParcelChanged;
         }
+
+        private void openDroneOrCustomer(object param)
+        {
+            if(LoginScreen.MyScreen!=Screen.CUSTOMER)
+            {
+                Tabs.OpenDetailes(param);
+            }
+        }
+
 
         /// <summary>
         /// Handle parcel changed

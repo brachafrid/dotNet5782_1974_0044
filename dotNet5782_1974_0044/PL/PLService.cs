@@ -491,6 +491,7 @@ namespace PL
                     taskCompletion.SetException(ex);
                 }
             };
+            worker.RunWorkerAsync();
             await taskCompletion.Task;
 
         }
@@ -659,7 +660,7 @@ namespace PL
         public static async Task SendDroneForCharg(int id)
         {
             TaskCompletionSource completedTask = new();
-            BackgroundWorker workerPl = new();
+            BackgroundWorker workerPl = new() {  };
             workerPl.DoWork += (sender, e) =>
             {
                 try
@@ -693,7 +694,7 @@ namespace PL
                     completedTask.SetException(ex);
                 }
             };
-            workerPl.RunWorkerAsync();
+            workerPl.RunWorkerAsync(id);
             await completedTask.Task;
         }
 

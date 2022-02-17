@@ -309,17 +309,17 @@ namespace PL
             }
         }
         #region simulator
-        private bool auto;
+        private bool isAuto;
 
         /// <summary>
         /// Aotomatic
         /// </summary>
-        public bool Auto
+        public bool IsAuto
         {
-            get { return auto; }
+            get { return isAuto; }
             set
             {
-                Set(ref auto, value);
+                Set(ref isAuto, value);
             }
         }
 
@@ -328,14 +328,15 @@ namespace PL
         /// </summary>
         private void StartSimulator()
         {
-            Auto = true;
+            IsAuto = true;
             simulateDrone = StopSimulator;
             simulatorWorker = new() { WorkerReportsProgress = true, WorkerSupportsCancellation = true, };
             simulatorWorker.DoWork += (sender, args) => PLService.StartDroneSimulator(id, updateDrone, IsSimulatorStoped);
-            simulatorWorker.RunWorkerCompleted += (sender, args) => Auto = false;
+            simulatorWorker.RunWorkerCompleted += (sender, args) => IsAuto = false;
             simulatorWorker.ProgressChanged += HandleWorkerProgressChanged;
             simulatorWorker.RunWorkerAsync(id);
         }
+
 
         /// <summary>
         /// Handle worker progress changed
@@ -376,6 +377,7 @@ namespace PL
         {
             simulatorWorker.ReportProgress(0, (parcelId, senderId, receiverId, stationId));
         }
+
 
         /// <summary>
         /// Is simulator stoped

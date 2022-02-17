@@ -50,6 +50,8 @@ namespace BO
             set=> batteryState = value<100? value<0?0:value:100;       
         }
 
+        public bool IsStopCharge { get; set; }
+
         public override string ToString()
         {
             return this.ToStringProperties();
