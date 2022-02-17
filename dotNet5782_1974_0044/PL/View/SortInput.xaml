@@ -12,7 +12,7 @@
     <UserControl.Resources>
         <ResourceDictionary>
             <local:ConverterCancelFilterVisibility x:Key="ConverterCancelFilterVisibility" />
-            <local:ConverterFilterType x:Key="ConverterFilterType" />
+            <local:ConverterEqualsVisibility x:Key="ConverterEqualsVisibility" />
         </ResourceDictionary>
     </UserControl.Resources>
 
@@ -37,7 +37,7 @@
             </ComboBox>
             <TextBox Text="{Binding Path = Parent.DataContext.ModelContain, RelativeSource = {RelativeSource Self}, UpdateSourceTrigger=PropertyChanged}"   >
                 <TextBox.Visibility>
-                    <MultiBinding Converter="{StaticResource ConverterFilterType}">
+                    <MultiBinding Converter="{StaticResource ConverterEqualsVisibility}">
                         <Binding Path="FilterType"/>
                         <Binding Source="{x:Static po:FilterType.STRING}"/>
                     </MultiBinding>
@@ -50,7 +50,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ComboBox.Visibility>
-                    <MultiBinding Converter="{StaticResource ConverterFilterType}">
+                    <MultiBinding Converter="{StaticResource ConverterEqualsVisibility}">
                         <Binding Path="FilterType"/>
                         <Binding Source="{x:Static po:FilterType.WEGHIT}"/>
                     </MultiBinding>
@@ -63,7 +63,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ComboBox.Visibility>
-                    <MultiBinding Converter="{StaticResource ConverterFilterType}">
+                    <MultiBinding Converter="{StaticResource ConverterEqualsVisibility}">
                         <Binding Path="FilterType"/>
                         <Binding Source="{x:Static po:FilterType.PIORITY}"/>
                     </MultiBinding>
@@ -76,7 +76,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ComboBox.Visibility>
-                    <MultiBinding Converter="{StaticResource ConverterFilterType}">
+                    <MultiBinding Converter="{StaticResource ConverterEqualsVisibility}">
                         <Binding Path="FilterType"/>
                         <Binding Source="{x:Static po:FilterType.STATE}"/>
                     </MultiBinding>
@@ -89,7 +89,7 @@
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
                 <ComboBox.Visibility>
-                    <MultiBinding Converter="{StaticResource ConverterFilterType}">
+                    <MultiBinding Converter="{StaticResource ConverterEqualsVisibility}">
                         <Binding Path="FilterType"/>
                         <Binding Source="{x:Static po:FilterType.PACKEGE}"/>
                     </MultiBinding>
@@ -106,7 +106,7 @@
                     </Style>
                 </Slider.Style>
                 <Slider.Visibility>
-                    <MultiBinding Converter="{StaticResource ConverterFilterType}">
+                    <MultiBinding Converter="{StaticResource ConverterEqualsVisibility}">
                         <Binding Path="FilterType"/>
                         <Binding Source="{x:Static po:FilterType.NUMBER}"/>
                     </MultiBinding>

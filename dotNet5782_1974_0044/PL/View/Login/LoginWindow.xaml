@@ -13,7 +13,7 @@
     </UserControl.DataContext>
     <UserControl.Resources>
         <ResourceDictionary>
-        <local:ConverterStateLogin x:Key="ConverterStateLogin" />
+            <local:ConverterEqualsVisibility x:Key="ConverterEqualsVisibility" />
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="../Dictionary.xaml"/>
             </ResourceDictionary.MergedDictionaries>
@@ -33,7 +33,7 @@
         </StackPanel>
         <StackPanel >
             <StackPanel.Visibility>
-                <MultiBinding Converter="{StaticResource ConverterStateLogin}">
+                <MultiBinding Converter="{StaticResource ConverterEqualsVisibility}">
                     <Binding Path="State"/>
                     <Binding Source="{x:Static po:LoginState.ADMINISTOR}"/>
                 </MultiBinding>
@@ -44,7 +44,7 @@
         </StackPanel>
         <StackPanel >
             <StackPanel.Visibility>
-                <MultiBinding Converter="{StaticResource ConverterStateLogin}">
+                <MultiBinding Converter="{StaticResource ConverterEqualsVisibility}">
                     <Binding Path="State"/>
                     <Binding Source="{x:Static po:LoginState.CUSTOMER}"/>
                 </MultiBinding>
@@ -59,7 +59,7 @@
         </StackPanel>
         <StackPanel >
             <StackPanel.Visibility>
-                <MultiBinding Converter="{StaticResource ConverterStateLogin}">
+                <MultiBinding Converter="{StaticResource ConverterEqualsVisibility}">
                     <Binding Path="State"/>
                     <Binding Source="{x:Static po:LoginState.SIGNIN}"/>
                 </MultiBinding>

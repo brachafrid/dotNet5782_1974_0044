@@ -167,7 +167,7 @@ namespace BL
         /// <typeparam name="T">the type of list</typeparam>
         /// <param name="lst">the spesific list </param>
         /// <param name="id">the id to check</param>
-        private static bool ExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
+        private static bool IsExistsIDTaxCheck<T>(IEnumerable<T> lst, int id)
         {
             // no item in the list
             if (!lst.Any())
@@ -217,9 +217,9 @@ namespace BL
         /// </summary>
         /// <param name="parcel">the drone's parcel</param>
         /// <param name="drone">drone</param>
-        /// <param name="canTakeParcel">ref boolian</param>
+        /// <param name="IsCanTakeParcel">ref boolian</param>
         /// <returns> min electricity</returns>
-        private double MinBattary(DO.Parcel parcel, ref bool canTakeParcel, out Location location)
+        private double MinBattary(DO.Parcel parcel, ref bool IsCanTakeParcel, out Location location)
         {
             try
             {
@@ -233,7 +233,7 @@ namespace BL
                 // if the drone need more electricity 
                 if (electrity > FULLBATTRY)
                 {
-                    canTakeParcel = false;
+                    IsCanTakeParcel = false;
                     return 0;
                 }
                 return rand.NextDouble() + rand.Next((int)electrity + 1, FULLBATTRY);

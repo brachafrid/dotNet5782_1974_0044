@@ -90,4 +90,9 @@
     <Stationld>2</Stationld>
     <StartCharging>2022-02-17T11:38:12.1609356+02:00</StartCharging>
   </DroneCharge>
+  <DroneCharge>
+    <Droneld>3</Droneld>
+    <Stationld>6</Stationld>
+    <StartCharging>2022-02-17T12:07:20.2358641+02:00</StartCharging>
+  </DroneCharge>
 </ArrayOfDroneCharge>

@@ -447,11 +447,11 @@ namespace PL
         }
     }
 
-    public class ConverterStateLogin : IMultiValueConverter
+    public class ConverterEqualsVisibility : IMultiValueConverter
     {
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            return values[0].Equals(values[1])? Visibility.Visible : Visibility.Collapsed;
+            return values[0] != null &&  values[0].Equals(values[1])? Visibility.Visible : Visibility.Collapsed;
         }
 
         public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
@@ -459,16 +459,5 @@ namespace PL
             throw new NotImplementedException();
         }
     }
-    public class ConverterFilterType : IMultiValueConverter
-    {
-        public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
-        {
-            return values[0]!=null && values[0].Equals(values[1]) ? Visibility.Visible : Visibility.Collapsed;
-        }
-
-        public object[] ConvertBack(object value, Type[] targetTypes, object parameter, CultureInfo culture)
-        {
-            throw new NotImplementedException();
-        }
-    }
+    
 }
