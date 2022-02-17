@@ -17,7 +17,7 @@
             <ListView ItemsSource="{Binding Path=list}">
                 <ListView.GroupStyle>
                         <GroupStyle ContainerStyle="{StaticResource ResourceKey=Group}"/>
-                    </ListView.GroupStyle>
+                </ListView.GroupStyle>
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
                         <i:InvokeCommandAction Command="{Binding DoubleClick}"
