@@ -27,7 +27,6 @@
                         <MultiBinding Converter="{StaticResource parcelWasTreatedByDroneVisibility}">
                             <Binding Path="Parcel.AssignmentTime" />
                             <Binding Path="Parcel.DeliveryTime" />
-                            <Binding Path="Parcel" />
                         </MultiBinding>
                     </Button.Visibility>
                 </Button>

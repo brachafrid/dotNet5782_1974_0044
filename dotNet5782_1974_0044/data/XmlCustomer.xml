@@ -240,4 +240,12 @@
     <Latitude>23.96377042073932</Latitude>
     <IsNotActive>false</IsNotActive>
   </Customer>
+  <Customer>
+    <Id>99</Id>
+    <Name>ih</Name>
+    <Phone>8867589678</Phone>
+    <Longitude>67</Longitude>
+    <Latitude>67</Latitude>
+    <IsNotActive>false</IsNotActive>
+  </Customer>
 </ArrayOfCustomer>
