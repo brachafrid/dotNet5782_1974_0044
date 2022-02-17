@@ -10,10 +10,7 @@ namespace BL
     public partial class BL : IBlCustomer
     {
         #region Add
-        /// <summary>
-        /// Add a customer to the list of customers
-        /// </summary>
-        /// <param name="customerBL">The customer for Adding</param>
+
        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddCustomer(Customer customerBL)
         {
@@ -36,11 +33,7 @@ namespace BL
 
         #region Return
 
-        /// <summary>
-        /// Retrieves the requested customer from the data and converts it to BL customer
-        /// </summary>
-        /// <param name="id">The requested customer id</param>
-        /// <returns>A Bl customer to print</returns>
+
        // [MethodImpl(MethodImplOptions.Synchronized)]
         public Customer GetCustomer(int id)
         {
@@ -59,10 +52,7 @@ namespace BL
             }
         }
 
-        /// <summary>
-        /// Retrieves the list of customers  from the data and converts it to station to list
-        /// </summary>
-        /// <returns>A list of statin to print</returns>
+
        // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<CustomerToList> GetAllCustomers()
         {
@@ -78,10 +68,7 @@ namespace BL
 
         }
 
-        /// <summary>
-        /// Get active customers
-        /// </summary>
-        /// <returns>Active customers</returns>
+
        // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<CustomerToList> GetActiveCustomers()
         {
@@ -99,12 +86,6 @@ namespace BL
         #endregion
 
         #region Update
-        /// <summary>
-        /// Update a customer in the customers list
-        /// </summary>
-        /// <param name="id">the id of the customer</param>
-        /// <param name="name"></param>
-        /// <param name="phone"></param>
        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateCustomer(int id, string name, string phone)
         {
@@ -128,10 +109,7 @@ namespace BL
         #endregion
 
         #region Delete
-        /// <summary>
-        /// Delete customer
-        /// </summary>
-        /// <param name="id">id of customer</param>
+
        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteCustomer(int id)
         {
@@ -152,11 +130,7 @@ namespace BL
         }
         #endregion
 
-        /// <summary>
-        /// Check if customer is not active
-        /// </summary>
-        /// <param name="id">id of customer</param>
-        /// <returns>if customer is not active</returns>
+
        // [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsNotActiveCustomer(int id)
         {

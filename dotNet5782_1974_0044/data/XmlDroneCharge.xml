@@ -1,99 +1,99 @@
 <?xml version="1.0"?>
 <ArrayOfDroneCharge xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
   <DroneCharge>
-    <Droneld>6</Droneld>
+    <Droneld>2</Droneld>
     <Stationld>3</Stationld>
-    <StartCharging>2022-02-16T14:54:15.7445454+02:00</StartCharging>
+    <StartCharging>2022-02-17T23:57:18.8034858+02:00</StartCharging>
+  </DroneCharge>
+  <DroneCharge>
+    <Droneld>3</Droneld>
+    <Stationld>1</Stationld>
+    <StartCharging>2022-02-17T23:57:18.8120503+02:00</StartCharging>
+  </DroneCharge>
+  <DroneCharge>
+    <Droneld>4</Droneld>
+    <Stationld>9</Stationld>
+    <StartCharging>2022-02-17T23:57:18.817226+02:00</StartCharging>
+  </DroneCharge>
+  <DroneCharge>
+    <Droneld>5</Droneld>
+    <Stationld>10</Stationld>
+    <StartCharging>2022-02-17T23:57:18.8227891+02:00</StartCharging>
+  </DroneCharge>
+  <DroneCharge>
+    <Droneld>6</Droneld>
+    <Stationld>10</Stationld>
+    <StartCharging>2022-02-17T23:57:18.8309673+02:00</StartCharging>
   </DroneCharge>
   <DroneCharge>
     <Droneld>7</Droneld>
-    <Stationld>9</Stationld>
-    <StartCharging>2022-02-16T14:54:15.7870649+02:00</StartCharging>
+    <Stationld>3</Stationld>
+    <StartCharging>2022-02-17T23:57:18.8354099+02:00</StartCharging>
+  </DroneCharge>
+  <DroneCharge>
+    <Droneld>8</Droneld>
+    <Stationld>6</Stationld>
+    <StartCharging>2022-02-17T23:57:18.8427835+02:00</StartCharging>
   </DroneCharge>
   <DroneCharge>
     <Droneld>9</Droneld>
-    <Stationld>1</Stationld>
-    <StartCharging>2022-02-16T14:54:15.9162978+02:00</StartCharging>
+    <Stationld>2</Stationld>
+    <StartCharging>2022-02-17T23:57:18.8473594+02:00</StartCharging>
   </DroneCharge>
   <DroneCharge>
     <Droneld>10</Droneld>
     <Stationld>8</Stationld>
-    <StartCharging>2022-02-16T14:54:15.9551154+02:00</StartCharging>
+    <StartCharging>2022-02-17T23:57:18.8534455+02:00</StartCharging>
   </DroneCharge>
   <DroneCharge>
     <Droneld>11</Droneld>
-    <Stationld>6</Stationld>
-    <StartCharging>2022-02-16T14:54:16.0110551+02:00</StartCharging>
+    <Stationld>9</Stationld>
+    <StartCharging>2022-02-17T23:57:18.8629073+02:00</StartCharging>
   </DroneCharge>
   <DroneCharge>
     <Droneld>12</Droneld>
-    <Stationld>6</Stationld>
-    <StartCharging>2022-02-16T14:54:16.0490316+02:00</StartCharging>
+    <Stationld>1</Stationld>
+    <StartCharging>2022-02-17T23:57:18.8670164+02:00</StartCharging>
   </DroneCharge>
   <DroneCharge>
     <Droneld>13</Droneld>
-    <Stationld>1</Stationld>
-    <StartCharging>2022-02-16T14:54:16.0864526+02:00</StartCharging>
+    <Stationld>10</Stationld>
+    <StartCharging>2022-02-17T23:57:18.8731978+02:00</StartCharging>
   </DroneCharge>
   <DroneCharge>
     <Droneld>14</Droneld>
-    <Stationld>5</Stationld>
-    <StartCharging>2022-02-16T14:54:16.1231808+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>17</Droneld>
     <Stationld>1</Stationld>
-    <StartCharging>2022-02-16T14:54:16.2739469+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>8</Droneld>
-    <Stationld>8</Stationld>
-    <StartCharging>2022-02-16T14:56:08.7613193+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>18</Droneld>
-    <Stationld>6</Stationld>
-    <StartCharging>2022-02-16T14:56:08.8805362+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>5</Droneld>
-    <Stationld>2</Stationld>
-    <StartCharging>2022-02-16T16:21:44.2718397+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>16</Droneld>
-    <Stationld>1</Stationld>
-    <StartCharging>2022-02-16T16:21:44.3237445+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>19</Droneld>
-    <Stationld>2</Stationld>
-    <StartCharging>2022-02-16T16:21:44.336799+02:00</StartCharging>
-  </DroneCharge>
-  <DroneCharge>
-    <Droneld>20</Droneld>
-    <Stationld>6</Stationld>
-    <StartCharging>2022-02-16T16:21:44.3420626+02:00</StartCharging>
+    <StartCharging>2022-02-17T23:57:18.8788281+02:00</StartCharging>
   </DroneCharge>
   <DroneCharge>
     <Droneld>15</Droneld>
-    <Stationld>6</Stationld>
-    <StartCharging>2022-02-17T01:00:02.1657072+02:00</StartCharging>
+    <Stationld>9</Stationld>
+    <StartCharging>2022-02-17T23:57:18.884922+02:00</StartCharging>
   </DroneCharge>
   <DroneCharge>
-    <Droneld>4</Droneld>
+    <Droneld>16</Droneld>
     <Stationld>7</Stationld>
-    <StartCharging>2022-02-17T11:35:31.3065979+02:00</StartCharging>
+    <StartCharging>2022-02-17T23:57:18.8915905+02:00</StartCharging>
   </DroneCharge>
   <DroneCharge>
-    <Droneld>2</Droneld>
-    <Stationld>2</Stationld>
-    <StartCharging>2022-02-17T11:38:12.1609356+02:00</StartCharging>
+    <Droneld>17</Droneld>
+    <Stationld>5</Stationld>
+    <StartCharging>2022-02-17T23:57:18.9034265+02:00</StartCharging>
   </DroneCharge>
   <DroneCharge>
-    <Droneld>3</Droneld>
-    <Stationld>6</Stationld>
-    <StartCharging>2022-02-17T12:07:20.2358641+02:00</StartCharging>
+    <Droneld>18</Droneld>
+    <Stationld>4</Stationld>
+    <StartCharging>2022-02-17T23:57:18.9098408+02:00</StartCharging>
+  </DroneCharge>
+  <DroneCharge>
+    <Droneld>19</Droneld>
+    <Stationld>3</Stationld>
+    <StartCharging>2022-02-17T23:57:18.9148884+02:00</StartCharging>
+  </DroneCharge>
+  <DroneCharge>
+    <Droneld>20</Droneld>
+    <Stationld>4</Stationld>
+    <StartCharging>2022-02-17T23:57:18.9202166+02:00</StartCharging>
   </DroneCharge>
   <DroneCharge>
     <Droneld>3</Droneld>

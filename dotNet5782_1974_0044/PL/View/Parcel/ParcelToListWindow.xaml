@@ -21,7 +21,7 @@
             <StackPanel>
                 <Button Content="Add Parcel" Command="{Binding AddEntitiyCommand}" Visibility="{Binding IsAdministor, Converter={StaticResource CustomerAdministorVisibilityConverter}}"/>
                 <!--Visibility="{Binding Path=state,Converter={StaticResource ConvertButtonAddVisibility}}"/>-->
-                <ListView ItemsSource="{Binding Path=list}">
+                <ListView ItemsSource="{Binding Path=List}">
                     <ListView.GroupStyle>
                         <GroupStyle ContainerStyle="{StaticResource ResourceKey=Group}"/>
                     </ListView.GroupStyle>

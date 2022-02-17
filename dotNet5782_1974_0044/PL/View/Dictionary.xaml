@@ -388,5 +388,32 @@
             </Setter.Value>
         </Setter>
     </Style>
+    
+    <Style TargetType="ComboBox" x:Key="visibileCombobox" BasedOn="{StaticResource MaterialDesignComboBox}">
+            <Setter Property="Visibility" Value="Visible"/>
+            <Style.Triggers>
+                <DataTrigger Binding="{Binding Path=Count}" Value="{x:Static sys:UInt32.MinValue}">
+                    <Setter Property="Visibility" Value="Collapsed"/>
+                </DataTrigger>
+            </Style.Triggers>
+        </Style>
+
+    <Style TargetType="Button" x:Key="visibileButton" BasedOn="{StaticResource MaterialDesignRaisedButton}">
+        <Setter Property="Visibility" Value="Visible"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=Count}" Value="{x:Static sys:UInt32.MinValue}">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
+
+    <Style TargetType="Label" x:Key="visibileLable" BasedOn="{StaticResource MaterialDesignLabel}">
+        <Setter Property="Visibility" Value="Visible"/>
+        <Style.Triggers>
+            <DataTrigger Binding="{Binding Path=Count}" Value="{x:Static sys:UInt32.MinValue}">
+                <Setter Property="Visibility" Value="Collapsed"/>
+            </DataTrigger>
+        </Style.Triggers>
+    </Style>
 
 </ResourceDictionary>

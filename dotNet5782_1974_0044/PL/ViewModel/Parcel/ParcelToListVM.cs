@@ -37,7 +37,8 @@ namespace PL
             try
             {
                 sourceList = new ObservableCollection<ParcelToList>(await UpdateInitList());
-                list = new ListCollectionView(sourceList);
+                List = new ListCollectionView(sourceList);
+                Count = (uint)List.Count;
             }
             catch (KeyNotFoundException ex)
             {
@@ -77,12 +78,13 @@ namespace PL
             {
                 if (e.Id != null && e.Id != 0)
                 {
-                    var parcel = sourceList.FirstOrDefault(p => p.Id == e.Id);
+                    var parcel = sourceList.FirstOrDefault(p =>p!=null && p.Id == e.Id);
                     if (parcel != default)
                     {
                         sourceList.Remove(parcel);
                         var newParcel = (await PLService.GetParcels()).FirstOrDefault(p => p.Id == e.Id);
-                        sourceList.Add(newParcel);
+                        if(newParcel!=null)
+                            sourceList.Add(newParcel);
                     }
                 }
                 else
@@ -106,6 +108,7 @@ namespace PL
                             break;
                     }
                 }
+                Count = (uint)List.Count;
             }
             catch (BO.XMLFileLoadCreateException ex)
             {

@@ -25,8 +25,11 @@ namespace PL
         {
             try
             {
-                sourceList = new ObservableCollection<StationToList>( await PLService.GetStations());
-                list = new ListCollectionView(sourceList);
+                sourceList = new ObservableCollection<StationToList>(await PLService.GetStations());
+                List = new ListCollectionView(sourceList);
+                Count = (uint)List.Count;
+                if (List.Count == 0)
+                    Count = 0;
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
@@ -47,9 +50,13 @@ namespace PL
                 {
                     var station = sourceList.FirstOrDefault(s => s.Id == e.Id);
                     if (station != default)
+                    {
                         sourceList.Remove(station);
-                    var newStation =(await PLService.GetStations()).FirstOrDefault(s => s.Id == e.Id);
-                    sourceList.Add(newStation);
+                        var newStation = (await PLService.GetStations()).FirstOrDefault(s => s.Id == e.Id);
+                        if (newStation != null)
+                            sourceList.Add(newStation);
+                    }
+               
                 }
                 else
                 {
@@ -57,6 +64,9 @@ namespace PL
                     foreach (var item in await PLService.GetStations())
                         sourceList.Add(item);
                 }
+                Count = (uint)List.Count;
+                if (List.Count == 0)
+                    Count = 0;
             }
             catch (BO.XMLFileLoadCreateException ex)
             {

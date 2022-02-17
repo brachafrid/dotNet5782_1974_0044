@@ -255,7 +255,7 @@ namespace PL
         /// <returns>Returns visibility: visible or collapsed</returns>
         public object Convert(object[] values, Type targetType, object parameter, CultureInfo culture)
         {
-            if (values[0].ToString() != DroneState.DELIVERY.ToString() && values[1] is bool auto && !auto)
+            if (values[0].ToString() != DroneState.DELIVERY.ToString() && values[0].ToString() != DroneState.RESCUE.ToString() && values[1] is bool auto && !auto)
                 return Visibility.Visible;
             else
                 return Visibility.Collapsed;
@@ -292,7 +292,7 @@ namespace PL
         /// <returns>Returns visibility: visible or collapsed</returns>
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
-            if (value.ToString() != DroneState.DELIVERY.ToString())
+            if (value.ToString() != DroneState.DELIVERY.ToString() && value.ToString() != DroneState.RESCUE.ToString())
                 return Visibility.Visible;
             else
                 return Visibility.Collapsed;

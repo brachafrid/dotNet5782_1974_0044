@@ -90,7 +90,7 @@ namespace PL
             try
             {
                 await PLService.AddDrone(drone);
-                RefreshEvents.NotifyDroneChanged(drone.Id ?? 0);
+                RefreshEvents.NotifyDroneChanged();
                 RefreshEvents.NotifyStationChanged(drone.StationId);
                 Tabs.CloseTab(param as TabItemFormat);
             }
