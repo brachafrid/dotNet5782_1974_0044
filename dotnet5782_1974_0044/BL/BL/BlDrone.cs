@@ -14,11 +14,7 @@ namespace BL
         private const int MAX_BATTERY = 40;
 
         #region Add
-        /// <summary>
-        /// Add a drone to the list of drones in data and also convert it to Drone To List and add it to BL list
-        /// </summary>
-        /// <param name="droneBl">The drone for Adding</param>
-        ///<param name="stationId">The station to put the drone</param>
+
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddDrone(Drone droneBl, int stationId)
         {
@@ -58,11 +54,7 @@ namespace BL
         #endregion
 
         #region Return
-        /// <summary>
-        /// Retrieves the requested drone from the data and converts it to BL drone
-        /// </summary>
-        /// <param name="id">The requested drone id</param>
-        /// <returns>A Bl drone to print</returns>
+
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public BO.Drone GetDrone(int id)
         {
@@ -80,26 +72,16 @@ namespace BL
             }
         }
 
-        /// <summary>
-        /// Get active drones
-        /// </summary>
-        /// <returns>active drones</returns>
+
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<DroneToList> GetActiveDrones() => drones.Where(drone => !drone.IsNotActive);
 
-        /// <summary>
-        /// Recrieves the list of drones from BL
-        /// </summary>
-        /// <returns>A list of drones to print</returns>
+
         public IEnumerable<DroneToList> GetAllDrones() => drones;
         #endregion
 
         #region Update
-        /// <summary>
-        /// Update a drone in the Stations list
-        /// </summary>
-        /// <param name="id">The drone to update</param>
-        /// <param name="name">The new name</param>
+
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateDrone(int id, string name)
         {
@@ -125,10 +107,6 @@ namespace BL
             }
         }
 
-        /// <summary>
-        /// Send a drone for charging in the closet station with empty charge slots tha t the drone can arrive there
-        /// </summary>
-        /// <param name="id">The id of the drone</param>
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public void SendDroneForCharg(int id)
         {
@@ -183,11 +161,7 @@ namespace BL
             return true;
         }
 
-        /// <summary>
-        /// Realse the drone from charging
-        /// </summary>
-        /// <param name="id">The drone to realsing</param>
-        /// <param name="timeOfCharg">The time of charging</param>
+
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public void ReleaseDroneFromCharging(int id)
         {
@@ -216,10 +190,6 @@ namespace BL
             }
         }
 
-        /// <summary>
-        /// Assign parcel to drone in according to weight and distance (call to help function)
-        /// </summary>
-        /// <param name="droneId">The drone to assign it a parcel</param>
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public void AssingParcelToDrone(int droneId)
         {
@@ -260,10 +230,7 @@ namespace BL
             }
         }
 
-        /// <summary>
-        /// Collecting the parcel from the sender 
-        /// </summary>
-        /// <param name="droneId">The drone that collect</param>
+
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public void ParcelCollectionByDrone(int droneId)
         {
@@ -295,10 +262,6 @@ namespace BL
             }
         }
 
-        /// <summary>
-        /// Deliverd the parcel to the reciver 
-        /// </summary>
-        /// <param name="droneId">The drone that deliverd</param>
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeliveryParcelByDrone(int droneId)
         {
@@ -341,10 +304,7 @@ namespace BL
         #endregion
 
         #region Delete
-        /// <summary>
-        /// Delete drone
-        /// </summary>
-        /// <param name="id">id of drone</param>
+
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteDrone(int id)
         {
@@ -392,11 +352,7 @@ namespace BL
         }
         #endregion
 
-        /// <summary>
-        /// Check if drone is not active
-        /// </summary>
-        /// <param name="id">id of drone</param>
-        /// <returns>if drone is not active</returns>
+
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public bool IsNotActiveDrone(int id) => drones.Any(drone => drone.Id == id && drone.IsNotActive);
 
@@ -430,12 +386,7 @@ namespace BL
                 .FirstOrDefault().Key;
         }
 
-        /// <summary>
-        /// Start drone simulator
-        /// </summary>
-        /// <param name="id">id  </param>
-        /// <param name="update">Action update</param>
-        /// <param name="IsCheckStop">Func Check Stop</param>
+
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public void StartDroneSimulator(int id, Action<int?, int?, int?, int?> update, Func<bool> IsCheckStop)
         {

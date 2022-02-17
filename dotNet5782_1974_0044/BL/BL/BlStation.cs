@@ -9,10 +9,6 @@ namespace BL
     public partial class BL : IBlStations
     {
         #region ADD
-        /// <summary>
-        /// Add a station to the list of stations
-        /// </summary>
-        /// <param name="stationBL">The station for Adding</param>
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public void AddStation(Station stationBL)
         {
@@ -30,11 +26,7 @@ namespace BL
         #endregion
 
         #region Return
-        /// <summary>
-        /// Retrieves the list of stations with empty charge slots  from the data and converts it to station to list
-        /// </summary>
-        /// <param name="exsitEmpty">the predicate to screen out if the station have empty charge slots</param>
-        /// <returns>A list of statin to print</returns>
+
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
@@ -52,10 +44,6 @@ namespace BL
 
         }
 
-        /// <summary>
-        /// Retrieves the list of stations from the data and converts it to station to list
-        /// </summary>
-        /// <returns>A list of statin to print</returns>
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> GetAllStations()
         {
@@ -72,10 +60,7 @@ namespace BL
 
         }
 
-        /// <summary>
-        /// Get active stations
-        /// </summary>
-        /// <returns>A list of active stations</returns>
+
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public IEnumerable<StationToList> GetActiveStations()
         {
@@ -92,11 +77,7 @@ namespace BL
 
         }
 
-        /// <summary>
-        /// Retrieves the requested station from the data and converts it to BL station
-        /// </summary>
-        /// <param name="id">The requested station id</param>
-        /// <returns>A Bl satation to print</returns>
+
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public Station GetStation(int id)
         {
@@ -119,12 +100,6 @@ namespace BL
         #endregion
 
         #region Update
-        /// <summary>
-        /// Update a station in the Stations list
-        /// </summary>
-        /// <param name="id">The id of the station</param>
-        /// <param name="name">The new name</param>
-        /// <param name="chargeSlots">A nwe number for charging slots</param>
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public void UpdateStation(int id, string name, int chargeSlots)
         {
@@ -153,10 +128,7 @@ namespace BL
 
         #region Delete
 
-        /// <summary>
-        /// Delete station according to id
-        /// </summary>
-        /// <param name="id">id of station</param>
+
         // [MethodImpl(MethodImplOptions.Synchronized)]
         public void DeleteStation(int id)
         {
@@ -177,11 +149,6 @@ namespace BL
         }
         #endregion
 
-        /// <summary>
-        /// Check if station is not active
-        /// </summary>
-        /// <param name="id">id of stations</param>
-        /// <returns>if station is not active</returns>
         public bool IsNotActiveStation(int id)
         {
             try
