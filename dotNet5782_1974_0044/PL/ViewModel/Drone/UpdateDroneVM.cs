@@ -228,36 +228,37 @@ namespace PL
                     }
                 }
                 else
-                {                   
+                {
                     await PLService.AssingParcelToDrone(Drone.Id);
                     RefreshEvents.NotifyDroneChanged(drone.Id);
                     RefreshEvents.NotifyParcelChanged();
                 }
-            } 
+            }
             catch (BO.DeletedExeption ex)
             {
                 MessageBox.Show($"{ex.Id} {ex.Message}", $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Exclamation);
             }
             catch (ArgumentNullException ex)
             {
-                MessageBox.Show(ex.Message ,$"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.InvalidParcelStateException ex)
             {
-                MessageBox.Show(ex.Message , $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
-                MessageBox.Show(ex.Message , $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.NotExsistSuitibleStationException ex)
             {
-                MessageBox.Show(ex.Message , $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
+                MessageBox.Show(ex.Message, $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
             catch (BO.NotExsistSutibleParcelException ex)
             {
                 MessageBox.Show(ex.Message, $"Update Drone Id: {id}", MessageBoxButton.OK, MessageBoxImage.Error);
             }
+        }
 
         /// <summary>
         /// Delete drone
