@@ -286,7 +286,6 @@ namespace PL
         public void CancelFilter(object param)
         {
             Filters.RemoveAll((SortEntities o) => true);
-            SelectedKind = string.Empty;
             FilterType = null;
             FilterNow();
         }

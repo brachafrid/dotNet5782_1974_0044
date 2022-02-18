@@ -52,7 +52,7 @@ namespace Dal
                               new XElement("MediumWeightBearing", 0.003),
                               new XElement("CarriesHeavyWeight", 0.004),
                               new XElement("DroneLoadingRate",3),
-                              new XElement("AdministratorPassword", ""));
+                              new XElement("AdministratorPassword", "$8114$"));
         }
 
         /// <summary>
