@@ -110,9 +110,11 @@ namespace BL
                 DO.Station stationDl;
                 lock (dal)
                     stationDl = dal.GetStation(id);
-                if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(stationDl.Id))
-                    throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
-                dal.UpdateStation(stationDl, name, chargeSlots);
+                lock (dal)
+                    if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(stationDl.Id))
+                        throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
+                lock (dal)
+                    dal.UpdateStation(stationDl, name, chargeSlots);
             }
             catch (KeyNotFoundException ex)
             {
@@ -194,15 +196,16 @@ namespace BL
             double minDistance = int.MaxValue;
             double curDistance;
             Station station = null;
-            foreach (var item in dal.GetSationsWithEmptyChargeSlots(emptyChargeslots))
-            {
-                curDistance = Distance(location, new Location() { Latitude = item.Latitude, Longitude = item.Longitude });
-                if (curDistance < minDistance && !item.IsNotActive)
+            lock (dal)
+                foreach (var item in dal.GetSationsWithEmptyChargeSlots(emptyChargeslots))
                 {
-                    minDistance = curDistance;
-                    station = ConvertStation(item);
+                    curDistance = Distance(location, new Location() { Latitude = item.Latitude, Longitude = item.Longitude });
+                    if (curDistance < minDistance && !item.IsNotActive)
+                    {
+                        minDistance = curDistance;
+                        station = ConvertStation(item);
+                    }
                 }
-            }
             return station;
         }
     }
