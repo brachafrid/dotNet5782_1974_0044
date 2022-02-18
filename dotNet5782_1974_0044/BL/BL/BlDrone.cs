@@ -15,7 +15,7 @@ namespace BL
 
         #region Add
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void AddDrone(Drone droneBl, int stationId)
         {
             try
@@ -57,7 +57,7 @@ namespace BL
 
         #region Return
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public BO.Drone GetDrone(int id)
         {
             try
@@ -75,7 +75,7 @@ namespace BL
         }
 
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public IEnumerable<DroneToList> GetActiveDrones() => drones.Where(drone => !drone.IsNotActive);
 
 
@@ -84,7 +84,7 @@ namespace BL
 
         #region Update
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void UpdateDrone(int id, string name)
         {
             try
@@ -109,7 +109,7 @@ namespace BL
             }
         }
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void SendDroneForCharg(int id)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
@@ -155,7 +155,7 @@ namespace BL
         }
 
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void ReleaseDroneFromCharging(int id)
         {
             try
@@ -185,7 +185,7 @@ namespace BL
             }
         }
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void AssingParcelToDrone(int droneId)
         {
             DroneToList aviableDrone = drones.FirstOrDefault(item => item.Id == droneId);
@@ -226,7 +226,7 @@ namespace BL
         }
 
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void ParcelCollectionByDrone(int droneId)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == droneId);
@@ -261,7 +261,7 @@ namespace BL
             }
         }
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void DeliveryParcelByDrone(int droneId)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == droneId);
@@ -308,7 +308,7 @@ namespace BL
 
         #region Delete
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void DeleteDrone(int id)
         {
             DroneToList drone = drones.FirstOrDefault(item => item.Id == id);
@@ -357,7 +357,7 @@ namespace BL
         #endregion
 
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public bool IsNotActiveDrone(int id) => drones.Any(drone => drone.Id == id && drone.IsNotActive);
 
         /// <summary>
@@ -391,7 +391,7 @@ namespace BL
         }
 
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void StartDroneSimulator(int id, Action<int?, int?, int?, int?> update, Func<bool> IsCheckStop)
         {
             DroneToList drone = drones.FirstOrDefault(drone => drone.Id == id);

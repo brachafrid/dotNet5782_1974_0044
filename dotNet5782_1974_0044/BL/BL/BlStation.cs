@@ -9,7 +9,7 @@ namespace BL
     public partial class BL : IBlStations
     {
         #region ADD
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void AddStation(Station stationBL)
         {
             try
@@ -27,7 +27,7 @@ namespace BL
 
         #region Return
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
             try
@@ -44,7 +44,7 @@ namespace BL
 
         }
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public IEnumerable<StationToList> GetAllStations()
         {
             try
@@ -61,7 +61,7 @@ namespace BL
         }
 
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public IEnumerable<StationToList> GetActiveStations()
         {
             try
@@ -78,7 +78,7 @@ namespace BL
         }
 
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public Station GetStation(int id)
         {
             try
@@ -100,7 +100,7 @@ namespace BL
         #endregion
 
         #region Update
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void UpdateStation(int id, string name, int chargeSlots)
         {
             if (name.Equals(string.Empty) && chargeSlots == 0)
@@ -131,7 +131,7 @@ namespace BL
         #region Delete
 
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void DeleteStation(int id)
         {
             try
