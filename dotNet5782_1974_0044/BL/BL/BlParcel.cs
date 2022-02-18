@@ -147,7 +147,8 @@ namespace BL
                 DO.Parcel newParcel = parcel;
                 newParcel.DorneId = droneId;
                 newParcel.Sceduled = DateTime.Now;
-                dal.UpdateParcel(parcel, newParcel);
+                lock (dal)
+                    dal.UpdateParcel(parcel, newParcel);
             }
             catch (KeyNotFoundException ex)
             {

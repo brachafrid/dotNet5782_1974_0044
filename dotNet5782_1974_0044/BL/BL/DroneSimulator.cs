@@ -70,7 +70,8 @@ namespace BL
             }
             catch (NotExsistSuitibleStationException)
             {
-                Drone.DroneState = DroneState.RESCUE;
+                lock(bl)
+                    Drone.DroneState = DroneState.RESCUE;
             }
         }
         /// <summary>
