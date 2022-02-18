@@ -40,19 +40,6 @@
     <IsNotActive>false</IsNotActive>
   </Parcel>
   <Parcel>
-    <Id>12</Id>
-    <SenderId>20</SenderId>
-    <TargetId>17</TargetId>
-    <Weigth>MEDIUM</Weigth>
-    <Priority>EMERGENCY</Priority>
-    <Requested>2022-02-18T01:53:16.8507257+02:00</Requested>
-    <Sceduled />
-    <PickedUp />
-    <Delivered />
-    <DorneId>2</DorneId>
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
     <Id>13</Id>
     <SenderId>24</SenderId>
     <TargetId>30</TargetId>
@@ -88,19 +75,6 @@
     <Sceduled>2022-02-18T01:53:16.8541645+02:00</Sceduled>
     <PickedUp>2022-02-18T01:53:16.8541668+02:00</PickedUp>
     <Delivered>2022-02-18T01:53:16.8541671+02:00</Delivered>
-    <DorneId>3</DorneId>
-    <IsNotActive>false</IsNotActive>
-  </Parcel>
-  <Parcel>
-    <Id>17</Id>
-    <SenderId>8</SenderId>
-    <TargetId>7</TargetId>
-    <Weigth>HEAVY</Weigth>
-    <Priority>REGULAR</Priority>
-    <Requested>2022-02-18T01:53:16.8559874+02:00</Requested>
-    <Sceduled />
-    <PickedUp />
-    <Delivered />
     <DorneId>3</DorneId>
     <IsNotActive>false</IsNotActive>
   </Parcel>
@@ -388,6 +362,32 @@
     <PickedUp>2022-02-18T02:02:20.3544945+02:00</PickedUp>
     <Delivered>2022-02-18T02:02:22.5750517+02:00</Delivered>
     <DorneId>2</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>12</Id>
+    <SenderId>20</SenderId>
+    <TargetId>17</TargetId>
+    <Weigth>MEDIUM</Weigth>
+    <Priority>EMERGENCY</Priority>
+    <Requested>2022-02-18T01:53:16.8507257+02:00</Requested>
+    <Sceduled />
+    <PickedUp>2022-02-18T08:14:06.3347429+02:00</PickedUp>
+    <Delivered>2022-02-18T08:14:07.4219465+02:00</Delivered>
+    <DorneId>2</DorneId>
+    <IsNotActive>false</IsNotActive>
+  </Parcel>
+  <Parcel>
+    <Id>17</Id>
+    <SenderId>8</SenderId>
+    <TargetId>7</TargetId>
+    <Weigth>HEAVY</Weigth>
+    <Priority>REGULAR</Priority>
+    <Requested>2022-02-18T01:53:16.8559874+02:00</Requested>
+    <Sceduled />
+    <PickedUp>2022-02-18T08:14:13.9556043+02:00</PickedUp>
+    <Delivered>2022-02-18T08:14:15.1349309+02:00</Delivered>
+    <DorneId>3</DorneId>
     <IsNotActive>false</IsNotActive>
   </Parcel>
 </Parcels>

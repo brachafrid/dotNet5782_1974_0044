@@ -22,7 +22,7 @@ namespace BL
         private Maintenance maintenance = Maintenance.Starting;
         private Delivery delivery = Delivery.Starting;
         private const double TIME = 0.5;
-        private const double STEP = 4000;
+        private const double STEP = 1500;
         double distance = 0.0;
 
         /// <summary>
