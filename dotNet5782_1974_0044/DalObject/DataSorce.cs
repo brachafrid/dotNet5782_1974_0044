@@ -138,6 +138,8 @@ namespace Dal
                         newParcel.PickedUp = DateTime.Now;
                         newParcel.Delivered = DateTime.Now;
                     }
+                    if (tmp.DorneId != 0 && state != 3)
+                        newParcel.DorneId = 0;
                 }
             }
             Parcels.Add(newParcel);
