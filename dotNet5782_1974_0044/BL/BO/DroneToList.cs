@@ -48,6 +48,8 @@ namespace BO
         { 
             get => batteryState;
             set {
+                if (value <= 0)
+                    Console.WriteLine("fers");
                 batteryState = value < 100 ? value < 0 ? 1 : value : 100; }       
         }
 

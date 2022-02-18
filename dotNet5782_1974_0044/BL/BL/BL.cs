@@ -99,7 +99,7 @@ namespace BL
                         parcel = newParcel;
                     }
                 }
-                else if (!droneInCharging.Any())
+                else if (droneInCharging.Any())
                 {
                     state = DroneState.MAINTENANCE;
                 }
@@ -126,7 +126,7 @@ namespace BL
                             var stationToDroneCharge = stationsToDroneCharge.ElementAt(rand.Next(0, stationsToDroneCharge.Count()));
                             Location = stationToDroneCharge.Location;
                             dal.AddDroneCharge(drone.Id, stationToDroneCharge.Id);
-                            BatteryStatus = rand.NextDouble() + rand.Next(MININITBATTARY, MAXINITBATTARY);
+                            BatteryStatus = rand.NextDouble() + rand.Next(MININITBATTARY+1, MAXINITBATTARY);
                         }
                         else
                         {

@@ -17,7 +17,7 @@ namespace Dal
         private static int DRONE_INIT = 20;
         private static int STATIONS_INIT = 10;
         private static int CUSTOMERS_INIT = 30;
-        private static int PARCELS_INIT = 15;
+        private static int PARCELS_INIT = 30;
         private static int RANGE_ENUM = 3;
         private static int PHONE_MIN = 100000000;
         private static int PHONE_MAX = 1000000000;
