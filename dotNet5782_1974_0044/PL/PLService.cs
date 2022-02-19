@@ -891,10 +891,6 @@ namespace PL
 
                     completedTask.SetException(ex);
                 }
-                catch (BO.NotExsistSutibleParcelException ex)
-                {
-                    completedTask.SetException(ex);
-                }
                 catch (BO.DeletedExeption ex)
                 {
                     completedTask.SetException(ex);
