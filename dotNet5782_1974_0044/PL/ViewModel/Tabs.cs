@@ -130,9 +130,9 @@ namespace PL
         /// <param name="param"></param>
         static internal void Refresh(object param)
         {
+            RefreshEvents.NotifyParcelChanged();
             RefreshEvents.NotifyCustomerChanged();
             RefreshEvents.NotifyDroneChanged();
-            RefreshEvents.NotifyParcelChanged();
             RefreshEvents.NotifyStationChanged();
         }
     }

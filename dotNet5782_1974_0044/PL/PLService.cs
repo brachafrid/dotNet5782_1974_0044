@@ -884,6 +884,11 @@ namespace PL
                 }
                 catch (BO.NotExsistSuitibleStationException ex)
                 {
+
+                    completedTask.SetException(ex);
+                }
+                catch (BO.NotExsistSutibleParcelException ex)
+                {
                     completedTask.SetException(ex);
                 }
                 catch (BO.DeletedExeption ex)
