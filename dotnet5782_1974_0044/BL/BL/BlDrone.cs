@@ -15,14 +15,16 @@ namespace BL
 
         #region Add
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void AddDrone(Drone droneBl, int stationId)
         {
             try
             {
+                DO.Station station;
                 lock (dal)
                     dal.AddDrone(droneBl.Id, droneBl.Model, (DO.WeightCategories)droneBl.WeightCategory);
-                DO.Station station = dal.GetStation(stationId);
+                lock (dal)
+                    station = dal.GetStation(stationId);
                 drones.Add(new()
                 {
                     Id = droneBl.Id,
@@ -55,7 +57,7 @@ namespace BL
 
         #region Return
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public BO.Drone GetDrone(int id)
         {
             try
@@ -73,7 +75,7 @@ namespace BL
         }
 
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public IEnumerable<DroneToList> GetActiveDrones() => drones.Where(drone => !drone.IsNotActive);
 
 
@@ -82,7 +84,7 @@ namespace BL
 
         #region Update
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void UpdateDrone(int id, string name)
         {
             try
@@ -107,7 +109,7 @@ namespace BL
             }
         }
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void SendDroneForCharg(int id)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == id);
@@ -139,7 +141,8 @@ namespace BL
                 droneToList.BatteryState -= minDistance * available;
                 droneToList.CurrentLocation = station.Location;
                 //No charging position was subtracting because there is no point in changing a variable that is not saved after the end of the function
-                dal.AddDroneCharge(id, station.Id);
+                lock (dal)
+                    dal.AddDroneCharge(id, station.Id);
             }
             catch (NotExsistSuitibleStationException)
             {
@@ -151,18 +154,8 @@ namespace BL
             }
         }
 
-        /// <summary>
-        /// Sleep delay time
-        /// </summary>
-        /// <returns>if succeeded</returns>
-        private static bool IsSleepDelayTime()
-        {
-            try { Thread.Sleep(500); } catch (ThreadInterruptedException) { return false; }
-            return true;
-        }
 
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
         public void ReleaseDroneFromCharging(int id)
         {
             try
@@ -176,9 +169,11 @@ namespace BL
                     throw new InvalidDroneStateException($" The drone is {droneToList.DroneState} so it is not possible to release it form charging ");
                 droneToList.IsStopCharge = false;
                 droneToList.DroneState = DroneState.AVAILABLE;
-                droneToList.BatteryState += (DateTime.Now - dal.GetTimeStartOfCharge(id)).TotalMinutes / NUM_OF_MINUTE_IN_HOUR * droneLoadingRate;
+                lock (dal)
+                    droneToList.BatteryState += (DateTime.Now - dal.GetTimeStartOfCharge(id)).TotalMinutes / NUM_OF_MINUTE_IN_HOUR * droneLoadingRate;
                 //No charging position was adding because there is no point in changing a variable that is not saved after the end of the function
-                dal.RemoveDroneCharge(id);
+                lock (dal)
+                    dal.RemoveDroneCharge(id);
             }
             catch (DO.TheDroneIsNotInChargingException ex)
             {
@@ -190,7 +185,7 @@ namespace BL
             }
         }
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void AssingParcelToDrone(int droneId)
         {
             DroneToList aviableDrone = drones.FirstOrDefault(item => item.Id == droneId);
@@ -231,7 +226,7 @@ namespace BL
         }
 
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void ParcelCollectionByDrone(int droneId)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == droneId);
@@ -243,10 +238,14 @@ namespace BL
                 throw new ArgumentNullException("No parcel has been associated yet");
             try
             {
-                DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
+                DO.Parcel parcel;
+                DO.Customer customer;
+                lock (dal)
+                  parcel = dal.GetParcel((int)droneToList.ParcelId);
                 if (parcel.PickedUp != null)
                     throw new InvalidParcelStateException("The package has already been collected");
-                DO.Customer customer = dal.GetCustomer(parcel.SenderId);
+                lock (dal)
+                    customer = dal.GetCustomer(parcel.SenderId);
                 Location senderLocation = new() { Longitude = customer.Longitude, Latitude = customer.Latitude };
                 droneToList.BatteryState -= Distance(droneToList.CurrentLocation, senderLocation) * available;
                 droneToList.CurrentLocation = senderLocation;
@@ -262,7 +261,7 @@ namespace BL
             }
         }
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void DeliveryParcelByDrone(int droneId)
         {
             DroneToList droneToList = drones.FirstOrDefault(item => item.Id == droneId);
@@ -275,10 +274,14 @@ namespace BL
 
             try
             {
-                DO.Parcel parcel = dal.GetParcel((int)droneToList.ParcelId);
+                DO.Parcel parcel;
+                lock (dal)
+                    parcel = dal.GetParcel((int)droneToList.ParcelId);
                 if (parcel.Delivered != null)
                     throw new InvalidParcelStateException("The package has already been deliverd");
-                DO.Customer customer = dal.GetCustomer(parcel.TargetId);
+                DO.Customer customer;
+                lock (dal)
+                    customer = dal.GetCustomer(parcel.TargetId);
                 Location receiverLocation = new() { Longitude = customer.Longitude, Latitude = customer.Latitude };
                 droneToList.BatteryState -= Distance(droneToList.CurrentLocation, receiverLocation) * (WeightCategories)parcel.Weigth switch
                 {
@@ -305,7 +308,7 @@ namespace BL
 
         #region Delete
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void DeleteDrone(int id)
         {
             DroneToList drone = drones.FirstOrDefault(item => item.Id == id);
@@ -317,7 +320,8 @@ namespace BL
                     return;
                 if (drone.DroneState == DroneState.MAINTENANCE)
                     ReleaseDroneFromCharging(drone.Id);
-                dal.DeleteDrone(id);
+                lock (dal)
+                    dal.DeleteDrone(id);
                 drone.IsNotActive = true;
             }
             catch (KeyNotFoundException ex)
@@ -353,7 +357,7 @@ namespace BL
         #endregion
 
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public bool IsNotActiveDrone(int id) => drones.Any(drone => drone.Id == id && drone.IsNotActive);
 
         /// <summary>
@@ -387,7 +391,7 @@ namespace BL
         }
 
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void StartDroneSimulator(int id, Action<int?, int?, int?, int?> update, Func<bool> IsCheckStop)
         {
             DroneToList drone = drones.FirstOrDefault(drone => drone.Id == id);

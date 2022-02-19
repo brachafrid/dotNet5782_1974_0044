@@ -113,18 +113,19 @@ namespace BL
         private Dictionary<ParcelToList, double> CreatParcelDictionaryToAssign(DroneToList aviableDrone)
         {
             Dictionary<ParcelToList, double> parcels = new();
-            foreach (var item in dal.GetParcels())
-            {
-                if (item.DorneId == 0
-                    && (WeightCategories)item.Weigth <= aviableDrone.Weight)
+            lock (dal)
+                foreach (var item in dal.GetParcels())
                 {
-                    var parcelToList = MapParcelToList(item);
-                    var electricity = CalculateElectricity(aviableDrone.CurrentLocation, aviableDrone.BatteryState, parcelToList.CustomerSender.Location,
-                        parcelToList.CustomerReceives.Location, (WeightCategories)item.Weigth, out double minDistance);
-                    if (electricity <= aviableDrone.BatteryState)
-                        parcels.Add(parcelToList, minDistance);
+                    if (item.DorneId == 0
+                        && (WeightCategories)item.Weigth <= aviableDrone.Weight)
+                    {
+                        var parcelToList = MapParcelToList(item);
+                        var electricity = CalculateElectricity(aviableDrone.CurrentLocation, aviableDrone.BatteryState, parcelToList.CustomerSender.Location,
+                            parcelToList.CustomerReceives.Location, (WeightCategories)item.Weigth, out double minDistance);
+                        if (electricity <= aviableDrone.BatteryState)
+                            parcels.Add(parcelToList, minDistance);
+                    }
                 }
-            }
             return parcels;
         }
 
@@ -137,19 +138,20 @@ namespace BL
         private Parcel MapParcel(DO.Parcel parcel)
         {
             var tmpDrone = drones.FirstOrDefault(drone => drone.Id == parcel.DorneId);
-            return new Parcel()
-            {
-                Id = parcel.Id,
-                CustomerReceives = MapCustomerInParcel(dal.GetCustomer(parcel.TargetId)),
-                CustomerSender = MapCustomerInParcel(dal.GetCustomer(parcel.SenderId)),
-                Weight = (BO.WeightCategories)parcel.Weigth,
-                Priority = (BO.Priorities)parcel.Priority,
-                AssignmentTime = parcel.Sceduled,
-                CollectionTime = parcel.PickedUp,
-                CreationTime = parcel.Requested,
-                DeliveryTime = parcel.Delivered,
-                Drone = tmpDrone != default ? MapDroneWithParcel(tmpDrone) : null
-            };
+            lock (dal)
+                return new Parcel()
+                {
+                    Id = parcel.Id,
+                    CustomerReceives = MapCustomerInParcel(dal.GetCustomer(parcel.TargetId)),
+                    CustomerSender = MapCustomerInParcel(dal.GetCustomer(parcel.SenderId)),
+                    Weight = (BO.WeightCategories)parcel.Weigth,
+                    Priority = (BO.Priorities)parcel.Priority,
+                    AssignmentTime = parcel.Sceduled,
+                    CollectionTime = parcel.PickedUp,
+                    CreationTime = parcel.Requested,
+                    DeliveryTime = parcel.Delivered,
+                    Drone = tmpDrone != default ? MapDroneWithParcel(tmpDrone) : null
+                };
         }
     }
 }

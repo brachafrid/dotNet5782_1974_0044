@@ -21,7 +21,7 @@ namespace Dal
         private const int LONGITUDE_MAX = 90;
         private const int CHARGE_SLOTS_MAX = 100;
         private const int PARCELS_STATE = 4;
-        public const string ADMINISTOR_PASSWORD = "";
+        public const string ADMINISTOR_PASSWORD = "$8114$";
         internal static List<Drone> Drones = new();
         internal static List<Station> Stations = new();
         internal static List<Customer> Customers = new();
@@ -138,6 +138,8 @@ namespace Dal
                         newParcel.PickedUp = DateTime.Now;
                         newParcel.Delivered = DateTime.Now;
                     }
+                    if (tmp.DorneId != 0 && state != 3)
+                        newParcel.DorneId = 0;
                 }
             }
             Parcels.Add(newParcel);

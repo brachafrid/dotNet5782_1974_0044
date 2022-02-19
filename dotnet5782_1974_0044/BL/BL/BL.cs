@@ -30,14 +30,17 @@ namespace BL
         {
 
             // set electricty variablses
-            drones = new();
-            (
-                available,
-                lightWeightCarrier,
-                mediumWeightBearing,
-                carriesHeavyWeight,
-                droneLoadingRate
-            ) = dal.GetElectricity();
+            lock (dal)
+            {
+                drones = new();
+                (
+                    available,
+                    lightWeightCarrier,
+                    mediumWeightBearing,
+                    carriesHeavyWeight,
+                    droneLoadingRate
+                ) = dal.GetElectricity();
+            }
             // set the drones
             try
             {
@@ -59,8 +62,13 @@ namespace BL
         /// </summary>
         private void Initialize()
         {
-            var tmpDrones = dal.GetDrones();
-            var parcels = dal.GetParcels();
+            IEnumerable<DO.Drone> tmpDrones;
+            IEnumerable<DO.Parcel> parcels;
+            lock (dal)
+            {
+                tmpDrones = dal.GetDrones();
+                parcels = dal.GetParcels();
+            }
             // create list of customers' location
             var customersGotParcelLocation = GetLocationsCustomersGotParcels((int recivedparcels) => recivedparcels > 0);
             foreach (var drone in tmpDrones)
@@ -73,7 +81,9 @@ namespace BL
                 Location Location;
                 Location tmpDroneWithParcelLocation = default;
                 DroneState state = default;
-                var droneInCharging = dal.GetDronescharging().Where(item => item.Droneld == drone.Id);
+                IEnumerable<DO.DroneCharge> droneInCharging;
+                lock (dal)
+                    droneInCharging = dal.GetDronescharging().Where(item => item.Droneld == drone.Id);
                 //set status
                 // if the drone makes delivery
                 if (parcel.DorneId != 0)
@@ -93,13 +103,14 @@ namespace BL
                         DO.Parcel newParcel = parcel;
                         newParcel.Id = 0;
                         newParcel.PickedUp = newParcel.Sceduled = default;
-                        dal.UpdateParcel(parcel, newParcel);
+                        lock (dal)
+                            dal.UpdateParcel(parcel, newParcel);
                         state = default;
                         tmpDroneWithParcelLocation = default;
                         parcel = newParcel;
                     }
                 }
-                else if (!droneInCharging.Any())
+                else if (droneInCharging.Any())
                 {
                     state = DroneState.MAINTENANCE;
                 }
@@ -120,19 +131,26 @@ namespace BL
                     case DroneState.MAINTENANCE:
                         if (!droneInCharging.Any())
                         {
-                            var stationsToDroneCharge = from station in dal.GetSationsWithEmptyChargeSlots((int numOfEmpty) => numOfEmpty > 0)
-                                                        let stationLocation = new Location() { Latitude = station.Latitude, Longitude = station.Longitude }
-                                                        select new { Location = stationLocation, Id = station.Id };
-                            var stationToDroneCharge = stationsToDroneCharge.ElementAt(rand.Next(0, stationsToDroneCharge.Count()));
-                            Location = stationToDroneCharge.Location;
-                            dal.AddDroneCharge(drone.Id, stationToDroneCharge.Id);
-                            BatteryStatus = rand.NextDouble() + rand.Next(MININITBATTARY, MAXINITBATTARY);
+                            lock (dal)
+                            {
+                                var stationsToDroneCharge = from station in dal.GetSationsWithEmptyChargeSlots((int numOfEmpty) => numOfEmpty > 0)
+                                                            let stationLocation = new Location() { Latitude = station.Latitude, Longitude = station.Longitude }
+                                                            select new { Location = stationLocation, Id = station.Id };
+                                var stationToDroneCharge = stationsToDroneCharge.ElementAt(rand.Next(0, stationsToDroneCharge.Count()));
+                                Location = stationToDroneCharge.Location;
+                                dal.AddDroneCharge(drone.Id, stationToDroneCharge.Id);
+                                BatteryStatus = rand.NextDouble() + rand.Next(MININITBATTARY + 1, MAXINITBATTARY);
+                            }
                         }
                         else
                         {
-                            var stationToDroneCharge = dal.GetStation(droneInCharging.First().Stationld);
-                            Location = new() { Latitude = stationToDroneCharge.Latitude, Longitude = stationToDroneCharge.Longitude };
-                            BatteryStatus = (DateTime.Now - droneInCharging.First().StartCharging).TotalMinutes / NUM_OF_MINUTE_IN_HOUR * droneLoadingRate;
+
+                            lock (dal)
+                            {
+                                var stationToDroneCharge = dal.GetStation(droneInCharging.First().Stationld);
+                                Location = new() { Latitude = stationToDroneCharge.Latitude, Longitude = stationToDroneCharge.Longitude };
+                                BatteryStatus = (DateTime.Now - droneInCharging.First().StartCharging).TotalMinutes / NUM_OF_MINUTE_IN_HOUR * droneLoadingRate;
+                            }
                         }
 
                         break;
@@ -159,6 +177,7 @@ namespace BL
                     IsNotActive = drone.IsNotActive,
                 });
             }
+
         }
 
         ///  <summary>
@@ -183,12 +202,13 @@ namespace BL
         /// <returns>list of locations</returns>
         private IEnumerable<Location> GetLocationsCustomersGotParcels(Predicate<int> exsitParcelRecived)
         {
-            return GetAllCustomers().Where(customer => exsitParcelRecived(customer.NumParcelReceived))
-                     .Select(Customer => new Location()
-                     {
-                         Latitude = dal.GetCustomer(Customer.Id).Latitude,
-                         Longitude = dal.GetCustomer(Customer.Id).Longitude
-                     });
+            lock (dal)
+                return GetAllCustomers().Where(customer => exsitParcelRecived(customer.NumParcelReceived))
+                 .Select(Customer => new Location()
+                 {
+                     Latitude = dal.GetCustomer(Customer.Id).Latitude,
+                     Longitude = dal.GetCustomer(Customer.Id).Longitude
+                 });
         }
 
         /// <summary>
@@ -223,8 +243,12 @@ namespace BL
         {
             try
             {
-                var customerSender = dal.GetCustomer(parcel.SenderId);
-                var customerReciver = dal.GetCustomer(parcel.TargetId);
+                DO.Customer customerSender;
+                DO.Customer customerReciver;
+                lock (dal)
+                    customerSender = dal.GetCustomer(parcel.SenderId);
+                lock (dal)
+                    customerReciver = dal.GetCustomer(parcel.TargetId);
                 Location senderLocation = new() { Latitude = customerSender.Latitude, Longitude = customerSender.Longitude };
                 Location targetLocation = new() { Latitude = customerReciver.Latitude, Longitude = customerReciver.Longitude };
                 // find drone's location 
@@ -264,7 +288,8 @@ namespace BL
         {
             try
             {
-                return dal.GetAdministorPasssword();
+                lock (dal)
+                    return dal.GetAdministorPasssword();
             }
             catch (DO.XMLFileLoadCreateException ex)
             {

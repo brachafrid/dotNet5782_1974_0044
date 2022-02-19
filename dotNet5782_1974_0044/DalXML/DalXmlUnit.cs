@@ -17,7 +17,7 @@ namespace Dal
         private static int DRONE_INIT = 20;
         private static int STATIONS_INIT = 10;
         private static int CUSTOMERS_INIT = 30;
-        private static int PARCELS_INIT = 15;
+        private static int PARCELS_INIT = 30;
         private static int RANGE_ENUM = 3;
         private static int PHONE_MIN = 100000000;
         private static int PHONE_MAX = 1000000000;
@@ -52,7 +52,7 @@ namespace Dal
                               new XElement("MediumWeightBearing", 0.003),
                               new XElement("CarriesHeavyWeight", 0.004),
                               new XElement("DroneLoadingRate",3),
-                              new XElement("AdministratorPassword", ""));
+                              new XElement("AdministratorPassword", "$8114$"));
         }
 
         /// <summary>
@@ -230,6 +230,8 @@ namespace Dal
                         newParcel.PickedUp = DateTime.Now;
                         newParcel.Delivered = DateTime.Now;
                     }
+                    if (parcel.DorneId != 0 && state != 3)
+                        newParcel.DorneId = 0;
                 }
 
             }

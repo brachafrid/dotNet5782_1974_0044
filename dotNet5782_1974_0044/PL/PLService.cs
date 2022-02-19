@@ -882,6 +882,10 @@ namespace PL
                     ibal.AssingParcelToDrone(droneId);
                     completedTask.SetResult();
                 }
+                catch (BO.NotExsistSutibleParcelException ex)
+                {
+                    completedTask.SetException(ex);
+                }
                 catch (BO.NotExsistSuitibleStationException ex)
                 {
 

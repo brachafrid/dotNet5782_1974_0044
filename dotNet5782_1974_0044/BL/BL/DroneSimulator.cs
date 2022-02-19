@@ -70,7 +70,8 @@ namespace BL
             }
             catch (NotExsistSuitibleStationException)
             {
-
+                lock(bl)
+                    Drone.DroneState = DroneState.RESCUE;
             }
         }
         /// <summary>
@@ -109,17 +110,10 @@ namespace BL
                             Station = bl.ClosetStationPossible(Drone.CurrentLocation, (int chargeSlots) => chargeSlots > 0, Drone.BatteryState, out double n);
                             if (Station == null)
                             {
-                                Station = bl.ClosetStationPossible(Drone.CurrentLocation, (int chargeSlots) => true, Drone.BatteryState, out n);
-                                if (Station != null)
-                                    Drone.DroneState = DroneState.AVAILABLE;
-                                break;
-                            }
-                            if (Station == null)
-                            {
                                 Drone.DroneState = DroneState.RESCUE;
                                 break;
                             }
-                            distance = BL.Distance(Drone.CurrentLocation, Station.Location);
+                          distance = BL.Distance(Drone.CurrentLocation, Station.Location);
                             maintenance = Maintenance.Going;
 
                         }
@@ -146,11 +140,13 @@ namespace BL
                     }
                 case Maintenance.Charging:
                     {
-                        if (Station == null)
-                            Station = bl.GetAllStations().Select(station => bl.GetStation(station.Id)).FirstOrDefault(station => station.DroneInChargings.FirstOrDefault(drone => drone.Id == Drone.Id) != null);
+                        lock (bl)
+                            if (Station == null)
+                                Station = bl.GetAllStations().Select(station => bl.GetStation(station.Id)).FirstOrDefault(station => station.DroneInChargings.FirstOrDefault(drone => drone.Id == Drone.Id) != null);
                         if (Drone.BatteryState == 100)
                         {
-                            bl.ReleaseDroneFromCharging(Drone.Id);
+                            lock (bl)
+                                bl.ReleaseDroneFromCharging(Drone.Id);
                             delivery = Delivery.Starting;
                         }
                         else
@@ -172,17 +168,13 @@ namespace BL
             {
                 if (parcel == null)
                     lock (bl)
-                    {
                         parcel = bl.GetParcel((int)Drone.ParcelId);
-                    }
                 switch (delivery)
                 {
                     case Delivery.Starting:
                         {
                             lock (bl)
-                            {
                                 distance = BL.Distance(Drone.CurrentLocation, bl.GetCustomer(parcel.CustomerSender.Id).Location);
-                            }
                             delivery = Delivery.Going;
                             break;
                         }
@@ -217,9 +209,9 @@ namespace BL
                                 }
                             }
 
-                                break;
-                            }
-                        
+                            break;
+                        }
+
                     case Delivery.Delivery:
                         {
                             if (distance < 0.001)

@@ -81,7 +81,7 @@ namespace BL
         }
 
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public IEnumerable<ParcelToList> GetActiveParcels()
         {
             try
@@ -111,7 +111,7 @@ namespace BL
                 return dal.GetParcels().Select(Parcel =>MapParcel(Parcel));
         }
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public Parcel GetParcel(int id)
         {
             try
@@ -147,7 +147,8 @@ namespace BL
                 DO.Parcel newParcel = parcel;
                 newParcel.DorneId = droneId;
                 newParcel.Sceduled = DateTime.Now;
-                dal.UpdateParcel(parcel, newParcel);
+                lock (dal)
+                    dal.UpdateParcel(parcel, newParcel);
             }
             catch (KeyNotFoundException ex)
             {
@@ -183,7 +184,7 @@ namespace BL
 
         #region Delete
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void DeleteParcel(int id)
         {
             try

@@ -9,7 +9,7 @@ namespace BL
     public partial class BL : IBlStations
     {
         #region ADD
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void AddStation(Station stationBL)
         {
             try
@@ -27,7 +27,7 @@ namespace BL
 
         #region Return
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public IEnumerable<StationToList> GetStaionsWithEmptyChargeSlots(Predicate<int> exsitEmpty)
         {
             try
@@ -44,7 +44,7 @@ namespace BL
 
         }
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public IEnumerable<StationToList> GetAllStations()
         {
             try
@@ -61,7 +61,7 @@ namespace BL
         }
 
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public IEnumerable<StationToList> GetActiveStations()
         {
             try
@@ -78,7 +78,7 @@ namespace BL
         }
 
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public Station GetStation(int id)
         {
             try
@@ -100,7 +100,7 @@ namespace BL
         #endregion
 
         #region Update
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void UpdateStation(int id, string name, int chargeSlots)
         {
             if (name.Equals(string.Empty) && chargeSlots == 0)
@@ -110,9 +110,11 @@ namespace BL
                 DO.Station stationDl;
                 lock (dal)
                     stationDl = dal.GetStation(id);
-                if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(stationDl.Id))
-                    throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
-                dal.UpdateStation(stationDl, name, chargeSlots);
+                lock (dal)
+                    if (chargeSlots != 0 && chargeSlots < dal.CountFullChargeSlots(stationDl.Id))
+                        throw new ArgumentOutOfRangeException("The number of charging slots is smaller than the number of slots used");
+                lock (dal)
+                    dal.UpdateStation(stationDl, name, chargeSlots);
             }
             catch (KeyNotFoundException ex)
             {
@@ -129,7 +131,7 @@ namespace BL
         #region Delete
 
 
-        // [MethodImpl(MethodImplOptions.Synchronized)]
+
         public void DeleteStation(int id)
         {
             try
@@ -194,15 +196,16 @@ namespace BL
             double minDistance = int.MaxValue;
             double curDistance;
             Station station = null;
-            foreach (var item in dal.GetSationsWithEmptyChargeSlots(emptyChargeslots))
-            {
-                curDistance = Distance(location, new Location() { Latitude = item.Latitude, Longitude = item.Longitude });
-                if (curDistance < minDistance && !item.IsNotActive)
+            lock (dal)
+                foreach (var item in dal.GetSationsWithEmptyChargeSlots(emptyChargeslots))
                 {
-                    minDistance = curDistance;
-                    station = ConvertStation(item);
+                    curDistance = Distance(location, new Location() { Latitude = item.Latitude, Longitude = item.Longitude });
+                    if (curDistance < minDistance && !item.IsNotActive)
+                    {
+                        minDistance = curDistance;
+                        station = ConvertStation(item);
+                    }
                 }
-            }
             return station;
         }
     }

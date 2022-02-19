@@ -70,9 +70,14 @@ namespace PL
         {
             try
             {
-                StationsId.Clear();
-                foreach (var item in (await PLService.GetStaionsWithEmptyChargeSlots()).Select(station => station.Id))
-                    StationsId.Add(item);
+                if (stationsId != null)
+                {
+                    StationsId.Clear();
+                    foreach (var item in (await PLService.GetStaionsWithEmptyChargeSlots()).Select(station => station.Id))
+                        StationsId.Add(item);
+                }
+                else
+                    InitDrone();
             }
             catch (BO.XMLFileLoadCreateException ex)
             {
