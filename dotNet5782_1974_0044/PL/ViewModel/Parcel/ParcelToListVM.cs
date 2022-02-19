@@ -23,10 +23,11 @@ namespace PL
         /// </summary>
         public ParcelToListVM()
         {
+            state = ParcelListWindowState.ALL;
             InitList();
             IsAdministor = true;
-            RefreshEvents.CustomerChangedEvent += HandleParcelChanged;
-            RefreshEvents.ParcelChangedEvent += HandleParcelChanged;
+            RefreshEvents.CustomerChangedEvent += HandleParcelsChanged;
+            RefreshEvents.ParcelChangedEvent += HandleParcelsChanged;
         }
 
         /// <summary>
@@ -36,6 +37,7 @@ namespace PL
         {
             try
             {
+                
                 sourceList = new ObservableCollection<ParcelToList>(await UpdateInitList());
                 List = new ListCollectionView(sourceList);
                 Count = (uint)List.Count;
@@ -62,8 +64,8 @@ namespace PL
             IsAdministor = false;
             state = (ParcelListWindowState)State;
             InitList();
-            RefreshEvents.CustomerChangedEvent += HandleParcelChanged;
-            RefreshEvents.ParcelChangedEvent += HandleParcelChanged;
+            RefreshEvents.CustomerChangedEvent += HandleParcelsChanged;
+            RefreshEvents.ParcelChangedEvent += HandleParcelsChanged;
             DoubleClick = new(Tabs.OpenDetailes, null);
         }
 
@@ -72,14 +74,14 @@ namespace PL
         /// </summary>
         /// <param name="sender">sender</param>
         /// <param name="e">event</param>
-        private async void HandleParcelChanged(object sender, EntityChangedEventArgs e)
+        private async void HandleParcelsChanged(object sender, EntityChangedEventArgs e)
         {
             try
             {
                 if (e.Id != null && e.Id != 0)
                 {
                     var parcel = sourceList.FirstOrDefault(p =>p!=null && p.Id == e.Id);
-                    if (parcel != default)
+                    if (parcel != null)
                     {
                         sourceList.Remove(parcel);
                         var newParcel = (await PLService.GetParcels()).FirstOrDefault(p => p.Id == e.Id);
@@ -92,11 +94,9 @@ namespace PL
                     sourceList.Clear();
                     switch (state)
                     {
-                        case ParcelListWindowState.FROM_CUSTOMER:
-                            {
+                        case ParcelListWindowState.FROM_CUSTOMER:                            
                                 foreach (var item in (await PLService.GetCustomer((int)customerId)).FromCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel)))
                                     sourceList.Add(await item);
-                            }
                             break;
                         case ParcelListWindowState.TO_CUSTOMER:
                             foreach (var item in (await PLService.GetCustomer((int)customerId)).ToCustomer.Select(parcel => PlServiceConvert.ConvertParcelAtCustomerToList(parcel)))
@@ -158,8 +158,8 @@ namespace PL
         /// </summary>
         public void Dispose()
         {
-            RefreshEvents.CustomerChangedEvent -= HandleParcelChanged;
-            RefreshEvents.ParcelChangedEvent -= HandleParcelChanged;
+            RefreshEvents.CustomerChangedEvent -= HandleParcelsChanged;
+            RefreshEvents.ParcelChangedEvent -= HandleParcelsChanged;
         }
     }
 }

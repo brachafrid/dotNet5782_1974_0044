@@ -75,6 +75,7 @@ namespace PL
                 MessageBox.Show(ex.Message, $"Add Parcel", MessageBoxButton.OK, MessageBoxImage.Error);
             }
         }
+
         private async void HandleCustomerListChanged(object sender, EntityChangedEventArgs e)
         {
             try

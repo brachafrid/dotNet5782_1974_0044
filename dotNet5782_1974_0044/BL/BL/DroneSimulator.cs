@@ -70,7 +70,7 @@ namespace BL
             }
             catch (NotExsistSuitibleStationException)
             {
-                lock(bl)
+                lock (bl)
                     Drone.DroneState = DroneState.RESCUE;
             }
         }
@@ -113,7 +113,7 @@ namespace BL
                                 Drone.DroneState = DroneState.RESCUE;
                                 break;
                             }
-                          distance = BL.Distance(Drone.CurrentLocation, Station.Location);
+                            distance = BL.Distance(Drone.CurrentLocation, Station.Location);
                             maintenance = Maintenance.Going;
 
                         }
@@ -143,14 +143,15 @@ namespace BL
                         lock (bl)
                             if (Station == null)
                                 Station = bl.GetAllStations().Select(station => bl.GetStation(station.Id)).FirstOrDefault(station => station.DroneInChargings.FirstOrDefault(drone => drone.Id == Drone.Id) != null);
-                        if (Drone.BatteryState == 100)
-                        {
-                            lock (bl)
+                        lock (bl)
+                            if (Drone.BatteryState == 100)
+                            {
+
                                 bl.ReleaseDroneFromCharging(Drone.Id);
-                            delivery = Delivery.Starting;
-                        }
-                        else
-                            lock (bl) Drone.BatteryState = Math.Min(100, Drone.BatteryState + bl.droneLoadingRate * TIME);
+                                delivery = Delivery.Starting;
+                            }
+                            else
+                                lock (bl) Drone.BatteryState = Math.Min(100, Drone.BatteryState + bl.droneLoadingRate * TIME);
                         stationId = Station.Id;
                         break;
                     }
@@ -250,7 +251,8 @@ namespace BL
             }
             catch (KeyNotFoundException)
             {
-                Drone.DroneState = DroneState.AVAILABLE;
+                lock (bl)
+                    Drone.DroneState = DroneState.AVAILABLE;
             }
         }
 
@@ -274,9 +276,13 @@ namespace BL
         {
             double delta = distance < STEP ? distance : STEP;
             double proportion = delta / distance;
-            Drone.BatteryState = Math.Max(0.0, Drone.BatteryState - delta * elec);
-            double lat = Drone.CurrentLocation.Latitude + (Target.Latitude - Drone.CurrentLocation.Latitude) * proportion;
-            double lon = Drone.CurrentLocation.Longitude + (Target.Longitude - Drone.CurrentLocation.Longitude) * proportion;
+            double lat, lon;
+            lock (bl)
+            {
+                Drone.BatteryState = Math.Max(0.0, Drone.BatteryState - delta * elec);
+                lat = Drone.CurrentLocation.Latitude + (Target.Latitude - Drone.CurrentLocation.Latitude) * proportion;
+                lon = Drone.CurrentLocation.Longitude + (Target.Longitude - Drone.CurrentLocation.Longitude) * proportion;
+            }
             return new() { Latitude = lat, Longitude = lon };
         }
 
